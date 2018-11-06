@@ -46,9 +46,21 @@ dendro_all$lon <- latlon$lon[match(dendro_all$stemID, latlon$stemID)]
 ##populate with lx, ly, and status (once ForestGEO 2018 census data is added, use that for base status)
 census_2013 <- read.csv("V:/SIGEO/3-RECENSUS 2013/DATA/FINAL DATA to use, to share/scbi.stem2.csv")
 
-dendro_all$lx <- $lx[match(dendro_all$stemID, $stemID)]
+field2013<- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_main_census/data/Census3_coord_local_plot.csv")
+#this .txt file was downloaded straight from CTFS at toward the end of data entry for the 3rd census Nov. 2018.
 
-dendro_all$ly <- $ly[match(dendro_all$stemID, $stemID)]
+setnames(field2013, old="qx", new="lx")
+setnames(field2013, old="qy", new="ly")
+
+dendro_all$lx <- field2013$lx[match(dendro_all$stemID, field2013$stemid)]
+dendro_all$ly <- field2013$ly[match(dendro_all$stemID, field2013$stemid)]
+
+##can also do this another way from the census field forms. Not as accurate since you're matching by tag as opposed to stemID
+#library(openxlsx)
+#field2013 <- read.xlsx("V:/SIGEO/2-RECENSUS 2018/DATA/Forms to PRINT/QUADRAT_to_print.xlsx", sheet="QUAD_to_print", startRow=6)
+
+#dendro_all$lx <- field2013$lx[match(dendro_all$tag, field2013$tag)]
+#dendro_all$ly <- field2013$ly[match(dendro_all$tag, field2013$tag)]
 
 
 ##update status from most recent mortality data (this will update only some of the trees, hence why the census data is used first)
@@ -92,6 +104,8 @@ dendro_all$dbh2013 <- census_2013$dbh[match(dendro_all$stemID, census_2013$stemI
 
 dendro_all$dbh2008 <- round(dendro_all$dbh2008,1)
 dendro_all$dbh2013 <- round(dendro_all$dbh2013,1)
+dendro_all$gx <- round(dendro_all$gx,1)
+dendro_all$gy <- round(dendro_all$gy,1)
 
 ##re-order
 dendro_all <- dendro_all[c(1:6,21:22,11:13,10,7,14:15,8:9,16:19)]
