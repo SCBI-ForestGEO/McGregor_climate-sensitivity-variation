@@ -46,7 +46,7 @@ dendro_all$lon <- latlon$lon[match(dendro_all$stemID, latlon$stemID)]
 ##populate with lx, ly, and status (once ForestGEO 2018 census data is added, use that for base status)
 census_2013 <- read.csv("V:/SIGEO/3-RECENSUS 2013/DATA/FINAL DATA to use, to share/scbi.stem2.csv")
 
-field2013<- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_main_census/data/Census3_coord_local_plot.csv")
+field2013<- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_main_census/data/census-csv-files/census3_coord_local_plot.csv")
 #this .txt file was downloaded straight from CTFS at toward the end of data entry for the 3rd census Nov. 2018.
 
 setnames(field2013, old="qx", new="lx")
