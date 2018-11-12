@@ -19,7 +19,7 @@ This file was created from [dendro_trees](https://github.com/SCBI-ForestGEO/Dend
 - the accompanying Rscript for creating this file is located [here](https://github.com/SCBI-ForestGEO/Dendrobands/blob/master/Rscripts/cored_trees.R). Files used to create this include
     1. [census_data_for_cored_trees](https://github.com/EcoClimLab/climate_sensitivity_cores/blob/master/data/census_data_for_cored_trees.csv)
     
-    2. [dendro_trees](https://github.com/SCBI-ForestGEO/Dendrobands/blob/master/data/clean_data_files/dendro_trees.csv)
+    2. [dendro_trees](https://github.com/SCBI-ForestGEO/Dendrobands/blob/master/data/dendro_trees.csv)
     
     3. Merged_dendroband_utm_lat_lon.csv from V drive: V:/SIGEO/GIS_data/dendroband surveys
     
