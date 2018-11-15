@@ -27,3 +27,5 @@ This file was created from [dendro_trees](https://github.com/SCBI-ForestGEO/Dend
     *- this should be updated to the 2018 census data as soon as the final file is available*
     
     5. [Mortality_Survey_2018](https://github.com/EcoClimLab/SCBI-ForestGEO-Data_private/blob/master/SCBI_mortality/raw%20data/Mortality_Survey_2018.csv)
+    
+    6. Crown assessments ("illum", "crown.condition", and "crown.position") were collected 8-19 Nov. by AJ Seglem (SMSC). Protocols for these are in the metadata.
