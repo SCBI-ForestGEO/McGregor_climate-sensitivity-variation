@@ -2,6 +2,10 @@
 
 This file was created from [dendro_trees](https://github.com/SCBI-ForestGEO/Dendrobands/blob/master/data/dendro_trees.csv) via the script in this folder. It should be updated following each growing season, using the most recent version of dendro_trees and the mortality census.
 
+## Date of Last Update
+
+Nov. 2018
+
 ## This file includes the following information:
 
 - what species of trees are present overall
