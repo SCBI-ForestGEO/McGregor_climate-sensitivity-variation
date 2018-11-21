@@ -1,5 +1,5 @@
 # tree-growth-and-traits
-repository for integrating dendroband and tree core data, scaling this to ANPP_woody
+repository for linking the climate sensitity of tree growth (derived from cores) to functional traits
 
 ## SCBI crown position
 
