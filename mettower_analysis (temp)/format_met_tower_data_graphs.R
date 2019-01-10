@@ -42,7 +42,8 @@ sapply(test, class)
 library(ggplot2)
 
 ##to make a pdf of any combination of graphs, simply do the following:
-pdf(file="2018_Weather_Stats.pdf", width=12) #before running the graph scripts
+setwd("E:/Github_SCBI/tree-growth-and-traits/mettower_analysis (temp)")
+pdf(file="2017_Weather_Stats.pdf", width=12) #before running the graph scripts
 
 dev.off() #after running the graph scripts
 
