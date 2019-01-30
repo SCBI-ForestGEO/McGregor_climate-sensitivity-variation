@@ -2,7 +2,7 @@
 
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data_private/tree_cores/chronologies/current_chronologies")
 
-core_list <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_dimensions/tree_crowns/core_list_for_neil.csv")
+core_list <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-productivity/core_list_for_neil.csv")
 
 library(dplR)
 
@@ -31,7 +31,7 @@ for (sp in species){
 
 
 
-
+#####################################################################################
 ## for troubleshooting
 frni <- read.rwl("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data_private/tree_cores/chronologies/current_chronologies/frni_drop.rwl")
 
