@@ -35,8 +35,7 @@ ggplot(data = cru1901) +
 pdf("Canopy_subcanopy_correlation.pdf", width=10)
 cru1901_loop$Species <- as.factor(cru1901_loop$Species)
 
-cru1901_loop$month <- as.character(cru1901_loop$month)
-cru1901_loop$month <- as.factor(cru1901_loop$month)
+#this piece of code puts the graphs in date order
 cru1901_loop <- within(cru1901_loop, month <- factor(month, levels=cru1901_loop$month[1:17]))
 with(cru1901_loop, levels(month))
 
