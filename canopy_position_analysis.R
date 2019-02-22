@@ -21,8 +21,6 @@ clim <- unique(cru1901_loop$variable)
 species <- unique(cru1901_loop$Species)
 months <- c("curr.may", "curr.jun", "curr.jul", "curr.aug")
 
-pdf("Canopy_subcanopy_correlation.pdf", width=10)
-
 #creates a lattice graph showing box plot of variables grouped by species
 ggplot(data = cru1901) +
   aes(x = Species, y = coef, fill = variable) +
@@ -32,20 +30,28 @@ ggplot(data = cru1901) +
   facet_wrap( ~ Species, scales="free", nrow=4) +
   theme_minimal()
 
+#creates lattice graph comparing canopy and subcanopy across species
+
+pdf("Canopy_subcanopy_correlation.pdf", width=10)
 cru1901_loop$Species <- as.factor(cru1901_loop$Species)
 
+cru1901_loop$month <- as.character(cru1901_loop$month)
+cru1901_loop$month <- as.factor(cru1901_loop$month)
+cru1901_loop <- within(cru1901_loop, month <- factor(month, levels=cru1901_loop$month[1:17]))
+with(cru1901_loop, levels(month))
+
 for (j in seq(along=clim)){
-      cru1901_sub <- cru1901_loop[cru1901_loop$variable %in% clim[[j]] & cru1901_loop$month %in% months, ]
-      cru1901_sub <- group_by(cru1901_sub, Species)
+    cru1901_sub <- cru1901_loop[cru1901_loop$variable %in% clim[[j]], ]
+    cru1901_sub <- group_by(cru1901_sub, month)
     
-      q <- ggplot(data = cru1901_sub) +
-        geom_boxplot(aes(x = position, y = coef, fill = position)) +
-        labs(title = paste0("Canopy vs subcanopy: ", clim[[j]]),
-             y = "Correlation") +
-        stat_compare_means(aes(x=position, y=coef), method="t.test", label.x.npc = 0, label.y.npc = 0.97) +
-        facet_wrap( ~ Species, scales="free", nrow=4) +
-        theme_minimal()
-      print(q)
+    q <- ggplot(data = cru1901_sub) +
+      geom_boxplot(aes(x = position, y = coef, fill = position)) +
+      labs(title = paste0("Canopy vs subcanopy: ", clim[[j]]),
+           y = "Correlation") +
+      stat_compare_means(aes(x=position, y=coef), method="t.test", label.x.npc = 0, label.y.npc = 0.97) +
+      facet_wrap(~ month, scales="free", nrow=4) +
+      theme_minimal()
+    print(q)
 }
 
 dev.off()
