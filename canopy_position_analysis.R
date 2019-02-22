@@ -19,6 +19,7 @@ setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-trait
 cru1901_loop$variable <- as.character(cru1901_loop$variable)
 clim <- unique(cru1901_loop$variable)
 species <- unique(cru1901_loop$Species)
+months <- c("curr.may", "curr.jun", "curr.jul", "curr.aug")
 
 pdf("Canopy_subcanopy_correlation.pdf", width=10)
 
@@ -34,18 +35,17 @@ ggplot(data = cru1901) +
 cru1901_loop$Species <- as.factor(cru1901_loop$Species)
 
 for (j in seq(along=clim)){
-    cru1901_sub <- cru1901_loop[cru1901_loop$variable %in% clim[[j]], ]
-    cru1901_sub <- group_by(cru1901_sub, Species)
+      cru1901_sub <- cru1901_loop[cru1901_loop$variable %in% clim[[j]] & cru1901_loop$month %in% months, ]
+      cru1901_sub <- group_by(cru1901_sub, Species)
     
-    q <- ggplot(data = cru1901_sub) +
-      geom_boxplot(aes(x = position, y = coef, fill = position)) +
-      labs(title = paste0("Canopy vs subcanopy: ", clim[[j]]),
-           y = "Correlation") +
-      stat_compare_means(aes(x=position, y=coef), method="t.test", label.x.npc = 0.4, label.y.npc = 0.97) +
-      facet_wrap( ~ Species, scales="free", nrow=4) +
-      theme_minimal()
-    print(q)
-  # }
+      q <- ggplot(data = cru1901_sub) +
+        geom_boxplot(aes(x = position, y = coef, fill = position)) +
+        labs(title = paste0("Canopy vs subcanopy: ", clim[[j]]),
+             y = "Correlation") +
+        stat_compare_means(aes(x=position, y=coef), method="t.test", label.x.npc = 0, label.y.npc = 0.97) +
+        facet_wrap( ~ Species, scales="free", nrow=4) +
+        theme_minimal()
+      print(q)
 }
 
 dev.off()
