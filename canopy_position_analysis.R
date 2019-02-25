@@ -1,6 +1,6 @@
 #canopy position analysis from tree cores
 
-cru1901 <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/climate_sensitivity_cores/results/canopy_vs_subcanopy/1901_2009/tables/monthly_correlation/correlation_with_CRU_SCBI_1901_2016_climate_data.csv")
+cru1901 <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/climate_sensitivity_cores/results/canopy_vs_subcanopy/1901_2009/tables/monthly_correlation/correlation_with_CRU_SCBI_1901_2016_climate_data.csv", stringsAsFactors = FALSE)
 
 library(ggplot2)
 library(ggpubr)
@@ -14,7 +14,7 @@ cru1901_loop <- cru1901
 cru1901_loop$position <- ifelse(grepl("subcanopy", cru1901$Species), "subcanopy", "canopy")
 cru1901_loop$Species <- gsub("_[[:alpha:]]+$", "", cru1901$Species)
 
-
+#1. box plots ####
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
 cru1901_loop$variable <- as.character(cru1901_loop$variable)
 clim <- unique(cru1901_loop$variable)
@@ -56,5 +56,106 @@ for (j in seq(along=clim)){
 dev.off()
 
 
+#2. mixed effects model ####
+library(car)
+library(MASS)
+library(lme4)
+library(AICcmodavg)
+library(data.table)
+library(dplyr)
 
-       
+cru1901_loop$corr <- cru1901_loop$coef + 1 #since we have negative values
+
+##2a. descriptions of running the mixed effects model ####
+
+#response variable is coef (continuous) (renamed corr)
+#do mixed model, look at the residuals, then check the distribution of the residuals
+#help taken from https://ase.tufts.edu/gsc/gradresources/guidetomixedmodelsinr/mixed%20model%20guide.html
+
+# corr is the response variable, position and month are fixed effects, and Species is random
+#REML is FALSE bc we only have one random effect
+lmm <- lmer(corr ~ position + month + (1 | Species), data=cru1901_loop, REML=FALSE)
+summary(lmm)
+
+#this anova gives p-values. In other words, it says is the effect of position or month on corr significant? Or, is the effect due to random chance (high p-value) or not (low p-value)?
+Anova(lmm)
+
+v="PET" #(assuming cru1901_loop is subset to only this variable)
+assign(paste0(v, "_drop1_table"), drop1(lmm)) #creates output
+
+#check distribution of residuals
+qqp(residuals(lmm), "norm", main="Normal residuals")
+
+#we want the AIC value to be the lowest it can be. This function says, if one of the fixed effects has a higher value than the original, then the output of the model wouldn't matter if we took out that variable.
+drop1(lmm)
+
+##2b. finding the right model to use ####
+#make subsets and vector for loops
+cru1901_lmm <- droplevels(cru1901_loop[grepl("(r.may|r.jun|r.jul|r.aug)", cru1901_loop$month) & !cru1901_loop$variable %in% "frs", ]) #only current growing season
+clim <- unique(cru1901_lmm$variable)
+
+#determine what model is best
+#this function looks through all the models in the list (in the loop below) to say what is the best one (what fits the best)
+aictab(cand.models, second.ord=TRUE, sort=TRUE)
+
+all_models_aic <- NULL
+all_models_bic <- NULL
+for (v in seq(along=clim)){
+  cru_sub <- cru1901_lmm[cru1901_lmm$variable %in% clim[[v]], ]
+  
+  lmm.null <- lmer(corr ~ 1 + (1 | Species), data=cru_sub, REML=FALSE)
+  lmm.position <- lmer(corr ~ position + (1 | Species), data=cru_sub, REML=FALSE)
+  lmm.month <- lmer(corr ~ month + (1 | Species), data=cru_sub, REML=FALSE)
+  lmm.full <- lmer(corr ~ position + month + (1 | Species), data=cru_sub, REML=FALSE)
+  
+  cand.models <- list(lmm.null, lmm.position, lmm.month, lmm.full)
+  names(cand.models) <- c("null_1", "position_2", "month_3", "full_4")
+  
+  #this function looks through all the models above to say what is the best one (what fits the best)
+  var_aic <- aictab(cand.models, second.ord=TRUE, sort=TRUE)
+  var_aic$var <- clim[[v]]
+  all_models_aic <- rbind(all_models_aic, var_aic)
+  
+  var_bic <- bictab(cand.models, sort=TRUE)
+  var_bic$var <- clim[[v]]
+  all_models_bic <- rbind(all_models_bic, var_bic)
+}
+
+#subset by only the top result for each variable
+aic_top <- all_models_aic[seq(1,nrow(all_models_aic), 4), ]
+bic_top <- all_models_bic[seq(1,nrow(all_models_bic), 4), ]
+
+##2c. run the best model ####
+#the overall top result appears to be the full model. Thus, we use that model below.
+clim_anova <- NULL
+clim_BIC <- NULL
+for (v in seq(along=clim)){
+  cru_sub <- cru1901_lmm[cru1901_lmm$variable %in% clim[[v]], ]
+  
+  lmm.full <- lmer(corr ~ position + month + (1 | Species), data=cru_sub, REML=FALSE)
+  
+  vari_anova <- Anova(lmm.full)
+  vari_anova$var <- clim[[v]]
+  clim_anova <- rbind(clim_anova, vari_anova)
+  
+  #although we compared AIC outside of the loop when determining what model to use here, it's good to also check out BIC for a thorough analysis.
+  vari_drop1 <- drop1(lmm.full, k = log(nrow(cru_sub))) #because we add k = log(nrow(cru_sub)),                                                             this now shows BIC 
+  vari_drop1$var <- clim[[v]]
+  clim_BIC <- rbind(clim_BIC, vari_drop1)
+  
+  q <- qqp(residuals(lmm.full), "norm", main=paste0(clim[[v]], "_residuals"))
+  print(q)
+}
+
+clim_BIC <- setDT(clim_BIC, keep.rownames="aspect")[]
+clim_BIC <- setnames(clim_BIC, old="AIC", new="BIC")
+clim_BIC$aspect <- gsub("<none>", "full model", clim_BIC$aspect)
+clim_BIC$var <- as.character(clim_BIC$var)
+colnames(clim_BIC[,3]) <- "BIC"
+
+clim_anova$signif <- ifelse(clim_anova$`Pr(>Chisq)` <0.05, 1, 0)
+
+#filter by min value across variables. This shows BIC for this particular model (lmm.full). This makes sense considering lmm.full wasn't the majority preferred method for BIC (see bic_top).
+clim_BIC_top <- clim_BIC %>%
+  group_by(var) %>%
+  filter(BIC == min(BIC))
