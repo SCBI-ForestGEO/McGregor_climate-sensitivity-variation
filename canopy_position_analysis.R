@@ -159,3 +159,9 @@ clim_anova$signif <- ifelse(clim_anova$`Pr(>Chisq)` <0.05, 1, 0)
 clim_BIC_top <- clim_BIC %>%
   group_by(var) %>%
   filter(BIC == min(BIC))
+
+#3. resilience metrics ####
+library(pointRes)
+library(dplR)
+
+#to figure out what Alan was talking about, I can run bai.in from dplR package (on non-detrended rwls) and calculate bai. From there, I can use the pointRes package to get resilience metrics
