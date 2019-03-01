@@ -159,9 +159,100 @@ clim_anova$signif <- ifelse(clim_anova$`Pr(>Chisq)` <0.05, 1, 0)
 clim_BIC_top <- clim_BIC %>%
   group_by(var) %>%
   filter(BIC == min(BIC))
-
+#############################################################################################
 #3. resilience metrics ####
 library(pointRes)
 library(dplR)
 
-#to figure out what Alan was talking about, I can run bai.in from dplR package (on non-detrended rwls) and calculate bai. From there, I can use the pointRes package to get resilience metrics
+setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores")
+
+dirs_can <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores", pattern = "_canopy.rwl")
+
+dirs_can <- dirs_can[dirs_can != "frni_canopy.rwl" & dirs_can != "frni_drop_canopy.rwl" & dirs_can != "caco_drop_canopy.rwl"]
+
+dirs_subcan <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores", pattern = "_subcanopy.rwl")
+
+dirs_subcan <- dirs_subcan[dirs_subcan != "frni_drop_subcanopy.rwl" & dirs_subcan != "caco_drop_subcanopy.rwl"]
+
+sp_can <- gsub("_drop_canopy.rwl", "", dirs_can)
+sp_subcan <- gsub("_drop_subcanopy.rwl", "", dirs_subcan)
+
+canopy <- list()
+for (i in seq(along=dirs_can)){
+  for (j in seq(along=sp_can)){
+    if (i==j){
+      file <- dirs_can[[i]]
+      rings <- read.rwl(file) #read in rwl file
+      area <- bai.in(rings) #convert to bai.in
+      testr <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #get resilience metrics
+      canopy[[i]] <- testr
+      ifelse(testr$out$nb.series > 4 & testr$out$nature == -1, res.plot(testr), 
+             ifelse(testr$out$nature == 0, print("no pointers"), print("did not print")))
+    }
+  }
+}
+values <- paste0(sp_can, "_can_res")
+names(canopy) <- values
+
+
+
+setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores")
+subcanopy <- list()
+for (i in seq(along=dirs_subcan)){
+  for (j in seq(along=sp_subcan)){
+    if (i==j){
+      file <- dirs_subcan[[i]]
+      rings <- read.rwl(file) #read in rwl file
+      area <- bai.in(rings) #convert to bai.in
+      test <- res.comp(area, nb.yrs=5, res.thresh.neg = 20, series.thresh = 50) #get resilience metrics
+      subcanopy[[i]] <- test
+      res.plot(test)
+    }
+  }
+}
+values_sub <- paste0(sp_subcan, "_can_res")
+names(subcanopy) <- values_sub
+
+
+#it seems that unless we define pointer years, then we are unable to plot the resilience metrics in the same way that is done for Lloret et al (https://onlinelibrary.wiley.com/doi/epdf/10.1111/j.1600-0706.2011.19372.x). Trying to run the function below consistently gives an error that either we have <5 series for each pointer year, or we have no pointer years.
+
+#The problem lies with what we consider a disturbance year. The default for a year to be considered major enough to be a pointer year is a negative growth of 40% (determined from res.comp using the bai). Our cores show almost no negative growth above 35%, and even then it's sparse.
+
+#from the Palmer Drought Severity Index from a Winchester station, major drought (<-3 on scale) consecutively occurred (1949-2017) 
+#Nov 1953 - June 1953
+#May 1965 - June 1967
+#Aug 1991 - March 1992
+#Nov 1998 - Aug 1999
+
+for (i in seq(along=names(canopy))){
+  
+}
+
+
+quve <- read.rwl(dirs_subcan[[13]])
+quve_bai <- bai.in(quve)
+quve_res <- res.comp(quve_bai, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #if >60% trees experienced growth less than 40% (40=default) in that year, then that year is given a -1 for a pointer year
+View(quve_res$out)
+res.plot(quve_res)
+
+#this below is a test of using the methdology from Lloret et al 2011, where for fagr I consider significant whether the mean BAI values are >=25% lower than the median of the last 5 years. Then these were compared to the drought years above.
+#However, still no pointer years. The output appears to be the same as before.
+fagr <- read.rwl(dirs_can[[7]])
+fagr_bai <- bai.in(fagr)
+
+library(zoo)
+fagr_bai$mean <- rowMeans(fagr_bai, na.rm=TRUE)
+fagr_bai$sig <- ifelse(fagr_bai$mean < (0.75*rollmedian(fagr_bai$mean, k=5)), 1, 0)
+fagr_bai$year <- row.names(fagr_bai)
+fagr_bai <- fagr_bai[fagr_bai$year %in% c(1961:1971, 1972:1984, 1994:2004), ]
+
+fagr_bai$mean <- NULL
+fagr_bai$sig <- NULL
+fagr_bai$year <- NULL
+
+fagr_res <- res.comp(fagr_bai, nb.yrs=5, series.thresh = 60)
+res.plot(fagr_res)
+
+View(fagr_res$out)
+
+norm <- pointer.rgc(fagr_bai, nb.yrs=5, rgc.thresh.neg = 25)
