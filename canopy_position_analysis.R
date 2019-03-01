@@ -255,4 +255,3 @@ res.plot(fagr_res)
 
 View(fagr_res$out)
 
-norm <- pointer.rgc(fagr_bai, nb.yrs=5, rgc.thresh.neg = 25)
