@@ -164,20 +164,17 @@ clim_BIC_top <- clim_BIC %>%
 library(pointRes)
 library(dplR)
 
+##3a. canopy ####
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores")
 
 dirs_can <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores", pattern = "_canopy.rwl")
 
 dirs_can <- dirs_can[dirs_can != "frni_canopy.rwl" & dirs_can != "frni_drop_canopy.rwl" & dirs_can != "caco_drop_canopy.rwl"]
 
-dirs_subcan <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores", pattern = "_subcanopy.rwl")
-
-dirs_subcan <- dirs_subcan[dirs_subcan != "frni_drop_subcanopy.rwl" & dirs_subcan != "caco_drop_subcanopy.rwl"]
-
 sp_can <- gsub("_drop_canopy.rwl", "", dirs_can)
-sp_subcan <- gsub("_drop_subcanopy.rwl", "", dirs_subcan)
 
 canopy <- list()
+canopy_table <- NULL
 for (i in seq(along=dirs_can)){
   for (j in seq(along=sp_can)){
     if (i==j){
@@ -186,18 +183,30 @@ for (i in seq(along=dirs_can)){
       area <- bai.in(rings) #convert to bai.in
       testr <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #get resilience metrics
       canopy[[i]] <- testr
-      ifelse(testr$out$nb.series > 4 & testr$out$nature == -1, res.plot(testr), 
-             ifelse(testr$out$nature == 0, print("no pointers"), print("did not print")))
+      
+      testr_table <- data.frame(testr$out)
+      testr_table <- testr_table[testr_table$nb.series > 4, ] #remove where there are < 4 series
+      testr_table$sp <- sp_can[[j]]
+      testr_table$position <- "canopy"
+      
+      canopy_table <- rbind(canopy_table, testr_table)
     }
   }
 }
 values <- paste0(sp_can, "_can_res")
 names(canopy) <- values
 
-
-
+##3b. subcanopy ####
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores")
+
+dirs_subcan <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores", pattern = "_subcanopy.rwl")
+
+dirs_subcan <- dirs_subcan[dirs_subcan != "frni_drop_subcanopy.rwl" & dirs_subcan != "caco_drop_subcanopy.rwl"]
+
+sp_subcan <- gsub("_drop_subcanopy.rwl", "", dirs_subcan)
+
 subcanopy <- list()
+subcanopy_table <- NULL
 for (i in seq(along=dirs_subcan)){
   for (j in seq(along=sp_subcan)){
     if (i==j){
@@ -206,13 +215,50 @@ for (i in seq(along=dirs_subcan)){
       area <- bai.in(rings) #convert to bai.in
       test <- res.comp(area, nb.yrs=5, res.thresh.neg = 20, series.thresh = 50) #get resilience metrics
       subcanopy[[i]] <- test
-      res.plot(test)
+
+      test_table <- data.frame(test$out)
+      test_table <- test_table[test_table$nb.series > 4, ] #remove where there are < 4 series
+      test_table$sp <- sp_subcan[[j]]
+      test_table$position <- "subcanopy"
+      
+      subcanopy_table <- rbind(subcanopy_table, test_table)
     }
   }
 }
 values_sub <- paste0(sp_subcan, "_can_res")
 names(subcanopy) <- values_sub
 
+
+full_ind <- rbind(canopy_table, subcanopy_table) #full table of indices for canopy and subcanopy cores
+
+pointers <- 
+
+pointers_can <- canopy_table[canopy_table$nature == -1, ]
+pointers_sub <- subcanopy_table[subcanopy_table$nature == -1, ]
+
+years <- data.frame(unique(sort(point_years$year)))
+colnames(years) <- "yr"
+
+library(dplyr)
+for (i in seq(along=years$yr)){
+  index <- years$yr[[i]]
+  years$n.occur.can <- ifelse(pointers_can$year == index, , 0)
+  years$n.occur.sub <- ifelse(pointers_sub$year == index, count(pointers_sub, vars=year), 0)
+}
+
+pos <- full_ind$position
+
+q <- as.data.frame(table(pointers_can$year))
+colnames(q) <- c("yr", "canopy")
+z <- as.data.frame(table(pointers_sub$year))
+colnames(z) <- c("yr", "subcanopy")
+
+comb <- merge(q,z, all=TRUE)
+comb$yr <- as.numeric(comb$yr)
+comb <- comb[sort(comb$yr), ]
+
+setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
+write.csv(comb, "occurrence_of_pointer_yrs_by_canopy_position.csv", row.names=FALSE)
 
 #it seems that unless we define pointer years, then we are unable to plot the resilience metrics in the same way that is done for Lloret et al (https://onlinelibrary.wiley.com/doi/epdf/10.1111/j.1600-0706.2011.19372.x). Trying to run the function below consistently gives an error that either we have <5 series for each pointer year, or we have no pointer years.
 
@@ -229,11 +275,15 @@ for (i in seq(along=names(canopy))){
 }
 
 
-quve <- read.rwl(dirs_subcan[[13]])
-quve_bai <- bai.in(quve)
-quve_res <- res.comp(quve_bai, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #if >60% trees experienced growth less than 40% (40=default) in that year, then that year is given a -1 for a pointer year
-View(quve_res$out)
-res.plot(quve_res)
+litu <- read.rwl(dirs_can[[6]])
+litu_bai <- bai.in(litu)
+litu_res <- res.comp(litu_bai, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #if >60% trees experienced growth less than 40% (40=default) in that year, then that year is given a -1 for a pointer year
+litu_table <- data.frame(litu_res$out)
+litu_table <- litu_table[litu_table$nb.series > 4, ]
+litu_table$sp <- "litu"
+litu_table$position <- "canopy"
+
+res.plot(litu_res)
 
 #this below is a test of using the methdology from Lloret et al 2011, where for fagr I consider significant whether the mean BAI values are >=25% lower than the median of the last 5 years. Then these were compared to the drought years above.
 #However, still no pointer years. The output appears to be the same as before.
