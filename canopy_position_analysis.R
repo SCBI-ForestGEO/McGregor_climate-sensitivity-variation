@@ -254,8 +254,6 @@ z <- as.data.frame(table(pointers_sub$year))
 colnames(z) <- c("yr", "subcanopy")
 
 comb <- merge(q,z, all=TRUE)
-comb$yr <- as.numeric(comb$yr)
-comb <- comb[sort(comb$yr), ]
 
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
 write.csv(comb, "occurrence_of_pointer_yrs_by_canopy_position.csv", row.names=FALSE)
