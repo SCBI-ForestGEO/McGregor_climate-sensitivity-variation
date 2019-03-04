@@ -252,10 +252,11 @@ comb <- merge(q,z, all=TRUE)
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
 write.csv(pointers, "occurrence_of_pointer_yrs.csv", row.names=FALSE)
 
-#this data comes from: https://droughtatlas.unl.edu/Data.aspx
-winchester <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits/pdsi_timeseries_winchester_1949-2012.csv")
+#this data comes from: https://droughtatlas.unl.edu/Data.aspx 
+winchester <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits/data/pdsi_timeseries_winchester_1949-2012.csv")
 
 winchester <- winchester[winchester$X1.Month < -3, ]
+winchester$Date <- as.character(winchester$Date)
 
 library(ncdf4)
 library(raster)
@@ -267,7 +268,9 @@ setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-trait
 gunzip("scPDSI.cru_ts3.26early.bams2018.GLOBAL.1901.2017_nc.gz", remove=FALSE)
 nc <- nc_open("scPDSI.cru_ts3.26early.bams2018.GLOBAL.1901.2017.nc")
 
-fname <- "scPDSI.cru_ts3.26early.bams2018.GLOBAL.1901.2017.nc"
+fname <- "scPDSI.cru_ts3.26early.bams2018.GLOBAL.1901.2017.nc" #from CRU
+#fname <- "pdsi.mon.mean.selfcalibrated.nc" #from NOAA
+
 print(nc)
 lon <- ncvar_get(nc, attributes(nc$dim)$names[1])
 lat <- ncvar_get(nc, attributes(nc$dim)$names[2])
@@ -279,17 +282,19 @@ timetrue <- convertDateNcdf2R(time, units = "days", origin = as.POSIXct("1900-01
 
 pdsi <- brick(fname)
 scbi <- data.frame("lon" = 78.1653, "lat" = 38.8871)
+win <- data.frame("lon" = 78.1633, "lat" = 39.1857)
 
-scbi_pdsi <- extract(pdsi, scbi)
+scbi_pdsi <- extract(pdsi, win)
 scbi_pdsi <- data.frame(scbi_pdsi)
 scbi_pdsi[2, ] <- colnames(scbi_pdsi)
 
 library(data.table)
 trans <- transpose(scbi_pdsi)
 colnames(trans) <- c("scbi_pdsi", "date")
-trans$date <- gsub("X", "", trans$date)
-trans$date <- gsub(".00.00.00", "", trans$date)
-
+trans$date <- timetrue
+trans$scbi_pdsi <- as.numeric(trans$scbi_pdsi)
+range(trans$scbi_pdsi)
+trans <- trans[,c(2,1)]
 
 plot(fname)
 
