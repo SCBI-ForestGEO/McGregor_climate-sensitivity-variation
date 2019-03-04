@@ -233,7 +233,7 @@ full_ind <- rbind(canopy_table, subcanopy_table) #full table of indices for cano
 pointers <- full_ind[full_ind$nature == -1, ]
 
 years <- count(pointers, vars=year) #counts the occurrences of each unique year
-colnames(years) <- c("yr", "n.occur")
+colnames(years) <- c("yr", "n.pointer")
 years <- years[order(years$n.occur, decreasing=TRUE), ]
 
 
@@ -251,6 +251,59 @@ comb <- merge(q,z, all=TRUE)
 
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
 write.csv(pointers, "occurrence_of_pointer_yrs.csv", row.names=FALSE)
+
+#this data comes from: https://droughtatlas.unl.edu/Data.aspx
+winchester <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits/pdsi_timeseries_winchester_1949-2012.csv")
+
+winchester <- winchester[winchester$X1.Month < -3, ]
+
+library(ncdf4)
+library(raster)
+library(ncdf4.helpers)
+library(ncdf.tools)
+
+setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits/data")
+
+gunzip("scPDSI.cru_ts3.26early.bams2018.GLOBAL.1901.2017_nc.gz", remove=FALSE)
+nc <- nc_open("scPDSI.cru_ts3.26early.bams2018.GLOBAL.1901.2017.nc")
+
+fname <- "scPDSI.cru_ts3.26early.bams2018.GLOBAL.1901.2017.nc"
+print(nc)
+lon <- ncvar_get(nc, attributes(nc$dim)$names[1])
+lat <- ncvar_get(nc, attributes(nc$dim)$names[2])
+summary(lon)
+summary(lat)
+
+#CRU data shows time as days since 1900-01-01.
+timetrue <- convertDateNcdf2R(time, units = "days", origin = as.POSIXct("1900-01-01"), time.format = c("%Y-%m-%d"))
+
+pdsi <- brick(fname)
+scbi <- data.frame("lon" = 78.1653, "lat" = 38.8871)
+
+scbi_pdsi <- extract(pdsi, scbi)
+scbi_pdsi <- data.frame(scbi_pdsi)
+scbi_pdsi[2, ] <- colnames(scbi_pdsi)
+
+library(data.table)
+trans <- transpose(scbi_pdsi)
+colnames(trans) <- c("scbi_pdsi", "date")
+trans$date <- gsub("X", "", trans$date)
+trans$date <- gsub(".00.00.00", "", trans$date)
+
+
+plot(fname)
+
+
+
+
+
+
+
+
+
+
+
+
 
 #it seems that unless we define pointer years, then we are unable to plot the resilience metrics in the same way that is done for Lloret et al (https://onlinelibrary.wiley.com/doi/epdf/10.1111/j.1600-0706.2011.19372.x). Trying to run the function below consistently gives an error that either we have <5 series for each pointer year, or we have no pointer years.
 
