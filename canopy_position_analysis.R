@@ -228,24 +228,18 @@ for (i in seq(along=dirs_subcan)){
 values_sub <- paste0(sp_subcan, "_can_res")
 names(subcanopy) <- values_sub
 
-
+#df for pointer years of all trees combined
 full_ind <- rbind(canopy_table, subcanopy_table) #full table of indices for canopy and subcanopy cores
+pointers <- full_ind[full_ind$nature == -1, ]
 
-pointers <- 
+years <- count(pointers, vars=year) #counts the occurrences of each unique year
+colnames(years) <- c("yr", "n.occur")
+years <- years[order(years$n.occur, decreasing=TRUE), ]
 
+
+#df for each canopy position
 pointers_can <- canopy_table[canopy_table$nature == -1, ]
 pointers_sub <- subcanopy_table[subcanopy_table$nature == -1, ]
-
-years <- data.frame(unique(sort(point_years$year)))
-colnames(years) <- "yr"
-
-library(dplyr)
-for (i in seq(along=years$yr)){
-  index <- years$yr[[i]]
-  years$n.occur.can <- ifelse(pointers_can$year == index, , 0)
-  years$n.occur.sub <- ifelse(pointers_sub$year == index, count(pointers_sub, vars=year), 0)
-}
-
 pos <- full_ind$position
 
 q <- as.data.frame(table(pointers_can$year))
@@ -256,7 +250,7 @@ colnames(z) <- c("yr", "subcanopy")
 comb <- merge(q,z, all=TRUE)
 
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
-write.csv(comb, "occurrence_of_pointer_yrs_by_canopy_position.csv", row.names=FALSE)
+write.csv(pointers, "occurrence_of_pointer_yrs.csv", row.names=FALSE)
 
 #it seems that unless we define pointer years, then we are unable to plot the resilience metrics in the same way that is done for Lloret et al (https://onlinelibrary.wiley.com/doi/epdf/10.1111/j.1600-0706.2011.19372.x). Trying to run the function below consistently gives an error that either we have <5 series for each pointer year, or we have no pointer years.
 
