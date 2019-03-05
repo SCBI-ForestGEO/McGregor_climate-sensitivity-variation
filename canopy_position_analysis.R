@@ -1,5 +1,6 @@
 #canopy position analysis from tree cores
 
+#1. box-plot set up ####
 cru1901 <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/climate_sensitivity_cores/results/canopy_vs_subcanopy/1901_2009/tables/monthly_correlation/correlation_with_CRU_SCBI_1901_2016_climate_data.csv", stringsAsFactors = FALSE)
 
 library(ggplot2)
@@ -14,7 +15,7 @@ cru1901_loop <- cru1901
 cru1901_loop$position <- ifelse(grepl("subcanopy", cru1901$Species), "subcanopy", "canopy")
 cru1901_loop$Species <- gsub("_[[:alpha:]]+$", "", cru1901$Species)
 
-#1. box plots ####
+##1a. box plots ####
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
 cru1901_loop$variable <- as.character(cru1901_loop$variable)
 clim <- unique(cru1901_loop$variable)
@@ -56,6 +57,7 @@ for (j in seq(along=clim)){
 dev.off()
 
 
+############################################################################################
 #2. mixed effects model ####
 library(car)
 library(MASS)
@@ -163,6 +165,7 @@ clim_BIC_top <- clim_BIC %>%
 #3. resilience metrics ####
 library(pointRes)
 library(dplR)
+library(data.table)
 
 ##3a. canopy ####
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores")
@@ -213,7 +216,7 @@ for (i in seq(along=dirs_subcan)){
       file <- dirs_subcan[[i]]
       rings <- read.rwl(file) #read in rwl file
       area <- bai.in(rings) #convert to bai.in
-      test <- res.comp(area, nb.yrs=5, res.thresh.neg = 20, series.thresh = 50) #get resilience metrics
+      test <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #get resilience metrics
       subcanopy[[i]] <- test
 
       test_table <- data.frame(test$out)
@@ -225,133 +228,95 @@ for (i in seq(along=dirs_subcan)){
     }
   }
 }
-values_sub <- paste0(sp_subcan, "_can_res")
+values_sub <- paste0(sp_subcan, "_subcan_res")
 names(subcanopy) <- values_sub
 
-#df for pointer years of all trees combined
+#3c. df for pointer years of all trees combined ####
 full_ind <- rbind(canopy_table, subcanopy_table) #full table of indices for canopy and subcanopy cores
 pointers <- full_ind[full_ind$nature == -1, ]
 
-years <- count(pointers, vars=year) #counts the occurrences of each unique year
-colnames(years) <- c("yr", "n.pointer")
-years <- years[order(years$n.occur, decreasing=TRUE), ]
-
-
-#df for each canopy position
-pointers_can <- canopy_table[canopy_table$nature == -1, ]
-pointers_sub <- subcanopy_table[subcanopy_table$nature == -1, ]
-pos <- full_ind$position
-
-q <- as.data.frame(table(pointers_can$year))
-colnames(q) <- c("yr", "canopy")
-z <- as.data.frame(table(pointers_sub$year))
-colnames(z) <- c("yr", "subcanopy")
-
-comb <- merge(q,z, all=TRUE)
+library(dplyr)
+years_point <- count(pointers, vars=year) #counts the occurrences of each unique year
+colnames(years_point) <- c("yr", "n.pointer")
+years_point <- years_point[order(years_point$n.pointer, decreasing=TRUE), ]
 
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
 write.csv(pointers, "occurrence_of_pointer_yrs.csv", row.names=FALSE)
 
-#this data comes from: https://droughtatlas.unl.edu/Data.aspx 
-winchester <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits/data/pdsi_timeseries_winchester_1949-2012.csv")
+#3d. resistance metrics for all trees ####
+neil_list <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits/core_list_for_neil.csv", stringsAsFactors = FALSE)
 
-winchester <- winchester[winchester$X1.Month < -3, ]
-winchester$Date <- as.character(winchester$Date)
+neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
 
-library(ncdf4)
-library(raster)
-library(ncdf4.helpers)
-library(ncdf.tools)
+pointer_years <- years$yr[1:6] #from above in #3c
 
-setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits/data")
+##canopy ####
+#this loop says, for the different species in the list "canopy" (names(canopy)), create a dataframe of only the resistance index. Make a list of the colnames, which are the individual trees. Then, assign species identifiers for each one from Neil's core list, subset by the defined pointer years, and melt the data before rbinding.
 
-gunzip("scPDSI.cru_ts3.26early.bams2018.GLOBAL.1901.2017_nc.gz", remove=FALSE)
-nc <- nc_open("scPDSI.cru_ts3.26early.bams2018.GLOBAL.1901.2017.nc")
-
-fname <- "scPDSI.cru_ts3.26early.bams2018.GLOBAL.1901.2017.nc" #from CRU
-#fname <- "pdsi.mon.mean.selfcalibrated.nc" #from NOAA
-
-print(nc)
-lon <- ncvar_get(nc, attributes(nc$dim)$names[1])
-lat <- ncvar_get(nc, attributes(nc$dim)$names[2])
-summary(lon)
-summary(lat)
-
-#CRU data shows time as days since 1900-01-01.
-timetrue <- convertDateNcdf2R(time, units = "days", origin = as.POSIXct("1900-01-01"), time.format = c("%Y-%m-%d"))
-
-pdsi <- brick(fname)
-scbi <- data.frame("lon" = 78.1653, "lat" = 38.8871)
-win <- data.frame("lon" = 78.1633, "lat" = 39.1857)
-
-scbi_pdsi <- extract(pdsi, win)
-scbi_pdsi <- data.frame(scbi_pdsi)
-scbi_pdsi[2, ] <- colnames(scbi_pdsi)
-
-library(data.table)
-trans <- transpose(scbi_pdsi)
-colnames(trans) <- c("scbi_pdsi", "date")
-trans$date <- timetrue
-trans$scbi_pdsi <- as.numeric(trans$scbi_pdsi)
-range(trans$scbi_pdsi)
-trans <- trans[,c(2,1)]
-
-plot(fname)
-
-
-
-
-
-
-
-
-
-
-
-
-
-#it seems that unless we define pointer years, then we are unable to plot the resilience metrics in the same way that is done for Lloret et al (https://onlinelibrary.wiley.com/doi/epdf/10.1111/j.1600-0706.2011.19372.x). Trying to run the function below consistently gives an error that either we have <5 series for each pointer year, or we have no pointer years.
-
-#The problem lies with what we consider a disturbance year. The default for a year to be considered major enough to be a pointer year is a negative growth of 40% (determined from res.comp using the bai). Our cores show almost no negative growth above 35%, and even then it's sparse.
-
-#from the Palmer Drought Severity Index from a Winchester station, major drought (<-3 on scale) consecutively occurred (1949-2017) 
-#Nov 1953 - June 1953
-#May 1965 - June 1967
-#Aug 1991 - March 1992
-#Nov 1998 - Aug 1999
-
-for (i in seq(along=names(canopy))){
+tag_n <- names(canopy)
+trees_canopy <- NULL
+for (i in seq(along=1:length(tag_n))){
+  can_resist <- data.frame(canopy[[i]]$resist)
+  years <- rownames(can_resist)
+  colnames(can_resist) <- gsub("A", "", colnames(can_resist))
+  tree_series <- colnames(can_resist)
   
+  # for (j in seq(along=tree_series)){
+  #  trees <- tree_series[[j]]
+  ind <- can_resist
+  ind_neil <- neil_list[neil_list$tag %in% tree_series, ]
+  
+  #  colnames(ind) <- trees
+  ind$year <- years
+  ind$sp <- unique(ind_neil$sp)
+  ind$position <- "canopy"
+  
+  ind <- ind[ind$year %in% pointer_years, ]
+  
+  change <- melt(ind)
+  setnames(change, old=c("variable", "value"), new=c("tree", "resist.value"))
+  change$tree <- gsub("X", "", change$tree)
+  change$tree <- gsub("^0", "", change$tree)
+  
+  trees_canopy <- rbind(trees_canopy, change)
 }
 
 
-litu <- read.rwl(dirs_can[[6]])
-litu_bai <- bai.in(litu)
-litu_res <- res.comp(litu_bai, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #if >60% trees experienced growth less than 40% (40=default) in that year, then that year is given a -1 for a pointer year
-litu_table <- data.frame(litu_res$out)
-litu_table <- litu_table[litu_table$nb.series > 4, ]
-litu_table$sp <- "litu"
-litu_table$position <- "canopy"
+##subcanopy ####
+#this loop says, for the different species in the list "subcanopy" (names(subcanopy)), create a dataframe of only the resistance index. Make a list of the colnames, which are the individual trees. Then, assign species identifiers for each one from Neil's core list, subset by the defined pointer years, and melt the data before rbinding.
 
-res.plot(litu_res)
+tag_n <- names(subcanopy)
+trees_subcanopy <- NULL
+for (i in seq(along=1:length(tag_n))){
+  sub_resist <- data.frame(subcanopy[[i]]$resist)
+  years <- rownames(sub_resist)
+  colnames(sub_resist) <- gsub("A", "", colnames(sub_resist))
+  tree_series <- colnames(sub_resist)
+ 
+  # for (j in seq(along=tree_series)){
+  #  trees <- tree_series[[j]]
+    ind <- sub_resist
+    ind_neil <- neil_list[neil_list$tag %in% tree_series, ]
+    
+  #  colnames(ind) <- trees
+    ind$year <- years
+    ind$sp <- unique(ind_neil$sp)
+    ind$position <- "subcanopy"
+    
+    ind <- ind[ind$year %in% pointer_years, ]
+    
+    change <- melt(ind)
+    setnames(change, old=c("variable", "value"), new=c("tree", "resist.value"))
+    change$tree <- gsub("X", "", change$tree)
+    change$tree <- gsub("^0", "", change$tree)
+    
+    trees_subcanopy <- rbind(trees_subcanopy, change)
+}
 
-#this below is a test of using the methdology from Lloret et al 2011, where for fagr I consider significant whether the mean BAI values are >=25% lower than the median of the last 5 years. Then these were compared to the drought years above.
-#However, still no pointer years. The output appears to be the same as before.
-fagr <- read.rwl(dirs_can[[7]])
-fagr_bai <- bai.in(fagr)
+##rbind together ####
+trees_all <- rbind(trees_canopy, trees_subcanopy)
 
-library(zoo)
-fagr_bai$mean <- rowMeans(fagr_bai, na.rm=TRUE)
-fagr_bai$sig <- ifelse(fagr_bai$mean < (0.75*rollmedian(fagr_bai$mean, k=5)), 1, 0)
-fagr_bai$year <- row.names(fagr_bai)
-fagr_bai <- fagr_bai[fagr_bai$year %in% c(1961:1971, 1972:1984, 1994:2004), ]
+##############################################################################################
+#4. mixed effects model for output of #3.
 
-fagr_bai$mean <- NULL
-fagr_bai$sig <- NULL
-fagr_bai$year <- NULL
-
-fagr_res <- res.comp(fagr_bai, nb.yrs=5, series.thresh = 60)
-res.plot(fagr_res)
-
-View(fagr_res$out)
-
+library(lme4)
