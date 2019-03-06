@@ -190,7 +190,7 @@ for (i in seq(along=dirs_can)){
       file <- dirs_can[[i]]
       rings <- read.rwl(file) #read in rwl file
       area <- bai.in(rings) #convert to bai.in
-      testr <- res.comp(area, nb.yrs=5, res.thresh.neg = 40, series.thresh = 50) #get resilience metrics
+      testr <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #get resilience metrics
       canopy[[i]] <- testr
       
       testr_table <- data.frame(testr$out)
@@ -222,7 +222,7 @@ for (i in seq(along=dirs_subcan)){
       file <- dirs_subcan[[i]]
       rings <- read.rwl(file) #read in rwl file
       area <- bai.in(rings) #convert to bai.in
-      test <- res.comp(area, nb.yrs=5, res.thresh.neg = 40, series.thresh = 50) #get resilience metrics
+      test <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #get resilience metrics
       subcanopy[[i]] <- test
 
       test_table <- data.frame(test$out)
@@ -361,6 +361,7 @@ aic_top <- var_aic %>%
 
 ##5b. Run the best model, changing REML to TRUE ####
 lmm.full <- lmm.full <- lmer(resist.value ~ position + (1 | sp) + (1 | year), data=trees_all)
+summary(lmm.full)
 
 vari_anova <- Anova(lmm.full)
 
