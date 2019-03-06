@@ -247,7 +247,7 @@ colnames(years_point) <- c("yr", "n.pointer")
 years_point <- years_point[order(years_point$n.pointer, decreasing=TRUE), ]
 
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
-write.csv(pointers, "occurrence_of_pointer_yrs.csv", row.names=FALSE)
+#write.csv(pointers, "occurrence_of_pointer_yrs.csv", row.names=FALSE)
 
 ##4d. resistance metrics for all trees ####
 neil_list <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits/core_list_for_neil.csv", stringsAsFactors = FALSE)
@@ -328,7 +328,7 @@ library(lme4)
 library(AICcmodavg)
 library(car)
 
-##5a. Determine best model to use ####
+##5a. Determine best model to use with AICc ####
 
 #resist.value is response variable, position is a fixed effect, year and species are random effects
 lmm <- lmer(resist.value ~ position + (1 | sp) + (1 | year), data=trees_all, REML=FALSE)
@@ -359,17 +359,53 @@ summary(lmm)
 aic_top <- var_aic %>%
   filter(AICc == min(AICc))
 
-##5b. Run the best model, changing REML to TRUE ####
+##5b. determine the best model from anova (using the model candidates above) ####
+#interestingly, this gives a similar result to running AICc, with Pr(>Chisq) acting as a kind of p-value for showing which model is best to use.
+anova(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full)
+
+#                   Df    AIC    BIC  logLik deviance  Chisq Chi Df Pr(>Chisq)    
+# lmm.nullsp        3 2706.2 2724.2 -1350.1   2700.2                             
+# lmm.nullyear      3 2775.8 2793.8 -1384.9   2769.8   0.00      0          1    
+# lmm.random        4 2654.7 2678.7 -1323.4   2646.7 123.12      1     <2e-16 ***
+# lmm.positionsp    4 2706.1 2730.1 -1349.0   2698.1   0.00      0          1    
+# lmm.positionyear  4 2767.7 2791.6 -1379.8   2759.7   0.00      0          1    
+# lmm.full          5 2653.8 2683.8 -1321.9   2643.8 115.81      1     <2e-16 ***
+#   ---
+#   Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+##5c. Run the best model, changing REML to TRUE ####
 lmm.full <- lmm.full <- lmer(resist.value ~ position + (1 | sp) + (1 | year), data=trees_all)
 summary(lmm.full)
+# Fixed effects:
+#                   Estimate Std. Error t value
+# (Intercept)        0.87991    0.03858  22.809
+# positionsubcanopy  0.02534    0.01495   1.695
 
+#here, the model is saying that where the position is canopy (Intercept), the subcanopy will differ by 0.025
+
+# there isn't much purpose to running anova if I already used AICc to determine which model was the best one to run. If I had used crossed anova to determine the best model to run, then I would need to report p-value.
 vari_anova <- Anova(lmm.full)
 
 q <- qqp(residuals(lmm.full), "norm", main="resistance_residuals")
 print(q)
 
 
+#6. interpreting the outcomes ####
+library(ggplot2)
 
+#this plot shows the distribution of resistance values for each pointer year for each canopy position. It clearly shows how canopy/subcanopy differ
+ggplot(trees_all, aes(x=resist.value)) +
+  geom_density() +
+  facet_wrap(position ~ year)
+
+#What this plot does is create a dashed horizontal line representing zero: an average of zero deviation from the best-fit line. It also creates a solid line that represents the residual deviation from the best-fit line.
+# If the solid line doesn't cover the dashed line, that would mean the best-fit line does not fit particularly well.
+plot(fitted(lmm.full), residuals(lmm.full), xlab = "Fitted Values", ylab = "Residuals")
+abline(h=0, lty=2)
+lines(smooth.spline(fitted(lmm.full), residuals(lmm.full)))
+
+#
+boxplot(resist.value ~ position, data=trees_all)
 
 
 
