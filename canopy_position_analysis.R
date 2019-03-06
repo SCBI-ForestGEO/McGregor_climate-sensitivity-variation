@@ -1,6 +1,6 @@
 #canopy position analysis from tree cores
 
-#1. box-plot set up ####
+#1. full script set-up ####
 cru1901 <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/climate_sensitivity_cores/results/canopy_vs_subcanopy/1901_2009/tables/monthly_correlation/correlation_with_CRU_SCBI_1901_2016_climate_data.csv", stringsAsFactors = FALSE)
 
 library(ggplot2)
@@ -15,7 +15,8 @@ cru1901_loop <- cru1901
 cru1901_loop$position <- ifelse(grepl("subcanopy", cru1901$Species), "subcanopy", "canopy")
 cru1901_loop$Species <- gsub("_[[:alpha:]]+$", "", cru1901$Species)
 
-##1a. box plots ####
+##########################################################################################
+#2. box plots ####
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
 cru1901_loop$variable <- as.character(cru1901_loop$variable)
 clim <- unique(cru1901_loop$variable)
@@ -58,7 +59,7 @@ dev.off()
 
 
 ############################################################################################
-#2. mixed effects model ####
+#3. mixed effects model ####
 library(car)
 library(MASS)
 library(lme4)
@@ -68,7 +69,7 @@ library(dplyr)
 
 cru1901_loop$corr <- cru1901_loop$coef + 1 #since we have negative values
 
-##2a. descriptions of running the mixed effects model ####
+##3a. descriptions of running the mixed effects model ####
 
 #response variable is coef (continuous) (renamed corr)
 #do mixed model, look at the residuals, then check the distribution of the residuals
@@ -91,7 +92,7 @@ qqp(residuals(lmm), "norm", main="Normal residuals")
 #we want the AIC value to be the lowest it can be. This function says, if one of the fixed effects has a higher value than the original, then the output of the model wouldn't matter if we took out that variable.
 drop1(lmm)
 
-##2b. finding the right model to use ####
+##3b. finding the right model to use ####
 #make subsets and vector for loops
 cru1901_lmm <- droplevels(cru1901_loop[grepl("(r.may|r.jun|r.jul|r.aug)", cru1901_loop$month) & !cru1901_loop$variable %in% "frs", ]) #only current growing season
 clim <- unique(cru1901_lmm$variable)
@@ -123,18 +124,23 @@ for (v in seq(along=clim)){
   all_models_bic <- rbind(all_models_bic, var_bic)
 }
 
-#subset by only the top result for each variable
-aic_top <- all_models_aic[seq(1,nrow(all_models_aic), 4), ]
-bic_top <- all_models_bic[seq(1,nrow(all_models_bic), 4), ]
+#subset by only the top result (the minimum AICc value) for each variable
+aic_top <- all_models_aic %>%
+  group_by(var) %>%
+  filter(AICc == min(AICc))
 
-##2c. run the best model ####
+bic_top <- all_models_bic %>%
+  group_by(var) %>%
+  filter(BIC == min(BIC))
+
+##3c. run the best model ####
 #the overall top result appears to be the full model. Thus, we use that model below.
 clim_anova <- NULL
 clim_BIC <- NULL
 for (v in seq(along=clim)){
   cru_sub <- cru1901_lmm[cru1901_lmm$variable %in% clim[[v]], ]
   
-  lmm.full <- lmer(corr ~ position + month + (1 | Species), data=cru_sub, REML=FALSE)
+  lmm.full <- lmer(corr ~ position + month + (1 | Species), data=cru_sub, REML=TRUE)
   
   vari_anova <- Anova(lmm.full)
   vari_anova$var <- clim[[v]]
@@ -162,12 +168,12 @@ clim_BIC_top <- clim_BIC %>%
   group_by(var) %>%
   filter(BIC == min(BIC))
 #############################################################################################
-#3. resilience metrics ####
+#4. finding pointer years and resistance metrics ####
 library(pointRes)
 library(dplR)
 library(data.table)
 
-##3a. canopy ####
+##4a. canopy ####
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores")
 
 dirs_can <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores", pattern = "_canopy.rwl")
@@ -184,7 +190,7 @@ for (i in seq(along=dirs_can)){
       file <- dirs_can[[i]]
       rings <- read.rwl(file) #read in rwl file
       area <- bai.in(rings) #convert to bai.in
-      testr <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #get resilience metrics
+      testr <- res.comp(area, nb.yrs=5, res.thresh.neg = 40, series.thresh = 50) #get resilience metrics
       canopy[[i]] <- testr
       
       testr_table <- data.frame(testr$out)
@@ -199,7 +205,7 @@ for (i in seq(along=dirs_can)){
 values <- paste0(sp_can, "_can_res")
 names(canopy) <- values
 
-##3b. subcanopy ####
+##4b. subcanopy ####
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores")
 
 dirs_subcan <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores", pattern = "_subcanopy.rwl")
@@ -216,7 +222,7 @@ for (i in seq(along=dirs_subcan)){
       file <- dirs_subcan[[i]]
       rings <- read.rwl(file) #read in rwl file
       area <- bai.in(rings) #convert to bai.in
-      test <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #get resilience metrics
+      test <- res.comp(area, nb.yrs=5, res.thresh.neg = 40, series.thresh = 50) #get resilience metrics
       subcanopy[[i]] <- test
 
       test_table <- data.frame(test$out)
@@ -231,7 +237,7 @@ for (i in seq(along=dirs_subcan)){
 values_sub <- paste0(sp_subcan, "_subcan_res")
 names(subcanopy) <- values_sub
 
-#3c. df for pointer years of all trees combined ####
+##4c. df for pointer years of all trees combined ####
 full_ind <- rbind(canopy_table, subcanopy_table) #full table of indices for canopy and subcanopy cores
 pointers <- full_ind[full_ind$nature == -1, ]
 
@@ -243,12 +249,12 @@ years_point <- years_point[order(years_point$n.pointer, decreasing=TRUE), ]
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
 write.csv(pointers, "occurrence_of_pointer_yrs.csv", row.names=FALSE)
 
-#3d. resistance metrics for all trees ####
+##4d. resistance metrics for all trees ####
 neil_list <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits/core_list_for_neil.csv", stringsAsFactors = FALSE)
 
 neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
 
-pointer_years <- years$yr[1:6] #from above in #3c
+pointer_years <- years_point$yr[1:6] #from above in #3c
 
 ##canopy ####
 #this loop says, for the different species in the list "canopy" (names(canopy)), create a dataframe of only the resistance index. Make a list of the colnames, which are the individual trees. Then, assign species identifiers for each one from Neil's core list, subset by the defined pointer years, and melt the data before rbinding.
@@ -317,6 +323,55 @@ for (i in seq(along=1:length(tag_n))){
 trees_all <- rbind(trees_canopy, trees_subcanopy)
 
 ##############################################################################################
-#4. mixed effects model for output of #3.
-
+#5. mixed effects model for output of #4. ####
 library(lme4)
+library(AICcmodavg)
+library(car)
+
+##5a. Determine best model to use ####
+
+#resist.value is response variable, position is a fixed effect, year and species are random effects
+lmm <- lmer(resist.value ~ position + (1 | sp) + (1 | year), data=trees_all, REML=FALSE)
+summary(lmm)
+
+#all_models_aic <- NULL
+#for (i in seq(along=trees_all$tree)){
+#  tr <- trees_all$tree[[i]]
+#  trees_subset <- trees_all[trees_all$tree == tr, ]
+  
+  lmm.nullsp <- lmer(resist.value ~ 1 + (1 | sp), data=trees_all, REML=FALSE)
+  lmm.nullyear <- lmer(resist.value ~ 1 + (1 | year), data=trees_all, REML=FALSE)
+  lmm.random <- lmer(resist.value ~ 1 + (1 | sp) + (1 | year), data=trees_all, REML=FALSE)
+  lmm.positionsp <- lmer(resist.value ~ position + (1 | sp), data=trees_all, REML=FALSE)
+  lmm.positionyear <- lmer(resist.value ~ position + (1 | year), data=trees_all, REML=FALSE)
+  lmm.full <- lmer(resist.value ~ position + (1 | sp) + (1 | year), data=trees_all, REML=FALSE)
+  
+  cand.models <- list(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full)
+  names(cand.models) <- c("lmm.nullsp", "lmm.nullyear", "lmm.random", "lmm.positionsp", "lmm.positionyear", "lmm.full")
+  
+  #this function looks through all the models above to say what is the best one (what fits the best)
+  var_aic <- aictab(cand.models, second.ord=TRUE, sort=TRUE)
+#  var_aic$tree <- tr
+#  all_models_aic <- rbind(all_models_aic, var_aic)
+#}
+
+#subset by only the top result (the minimum AICc value)
+aic_top <- var_aic %>%
+  filter(AICc == min(AICc))
+
+##5b. Run the best model, changing REML to TRUE ####
+lmm.full <- lmm.full <- lmer(resist.value ~ position + (1 | sp) + (1 | year), data=trees_all)
+
+vari_anova <- Anova(lmm.full)
+
+q <- qqp(residuals(lmm.full), "norm", main="resistance_residuals")
+print(q)
+
+
+
+
+
+
+
+
+
