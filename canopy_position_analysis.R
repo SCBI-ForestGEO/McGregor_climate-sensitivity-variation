@@ -246,11 +246,11 @@ years_point <- count(pointers, vars=year) #counts the occurrences of each unique
 colnames(years_point) <- c("yr", "n.pointer")
 years_point <- years_point[order(years_point$n.pointer, decreasing=TRUE), ]
 
-setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
+setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/McGregor_climate-sensitivity-variation")
 #write.csv(pointers, "occurrence_of_pointer_yrs.csv", row.names=FALSE)
 
 ##4d. resistance metrics for all trees ####
-neil_list <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits/core_list_for_neil.csv", stringsAsFactors = FALSE)
+neil_list <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/McGregor_climate-sensitivity-variation/core_list_for_neil.csv", stringsAsFactors = FALSE)
 
 neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
 
@@ -321,6 +321,7 @@ for (i in seq(along=1:length(tag_n))){
 
 ##rbind together ####
 trees_all <- rbind(trees_canopy, trees_subcanopy)
+trees_all$year <- as.numeric(trees_all)
 
 ##############################################################################################
 #5. mixed effects model for output of #4. ####
@@ -394,6 +395,11 @@ print(q)
 library(ggplot2)
 
 #this plot shows the distribution of resistance values for each pointer year for each canopy position. It clearly shows how canopy/subcanopy differ
+
+trees_all <- group_by(trees_all, year)
+
+trees_all <- trees_all[sort(trees_all$year)]
+
 ggplot(trees_all, aes(x=resist.value)) +
   geom_density() +
   facet_wrap(position ~ year)
