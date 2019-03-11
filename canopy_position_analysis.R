@@ -368,8 +368,8 @@ summary(lmm)
   lmm.fixedyear <- lmer(resist.value ~ position + tlp + (1 | year), data=trees_all, REML=FALSE)
   lmm.combined <- lmer(resist.value ~ position + tlp + (1 | sp) + (1 | year), data=trees_all, REML=FALSE)
   
-  cand.models <- list(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full, lmm.tlpsp, lmm.tlpyear, lmm.fixedsp, lmm.fixedyear, lmm.combined)
-  names(cand.models) <- c("lmm.nullsp", "lmm.nullyear", "lmm.random", "lmm.positionsp", "lmm.positionyear", "lmm.full", "lmm.tlpsp", "lmm.tlpyear", "lmm.fixedsp", "lmm.fixedyear", "lmm.combined")
+  cand.models <- list(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full) #, lmm.tlpsp, lmm.tlpyear, lmm.fixedsp, lmm.fixedyear, lmm.combined)
+  names(cand.models) <- c("lmm.nullsp", "lmm.nullyear", "lmm.random", "lmm.positionsp", "lmm.positionyear", "lmm.full") #, "lmm.tlpsp", "lmm.tlpyear", "lmm.fixedsp", "lmm.fixedyear", "lmm.combined")
   
   #this function looks through all the models above to say what is the best one (what fits the best)
   var_aic <- aictab(cand.models, second.ord=TRUE, sort=TRUE)
@@ -398,8 +398,8 @@ anova(lmm.random, lmm.combined)
 #   Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ##5c. Run the best model, changing REML to TRUE ####
-lmm.combined <- lmer(resist.value ~ position + tlp + (1 | sp) + (1 | year), data=trees_all)
-summary(lmm.combined)
+lmm.full <- lmer(resist.value ~ position + (1 | sp) + (1 | year), data=trees_all)
+summary(lmm.full)
 # Fixed effects:
 #                   Estimate Std. Error t value
 # (Intercept)        0.87991    0.03858  22.809
@@ -419,17 +419,14 @@ library(ggplot2)
 
 #this plot shows the distribution of resistance values for each pointer year for each canopy position. It clearly shows how canopy/subcanopy differ
 
-trees_all <- group_by(trees_all, year)
+trees_all <- group_by(trees_all, year, position)
 
 trees_all <- trees_all[sort(c(trees_all$year, trees_all$position)), ]
 
-p <- ggplot(trees_all, aes(x=resist.value)) +
-  geom_density() +
-  facet_wrap(position ~ year)
-
 ggplot(trees_all, aes(x=resist.value)) +
   geom_density() +
-  facet_wrap(position ~ year)
+  facet_wrap(year ~ position)
+
 
 #What this plot does is create a dashed horizontal line representing zero: an average of zero deviation from the best-fit line. It also creates a solid line that represents the residual deviation from the best-fit line.
 # If the solid line doesn't cover the dashed line, that would mean the best-fit line does not fit particularly well.
