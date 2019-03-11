@@ -321,7 +321,19 @@ for (i in seq(along=1:length(tag_n))){
 
 ##rbind together ####
 trees_all <- rbind(trees_canopy, trees_subcanopy)
-trees_all$year <- as.numeric(trees_all)
+trees_all$year <- as.numeric(trees_all$year)
+
+#subset out NAs for resistance values
+trees_all <- trees_all[!is.na(trees_all$resist.value), ]
+
+#add in tlp values (from Krista github issue #6 https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/6)
+turgor <- data.frame("sp" = c("cagl", "caovl", "fagr", "fram", "juni", "litu", "pist", "qual", "qupr", "quru", "quve", "caco", "cato", "frni"), "tlp" = c(-2.1282533, -2.24839333, -2.57164, -2.1012133, -2.75936, -1.9212933, NA, -2.58412, -2.3601733, -2.6395867, -2.3879067, -2.1324133, -2.31424, NA))
+
+#combine with trees_all
+trees_all$tlp <- turgor$tlp[match(trees_all$sp, turgor$sp)]
+
+#tlp for pist is NA. Running the models below with this gives the min(AICc) for lmm.combined. Removing pist, however (because of the tlp NA), and running AICc and anova shows the best model to be lmm.random.
+trees_all <- trees_all[!trees_all$sp == "pist", ]
 
 ##############################################################################################
 #5. mixed effects model for output of #4. ####
@@ -331,8 +343,8 @@ library(car)
 
 ##5a. Determine best model to use with AICc ####
 
-#resist.value is response variable, position is a fixed effect, year and species are random effects
-lmm <- lmer(resist.value ~ position + (1 | sp) + (1 | year), data=trees_all, REML=FALSE)
+#resist.value is response variable, position is a fixed effect, year is a random effect, and species is a nested random effect with tree (each species has specific trees)
+lmm <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
 summary(lmm)
 
 #all_models_aic <- NULL
@@ -340,15 +352,24 @@ summary(lmm)
 #  tr <- trees_all$tree[[i]]
 #  trees_subset <- trees_all[trees_all$tree == tr, ]
   
-  lmm.nullsp <- lmer(resist.value ~ 1 + (1 | sp), data=trees_all, REML=FALSE)
+  lmm.nullsp <- lmer(resist.value ~ 1 + (1 | sp / tree), data=trees_all, REML=FALSE)
   lmm.nullyear <- lmer(resist.value ~ 1 + (1 | year), data=trees_all, REML=FALSE)
-  lmm.random <- lmer(resist.value ~ 1 + (1 | sp) + (1 | year), data=trees_all, REML=FALSE)
-  lmm.positionsp <- lmer(resist.value ~ position + (1 | sp), data=trees_all, REML=FALSE)
+  lmm.random <- lmer(resist.value ~ 1 + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
+  lmm.positionsp <- lmer(resist.value ~ position + (1 | sp / tree), data=trees_all, REML=FALSE)
   lmm.positionyear <- lmer(resist.value ~ position + (1 | year), data=trees_all, REML=FALSE)
-  lmm.full <- lmer(resist.value ~ position + (1 | sp) + (1 | year), data=trees_all, REML=FALSE)
+  lmm.full <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
   
-  cand.models <- list(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full)
-  names(cand.models) <- c("lmm.nullsp", "lmm.nullyear", "lmm.random", "lmm.positionsp", "lmm.positionyear", "lmm.full")
+  #add tlp
+  lmm.tlpsp <- lmer(resist.value ~ tlp + (1 | sp), data=trees_all, REML=FALSE)
+  lmm.tlpyear <- lmer(resist.value ~ tlp + (1 | year), data=trees_all, REML=FALSE)
+  #lmm.fixed <- lmer(resist.value ~ position + tlp, data=trees_all, REML=FALSE)
+  #not technically a mixed effects model because no random effects
+  lmm.fixedsp <- lmer(resist.value ~ position + tlp + (1 | sp), data=trees_all, REML=FALSE)
+  lmm.fixedyear <- lmer(resist.value ~ position + tlp + (1 | year), data=trees_all, REML=FALSE)
+  lmm.combined <- lmer(resist.value ~ position + tlp + (1 | sp) + (1 | year), data=trees_all, REML=FALSE)
+  
+  cand.models <- list(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full, lmm.tlpsp, lmm.tlpyear, lmm.fixedsp, lmm.fixedyear, lmm.combined)
+  names(cand.models) <- c("lmm.nullsp", "lmm.nullyear", "lmm.random", "lmm.positionsp", "lmm.positionyear", "lmm.full", "lmm.tlpsp", "lmm.tlpyear", "lmm.fixedsp", "lmm.fixedyear", "lmm.combined")
   
   #this function looks through all the models above to say what is the best one (what fits the best)
   var_aic <- aictab(cand.models, second.ord=TRUE, sort=TRUE)
@@ -362,7 +383,9 @@ aic_top <- var_aic %>%
 
 ##5b. determine the best model from anova (using the model candidates above) ####
 #interestingly, this gives a similar result to running AICc, with Pr(>Chisq) acting as a kind of p-value for showing which model is best to use.
-anova(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full)
+anova(lmm.random, lmm.combined)
+      #lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full) 
+      #lmm.tlpsp, lmm.tlpyear, lmm.fixedsp, lmm.fixedyear, lmm.combined)
 
 #                   Df    AIC    BIC  logLik deviance  Chisq Chi Df Pr(>Chisq)    
 # lmm.nullsp        3 2706.2 2724.2 -1350.1   2700.2                             
@@ -375,8 +398,8 @@ anova(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lm
 #   Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ##5c. Run the best model, changing REML to TRUE ####
-lmm.full <- lmm.full <- lmer(resist.value ~ position + (1 | sp) + (1 | year), data=trees_all)
-summary(lmm.full)
+lmm.combined <- lmer(resist.value ~ position + tlp + (1 | sp) + (1 | year), data=trees_all)
+summary(lmm.combined)
 # Fixed effects:
 #                   Estimate Std. Error t value
 # (Intercept)        0.87991    0.03858  22.809
@@ -398,7 +421,11 @@ library(ggplot2)
 
 trees_all <- group_by(trees_all, year)
 
-trees_all <- trees_all[sort(trees_all$year)]
+trees_all <- trees_all[sort(c(trees_all$year, trees_all$position)), ]
+
+p <- ggplot(trees_all, aes(x=resist.value)) +
+  geom_density() +
+  facet_wrap(position ~ year)
 
 ggplot(trees_all, aes(x=resist.value)) +
   geom_density() +
@@ -406,14 +433,16 @@ ggplot(trees_all, aes(x=resist.value)) +
 
 #What this plot does is create a dashed horizontal line representing zero: an average of zero deviation from the best-fit line. It also creates a solid line that represents the residual deviation from the best-fit line.
 # If the solid line doesn't cover the dashed line, that would mean the best-fit line does not fit particularly well.
-plot(fitted(lmm.full), residuals(lmm.full), xlab = "Fitted Values", ylab = "Residuals")
+plot(fitted(lmm.combined), residuals(lmm.combined), xlab = "Fitted Values", ylab = "Residuals")
 abline(h=0, lty=2)
-lines(smooth.spline(fitted(lmm.full), residuals(lmm.full)))
+lines(smooth.spline(fitted(lmm.combined), residuals(lmm.combined)))
 
 #
 boxplot(resist.value ~ position, data=trees_all)
 
-
+library(plotly)
+p <- qqp(residuals(lmm.full), "norm")
+ggplotly(p)
 
 
 
