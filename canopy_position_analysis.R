@@ -355,8 +355,13 @@ turgor <- data.frame("sp" = c("cagl", "caovl", "fagr", "fram", "juni", "litu", "
 trees_all$tlp <- turgor$tlp[match(trees_all$sp, turgor$sp)]
 
 #tlp for pist is NA. Running the models below with this gives the min(AICc) for lmm.combined. Removing pist, however (because of the tlp NA), and running AICc and anova shows the best model to be lmm.random.
-trees_all <- trees_all[!trees_all$sp == "pist", ]
+#trees_all <- trees_all[!trees_all$sp == "pist", ]
 
+##4g. add in ring porosity qualifications ####
+ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "juni",  "litu",  "pist",  "qual",  "qupr",  "quru",  "quve"), "rp" = c("ring", "ring", "ring", "diffuse", "ring", "semi-ring", "diffuse", NA, "ring", "ring", "ring", "ring"))
+
+#combine with trees_all
+trees_all$rp <- ring_porosity$rp[match(trees_all$sp, ring_porosity$sp)]
 ##############################################################################################
 #5. mixed effects model for output of #4. ####
 library(lme4)
@@ -369,35 +374,64 @@ library(car)
 lmm <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
 summary(lmm)
 
-#all_models_aic <- NULL
-#for (i in seq(along=trees_all$tree)){
-#  tr <- trees_all$tree[[i]]
-#  trees_subset <- trees_all[trees_all$tree == tr, ]
-  
-  lmm.nullsp <- lmer(resist.value ~ 1 + (1 | sp / tree), data=trees_all, REML=FALSE)
-  lmm.nullyear <- lmer(resist.value ~ 1 + (1 | year), data=trees_all, REML=FALSE)
-  lmm.random <- lmer(resist.value ~ 1 + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
-  lmm.positionsp <- lmer(resist.value ~ position + (1 | sp / tree), data=trees_all, REML=FALSE)
-  lmm.positionyear <- lmer(resist.value ~ position + (1 | year), data=trees_all, REML=FALSE)
-  lmm.full <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
-  
-  #add a climate variable to the model
-  lmm.tlpsp <- lmer(resist.value ~ tlp + (1 | sp), data=trees_all, REML=FALSE)
-  lmm.tlpyear <- lmer(resist.value ~ tlp + (1 | year), data=trees_all, REML=FALSE)
-  #lmm.fixed <- lmer(resist.value ~ position + tlp, data=trees_all, REML=FALSE)
-  #not technically a mixed effects model because no random effects
-  lmm.fixedsp <- lmer(resist.value ~ position + tlp + (1 | sp), data=trees_all, REML=FALSE)
-  lmm.fixedyear <- lmer(resist.value ~ position + tlp + (1 | year), data=trees_all, REML=FALSE)
-  lmm.combined <- lmer(resist.value ~ position + tlp + (1 | sp) + (1 | year), data=trees_all, REML=FALSE)
-  
-  cand.models <- list(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full) #, lmm.tlpsp, lmm.tlpyear, lmm.fixedsp, lmm.fixedyear, lmm.combined)
-  names(cand.models) <- c("lmm.nullsp", "lmm.nullyear", "lmm.random", "lmm.positionsp", "lmm.positionyear", "lmm.full") #, "lmm.tlpsp", "lmm.tlpyear", "lmm.fixedsp", "lmm.fixedyear", "lmm.combined")
-  
-  #this function looks through all the models above to say what is the best one (what fits the best)
-  var_aic <- aictab(cand.models, second.ord=TRUE, sort=TRUE)
-#  var_aic$tree <- tr
-#  all_models_aic <- rbind(all_models_aic, var_aic)
-#}
+response <- "resist.value"
+effects <- c("position", "(1 | year)", "(1 | sp / tree)", "rp", "tlp")
+
+# create all combinations of random / fixed effects
+effects_comb <- 
+  unlist( sapply( seq_len(length(effects)), 
+                  function(i) {
+                    apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
+                  }))
+
+# pair response with effect and sub out combinations that don't include random effects
+var_comb <- expand.grid(response, effects_comb) 
+var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+
+# formulas for all combinations. $Var1 is the response, and $Var2 is the effect
+formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
+
+# create list of model outputs
+lmm_all <- lapply(formula_vec, function(x){
+  fit1 <- lmer(x, data = trees_all, REML=FALSE)
+  #fit1$coefficients <- coef( summary(fit1))
+  return(fit1)
+})
+names(lmm_all) <- formula_vec
+
+var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+
+q <- sapply(lmm_all, anova, simplify=FALSE)
+mapply(anova, lmm_all, SIMPLIFY = FALSE)
+
+
+
+
+
+#different model combinations (good for )
+lmm.nullsp <- lmer(resist.value ~ 1 + (1 | sp / tree), data=trees_all, REML=FALSE)
+lmm.nullyear <- lmer(resist.value ~ 1 + (1 | year), data=trees_all, REML=FALSE)
+lmm.random <- lmer(resist.value ~ 1 + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
+lmm.positionsp <- lmer(resist.value ~ position + (1 | sp / tree), data=trees_all, REML=FALSE)
+lmm.positionyear <- lmer(resist.value ~ position + (1 | year), data=trees_all, REML=FALSE)
+lmm.full <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
+
+#add a climate variable to the model
+lmm.rpsp <- lmer(resist.value ~ rp + (1 | sp), data=trees_all, REML=FALSE)
+lmm.rpyear <- lmer(resist.value ~ rp + (1 | year), data=trees_all, REML=FALSE)
+#lmm.fixed <- lmer(resist.value ~ position + rp, data=trees_all, REML=FALSE)
+#not technically a mixed effects model because no random effects
+lmm.fixedsp <- lmer(resist.value ~ position + rp + (1 | sp), data=trees_all, REML=FALSE)
+lmm.fixedyear <- lmer(resist.value ~ position + rp + (1 | year), data=trees_all, REML=FALSE)
+lmm.combined <- lmer(resist.value ~ position + rp + (1 | sp) + (1 | year), data=trees_all, REML=FALSE)
+
+cand.models <- list(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full, lmm.rpsp, lmm.rpyear, lmm.fixedsp, lmm.fixedyear, lmm.combined)
+names(cand.models) <- c("lmm.nullsp", "lmm.nullyear", "lmm.random", "lmm.positionsp", "lmm.positionyear", "lmm.full", "lmm.rpsp", "lmm.rpyear", "lmm.fixedsp", "lmm.fixedyear", "lmm.combined")
+
+#this function looks through all the models above to say what is the best one (what fits the best)
+var_aic <- aictab(cand.models, second.ord=TRUE, sort=TRUE)
+ 
 
 #subset by only the top result (the minimum AICc value)
 aic_top <- var_aic %>%
@@ -407,7 +441,7 @@ aic_top <- var_aic %>%
 #interestingly, this gives a similar result to running AICc, with Pr(>Chisq) acting as a kind of p-value for showing which model is best to use.
 anova(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full)
       #lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full) 
-      #lmm.tlpsp, lmm.tlpyear, lmm.fixedsp, lmm.fixedyear, lmm.combined)
+      #lmm.rpsp, lmm.rpyear, lmm.fixedsp, lmm.fixedyear, lmm.combined)
 
 #                   Df    AIC    BIC  logLik deviance  Chisq Chi Df Pr(>Chisq)    
 # lmm.nullsp        3 2706.2 2724.2 -1350.1   2700.2                             
