@@ -493,15 +493,15 @@ ggplot(data = trees_all) +
 
 #What this plot does is create a dashed horizontal line representing zero: an average of zero deviation from the best-fit line. It also creates a solid line that represents the residual deviation from the best-fit line.
 # If the solid line doesn't cover the dashed line, that would mean the best-fit line does not fit particularly well.
-plot(fitted(lmm.combined), residuals(lmm.combined), xlab = "Fitted Values", ylab = "Residuals")
+plot(fitted(lmm_all[[13]]), residuals(lmm_all[[13]]), xlab = "Fitted Values", ylab = "Residuals")
 abline(h=0, lty=2)
-lines(smooth.spline(fitted(lmm.combined), residuals(lmm.combined)))
+lines(smooth.spline(fitted(lmm_all[[13]]), residuals(lmm_all[[13]])))
 
 #
 boxplot(resist.value ~ sp, data=trees_all)
 
 library(plotly)
-p <- qqp(residuals(lmm.full), "norm")
+p <- qqp(residuals(lmm_all[[13]]), "norm")
 ggplotly(p)
 
 
