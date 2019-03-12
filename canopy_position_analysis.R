@@ -254,7 +254,7 @@ neil_list <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/McGre
 
 neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
 
-pointer_years <- years_point$yr[1:6] #from above in #3c
+pointer_years <- years_point$yr[c(1:2,5)] #from above in #4c
 
 ##canopy ####
 #this loop says, for the different species in the list "canopy" (names(canopy)), create a dataframe of only the resistance index. Make a list of the colnames, which are the individual trees. Then, assign species identifiers for each one from Neil's core list, subset by the defined pointer years, and melt the data before rbinding.
@@ -323,9 +323,31 @@ for (i in seq(along=1:length(tag_n))){
 trees_all <- rbind(trees_canopy, trees_subcanopy)
 trees_all$year <- as.numeric(trees_all$year)
 
-#subset out NAs for resistance values
+#subset out NAs for resistance values (not necessary, bc lmm will automatically exclude them)
 trees_all <- trees_all[!is.na(trees_all$resist.value), ]
 
+##4e. determine proportion of resistance values per sp ####
+prop <- data.frame("sp" = unique(trees_all$sp))
+prop$value.over1 <- NA
+prop$can.value.over1 <- NA
+prop$sub.value.over1 <- NA
+
+trees_all.sp <- unique(trees_all$sp)
+
+for (i in seq(along=prop$sp)){
+  for (j in seq(along=unique(trees_all.sp))){
+    if (i==j){
+      temp <- trees_all[trees_all$sp == trees_all.sp[[j]] & trees_all$resist.value>=1, ]
+      temp <- temp[!is.na(temp$resist.value), ]
+      prop$value.over1[[i]] <- nrow(temp)
+      prop$can.value.over1[[i]] <- nrow(temp[temp$position == "canopy", ])
+      prop$sub.value.over1[[i]] <- nrow(temp[temp$position == "subcanopy", ])
+    }
+  }
+}
+
+
+##4f. add in turgor loss point values ####
 #add in tlp values (from Krista github issue #6 https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/6)
 turgor <- data.frame("sp" = c("cagl", "caovl", "fagr", "fram", "juni", "litu", "pist", "qual", "qupr", "quru", "quve", "caco", "cato", "frni"), "tlp" = c(-2.1282533, -2.24839333, -2.57164, -2.1012133, -2.75936, -1.9212933, NA, -2.58412, -2.3601733, -2.6395867, -2.3879067, -2.1324133, -2.31424, NA))
 
@@ -359,7 +381,7 @@ summary(lmm)
   lmm.positionyear <- lmer(resist.value ~ position + (1 | year), data=trees_all, REML=FALSE)
   lmm.full <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
   
-  #add tlp
+  #add a climate variable to the model
   lmm.tlpsp <- lmer(resist.value ~ tlp + (1 | sp), data=trees_all, REML=FALSE)
   lmm.tlpyear <- lmer(resist.value ~ tlp + (1 | year), data=trees_all, REML=FALSE)
   #lmm.fixed <- lmer(resist.value ~ position + tlp, data=trees_all, REML=FALSE)
@@ -383,7 +405,7 @@ aic_top <- var_aic %>%
 
 ##5b. determine the best model from anova (using the model candidates above) ####
 #interestingly, this gives a similar result to running AICc, with Pr(>Chisq) acting as a kind of p-value for showing which model is best to use.
-anova(lmm.random, lmm.combined)
+anova(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full)
       #lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full) 
       #lmm.tlpsp, lmm.tlpyear, lmm.fixedsp, lmm.fixedyear, lmm.combined)
 
@@ -417,15 +439,22 @@ print(q)
 #6. interpreting the outcomes ####
 library(ggplot2)
 
-#this plot shows the distribution of resistance values for each pointer year for each canopy position. It clearly shows how canopy/subcanopy differ
-
 trees_all <- group_by(trees_all, year, position)
 
-trees_all <- trees_all[sort(c(trees_all$year, trees_all$position)), ]
-
+#density graph of resistance value distribution by year by canopy position
 ggplot(trees_all, aes(x=resist.value)) +
   geom_density() +
   facet_wrap(year ~ position)
+
+#graph showing resistance value by species by year by canopy position
+ggplot(data = trees_all) +
+  aes(x = year, y = resist.value, color = sp) +
+  geom_point() +
+  scale_color_brewer(palette="Paired") +
+  theme_minimal() +
+  facet_wrap(vars(position))
+
+
 
 
 #What this plot does is create a dashed horizontal line representing zero: an average of zero deviation from the best-fit line. It also creates a solid line that represents the residual deviation from the best-fit line.
@@ -435,12 +464,14 @@ abline(h=0, lty=2)
 lines(smooth.spline(fitted(lmm.combined), residuals(lmm.combined)))
 
 #
-boxplot(resist.value ~ position, data=trees_all)
+boxplot(resist.value ~ sp, data=trees_all)
 
 library(plotly)
 p <- qqp(residuals(lmm.full), "norm")
 ggplotly(p)
 
 
+#count of values>1 for each species, and for each canopy position
+#take out 1947, 1911, 1991
 
 
