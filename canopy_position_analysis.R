@@ -210,7 +210,7 @@ setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/t
 
 dirs_subcan <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores", pattern = "_subcanopy.rwl")
 
-dirs_subcan <- dirs_subcan[dirs_subcan != "frni_drop_subcanopy.rwl" & dirs_subcan != "caco_drop_subcanopy.rwl"]
+#dirs_subcan <- dirs_subcan[dirs_subcan != "frni_drop_subcanopy.rwl" & dirs_subcan != "caco_drop_subcanopy.rwl"]
 
 sp_subcan <- gsub("_drop_subcanopy.rwl", "", dirs_subcan)
 
@@ -358,7 +358,7 @@ trees_all$tlp <- turgor$tlp[match(trees_all$sp, turgor$sp)]
 #trees_all <- trees_all[!trees_all$sp == "pist", ]
 
 ##4g. add in ring porosity qualifications ####
-ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "juni",  "litu",  "pist",  "qual",  "qupr",  "quru",  "quve"), "rp" = c("ring", "ring", "ring", "diffuse", "ring", "semi-ring", "diffuse", NA, "ring", "ring", "ring", "ring"))
+ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "juni",  "litu",  "pist",  "qual",  "qupr",  "quru",  "quve", "caco", "frni"), "rp" = c("ring", "ring", "ring", "diffuse", "ring", "semi-ring", "diffuse", NA, "ring", "ring", "ring", "ring", "ring", "ring"))
 
 #combine with trees_all
 trees_all$rp <- ring_porosity$rp[match(trees_all$sp, ring_porosity$sp)]
@@ -375,7 +375,7 @@ lmm <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_a
 summary(lmm)
 
 response <- "resist.value"
-effects <- c("position", "(1 | year)", "(1 | sp / tree)", "rp", "tlp")
+effects <- c("position", "tlp", "rp", "(1 | year)", "(1 | sp / tree)")
 
 # create all combinations of random / fixed effects
 effects_comb <- 
