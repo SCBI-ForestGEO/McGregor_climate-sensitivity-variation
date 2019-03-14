@@ -33,21 +33,64 @@ dist <- seq(0,30, by=0.5)
 dist <- gsub("^", "x", dist)
 scbi.sub[, dist] <- NA
 
+scbi.sub$x0 <- scbi.sub$basal
 
-test <- simple[simple$tree1 == 12165 | simple$tree2 == 12165, ]
+scbi.sub_list <- lapply(scbi.sub$tag, function(x){
+  scbi.sub[scbi.sub$tag == x, ]}) #separate each stem into separate dataframe
+names(scbi.sub_list) <- scbi.sub$tag
 
-for (i in seq(along=colnames(scbi.sub))){
-  for (j in seq(along=unique(simple$tree1))){
-    #for (k in seq(along = colnames(scbi.sub[, 6:ncol(scbi.sub)]))){
-      if(i==k){
-        tree <- unique(simple$tree1)[[j]]
-        test <- simple[simple$tree1 == tree | simple$tree2 == tree, ] #filter by tree
-        test <- test[order(test$distance), ] #order by distance
-        
-        inc_prev <- colnames(scbi.sub[[i-1]])
-        inc_num <- colnames(scbi.sub[, 6:ncol(scbi.sub)])[[k]]
+
+dist_shift <- dist[-1]
+
+for (j in seq(along=unique(simple$tree1))){
+  tree <- unique(simple$tree1)[[j]]
+  test <- simple[simple$tree1 == tree | simple$tree2 == tree, ] #filter by tree
+  test <- test[order(test$distance), ] #order by distance
+  test$diff <- 
+  
+  sapply(1:nrow(test), function(x){
+    test$diff <- ifelse(test[x,1] == tree, test[x,2], 
+                        ifelse(test[x,2] == tree, test[x,1], test$diff))})
+  
+  test$basal_diff <- scbi.sub$basal[match(test$diff, scbi.sub$tag)] 
+  #get basal area for tags that aren't the focal tree
+  
+  test_list <- lapply(unique(test$diff), function(x){
+    test[test$diff == x, ] }) #split test into separate df
+  names(test_list) <- unique(test$diff)
+
+    
+    z <- scbi.sub_list[[grep(tree, scbi.sub_list)]]
+    
+#the below two loops work. The next step is to do some rbinding and figure make sure this entire thing then works.
+    for (q in seq(along=test_list)){
+      w <- test_list[[q]]
+      w$distance <- as.numeric(w$distance)
+      
+      for (i in seq(along=dist_shift)){
+        inc <- dist_shift[[i]]
         inc_num <- gsub("x", "", inc)
-        scbi.sub$inc <- ifelse(test$distance >= inc_num, sum(#basal area of tree corresponding to test$distance, the value in the previous column))
+        inc_num <- as.numeric(inc_num)
+        inc_num_prev <- inc_num - 0.5
+        inc_prev <- gsub("^", "x", inc_num_prev)
+        
+        w <- test[test$distance < inc_num, ]
+        
+          
+        z[, inc] <- ifelse(inc_num < max(w$distance), z[, inc_prev], sum(z$x0, sum(w$basal_diff)))
+      }
+  }
+#        
+       
+        
+        scbi.sub$inc <- ifelse(scbi.sub$tag == tree & test_list[[x]]$distance >= inc_num, 
+                               sum(inc-1, )
+        
+        
+        inc <- colnames(scbi.sub[, 6:ncol(scbi.sub)])[[i]]
+        #inc_prev <- colnames(scbi.sub[[i-1]])
+        
+        scbi.sub$inc <- 
       }
     }
   }
