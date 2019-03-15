@@ -351,7 +351,6 @@ for (i in seq(along=prop$sp)){
 #add in tlp values (from Krista github issue #6 https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/6)
 turgor <- data.frame("sp" = c("cagl", "caovl", "fagr", "fram", "juni", "litu", "pist", "qual", "qupr", "quru", "quve", "caco", "cato", "frni"), "tlp" = c(-2.1282533, -2.24839333, -2.57164, -2.1012133, -2.75936, -1.9212933, NA, -2.58412, -2.3601733, -2.6395867, -2.3879067, -2.1324133, -2.31424, NA))
 
-#combine with trees_all
 trees_all$tlp <- turgor$tlp[match(trees_all$sp, turgor$sp)]
 
 #tlp for pist is NA. Running the models below with this gives the min(AICc) for lmm.combined. Removing pist, however (because of the tlp NA), and running AICc and anova shows the best model to be lmm.random.
@@ -360,8 +359,12 @@ trees_all$tlp <- turgor$tlp[match(trees_all$sp, turgor$sp)]
 ##4g. add in ring porosity qualifications ####
 ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "juni",  "litu",  "pist",  "qual",  "qupr",  "quru",  "quve", "caco", "frni"), "rp" = c("ring", "ring", "ring", "diffuse", "ring", "semi-ring", "diffuse", NA, "ring", "ring", "ring", "ring", "ring", "ring"))
 
-#combine with trees_all
 trees_all$rp <- ring_porosity$rp[match(trees_all$sp, ring_porosity$sp)]
+
+##4h. add in elevation data ####
+elev <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/elevation/full_stem_elevation_2013.csv")
+
+trees_all$elev_m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 ##############################################################################################
 #5. mixed effects model for output of #4. ####
 library(lme4)
@@ -374,10 +377,11 @@ library(car)
 lmm <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
 summary(lmm)
 
+#define response and effects
 response <- "resist.value"
-effects <- c("position", "tlp", "rp", "(1 | year)", "(1 | sp / tree)")
+effects <- c("position", "tlp", "rp", "elev_m", "(1 | year)", "(1 | sp / tree)")
 
-# create all combinations of random / fixed effects
+#create all combinations of random / fixed effects
 effects_comb <- 
   unlist( sapply( seq_len(length(effects)), 
                   function(i) {
