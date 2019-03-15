@@ -377,6 +377,11 @@ library(car)
 lmm <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
 summary(lmm)
 
+#the following ranking and running can also be done in one go with the dredge function from the "MuMln" package. However, it doesn't allow me, for example, to subset out model runs that only include fixed effects, and filtering to only include model runs that contain year.
+library(MuMIn)
+all_effects <- c("resist.value", "~position", "tlp", "rp", "elev_m", "~(1 | year)", "~(1 | sp / tree)")
+dredge(global.model=lmer, beta="sd", fixed = "effects")
+
 #define response and effects
 response <- "resist.value"
 effects <- c("position", "tlp", "rp", "elev_m", "(1 | year)", "(1 | sp / tree)")
@@ -408,9 +413,6 @@ var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
 
 q <- sapply(lmm_all, anova, simplify=FALSE)
 mapply(anova, lmm_all, SIMPLIFY = FALSE)
-
-
-
 
 
 #different model combinations (good for )
