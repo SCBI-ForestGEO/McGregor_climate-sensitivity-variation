@@ -183,6 +183,7 @@ dirs_can <- dirs_can[dirs_can != "frni_canopy.rwl" & dirs_can != "frni_drop_cano
 sp_can <- gsub("_drop_canopy.rwl", "", dirs_can)
 
 canopy <- list()
+widths <- list()
 canopy_table <- NULL
 for (i in seq(along=dirs_can)){
   for (j in seq(along=sp_can)){
@@ -192,6 +193,8 @@ for (i in seq(along=dirs_can)){
       area <- bai.in(rings) #convert to bai.in
       testr <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #get resilience metrics
       canopy[[i]] <- testr
+      
+      widths[[i]] <- rings
       
       testr_table <- data.frame(testr$out)
       testr_table <- testr_table[testr_table$nb.series > 4, ] #remove where there are < 4 series
@@ -204,6 +207,9 @@ for (i in seq(along=dirs_can)){
 }
 values <- paste0(sp_can, "_can_res")
 names(canopy) <- values
+values <- paste0(sp_can, "_canopy")
+names(widths) <- values
+
 
 ##4b. subcanopy ####
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores")
@@ -254,7 +260,8 @@ neil_list <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/McGre
 
 neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
 
-pointer_years <- years_point$yr[c(1:2,5)] #from above in #4c
+pointer_years <- head(years_point$yr) #from above in #4c
+pointer_years <- pointer_years[!pointer_years %in% c(1911, 1947, 1991)]
 
 ##canopy ####
 #this loop says, for the different species in the list "canopy" (names(canopy)), create a dataframe of only the resistance index. Make a list of the colnames, which are the individual trees. Then, assign species identifiers for each one from Neil's core list, subset by the defined pointer years, and melt the data before rbinding.
@@ -365,6 +372,26 @@ trees_all$rp <- ring_porosity$rp[match(trees_all$sp, ring_porosity$sp)]
 elev <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/elevation/full_stem_elevation_2013.csv")
 
 trees_all$elev_m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
+
+##4i. add in dbh in each year 1999 ####
+dbh <- trees_all[, c(1:4)]
+dbh$id <- paste0(dbh$sp, "_", dbh$position)
+dbh$dbh2013 <- elev$dbh[match(dbh$tree, elev$tag)]
+dbh$bark2013 <- 
+
+bark <- data.frame("sp" = c("acru", "fagr", "litu", "nysy", "caco", "cagl", "caovl", "cato", "fram", "juni", "qual", "qupr", "quru", "quve", "ulru"), "bark_mm" = c)
+
+point_cols <- gsub("^", "dbh", pointer_years)
+dbh[, point_cols] <- ""
+
+for (i in seq(along=unique(dbh$id)){
+  id <- unique(dbh$id)[[i]]
+  
+  dbh1966 <- ifelse(dbh$id == id & names(widths) == id, 
+                    )
+})
+dbh1966_rw <- 
+
 ##############################################################################################
 #5. mixed effects model for output of #4. ####
 library(lme4)
