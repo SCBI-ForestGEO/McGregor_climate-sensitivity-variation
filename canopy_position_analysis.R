@@ -387,7 +387,8 @@ trees_all$elev_m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 dbh <- trees_all[, c(1:4)]
 dbh$dbh2013 <- elev$dbh[match(dbh$tree, elev$tag)]
 
-#create df with bark thickness log values and intercept values from Krista's paper https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/1365-2435.12470 (supplemental info)
+#create df with bark thickness log values and intercept values from Krista's paper (supplemental info)
+#https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/1365-2435.12470 
 #fagr does not have bark thickness measured because it is negligible
 bark <- data.frame(
   "sp" = c("acru", "fagr", "litu", "nysy", "caco", "cagl", "caovl", "cato", "fram", "juni", "qual", "qupr", "quru", "quve", "ulru"), 
