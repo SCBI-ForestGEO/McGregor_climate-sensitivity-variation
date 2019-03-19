@@ -386,9 +386,20 @@ trees_all$elev_m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 ##5d. add in dbh in each year 1999 ####
 dbh <- trees_all[, c(1:4)]
 dbh$dbh2013 <- elev$dbh[match(dbh$tree, elev$tag)]
-dbh$bark2013 <- 
 
-bark <- data.frame("sp" = c("acru", "fagr", "litu", "nysy", "caco", "cagl", "caovl", "cato", "fram", "juni", "qual", "qupr", "quru", "quve", "ulru"), "bark_mm" = c)
+#create df with bark thickness log values and intercept values from Krista's paper https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/1365-2435.12470 (supplemental info)
+#fagr does not have bark thickness measured because it is negligible
+bark <- data.frame(
+  "sp" = c("acru", "fagr", "litu", "nysy", "caco", "cagl", "caovl", "cato", "fram", "juni", "qual", "qupr", "quru", "quve", "ulru"), 
+  "bark_thick" = c(-2.564, 0, -0.659, -0.611, -1.917, -0.495, -2.504, -0.945, 0.318, -0.293, -1.231, -0.647, -0.789, 1.5, 1.133),
+  "intercept" = c(0.599, 0, 0.425, 0.413, 0.503, 0.316, 0.703, 0.396, 0.295, 0.385, 0.526, 0.423, 0.341, 0.053, -0.057))
+
+dbh$bark_thick <- bark$bark_thick[match(dbh$sp, bark$sp)]
+dbh$intercept <- bark$intercept[match(dbh$sp, bark$sp)]
+
+#the main equation is based on ring widths. We have determined the equation to be
+# rw(pointer_year) <- 0.5*dbh2013 - bark_thick*(dbh2013^intercept) - sum(rw(pointer_year):rw(end)). The first part of the equation is here. Summing the pointer years happens with the "q" df below in the loop.
+dbh$rw_prelim <- (0.5*dbh$dbh2013) - (dbh$bark_thick*(dbh$dbh2013^dbh$intercept))
 
 dbh$dbh_old <- "0" #in prep for below
 dbh$dbh_old <- as.numeric(dbh$dbh_old)
@@ -411,12 +422,11 @@ for (i in seq(along=widths)){
         q <- data.frame(sapply(pointer_years, function(x){
           rw <- df[rownames(df)>=x, ]
           ifelse(dbh$year == x & dbh$tree == ring_ind, 
-                 sum(rw[, ring_col], na.rm=TRUE), 0)
+                 dbh$rw_prelim - sum(rw[, ring_col], na.rm=TRUE), 0)
         }))
         
         q$dbh_old <- q[,1] +q[,2] + q[,3] #add columns together
         dbh$dbh_old <- dbh$dbh_old + q$dbh_old #combine with dbh
-      
       }
     }
   }
@@ -444,7 +454,7 @@ dredge(global.model=lmer, beta="sd", fixed = "effects")
 
 #define response and effects
 response <- "resist.value"
-effects <- c("position", "tlp", "rp", "elev_m", "(1 | year)", "(1 | sp / tree)")
+effects <- c("position", "tlp", "rp", "elev_m", "dbh_old", "(1 | year)", "(1 | sp / tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
