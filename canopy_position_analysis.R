@@ -183,7 +183,7 @@ dirs_can <- dirs_can[dirs_can != "frni_canopy.rwl" & dirs_can != "frni_drop_cano
 sp_can <- gsub("_drop_canopy.rwl", "", dirs_can)
 
 canopy <- list()
-widths <- list()
+widths_can <- list()
 canopy_table <- NULL
 for (i in seq(along=dirs_can)){
   for (j in seq(along=sp_can)){
@@ -193,8 +193,7 @@ for (i in seq(along=dirs_can)){
       area <- bai.in(rings) #convert to bai.in
       testr <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #get resilience metrics
       canopy[[i]] <- testr
-      
-      widths[[i]] <- rings
+      widths_can[[i]] <- rings
       
       testr_table <- data.frame(testr$out)
       testr_table <- testr_table[testr_table$nb.series > 4, ] #remove where there are < 4 series
@@ -208,7 +207,7 @@ for (i in seq(along=dirs_can)){
 values <- paste0(sp_can, "_can_res")
 names(canopy) <- values
 values <- paste0(sp_can, "_canopy")
-names(widths) <- values
+names(widths_can) <- values
 
 
 ##4b. subcanopy ####
@@ -221,6 +220,7 @@ dirs_subcan <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-For
 sp_subcan <- gsub("_drop_subcanopy.rwl", "", dirs_subcan)
 
 subcanopy <- list()
+widths_sub <- list()
 subcanopy_table <- NULL
 for (i in seq(along=dirs_subcan)){
   for (j in seq(along=sp_subcan)){
@@ -230,6 +230,7 @@ for (i in seq(along=dirs_subcan)){
       area <- bai.in(rings) #convert to bai.in
       test <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #get resilience metrics
       subcanopy[[i]] <- test
+      widths_sub[[i]] <- rings
 
       test_table <- data.frame(test$out)
       test_table <- test_table[test_table$nb.series > 4, ] #remove where there are < 4 series
@@ -242,6 +243,12 @@ for (i in seq(along=dirs_subcan)){
 }
 values_sub <- paste0(sp_subcan, "_subcan_res")
 names(subcanopy) <- values_sub
+values <- paste0(sp_subcan, "_subcanopy")
+names(widths_sub) <- values
+
+widths <- c(widths_can, widths_sub) #combine into one, then delete. For use in #5d
+widths_can <- NULL
+widths_subcan <- NULL
 
 ##4c. df for pointer years of all trees combined ####
 full_ind <- rbind(canopy_table, subcanopy_table) #full table of indices for canopy and subcanopy cores
@@ -263,7 +270,7 @@ neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist
 pointer_years <- head(years_point$yr) #from above in #4c
 pointer_years <- pointer_years[!pointer_years %in% c(1911, 1947, 1991)]
 
-##canopy ####
+###canopy ####
 #this loop says, for the different species in the list "canopy" (names(canopy)), create a dataframe of only the resistance index. Make a list of the colnames, which are the individual trees. Then, assign species identifiers for each one from Neil's core list, subset by the defined pointer years, and melt the data before rbinding.
 
 tag_n <- names(canopy)
@@ -295,7 +302,7 @@ for (i in seq(along=1:length(tag_n))){
 }
 
 
-##subcanopy ####
+###subcanopy ####
 #this loop says, for the different species in the list "subcanopy" (names(subcanopy)), create a dataframe of only the resistance index. Make a list of the colnames, which are the individual trees. Then, assign species identifiers for each one from Neil's core list, subset by the defined pointer years, and melt the data before rbinding.
 
 tag_n <- names(subcanopy)
@@ -326,7 +333,7 @@ for (i in seq(along=1:length(tag_n))){
     trees_subcanopy <- rbind(trees_subcanopy, change)
 }
 
-##rbind together ####
+###rbind together ####
 trees_all <- rbind(trees_canopy, trees_subcanopy)
 trees_all$year <- as.numeric(trees_all$year)
 
@@ -354,7 +361,10 @@ for (i in seq(along=prop$sp)){
 }
 
 
-##4f. add in turgor loss point values ####
+
+##########################################################################################
+#5. add in climate and growth variables ####
+##5a. add in turgor loss point values ####
 #add in tlp values (from Krista github issue #6 https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/6)
 turgor <- data.frame("sp" = c("cagl", "caovl", "fagr", "fram", "juni", "litu", "pist", "qual", "qupr", "quru", "quve", "caco", "cato", "frni"), "tlp" = c(-2.1282533, -2.24839333, -2.57164, -2.1012133, -2.75936, -1.9212933, NA, -2.58412, -2.3601733, -2.6395867, -2.3879067, -2.1324133, -2.31424, NA))
 
@@ -363,42 +373,65 @@ trees_all$tlp <- turgor$tlp[match(trees_all$sp, turgor$sp)]
 #tlp for pist is NA. Running the models below with this gives the min(AICc) for lmm.combined. Removing pist, however (because of the tlp NA), and running AICc and anova shows the best model to be lmm.random.
 #trees_all <- trees_all[!trees_all$sp == "pist", ]
 
-##4g. add in ring porosity qualifications ####
+##5b. add in ring porosity qualifications ####
 ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "juni",  "litu",  "pist",  "qual",  "qupr",  "quru",  "quve", "caco", "frni"), "rp" = c("ring", "ring", "ring", "diffuse", "ring", "semi-ring", "diffuse", NA, "ring", "ring", "ring", "ring", "ring", "ring"))
 
 trees_all$rp <- ring_porosity$rp[match(trees_all$sp, ring_porosity$sp)]
 
-##4h. add in elevation data ####
+##5c. add in elevation data ####
 elev <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/elevation/full_stem_elevation_2013.csv")
 
 trees_all$elev_m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
-##4i. add in dbh in each year 1999 ####
+##5d. add in dbh in each year 1999 ####
 dbh <- trees_all[, c(1:4)]
-dbh$id <- paste0(dbh$sp, "_", dbh$position)
 dbh$dbh2013 <- elev$dbh[match(dbh$tree, elev$tag)]
 dbh$bark2013 <- 
 
 bark <- data.frame("sp" = c("acru", "fagr", "litu", "nysy", "caco", "cagl", "caovl", "cato", "fram", "juni", "qual", "qupr", "quru", "quve", "ulru"), "bark_mm" = c)
 
-point_cols <- gsub("^", "dbh", pointer_years)
-dbh[, point_cols] <- ""
+dbh$dbh_old <- "0" #in prep for below
+dbh$dbh_old <- as.numeric(dbh$dbh_old)
 
-for (i in seq(along=unique(dbh$id)){
-  id <- unique(dbh$id)[[i]]
+for (i in seq(along=widths)){
+  df <- widths[[i]] #the list "widths" comes from #4a-4b
+  colnames(df) <- gsub("A", "", colnames(df)) #remove "A"
+  colnames(df) <- gsub("^0", "", colnames(df)) #remove leading 0
+
+  cols <- colnames(df) #define cols for below
+  colnames(df) <- gsub("^", "x", colnames(df)) #add "x" to make calling colnames below feasible
   
-  dbh1966 <- ifelse(dbh$id == id & names(widths) == id, 
-                    )
-})
-dbh1966_rw <- 
+  for (j in seq(along=cols)){
+    for (k in seq(along=colnames(df))){
+      ring_ind <- cols[[j]]
+      ring_col <- colnames(df)[[k]]
+      
+      if(j==k){
+        #the output of this loop is 3 separate columns for each year's old dbh, hence why it is set to q as a dataframe before being combined below
+        q <- data.frame(sapply(pointer_years, function(x){
+          rw <- df[rownames(df)>=x, ]
+          ifelse(dbh$year == x & dbh$tree == ring_ind, 
+                 sum(rw[, ring_col], na.rm=TRUE), 0)
+        }))
+        
+        q$dbh_old <- q[,1] +q[,2] + q[,3] #add columns together
+        dbh$dbh_old <- dbh$dbh_old + q$dbh_old #combine with dbh
+      
+      }
+    }
+  }
+}
 
+# check <- dbh[dbh$dbh_old == 0, ] #check if any tree was missed
+
+trees_all$dbh_old <- dbh$dbh_old
 ##############################################################################################
-#5. mixed effects model for output of #4. ####
+#6. mixed effects model for output of #5. ####
 library(lme4)
 library(AICcmodavg)
 library(car)
 
-##5a. Determine best model to use with AICc ####
+##6a. Determine best model to use with AICc ####
 
 #resist.value is response variable, position is a fixed effect, year is a random effect, and species is a nested random effect with tree (each species has specific trees)
 lmm <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
@@ -470,7 +503,7 @@ var_aic <- aictab(cand.models, second.ord=TRUE, sort=TRUE)
 aic_top <- var_aic %>%
   filter(AICc == min(AICc))
 
-##5b. determine the best model from anova (using the model candidates above) ####
+##6b. determine the best model from anova (using the model candidates above) ####
 #interestingly, this gives a similar result to running AICc, with Pr(>Chisq) acting as a kind of p-value for showing which model is best to use.
 anova(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full)
       #lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full) 
@@ -486,7 +519,7 @@ anova(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lm
 #   ---
 #   Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-##5c. Run the best model, changing REML to TRUE ####
+##6c. Run the best model, changing REML to TRUE ####
 lmm.full <- lmer(resist.value ~ position + (1 | sp) + (1 | year), data=trees_all)
 summary(lmm.full)
 # Fixed effects:
@@ -503,7 +536,8 @@ q <- qqp(residuals(lmm.full), "norm", main="resistance_residuals")
 print(q)
 
 
-#6. interpreting the outcomes ####
+########################################################################################
+#7. interpreting the outcomes ####
 library(ggplot2)
 
 trees_all <- group_by(trees_all, year, position)
