@@ -469,11 +469,13 @@ effects_comb <-
                   }))
 
 # pair response with effect and sub out combinations that don't include random effects
+#in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
 var_comb <- expand.grid(response, effects_comb) 
 var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
 var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
 
 # formulas for all combinations. $Var1 is the response, and $Var2 is the effect
+# for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
 formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
 
 # create list of model outputs
@@ -556,7 +558,7 @@ qqline(resid(lmm_all[[31]]))
 
 
 #this plot shows regression line for certain variables against resistance values, separated by year and species
-ggplot(trees_all, aes(x = rp, y = resist.value, colour = year)) +
+ggplot(trees_all, aes(x = dbh_old, y = resist.value, colour = year)) +
   facet_wrap(~sp, nrow=4) +
   geom_point() +
   theme_classic() +
