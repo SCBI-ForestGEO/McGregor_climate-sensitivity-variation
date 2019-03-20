@@ -436,11 +436,15 @@ for (i in seq(along=widths)){
 # check <- dbh[dbh$dbh_old == 0, ] #check if any tree was missed
 
 trees_all$dbh_old <- dbh$dbh_old
+##5e. remove all NAs ####
+trees_all <- trees_all[complete.cases(trees_all), ]
 ##############################################################################################
 #6. mixed effects model for output of #5. ####
 library(lme4)
-library(AICcmodavg)
+library(AICcmodavg) #aictab function
 library(car)
+library(piecewiseSEM) #for R^2 values for all model outputs in a list
+library(MuMIn) #for R^2 values of one model output
 
 ##6a. Determine best model to use with AICc ####
 
@@ -448,14 +452,14 @@ library(car)
 lmm <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
 summary(lmm)
 
-#the following ranking and running can also be done in one go with the dredge function from the "MuMln" package. However, it doesn't allow me, for example, to subset out model runs that only include fixed effects, and filtering to only include model runs that contain year.
+#the following ranking and running can also be done in one go with the dredge function from the "MuMIn" package. However, it doesn't allow me, for example, to subset out model runs that only include fixed effects, and filtering to only include model runs that contain year.
 library(MuMIn)
 all_effects <- c("resist.value", "~position", "tlp", "rp", "elev_m", "~(1 | year)", "~(1 | sp / tree)")
 dredge(global.model=lmer, beta="sd", fixed = "effects")
 
 #define response and effects
 response <- "resist.value"
-effects <- c("position", "tlp", "rp", "elev_m", "dbh_old", "(1 | year)", "(1 | sp / tree)")
+effects <- c("position", "tlp", "rp", "elev_m", "dbh_old", "year", "(1 | sp / tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -481,34 +485,11 @@ lmm_all <- lapply(formula_vec, function(x){
 names(lmm_all) <- formula_vec
 
 var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+
 
 q <- sapply(lmm_all, anova, simplify=FALSE)
 mapply(anova, lmm_all, SIMPLIFY = FALSE)
-
-
-#different model combinations (good for )
-lmm.nullsp <- lmer(resist.value ~ 1 + (1 | sp / tree), data=trees_all, REML=FALSE)
-lmm.nullyear <- lmer(resist.value ~ 1 + (1 | year), data=trees_all, REML=FALSE)
-lmm.random <- lmer(resist.value ~ 1 + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
-lmm.positionsp <- lmer(resist.value ~ position + (1 | sp / tree), data=trees_all, REML=FALSE)
-lmm.positionyear <- lmer(resist.value ~ position + (1 | year), data=trees_all, REML=FALSE)
-lmm.full <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
-
-#add a climate variable to the model
-lmm.rpsp <- lmer(resist.value ~ rp + (1 | sp), data=trees_all, REML=FALSE)
-lmm.rpyear <- lmer(resist.value ~ rp + (1 | year), data=trees_all, REML=FALSE)
-#lmm.fixed <- lmer(resist.value ~ position + rp, data=trees_all, REML=FALSE)
-#not technically a mixed effects model because no random effects
-lmm.fixedsp <- lmer(resist.value ~ position + rp + (1 | sp), data=trees_all, REML=FALSE)
-lmm.fixedyear <- lmer(resist.value ~ position + rp + (1 | year), data=trees_all, REML=FALSE)
-lmm.combined <- lmer(resist.value ~ position + rp + (1 | sp) + (1 | year), data=trees_all, REML=FALSE)
-
-cand.models <- list(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full, lmm.rpsp, lmm.rpyear, lmm.fixedsp, lmm.fixedyear, lmm.combined)
-names(cand.models) <- c("lmm.nullsp", "lmm.nullyear", "lmm.random", "lmm.positionsp", "lmm.positionyear", "lmm.full", "lmm.rpsp", "lmm.rpyear", "lmm.fixedsp", "lmm.fixedyear", "lmm.combined")
-
-#this function looks through all the models above to say what is the best one (what fits the best)
-var_aic <- aictab(cand.models, second.ord=TRUE, sort=TRUE)
- 
 
 #subset by only the top result (the minimum AICc value)
 aic_top <- var_aic %>%
@@ -566,12 +547,26 @@ ggplot(data = trees_all) +
   theme_minimal() +
   facet_wrap(vars(position))
 
+#graphs looking at results from "best" AICc model (residuals, norm line, etc)
+plot(lmm_all[[31]])
+resid(lmm_all[[31]])
+plot(density(resid(lmm_all[[31]]))) #A density plot
+qqnorm(resid(lmm_all[[31]])) # A quantile normal plot - good for checking normality
+qqline(resid(lmm_all[[31]]))
 
+
+#this plot shows regression line for certain variables against resistance values, separated by year and species
+ggplot(trees_all, aes(x = rp, y = resist.value, colour = year)) +
+  facet_wrap(~sp, nrow=4) +
+  geom_point() +
+  theme_classic() +
+  geom_line(data = cbind(trees_all, pred = predict(lmm_all[[31]])), aes(y = pred)) +
+  theme(legend.position = "right")
 
 
 #What this plot does is create a dashed horizontal line representing zero: an average of zero deviation from the best-fit line. It also creates a solid line that represents the residual deviation from the best-fit line.
 # If the solid line doesn't cover the dashed line, that would mean the best-fit line does not fit particularly well.
-plot(fitted(lmm_all[[13]]), residuals(lmm_all[[13]]), xlab = "Fitted Values", ylab = "Residuals")
+plot(fitted(lmm_all[[32]]), residuals(lmm_all[[32]]), xlab = "Fitted Values", ylab = "Residuals")
 abline(h=0, lty=2)
 lines(smooth.spline(fitted(lmm_all[[13]]), residuals(lmm_all[[13]])))
 
