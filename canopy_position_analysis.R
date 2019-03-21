@@ -436,6 +436,8 @@ for (i in seq(along=widths)){
 # check <- dbh[dbh$dbh_old == 0, ] #check if any tree was missed
 
 trees_all$dbh_old <- dbh$dbh_old
+trees_all$dbh_old <- ifelse(trees_all$dbh_old < 0, 0, trees_all$dbh_old)
+trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, ln(trees_all$dbh_old))
 ##5e. remove all NAs ####
 trees_all <- trees_all[complete.cases(trees_all), ]
 ##############################################################################################
@@ -459,7 +461,7 @@ dredge(global.model=lmer, beta="sd", fixed = "effects")
 
 #define response and effects
 response <- "resist.value"
-effects <- c("position", "tlp", "rp", "elev_m", "dbh_old", "year", "(1 | sp / tree)")
+effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "year", "(1 | sp / tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -558,11 +560,11 @@ qqline(resid(lmm_all[[31]]))
 
 
 #this plot shows regression line for certain variables against resistance values, separated by year and species
-ggplot(trees_all, aes(x = dbh_old, y = resist.value, colour = year)) +
+ggplot(trees_all, aes(x = dbh_ln, y = resist.value, colour = year)) +
   facet_wrap(~sp, nrow=4) +
   geom_point() +
   theme_classic() +
-  geom_line(data = cbind(trees_all, pred = predict(lmm_all[[31]])), aes(y = pred)) +
+  geom_line(data = cbind(trees_all, pred = predict(lmm_all[[32]])), aes(y = pred)) +
   theme(legend.position = "right")
 
 
