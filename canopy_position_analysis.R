@@ -442,6 +442,8 @@ trees_all$dbh_old <- ifelse(trees_all$dbh_old < 0, 0, trees_all$dbh_old)
 trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, ln(trees_all$dbh_old))
 ##5e. remove all NAs ####
 trees_all <- trees_all[complete.cases(trees_all), ]
+##5f. remove resistance values >2 ####
+trees_all <- trees_all[trees_all$resist.value <=2,]
 ##############################################################################################
 #6. mixed effects model for output of #5. ####
 library(lme4)
