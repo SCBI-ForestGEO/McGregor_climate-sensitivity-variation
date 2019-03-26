@@ -440,6 +440,7 @@ for (i in seq(along=widths)){
 trees_all$dbh_old <- dbh$dbh_old
 trees_all$dbh_old <- ifelse(trees_all$dbh_old < 0, 0, trees_all$dbh_old)
 trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, ln(trees_all$dbh_old))
+
 ##5e. remove all NAs ####
 trees_all <- trees_all[complete.cases(trees_all), ]
 ##5f. remove resistance values >2 ####
@@ -460,12 +461,12 @@ summary(lmm)
 
 #the following ranking and running can also be done in one go with the dredge function from the "MuMIn" package. However, it doesn't allow me, for example, to subset out model runs that only include fixed effects, and filtering to only include model runs that contain year.
 library(MuMIn)
-all_effects <- c("resist.value", "~position", "tlp", "rp", "elev_m", "~(1 | year)", "~(1 | sp / tree)")
+all_effects <- c("resist.value", "~position", "tlp", "rp", "elev_m", "year", "~(1 | sp / tree)")
 dredge(global.model=lmer, beta="sd", fixed = "effects")
 
 #define response and effects
 response <- "resist.value"
-effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "year", "(1 | sp / tree)")
+effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln","year", "(1 | sp / tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
