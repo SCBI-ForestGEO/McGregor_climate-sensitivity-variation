@@ -362,6 +362,129 @@ for (i in seq(along=prop$sp)){
 
 
 
+##4f. comparing residuals of PDSI values and BAI of all trees ####
+library(tools)
+library(dplyr)
+
+setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores")
+
+dirs_can <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores", pattern = "_canopy.rwl")
+
+dirs_can <- dirs_can[dirs_can != "frni_canopy.rwl" & dirs_can != "frni_drop_canopy.rwl" & dirs_can != "caco_drop_canopy.rwl"]
+
+sp_can <- gsub("_drop_canopy.rwl", "", dirs_can)
+
+bai_table_can <- NULL
+for (i in seq(along=dirs_can)){
+  for (j in seq(along=sp_can)){
+    if (i==j){
+      file <- dirs_can[[i]]
+      rings <- read.rwl(file) #read in rwl file
+      area <- bai.in(rings) #convert to bai.in
+      
+      ##transpose the dataframe
+      transorg <- transpose(area)
+      rownames(transorg) <- colnames(area)
+      colnames(transorg) <- rownames(area)
+      transorg <- setDT(transorg, keep.rownames = TRUE)[]
+      setnames(transorg,1,"tag")
+      
+      #create column with only numeric tag numbers, then order
+      transorg$tag <- gsub("A", "", transorg$tag) 
+      transorg$tag <- as.numeric(transorg$tag)
+      transorg <- transorg %>% select(tag,everything())
+      formatC(transorg$tag, width=6,format="d", flag="0") 
+      #a shorter version of this is sprintf("%06d", transorg$tag)
+      
+      
+      bai_table_can <- rbind(bai_table_can, transorg, fill=TRUE)
+    }
+  }
+}
+
+setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores")
+
+dirs_subcan <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores", pattern = "_subcanopy.rwl")
+
+#dirs_subcan <- dirs_subcan[dirs_subcan != "frni_drop_subcanopy.rwl" & dirs_subcan != "caco_drop_subcanopy.rwl"]
+
+sp_subcan <- gsub("_drop_subcanopy.rwl", "", dirs_subcan)
+
+bai_table_sub <- NULL
+for (i in seq(along=dirs_subcan)){
+  for (j in seq(along=sp_subcan)){
+    if (i==j){
+      file <- dirs_subcan[[i]]
+      rings <- read.rwl(file) #read in rwl file
+      area <- bai.in(rings) #convert to bai.in
+      
+      ##transpose the dataframe
+      transorg <- transpose(area)
+      rownames(transorg) <- colnames(area)
+      colnames(transorg) <- rownames(area)
+      transorg <- setDT(transorg, keep.rownames = TRUE)[]
+      setnames(transorg,1,"tag")
+      
+      #create column with only numeric tag numbers, then order
+      transorg$tag <- gsub("A", "", transorg$tag) 
+      transorg$tag <- as.numeric(transorg$tag)
+      transorg <- transorg %>% select(tag,everything())
+      formatC(transorg$tag, width=6,format="d", flag="0") 
+      #a shorter version of this is sprintf("%06d", transorg$tag)
+      
+      
+      bai_table_sub <- rbind(bai_table_sub, transorg, fill=TRUE)
+    }
+  }
+}
+
+bai_table <- rbind(bai_table_can, bai_table_sub, fill=TRUE)
+
+q <- data.frame(colMeans(bai_table, na.rm=TRUE)) #remove tag name
+q <- setDT(q, keep.rownames = TRUE)[]
+q <- q[-1, ]
+setnames(q,1,"year")
+setnames(q,2,"bai")
+q$year <- as.numeric(q$year)
+q <- q[order(year)]
+q <- q[-c(234:241), ] #values after 2009 drop off considerably and affect data
+
+#shows relationship between bai and year
+ggplot(data = q) +
+  aes(x = year, y = bai) +
+  geom_point(color = "#0c4c8a") +
+  theme_minimal()
+
+library(stats)
+testMod <- lm(bai~year, data=q)
+print(testMod)
+summary(testMod)
+
+q$resid <- residuals(testMod)
+q_plot <- ggplot(data = q) +
+  aes(x = year, y = resid) +
+  geom_line(color = "#0c4c8a") +
+  theme_minimal()
+
+#plot and manually subset to 1950+
+plot_ly(q, x=q$year, y=q$resid, type="scatter", mode="lines")
+
+pdsi <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/McGregor_climate-sensitivity-variation/pdsi_value_comparison.csv")
+
+pdsi_true <- data.frame("year" = 1850:2017, "noaa_va_pdsi" = "")
+pdsi_true$noaa_va_pdsi <- colMeans(matrix(pdsi$noaa_va_pdsi, nrow=12))
+pdsi_true <- pdsi_true[-c(161:168), ]
+pdsi_true <- pdsi_true[complete.cases(pdsi_true), ]
+testMod1 <- lm(noaa_va_pdsi~year, data=pdsi_true)
+pdsi_true$resid <- residuals(testMod1)
+ggplot(data = pdsi_true) +
+  aes(x = year, y = resid) +
+  geom_line(color = "#0c4c8a") +
+  theme_minimal()
+
+#plot and manually subset to 1950+
+plot_ly(pdsi_true, x=pdsi_true$year, y=pdsi_true$resid, type="scatter", mode="line")
+
 ##########################################################################################
 #5. add in climate and growth variables ####
 library(SciViews)
@@ -454,19 +577,9 @@ library(piecewiseSEM) #for R^2 values for all model outputs in a list
 library(MuMIn) #for R^2 values of one model output
 
 ##6a. Determine best model to use with AICc ####
-
-#resist.value is response variable, position is a fixed effect, year is a random effect, and species is a nested random effect with tree (each species has specific trees)
-lmm <- lmer(resist.value ~ position + (1 | sp / tree) + (1 | year), data=trees_all, REML=FALSE)
-summary(lmm)
-
-#the following ranking and running can also be done in one go with the dredge function from the "MuMIn" package. However, it doesn't allow me, for example, to subset out model runs that only include fixed effects, and filtering to only include model runs that contain year.
-library(MuMIn)
-all_effects <- c("resist.value", "~position", "tlp", "rp", "elev_m", "year", "~(1 | sp / tree)")
-dredge(global.model=lmer, beta="sd", fixed = "effects")
-
 #define response and effects
 response <- "resist.value"
-effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln","year", "(1 | sp / tree)")
+effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "year", "(1 | sp)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -546,7 +659,7 @@ trees_all <- group_by(trees_all, year, position)
 #density graph of resistance value distribution by year by canopy position
 ggplot(trees_all, aes(x=resist.value)) +
   geom_density() +
-  facet_wrap(year ~ position)
+  facet_wrap(year ~ position, ncol=2)
 
 #graph showing resistance value by species by year by canopy position
 ggplot(data = trees_all) +
