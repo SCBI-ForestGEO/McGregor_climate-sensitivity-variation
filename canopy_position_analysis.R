@@ -678,19 +678,31 @@ qqline(resid(lmm_all[[31]]))
 
 
 #this plot shows regression line for certain variables against resistance values, separated by year and species
-ggplot(trees_all, aes(x = dbh_ln, y = resist.value, colour = year)) +
-  facet_wrap(~sp, nrow=4) +
+ggplot(trees_all, aes(x = dbh_ln, y = resist.value, color=year)) +
+  geom_point() +
+  #scale_color_manual(values=c("skyblue", "blue", "navy")) + 
+  scale_color_distiller(palette = "Spectral") +
+  theme_classic() +
+  #geom_line(data = cbind(trees_all, pred = predict(lmm_all[[32]])), aes(y = pred)) +
+  geom_smooth(method="lm") +
+  ylab("(growth during drought) / (growth prior to drought)") +
+  xlab("DBH (log-transformed)") +
+  facet_wrap(~sp, nrow=4)
+
+#regression line with all data values together
+ggplot(trees_all, aes(x = tlp, y = resist.value)) +
   geom_point() +
   theme_classic() +
-  geom_line(data = cbind(trees_all, pred = predict(lmm_all[[32]])), aes(y = pred)) +
-  theme(legend.position = "right")
+  geom_smooth(method="lm") +
+  ylab("(growth during drought) / (growth prior to drought)") +
+  xlab("TLP")
 
 
 #What this plot does is create a dashed horizontal line representing zero: an average of zero deviation from the best-fit line. It also creates a solid line that represents the residual deviation from the best-fit line.
 # If the solid line doesn't cover the dashed line, that would mean the best-fit line does not fit particularly well.
 plot(fitted(lmm_all[[32]]), residuals(lmm_all[[32]]), xlab = "Fitted Values", ylab = "Residuals")
 abline(h=0, lty=2)
-lines(smooth.spline(fitted(lmm_all[[13]]), residuals(lmm_all[[13]])))
+lines(smooth.spline(fitted(lmm_all[[32]]), residuals(lmm_all[[32]])))
 
 #
 boxplot(resist.value ~ sp, data=trees_all)
