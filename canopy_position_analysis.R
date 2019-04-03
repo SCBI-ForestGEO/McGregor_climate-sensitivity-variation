@@ -568,6 +568,11 @@ trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, ln(trees_all$dbh_old))
 trees_all <- trees_all[complete.cases(trees_all), ]
 ##5f. remove resistance values >2 ####
 trees_all <- trees_all[trees_all$resist.value <=2,]
+##5g. subset to only include certain years ####
+new <- trees_all[trees_all$year = 1999, ]
+
+old <- trees_all[trees_all$year = 1966, ]
+
 ##############################################################################################
 #6. mixed effects model for output of #5. ####
 library(lme4)
@@ -579,7 +584,7 @@ library(MuMIn) #for R^2 values of one model output
 ##6a. Determine best model to use with AICc ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "year", "(1 | sp)")
+effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "(1 | sp)") #add in year if doing all years (and below for var_comb)
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -592,7 +597,7 @@ effects_comb <-
 #in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
 var_comb <- expand.grid(response, effects_comb) 
 var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
-var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+# <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
 
 # formulas for all combinations. $Var1 is the response, and $Var2 is the effect
 # for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
@@ -609,6 +614,8 @@ names(lmm_all) <- formula_vec
 var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
 r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
 
+best <- lmm_all[[30]]
+coef(summary(best))[ , "Estimate"]
 
 q <- sapply(lmm_all, anova, simplify=FALSE)
 mapply(anova, lmm_all, SIMPLIFY = FALSE)
