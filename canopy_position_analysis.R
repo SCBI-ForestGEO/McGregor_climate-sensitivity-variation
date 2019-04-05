@@ -173,6 +173,8 @@ library(pointRes)
 library(dplR)
 library(data.table)
 
+##to be clear, I wrote this code before I realized that some of the work done in these loops had already been done in the outputs of res.comp (specifically out.select). However, since the code runs well, and I double-checked that it was giving the same outputs as analyzing out.select, I'm keeping it as is.
+
 ##4a. canopy ####
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores")
 
@@ -259,6 +261,11 @@ years_point <- count(pointers, vars=year) #counts the occurrences of each unique
 colnames(years_point) <- c("yr", "n.pointer")
 years_point <- years_point[order(years_point$n.pointer, decreasing=TRUE), ]
 
+#top drought years by species and canopy position
+years_bysp <- pointers[pointers$year %in% c(1966, 1977, 1999), ]
+years_bysp <- years_bysp[, c(1,13,14,2:12)]
+years_bysp <- years_bysp[order(years_bysp$year, years_bysp$sp), ]
+
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/McGregor_climate-sensitivity-variation")
 #write.csv(pointers, "occurrence_of_pointer_yrs.csv", row.names=FALSE)
 
@@ -267,8 +274,9 @@ neil_list <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/McGre
 
 neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
 
-pointer_years <- head(years_point$yr) #from above in #4c
-pointer_years <- pointer_years[!pointer_years %in% c(1911, 1947, 1991)]
+# pointer_years <- head(years_point$yr) #from above in #4c
+# pointer_years <- pointer_years[!pointer_years %in% c(1911, 1947, 1991)]
+pointer_years <- c(1964, 1966, 1977, 1999)
 
 ###canopy ####
 #this loop says, for the different species in the list "canopy" (names(canopy)), create a dataframe of only the resistance index. Make a list of the colnames, which are the individual trees. Then, assign species identifiers for each one from Neil's core list, subset by the defined pointer years, and melt the data before rbinding.
@@ -495,8 +503,18 @@ turgor <- data.frame("sp" = c("cagl", "caovl", "fagr", "fram", "juni", "litu", "
 
 trees_all$tlp <- turgor$tlp[match(trees_all$sp, turgor$sp)]
 
-#tlp for pist is NA. Running the models below with this gives the min(AICc) for lmm.combined. Removing pist, however (because of the tlp NA), and running AICc and anova shows the best model to be lmm.random.
+#tlp for pist is NA. Removing pist (because of the tlp NA) gives different results.
 #trees_all <- trees_all[!trees_all$sp == "pist", ]
+
+tlp_test <- trees_all[!duplicated(trees_all$tree), ]
+tlp_test$tree <- as.numeric(tlp_test$tree)
+
+ggplot(data = tlp_test) +
+  aes(x = position, y = tlp) +
+  geom_boxplot(fill = "#0c4c8a") +
+  theme_minimal()
+  # facet_wrap(vars(year))
+
 
 ##5b. add in ring porosity qualifications ####
 ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "juni",  "litu",  "pist",  "qual",  "qupr",  "quru",  "quve", "caco", "frni"), "rp" = c("ring", "ring", "ring", "diffuse", "ring", "semi-ring", "diffuse", NA, "ring", "ring", "ring", "ring", "ring", "ring"))
@@ -551,7 +569,8 @@ for (i in seq(along=widths)){
                  dbh$rw_prelim - sum(rw[, ring_col], na.rm=TRUE), 0)
         }))
         
-        q$dbh_old <- q[,1] +q[,2] + q[,3] #add columns together
+        # q$dbh_old <- q[,1] +q[,2] + q[,3] #add columns together
+        q$dbh_old <- q[,1] +q[,2] + q[,3] + q[,4]
         dbh$dbh_old <- dbh$dbh_old + q$dbh_old #combine with dbh
       }
     }
@@ -569,9 +588,10 @@ trees_all <- trees_all[complete.cases(trees_all), ]
 ##5f. remove resistance values >2 ####
 trees_all <- trees_all[trees_all$resist.value <=2,]
 ##5g. subset to only include certain years ####
-new <- trees_all[trees_all$year = 1999, ]
-
-old <- trees_all[trees_all$year = 1966, ]
+x1964 <- trees_all[trees_all$year == 1964, ]
+x1966 <- trees_all[trees_all$year == 1966, ]
+x1977 <- trees_all[trees_all$year == 1977, ]
+x1999 <- trees_all[trees_all$year == 1999, ]
 
 ##############################################################################################
 #6. mixed effects model for output of #5. ####
@@ -584,7 +604,8 @@ library(MuMIn) #for R^2 values of one model output
 ##6a. Determine best model to use with AICc ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "(1 | sp)") #add in year if doing all years (and below for var_comb)
+effects <- c("elev_m*dbh_ln","(1|sp/tree)")
+# effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "year", "(1 | sp)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -597,7 +618,7 @@ effects_comb <-
 #in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
 var_comb <- expand.grid(response, effects_comb) 
 var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
-# <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+# var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
 
 # formulas for all combinations. $Var1 is the response, and $Var2 is the effect
 # for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
@@ -611,10 +632,12 @@ lmm_all <- lapply(formula_vec, function(x){
 })
 names(lmm_all) <- formula_vec
 
+lm_new <- lm(resist.value ~ dbh_ln + tlp, data=trees_all, REML=FALSE)
+
 var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
 r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
 
-best <- lmm_all[[30]]
+best <- lmm_all[[2]]
 coef(summary(best))[ , "Estimate"]
 
 q <- sapply(lmm_all, anova, simplify=FALSE)
@@ -685,7 +708,7 @@ qqline(resid(lmm_all[[31]]))
 
 
 #this plot shows regression line for certain variables against resistance values, separated by year and species
-ggplot(trees_all, aes(x = dbh_ln, y = resist.value, color=year)) +
+ggplot(trees_all, aes(x = tlp, y = resist.value, color=year)) +
   geom_point() +
   #scale_color_manual(values=c("skyblue", "blue", "navy")) + 
   scale_color_distiller(palette = "Spectral") +
