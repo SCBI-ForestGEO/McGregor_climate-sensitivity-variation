@@ -522,7 +522,9 @@ ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "
 trees_all$rp <- ring_porosity$rp[match(trees_all$sp, ring_porosity$sp)]
 
 #gives count of each rp value
-ggplot(data = trees_all) +
+rp_test <- trees_all[!duplicated(trees_all$tree), ]
+rp_test$tree <- as.numeric(rp_test$tree)
+ggplot(data = rp_test) +
   aes(x = rp) +
   geom_bar(fill = "#0c4c8a") +
   theme_minimal() +
@@ -534,7 +536,60 @@ elev <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-Fores
 
 trees_all$elev_m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
-##5d. add in dbh in each year 1999 ####
+##5d. add in distance to water ####
+setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/Dendrobands/resources/maps")
+
+neil_map <- neil_list
+neil_map$tag <- gsub("X", "", neil_map$tag)
+neil_map$tag <- as.numeric(neil_map$tag)
+
+dendro_trees <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/Dendrobands/data/dendro_trees.csv")
+
+##this should be fixed when 131352 is found with 2018 data!!!!
+
+library(ggplot2)
+library(rgdal)
+library(broom) #for the tidy function
+library(sf) #for mapping
+library(ggthemes) #for removing graticules when making pdf
+
+scbi_plot <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/20m_grid.shp")
+deer <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/deer_exclosure_2011.shp")
+roads <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_roads_edits.shp")
+streams <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_streams_edits.shp")
+NS_divide <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/Dendrobands/resources/maps/shapefiles/NS_divide1.shp")
+
+#convert all shp to dataframe so that it can be used by ggplot
+#if tidy isn't working, can also do: xxx_df <- as(xxx, "data.frame")
+scbi_plot_df <- tidy(scbi_plot)
+deer_df <- tidy(deer)
+roads_df <- tidy(roads)
+streams_df <- tidy(streams)
+NS_divide_df <- tidy(NS_divide)
+
+map <- ggplot() +
+  geom_path(data = scbi_plot_df, aes(x = long, y = lat, group = group))+
+  geom_path(data=roads_df, aes(x=long, y=lat, group=group), 
+            color="#996600", linetype=2)+
+  geom_path(data=streams_df, aes(x=long, y=lat, group=group), color="blue")+
+  geom_path(data=deer_df, aes(x=long, y=lat, group=group), size=1.1)+
+  geom_point(data=neil_list, aes(x=NAD83_X, y=NAD83_Y), shape=19)+
+  geom_text(data=neil_list, aes(x=NAD83_X, y=NAD83_Y, label=tag), 
+            size=3, hjust=1.25, nudge_y=-1, nudge_x=1, check_overlap=TRUE)+
+  theme(plot.title=element_text(vjust=0.1))+
+  coord_sf(crs = "crs = +proj=merc", xlim=c(747350,747800), ylim=c(4308500, 4309125))
+
+library(geosphere)
+streams_dd <- spTransform(streams, CRS("+proj=longlat +datum=WGS84"))
+streams_dd_df <- tidy(streams_dd)
+
+neil_map_sub <- neil_map[, c(25:26)]
+streams_sub <- streams_dd_df[,c(1:2)]
+dist_water <- data.frame(dist2Line(neil_map_sub, streams_sub))
+
+
+
+##5e. add in dbh in each year 1999 ####
 dbh <- trees_all[, c(1:4)]
 dbh$dbh2013 <- elev$dbh[match(dbh$tree, elev$tag)]
 
@@ -552,6 +607,7 @@ dbh$intercept <- bark$intercept[match(dbh$sp, bark$sp)]
 #the main equation is based on ring widths. We have determined the equation to be
 # rw(pointer_year) <- 0.5*dbh2013 - bark_thick*(dbh2013^intercept) - sum(rw(pointer_year):rw(end)). The first part of the equation is here. Summing the pointer years happens with the "q" df below in the loop.
 dbh$rw_prelim <- (0.5*dbh$dbh2013) - (dbh$bark_thick*(dbh$dbh2013^dbh$intercept))
+
 
 dbh$dbh_old <- "0" #in prep for below
 dbh$dbh_old <- as.numeric(dbh$dbh_old)
@@ -591,11 +647,11 @@ trees_all$dbh_old <- dbh$dbh_old
 trees_all$dbh_old <- ifelse(trees_all$dbh_old < 0, 0, trees_all$dbh_old)
 trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, ln(trees_all$dbh_old))
 
-##5e. remove all NAs ####
+##5f. remove all NAs ####
 trees_all <- trees_all[complete.cases(trees_all), ]
-##5f. remove resistance values >2 ####
+##5g. remove resistance values >2 ####
 trees_all <- trees_all[trees_all$resist.value <=2,]
-##5g. subset to only include certain years ####
+##5h. subset to only include certain years ####
 x1964 <- trees_all[trees_all$year == 1964, ]
 x1966 <- trees_all[trees_all$year == 1966, ]
 x1977 <- trees_all[trees_all$year == 1977, ]
@@ -640,7 +696,7 @@ lmm_all <- lapply(formula_vec, function(x){
 })
 names(lmm_all) <- formula_vec
 
-lm_new <- lm(resist.value ~ dbh_ln + rp, data=trees_all, REML=FALSE)
+lm_new <- lm(resist.value ~ dbh_ln + rp + year, data=trees_all, REML=FALSE)
 
 var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
 r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
