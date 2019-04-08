@@ -521,6 +521,14 @@ ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "
 
 trees_all$rp <- ring_porosity$rp[match(trees_all$sp, ring_porosity$sp)]
 
+#gives count of each rp value
+ggplot(data = trees_all) +
+  aes(x = rp) +
+  geom_bar(fill = "#0c4c8a") +
+  theme_minimal() +
+  facet_wrap(vars(position))
+
+
 ##5c. add in elevation data ####
 elev <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/elevation/full_stem_elevation_2013.csv")
 
@@ -604,7 +612,7 @@ library(MuMIn) #for R^2 values of one model output
 ##6a. Determine best model to use with AICc ####
 #define response and effects
 response <- "resist.value"
-effects <- c("elev_m*dbh_ln","(1|sp/tree)")
+effects <- c("dbh_ln", "rp", "(1|sp/tree)")
 # effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "year", "(1 | sp)")
 
 #create all combinations of random / fixed effects
@@ -632,7 +640,7 @@ lmm_all <- lapply(formula_vec, function(x){
 })
 names(lmm_all) <- formula_vec
 
-lm_new <- lm(resist.value ~ dbh_ln + tlp, data=trees_all, REML=FALSE)
+lm_new <- lm(resist.value ~ dbh_ln + rp, data=trees_all, REML=FALSE)
 
 var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
 r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
