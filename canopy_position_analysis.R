@@ -496,6 +496,12 @@ plot_ly(pdsi_true, x=pdsi_true$year, y=pdsi_true$resid, type="scatter", mode="li
 ##########################################################################################
 #5. add in climate and growth variables ####
 library(SciViews)
+library(ggplot2)
+library(rgdal)
+library(broom) #for the tidy function
+library(sf) #for mapping
+library(ggthemes) #for removing graticules when making pdf
+library(rgeos) #for distance calculation
 
 ##5a. add in turgor loss point values ####
 #add in tlp values (from Krista github issue #6 https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/6)
@@ -537,21 +543,8 @@ elev <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-Fores
 trees_all$elev_m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
 ##5d. add in distance to water ####
+## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/Dendrobands/resources/maps")
-
-neil_map <- neil_list
-neil_map$tag <- gsub("X", "", neil_map$tag)
-neil_map$tag <- as.numeric(neil_map$tag)
-
-dendro_trees <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/Dendrobands/data/dendro_trees.csv")
-
-##this should be fixed when 131352 is found with 2018 data!!!!
-
-library(ggplot2)
-library(rgdal)
-library(broom) #for the tidy function
-library(sf) #for mapping
-library(ggthemes) #for removing graticules when making pdf
 
 scbi_plot <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/20m_grid.shp")
 deer <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/deer_exclosure_2011.shp")
@@ -567,26 +560,52 @@ roads_df <- tidy(roads)
 streams_df <- tidy(streams)
 NS_divide_df <- tidy(NS_divide)
 
+## now we get into code specific for this analysis
+neil_map <- neil_list
+neil_map$tag <- gsub("X", "", neil_map$tag)
+neil_map$tag <- as.numeric(neil_map$tag)
+neil_map <- neil_map[, c(1:6,23:24)]
+
 map <- ggplot() +
   geom_path(data = scbi_plot_df, aes(x = long, y = lat, group = group))+
   geom_path(data=roads_df, aes(x=long, y=lat, group=group), 
             color="#996600", linetype=2)+
   geom_path(data=streams_df, aes(x=long, y=lat, group=group), color="blue")+
   geom_path(data=deer_df, aes(x=long, y=lat, group=group), size=1.1)+
-  geom_point(data=neil_list, aes(x=NAD83_X, y=NAD83_Y), shape=19)+
-  geom_text(data=neil_list, aes(x=NAD83_X, y=NAD83_Y, label=tag), 
+  geom_point(data=neil_map, aes(x=NAD83_X, y=NAD83_Y), shape=19)+
+  geom_text(data=neil_map, aes(x=NAD83_X, y=NAD83_Y, label=tag), 
             size=3, hjust=1.25, nudge_y=-1, nudge_x=1, check_overlap=TRUE)+
   theme(plot.title=element_text(vjust=0.1))+
   coord_sf(crs = "crs = +proj=merc", xlim=c(747350,747800), ylim=c(4308500, 4309125))
 
-library(geosphere)
-streams_dd <- spTransform(streams, CRS("+proj=longlat +datum=WGS84"))
-streams_dd_df <- tidy(streams_dd)
+## calculating the distance requires some conversion. First, the points of the cored trees from neil_map must be in their own dataframe before they can be converted to a SpatialPoints object.
+neil_map_sub <- neil_map[, c(7:8)]
+neil_points <- SpatialPoints(neil_map_sub, proj4string = CRS(as.character("+proj=merc")))
 
-neil_map_sub <- neil_map[, c(25:26)]
-streams_sub <- streams_dd_df[,c(1:2)]
-dist_water <- data.frame(dist2Line(neil_map_sub, streams_sub))
+## here, the minimum distance to water is calculated before binding with neil_map.
+## A warning says that neil_points and streams are projected differently, but the output has been verified to be accurate.
+distance_water <- data.frame(apply(gDistance(neil_points, streams, byid=TRUE), 2, min))
+colnames(distance_water) <- "distance_water"
+distance <- cbind(neil_map, distance_water)
 
+## next, do a log transformation on the distances before adding as a column to trees_all (similar to the dbh calculations below)
+distance$distance_ln <- ln(distance$distance_water)
+trees_all$distance_ln <- distance$distance_ln[match(trees_all$tree, distance$tag)]
+
+## this is to double check the accuracy of the map.
+distance_short <- distance[distance$distance_water <= 30, ]
+
+map <- ggplot() +
+  geom_path(data = scbi_plot_df, aes(x = long, y = lat, group = group))+
+  geom_path(data=roads_df, aes(x=long, y=lat, group=group), 
+            color="#996600", linetype=2)+
+  geom_path(data=streams_df, aes(x=long, y=lat, group=group), color="blue")+
+  geom_path(data=deer_df, aes(x=long, y=lat, group=group), size=1.1)+
+  geom_point(data=distance_short, aes(x=NAD83_X, y=NAD83_Y), shape=19)+
+  geom_text(data=distance_short, aes(x=NAD83_X, y=NAD83_Y, label=tag), 
+            size=3, hjust=1.25, nudge_y=-1, nudge_x=1, check_overlap=TRUE)+
+  theme(plot.title=element_text(vjust=0.1))+
+  coord_sf(crs = "crs = +proj=merc", xlim=c(747350,747800), ylim=c(4308500, 4309125))
 
 
 ##5e. add in dbh in each year 1999 ####
@@ -668,7 +687,7 @@ library(MuMIn) #for R^2 values of one model output
 ##6a. Determine best model to use with AICc ####
 #define response and effects
 response <- "resist.value"
-effects <- c("dbh_ln", "rp", "(1|sp/tree)")
+effects <- c("dbh_ln", "distance", "year", "(1|sp/tree)")
 # effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "year", "(1 | sp)")
 
 #create all combinations of random / fixed effects
@@ -696,13 +715,13 @@ lmm_all <- lapply(formula_vec, function(x){
 })
 names(lmm_all) <- formula_vec
 
-lm_new <- lm(resist.value ~ dbh_ln + rp + year, data=trees_all, REML=FALSE)
-
 var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
 r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
 
-best <- lmm_all[[2]]
+best <- lmm_all[[8]]
 coef(summary(best))[ , "Estimate"]
+
+lm_new <- lm(resist.value ~ dbh_ln*distance_ln, data=trees_all, REML=FALSE)
 
 q <- sapply(lmm_all, anova, simplify=FALSE)
 mapply(anova, lmm_all, SIMPLIFY = FALSE)
