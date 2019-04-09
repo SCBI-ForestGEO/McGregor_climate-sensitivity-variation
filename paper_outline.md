@@ -21,7 +21,7 @@
       
 4. Larger trees suffer more because larger trees tend to be species with more drought-sensitive traits.
 
-    * P4a- TLP predicts drought response
+    * P4a- Traits (TLP, ring porosity) predict drought response
     * P4b- TLP is lower (larger negative) in smaller/ understory trees
     * P4c- Inclusion of TLP in model eliminates (or significantly reduces) effect of height (and elev).
 
@@ -48,18 +48,26 @@
 
 ## Results
 
-**Table 1. **
+**Table 1.**
 
-Prediction | Model Variable(s)* | Null model Variables* | dAIC - all years | dAIC - 1964... 
---- | --- | --- | --- | --- 
-DBH | ln[dbh] | (none) | (AIC_model with variable(s) - AIC_null model) | --- 
-P1 | ln[height] | (none) | (AIC_model with variable(s) - AIC_null model) | --- 
-P3a | elev + ln[dbh] | ln[dbh]  | (AIC_model with variable(s) - AIC_null model) | --- 
-P3a | stream.distance + ln[dbh] | ln[dbh]  | (-1.8 - tentative) | --- 
-P3b | elev x ln[dbh] | ln[dbh]  | (AIC_model with variable(s) - AIC_null model) | --- 
-P3a | stream.distance + ln[dbh] | ln[dbh]  | (AIC_model with variable(s) - AIC_null model) | --- 
+Prediction | Model Variable(s)*  | Null model Variables* | Predicted direction of response** | dAIC*** - all years | dAIC - 1964... 
+--- | --- | --- | --- | --- | --- 
+(DBH) | ln[dbh] | (none) | - |  | --- 
+P1 | ln[height] | (none) | - |  | --- 
+P2a | canopy.position  | (none) | canopy>subcanopy |  | --- 
+P2b | canopy.position + ln[height]  | ln[height] | canopy>subcanopy |  | --- 
+P2c1 | elev + ln[height] | ln[height]  | + |  | --- 
+P2c2 | elev x ln[height] | ln[height] | + |  | --- 
+P3a1 | elev  + ln[dbh] | ln[dbh] | + |  | --- 
+P3a2 | stream.distance + ln[dbh] | ln[dbh]  | + |  | --- 
+P3b1 | elev x ln[dbh] | ln[dbh]  | - |  | --- 
+P3b2 | stream.distance + ln[dbh] | ln[dbh] | -  |  | --- 
 
 *all models include tree/species (random effect) and year (fixed) when run together
+
+** refers to model variable added to null. 
+
+*** dAIC is calculated as AIC_model with variable(s) - AIC_null model. When response is opposite prediction, dAIC is listed as NA (there no instances of this where dAIC>2 --*confirm*).
 
 ## Discussion
 
