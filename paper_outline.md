@@ -1,10 +1,13 @@
-# Functional traits and tree size/exposure interactively shape drought response in a temperate broadleaf forest
-(title needs work)
+# Tree size, exposure, and hydraulic traits interactively shape drought response in a temperate broadleaf forest
+
 
 ## Abstract
 
 
 ## Introduction
+
+Understanding how and why trees respond to drought is critical to predicting forest drought responses and climate change feedbacks.
+
 *Questions & Hypotheses*
 
 
