@@ -25,8 +25,37 @@
     * P4b- TLP is lower (larger negative) in smaller/ understory trees
     * P4c- Inclusion of TLP in model eliminates (or significantly reduces) effect of height (and elev).
 
-## Methods (per hypotheses)
+## Methods 
 
+*Site description*
+- general
+- climate
+
+*[Data collection]*
+- tree census
+- cores (summary of core collection, processing, chronology building)
+- canopy position
+- TLP
+
+*Analyses*
+- restistance calculation
+- selecting drought years
+- height calculation
+- distance to water
+- general model description
+
+To test H1,... (per hypotheses)
+
+Prediction | Model Variable(s)* | Null model Variables* | dAIC - all years | dAIC - 1964... 
+--- | --- | --- | --- | --- 
+DBH | ln[dbh] | (none) | (AIC_model with variable(s) - AIC_null model) | --- 
+P1 | ln[height] | (none) | (AIC_model with variable(s) - AIC_null model) | --- 
+P3a | elev + ln[dbh] | ln[dbh]  | (AIC_model with variable(s) - AIC_null model) | --- 
+P3a | stream.distance + ln[dbh] | ln[dbh]  | (-1.8 - tentative) | --- 
+P3b | elev x ln[dbh] | ln[dbh]  | (AIC_model with variable(s) - AIC_null model) | --- 
+P3a | stream.distance + ln[dbh] | ln[dbh]  | (AIC_model with variable(s) - AIC_null model) | --- 
+
+*all models include tree/species (random effect) and year (fixed) when run together
 
 ## Results
 
