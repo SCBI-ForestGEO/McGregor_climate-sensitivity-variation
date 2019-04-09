@@ -50,18 +50,18 @@
 
 **Table 1.**
 
-Prediction | Model Variable(s)*  | Null model Variables* | Predicted direction of response** | dAIC*** - all years | dAIC - 1964... 
---- | --- | --- | --- | --- | --- 
-(DBH) | ln[dbh] | (none) | - |  | --- 
-P1 | ln[height] | (none) | - |  | --- 
-P2a | canopy.position  | (none) | canopy>subcanopy |  | --- 
-P2b | canopy.position + ln[height]  | ln[height] | canopy>subcanopy |  | --- 
-P2c1 | elev + ln[height] | ln[height]  | + |  | --- 
-P2c2 | elev x ln[height] | ln[height] | + |  | --- 
-P3a1 | elev  + ln[dbh] | ln[dbh] | + |  | --- 
-P3a2 | stream.distance + ln[dbh] | ln[dbh]  | + |  | --- 
-P3b1 | elev x ln[dbh] | ln[dbh]  | - |  | --- 
-P3b2 | stream.distance + ln[dbh] | ln[dbh] | -  |  | --- 
+Prediction | Model variable(s)*  | Null model variables* | Predicted direction of response** | dAIC*** - all years | dAIC 1964 | dAIC 1966 | dAIC 1977 | dAIC 1999
+--- | --- | --- | --- | --- | --- | --- | --- | --- 
+(DBH) | ln[dbh] | (none) | - |  | --- | --- | --- | --- 
+P1 | ln[height] | (none) | - |  | --- | --- | --- | --- 
+P2a | canopy.position  | (none) | canopy>subcanopy |  | --- | --- | --- | --- 
+P2b | canopy.position + ln[height]  | ln[height] | canopy>subcanopy |  | --- | --- | --- | --- 
+P2c1 | elev + ln[height] | ln[height]  | + |  | --- | --- | --- | --- 
+P2c2 | elev x ln[height] | ln[height] | + |  | --- | --- | --- | --- 
+P3a1 | elev  + ln[dbh] | ln[dbh] | + |  | --- | --- | --- | --- 
+P3a2 | stream.distance + ln[dbh] | ln[dbh]  | + |  | --- | --- | --- | --- 
+P3b1 | elev x ln[dbh] | ln[dbh]  | - |  | --- | --- | --- | --- 
+P3b2 | stream.distance + ln[dbh] | ln[dbh] | -  |  | --- | --- | --- | --- 
 
 *all models include tree/species (random effect) and year (fixed) when run together
 
