@@ -42,9 +42,13 @@
 - selecting drought years
 - height calculation
 - distance to water
-- general model description
+- general model description... We compared null vs predicted models for each prediction (Table 1).
 
-To test H1,... (per hypotheses)
+
+
+## Results
+
+**Table 1. **
 
 Prediction | Model Variable(s)* | Null model Variables* | dAIC - all years | dAIC - 1964... 
 --- | --- | --- | --- | --- 
@@ -56,9 +60,6 @@ P3b | elev x ln[dbh] | ln[dbh]  | (AIC_model with variable(s) - AIC_null model) 
 P3a | stream.distance + ln[dbh] | ln[dbh]  | (AIC_model with variable(s) - AIC_null model) | --- 
 
 *all models include tree/species (random effect) and year (fixed) when run together
-
-## Results
-
 
 ## Discussion
 
