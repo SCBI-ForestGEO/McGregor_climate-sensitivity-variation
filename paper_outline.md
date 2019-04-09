@@ -76,8 +76,8 @@ Prediction | Model variable(s)*  | Null model variables* | Predicted direction o
 --- | --- | --- | --- | --- | --- | --- | --- | --- 
 1.0 | ln[dbh] | (none) | - |  | --- | --- | --- | --- 
 1.1 | ln[height] | (none) | - |  | --- | --- | --- | --- 
-1.2a | canopy.position  | (none) | canopy>subcanopy |  | --- | --- | --- | --- 
-1.2b | canopy.position + ln[height]  | ln[height] | canopy>subcanopy |  | --- | --- | --- | --- 
+1.2a | canopy.position  | (none) | canopy<subcanopy |  | --- | --- | --- | --- 
+1.2b | canopy.position + ln[height]  | ln[height] | canopy<subcanopy |  | --- | --- | --- | --- 
 1.2c1 | elev + ln[height] | ln[height]  | + |  | --- | --- | --- | --- 
 1.2c2 | elev x ln[height] | ln[height] | + |  | --- | --- | --- | --- 
 1.3a1 | elev  + ln[dbh] | ln[dbh] | + |  | --- | --- | --- | --- 
