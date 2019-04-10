@@ -667,17 +667,17 @@ trees_all$dbh_old <- ifelse(trees_all$dbh_old < 0, 0, trees_all$dbh_old)
 trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, ln(trees_all$dbh_old))
 
 ##5f. add in tree heights ####
+## taken from the canopy_heights script
+trees_all$height <- ifelse(trees_all$sp == "caco", (-82.8+62.9*trees_all$dbh_ln)/10,
+                      ifelse(trees_all$sp == "cagl", (-76+58.5*trees_all$dbh_ln)/10,
+                      ifelse(trees_all$sp == "caovl", (-55.4+47.4*trees_all$dbh_ln)/10,
+                      ifelse(trees_all$sp == "cato", (-81.5+61.5*trees_all$dbh_ln)/10,
+                      ifelse(trees_all$sp == "fagr", (-55.3+44*trees_all$dbh_ln)/10,
+                      ifelse(trees_all$sp == "litu", (-110+78.3*trees_all$dbh_ln)/10,
+                      ifelse(trees_all$sp == "quru", (-80.6+59.6*trees_all$dbh_ln)/10,
+                             (-40.1+11.4*trees_all$dbh_ln)/10))))))))
 
-trees_all$height <- ifelse(trees_all$sp == "caco", 6.03+0.056*trees_all$dbh,
-                      ifelse(trees_all$sp == "cagl", 7.37+0.0516*trees_all$dbh,
-                      ifelse(trees_all$sp == "caovl", 10.4+0.0422*trees_all$dbh,
-                      ifelse(trees_all$sp == "cato", 7.64+0.0489*trees_all$dbh,
-                      ifelse(trees_all$sp == "fagr", 8.29+0.028*trees_all$dbh,
-                      ifelse(trees_all$sp == "litu", 14.8+0.0332*trees_all$dbh,
-                      ifelse(trees_all$sp == "qual", 10.6+0.0386*trees_all$dbh,
-                      ifelse(trees_all$sp == "quru", 13.3+0.0223*trees_all$dbh,
-                                                    11.3+0.0335*trees_all$dbh))))))))
-
+trees_all$height_ln <- ln(trees_all$height)
 
 ##5g. remove all NAs ####
 trees_all <- trees_all[complete.cases(trees_all), ]
