@@ -248,7 +248,7 @@ names(subcanopy) <- values_sub
 values <- paste0(sp_subcan, "_subcanopy")
 names(widths_sub) <- values
 
-widths <- c(widths_can, widths_sub) #combine into one, then delete. For use in #5d
+widths <- c(widths_can, widths_sub) #combine into one, then delete individual. For use in #5d
 widths_can <- NULL
 widths_subcan <- NULL
 
@@ -262,7 +262,7 @@ colnames(years_point) <- c("yr", "n.pointer")
 years_point <- years_point[order(years_point$n.pointer, decreasing=TRUE), ]
 
 #top drought years by species and canopy position
-years_bysp <- pointers[pointers$year %in% c(1966, 1977, 1999), ]
+years_bysp <- pointers[pointers$year %in% c(1964, 1965, 1966, 1977, 1999), ]
 years_bysp <- years_bysp[, c(1,13,14,2:12)]
 years_bysp <- years_bysp[order(years_bysp$year, years_bysp$sp), ]
 
@@ -276,7 +276,10 @@ neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist
 
 # pointer_years <- head(years_point$yr) #from above in #4c
 # pointer_years <- pointer_years[!pointer_years %in% c(1911, 1947, 1991)]
-pointer_years <- c(1964, 1966, 1977, 1999)
+pointer_years <- c(1964, 1965, 1966, 1977, 1999)
+
+# this is done because in the code below for canopy and subcanopy we are averaging the resistance values over 1964, 1965, and 1966, and calling it 1966.
+pointer_years_simple <- c(1966, 1977, 1999)
 
 ###canopy ####
 #this loop says, for the different species in the list "canopy" (names(canopy)), create a dataframe of only the resistance index. Make a list of the colnames, which are the individual trees. Then, assign species identifiers for each one from Neil's core list, subset by the defined pointer years, and melt the data before rbinding.
@@ -289,17 +292,20 @@ for (i in seq(along=1:length(tag_n))){
   colnames(can_resist) <- gsub("A", "", colnames(can_resist))
   tree_series <- colnames(can_resist)
   
-  # for (j in seq(along=tree_series)){
-  #  trees <- tree_series[[j]]
   ind <- can_resist
   ind_neil <- neil_list[neil_list$tag %in% tree_series, ]
   
-  #  colnames(ind) <- trees
   ind$year <- years
   ind$sp <- unique(ind_neil$sp)
   ind$position <- "canopy"
   
   ind <- ind[ind$year %in% pointer_years, ]
+  
+  ## these three lines of code are for taking the mean of 1964-1966, 
+  ## since it was a multi-year drought. We're calling it 1966 for simplicity.
+  ind["1966", 1:(ncol(ind) -3)] <- colMeans(ind[c(1:3), 1:(ncol(ind) -3)])
+  ind <- ind[-c(1,2), ]
+  ind[, 1:(ncol(ind) -3)] <- round(ind[, 1:(ncol(ind) -3)], 2)
   
   change <- melt(ind)
   setnames(change, old=c("variable", "value"), new=c("tree", "resist.value"))
@@ -321,17 +327,20 @@ for (i in seq(along=1:length(tag_n))){
   colnames(sub_resist) <- gsub("A", "", colnames(sub_resist))
   tree_series <- colnames(sub_resist)
  
-  # for (j in seq(along=tree_series)){
-  #  trees <- tree_series[[j]]
     ind <- sub_resist
     ind_neil <- neil_list[neil_list$tag %in% tree_series, ]
     
-  #  colnames(ind) <- trees
     ind$year <- years
     ind$sp <- unique(ind_neil$sp)
     ind$position <- "subcanopy"
     
     ind <- ind[ind$year %in% pointer_years, ]
+    
+    ## these three lines of code are for taking the mean of 1964-1966, 
+    ## since it was a multi-year drought. We're calling it 1966 for simplicity.
+    ind["1966", 1:(ncol(ind) -3)] <- colMeans(ind[c(1:3), 1:(ncol(ind) -3)])
+    ind <- ind[-c(1,2), ]
+    ind[, 1:(ncol(ind) -3)] <- round(ind[, 1:(ncol(ind) -3)], 2)
     
     change <- melt(ind)
     setnames(change, old=c("variable", "value"), new=c("tree", "resist.value"))
@@ -347,6 +356,7 @@ trees_all$year <- as.numeric(trees_all$year)
 
 #subset out NAs for resistance values (not necessary, bc lmm will automatically exclude them)
 trees_all <- trees_all[!is.na(trees_all$resist.value), ]
+trees_all$year <- as.character(trees_all$year)
 
 ##4e. determine proportion of resistance values per sp ####
 prop <- data.frame("sp" = unique(trees_all$sp))
@@ -645,15 +655,15 @@ for (i in seq(along=widths)){
       ring_col <- colnames(df)[[k]]
       
       if(j==k){
-        #the output of this loop is 3 separate columns for each year's old dbh, hence why it is set to q as a dataframe before being combined below
-        q <- data.frame(sapply(pointer_years, function(x){
+        #the output of this loop is 3 separate columns for each year's old dbh, hence why it is set to q as a dataframe before being combined below. Pointer_years_simple comes from #4d.
+        q <- data.frame(sapply(pointer_years_simple, function(x){
           rw <- df[rownames(df)>=x, ]
           ifelse(dbh$year == x & dbh$tree == ring_ind, 
                  dbh$rw_prelim - sum(rw[, ring_col], na.rm=TRUE), 0)
         }))
         
-        # q$dbh_old <- q[,1] +q[,2] + q[,3] #add columns together
-        q$dbh_old <- q[,1] +q[,2] + q[,3] + q[,4]
+        q$dbh_old <- q[,1] +q[,2] + q[,3] #add columns together
+        # q$dbh_old <- q[,1] +q[,2] + q[,3] + q[,4]
         dbh$dbh_old <- dbh$dbh_old + q$dbh_old #combine with dbh
       }
     }
@@ -683,7 +693,7 @@ trees_all$height_ln <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh_
 trees_all <- trees_all[complete.cases(trees_all), ]
 ##5h. remove resistance values >2 ####
 trees_all <- trees_all[trees_all$resist.value <=2,]
-##5i. subset to only include certain years ####
+##5i. make subsets for individual years ####
 x1964 <- trees_all[trees_all$year == 1964, ]
 x1966 <- trees_all[trees_all$year == 1966, ]
 x1977 <- trees_all[trees_all$year == 1977, ]
@@ -732,7 +742,7 @@ names(lmm_all) <- formula_vec
 var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
 r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
 
-best <- lmm_all[[22]]
+best <- lmm_all[[32]]
 coef(summary(best))[ , "Estimate"]
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln, data=trees_all, REML=FALSE)
