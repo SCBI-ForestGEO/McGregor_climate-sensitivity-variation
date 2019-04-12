@@ -72,6 +72,26 @@ paper_heights <- paper_heights[!paper_heights$sp %in% c("fram", "juni", "qual", 
 # paper_heights$min_ht <- min_ht$height.m[match(paper_heights$sp, min_ht$sp)]
 
 library(SciViews)
+library(ggplot2)
+
+
+library(devtools)
+source_gist("524eade46135f6348140")
+ggplot(data = paper_heights, aes(x = ln(dbh), y = ln(height.m), label = ln(height.m))) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
+  geom_smooth(method="lm", se=FALSE, color="black") +
+  geom_point(color = "#0c4c8a") +
+  theme_minimal() +
+  facet_wrap(vars(sp))
+
+
+#equations for all species together
+ggplot(data = paper_heights, aes(x = ln(dbh), y = ln(height.m), label = ln(height.m))) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
+  geom_smooth(method="lm", se=FALSE, color="black") +
+  geom_point(color = "#0c4c8a") +
+  theme_minimal()
+
 library(lme4)
 mix <- lmer(height.m.ln ~ dbh + (1|sp), data=paper_heights)
 
@@ -81,42 +101,3 @@ pol <- lmer(height.m ~ poly(ln(dbh),2) + (1|sp), data=paper_heights)
 log <- lmer(ln(height.m) ~ ln(dbh) + (1|sp), data=paper_heights)
 
 aictab(list(log=log), second.ord=TRUE, sort=TRUE)
-
-library(ggplot2)
-library(ggpmisc)
-my.formula <- ln(y) ~ ln(x)
-
-#equations for individual sp
-ggplot(data = paper_heights) +
-  aes(x = ln(dbh), y = ln(height.m)) +
-  geom_point(color = "#0c4c8a") +
-  geom_smooth(method="lm", se=FALSE, color="black") +
-  stat_poly_eq( 
-               aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), 
-               parse = TRUE) + 
-  theme_minimal() +
-  facet_wrap(vars(sp))
-
-
-library(devtools)
-source_gist("524eade46135f6348140")
-ggplot(data = paper_heights) +
-  aes(x = ln(dbh), y = ln(height.m), label = y) +
-  geom_point(color = "#0c4c8a") +
-  geom_smooth(method="lm", se=FALSE, color="black") +
-  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
-  theme_minimal() +
-  facet_wrap(vars(sp))
-
-
-#equations for all species together
-ggplot(data = paper_heights) +
-  aes(x = ln(dbh), y = height.m) +
-  geom_smooth(method = "lm", se=FALSE, color="black", formula = my.formula) +
-  stat_poly_eq(formula = my.formula, 
-               aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), 
-               parse = TRUE) + 
-  geom_point(color = "#0c4c8a") +
-  theme_minimal()
-library(plotly)
-ggplotly(q)
