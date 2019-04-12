@@ -178,7 +178,7 @@ library(data.table)
 ##4a. canopy ####
 setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores")
 
-dirs_can <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores", pattern = "_canopy.rwl")
+dirs_can <- dir(getwd(), pattern = "_canopy.rwl")
 
 dirs_can <- dirs_can[dirs_can != "frni_canopy.rwl" & dirs_can != "frni_drop_canopy.rwl" & dirs_can != "caco_drop_canopy.rwl"]
 
@@ -710,7 +710,7 @@ library(MuMIn) #for R^2 values of one model output
 ##6a. Determine best model to use with AICc ####
 #define response and effects
 response <- "resist.value"
-effects <- c("tlp", "elev_m", "dbh_ln", "height_ln", "year", "(1|sp/tree)")
+effects <- c("position", "height_ln", "(1|sp)")
 # effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "height_ln", "year", "(1 | sp/tree)")
 
 #create all combinations of random / fixed effects
