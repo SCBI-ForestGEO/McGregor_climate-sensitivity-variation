@@ -78,14 +78,13 @@ Prediction | Model variable(s)*  | Null model variables* | Predicted direction o
 1.1 | ln[height] | (none) | - |  | --- | --- | --- | --- 
 1.2a | canopy.position  | (none) | canopy<subcanopy |  | --- | --- | --- | --- 
 1.2b | canopy.position + ln[height]  | ln[height] | canopy<subcanopy |  | --- | --- | --- | --- 
-1.2c1 | elev + ln[height] | ln[height]  | + |  | --- | --- | --- | --- 
+1.2c1, 1.3a1 | elev + ln[height] | ln[height]  | + |  | --- | --- | --- | --- 
 1.2c2 | elev x ln[height] | ln[height] | + |  | --- | --- | --- | --- 
-1.3a1 | elev  + ln[dbh] | ln[dbh] | + |  | --- | --- | --- | --- 
-1.3a2 | stream.distance + ln[dbh] | ln[dbh]  | + |  | --- | --- | --- | --- 
-1.3b1 | elev x ln[dbh] | ln[dbh]  | - |  | --- | --- | --- | --- 
-1.3b2 | stream.distance + ln[dbh] | ln[dbh] | -  |  | --- | --- | --- | --- 
-2.1 |  TLP + ln[dbh] | ln[dbh] | -  |  | --- | --- | --- | --- 
-2.2 |  rp + ln[dbh] | ln[dbh] | ring>diffuse  |  | --- | --- | --- | --- 
+1.3b1 | elev x ln[height] | ln[height] | - |  | --- | --- | --- | --- 
+1.3a2 | stream.distance + ln[height] | ln[height]  | + |  | --- | --- | --- | --- 
+1.3b2 | stream.distance x ln[height] | ln[height] | -  |  | --- | --- | --- | --- 
+2.1 |  TLP + ln[height] | ln[height] | -  |  | --- | --- | --- | --- 
+2.2 |  rp + ln[height] | ln[height] | ring>diffuse  |  | --- | --- | --- | --- 
 
 *all models include tree/species (random effect) and year (fixed) when run together
 
