@@ -664,20 +664,20 @@ for (i in seq(along=widths)){
 
 trees_all$dbh_old <- dbh$dbh_old
 trees_all$dbh_old <- ifelse(trees_all$dbh_old < 0, 0, trees_all$dbh_old)
+trees_all$dbh_old <- ifelse(trees_all$dbh_old > 0, trees_all$dbh_old/10, trees_all$dbh_old)
 trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, ln(trees_all$dbh_old))
 
 ##5f. add in tree heights ####
 ## taken from the canopy_heights script
-trees_all$height <- ifelse(trees_all$sp == "caco", (-82.8+62.9*trees_all$dbh_ln)/10,
-                      ifelse(trees_all$sp == "cagl", (-76+58.5*trees_all$dbh_ln)/10,
-                      ifelse(trees_all$sp == "caovl", (-55.4+47.4*trees_all$dbh_ln)/10,
-                      ifelse(trees_all$sp == "cato", (-81.5+61.5*trees_all$dbh_ln)/10,
-                      ifelse(trees_all$sp == "fagr", (-55.3+44*trees_all$dbh_ln)/10,
-                      ifelse(trees_all$sp == "litu", (-110+78.3*trees_all$dbh_ln)/10,
-                      ifelse(trees_all$sp == "quru", (-80.6+59.6*trees_all$dbh_ln)/10,
-                             (-40.1+11.4*trees_all$dbh_ln)/10))))))))
+trees_all$height_ln <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh_ln),
+                      ifelse(trees_all$sp == "cagl", (0.652+0.751*trees_all$dbh_ln),
+                      ifelse(trees_all$sp == "caovl", (0.9+0.659*trees_all$dbh_ln),
+                      ifelse(trees_all$sp == "cato", (0.879+0.668*trees_all$dbh_ln),
+                      ifelse(trees_all$sp == "fagr", (0.513+0.712*trees_all$dbh_ln),
+                      ifelse(trees_all$sp == "litu", (1.57+0.488*trees_all$dbh_ln),
+                      ifelse(trees_all$sp == "quru", (1.13+0.54*trees_all$dbh_ln),
+                             (0.849+0.659*trees_all$dbh_ln))))))))
 
-trees_all$height_ln <- ln(trees_all$height)
 
 ##5g. remove all NAs ####
 trees_all <- trees_all[complete.cases(trees_all), ]
@@ -700,8 +700,8 @@ library(MuMIn) #for R^2 values of one model output
 ##6a. Determine best model to use with AICc ####
 #define response and effects
 response <- "resist.value"
-effects <- c("dbh_ln", "distance", "year", "(1|sp/tree)")
-# effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "year", "(1 | sp)")
+effects <- c("tlp", "elev_m", "dbh_ln", "height_ln", "year", "(1|sp/tree)")
+# effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "height_ln", "year", "(1 | sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -722,7 +722,8 @@ formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
 
 # create list of model outputs
 lmm_all <- lapply(formula_vec, function(x){
-  fit1 <- lmer(x, data = trees_all, REML=FALSE)
+  fit1 <- lmer(x, data = trees_all, REML=FALSE, 
+               control = lmerControl(optimizer ="Nelder_Mead"))
   #fit1$coefficients <- coef( summary(fit1))
   return(fit1)
 })
@@ -731,7 +732,7 @@ names(lmm_all) <- formula_vec
 var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
 r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
 
-best <- lmm_all[[8]]
+best <- lmm_all[[22]]
 coef(summary(best))[ , "Estimate"]
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln, data=trees_all, REML=FALSE)
