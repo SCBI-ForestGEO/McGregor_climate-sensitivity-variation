@@ -1,0 +1,3 @@
+# Core files
+
+These folders and files are the exact same as those in [ForestGEO-Data](https://github.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/tree/master/tree_cores/chronologies/current_chronologies/complete/separated%20by%20canopy%20position), but have been moved here for easier sourcing for the script [canopy_position_analysis](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/blob/master/scripts/canopy_position_analysis.R).
