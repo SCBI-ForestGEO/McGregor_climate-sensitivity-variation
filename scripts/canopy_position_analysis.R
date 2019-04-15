@@ -703,6 +703,40 @@ library(MuMIn) #for R^2 values of one model output
 library(stringr)
 
 ##6a. Determine best model to use with AICc ####
+#define response and effects
+response <- gsub(" ~.*", "", summary_mod_vars_all[[h]])
+effects <- unlist(strsplit(summary_mod_vars_all[[h]], "\\+|~ "))[-1]
+# all fixed effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "height_ln", "year")
+
+#create all combinations of random / fixed effects
+effects_comb <- 
+  unlist( sapply( seq_len(length(effects)), 
+                  function(i) {
+                    apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
+                  }))
+
+# pair response with effect and sub out combinations that don't include random effects
+#in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
+var_comb <- expand.grid(response, effects_comb) 
+var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+
+# formulas for all combinations. $Var1 is the response, and $Var2 is the effect
+# for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
+formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
+
+# create list of model outputs
+lmm_all <- lapply(formula_vec, function(x){
+  fit1 <- lmer(x, data = model_df[[i]], REML=FALSE, 
+               control = lmerControl(optimizer ="Nelder_Mead"))
+  return(fit1)
+})
+names(lmm_all) <- formula_vec
+
+var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+
+##6ai. test predictions for paper ####
 ## create table to store results
 summary_models <- data.frame(
   "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2"), 
@@ -721,36 +755,35 @@ summary_models <- data.frame(
   "null_model_all_years" = NA,
   "model_vars_sep_years" = NA,
   "null_model_sep_years" = NA,
-  
-   # "null_model_all_years" = c("resist.value ~ year+(1|sp/tree)", "resist.value ~ year+(1|sp/tree)", "resist.value ~ year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)"), 
-  # "null_model_sep_years" = c("resist.value ~ (1|sp)", "resist.value ~ (1|sp)", "resist.value ~ (1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)"),
-                             "response_direction" = c(NA, "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse"), 
-                             "dAIC_all_years" = NA, 
-                             "dAIC_1964-1966" = NA, 
-                             "dAIC_1977" = NA, 
-                             "dAIC_1999" = NA)
+        "response_direction" = c(NA, "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse"), 
+        "dAIC_all_years" = NA, 
+        "dAIC_1964-1966" = NA, 
+        "dAIC_1977" = NA, 
+        "dAIC_1999" = NA)
+
 library(dplyr)
 # change factor columns to character
 summary_models %>% mutate_if(is.factor, as.character) -> summary_models
 
+# fill in other columns
 summary_models[c(1:3), 3] <- "resist.value ~ year+(1|sp/tree)"
 summary_models[c(4:11), 3] <- "resist.value ~ height_ln+year+(1|sp/tree)"
 summary_models$model_vars_sep_years <- gsub("year\\+|/tree", "", summary_models$model_vars_all_years)
 summary_models$null_model_sep_years <- gsub("year\\+|/tree", "", summary_models$null_model_all_years)
 
+#define vectors to be used in loop
 summary_mod_vars_all <- summary_models$model_vars_all_years
 summary_mod_vars_sep <- summary_models$model_vars_sep_years
 summary_mod_null_all <- summary_models$null_model_all_years
 summary_mod_null_sep <- summary_models$null_model_sep_years
-all_effects <- colnames(trees_all)
 
+##this loop goes through each mix of effects from each prediction (nrow(summary_models)), and runs those models for each of the datasets (all years and the three individual ones). For each iteration (44 total), it calculates dAIC (AIC of model with variable defined in model_vars columns minus the AIC of the null model).
 for (i in seq_along(model_df)){
   for (h in seq(along=summary_mod_vars_all)){
     if (i==1){
-      #define response and effects
+      #structure of creating the model strings come from 6a above.
       response <- gsub(" ~.*", "", summary_mod_vars_all[[h]])
       effects <- unlist(strsplit(summary_mod_vars_all[[h]], "\\+|~ "))[-1]
-      # all fixed effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "height_ln", "year")
       
       #create all combinations of random / fixed effects
       effects_comb <- 
@@ -758,13 +791,13 @@ for (i in seq_along(model_df)){
                         function(i) {
                           apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
                         }))
-      
-      # pair response with effect and sub out combinations that don't include random effects
-      #in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
+      #make table
       var_comb <- expand.grid(response, effects_comb) 
       var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
       var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+      
     } else {
+      
       #define response and effects
       response <- gsub(" ~.*", "", summary_mod_vars_sep[[h]])
       effects <- unlist(strsplit(summary_mod_vars_sep[[h]], "\\+|~ "))[-1]
@@ -776,15 +809,12 @@ for (i in seq_along(model_df)){
                         function(i) {
                           apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
                         }))
-      
-      # pair response with effect and sub out combinations that don't include random effects
-      #in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
+      #=make table
       var_comb <- expand.grid(response, effects_comb) 
       var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed+random combos
     }
     
-    # formulas for all combinations. $Var1 is the response, and $Var2 is the effect
-    # for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
+    #formulas for all combinations.
     formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
     
     # create list of model outputs
@@ -798,7 +828,7 @@ for (i in seq_along(model_df)){
     var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
     r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
     
-    
+    #fill in table
     if(i == 1){
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_all[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_all[[h]], ]
@@ -822,8 +852,9 @@ for (i in seq_along(model_df)){
   }
 }
 
+write.csv(summary_models, "manuscript/results.csv", row.names=FALSE)
 
-
+##6aii. coefficients ####
 best <- lmm_all[[32]]
 coef(summary(best))[ , "Estimate"]
 
