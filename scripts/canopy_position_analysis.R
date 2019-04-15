@@ -1,7 +1,8 @@
 #canopy position analysis from tree cores
 
 #1. full script set-up ####
-cru1901 <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/climate_sensitivity_cores/results/canopy_vs_subcanopy/1901_2009/tables/monthly_correlation/correlation_with_CRU_SCBI_1901_2016_climate_data.csv", stringsAsFactors = FALSE)
+library(RCurl)
+cru1901 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/climate_sensitivity_cores/master/results/canopy_vs_subcanopy/1901_2009/tables/monthly_correlation/correlation_with_CRU_SCBI_1901_2016_climate_data.csv"), stringsAsFactors = FALSE)
 
 library(ggplot2)
 library(ggpubr)
@@ -17,7 +18,6 @@ cru1901_loop$Species <- gsub("_[[:alpha:]]+$", "", cru1901$Species)
 
 ##########################################################################################
 #2. box plots ####
-setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-traits")
 cru1901_loop$variable <- as.character(cru1901_loop$variable)
 clim <- unique(cru1901_loop$variable)
 species <- unique(cru1901_loop$Species)
@@ -34,7 +34,7 @@ ggplot(data = cru1901) +
 
 #creates lattice graph comparing canopy and subcanopy across species
 
-pdf("Canopy_subcanopy_correlation.pdf", width=10)
+pdf("graphs_plots/canopy_subcanopy_correlation.pdf", width=10)
 cru1901_loop$Species <- as.factor(cru1901_loop$Species)
 
 #this piece of code puts the graphs in date order
@@ -59,7 +59,7 @@ dev.off()
 
 
 ############################################################################################
-#3. mixed effects model ####
+#3. intro to the mixed effects model ####
 library(car)
 library(MASS)
 library(lme4)
@@ -176,11 +176,9 @@ library(data.table)
 ##to be clear, I wrote this code before I realized that some of the work done in these loops had already been done in the outputs of res.comp (specifically out.select). However, since the code runs well, and I double-checked that it was giving the same outputs as analyzing out.select, I'm keeping it as is.
 
 ##4a. canopy ####
-setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores")
+dirs_can <- dir("data/core_files/canopy_cores", pattern = "_canopy.rwl")
 
-dirs_can <- dir(getwd(), pattern = "_canopy.rwl")
-
-dirs_can <- dirs_can[dirs_can != "frni_canopy.rwl" & dirs_can != "frni_drop_canopy.rwl" & dirs_can != "caco_drop_canopy.rwl"]
+dirs_can <- dirs_can[!dirs_can %in% c("frni_canopy.rwl", "frni_drop_canopy.rwl", "caco_drop_canopy.rwl")]
 
 sp_can <- gsub("_drop_canopy.rwl", "", dirs_can)
 
@@ -213,9 +211,7 @@ names(widths_can) <- values
 
 
 ##4b. subcanopy ####
-setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores")
-
-dirs_subcan <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores", pattern = "_subcanopy.rwl")
+dirs_subcan <- dir("data/core_files/subcanopy_cores", pattern = "_subcanopy.rwl")
 
 #dirs_subcan <- dirs_subcan[dirs_subcan != "frni_drop_subcanopy.rwl" & dirs_subcan != "caco_drop_subcanopy.rwl"]
 
@@ -266,11 +262,10 @@ years_bysp <- pointers[pointers$year %in% c(1964, 1965, 1966, 1977, 1999), ]
 years_bysp <- years_bysp[, c(1,13,14,2:12)]
 years_bysp <- years_bysp[order(years_bysp$year, years_bysp$sp), ]
 
-setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/McGregor_climate-sensitivity-variation")
-#write.csv(pointers, "occurrence_of_pointer_yrs.csv", row.names=FALSE)
+#write.csv(pointers, "data/occurrence_of_pointer_yrs.csv", row.names=FALSE)
 
 ##4d. resistance metrics for all trees ####
-neil_list <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/McGregor_climate-sensitivity-variation/core_list_for_neil.csv", stringsAsFactors = FALSE)
+neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
 
 neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
 
@@ -384,11 +379,9 @@ for (i in seq(along=prop$sp)){
 library(tools)
 library(dplyr)
 
-setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores")
+dirs_can <- dir("data/core_files/canopy_cores", pattern = "_canopy.rwl")
 
-dirs_can <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/canopy_cores", pattern = "_canopy.rwl")
-
-dirs_can <- dirs_can[dirs_can != "frni_canopy.rwl" & dirs_can != "frni_drop_canopy.rwl" & dirs_can != "caco_drop_canopy.rwl"]
+dirs_can <- dirs_can[!dirs_can %in% c("frni_canopy.rwl", "frni_drop_canopy.rwl", "caco_drop_canopy.rwl")]
 
 sp_can <- gsub("_drop_canopy.rwl", "", dirs_can)
 
@@ -420,9 +413,7 @@ for (i in seq(along=dirs_can)){
   }
 }
 
-setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores")
-
-dirs_subcan <- dir("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_cores/chronologies/current_chronologies/complete/separated by canopy position/subcanopy_cores", pattern = "_subcanopy.rwl")
+dirs_subcan <- dir("data/core_files/subcanopy_cores", pattern = "_subcanopy.rwl")
 
 #dirs_subcan <- dirs_subcan[dirs_subcan != "frni_drop_subcanopy.rwl" & dirs_subcan != "caco_drop_subcanopy.rwl"]
 
@@ -487,7 +478,7 @@ q_plot <- ggplot(data = q) +
 #plot and manually subset to 1950+
 plot_ly(q, x=q$year, y=q$resid, type="scatter", mode="lines")
 
-pdsi <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/McGregor_climate-sensitivity-variation/pdsi_value_comparison.csv")
+pdsi <- read.csv("data/pdsi_value_comparison.csv")
 
 pdsi_true <- data.frame("year" = 1850:2017, "noaa_va_pdsi" = "")
 pdsi_true$noaa_va_pdsi <- colMeans(matrix(pdsi$noaa_va_pdsi, nrow=12))
@@ -505,13 +496,14 @@ plot_ly(pdsi_true, x=pdsi_true$year, y=pdsi_true$resid, type="scatter", mode="li
 
 ##########################################################################################
 #5. add in climate and growth variables ####
-library(SciViews)
+library(SciViews) #for ln function
 library(ggplot2)
-library(rgdal)
+library(rgdal) #to read in shapefiles
 library(broom) #for the tidy function
 library(sf) #for mapping
 library(ggthemes) #for removing graticules when making pdf
 library(rgeos) #for distance calculation
+library(RCurl) #for reading in URLs
 
 ##5a. add in turgor loss point values ####
 #add in tlp values (from Krista github issue #6 https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/6)
@@ -548,14 +540,14 @@ ggplot(data = rp_test) +
 
 
 ##5c. add in elevation data ####
-elev <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/elevation/full_stem_elevation_2013.csv")
+elev <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/spatial_data/elevation/full_stem_elevation_2013.csv"))
 
 trees_all$elev_m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
 ##5d. add in distance to water ####
 ## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
-setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/Dendrobands/resources/maps")
 
+## I have not found a way to make this not involve personal directories without moving all the data to my folder, which I'm hesitant about doing due to data redundancy.
 scbi_plot <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/20m_grid.shp")
 deer <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/deer_exclosure_2011.shp")
 roads <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_roads_edits.shp")
