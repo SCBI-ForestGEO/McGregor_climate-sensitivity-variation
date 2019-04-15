@@ -74,7 +74,7 @@ Understanding how and why trees respond to drought is critical to predicting for
 
 Prediction | Model variable(s)*  | Null model variables* | Predicted direction of response** | dAIC*** - all years | dAIC 1964-66 | dAIC 1977 | dAIC 1999
 --- | --- | --- | --- | --- | --- | --- | ---  
-1.0 | ln[dbh] | (none) |  | 31.09 | 47.81 | -0.5 | -1.54  
+1.0 | ln[dbh] | (none) | - | 31.09 | 47.81 | -0.5 | -1.54  
 1.1 | ln[height] | (none) | - |  | --- | --- | ---  
 1.2a | canopy.position  | (none) | canopy<subcanopy |  | --- | --- | ---  
 1.2b | canopy.position + ln[height]  | ln[height] | canopy<subcanopy |  | --- | --- | --- 
