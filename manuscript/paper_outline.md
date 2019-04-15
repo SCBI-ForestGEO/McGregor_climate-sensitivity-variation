@@ -100,7 +100,7 @@ Prediction | Model variable(s)*  | Null model variables* | Predicted direction o
 |**Name**|**Contribution**|
 |--------|----------------|
 |Ian McGregor|running study|
-|Krista AT|senior author|
+|Krista Anderson-Teixeira|senior author|
 |Ryan Helcoski|processed cores|
 |Valentine Herrmann|R analyses|
 |Alan Tepley|provided guidance|
@@ -112,4 +112,8 @@ Any potential sources to look into can be listed here, but ultimately the master
 
 on canopy position:
 [Scharnweber et al. 2019](https://www.sciencedirect.com/science/article/pii/S1125786518302017)
+
 [Suarez et al. 2004](https://besjournals.onlinelibrary.wiley.com/doi/pdf/10.1111/j.1365-2745.2004.00941.x)
+
+on tree-rings:
+[Scharnweber et al 2019](https://www.sciencedirect.com/science/article/pii/S1125786518302017)
