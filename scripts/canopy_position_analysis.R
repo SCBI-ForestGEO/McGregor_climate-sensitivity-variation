@@ -169,6 +169,7 @@ clim_BIC_top <- clim_BIC %>%
   filter(BIC == min(BIC))
 #############################################################################################
 #4. finding pointer years and resistance metrics ####
+rm(list=ls())
 library(pointRes)
 library(dplR)
 library(data.table)
@@ -189,7 +190,7 @@ for (i in seq(along=dirs_can)){
   for (j in seq(along=sp_can)){
     if (i==j){
       file <- dirs_can[[i]]
-      rings <- read.rwl(file) #read in rwl file
+      rings <- read.rwl(paste0("data/core_files/canopy_cores/", file)) #read in rwl file
       area <- bai.in(rings) #convert to bai.in
       testr <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #get resilience metrics
       canopy[[i]] <- testr
@@ -224,7 +225,7 @@ for (i in seq(along=dirs_subcan)){
   for (j in seq(along=sp_subcan)){
     if (i==j){
       file <- dirs_subcan[[i]]
-      rings <- read.rwl(file) #read in rwl file
+      rings <- read.rwl(paste0("data/core_files/subcanopy_cores/", file)) #read in rwl file
       area <- bai.in(rings) #convert to bai.in
       test <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 50) #get resilience metrics
       subcanopy[[i]] <- test
@@ -273,7 +274,7 @@ neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist
 # pointer_years <- pointer_years[!pointer_years %in% c(1911, 1947, 1991)]
 pointer_years <- c(1964, 1965, 1966, 1977, 1999)
 
-# this is done because in the code below for canopy and subcanopy we are averaging the resistance values over 1964, 1965, and 1966, and calling it 1966.
+# IMPORTANT: we are defining "1966" as the average of the resistance values over 1964, 1965, and 1966.
 pointer_years_simple <- c(1966, 1977, 1999)
 
 ###canopy ####
@@ -685,12 +686,13 @@ trees_all$height_ln <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh_
 trees_all <- trees_all[complete.cases(trees_all), ]
 ##5h. remove resistance values >2 ####
 trees_all <- trees_all[trees_all$resist.value <=2,]
-##5i. make subsets for individual years ####
-x1964 <- trees_all[trees_all$year == 1964, ]
+##5i. make subsets for individual years, combine all to list ####
+# x1964 <- trees_all[trees_all$year == 1964, ]
 x1966 <- trees_all[trees_all$year == 1966, ]
 x1977 <- trees_all[trees_all$year == 1977, ]
 x1999 <- trees_all[trees_all$year == 1999, ]
 
+model_df <- list(trees_all, x1966, x1977, x1999)
 ##############################################################################################
 #6. mixed effects model for output of #5. ####
 library(lme4)
@@ -698,41 +700,129 @@ library(AICcmodavg) #aictab function
 library(car)
 library(piecewiseSEM) #for R^2 values for all model outputs in a list
 library(MuMIn) #for R^2 values of one model output
+library(stringr)
 
 ##6a. Determine best model to use with AICc ####
-#define response and effects
-response <- "resist.value"
-effects <- c("position", "height_ln", "(1|sp)")
-# effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "height_ln", "year", "(1 | sp/tree)")
+## create table to store results
+summary_models <- data.frame(
+  "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2"), 
+  "model_vars_all_years" = 
+    c("resist.value ~ dbh_ln+year+(1|sp/tree)", 
+       "resist.value ~ height_ln+year+(1|sp/tree)", 
+       "resist.value ~ position+year+(1|sp/tree)", 
+       "resist.value ~ position+height_ln+year+(1|sp/tree)", 
+       "resist.value ~ elev_m+height_ln+year+(1|sp/tree)", 
+       "resist.value ~ elev_m*height_ln+height_ln+year+(1|sp/tree)",
+       "resist.value ~ elev_m*height_ln+height_ln+year+(1|sp/tree)",
+       "resist.value ~ distance_ln+height_ln+year+(1|sp/tree)", 
+       "resist.value ~ distance_ln*height_ln+height_ln+year+(1|sp/tree)", 
+       "resist.value ~ tlp+height_ln+year+(1|sp/tree)", 
+       "resist.value ~ rp+height_ln+year+(1|sp/tree)"),
+  "null_model_all_years" = NA,
+  "model_vars_sep_years" = NA,
+  "null_model_sep_years" = NA,
+  
+   # "null_model_all_years" = c("resist.value ~ year+(1|sp/tree)", "resist.value ~ year+(1|sp/tree)", "resist.value ~ year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)", "resist.value ~ height_ln+year+(1|sp/tree)"), 
+  # "null_model_sep_years" = c("resist.value ~ (1|sp)", "resist.value ~ (1|sp)", "resist.value ~ (1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)", "resist.value ~ height_ln+(1|sp)"),
+                             "response_direction" = c(NA, "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse"), 
+                             "dAIC_all_years" = NA, 
+                             "dAIC_1964-1966" = NA, 
+                             "dAIC_1977" = NA, 
+                             "dAIC_1999" = NA)
+library(dplyr)
+# change factor columns to character
+summary_models %>% mutate_if(is.factor, as.character) -> summary_models
 
-#create all combinations of random / fixed effects
-effects_comb <- 
-  unlist( sapply( seq_len(length(effects)), 
-                  function(i) {
-                    apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
-                  }))
+summary_models[c(1:3), 3] <- "resist.value ~ year+(1|sp/tree)"
+summary_models[c(4:11), 3] <- "resist.value ~ height_ln+year+(1|sp/tree)"
+summary_models$model_vars_sep_years <- gsub("year\\+|/tree", "", summary_models$model_vars_all_years)
+summary_models$null_model_sep_years <- gsub("year\\+|/tree", "", summary_models$null_model_all_years)
 
-# pair response with effect and sub out combinations that don't include random effects
-#in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
-var_comb <- expand.grid(response, effects_comb) 
-var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
-# var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+summary_mod_vars_all <- summary_models$model_vars_all_years
+summary_mod_vars_sep <- summary_models$model_vars_sep_years
+summary_mod_null_all <- summary_models$null_model_all_years
+summary_mod_null_sep <- summary_models$null_model_sep_years
+all_effects <- colnames(trees_all)
 
-# formulas for all combinations. $Var1 is the response, and $Var2 is the effect
-# for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
-formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
+for (i in seq_along(model_df)){
+  for (h in seq(along=summary_mod_vars_all)){
+    if (i==1){
+      #define response and effects
+      response <- gsub(" ~.*", "", summary_mod_vars_all[[h]])
+      effects <- unlist(strsplit(summary_mod_vars_all[[h]], "\\+|~ "))[-1]
+      # all fixed effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "height_ln", "year")
+      
+      #create all combinations of random / fixed effects
+      effects_comb <- 
+        unlist( sapply( seq_len(length(effects)), 
+                        function(i) {
+                          apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
+                        }))
+      
+      # pair response with effect and sub out combinations that don't include random effects
+      #in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
+      var_comb <- expand.grid(response, effects_comb) 
+      var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+      var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+    } else {
+      #define response and effects
+      response <- gsub(" ~.*", "", summary_mod_vars_sep[[h]])
+      effects <- unlist(strsplit(summary_mod_vars_sep[[h]], "\\+|~ "))[-1]
+      # all fixed effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "height_ln")
+      
+      #create all combinations of random / fixed effects
+      effects_comb <- 
+        unlist( sapply( seq_len(length(effects)), 
+                        function(i) {
+                          apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
+                        }))
+      
+      # pair response with effect and sub out combinations that don't include random effects
+      #in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
+      var_comb <- expand.grid(response, effects_comb) 
+      var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed+random combos
+    }
+    
+    # formulas for all combinations. $Var1 is the response, and $Var2 is the effect
+    # for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
+    formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
+    
+    # create list of model outputs
+    lmm_all <- lapply(formula_vec, function(x){
+      fit1 <- lmer(x, data = model_df[[i]], REML=FALSE, 
+                   control = lmerControl(optimizer ="Nelder_Mead"))
+      return(fit1)
+    })
+    names(lmm_all) <- formula_vec
+    
+    var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+    r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+    
+    
+    if(i == 1){
+      var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_all[[h]], ]
+      var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_all[[h]], ]
+      summary_models[,7][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc
+      
+    } else if (i == 2) {
+      var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
+      var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
+      summary_models[,8][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc
+      
+    } else if (i == 3){
+      var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
+      var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
+      summary_models[,9][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc 
+      
+    } else if (i == 4){
+      var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
+      var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
+      summary_models[,10][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc
+    }
+  }
+}
 
-# create list of model outputs
-lmm_all <- lapply(formula_vec, function(x){
-  fit1 <- lmer(x, data = trees_all, REML=FALSE, 
-               control = lmerControl(optimizer ="Nelder_Mead"))
-  #fit1$coefficients <- coef( summary(fit1))
-  return(fit1)
-})
-names(lmm_all) <- formula_vec
 
-var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
-r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
 
 best <- lmm_all[[32]]
 coef(summary(best))[ , "Estimate"]
