@@ -755,12 +755,13 @@ summary_models <- data.frame(
   "null_model_all_years" = NA,
   "model_vars_sep_years" = NA,
   "null_model_sep_years" = NA,
-  "predicted_response" = NA,
-  "response_direction" = c(NA, "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse"), 
+  "response_predict" = c("-", "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse"),
+  "response_actual" = NA,
    "dAIC_all_years" = NA, 
    "dAIC_1964-1966" = NA, 
    "dAIC_1977" = NA, 
-   "dAIC_1999" = NA)
+   "dAIC_1999" = NA,
+    "notes" = NA)
 
 library(dplyr)
 # change factor columns to character
@@ -833,30 +834,31 @@ for (i in seq_along(model_df)){
     if(i == 1){
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_all[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_all[[h]], ]
-      summary_models[,8][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc
+      summary_models[,8][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
       
     } else if (i == 2) {
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
-      summary_models[,9][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc
+      summary_models[,9][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
       
     } else if (i == 3){
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
-      summary_models[,10][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc 
+      summary_models[,10][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
       
     } else if (i == 4){
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
-      summary_models[,11][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc
+      summary_models[,11][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
     }
   }
 }
 
-write.csv(summary_models, "manuscript/results.csv", row.names=FALSE)
+#csv has a 1 in the title to make sure any notes in current file are not overwritten
+write.csv(summary_models, "manuscript/results1.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
-best <- lmm_all[[32]]
+best <- lmm_all[[4]]
 coef(summary(best))[ , "Estimate"]
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln, data=trees_all, REML=FALSE)
