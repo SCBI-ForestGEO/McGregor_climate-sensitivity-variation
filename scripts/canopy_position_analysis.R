@@ -877,10 +877,9 @@ for (i in seq_along(model_df)){
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
       summary_models[,8][[h]] <- ifelse(
-        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) | 
-          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0), 
+        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
                                         summary_models[,8][[h]], NA)
-      
     } 
     else if (i == 2) {
       #isolate the AIC values of the target (sub) and null models, then math
@@ -923,8 +922,8 @@ for (i in seq_along(model_df)){
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
       summary_models[,10][[h]] <- ifelse(
-        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) | 
-          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0), 
+        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
         summary_models[,10][[h]], NA)
     } 
     else if (i == 3){
@@ -968,8 +967,8 @@ for (i in seq_along(model_df)){
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
       summary_models[,12][[h]] <- ifelse(
-        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) | 
-          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0), 
+        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
         summary_models[,12][[h]], NA)
       
     } 
@@ -1014,8 +1013,8 @@ for (i in seq_along(model_df)){
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
       summary_models[,14][[h]] <- ifelse(
-        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) | 
-          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0), 
+        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
         summary_models[,14][[h]], NA)
     }
   }
