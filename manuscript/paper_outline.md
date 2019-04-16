@@ -94,14 +94,14 @@ Prediction | Model variable(s)*  | Null model variables* | Predicted direction o
 
 This is a table showing which dAIC values are >2, but are listed as NA due to the interaction.
 
-| Prediction | Model | Original value dAIC
-|------------|--------|--------|
-|1.2a | dAIC 1964-1966| 9.54|
-|1.3b1|dAIC 1964-1966 |3.12|
-|1.3b1|dAIC 1977 | 4.32|
-|1.3a2|dAIC 1964-1966 | 3.74|
-|1.3b2|dAIC1964-1966 | 2.89 |
-|1.3b2|dAIC 1977 | 3.93|
+| Prediction | Model | Original value dAIC | Coefficient
+|------------|--------|--------|-----------------
+|1.2a | dAIC 1964-1966| 9.54| 0.0757
+|1.3b1|dAIC 1964-1966 |3.12| 0.0044
+|1.3b1|dAIC 1977 | 4.32| 0.0064
+|1.3a2|dAIC 1964-1966 | 3.74| -0.027
+|1.3b2|dAIC1964-1966 | 2.89 | 0.025
+|1.3b2|dAIC 1977 | 3.93| 0.127
 
 
 ## Discussion
