@@ -701,6 +701,7 @@ library(car)
 library(piecewiseSEM) #for R^2 values for all model outputs in a list
 library(MuMIn) #for R^2 values of one model output
 library(stringr)
+library(dplyr)
 
 ##6a. Determine best model to use with AICc ####
 #define response and effects
@@ -736,7 +737,7 @@ names(lmm_all) <- formula_vec
 var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
 r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
 
-##6ai. test predictions for paper ####
+##6ai. test predictions for paper and put in table ####
 ## create table to store results
 summary_models <- data.frame(
   "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2"), 
@@ -765,9 +766,8 @@ summary_models <- data.frame(
     "coef_1977" = NA,
    "dAIC_1999" = NA,
     "coef_1999" = NA,
-    "notes" = NA)
+    "notes" = "")
 
-library(dplyr)
 # change factor columns to character
 summary_models %>% mutate_if(is.factor, as.character) -> summary_models
 
@@ -783,7 +783,7 @@ summary_mod_vars_sep <- summary_models$model_vars_sep_years
 summary_mod_null_all <- summary_models$null_model_all_years
 summary_mod_null_sep <- summary_models$null_model_sep_years
 
-##this loop goes through each mix of effects from each prediction (nrow(summary_models)), and runs those models for each of the datasets (all years and the three individual ones). For each iteration (44 total), it calculates dAIC (AIC of model with variable defined in model_vars columns minus the AIC of the null model).
+##this loop goes through each mix of effects from each prediction (nrow(summary_models)), and runs those models for each of the datasets (all years and the three individual ones). For each iteration (44 total), it calculates dAIC (AIC of model with variable defined in model_vars columns minus the AIC of the null model) and the coefficients before putting them in the table created above.
 for (i in seq_along(model_df)){
   for (h in seq(along=summary_mod_vars_all)){
     if (i==1){
