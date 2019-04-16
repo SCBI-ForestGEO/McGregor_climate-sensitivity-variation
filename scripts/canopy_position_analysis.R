@@ -755,11 +755,12 @@ summary_models <- data.frame(
   "null_model_all_years" = NA,
   "model_vars_sep_years" = NA,
   "null_model_sep_years" = NA,
-        "response_direction" = c(NA, "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse"), 
-        "dAIC_all_years" = NA, 
-        "dAIC_1964-1966" = NA, 
-        "dAIC_1977" = NA, 
-        "dAIC_1999" = NA)
+  "predicted_response" = NA,
+  "response_direction" = c(NA, "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse"), 
+   "dAIC_all_years" = NA, 
+   "dAIC_1964-1966" = NA, 
+   "dAIC_1977" = NA, 
+   "dAIC_1999" = NA)
 
 library(dplyr)
 # change factor columns to character
@@ -832,22 +833,22 @@ for (i in seq_along(model_df)){
     if(i == 1){
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_all[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_all[[h]], ]
-      summary_models[,7][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc
+      summary_models[,8][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc
       
     } else if (i == 2) {
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
-      summary_models[,8][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc
+      summary_models[,9][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc
       
     } else if (i == 3){
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
-      summary_models[,9][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc 
+      summary_models[,10][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc 
       
     } else if (i == 4){
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
-      summary_models[,10][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc
+      summary_models[,11][[h]] <- var_aic_sub$Delta_AICc - var_aic_null$Delta_AICc
     }
   }
 }
