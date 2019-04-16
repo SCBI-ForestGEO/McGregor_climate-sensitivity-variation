@@ -755,12 +755,16 @@ summary_models <- data.frame(
   "null_model_all_years" = NA,
   "model_vars_sep_years" = NA,
   "null_model_sep_years" = NA,
-  "response_predict" = c("-", "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse"),
-  "response_actual" = NA,
-   "dAIC_all_years" = NA, 
-   "dAIC_1964-1966" = NA, 
+  "response_predict" = c(-1, -1, -1, -1, 1, 1, -1, 1, -1, -1, 1),
+  "response_sign" = c("-", "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse"),
+   "dAIC_all_years" = NA,
+    "coef_all_years" = NA,
+   "dAIC_1964.1966" = NA,
+    "coef_1964.1966" = NA,
    "dAIC_1977" = NA, 
+    "coef_1977" = NA,
    "dAIC_1999" = NA,
+    "coef_1999" = NA,
     "notes" = NA)
 
 library(dplyr)
@@ -798,7 +802,8 @@ for (i in seq_along(model_df)){
       var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
       var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
       
-    } else {
+    } 
+    else {
       
       #define response and effects
       response <- gsub(" ~.*", "", summary_mod_vars_sep[[h]])
@@ -832,24 +837,186 @@ for (i in seq_along(model_df)){
     
     #fill in table
     if(i == 1){
+      #isolate the AIC values of the target (sub) and null models, then math
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_all[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_all[[h]], ]
       summary_models[,8][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
+      var_aic_sub$Modnames <- as.character(var_aic_sub$Modnames)
       
-    } else if (i == 2) {
-      var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
-      var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
-      summary_models[,9][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
+      #this loop says for the models run for this iteration of h, take the model output represented by the target model (1). Get the coefficients and put in df (2). Rename variables such that you only pull what you need (3) and extract the coefficient for the variable you want (4).
+      for (z in seq(along = lmm_all)){
+        if (z == rownames(var_aic_sub)){ ##1
+          coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
+          coeff[,2] <- rownames(coeff)
+          colnames(coeff) <- c("value", "model_var")
+          
+          if (h == 3){ ##3
+            coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
+          } else if (h == 4){
+            coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          } else if (h %in% 5:10){
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          } else if (h == 11){
+            coeff$model_var <- gsub("ring", "", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          }
+          
+          for (y in seq(along = coeff$model_var)){ ##4
+            same <- coeff$model_var[[y]]
+            
+            if(grepl(same, summary_mod_vars_all[[h]])){
+              coeff_sub <- coeff[coeff$model_var == same, ]
+              }
+            }
+          }
+        }
       
-    } else if (i == 3){
+      #update the coefficient value
+      summary_models[,9][[h]] <- coeff_sub$value
+      
+      #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
+      summary_models[,8][[h]] <- ifelse(
+        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) | 
+          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0), 
+                                        summary_models[,8][[h]], NA)
+      
+    } 
+    else if (i == 2) {
+      #isolate the AIC values of the target (sub) and null models, then math
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
       summary_models[,10][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
+      var_aic_sub$Modnames <- as.character(var_aic_sub$Modnames)
       
-    } else if (i == 4){
+      #this loop says for the models run for this iteration of h, take the model output represented by the target model (1). Get the coefficients and put in df (2). Rename variables such that you only pull what you need (3) and extract the coefficient for the variable you want (4).
+      for (z in seq(along = lmm_all)){
+        if (z == rownames(var_aic_sub)){ ##1
+          coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
+          coeff[,2] <- rownames(coeff)
+          colnames(coeff) <- c("value", "model_var")
+          
+          if (h == 3){ ##3
+            coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
+          } else if (h == 4){
+            coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          } else if (h %in% 5:10){
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          } else if (h == 11){
+            coeff$model_var <- gsub("ring", "", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          }
+          
+          for (y in seq(along = coeff$model_var)){ ##4
+            same <- coeff$model_var[[y]]
+            
+            if(grepl(same, summary_mod_vars_all[[h]])){
+              coeff_sub <- coeff[coeff$model_var == same, ]
+            }
+          }
+        }
+      }
+      
+      #update the coefficient value
+      summary_models[,11][[h]] <- coeff_sub$value
+      
+      #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
+      summary_models[,10][[h]] <- ifelse(
+        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) | 
+          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0), 
+        summary_models[,10][[h]], NA)
+    } 
+    else if (i == 3){
+      #isolate the AIC values of the target (sub) and null models, then math
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
-      summary_models[,11][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
+      summary_models[,12][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
+      var_aic_sub$Modnames <- as.character(var_aic_sub$Modnames)
+      
+      #this loop says for the models run for this iteration of h, take the model output represented by the target model (1). Get the coefficients and put in df (2). Rename variables such that you only pull what you need (3) and extract the coefficient for the variable you want (4).
+      for (z in seq(along = lmm_all)){
+        if (z == rownames(var_aic_sub)){ ##1
+          coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
+          coeff[,2] <- rownames(coeff)
+          colnames(coeff) <- c("value", "model_var")
+          
+          if (h == 3){ ##3
+            coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
+          } else if (h == 4){
+            coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          } else if (h %in% 5:10){
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          } else if (h == 11){
+            coeff$model_var <- gsub("ring", "", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          }
+          
+          for (y in seq(along = coeff$model_var)){ ##4
+            same <- coeff$model_var[[y]]
+            
+            if(grepl(same, summary_mod_vars_all[[h]])){
+              coeff_sub <- coeff[coeff$model_var == same, ]
+            }
+          }
+        }
+      }
+      
+      #update the coefficient value
+      summary_models[,13][[h]] <- coeff_sub$value
+      
+      #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
+      summary_models[,12][[h]] <- ifelse(
+        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) | 
+          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0), 
+        summary_models[,12][[h]], NA)
+      
+    } 
+    else if (i == 4){
+      #isolate the AIC values of the target (sub) and null models, then math
+      var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
+      var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
+      summary_models[,14][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
+      var_aic_sub$Modnames <- as.character(var_aic_sub$Modnames)
+      
+      #this loop says for the models run for this iteration of h, take the model output represented by the target model (1). Get the coefficients and put in df (2). Rename variables such that you only pull what you need (3) and extract the coefficient for the variable you want (4).
+      for (z in seq(along = lmm_all)){
+        if (z == rownames(var_aic_sub)){ ##1
+          coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
+          coeff[,2] <- rownames(coeff)
+          colnames(coeff) <- c("value", "model_var")
+          
+          if (h == 3){ ##3
+            coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
+          } else if (h == 4){
+            coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          } else if (h %in% 5:10){
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          } else if (h == 11){
+            coeff$model_var <- gsub("ring", "", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          }
+          
+          for (y in seq(along = coeff$model_var)){ ##4
+            same <- coeff$model_var[[y]]
+            
+            if(grepl(same, summary_mod_vars_all[[h]])){
+              coeff_sub <- coeff[coeff$model_var == same, ]
+            }
+          }
+        }
+      }
+      
+      #update the coefficient value
+      summary_models[,15][[h]] <- coeff_sub$value
+      
+      #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
+      summary_models[,14][[h]] <- ifelse(
+        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) | 
+          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0), 
+        summary_models[,14][[h]], NA)
     }
   }
 }
@@ -858,7 +1025,7 @@ for (i in seq_along(model_df)){
 write.csv(summary_models, "manuscript/results1.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
-best <- lmm_all[[4]]
+best <- lmm_all[[2]]
 coef(summary(best))[ , "Estimate"]
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln, data=trees_all, REML=FALSE)
