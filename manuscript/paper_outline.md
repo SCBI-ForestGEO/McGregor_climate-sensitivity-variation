@@ -92,6 +92,18 @@ Prediction | Model variable(s)*  | Null model variables* | Predicted direction o
 
 *** dAIC is calculated as AIC_model with variable(s) - AIC_null model. When response is opposite prediction, dAIC is listed as NA (there no instances of this where dAIC>2 --*confirm*).
 
+This is a table showing which dAIC values are >2, but are listed as NA due to the interaction.
+
+| Prediction | Model | Original value dAIC
+|------------|--------|--------|
+|1.2a | dAIC 1964-1966| 9.54|
+|1.3b1|dAIC 1964-1966 |3.12|
+|1.3b1|dAIC 1977 | 4.32|
+|1.3a2|dAIC 1964-1966 | 3.74|
+|1.3b2|dAIC1964-1966 | 2.89 |
+|1.3b2|dAIC 1977 | 3.93|
+
+
 ## Discussion
 
 
