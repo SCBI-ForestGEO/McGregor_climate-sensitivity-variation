@@ -1,4 +1,9 @@
-#canopy position analysis from tree cores
+######################################################
+# Purpose: Analysis of tree cores with relation to tree characteristics, in order to determine causes of drought susceptibility (using ForestGEO cores)
+# Developed by: Ian McGregor - mcgregori@si.edu
+# R version 3.5.2 - First created February 2019
+######################################################
+
 
 #1. full script set-up ####
 library(RCurl)
@@ -681,6 +686,7 @@ trees_all$height_ln <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh_
                       ifelse(trees_all$sp == "quru", (1.13+0.54*trees_all$dbh_ln),
                              (0.849+0.659*trees_all$dbh_ln))))))))
 
+trees_all$height <- exp(trees_all$height_ln)
 
 ##5g. remove all NAs ####
 trees_all <- trees_all[complete.cases(trees_all), ]
@@ -1064,17 +1070,27 @@ write.csv(full_mod_all, "manuscript/full_models.csv", row.names=FALSE)
 ##table looking at only full model over all years ####
 ##we ran all variables (aka a full model) against all years combined and found that position, height*elev, tlp, and rp were the variables in the best model. Using this knowledge, here we created a dfferent version of the original table.
 summary_models <- data.frame(
-  "prediction" = c("1.2c1, 1.3a1", "1.2c2", "1.3b1"), 
+  "prediction" = c("1.1", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.2c2,1.3b1", "2.1", "2.2"), 
   "model_vars_all_years" = 
-    c("resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",
+    c("resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
       "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
       "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)"),
   "null_model_all_years" = 
-    c("resist.value ~ position+height_ln+tlp+rp+year+(1|sp/tree)",
+    c("resist.value ~ position+elev_m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln+tlp+rp+year+(1|sp/tree)",
       "resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)"),
-  "response_predict" = c(1, 1, -1),
-  "response_sign" = c("+", "+", "-"),
+      "resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln*elev_m+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln*elev_m+tlp+year+(1|sp/tree)"),
+  "response_predict" = c(1, 1, -1, 1, -1, 1, -1, 1),
+  "response_sign" = c("+", "canopy<subcanopy", "-", "+", "-", "+", "-", "ring>diffuse"),
   "dAIC_all_years" = NA,
   "coef_all_years" = NA,
   "coef_var" = NA,
@@ -1142,17 +1158,57 @@ for (i in seq_along(model_df)){
             for (y in seq(along = coeff$model_var)){ ##4
               same <- coeff$model_var[[y]]
               
+              if(same == "height_ln"){
+                coeff_sub <- coeff[coeff$model_var == same, ]
+                summary_models[,8][[h]] <- same
+              }
+            }
+          }
+          else if (h == 2){
+            for (y in seq(along = coeff$model_var)){ ##4
+              same <- coeff$model_var[[y]]
+              
+              if(same == "positionsubcanopy"){
+                coeff_sub <- coeff[coeff$model_var == same, ]
+                summary_models[,8][[h]] <- same
+              }
+            }
+          }
+          else if (h == 3 |h == 6){
+            for (y in seq(along = coeff$model_var)){ ##4
+              same <- coeff$model_var[[y]]
+              
               if(same == "elev_m"){
                 coeff_sub <- coeff[coeff$model_var == same, ]
                 summary_models[,8][[h]] <- same
               }
             }
           }
-          if (h == 2 | h == 3){
+          else if (h == 4 |h == 5){
             for (y in seq(along = coeff$model_var)){ ##4
               same <- coeff$model_var[[y]]
               
               if(same == "height_ln:elev_m"){
+                coeff_sub <- coeff[coeff$model_var == same, ]
+                summary_models[,8][[h]] <- same
+              }
+            }
+          }
+          else if (h == 7){
+            for (y in seq(along = coeff$model_var)){ ##4
+              same <- coeff$model_var[[y]]
+              
+              if(same == "tlp"){
+                coeff_sub <- coeff[coeff$model_var == same, ]
+                summary_models[,8][[h]] <- same
+              }
+            }
+          }
+          else if (h == 8){
+            for (y in seq(along = coeff$model_var)){ ##4
+              same <- coeff$model_var[[y]]
+              
+              if(same == "rpring"){
                 coeff_sub <- coeff[coeff$model_var == same, ]
                 summary_models[,8][[h]] <- same
               }
@@ -1165,10 +1221,10 @@ for (i in seq_along(model_df)){
       summary_models[,7][[h]] <- coeff_sub$value
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
-        summary_models[,6][[h]] <- ifelse(
-          (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
-            (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
-          summary_models[,6][[h]], NA)
+        # summary_models[,6][[h]] <- ifelse(
+        #   (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+        #     (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
+        #   summary_models[,6][[h]], NA)
       
         coeff <- coeff[-1,]
         coeff_max <- coeff[coeff$value == max(coeff$value), ]
@@ -1178,10 +1234,10 @@ for (i in seq_along(model_df)){
 }
 
 #csv has a 1 in the title to make sure any notes in current file are not overwritten
-write.csv(summary_models, "manuscript/results_total.csv", row.names=FALSE)
+write.csv(summary_models, "manuscript/results_full_models_combined_years.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
-best <- lmm_all[[97]]
+best <- lmm_all[[32]]
 coef(summary(best))[ , "Estimate"]
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln, data=trees_all, REML=FALSE)
@@ -1195,9 +1251,8 @@ aic_top <- var_aic %>%
 
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
-response <- gsub(" ~.*", "", summary_mod_vars_all[[h]])
-effects <- unlist(strsplit(summary_mod_vars_all[[h]], "\\+|~ "))[-1]
-# all fixed effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "height_ln", "year")
+response <- "resist.value"
+effects <- c("position", "tlp", "rp", "elev_m", "height_ln", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -1218,7 +1273,7 @@ formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
 
 # create list of model outputs
 lmm_all <- lapply(formula_vec, function(x){
-  fit1 <- lmer(x, data = model_df[[i]], REML=FALSE, 
+  fit1 <- lmer(x, data = trees_all, REML=FALSE, 
                control = lmerControl(optimizer ="Nelder_Mead"))
   return(fit1)
 })
