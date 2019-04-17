@@ -705,7 +705,7 @@ library(dplyr)
 
 ##6a. Determine best model to use with AICc ####
 ##6ai. test predictions for paper and put in table ####
-## create table to store results
+## initial table with models based on github issue predictions ####
 summary_models <- data.frame(
   "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2", "4"), 
   "model_vars_all_years" = 
@@ -720,7 +720,7 @@ summary_models <- data.frame(
        "resist.value ~ distance_ln*height_ln+height_ln+year+(1|sp/tree)", 
        "resist.value ~ tlp+height_ln+year+(1|sp/tree)", 
        "resist.value ~ rp+height_ln+year+(1|sp/tree)",
-        "resist.value ~ dbh_ln+height_ln+position+elev_m+distance_ln+tlp+rp+year+(1|sp/tree)"),
+        "resist.value ~ dbh_ln+height_ln+position+height_ln*elev_m+distance_ln+tlp+rp+year+(1|sp/tree)"),
   "null_model_all_years" = NA,
   "model_vars_sep_years" = NA,
   "null_model_sep_years" = NA,
@@ -1061,8 +1061,126 @@ for (i in seq_along(model_df)){
 write.csv(summary_models, "manuscript/results1.csv", row.names=FALSE)
 write.csv(full_mod_all, "manuscript/full_models.csv", row.names=FALSE)
 
+##table looking at only full model over all years ####
+summary_models <- data.frame(
+  "prediction" = c("1.2c1, 1.3a1", "1.2c2", "1.3b1"), 
+  "model_vars_all_years" = 
+    c("resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)"),
+  "null_model_all_years" = 
+    c("resist.value ~ position+height_ln+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)"),
+  "response_predict" = c(1, 1, -1),
+  "response_sign" = c("+", "+", "-"),
+  "dAIC_all_years" = NA,
+  "coef_all_years" = NA,
+  "coef_var" = NA,
+  "coef_all_big" = NA,
+  "notes" = "")
+
+# change factor columns to character
+summary_models %>% mutate_if(is.factor, as.character) -> summary_models
+
+#define vectors to be used in loop
+summary_mod_vars_all <- summary_models$model_vars_all_years
+summary_mod_null_all <- summary_models$null_model_all_years
+
+##this loop goes through each mix of effects from each prediction (nrow(summary_models)), and runs those models for the full years. it calculates dAIC (AIC of model with variable defined in model_vars columns minus the AIC of the null model) and the coefficients before putting them in the table created above.
+for (i in seq_along(model_df)){
+  for (h in seq(along=summary_mod_vars_all)){
+    if (i==1){
+      #structure of creating the model strings come from 6a above.
+      response <- gsub(" ~.*", "", summary_mod_vars_all[[h]])
+      effects <- unlist(strsplit(summary_mod_vars_all[[h]], "\\+|~ "))[-1]
+      
+      #create all combinations of random / fixed effects
+      effects_comb <- 
+        unlist( sapply( seq_len(length(effects)), 
+                        function(i) {
+                          apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
+                        }))
+      #make table
+      var_comb <- expand.grid(response, effects_comb) 
+      var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+      var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+      
+    } 
+    
+    #formulas for all combinations.
+    formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
+    
+    # create list of model outputs
+    lmm_all <- lapply(formula_vec, function(x){
+      fit1 <- lmer(x, data = model_df[[i]], REML=FALSE, 
+                   control = lmerControl(optimizer ="Nelder_Mead"))
+      return(fit1)
+    })
+    names(lmm_all) <- formula_vec
+    
+    var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+    r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+    
+    #fill in table
+    if(i == 1){
+      #isolate the AIC values of the target (sub) and null models, then math
+      var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_all[[h]], ]
+      var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_all[[h]], ]
+      summary_models[,6][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
+      var_aic_sub$Modnames <- as.character(var_aic_sub$Modnames)
+
+      ## get coefficients and put in table
+      for (z in seq(along = lmm_all)){
+        if (z == rownames(var_aic_sub)){ ##1
+          coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
+          coeff[,2] <- rownames(coeff)
+          colnames(coeff) <- c("value", "model_var")
+          
+          if (h == 1){
+            for (y in seq(along = coeff$model_var)){ ##4
+              same <- coeff$model_var[[y]]
+              
+              if(same == "elev_m"){
+                coeff_sub <- coeff[coeff$model_var == same, ]
+                summary_models[,8][[h]] <- same
+              }
+            }
+          }
+          if (h == 2 | h == 3){
+            for (y in seq(along = coeff$model_var)){ ##4
+              same <- coeff$model_var[[y]]
+              
+              if(same == "height_ln:elev_m"){
+                coeff_sub <- coeff[coeff$model_var == same, ]
+                summary_models[,8][[h]] <- same
+              }
+            }
+          }
+        }
+      }
+      
+      #update the coefficient value
+      summary_models[,7][[h]] <- coeff_sub$value
+      
+      #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
+        summary_models[,6][[h]] <- ifelse(
+          (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+            (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
+          summary_models[,6][[h]], NA)
+      
+        coeff <- coeff[-1,]
+        coeff_max <- coeff[coeff$value == max(coeff$value), ]
+        summary_models[,9][[h]] <- coeff_max$model_var
+    } 
+  }
+}
+
+#csv has a 1 in the title to make sure any notes in current file are not overwritten
+write.csv(summary_models, "manuscript/results_total.csv", row.names=FALSE)
+
 ##6aii. coefficients ####
-best <- lmm_all[[2]]
+best <- lmm_all[[97]]
 coef(summary(best))[ , "Estimate"]
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln, data=trees_all, REML=FALSE)
