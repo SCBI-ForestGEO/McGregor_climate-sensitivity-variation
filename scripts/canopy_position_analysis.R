@@ -390,7 +390,7 @@ bai_table_can <- NULL
 for (i in seq(along=dirs_can)){
   for (j in seq(along=sp_can)){
     if (i==j){
-      file <- dirs_can[[i]]
+      file <- paste0("data/core_files/canopy_cores/", dirs_can[[i]])
       rings <- read.rwl(file) #read in rwl file
       area <- bai.in(rings) #convert to bai.in
       
@@ -424,7 +424,7 @@ bai_table_sub <- NULL
 for (i in seq(along=dirs_subcan)){
   for (j in seq(along=sp_subcan)){
     if (i==j){
-      file <- dirs_subcan[[i]]
+      file <- file <- paste0("data/core_files/subcanopy_cores/", dirs_subcan[[i]])
       rings <- read.rwl(file) #read in rwl file
       area <- bai.in(rings) #convert to bai.in
       
@@ -477,7 +477,7 @@ q_plot <- ggplot(data = q) +
   theme_minimal()
 
 #plot and manually subset to 1950+
-plot_ly(q, x=q$year, y=q$resid, type="scatter", mode="lines")
+# plot_ly(q, x=q$year, y=q$resid, type="scatter", mode="lines")
 
 pdsi <- read.csv("data/pdsi_value_comparison.csv")
 
@@ -493,7 +493,7 @@ ggplot(data = pdsi_true) +
   theme_minimal()
 
 #plot and manually subset to 1950+
-plot_ly(pdsi_true, x=pdsi_true$year, y=pdsi_true$resid, type="scatter", mode="line")
+# plot_ly(pdsi_true, x=pdsi_true$year, y=pdsi_true$resid, type="scatter", mode="line")
 
 ##########################################################################################
 #5. add in climate and growth variables ####
@@ -704,43 +704,10 @@ library(stringr)
 library(dplyr)
 
 ##6a. Determine best model to use with AICc ####
-#define response and effects
-response <- gsub(" ~.*", "", summary_mod_vars_all[[h]])
-effects <- unlist(strsplit(summary_mod_vars_all[[h]], "\\+|~ "))[-1]
-# all fixed effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "height_ln", "year")
-
-#create all combinations of random / fixed effects
-effects_comb <- 
-  unlist( sapply( seq_len(length(effects)), 
-                  function(i) {
-                    apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
-                  }))
-
-# pair response with effect and sub out combinations that don't include random effects
-#in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
-var_comb <- expand.grid(response, effects_comb) 
-var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
-var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
-
-# formulas for all combinations. $Var1 is the response, and $Var2 is the effect
-# for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
-formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
-
-# create list of model outputs
-lmm_all <- lapply(formula_vec, function(x){
-  fit1 <- lmer(x, data = model_df[[i]], REML=FALSE, 
-               control = lmerControl(optimizer ="Nelder_Mead"))
-  return(fit1)
-})
-names(lmm_all) <- formula_vec
-
-var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
-r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
-
 ##6ai. test predictions for paper and put in table ####
 ## create table to store results
 summary_models <- data.frame(
-  "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2"), 
+  "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2", "4"), 
   "model_vars_all_years" = 
     c("resist.value ~ dbh_ln+year+(1|sp/tree)", 
        "resist.value ~ height_ln+year+(1|sp/tree)", 
@@ -752,12 +719,13 @@ summary_models <- data.frame(
        "resist.value ~ distance_ln+height_ln+year+(1|sp/tree)", 
        "resist.value ~ distance_ln*height_ln+height_ln+year+(1|sp/tree)", 
        "resist.value ~ tlp+height_ln+year+(1|sp/tree)", 
-       "resist.value ~ rp+height_ln+year+(1|sp/tree)"),
+       "resist.value ~ rp+height_ln+year+(1|sp/tree)",
+        "resist.value ~ dbh_ln+height_ln+position+elev_m+distance_ln+tlp+rp+year+(1|sp/tree)"),
   "null_model_all_years" = NA,
   "model_vars_sep_years" = NA,
   "null_model_sep_years" = NA,
-  "response_predict" = c(-1, -1, -1, -1, 1, 1, -1, 1, -1, -1, 1),
-  "response_sign" = c("-", "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse"),
+  "response_predict" = c(-1, -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, NA),
+  "response_sign" = c("-", "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse", "+"),
    "dAIC_all_years" = NA,
     "coef_all_years" = NA,
    "dAIC_1964.1966" = NA,
@@ -766,14 +734,18 @@ summary_models <- data.frame(
     "coef_1977" = NA,
    "dAIC_1999" = NA,
     "coef_1999" = NA,
-    "notes" = "")
+    "notes" = "",
+    "coef_all_big" = NA,
+    "coef_1966_big" = NA,
+    "coef_1977_big" = NA,
+    "coef_1999_big" = NA)
 
 # change factor columns to character
 summary_models %>% mutate_if(is.factor, as.character) -> summary_models
 
 # fill in other columns
 summary_models[c(1:3), 3] <- "resist.value ~ year+(1|sp/tree)"
-summary_models[c(4:11), 3] <- "resist.value ~ height_ln+year+(1|sp/tree)"
+summary_models[c(4:12), 3] <- "resist.value ~ height_ln+year+(1|sp/tree)"
 summary_models$model_vars_sep_years <- gsub("year\\+|/tree", "", summary_models$model_vars_all_years)
 summary_models$null_model_sep_years <- gsub("year\\+|/tree", "", summary_models$null_model_all_years)
 
@@ -860,6 +832,14 @@ for (i in seq_along(model_df)){
           } else if (h == 11){
             coeff$model_var <- gsub("ring", "", coeff$model_var)
             coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          } else if (h == 12){
+            coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
+            coeff$model_var <- gsub("ring", "", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            
+            full_mod <- var_aic[1:10, c(1,4)]
+            full_mod[11,] <- var_aic_sub[,c(1,4)]
+            colnames(full_mod) <- c("Modnames_all_years", "dAIC_all_years")
           }
           
           for (y in seq(along = coeff$model_var)){ ##4
@@ -873,13 +853,21 @@ for (i in seq_along(model_df)){
         }
       
       #update the coefficient value
-      summary_models[,9][[h]] <- coeff_sub$value
+      summary_models[,9][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
-      summary_models[,8][[h]] <- ifelse(
-        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
-          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
-                                        summary_models[,8][[h]], NA)
+      if (h!=12){
+        summary_models[,8][[h]] <- ifelse(
+          (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+            (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
+          summary_models[,8][[h]], NA)
+      }
+      
+      if(h==12){
+        coeff <- coeff[-1,]
+        coeff_max <- coeff[coeff$value == max(coeff$value), ]
+        summary_models[,17][[h]] <- coeff_max$model_var
+      }
     } 
     else if (i == 2) {
       #isolate the AIC values of the target (sub) and null models, then math
@@ -905,6 +893,14 @@ for (i in seq_along(model_df)){
           } else if (h == 11){
             coeff$model_var <- gsub("ring", "", coeff$model_var)
             coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          } else if (h == 12){
+            coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
+            coeff$model_var <- gsub("ring", "", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            
+            full_mod_1966 <- var_aic[1:10, c(1,4)]
+            full_mod_1966[11,] <- var_aic_sub[,c(1,4)]
+            colnames(full_mod_1966) <- c("Modnames_1966", "dAIC_1966")
           }
           
           for (y in seq(along = coeff$model_var)){ ##4
@@ -918,13 +914,21 @@ for (i in seq_along(model_df)){
       }
       
       #update the coefficient value
-      summary_models[,11][[h]] <- coeff_sub$value
+      summary_models[,11][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
-      summary_models[,10][[h]] <- ifelse(
-        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
-          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
-        summary_models[,10][[h]], NA)
+      if (h!=12){
+        summary_models[,10][[h]] <- ifelse(
+          (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+            (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
+          summary_models[,10][[h]], NA) 
+      }
+     
+      if(h==12){
+        coeff <- coeff[-1,]
+        coeff_max <- coeff[coeff$value == max(coeff$value), ]
+        summary_models[,18][[h]] <- coeff_max$model_var
+      }
     } 
     else if (i == 3){
       #isolate the AIC values of the target (sub) and null models, then math
@@ -950,6 +954,14 @@ for (i in seq_along(model_df)){
           } else if (h == 11){
             coeff$model_var <- gsub("ring", "", coeff$model_var)
             coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          } else if (h == 12){
+            coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
+            coeff$model_var <- gsub("ring", "", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            
+            full_mod_1977 <- var_aic[1:10, c(1,4)]
+            full_mod_1977[11,] <- var_aic_sub[,c(1,4)]
+            colnames(full_mod_1977) <- c("Modnames_1977", "dAIC_1977")
           }
           
           for (y in seq(along = coeff$model_var)){ ##4
@@ -963,14 +975,21 @@ for (i in seq_along(model_df)){
       }
       
       #update the coefficient value
-      summary_models[,13][[h]] <- coeff_sub$value
+      summary_models[,13][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
-      summary_models[,12][[h]] <- ifelse(
-        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
-          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
-        summary_models[,12][[h]], NA)
+      if(h!=12){
+        summary_models[,12][[h]] <- ifelse(
+          (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+            (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
+          summary_models[,12][[h]], NA)
+      }
       
+      if(h==12){
+        coeff <- coeff[-1,]
+        coeff_max <- coeff[coeff$value == max(coeff$value), ]
+        summary_models[,19][[h]] <- coeff_max$model_var
+      }
     } 
     else if (i == 4){
       #isolate the AIC values of the target (sub) and null models, then math
@@ -996,6 +1015,16 @@ for (i in seq_along(model_df)){
           } else if (h == 11){
             coeff$model_var <- gsub("ring", "", coeff$model_var)
             coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+          } else if (h == 12){
+            coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
+            coeff$model_var <- gsub("ring", "", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            
+            full_mod_1999 <- var_aic[1:10, c(1,4)]
+            full_mod_1999[11,] <- var_aic_sub[,c(1,4)]
+            colnames(full_mod_1999) <- c("Modnames_1999", "dAIC_1999")
+            
+            full_mod_all <- cbind(full_mod, full_mod_1966, full_mod_1977, full_mod_1999)
           }
           
           for (y in seq(along = coeff$model_var)){ ##4
@@ -1009,19 +1038,28 @@ for (i in seq_along(model_df)){
       }
       
       #update the coefficient value
-      summary_models[,15][[h]] <- coeff_sub$value
+      summary_models[,15][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
-      summary_models[,14][[h]] <- ifelse(
-        (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
-          (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
-        summary_models[,14][[h]], NA)
+      if (h!=12){
+        summary_models[,14][[h]] <- ifelse(
+          (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+            (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
+          summary_models[,14][[h]], NA)
+      }
+      
+      if (h==12){
+        coeff <- coeff[-1,]
+        coeff_max <- coeff[coeff$value == max(coeff$value), ]
+        summary_models[,20][[h]] <- coeff_max$model_var
+      }
     }
   }
 }
 
 #csv has a 1 in the title to make sure any notes in current file are not overwritten
 write.csv(summary_models, "manuscript/results1.csv", row.names=FALSE)
+write.csv(full_mod_all, "manuscript/full_models.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
 best <- lmm_all[[2]]
@@ -1035,6 +1073,40 @@ mapply(anova, lmm_all, SIMPLIFY = FALSE)
 #subset by only the top result (the minimum AICc value)
 aic_top <- var_aic %>%
   filter(AICc == min(AICc))
+
+##6aiii. base code for running multiple models through AICc eval ####
+#define response and effects
+response <- gsub(" ~.*", "", summary_mod_vars_all[[h]])
+effects <- unlist(strsplit(summary_mod_vars_all[[h]], "\\+|~ "))[-1]
+# all fixed effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "height_ln", "year")
+
+#create all combinations of random / fixed effects
+effects_comb <- 
+  unlist( sapply( seq_len(length(effects)), 
+                  function(i) {
+                    apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
+                  }))
+
+# pair response with effect and sub out combinations that don't include random effects
+#in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
+var_comb <- expand.grid(response, effects_comb) 
+var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+
+# formulas for all combinations. $Var1 is the response, and $Var2 is the effect
+# for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
+formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
+
+# create list of model outputs
+lmm_all <- lapply(formula_vec, function(x){
+  fit1 <- lmer(x, data = model_df[[i]], REML=FALSE, 
+               control = lmerControl(optimizer ="Nelder_Mead"))
+  return(fit1)
+})
+names(lmm_all) <- formula_vec
+
+var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
 
 ##6b. determine the best model from anova (using the model candidates above) ####
 #interestingly, this gives a similar result to running AICc, with Pr(>Chisq) acting as a kind of p-value for showing which model is best to use.
