@@ -117,6 +117,7 @@ This is a table showing which dAIC values are >2, but are listed as NA due to th
 |Valentine Herrmann|R analyses|
 |Alan Tepley|provided guidance|
 |Neil Pederson|provided guidance|
+|Amanda Jean Seglem|got canopy position data|
 
 
 ## Sources
