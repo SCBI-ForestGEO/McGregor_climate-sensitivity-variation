@@ -23,6 +23,8 @@ Krista Anderson-Teixeira
 
 Understanding how and why trees respond to drought is critical to predicting forest drought responses and climate change feedbacks.
 
+Bennett et al. 2015 showed that in forests globally, large trees suffer greater growth reductions during drought. However, this analysis quantified tree size based on DBH, which has no direct mechanistic meaning. This study proposed two major mechanisms (besides insects): (1) inherently greater biophysical challenge of being tall; (2) greater exposure of the crowns of large trees. It is also expected that roots play a role. And its possible that smaller trees are more drought resistant. These hypotheses need to be tested.
+
 *Questions & Hypotheses*
 
 
