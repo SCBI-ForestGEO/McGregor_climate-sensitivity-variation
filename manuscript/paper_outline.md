@@ -1,5 +1,20 @@
 # Tree size, exposure, and hydraulic traits interactively shape drought response in a temperate broadleaf forest
 
+Ian McGregor
+
+Ryan Helcoski
+
+Norbert Kunert
+
+Alan Tepley
+
+Valentine Herrmann
+
+Neil Pederson
+
+Lawren Sack
+
+Krista Anderson-Teixeira
 
 ## Abstract
 
@@ -102,24 +117,33 @@ This is a table showing which dAIC values are >2, but are listed as NA due to th
 |1.3a2|dAIC 1964-1966 | 3.74| -0.027
 |1.3b2|dAIC1964-1966 | 2.89 | 0.025
 |1.3b2|dAIC 1977 | 3.93| 0.127
+([remove this table](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues))
+
+- - - 
+
+- Our site matches trend observed globally by Bennett et al.: Larger trees had lower restistance to drought (1.0)
+
+- H1.1 is supported. Height was the most important variable explaining resistance (1.1) and height_ln explained more variation than DBH_ln.  
+
+- H1.2 is rejected. Subcanopy trees had lower resistance (but confirm- see [issue #19](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues); H1.2a). Trees at higher elevations had greater resistance (H1.2b), particularly when they were tall (H1.2c).
+
+- H1.3 is  partially rejected/ partially accepted: drought resistance decreases with elevation or distance from water (H1.3a). However, there is a + interaction between height_ln and elev or distance, indicating that short trees have less resistance (relative to tall trees) as you move up in elevation/away from streams.
+
+- H2.1 is supported; trees with less negative TLP has lower resistance
+
+- H2.2 is supported; ring porous trees have greater resistance
 
 
 ## Discussion
 
 
-## Collaborators
+## Acknowledgements
 
 |**Name**|**Contribution**|
 |--------|----------------|
-|Ian McGregor|running study|
-|Krista Anderson-Teixeira|senior author|
-|Ryan Helcoski|processed cores|
-|Valentine Herrmann|R analyses|
-|Alan Tepley|provided guidance|
-|Neil Pederson|provided guidance|
 |Amanda Jean Seglem|got canopy position data|
-
-
+|see list [here](https://github.com/EcoClimLab/HydraulicTraits/tree/master/data/SCBI)| help with traits|
+| see list [here](https://github.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/tree/master/tree_cores) | help with cores|
 ## Sources
 Any potential sources to look into can be listed here, but ultimately the master sources list will be on Zotero.
 
