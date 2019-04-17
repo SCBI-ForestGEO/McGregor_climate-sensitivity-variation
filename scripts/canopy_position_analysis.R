@@ -1062,6 +1062,7 @@ write.csv(summary_models, "manuscript/results1.csv", row.names=FALSE)
 write.csv(full_mod_all, "manuscript/full_models.csv", row.names=FALSE)
 
 ##table looking at only full model over all years ####
+##we ran all variables (aka a full model) against all years combined and found that position, height*elev, tlp, and rp were the variables in the best model. Using this knowledge, here we created a dfferent version of the original table.
 summary_models <- data.frame(
   "prediction" = c("1.2c1, 1.3a1", "1.2c2", "1.3b1"), 
   "model_vars_all_years" = 
