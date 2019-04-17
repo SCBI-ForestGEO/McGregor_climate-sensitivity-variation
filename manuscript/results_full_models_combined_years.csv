@@ -4,6 +4,6 @@
 "1.2c1, 1.3a1","resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)","resist.value ~ position+height_ln+tlp+rp+year+(1|sp/tree)",1,"+",1.13,0.000804175005570235,"elev_m","rpring",""
 "1.2c2","resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)","resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",1,"+",1.33,-0.00157959334784564,"height_ln:elev_m","height_ln",""
 "1.3b1","resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)","resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",-1,"-",1.33,-0.00157959334784564,"height_ln:elev_m","height_ln",""
-"1.2c2,1.3b1","resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)","resist.value ~ position+height_ln+tlp+rp+year+(1|sp/tree)",1,"-",2.45,0.00483368212916991,"elev_m","height_ln",""
-"2.1","resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)","resist.value ~ position+height_ln*elev_m+rp+year+(1|sp/tree)",1,"-",10.47,-0.209110590261395,"tlp","height_ln",""
+"1.2c2,1.3b1","resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)","resist.value ~ position+height_ln+tlp+rp+year+(1|sp/tree)",1,"+",2.45,0.00483368212916991,"elev_m","height_ln",""
+"2.1","resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)","resist.value ~ position+height_ln*elev_m+rp+year+(1|sp/tree)",-1,"-",10.47,-0.209110590261395,"tlp","height_ln",""
 "2.2","resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)","resist.value ~ position+height_ln*elev_m+tlp+year+(1|sp/tree)",1,"ring>diffuse",4.6,0.0587070293670728,"rpring","height_ln",""
