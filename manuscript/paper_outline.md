@@ -78,11 +78,11 @@ Prediction | Model variable(s)*  | Null model variables* | Predicted direction o
 1.1 | ln[height] | (none) | - | **33.86** | **48.75** | -0.42 | -0.93 
 1.2a | canopy.position  | (none) | canopy<subcanopy | -2.02 | NA | -1.5 | **3.64**  
 1.2b | canopy.position + ln[height]  | ln[height] | canopy<subcanopy | **13.86** | -1.99 | 1.21 | **12.13** 
-1.2c1, 1.3a1 | elev + ln[height] | ln[height]  | + | 0.52 | NA | **5.09** | 0.74 
-1.2c2 | elev x ln[height] | ln[height] | + | 1.21  | **3.12** | **4.32** | 0.95 
-1.3b1 | elev x ln[height] | ln[height] | - | NA | NA | NA | NA 
-1.3a2 | stream.distance + ln[height] | ln[height]  | + | -0.48  | NA | **2.76** | 2.00  
-1.3b2 | stream.distance x ln[height] | ln[height] | - | NA  | NA | NA | NA 
+1.2c1, 1.3a1 | elev + ln[height] | ln[height]  | - | 0.52 | NA | **5.09** | 0.74 
+1.2c2 | elev x ln[height] | ln[height] | - | 1.21  | **3.12** | **4.32** | 0.95 
+1.3b1 | elev x ln[height] | ln[height] | + | NA | NA | NA | NA 
+1.3a2 | stream.distance + ln[height] | ln[height]  | - | -0.48  | NA | **2.76** | 2.00  
+1.3b2 | stream.distance x ln[height] | ln[height] | + | NA  | NA | NA | NA 
 2.1 |  TLP + ln[height] | ln[height] | -  | **5.08** | **2.37** | 1.32 | -0.78 
 2.2 |  rp + ln[height] | ln[height] | ring>diffuse  | -2.42 | 0.57 | NA | **5.83** 
 
