@@ -178,6 +178,8 @@ rm(list=ls())
 library(pointRes)
 library(dplR)
 library(data.table)
+library(tools)
+library(dplyr)
 
 ##to be clear, I wrote this code before I realized that some of the work done in these loops had already been done in the outputs of res.comp (specifically out.select). However, since the code runs well, and I double-checked that it was giving the same outputs as analyzing out.select, I'm keeping it as is.
 
@@ -382,9 +384,6 @@ for (i in seq(along=prop$sp)){
 
 
 ##4f. comparing residuals of PDSI values and BAI of all trees ####
-library(tools)
-library(dplyr)
-
 dirs_can <- dir("data/core_files/canopy_cores", pattern = "_canopy.rwl")
 
 dirs_can <- dirs_can[!dirs_can %in% c("frni_canopy.rwl", "frni_drop_canopy.rwl", "caco_drop_canopy.rwl")]
@@ -484,7 +483,7 @@ q_plot <- ggplot(data = q) +
 #plot and manually subset to 1950+
 # plot_ly(q, x=q$year, y=q$resid, type="scatter", mode="lines")
 
-pdsi <- read.csv("data/pdsi_value_comparison.csv")
+pdsi <- read.csv("data/pdsi/pdsi_value_comparison.csv")
 
 pdsi_true <- data.frame("year" = 1850:2017, "noaa_va_pdsi" = "")
 pdsi_true$noaa_va_pdsi <- colMeans(matrix(pdsi$noaa_va_pdsi, nrow=12))
@@ -625,8 +624,10 @@ dbh$dbh2013 <- elev$dbh[match(dbh$tree, elev$tag)]
 #fagr does not have bark thickness measured because it is negligible
 bark <- data.frame(
   "sp" = c("acru", "fagr", "litu", "nysy", "caco", "cagl", "caovl", "cato", "fram", "juni", "qual", "qupr", "quru", "quve", "ulru"), 
-  "bark_thick" = c(-2.564, 0, -0.659, -0.611, -1.917, -0.495, -2.504, -0.945, 0.318, -0.293, -1.231, -0.647, -0.789, 1.5, 1.133),
+  "bark_thick_ln" = c(-2.564, 0, -0.659, -0.611, -1.917, -0.495, -2.504, -0.945, 0.318, -0.293, -1.231, -0.647, -0.789, 1.5, 1.133),
   "intercept" = c(0.599, 0, 0.425, 0.413, 0.503, 0.316, 0.703, 0.396, 0.295, 0.385, 0.526, 0.423, 0.341, 0.053, -0.057))
+
+bark$bark_thick <- ifelse(bark$bark_thick_ln != 0, exp(bark$bark_thick_ln), bark$bark_thick_ln)
 
 dbh$bark_thick <- bark$bark_thick[match(dbh$sp, bark$sp)]
 dbh$intercept <- bark$intercept[match(dbh$sp, bark$sp)]
@@ -643,7 +644,7 @@ for (i in seq(along=widths)){
   df <- widths[[i]] #the list "widths" comes from #4a-4b
   colnames(df) <- gsub("A", "", colnames(df)) #remove "A"
   colnames(df) <- gsub("^0", "", colnames(df)) #remove leading 0
-
+  
   cols <- colnames(df) #define cols for below
   colnames(df) <- gsub("^", "x", colnames(df)) #add "x" to make calling colnames below feasible
   
@@ -675,7 +676,39 @@ trees_all$dbh_old <- ifelse(trees_all$dbh_old < 0, 0, trees_all$dbh_old)
 trees_all$dbh_old <- ifelse(trees_all$dbh_old > 0, trees_all$dbh_old/10, trees_all$dbh_old)
 trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, ln(trees_all$dbh_old))
 
-##5f. add in tree heights ####
+
+
+#dbh(2013) - 2*barkthickness = diam.w/o.bark
+#get equation predicting bark thickness (dependent) from diam.w/o.bark (independent)
+#ln[Y] = ln[Y0] + z*ln[DBH (mm)] #(from paper, solving for Y)
+
+dbh$diam_nobark <- ifelse(dbh$sp == "cagl", exp(-0.495 + 0.316*ln(dbh$dbh2013)), dbh$diam_nobark)
+
+dbh$diam_nobark <- dbh$dbh2013 - 2*dbh$bark_thick
+
+sub <- dbh[!duplicated(dbh$tree), ]
+
+library(devtools)
+source_gist("524eade46135f6348140")
+ggplot(data = sub, aes(x = ln(diam_nobark), y = ln(bark_thick), label = ln(bark_thick))) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
+  geom_smooth(method="lm", se=FALSE, color="black") +
+  geom_point(color = "#0c4c8a") +
+  theme_minimal() +
+  facet_wrap(vars(sp))
+
+plot(dbh$diam_nobark, dbh$bark_thick)
+
+##5f. add in ratio of sapwood area to total wood ####
+#sapwood area = Y
+#ln[Y] = ln[Y0] + z*ln[DBH (mm)] #(from paper, solving for Y)
+
+#area without bark: dbh/2 - bark thickness = radius.w/o.bark
+#area without bark = (pi*radius.w/o.bark)^2
+
+#ratio = sapwood area:area without bark
+
+##5g. add in tree heights ####
 ## taken from the canopy_heights script
 trees_all$height_ln <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh_ln),
                       ifelse(trees_all$sp == "cagl", (0.652+0.751*trees_all$dbh_ln),
@@ -688,11 +721,28 @@ trees_all$height_ln <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh_
 
 trees_all$height <- exp(trees_all$height_ln)
 
-##5g. remove all NAs ####
+##5h. add in all crown positions ####
+
+positions <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_crowns/cored_dendroband_crown_position_data/dendro_cored_full.csv"))
+
+trees_all$position_all <- positions$crown.position[match(trees_all$tree, positions$tag)]
+trees_all$position_all <- gsub("D", "dominant", trees_all$position_all)
+trees_all$position_all <- gsub("C", "co-dominant", trees_all$position_all)
+trees_all$position_all <- gsub("I", "intermediate", trees_all$position_all)
+trees_all$position_all <- gsub("S", "suppressed", trees_all$position_all)
+
+#this has been proven to be roughly equivalent to position_all, so we're sticking with position_all
+# trees_all$illum <- positions$illum[match(trees_all$tree, positions$tag)]
+# trees_all$illum <- as.character(trees_all$illum)
+
+#this csv has avg/min/max dbh for each canopy position by sp
+# positionsp <- read.csv("data/core_chronologies_by_crownposition.csv")
+
+##5i. remove all NAs ####
 trees_all <- trees_all[complete.cases(trees_all), ]
-##5h. remove resistance values >2 ####
+##5j. remove resistance values >2 ####
 trees_all <- trees_all[trees_all$resist.value <=2,]
-##5i. make subsets for individual years, combine all to list ####
+##5k. make subsets for individual years, combine all to list ####
 # x1964 <- trees_all[trees_all$year == 1964, ]
 x1966 <- trees_all[trees_all$year == 1966, ]
 x1977 <- trees_all[trees_all$year == 1977, ]
@@ -710,15 +760,15 @@ library(stringr)
 library(dplyr)
 
 ##6a. Determine best model to use with AICc ####
-##6ai. test predictions for paper and put in table ####
-## initial table with models based on github issue predictions ####
+##6ai. test predictions for paper and put in table
+##initial table with models based on github issue predictions ####
 summary_models <- data.frame(
   "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2", "4"), 
   "model_vars_all_years" = 
     c("resist.value ~ dbh_ln+year+(1|sp/tree)", 
        "resist.value ~ height_ln+year+(1|sp/tree)", 
-       "resist.value ~ position+year+(1|sp/tree)", 
-       "resist.value ~ position+height_ln+year+(1|sp/tree)", 
+       "resist.value ~ position_all+year+(1|sp/tree)", 
+       "resist.value ~ position_all+height_ln+year+(1|sp/tree)", 
        "resist.value ~ elev_m+height_ln+year+(1|sp/tree)", 
        "resist.value ~ elev_m*height_ln+height_ln+year+(1|sp/tree)",
        "resist.value ~ elev_m*height_ln+height_ln+year+(1|sp/tree)",
@@ -726,7 +776,7 @@ summary_models <- data.frame(
        "resist.value ~ distance_ln*height_ln+height_ln+year+(1|sp/tree)", 
        "resist.value ~ tlp+height_ln+year+(1|sp/tree)", 
        "resist.value ~ rp+height_ln+year+(1|sp/tree)",
-        "resist.value ~ dbh_ln+height_ln+position+height_ln*elev_m+distance_ln+tlp+rp+year+(1|sp/tree)"),
+        "resist.value ~ dbh_ln+height_ln+position_all+height_ln*elev_m+distance_ln+tlp+rp+year+(1|sp/tree)"),
   "null_model_all_years" = NA,
   "model_vars_sep_years" = NA,
   "null_model_sep_years" = NA,
@@ -1072,7 +1122,7 @@ write.csv(full_mod_all, "manuscript/full_models_dAIC1.csv", row.names=FALSE)
 summary_models <- data.frame(
   "prediction" = c("1.1", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.2c2,1.3b1", "2.1", "2.2"), 
   "model_vars_all_years" = 
-    c("resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
+    c("resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",
       "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
       "resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",
       "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
@@ -1237,7 +1287,7 @@ for (i in seq_along(model_df)){
 write.csv(summary_models, "manuscript/results_full_models_combined_years.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
-best <- lmm_all[[32]]
+best <- lmm_all[[64]]
 coef(summary(best))[ , "Estimate"]
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln, data=trees_all, REML=FALSE)
@@ -1252,7 +1302,7 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position", "tlp", "rp", "elev_m", "height_ln", "year", "(1|sp/tree)")
+effects <- c("position_all", "tlp", "rp", "elev_m", "height_ln", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
