@@ -93,35 +93,23 @@ Bennett et al. 2015 identified only one study on tree growth responses to drough
 
 Prediction | Model variable(s)*  | Null model variables* | Predicted direction of response** | dAIC*** - all years | dAIC 1964-66 | dAIC 1977 | dAIC 1999
 --- | --- | --- | --- | --- | --- | --- | ---  
-1.0 | ln[dbh] | (none) | - | **31.1** | **47.81** | -0.5 | -1.54  
+1.0 | ln[dbh] | (none) | - | **31.10** | **47.81** | -0.5 | -1.54  
 1.1 | ln[height] | (none) | - | **33.86** | **48.75** | -0.42 | -0.93 
-1.2a | canopy.position  | (none) | canopy<subcanopy | -2.02 | NA | -1.5 | **3.64**  
+1.2a | canopy.position  | (none) | canopy<subcanopy | -2.02 | **9.54** | -1.5 | **3.64**  
 1.2b | canopy.position + ln[height]  | ln[height] | canopy<subcanopy | **13.86** | -1.99 | 1.21 | **12.13** 
-1.2c1, 1.3a1 | elev + ln[height] | ln[height]  | - | 0.52 | NA | **5.09** | 0.74 
+1.2c1, 1.3a1 | elev + ln[height] | ln[height]  | - | 0.52 | 1.75 | **5.09** | 0.74 
 1.2c2 | elev x ln[height] | ln[height] | - | 1.21  | **3.12** | **4.32** | 0.95 
-1.3b1 | elev x ln[height] | ln[height] | + | NA | NA | NA | NA 
-1.3a2 | stream.distance + ln[height] | ln[height]  | - | -0.48  | NA | **2.76** | 2.00  
-1.3b2 | stream.distance x ln[height] | ln[height] | + | NA  | NA | NA | NA 
+1.3b1 | elev x ln[height] | ln[height] | + | 1.21 | **3.12** | **4.32** | 0.95 
+1.3a2 | stream.distance + ln[height] | ln[height]  | - | -0.48  | **3.74** | **2.76** | 2.00  
+1.3b2 | stream.distance x ln[height] | ln[height] | + | -0.43  | **2.89** | **3.93** | 0.80 
 2.1 |  TLP + ln[height] | ln[height] | -  | **5.08** | **2.37** | 1.32 | -0.78 
-2.2 |  rp + ln[height] | ln[height] | ring>diffuse  | -2.42 | 0.57 | NA | **5.83** 
+2.2 |  rp + ln[height] | ln[height] | ring>diffuse  | -2.42 | 0.57 | 0.58 | **5.83** 
 
 *all models include (1|sp/tree) (random effect) and year (fixed) when run with all years. When run for individual years, all models include (1|sp) as the random effect.
 
 ** refers to model variable added to null. 
 
 *** dAIC is calculated as AIC_model with variable(s) - AIC_null model. When response is opposite prediction, dAIC is listed as NA (there no instances of this where dAIC>2 --*confirm*).
-
-This is a table showing which dAIC values are >2, but are listed as NA due to the interaction.
-
-| Prediction | Model | Original value dAIC | Coefficient
-|------------|--------|--------|-----------------
-|1.2a | dAIC 1964-1966| 9.54| 0.0757
-|1.3b1|dAIC 1964-1966 |3.12| 0.0044
-|1.3b1|dAIC 1977 | 4.32| 0.0064
-|1.3a2|dAIC 1964-1966 | 3.74| -0.027
-|1.3b2|dAIC1964-1966 | 2.89 | 0.025
-|1.3b2|dAIC 1977 | 3.93| 0.127
-([remove this table](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues))
 
 - - - 
 
