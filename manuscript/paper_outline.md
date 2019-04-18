@@ -90,6 +90,28 @@ Bennett et al. 2015 identified only one study on tree growth responses to drough
 
 **Table 1. Mixed effects model setups and results for testing hypotheses 1 & 2. Note that H3 is tested using a different framework.**
 
+NEW:
+
+Prediction | Variable tested* | Null model variables* | Predicted direction of response** | Observed direction of response (ODR)**-all years | dAIC*** - all years | ODR-66| dAIC 1964-66 |ODR-77| dAIC 1977 |ODR-99| dAIC 1999
+--- | --- | --- | --- | --- | --- | --- | --- | ---  | --- | --- | --- 
+1.0 | ln[dbh] | - | -| - |  | | | | | | 
+1.1 | ln[height] (H) | CP + TLP + RP | - | - |  | | | | | | 
+1.2 | canopy.position (CP)  | H+ CP + TLP + RP | dominant < codominant < intermediate < supressed | supressed < intermediate < dominant < codominant|  | | | | | | 
+1.3a1 | elevation  |H + CP + TLP + RP| -  |  | | | | | | 
+1.3a2 | stream.distance  | H + CP + TLP + RP| -  |  |  | | | | | | 
+1.3b1 | elevation x H | elevation + H + CP + TLP + rp| + |  |  | | | | | | 
+1.3b2 | stream.distance x H | stream.distance + H + CP + TLP + RP| + |  |  | | | | | | 
+2.1 |  turgor loss point (TLP)  |H + CP  + RP| - | -  |  | | | | | | 
+2.2 |  ring.porosity (RP)  |H + CP + TLP | ring>diffuse | ring>diffuse  |  | | | | | | 
+
+*Each test involves comparison of model including the "Variable tested" with a null model excluding that variable. "Null model variables" identifies other variables in the model, determined based on those that are included in the best full model. In addition, all models include (1|sp/tree) (random effect) and year (fixed) when run with all years. When run for individual years, all models include (1|sp) as the random effect. 
+
+** refers to coefficient for variable tested. 
+
+*** dAIC is calculated as [AIC_null model - AIC_model with variable]. 
+
+OLD:
+
 Prediction | Variable tested* | Null model variables* | Predicted direction of response** | Observed direction of response (ODR)**-all years | dAIC*** - all years | dAIC 1964-66 | dAIC 1977 | dAIC 1999
 --- | --- | --- | --- | --- | --- | --- | --- | ---  
 1.0 | ln[dbh] | - | -| - | **31.10** | **47.81** | -0.5 | -1.54  
