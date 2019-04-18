@@ -95,10 +95,8 @@ Prediction | Model variable(s)*  | Null model variables* | Predicted direction o
 --- | --- | --- | --- | --- | --- | --- | ---  
 1.0 | ln[dbh] | (none) | - | **31.10** | **47.81** | -0.5 | -1.54  
 1.1 | ln[height] | (none) | - | **33.86** | **48.75** | -0.42 | -0.93 
-1.2a | canopy.position  | (none) | canopy<subcanopy | -2.02 | **9.54** | -1.5 | **3.64**  
-*1.2a | canopy.position (all)| (none) | canopy<subcanopy | **69.07** | **17.51** | **15.41** | **36.57**
-1.2b | canopy.position + ln[height]  | ln[height] | canopy<subcanopy | **13.86** | -1.99 | 1.21 | **12.13** 
-*1.2b | canopy.position (all) + ln[height] | ln[height] | canopy<subcanopy | **74.28** | **4.71** | **16.33** | **38.68**
+1.2a | canopy.position (all)| (none) | dominant < co-dominant < intermediate < supressed | **69.07** | **17.51** | **15.41** | **36.57**
+1.2b | canopy.position (all) + ln[height] | ln[height] | dominant < co-dominant < intermediate < supressed | **74.28** | **4.71** | **16.33** | **38.68**
 1.2c1, 1.3a1 | elev + ln[height] | ln[height]  | - | 0.52 | 1.75 | **5.09** | 0.74 
 1.2c2 | elev x ln[height] | ln[height] | - | 1.21  | **3.12** | **4.32** | 0.95 
 1.3b1 | elev x ln[height] | ln[height] | + | 1.21 | **3.12** | **4.32** | 0.95 
@@ -113,13 +111,14 @@ Prediction | Model variable(s)*  | Null model variables* | Predicted direction o
 
 *** dAIC is calculated as AIC_model with variable(s) - AIC_null model. When response is opposite prediction, dAIC is listed as NA (there no instances of this where dAIC>2 --*confirm*).
 
+
 - - - 
 
 - Our site matches trend observed globally by Bennett et al.: Larger trees had lower restistance to drought (1.0)
 
 - H1.1 is supported. Height was the most important variable explaining resistance (1.1) and height_ln explained more variation than DBH_ln.  
 
-- H1.2 is rejected. Subcanopy trees had lower resistance (but confirm- see [issue #19](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues); H1.2a). Trees at higher elevations had greater resistance (H1.2b), particularly when they were tall (H1.2c).
+- H1.2 is partially supported. Dominant trees had lower resistance than co-dominant trees, but intermediate and suppressed trees had even lower resistance (co-dominant>dominant>intermediate>suppressed; H1.2a). Trees at higher elevations had greater resistance (H1.2b), particularly when they were tall (H1.2c).
 
 - H1.3 is  partially rejected/ partially accepted: drought resistance decreases with elevation or distance from water (H1.3a). However, there is a + interaction between height_ln and elev or distance, indicating that short trees have less resistance (relative to tall trees) as you move up in elevation/away from streams.
 
@@ -133,8 +132,8 @@ Prediction | Model variable(s)*  | Null model variables* | Predicted direction o
 *1. paragraph summarizing main results--> primary conclusions*
 
 
-We rejected the hypothesis that crown exposure--either relative to neighbors or topographically--makes trees more vulnerable to drought. However, other studies have found clear evidence of greater drought sensitivity in trees with exposed crowns (e.g., [Suarez et al. 2004](https://besjournals.onlinelibrary.wiley.com/doi/pdf/10.1111/j.1365-2745.2004.00941.x)
-;[Scharnweber et al. 2019](https://www.sciencedirect.com/science/article/pii/S1125786518302017)). Thus, we do not interpret our finding of lower drought resistance in subcanopy trees as a rejection of this mechanism; rather, it indicates that other mechanisms such as competition or rooting depth were dominant in this case. Also note that our study design was not ideal for testing the role of canopy position. Current canopy position is a conservative separator of canopy position: trees currently in the sub-canopy were most likely in subcanopy positions in the past (assuming canopy trees are rarely overtopped by neighbors), but current canopy trees may have been in subcanopy positions in the past. Height may be a more reliable predictor of past canopy position than is current canopy position, and probably explains a large portion of variation in canopy position. We also had relatively low variation in terms of exposure-- we had no trees with completely exposed crowns, and variation in elevation is modest (in both absolute terms and relative to surrounding topography). 
+We partially supported the hypothesis that crown exposure--either relative to neighbors or topographically--makes trees more vulnerable to drought. Co-dominant trees had the highest drought resistance. Dominant trees had lower resistance, likely because they are the most exposed. Other studies have found clear evidence of greater drought sensitivity in trees with exposed crowns (e.g., [Suarez et al. 2004](https://besjournals.onlinelibrary.wiley.com/doi/pdf/10.1111/j.1365-2745.2004.00941.x)
+;[Scharnweber et al. 2019](https://www.sciencedirect.com/science/article/pii/S1125786518302017)). At the same time, intermediate and suppressed trees had even lower resistance. This indicates that other mechanisms such as competition or rooting depth were important in this forest. (Also note that our study design was not ideal for testing the role of canopy position. Current canopy position is a conservative separator of canopy position: trees currently in the sub-canopy were most likely in subcanopy positions in the past (assuming canopy trees are rarely overtopped by neighbors), but current canopy trees may have been in subcanopy positions in the past. Height may be a more reliable predictor of past canopy position than is current canopy position, and probably explains a large portion of variation in canopy position. We also had relatively low variation in terms of exposure-- we had no trees with completely exposed crowns, and variation in elevation is modest (in both absolute terms and relative to surrounding topography). )
 
 
 
