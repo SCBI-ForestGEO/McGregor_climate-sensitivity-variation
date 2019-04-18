@@ -90,24 +90,24 @@ Bennett et al. 2015 identified only one study on tree growth responses to drough
 
 **Table 1. Mixed effects model setups and results for testing hypotheses 1 & 2. Note that H3 is tested using a different framework.**
 
-Prediction | Model variable(s)*  | Null model variables* | Predicted direction of response** | dAIC*** - all years | dAIC 1964-66 | dAIC 1977 | dAIC 1999
---- | --- | --- | --- | --- | --- | --- | ---  
-1.0 | ln[dbh] | (none) | - | **31.10** | **47.81** | -0.5 | -1.54  
-1.1 | ln[height] | (none) | - | **33.86** | **48.75** | -0.42 | -0.93 
-1.2a | canopy.position (all)| (none) | dominant < co-dominant < intermediate < supressed | **69.07** | **17.51** | **15.41** | **36.57**
-1.2b | canopy.position (all) + ln[height] | ln[height] | dominant < co-dominant < intermediate < supressed | **74.28** | **4.71** | **16.33** | **38.68**
-1.3a1 | elev + ln[height] | ln[height]  | - | 0.52 | 1.75 | **5.09** | 0.74 
-1.3a2 | stream.distance + ln[height] | ln[height]  | - | -0.48  | **3.74** | **2.76** | 2.00  
-1.3b1 | elev x ln[height] | ln[height] | + | 1.21 | **3.12** | **4.32** | 0.95 
-1.3b2 | stream.distance x ln[height] | ln[height] | + | -0.43  | **2.89** | **3.93** | 0.80 
-2.1 |  TLP + ln[height] | ln[height] | -  | **5.08** | **2.37** | 1.32 | -0.78 
-2.2 |  rp + ln[height] | ln[height] | ring>diffuse  | -2.42 | 0.57 | 0.58 | **5.83** 
+Prediction | Variable tested* | Null model variables* | Predicted direction of response** | Observed direction of response (ODR)**-all years | dAIC*** - all years | dAIC 1964-66 | dAIC 1977 | dAIC 1999
+--- | --- | --- | --- | --- | --- | --- | --- | ---  
+1.0 | ln[dbh] | - | -| - | **31.10** | **47.81** | -0.5 | -1.54  
+1.1 | ln[height] | - | - | - | **33.86** | **48.75** | -0.42 | -0.93 
+1.2a | canopy.position (all)| - | dominant < codominant < intermediate < supressed |  | **69.07** | **17.51** | **15.41** | **36.57**
+1.2b | canopy.position (all)  | ln[height] | dominant < codominant < intermediate < supressed | supressed < intermediate < dominant < codominant| **74.28** | **4.71** | **16.33** | **38.68**
+1.3a1 | elev  |ln[height]| -  | + | 0.52 | 1.75 | **5.09** | 0.74 
+1.3a2 | stream.distance  |ln[height]| -  | + | -0.48  | **3.74** | **2.76** | 2.00  
+1.3b1 | elev x ln[height] |ln[height]| + | + | 1.21 | **3.12** | **4.32** | 0.95 
+1.3b2 | stream.distance x ln[height] |ln[height]| + | + | -0.43  | **2.89** | **3.93** | 0.80 
+2.1 |  TLP  |ln[height]| - | -  | **5.08** | **2.37** | 1.32 | -0.78 
+2.2 |  rp  |ln[height]| ring>diffuse | ring>diffuse  | -2.42 | 0.57 | 0.58 | **5.83** 
 
-*all models include (1|sp/tree) (random effect) and year (fixed) when run with all years. When run for individual years, all models include (1|sp) as the random effect.
+*Each test involves comparison of model including the "Variable tested" with a null model excluding that variable. "Null model variables" identifies other variables in the model. In addition, all models include (1|sp/tree) (random effect) and year (fixed) when run with all years. When run for individual years, all models include (1|sp) as the random effect. 
 
-** refers to model variable added to null. 
+** refers to coefficient for variable tested. 
 
-*** dAIC is calculated as AIC_model with variable(s) - AIC_null model. When response is opposite prediction, dAIC is listed as NA (there no instances of this where dAIC>2 --*confirm*).
+*** dAIC is calculated as [AIC_null model - AIC_model with variable]. 
 
 
 - - - 
