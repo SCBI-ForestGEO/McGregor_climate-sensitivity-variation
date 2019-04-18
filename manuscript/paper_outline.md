@@ -1,4 +1,4 @@
-# Tree size and hydraulic traits interactively shape drought response in a temperate broadleaf forest
+# Tree size, exposure, and hydraulic traits interactively shape drought response in a temperate broadleaf forest
 
 Ian McGregor
 
@@ -42,7 +42,6 @@ Bennett et al. 2015 identified only one study on tree growth responses to drough
 
     * P1.2a- Trees currently in a canopy position suffered more during drought. If canopy position is more important than height, we'd expect current canopy position to be a better predictor than current height.
     * P1.2b- Current canopy position will improve model over just the effect of height. Better comparison if we use current height.
-    * P1.2c-Trees at higher elevations--particularly tall trees--suffer more because they are more exposed. Thus, elevation has additive or interactive effect with that of height (model with height + / * elevation better predictor than just height.)
 
 1.3. Rooting volume/depth relative to water sources are critical in drought response. Effects of drought on larger trees are mediated by the fact that large trees have better access to water.
   
@@ -97,10 +96,9 @@ Prediction | Model variable(s)*  | Null model variables* | Predicted direction o
 1.1 | ln[height] | (none) | - | **33.86** | **48.75** | -0.42 | -0.93 
 1.2a | canopy.position (all)| (none) | dominant < co-dominant < intermediate < supressed | **69.07** | **17.51** | **15.41** | **36.57**
 1.2b | canopy.position (all) + ln[height] | ln[height] | dominant < co-dominant < intermediate < supressed | **74.28** | **4.71** | **16.33** | **38.68**
-1.2c1, 1.3a1 | elev + ln[height] | ln[height]  | - | 0.52 | 1.75 | **5.09** | 0.74 
-1.2c2 | elev x ln[height] | ln[height] | - | 1.21  | **3.12** | **4.32** | 0.95 
-1.3b1 | elev x ln[height] | ln[height] | + | 1.21 | **3.12** | **4.32** | 0.95 
+1.3a1 | elev + ln[height] | ln[height]  | - | 0.52 | 1.75 | **5.09** | 0.74 
 1.3a2 | stream.distance + ln[height] | ln[height]  | - | -0.48  | **3.74** | **2.76** | 2.00  
+1.3b1 | elev x ln[height] | ln[height] | + | 1.21 | **3.12** | **4.32** | 0.95 
 1.3b2 | stream.distance x ln[height] | ln[height] | + | -0.43  | **2.89** | **3.93** | 0.80 
 2.1 |  TLP + ln[height] | ln[height] | -  | **5.08** | **2.37** | 1.32 | -0.78 
 2.2 |  rp + ln[height] | ln[height] | ring>diffuse  | -2.42 | 0.57 | 0.58 | **5.83** 
@@ -118,9 +116,9 @@ Prediction | Model variable(s)*  | Null model variables* | Predicted direction o
 
 - H1.1 is supported. Height was the most important variable explaining resistance (1.1) and height_ln explained more variation than DBH_ln.  
 
-- H1.2 is partially supported. Dominant trees had lower resistance than co-dominant trees, but intermediate and suppressed trees had even lower resistance (co-dominant>dominant>intermediate>suppressed; H1.2a). Trees at higher elevations had greater resistance (H1.2b), particularly when they were tall (H1.2c).
+- H1.2 is partially supported. Dominant trees had lower resistance than co-dominant trees, but intermediate and suppressed trees had even lower resistance (co-dominant>dominant>intermediate>suppressed; H1.2a). 
 
-- H1.3 is  partially rejected/ partially accepted: drought resistance decreases with elevation or distance from water (H1.3a). However, there is a + interaction between height_ln and elev or distance, indicating that short trees have less resistance (relative to tall trees) as you move up in elevation/away from streams.
+- H1.3 is  partially rejected (1.3a)/ partially accepted (1.3b): drought resistance increases with elevation or distance from water (H1.3a). However, there is a consistently + interaction between height_ln and elev or distance (1.3b), indicating that short trees have less resistance (relative to tall trees) as you move up in elevation/away from streams.
 
 - H2.1 is supported; trees with less negative TLP has lower resistance
 
@@ -132,10 +130,10 @@ Prediction | Model variable(s)*  | Null model variables* | Predicted direction o
 *1. paragraph summarizing main results--> primary conclusions*
 
 
-We partially supported the hypothesis that crown exposure--either relative to neighbors or topographically--makes trees more vulnerable to drought. Co-dominant trees had the highest drought resistance. Dominant trees had lower resistance, likely because they are the most exposed. Other studies have found clear evidence of greater drought sensitivity in trees with exposed crowns (e.g., [Suarez et al. 2004](https://besjournals.onlinelibrary.wiley.com/doi/pdf/10.1111/j.1365-2745.2004.00941.x)
-;[Scharnweber et al. 2019](https://www.sciencedirect.com/science/article/pii/S1125786518302017)). At the same time, intermediate and suppressed trees had even lower resistance. This indicates that other mechanisms such as competition or rooting depth were important in this forest. (Also note that our study design was not ideal for testing the role of canopy position. Current canopy position is a conservative separator of canopy position: trees currently in the sub-canopy were most likely in subcanopy positions in the past (assuming canopy trees are rarely overtopped by neighbors), but current canopy trees may have been in subcanopy positions in the past. Height may be a more reliable predictor of past canopy position than is current canopy position, and probably explains a large portion of variation in canopy position. We also had relatively low variation in terms of exposure-- we had no trees with completely exposed crowns, and variation in elevation is modest (in both absolute terms and relative to surrounding topography). )
+We partially supported the hypothesis that crown exposure makes trees more vulnerable to drought. Co-dominant trees had the highest drought resistance. Dominant trees had lower resistance, likely because they are the most exposed. Other studies have found clear evidence of greater drought sensitivity in trees with exposed crowns (e.g., [Suarez et al. 2004](https://besjournals.onlinelibrary.wiley.com/doi/pdf/10.1111/j.1365-2745.2004.00941.x)
+;[Scharnweber et al. 2019](https://www.sciencedirect.com/science/article/pii/S1125786518302017)). At the same time, intermediate and suppressed trees had even lower resistance. This indicates that other mechanisms such as competition or rooting depth were important. (Also note that our study design was not ideal for testing the role of canopy position. Current canopy position is a conservative separator of canopy position: trees may currently be in more dominant positions than they were at the time, but backwards movement is unlikely. This would bias against finding a signficant effect for H1.2. Height may be a more reliable predictor of past canopy position than is current canopy position, and explains a portion of variation in canopy position.)
 
-
+Proximity to stream--either vertical (elev) or horizontal (distance)-- did not increase drought resistance; rather, it tended to decrease resistance (H1.3a). This may be because individuals growing further from water are acclimatized to drier conditions. However, the increase in drought resistance with distance from stream was less for small than large trees (H1.3b), indicating a potential importance of root depth/volume in conferring drought resistance.
 
 
 ## Acknowledgements
