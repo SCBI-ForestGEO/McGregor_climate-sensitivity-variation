@@ -862,12 +862,12 @@ for (i in seq_along(model_df)){
       summary_models[,9][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
-      if (h!=12){
-        summary_models[,8][[h]] <- ifelse(
-          (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
-            (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
-          summary_models[,8][[h]], NA)
-      }
+      # if (h!=12){
+      #   summary_models[,8][[h]] <- ifelse(
+      #     (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+      #       (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
+      #     summary_models[,8][[h]], NA)
+      # }
       
       if(h==12){
         coeff <- coeff[-1,]
@@ -923,12 +923,12 @@ for (i in seq_along(model_df)){
       summary_models[,11][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
-      if (h!=12){
-        summary_models[,10][[h]] <- ifelse(
-          (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
-            (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
-          summary_models[,10][[h]], NA) 
-      }
+      # if (h!=12){
+      #   summary_models[,10][[h]] <- ifelse(
+      #     (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+      #       (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
+      #     summary_models[,10][[h]], NA) 
+      # }
      
       if(h==12){
         coeff <- coeff[-1,]
@@ -984,12 +984,12 @@ for (i in seq_along(model_df)){
       summary_models[,13][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
-      if(h!=12){
-        summary_models[,12][[h]] <- ifelse(
-          (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
-            (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
-          summary_models[,12][[h]], NA)
-      }
+      # if(h!=12){
+      #   summary_models[,12][[h]] <- ifelse(
+      #     (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+      #       (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
+      #     summary_models[,12][[h]], NA)
+      # }
       
       if(h==12){
         coeff <- coeff[-1,]
@@ -1047,12 +1047,12 @@ for (i in seq_along(model_df)){
       summary_models[,15][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
-      if (h!=12){
-        summary_models[,14][[h]] <- ifelse(
-          (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
-            (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
-          summary_models[,14][[h]], NA)
-      }
+      # if (h!=12){
+      #   summary_models[,14][[h]] <- ifelse(
+      #     (coeff_sub$value <0 & summary_models$response_predict[[h]] <0) |
+      #       (coeff_sub$value >0 & summary_models$response_predict[[h]] >0),
+      #     summary_models[,14][[h]], NA)
+      # }
       
       if (h==12){
         coeff <- coeff[-1,]
@@ -1064,8 +1064,8 @@ for (i in seq_along(model_df)){
 }
 
 #csv has a 1 in the title to make sure any notes in current file are not overwritten
-write.csv(summary_models, "manuscript/results1.csv", row.names=FALSE)
-write.csv(full_mod_all, "manuscript/full_models.csv", row.names=FALSE)
+write.csv(summary_models, "manuscript/results_individual_years1.csv", row.names=FALSE)
+write.csv(full_mod_all, "manuscript/full_models_dAIC1.csv", row.names=FALSE)
 
 ##table looking at only full model over all years ####
 ##we ran all variables (aka a full model) against all years combined and found that position, height*elev, tlp, and rp were the variables in the best model. Using this knowledge, here we created a dfferent version of the original table.
