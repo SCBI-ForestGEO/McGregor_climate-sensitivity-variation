@@ -36,13 +36,12 @@ Bennett et al. 2015 identified only one study on tree growth responses to drough
 
 1.1. Height is a strong predictor of drought stress.
 
-    * P1.1-Drought response increases with height at time of drought (derived from dbh). Height will be a significant predictor both alone or in combination with canopy position and elevation.
+    * P1.1-Drought response increases with height at time of drought.
 
 1.2. Large trees suffer more during drought because of greater exposure (to radiation, wind, etc.)--either in relation to neighboring trees or because of position on landscape.
 
-    * P1.2a- Trees currently in a canopy position suffered more during drought. If canopy position is more important than height, we'd expect current canopy position to be a better predictor than current height.
-    * P1.2b- Current canopy position will improve model over just the effect of height. Better comparison if we use current height.
-
+    * P1.2a- Trees currently in a dominant canopy position suffered more during drought. 
+    
 1.3. Rooting volume/depth relative to water sources are critical in drought response. Effects of drought on larger trees are mediated by the fact that large trees have better access to water.
   
      * P1.3a- drought response increases with elevation and/or distance from stream
