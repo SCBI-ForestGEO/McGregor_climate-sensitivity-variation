@@ -1,4 +1,4 @@
-# Tree size, exposure, and hydraulic traits interactively shape drought response in a temperate broadleaf forest
+# Tree size and hydraulic traits interactively shape drought response in a temperate broadleaf forest
 
 Ian McGregor
 
@@ -23,7 +23,9 @@ Krista Anderson-Teixeira
 
 Understanding how and why trees respond to drought is critical to predicting forest drought responses and climate change feedbacks.
 
-Bennett et al. 2015 showed that in forests globally, large trees suffer greater growth reductions during drought. However, this analysis quantified tree size based on DBH, which has no direct mechanistic meaning. This study proposed two major mechanisms (besides insects): (1) inherently greater biophysical challenge of being tall; (2) greater exposure of the crowns of large trees. It is also expected that roots play a role. And its possible that smaller trees are more drought resistant. These hypotheses need to be tested.
+Bennett et al. 2015 showed that in forests globally, large trees suffer greater growth reductions during drought. However, this analysis quantified tree size based on DBH, which has no direct mechanistic meaning. This study proposed two major mechanisms (besides insects): (1) inherently greater biophysical challenge of being tall; (2) greater exposure of the crowns of large trees. It is also expected that roots play a role. And its possible that pattern could be caused by smaller trees being more drought resistant. These hypotheses need to be tested.
+
+Bennett et al. 2015 identified only one study on tree growth responses to drought in the Eastern US temperate deciduous biome. We know little about how tree size shapes drought response in this biome.  
 
 *Questions & Hypotheses*
 
@@ -138,6 +140,14 @@ This is a table showing which dAIC values are >2, but are listed as NA due to th
 
 ## Discussion
 
+*1. paragraph summarizing main results--> primary conclusions*
+
+
+We rejected the hypothesis that crown exposure--either relative to neighbors or topographically--makes trees more vulnerable to drought. However, other studies have found clear evidence of greater drought sensitivity in trees with exposed crowns (e.g., [Suarez et al. 2004](https://besjournals.onlinelibrary.wiley.com/doi/pdf/10.1111/j.1365-2745.2004.00941.x)
+;[Scharnweber et al. 2019](https://www.sciencedirect.com/science/article/pii/S1125786518302017)). Thus, we do not interpret our finding of lower drought resistance in subcanopy trees as a rejection of this mechanism; rather, it indicates that other mechanisms such as competition or rooting depth were dominant in this case. Also note that our study design was not ideal for testing the role of canopy position. Current canopy position is a conservative separator of canopy position: trees currently in the sub-canopy were most likely in subcanopy positions in the past (assuming canopy trees are rarely overtopped by neighbors), but current canopy trees may have been in subcanopy positions in the past. Height may be a more reliable predictor of past canopy position than is current canopy position, and probably explains a large portion of variation in canopy position. We also had relatively low variation in terms of exposure-- we had no trees with completely exposed crowns, and variation in elevation is modest (in both absolute terms and relative to surrounding topography). 
+
+
+
 
 ## Acknowledgements
 
@@ -146,6 +156,8 @@ This is a table showing which dAIC values are >2, but are listed as NA due to th
 |Amanda Jean Seglem|got canopy position data|
 |see list [here](https://github.com/EcoClimLab/HydraulicTraits/tree/master/data/SCBI)| help with traits|
 | see list [here](https://github.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/tree/master/tree_cores) | help with cores|
+
+
 ## Sources
 Any potential sources to look into can be listed here, but ultimately the master sources list will be on Zotero.
 
