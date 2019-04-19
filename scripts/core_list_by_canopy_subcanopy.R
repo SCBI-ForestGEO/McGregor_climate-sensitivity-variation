@@ -1,10 +1,8 @@
 # sort cores for Neil
 
-setwd("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data_private/tree_cores/chronologies/current_chronologies")
-
 ## location of cores is now in SCBI-ForestGEO-Data repo and is public.
 
-core_list <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/tree-growth-and-productivity/core_list_for_neil.csv")
+core_list <- read.csv("data/core_list_for_neil.csv")
 
 library(dplR)
 
