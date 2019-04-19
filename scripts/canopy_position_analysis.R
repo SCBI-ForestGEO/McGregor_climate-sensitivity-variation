@@ -4,7 +4,6 @@
 # R version 3.5.2 - First created February 2019
 ######################################################
 
-
 #1. full script set-up ####
 library(RCurl)
 cru1901 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/climate_sensitivity_cores/master/results/canopy_vs_subcanopy/1901_2009/tables/monthly_correlation/correlation_with_CRU_SCBI_1901_2016_climate_data.csv"), stringsAsFactors = FALSE)
@@ -615,31 +614,141 @@ map <- ggplot() +
   coord_sf(crs = "crs = +proj=merc", xlim=c(747350,747800), ylim=c(4308500, 4309125))
 
 
-##5e. add in dbh in each year 1999 ####
+##5e. add in dbh for each year ####
+###original method ####
+# dbh <- trees_all[, c(1:4)]
+# dbh$dbh2013 <- elev$dbh[match(dbh$tree, elev$tag)]
+# 
+# #create df with bark thickness log values and intercept values from Krista's paper (supplemental info)
+# #https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/1365-2435.12470 
+# #fagr does not have bark thickness measured because it is negligible
+# bark <- data.frame(
+#   "sp" = c("acru", "fagr", "litu", "nysy", "caco", "cagl", "caovl", "cato", "fram", "juni", "qual", "qupr", "quru", "quve", "ulru"), 
+#   "bark_thick_ln" = c(-2.564, 0, -0.659, -0.611, -1.917, -0.495, -2.504, -0.945, 0.318, -0.293, -1.231, -0.647, -0.789, 1.5, 1.133),
+#   "intercept" = c(0.599, 0, 0.425, 0.413, 0.503, 0.316, 0.703, 0.396, 0.295, 0.385, 0.526, 0.423, 0.341, 0.053, -0.057))
+# 
+# bark$bark_thick <- ifelse(bark$bark_thick_ln != 0, exp(bark$bark_thick_ln), bark$bark_thick_ln)
+# 
+# bark$bark_thick <- exp(bark$bark_thick_ln)
+# 
+# dbh$bark_thick <- bark$bark_thick[match(dbh$sp, bark$sp)]
+# dbh$intercept <- bark$intercept[match(dbh$sp, bark$sp)]
+# 
+# #the main equation is based on ring widths. We have determined the equation to be
+# # rw(pointer_year) <- 0.5*dbh2013 - bark_thick*(dbh2013^intercept) - sum(rw(pointer_year):rw(end)). The first part of the equation is here. Summing the pointer years happens with the "q" df below in the loop.
+# dbh$rw_prelim <- (0.5*dbh$dbh2013) - (dbh$bark_thick*(dbh$dbh2013^dbh$intercept))
+# 
+# 
+# dbh$dbh_old <- "0" #in prep for below
+# dbh$dbh_old <- as.numeric(dbh$dbh_old)
+# 
+# for (i in seq(along=widths)){
+#   df <- widths[[i]] #the list "widths" comes from #4a-4b
+#   colnames(df) <- gsub("A", "", colnames(df)) #remove "A"
+#   colnames(df) <- gsub("^0", "", colnames(df)) #remove leading 0
+#   
+#   cols <- colnames(df) #define cols for below
+#   colnames(df) <- gsub("^", "x", colnames(df)) #add "x" to make calling colnames below feasible
+#   
+#   for (j in seq(along=cols)){
+#     for (k in seq(along=colnames(df))){
+#       ring_ind <- cols[[j]]
+#       ring_col <- colnames(df)[[k]]
+#       
+#       if(j==k){
+#         #the output of this loop is 3 separate columns for each year's old dbh, hence why it is set to q as a dataframe before being combined below. Pointer_years_simple comes from #4d.
+#         q <- data.frame(sapply(pointer_years_simple, function(x){
+#           rw <- df[rownames(df)>=x, ]
+#           ifelse(dbh$year == x & dbh$tree == ring_ind, 
+#                  dbh$rw_prelim - sum(rw[, ring_col], na.rm=TRUE), 0)
+#         }))
+#         
+#         q$dbh_old <- q[,1] +q[,2] + q[,3] #add columns together
+#         # q$dbh_old <- q[,1] +q[,2] + q[,3] + q[,4]
+#         dbh$dbh_old <- dbh$dbh_old + q$dbh_old #combine with dbh
+#       }
+#     }
+#   }
+# }
+# 
+# # check <- dbh[dbh$dbh_old == 0, ] #check if any tree was missed
+# 
+# trees_all$dbh_old <- dbh$dbh_old
+# trees_all$dbh_old <- ifelse(trees_all$dbh_old < 0, 0, trees_all$dbh_old)
+# trees_all$dbh_old <- ifelse(trees_all$dbh_old > 0, trees_all$dbh_old/10, trees_all$dbh_old)
+# trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, ln(trees_all$dbh_old))
+
+
+###new method ####
+#steps to calculate old dbh
+
+bark <- read.csv("data/SCBI_bark_depth.csv")
+bark <- bark[bark$species %in% sp_can | bark$species %in% sp_subcan, ]
+
+#1. Calculate diameter_nobark for 2008 = DBH.mm.2008-2*bark.depth.mm
+bark$diam_nobark_2008 <- bark$DBH.mm.2008 - 2*bark$bark.depth.mm 
+
+#2. ln-transform both diam_nobark_2008 (x) and bark.depth.mm (y)
+#3. Fit a linear model, and use model to predict ln(bark.depth.mm)
+library(devtools)
+source_gist("524eade46135f6348140")
+ggplot(data = bark, aes(x = ln(diam_nobark_2008^2), y = ln(bark.depth.mm), label = ln(bark.depth.mm))) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
+  geom_smooth(method="lm", se=FALSE, color="black") +
+  geom_point(color = "#0c4c8a") +
+  theme_minimal() +
+  facet_wrap(vars(species))
+
+ggplot(data = bark, aes(x = ln(diam_nobark_2008^2), y = ln(bark.depth.mm), label = ln(bark.depth.mm))) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
+  geom_smooth(method="lm", se=FALSE, color="black") +
+  geom_point(color = "#0c4c8a") +
+  theme_minimal()
+
+bark$predict_barkthick_ln <- NA
+bark$predict_barkthick_ln <- 
+                    ifelse(bark$species == "caco", -1.56+0.416*ln(bark$diam_nobark_2008),
+                    ifelse(bark$species == "cagl", -0.393+0.268*ln(bark$diam_nobark_2008),
+                    ifelse(bark$species == "caovl", -2.18+0.651*ln(bark$diam_nobark_2008),
+                    ifelse(bark$species == "cato", -0.477+0.301*ln(bark$diam_nobark_2008),
+                    ifelse(bark$species == "fram", 0.418+0.268*ln(bark$diam_nobark_2008),
+                    ifelse(bark$species == "juni", 0.346+0.279*ln(bark$diam_nobark_2008),
+                    ifelse(bark$species == "litu", -1.14+0.463*ln(bark$diam_nobark_2008),
+                    ifelse(bark$species == "qual", -2.09+0.637*ln(bark$diam_nobark_2008),
+                    ifelse(bark$species == "qupr", -1.31+0.528*ln(bark$diam_nobark_2008),
+                    ifelse(bark$species == "quru", -0.593+0.292*ln(bark$diam_nobark_2008),
+                    ifelse(bark$species == "quve", 0.245+0.219*ln(bark$diam_nobark_2008),
+                           bark$predict_barkthick_ln)))))))))))
+
+#4. Take exponent of bark.depth.mm and make sure predicted values look good.
+bark$predict_barkthick <- exp(bark$predict_barkthick_ln)
+
+range(bark$predict_barkthick - bark$bark.depth.mm)
+
+#5. Get mean bark thickness per species in 2008.
+## The equation for calculating old dbh, using 1999 as an example, is
+## dbh1999 = dbh2008 - 2(ring.width2013 - ring.width1999) - 2(bark.depth2008) + 2(bark.depth1999)
+
+## using the dataset from calculating the regression equations, we can get mean bark thickness per species in 2008.
+
+##set up dbh dataframe
 dbh <- trees_all[, c(1:4)]
-dbh$dbh2013 <- elev$dbh[match(dbh$tree, elev$tag)]
+scbi.stem1 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem1.csv"))
+dbh$dbh2008 <- scbi.stem1$dbh[match(dbh$tree, scbi.stem1$tag)]
 
-#create df with bark thickness log values and intercept values from Krista's paper (supplemental info)
-#https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/1365-2435.12470 
-#fagr does not have bark thickness measured because it is negligible
-bark <- data.frame(
-  "sp" = c("acru", "fagr", "litu", "nysy", "caco", "cagl", "caovl", "cato", "fram", "juni", "qual", "qupr", "quru", "quve", "ulru"), 
-  "bark_thick_ln" = c(-2.564, 0, -0.659, -0.611, -1.917, -0.495, -2.504, -0.945, 0.318, -0.293, -1.231, -0.647, -0.789, 1.5, 1.133),
-  "intercept" = c(0.599, 0, 0.425, 0.413, 0.503, 0.316, 0.703, 0.396, 0.295, 0.385, 0.526, 0.423, 0.341, 0.053, -0.057))
+mean_bark <- aggregate(bark$bark.depth.mm, by=list(bark$species), mean)
+colnames(mean_bark) <- c("sp", "mean_bark_2008")
 
-bark$bark_thick <- ifelse(bark$bark_thick_ln != 0, exp(bark$bark_thick_ln), bark$bark_thick_ln)
+dbh$mean_bark_2008 <- ifelse(dbh$sp %in% mean_bark$sp, mean_bark$mean_bark_2008[match(dbh$sp, mean_bark$sp)], mean(bark$bark.depth.mm))
+dbh$mean_bark_2008 <- round(dbh$mean_bark_2008, 2)
 
-dbh$bark_thick <- bark$bark_thick[match(dbh$sp, bark$sp)]
-dbh$intercept <- bark$intercept[match(dbh$sp, bark$sp)]
+#6.Thus, the only value we're missing is bark depth in 1999.
+## This is ok, because we can calculate from the regression equation per each species (all we need is diam_nobark_1999).Calculate diam_nobark_1999 using
+## diam_nobark_1999 = dbh2008 - 2*(bark.depth2008) - 2*(sum(ring.width1999:ring.width2008))
 
-#the main equation is based on ring widths. We have determined the equation to be
-# rw(pointer_year) <- 0.5*dbh2013 - bark_thick*(dbh2013^intercept) - sum(rw(pointer_year):rw(end)). The first part of the equation is here. Summing the pointer years happens with the "q" df below in the loop.
-dbh$rw_prelim <- (0.5*dbh$dbh2013) - (dbh$bark_thick*(dbh$dbh2013^dbh$intercept))
+##define this column before loop
 
-
-dbh$dbh_old <- "0" #in prep for below
-dbh$dbh_old <- as.numeric(dbh$dbh_old)
-
+dbh$diam_nobark_old <- 0
 for (i in seq(along=widths)){
   df <- widths[[i]] #the list "widths" comes from #4a-4b
   colnames(df) <- gsub("A", "", colnames(df)) #remove "A"
@@ -658,56 +767,81 @@ for (i in seq(along=widths)){
         q <- data.frame(sapply(pointer_years_simple, function(x){
           rw <- df[rownames(df)>=x, ]
           ifelse(dbh$year == x & dbh$tree == ring_ind, 
-                 dbh$rw_prelim - sum(rw[, ring_col], na.rm=TRUE), 0)
+                 dbh$dbh2008 - 2*(dbh$mean_bark_2008) - sum(rw[rownames(rw) %in% c(x:2008), ring_col], na.rm=TRUE), 0)
         }))
         
-        q$dbh_old <- q[,1] +q[,2] + q[,3] #add columns together
+        q$diam_nobark_old <- q[,1] +q[,2] + q[,3] #add columns together
         # q$dbh_old <- q[,1] +q[,2] + q[,3] + q[,4]
-        dbh$dbh_old <- dbh$dbh_old + q$dbh_old #combine with dbh
+        dbh$diam_nobark_old <- dbh$diam_nobark_old + q$diam_nobark_old #combine with dbh (it's the same order of rows)
       }
     }
   }
 }
+    
+#7. Calculate bark thickness using regression equation per appropriate sp
+## ln(bark.depth.1999) = intercept + ln(diam_nobark)*constant
+## bark.depth.1999 = exp(ln(bark.depth.1999))
 
-# check <- dbh[dbh$dbh_old == 0, ] #check if any tree was missed
+#the full equation at the bottom is the regression equation for all these species put together. "fagr" is given a bark thickness of 0 because it is negligble
+dbh$bark_thick_old_ln <- NA
+dbh$bark_thick_old_ln <- ifelse(dbh$sp == "caco", -1.56+0.416*ln(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "cagl", -0.393+0.268*ln(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "caovl", -2.18+0.651*ln(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "cato", -0.477+0.301*ln(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "fram", 0.418+0.268*ln(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "juni", 0.346+0.279*ln(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "litu", -1.14+0.463*ln(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "qual", -2.09+0.637*ln(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "qupr", -1.31+0.528*ln(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "quru", -0.593+0.292*ln(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "quve", 0.245+0.219*ln(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "fagr", 0,
+                                          -1.01+0.213*ln(dbh$diam_nobark_old)))))))))))))
 
-trees_all$dbh_old <- dbh$dbh_old
-trees_all$dbh_old <- ifelse(trees_all$dbh_old < 0, 0, trees_all$dbh_old)
-trees_all$dbh_old <- ifelse(trees_all$dbh_old > 0, trees_all$dbh_old/10, trees_all$dbh_old)
-trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, ln(trees_all$dbh_old))
+dbh$bark_thick_old <- ifelse(dbh$sp == "fagr", 0, exp(dbh$bark_thick_old_ln))
 
+#8. Add to soluation frmo #6 to get full dbh1999
+## dbh1999 = diam_nobark_1999 + 2*bark.depth.1999
+dbh$dbh_old <- dbh$diam_nobark_old + 2*dbh$bark_thick_old
 
+##NOTE
+##The first time I ran this code I was getting NaNs for one tree (140939), because the dbh in 2008 was listed as 16.9. I double-checked this, and that was the second stem, which we obviously didn't core at 1.69 cm (or 2.2 cm in 2013). The dbh is meant to be the first stem. However, there was confusion with the dbh in the field and 
 
-#dbh(2013) - 2*barkthickness = diam.w/o.bark
-#get equation predicting bark thickness (dependent) from diam.w/o.bark (independent)
-#ln[Y] = ln[Y0] + z*ln[DBH (mm)] #(from paper, solving for Y)
-
-dbh$diam_nobark <- ifelse(dbh$sp == "cagl", exp(-0.495 + 0.316*ln(dbh$dbh2013)), dbh$diam_nobark)
-
-dbh$diam_nobark <- dbh$dbh2013 - 2*dbh$bark_thick
-
-sub <- dbh[!duplicated(dbh$tree), ]
-
-library(devtools)
-source_gist("524eade46135f6348140")
-ggplot(data = sub, aes(x = ln(diam_nobark), y = ln(bark_thick), label = ln(bark_thick))) +
-  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
-  geom_smooth(method="lm", se=FALSE, color="black") +
-  geom_point(color = "#0c4c8a") +
-  theme_minimal() +
-  facet_wrap(vars(sp))
-
-plot(dbh$diam_nobark, dbh$bark_thick)
+trees_all$dbh_old <- dbh$dbh_old[match(trees_all$tree, dbh$tree)]
+trees_all$dbh_ln <- ln(trees_all$dbh_old)
 
 ##5f. add in ratio of sapwood area to total wood ####
-#sapwood area = Y
-#ln[Y] = ln[Y0] + z*ln[DBH (mm)] #(from paper, solving for Y)
+#get radius.w/o.bark mm and convert to cm for ratio further down
+dbh$radius_nobark <- dbh$diam_nobark_old/2
+dbh$radius_nobark <- dbh$radius_nobark/10
 
-#area without bark: dbh/2 - bark thickness = radius.w/o.bark
-#area without bark = (pi*radius.w/o.bark)^2
+#area without bark = (pi*radius.w/o.bark)^2 (cm^2)
+dbh$area_nobark <- pi*(dbh$radius_nobark)^2
+
+#calculate sapwood area (cm^2)
+#ln[Y] = ln[Y0] + z*ln[DBH (mm)] #(from paper, solving for Y)
+## the general equation at bottom is the "all ring-porous" equation from the paper
+dbh$sapwood_area_ln <- NA
+dbh$sapwood_area_ln <- ifelse(dbh$sp == "caco", -3.628+1.629*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "cagl", -4.609+1.810*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "caovl", -4.767+1.830*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "cato", -3.477+1.633*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "fram", -8.198+2.458*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "juni", -4.608+1.689*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "litu", -5.937+2.039*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "qual", -3.129+1.411*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "qupr", -5.280+1.811*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "quru", -5.364+1.303*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "quve", -4.740+1.040*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "fagr", -4.652+1.945*ln(dbh$dbh_old), 
+                           -2.687+1.404*ln(dbh$dbh_old)))))))))))))
+
+dbh$sapwood_area <- exp(dbh$sapwood_area_ln)
 
 #ratio = sapwood area:area without bark
+dbh$sap_ratio <- dbh$sapwood_area/dbh$area_nobark
 
+trees_all$sap_ratio <- dbh$sap_ratio[match(trees_all$tree, dbh$tree)]
 ##5g. add in tree heights ####
 ## taken from the canopy_heights script
 trees_all$height_ln <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh_ln),
@@ -738,8 +872,12 @@ trees_all$position_all <- gsub("S", "suppressed", trees_all$position_all)
 #this csv has avg/min/max dbh for each canopy position by sp
 # positionsp <- read.csv("data/core_chronologies_by_crownposition.csv")
 
-##5i. remove all NAs ####
+##5i. remove all NAs and one bad tree ####
 trees_all <- trees_all[complete.cases(trees_all), ]
+
+##fram 140939 has been mislabeled. It is recorded as having a small dbh when that is the second stem. In terms of canopy position, though, it fell between time of coring and when positions were recorded, thus we do not know its position.
+trees_all <- trees_all[!trees_all$tree == 140939, ]
+
 ##5j. remove resistance values >2 ####
 trees_all <- trees_all[trees_all$resist.value <=2,]
 ##5k. make subsets for individual years, combine all to list ####
@@ -1287,7 +1425,7 @@ for (i in seq_along(model_df)){
 write.csv(summary_models, "manuscript/results_full_models_combined_years.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
-best <- lmm_all[[64]]
+best <- lmm_all[[57]]
 coef(summary(best))[ , "Estimate"]
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln, data=trees_all, REML=FALSE)
@@ -1302,7 +1440,7 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position_all", "tlp", "rp", "elev_m", "height_ln", "year", "(1|sp/tree)")
+effects <- c("position_all", "sap_ratio_ln", "tlp", "rp", "elev_m", "height_ln", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
