@@ -180,6 +180,7 @@ library(data.table)
 library(tools)
 library(dplyr)
 
+#NB ####
 ##to be clear, I wrote this code before I realized that some of the work done in these loops had already been done in the outputs of res.comp (specifically out.select). However, since the code runs well, and I double-checked that it was giving the same outputs as analyzing out.select, I'm keeping it as is.
 
 ##4a. canopy ####
@@ -818,30 +819,69 @@ dbh$radius_nobark <- dbh$radius_nobark/10
 #area without bark = (pi*radius.w/o.bark)^2 (cm^2)
 dbh$area_nobark <- pi*(dbh$radius_nobark)^2
 
-#calculate sapwood area (cm^2)
-#ln[Y] = ln[Y0] + z*ln[DBH (mm)] #(from paper, solving for Y)
-## the general equation at bottom is the "all ring-porous" equation from the paper
+#calculate sapwood area
+##sapwood area = tree area (minus bark) - heartwood area
+sap <- read.csv("data/SCBI_Sapwood_Data.csv", stringsAsFactors = FALSE)
+sap <- sap[,c(1:5,8:10,24)]
+sap$sp <- paste0(gsub("^(..).*", "\\1", sap$Latin), 
+                       gsub("^.* (..).*", "\\1", sap$Latin))
+sap$sp <- tolower(sap$sp)
+
+##subtract bark thickness from dbh
+##NOTE bark thickness is from 2008, even tho sap data collected 2010
+sap$dbh_nobark <- 0
+for (i in seq(along=mean_bark$mean_bark_2008)){
+  sub <- mean_bark[mean_bark$mean_bark_2008[[i]] == mean_bark$mean_bark_2008, ]
+  sap$dbh_nobark <- ifelse(sap$sp == sub$sp, sap$DBH-sub$mean_bark_2008, sap$dbh_nobark)
+}
+ 
+#heartwood radius = 0.5*dbh – sapwood depth (mm)
+sap$hw_rad <- 0.5*sap$dbh_nobark - sap$sapwood.depth..mm.
+
+#Heartwood area = pi*(heartwood radius)^2 (mm^2)
+sap$hw_area <- pi*(sap$hw_rad)^2
+ 
+#Sapwood area = pi*((0.5*dbh)^2) – heartwood area
+sap$sap_area <- pi*(0.5*sap$dbh_nobark)^2 - sap$hw_area
+sap$sap_area <- sap$sap_area/100
+
+sap <- sap[sap$sp %in% sp_can | sap$sp %in% sp_subcan, ]
+
+library(devtools)
+source_gist("524eade46135f6348140")
+ggplot(data = sap, aes(x = ln(DBH), y = ln(sap_area), label = ln(sap_area))) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
+  geom_smooth(method="lm", se=FALSE, color="black") +
+  geom_point(color = "#0c4c8a") +
+  theme_minimal() +
+  facet_wrap(vars(sp))
+
+ggplot(data = sap, aes(x = ln(DBH), y = ln(sap_area), label = ln(sap_area))) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
+  geom_smooth(method="lm", se=FALSE, color="black") +
+  geom_point(color = "#0c4c8a") +
+  theme_minimal()
+
+#the bottom equation is the total regression equation
 dbh$sapwood_area_ln <- NA
-dbh$sapwood_area_ln <- ifelse(dbh$sp == "caco", -3.628+1.629*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "cagl", -4.609+1.810*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "caovl", -4.767+1.830*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "cato", -3.477+1.633*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "fram", -8.198+2.458*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "juni", -4.608+1.689*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "litu", -5.937+2.039*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "qual", -3.129+1.411*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "qupr", -5.280+1.811*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "quru", -5.364+1.303*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "quve", -4.740+1.040*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "fagr", -4.652+1.945*ln(dbh$dbh_old), 
-                           -2.687+1.404*ln(dbh$dbh_old)))))))))))))
+dbh$sapwood_area_ln <- ifelse(dbh$sp == "caco", -3.41+1.6*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "cagl", -4.34+1.77*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "cato", -3.14+1.59*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "fram", -7.75+2.4*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "juni", -4.23+1.64*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "litu", -5.5+1.98*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "qual", -2.66+1.35*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "qupr", -4.89+1.76*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "quru", -5.35+1.74*ln(dbh$dbh_old),
+                    ifelse(dbh$sp == "quve", -4.57+1.63*ln(dbh$dbh_old),
+                           -3.13+1.5*ln(dbh$dbh_old)))))))))))
 
 dbh$sapwood_area <- exp(dbh$sapwood_area_ln)
 
 #ratio = sapwood area:area without bark
 dbh$sap_ratio <- dbh$sapwood_area/dbh$area_nobark
-
 trees_all$sap_ratio <- dbh$sap_ratio[match(trees_all$tree, dbh$tree)]
+
 ##5g. add in tree heights ####
 ## taken from the canopy_heights script
 trees_all$height_ln <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh_ln),
@@ -921,12 +961,16 @@ summary_models <- data.frame(
   "response_predict" = c(-1, -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, NA),
   "response_sign" = c("-", "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse", "+"),
    "dAIC_all_years" = NA,
+    "response_obs_all" = NA,
     "coef_all_years" = NA,
    "dAIC_1964.1966" = NA,
+    "response_obs_1964.1966" = NA,
     "coef_1964.1966" = NA,
    "dAIC_1977" = NA, 
+    "response_obs_1977" = NA,
     "coef_1977" = NA,
    "dAIC_1999" = NA,
+    "response_obs_1999" = NA,  
     "coef_1999" = NA,
     "notes" = "",
     "coef_all_big" = NA,
@@ -1047,8 +1091,9 @@ for (i in seq_along(model_df)){
         }
       
       #update the coefficient value
-      summary_models[,9][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
-      
+       summary_models[,9][[h]] <- ifelse(coeff_sub$value<0, -1, 1)
+       summary_models[,10][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
+
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
       # if (h!=12){
       #   summary_models[,8][[h]] <- ifelse(
@@ -1060,14 +1105,14 @@ for (i in seq_along(model_df)){
       if(h==12){
         coeff <- coeff[-1,]
         coeff_max <- coeff[coeff$value == max(coeff$value), ]
-        summary_models[,17][[h]] <- coeff_max$model_var
+        summary_models[,21][[h]] <- coeff_max$model_var
       }
     } 
     else if (i == 2) {
       #isolate the AIC values of the target (sub) and null models, then math
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
-      summary_models[,10][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
+      summary_models[,11][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
       var_aic_sub$Modnames <- as.character(var_aic_sub$Modnames)
       
       #this loop says for the models run for this iteration of h, take the model output represented by the target model (1). Get the coefficients and put in df (2). Rename variables such that you only pull what you need (3) and extract the coefficient for the variable you want (4).
@@ -1108,7 +1153,8 @@ for (i in seq_along(model_df)){
       }
       
       #update the coefficient value
-      summary_models[,11][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
+      summary_models[,12][[h]] <- ifelse(coeff_sub$value<0, -1, 1)
+      summary_models[,13][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
       # if (h!=12){
@@ -1121,14 +1167,14 @@ for (i in seq_along(model_df)){
       if(h==12){
         coeff <- coeff[-1,]
         coeff_max <- coeff[coeff$value == max(coeff$value), ]
-        summary_models[,18][[h]] <- coeff_max$model_var
+        summary_models[,22][[h]] <- coeff_max$model_var
       }
     } 
     else if (i == 3){
       #isolate the AIC values of the target (sub) and null models, then math
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
-      summary_models[,12][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
+      summary_models[,14][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
       var_aic_sub$Modnames <- as.character(var_aic_sub$Modnames)
       
       #this loop says for the models run for this iteration of h, take the model output represented by the target model (1). Get the coefficients and put in df (2). Rename variables such that you only pull what you need (3) and extract the coefficient for the variable you want (4).
@@ -1169,7 +1215,8 @@ for (i in seq_along(model_df)){
       }
       
       #update the coefficient value
-      summary_models[,13][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
+      summary_models[,15][[h]] <- ifelse(coeff_sub$value<0, -1, 1)
+      summary_models[,16][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
       # if(h!=12){
@@ -1182,14 +1229,14 @@ for (i in seq_along(model_df)){
       if(h==12){
         coeff <- coeff[-1,]
         coeff_max <- coeff[coeff$value == max(coeff$value), ]
-        summary_models[,19][[h]] <- coeff_max$model_var
+        summary_models[,23][[h]] <- coeff_max$model_var
       }
     } 
     else if (i == 4){
       #isolate the AIC values of the target (sub) and null models, then math
       var_aic_sub <- var_aic[var_aic$Modnames == summary_mod_vars_sep[[h]], ]
       var_aic_null <- var_aic[var_aic$Modnames == summary_mod_null_sep[[h]], ]
-      summary_models[,14][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
+      summary_models[,17][[h]] <- round(var_aic_null$Delta_AICc - var_aic_sub$Delta_AICc, 2)
       var_aic_sub$Modnames <- as.character(var_aic_sub$Modnames)
       
       #this loop says for the models run for this iteration of h, take the model output represented by the target model (1). Get the coefficients and put in df (2). Rename variables such that you only pull what you need (3) and extract the coefficient for the variable you want (4).
@@ -1232,7 +1279,8 @@ for (i in seq_along(model_df)){
       }
       
       #update the coefficient value
-      summary_models[,15][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
+      summary_models[,18][[h]] <- ifelse(coeff_sub$value<0, -1, 1)
+      summary_models[,19][[h]] <- ifelse(h == 12, NA, coeff_sub$value)
       
       #update the table. If the sign conventions of the coefficient and the predicted response do not match, assign NA.
       # if (h!=12){
@@ -1245,7 +1293,7 @@ for (i in seq_along(model_df)){
       if (h==12){
         coeff <- coeff[-1,]
         coeff_max <- coeff[coeff$value == max(coeff$value), ]
-        summary_models[,20][[h]] <- coeff_max$model_var
+        summary_models[,24][[h]] <- coeff_max$model_var
       }
     }
   }
@@ -1425,7 +1473,7 @@ for (i in seq_along(model_df)){
 write.csv(summary_models, "manuscript/results_full_models_combined_years.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
-best <- lmm_all[[57]]
+best <- lmm_all[[64]]
 coef(summary(best))[ , "Estimate"]
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln, data=trees_all, REML=FALSE)
@@ -1440,7 +1488,7 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position_all", "sap_ratio_ln", "tlp", "rp", "elev_m", "height_ln", "year", "(1|sp/tree)")
+effects <- c("position_all", "sap_ratio", "tlp", "rp", "elev_m", "height_ln", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
