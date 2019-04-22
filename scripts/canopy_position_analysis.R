@@ -179,6 +179,7 @@ library(dplR)
 library(data.table)
 library(tools)
 library(dplyr)
+library(reshape2)
 
 #NB ####
 ##to be clear, I wrote this code before I realized that some of the work done in these loops had already been done in the outputs of res.comp (specifically out.select). However, since the code runs well, and I double-checked that it was giving the same outputs as analyzing out.select, I'm keeping it as is.
@@ -501,7 +502,6 @@ ggplot(data = pdsi_true) +
 
 ##########################################################################################
 #5. add in climate and growth variables ####
-library(SciViews) #for ln function
 library(ggplot2)
 library(rgdal) #to read in shapefiles
 library(broom) #for the tidy function
@@ -553,11 +553,11 @@ trees_all$elev_m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 ## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
 
 ## I have not found a way to make this not involve personal directories without moving all the data to my folder, which I'm hesitant about doing due to data redundancy.
-scbi_plot <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/20m_grid.shp")
-deer <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/deer_exclosure_2011.shp")
-roads <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_roads_edits.shp")
-streams <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_streams_edits.shp")
-NS_divide <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/Dendrobands/resources/maps/shapefiles/NS_divide1.shp")
+scbi_plot <- readOGR("E:/Github_SCBI/SCBI-ForestGEO-Data/spatial_data/shapefiles/20m_grid.shp")
+deer <- readOGR("E:/Github_SCBI/SCBI-ForestGEO-Data/spatial_data/shapefiles/deer_exclosure_2011.shp")
+roads <- readOGR("E:/Github_SCBI/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_roads_edits.shp")
+streams <- readOGR("E:/Github_SCBI/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_streams_edits.shp")
+NS_divide <- readOGR("E:/Github_SCBI/Dendrobands/resources/maps/shapefiles/NS_divide1.shp")
 
 #convert all shp to dataframe so that it can be used by ggplot
 #if tidy isn't working, can also do: xxx_df <- as(xxx, "data.frame")
@@ -596,7 +596,7 @@ colnames(distance_water) <- "distance_water"
 distance <- cbind(neil_map, distance_water)
 
 ## next, do a log transformation on the distances before adding as a column to trees_all (similar to the dbh calculations below)
-distance$distance_ln <- ln(distance$distance_water)
+distance$distance_ln <- log(distance$distance_water)
 trees_all$distance_ln <- distance$distance_ln[match(trees_all$tree, distance$tag)]
 
 ## this is to double check the accuracy of the map.
@@ -677,7 +677,7 @@ map <- ggplot() +
 # trees_all$dbh_old <- dbh$dbh_old
 # trees_all$dbh_old <- ifelse(trees_all$dbh_old < 0, 0, trees_all$dbh_old)
 # trees_all$dbh_old <- ifelse(trees_all$dbh_old > 0, trees_all$dbh_old/10, trees_all$dbh_old)
-# trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, ln(trees_all$dbh_old))
+# trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, log(trees_all$dbh_old))
 
 
 ###new method ####
@@ -689,18 +689,18 @@ bark <- bark[bark$species %in% sp_can | bark$species %in% sp_subcan, ]
 #1. Calculate diameter_nobark for 2008 = DBH.mm.2008-2*bark.depth.mm
 bark$diam_nobark_2008 <- bark$DBH.mm.2008 - 2*bark$bark.depth.mm 
 
-#2. ln-transform both diam_nobark_2008 (x) and bark.depth.mm (y)
-#3. Fit a linear model, and use model to predict ln(bark.depth.mm)
+#2. log-transform both diam_nobark_2008 (x) and bark.depth.mm (y)
+#3. Fit a linear model, and use model to predict log(bark.depth.mm)
 library(devtools)
 source_gist("524eade46135f6348140")
-ggplot(data = bark, aes(x = ln(diam_nobark_2008^2), y = ln(bark.depth.mm), label = ln(bark.depth.mm))) +
+ggplot(data = bark, aes(x = log(diam_nobark_2008^2), y = log(bark.depth.mm), label = log(bark.depth.mm))) +
   stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal() +
   facet_wrap(vars(species))
 
-ggplot(data = bark, aes(x = ln(diam_nobark_2008^2), y = ln(bark.depth.mm), label = ln(bark.depth.mm))) +
+ggplot(data = bark, aes(x = log(diam_nobark_2008^2), y = log(bark.depth.mm), label = log(bark.depth.mm))) +
   stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
@@ -708,17 +708,17 @@ ggplot(data = bark, aes(x = ln(diam_nobark_2008^2), y = ln(bark.depth.mm), label
 
 bark$predict_barkthick_ln <- NA
 bark$predict_barkthick_ln <- 
-                    ifelse(bark$species == "caco", -1.56+0.416*ln(bark$diam_nobark_2008),
-                    ifelse(bark$species == "cagl", -0.393+0.268*ln(bark$diam_nobark_2008),
-                    ifelse(bark$species == "caovl", -2.18+0.651*ln(bark$diam_nobark_2008),
-                    ifelse(bark$species == "cato", -0.477+0.301*ln(bark$diam_nobark_2008),
-                    ifelse(bark$species == "fram", 0.418+0.268*ln(bark$diam_nobark_2008),
-                    ifelse(bark$species == "juni", 0.346+0.279*ln(bark$diam_nobark_2008),
-                    ifelse(bark$species == "litu", -1.14+0.463*ln(bark$diam_nobark_2008),
-                    ifelse(bark$species == "qual", -2.09+0.637*ln(bark$diam_nobark_2008),
-                    ifelse(bark$species == "qupr", -1.31+0.528*ln(bark$diam_nobark_2008),
-                    ifelse(bark$species == "quru", -0.593+0.292*ln(bark$diam_nobark_2008),
-                    ifelse(bark$species == "quve", 0.245+0.219*ln(bark$diam_nobark_2008),
+                    ifelse(bark$species == "caco", -1.56+0.416*log(bark$diam_nobark_2008),
+                    ifelse(bark$species == "cagl", -0.393+0.268*log(bark$diam_nobark_2008),
+                    ifelse(bark$species == "caovl", -2.18+0.651*log(bark$diam_nobark_2008),
+                    ifelse(bark$species == "cato", -0.477+0.301*log(bark$diam_nobark_2008),
+                    ifelse(bark$species == "fram", 0.418+0.268*log(bark$diam_nobark_2008),
+                    ifelse(bark$species == "juni", 0.346+0.279*log(bark$diam_nobark_2008),
+                    ifelse(bark$species == "litu", -1.14+0.463*log(bark$diam_nobark_2008),
+                    ifelse(bark$species == "qual", -2.09+0.637*log(bark$diam_nobark_2008),
+                    ifelse(bark$species == "qupr", -1.31+0.528*log(bark$diam_nobark_2008),
+                    ifelse(bark$species == "quru", -0.593+0.292*log(bark$diam_nobark_2008),
+                    ifelse(bark$species == "quve", 0.245+0.219*log(bark$diam_nobark_2008),
                            bark$predict_barkthick_ln)))))))))))
 
 #4. Take exponent of bark.depth.mm and make sure predicted values look good.
@@ -780,24 +780,24 @@ for (i in seq(along=widths)){
 }
     
 #7. Calculate bark thickness using regression equation per appropriate sp
-## ln(bark.depth.1999) = intercept + ln(diam_nobark)*constant
-## bark.depth.1999 = exp(ln(bark.depth.1999))
+## log(bark.depth.1999) = intercept + log(diam_nobark)*constant
+## bark.depth.1999 = exp(log(bark.depth.1999))
 
 #the full equation at the bottom is the regression equation for all these species put together. "fagr" is given a bark thickness of 0 because it is negligble
 dbh$bark_thick_old_ln <- NA
-dbh$bark_thick_old_ln <- ifelse(dbh$sp == "caco", -1.56+0.416*ln(dbh$diam_nobark_old),
-                      ifelse(dbh$sp == "cagl", -0.393+0.268*ln(dbh$diam_nobark_old),
-                      ifelse(dbh$sp == "caovl", -2.18+0.651*ln(dbh$diam_nobark_old),
-                      ifelse(dbh$sp == "cato", -0.477+0.301*ln(dbh$diam_nobark_old),
-                      ifelse(dbh$sp == "fram", 0.418+0.268*ln(dbh$diam_nobark_old),
-                      ifelse(dbh$sp == "juni", 0.346+0.279*ln(dbh$diam_nobark_old),
-                      ifelse(dbh$sp == "litu", -1.14+0.463*ln(dbh$diam_nobark_old),
-                      ifelse(dbh$sp == "qual", -2.09+0.637*ln(dbh$diam_nobark_old),
-                      ifelse(dbh$sp == "qupr", -1.31+0.528*ln(dbh$diam_nobark_old),
-                      ifelse(dbh$sp == "quru", -0.593+0.292*ln(dbh$diam_nobark_old),
-                      ifelse(dbh$sp == "quve", 0.245+0.219*ln(dbh$diam_nobark_old),
+dbh$bark_thick_old_ln <- ifelse(dbh$sp == "caco", -1.56+0.416*log(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "cagl", -0.393+0.268*log(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "caovl", -2.18+0.651*log(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "cato", -0.477+0.301*log(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "fram", 0.418+0.268*log(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "juni", 0.346+0.279*log(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "litu", -1.14+0.463*log(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "qual", -2.09+0.637*log(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "qupr", -1.31+0.528*log(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "quru", -0.593+0.292*log(dbh$diam_nobark_old),
+                      ifelse(dbh$sp == "quve", 0.245+0.219*log(dbh$diam_nobark_old),
                       ifelse(dbh$sp == "fagr", 0,
-                                          -1.01+0.213*ln(dbh$diam_nobark_old)))))))))))))
+                                          -1.01+0.213*log(dbh$diam_nobark_old)))))))))))))
 
 dbh$bark_thick_old <- ifelse(dbh$sp == "fagr", 0, exp(dbh$bark_thick_old_ln))
 
@@ -809,14 +809,14 @@ dbh$dbh_old <- dbh$diam_nobark_old + 2*dbh$bark_thick_old
 ##The first time I ran this code I was getting NaNs for one tree (140939), because the dbh in 2008 was listed as 16.9. I double-checked this, and that was the second stem, which we obviously didn't core at 1.69 cm (or 2.2 cm in 2013). The dbh is meant to be the first stem. However, there was confusion with the dbh in the field and 
 
 trees_all$dbh_old <- dbh$dbh_old[match(trees_all$tree, dbh$tree)]
-trees_all$dbh_ln <- ln(trees_all$dbh_old)
+trees_all$dbh_ln <- log(trees_all$dbh_old)
 
 ##5f. add in ratio of sapwood area to total wood ####
 #get radius.w/o.bark mm and convert to cm for ratio further down
 dbh$radius_nobark <- dbh$diam_nobark_old/2
 dbh$radius_nobark <- dbh$radius_nobark/10
 
-#area without bark = (pi*radius.w/o.bark)^2 (cm^2)
+#area without bark = pi*(radius.w/o.bark)^2 (cm^2)
 dbh$area_nobark <- pi*(dbh$radius_nobark)^2
 
 #calculate sapwood area
@@ -849,14 +849,14 @@ sap <- sap[sap$sp %in% sp_can | sap$sp %in% sp_subcan, ]
 
 library(devtools)
 source_gist("524eade46135f6348140")
-ggplot(data = sap, aes(x = ln(DBH), y = ln(sap_area), label = ln(sap_area))) +
-  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
+ggplot(data = sap, aes(x = log(DBH), y = log(sap_ratio), label = log(sap_ratio))) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=1,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal() +
   facet_wrap(vars(sp))
 
-ggplot(data = sap, aes(x = ln(DBH), y = ln(sap_area), label = ln(sap_area))) +
+ggplot(data = sap, aes(x = log(DBH), y = log(sap_area), label = log(sap_area))) +
   stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
@@ -864,21 +864,25 @@ ggplot(data = sap, aes(x = ln(DBH), y = ln(sap_area), label = ln(sap_area))) +
 
 #the bottom equation is the total regression equation
 dbh$sapwood_area_ln <- NA
-dbh$sapwood_area_ln <- ifelse(dbh$sp == "caco", -3.41+1.6*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "cagl", -4.34+1.77*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "cato", -3.14+1.59*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "fram", -7.75+2.4*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "juni", -4.23+1.64*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "litu", -5.5+1.98*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "qual", -2.66+1.35*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "qupr", -4.89+1.76*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "quru", -5.35+1.74*ln(dbh$dbh_old),
-                    ifelse(dbh$sp == "quve", -4.57+1.63*ln(dbh$dbh_old),
-                           -3.13+1.5*ln(dbh$dbh_old)))))))))))
+dbh$sapwood_area_ln <- ifelse(dbh$sp == "caco", -3.41+1.6*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "cagl", -4.34+1.77*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "cato", -3.14+1.59*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "fram", -7.75+2.4*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "juni", -4.23+1.64*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "litu", -5.5+1.98*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "qual", -2.66+1.35*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "qupr", -4.89+1.76*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "quru", -5.35+1.74*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "quve", -4.57+1.63*log(dbh$dbh_old),
+                           -3.13+1.5*log(dbh$dbh_old)))))))))))
 
 dbh$sapwood_area <- exp(dbh$sapwood_area_ln)
 
 #ratio = sapwood area:area without bark
+sap$dbh_nobark <- sap$dbh_nobark/10
+sap$total_wood_area <- pi*(sap$dbh_nobark/2)^2
+sap$sap_ratio <- sap$sap_area/sap$total_wood_area
+
 dbh$sap_ratio <- dbh$sapwood_area/dbh$area_nobark
 trees_all$sap_ratio <- dbh$sap_ratio[match(trees_all$tree, dbh$tree)]
 
