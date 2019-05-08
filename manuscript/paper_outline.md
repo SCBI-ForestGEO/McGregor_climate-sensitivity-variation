@@ -114,7 +114,7 @@ Prediction | Variable tested* | Null model variables* | Predicted direction of r
 
 *** dAIC is calculated as [AIC_null model - AIC_model with variable]. 
 
-**Table S1. Mixed effects model setups and results for testing hypotheses 1 & 2-- SIMPLE MODEL VERSION, where effects of each variable are tested individually (null model accounts for only random/required effects and stronly interacting variables). **
+**Table S1. Mixed effects model setups and results for testing hypotheses 1 & 2-- LIMITED MODEL VERSION, where effects of each variable are tested individually (null model accounts for only random/required effects and stronly interacting variables). **
 
 Prediction | Variable tested* | Null model variables* | Predicted direction of response** | Observed direction of response (ODR)**-all years | dAIC*** - all years | dAIC 1964-66 | dAIC 1977 | dAIC 1999
 --- | --- | --- | --- | --- | --- | --- | --- | ---  
