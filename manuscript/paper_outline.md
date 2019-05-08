@@ -23,9 +23,18 @@ Krista Anderson-Teixeira
 
 Understanding how and why trees respond to drought is critical to predicting forest drought responses and climate change feedbacks.
 
-Bennett et al. 2015 showed that in forests globally, large trees suffer greater growth reductions during drought. However, this analysis quantified tree size based on DBH, which has no direct mechanistic meaning. This study proposed two major mechanisms (besides insects): (1) inherently greater biophysical challenge of being tall; (2) greater exposure of the crowns of large trees. It is also expected that roots play a role. And its possible that pattern could be caused by smaller trees being more drought resistant. These hypotheses need to be tested.
+Forests are diverse in terms of tree sizes and functional traits, and it is known that trees varying in size and functional traits respond differently to drought. Therefore, in order to understand whole-forest response to drought, we need to know how responses vary by tree size/ species. To do so, there are three fundamental questions that must be addressed:
+
+*First, what drives the observed tendency for large trees to suffer more during drought?*  
+Bennett et al. 2015 showed that in forests globally, large trees suffer greater growth reductions during drought. However, this analysis quantified tree size based on DBH, which has no direct mechanistic meaning. This study proposed two major mechanisms (besides insects): (1) inherently greater biophysical challenge of being tall; (2) greater exposure of the crowns of large trees. It is also expected that roots play a role. These hypotheses need to be tested.
 
 Bennett et al. 2015 identified only one study on tree growth responses to drought in the Eastern US temperate deciduous biome. We know little about how tree size shapes drought response in this biome.  
+
+*Second, how do species' traits influence drought response?* 
+Analyzed drought responses on the species level doesn't get at mechanisms and is not feasible in diverse forests. The solution is a trait-based approach. Leaf hydraulic traits hold more promise than more commonly/ traditionally measured traits such as wood density and SLA (Medeiros et al.). 
+
+*Third, how do tree size and functional traits interact to influence drought response?*
+Its possible that pattern observed by Bennett et al. could be caused by smaller trees being more drought resistant. Alternatively, larger trees may have more drought-resistant traits.
 
 *Questions & Hypotheses*
 
@@ -87,9 +96,7 @@ Bennett et al. 2015 identified only one study on tree growth responses to drough
 
 ## Results
 
-**Table 1. Mixed effects model setups and results for testing hypotheses 1 & 2. Note that H3 is tested using a different framework.**
-
-NEW:
+**Table 1. Mixed effects model setups and results for testing hypotheses 1 & 2-- FULL MODEL VERSION, where the null model is the best full model, minus the variable of interest (if it is included in the best full model). **
 
 Prediction | Variable tested* | Null model variables* | Predicted direction of response** | Observed direction of response (ODR)**-all years | dAIC*** - all years | ODR-66| dAIC 1964-66 |ODR-77| dAIC 1977 |ODR-99| dAIC 1999
 --- | --- | --- | --- | --- | --- | --- | --- | ---  | --- | --- | --- 
@@ -109,7 +116,7 @@ Prediction | Variable tested* | Null model variables* | Predicted direction of r
 
 *** dAIC is calculated as [AIC_null model - AIC_model with variable]. 
 
-OLD:
+**Table S1. Mixed effects model setups and results for testing hypotheses 1 & 2-- SIMPLE MODEL VERSION, where effects of each variable are tested individually (null model accounts for only random/required effects and stronly interacting variables). **
 
 Prediction | Variable tested* | Null model variables* | Predicted direction of response** | Observed direction of response (ODR)**-all years | dAIC*** - all years | dAIC 1964-66 | dAIC 1977 | dAIC 1999
 --- | --- | --- | --- | --- | --- | --- | --- | ---  
