@@ -28,8 +28,6 @@ Forests are diverse in terms of tree sizes and functional traits, and it is know
 *First, what drives the observed tendency for large trees to suffer more during drought?*  
 Bennett et al. 2015 showed that in forests globally, large trees suffer greater growth reductions during drought. However, this analysis quantified tree size based on DBH, which has no direct mechanistic meaning. This study proposed two major mechanisms (besides insects): (1) inherently greater biophysical challenge of being tall; (2) greater exposure of the crowns of large trees. It is also expected that roots play a role. These hypotheses need to be tested.
 
-Bennett et al. 2015 identified only one study on tree growth responses to drought in the Eastern US temperate deciduous biome. We know little about how tree size shapes drought response in this biome.  
-
 *Second, how do species' traits influence drought response?* 
 Analyzed drought responses on the species level doesn't get at mechanisms and is not feasible in diverse forests. The solution is a trait-based approach. Leaf hydraulic traits hold more promise than more commonly/ traditionally measured traits such as wood density and SLA (Medeiros et al.). 
 
@@ -41,7 +39,7 @@ Its possible that pattern observed by Bennett et al. could be caused by smaller 
 
 **1. Why do larger trees suffer greater growth declines during drought?**
 
-1.0. Our forest displays the same trend as most forests globally (Bennett et al. 2015).
+1.0. Our forest displays the same trend as most forests globally (Bennett et al. 2015). (Note that Bennett et al. 2015 identified only one study on tree growth responses to drought in the Eastern US temperate deciduous biome. We know little about how tree size shapes drought response in this biome.)
 
 1.1. Height is a strong predictor of drought stress.
 
