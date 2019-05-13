@@ -553,11 +553,11 @@ trees_all$elev_m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 ## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
 
 ## I have not found a way to make this not involve personal directories without moving all the data to my folder, which I'm hesitant about doing due to data redundancy.
-scbi_plot <- readOGR("E:/Github_SCBI/SCBI-ForestGEO-Data/spatial_data/shapefiles/20m_grid.shp")
-deer <- readOGR("E:/Github_SCBI/SCBI-ForestGEO-Data/spatial_data/shapefiles/deer_exclosure_2011.shp")
-roads <- readOGR("E:/Github_SCBI/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_roads_edits.shp")
-streams <- readOGR("E:/Github_SCBI/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_streams_edits.shp")
-NS_divide <- readOGR("E:/Github_SCBI/Dendrobands/resources/maps/shapefiles/NS_divide1.shp")
+scbi_plot <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/20m_grid.shp")
+deer <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/deer_exclosure_2011.shp")
+roads <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_roads_edits.shp")
+streams <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_streams_edits.shp")
+NS_divide <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/Dendrobands/resources/maps/shapefiles/NS_divide1.shp")
 
 #convert all shp to dataframe so that it can be used by ggplot
 #if tidy isn't working, can also do: xxx_df <- as(xxx, "data.frame")
@@ -812,15 +812,10 @@ trees_all$dbh_old <- dbh$dbh_old[match(trees_all$tree, dbh$tree)]
 trees_all$dbh_ln <- log(trees_all$dbh_old)
 
 ##5f. add in ratio of sapwood area to total wood ####
-#get radius.w/o.bark mm and convert to cm for ratio further down
-dbh$radius_nobark <- dbh$diam_nobark_old/2
-dbh$radius_nobark <- dbh$radius_nobark/10
 
-#area without bark = pi*(radius.w/o.bark)^2 (cm^2)
-dbh$area_nobark <- pi*(dbh$radius_nobark)^2
 
 #calculate sapwood area
-##sapwood area = tree area (minus bark) - heartwood area
+##sapwood area[iii] = tree area (minus bark)[i] - heartwood area[ii]
 sap <- read.csv("data/SCBI_Sapwood_Data.csv", stringsAsFactors = FALSE)
 sap <- sap[,c(1:5,8:10,24)]
 sap$sp <- paste0(gsub("^(..).*", "\\1", sap$Latin), 
@@ -829,59 +824,73 @@ sap$sp <- tolower(sap$sp)
 
 ##subtract bark thickness from dbh
 ##NOTE bark thickness is from 2008, even tho sap data collected 2010
+##[[i]]
 sap$dbh_nobark <- 0
 for (i in seq(along=mean_bark$mean_bark_2008)){
   sub <- mean_bark[mean_bark$mean_bark_2008[[i]] == mean_bark$mean_bark_2008, ]
   sap$dbh_nobark <- ifelse(sap$sp == sub$sp, sap$DBH-sub$mean_bark_2008, sap$dbh_nobark)
 }
- 
+
+#[ii]
 #heartwood radius = 0.5*dbh – sapwood depth (mm)
 sap$hw_rad <- 0.5*sap$dbh_nobark - sap$sapwood.depth..mm.
 
 #Heartwood area = pi*(heartwood radius)^2 (mm^2)
 sap$hw_area <- pi*(sap$hw_rad)^2
- 
-#Sapwood area = pi*((0.5*dbh)^2) – heartwood area
+
+#[iii]
+#Sapwood area = pi*((0.5*dbh)^2) – heartwood area (cm^2 with the /100)
 sap$sap_area <- pi*(0.5*sap$dbh_nobark)^2 - sap$hw_area
 sap$sap_area <- sap$sap_area/100
 
 sap <- sap[sap$sp %in% sp_can | sap$sp %in% sp_subcan, ]
 
+#ratio = sapwood area:area without bark
+##calculate ratio to find the regression equations
+sap$dbh_nobark <- sap$dbh_nobark/10 #(mm) -> (cm)
+sap$total_wood_area <- pi*(sap$dbh_nobark/2)^2 #(cm^2)
+sap$sap_ratio <- sap$sap_area/sap$total_wood_area
+
 library(devtools)
 source_gist("524eade46135f6348140")
 ggplot(data = sap, aes(x = log(DBH), y = log(sap_ratio), label = log(sap_ratio))) +
-  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=1,parse=TRUE) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=1.5,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal() +
   facet_wrap(vars(sp))
 
-ggplot(data = sap, aes(x = log(DBH), y = log(sap_area), label = log(sap_area))) +
+ggplot(data = sap, aes(x = log(DBH), y = log(sap_ratio), label = log(sap_ratio))) +
   stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal()
 
+#calculate ratio for each tree using regression equations
+##prepare: get radius.w/o.bark mm and convert to cm
+dbh$radius_nobark <- dbh$diam_nobark_old/2 #(cm)
+dbh$radius_nobark <- dbh$radius_nobark/10 #(cm)
+
+##area without bark = pi*(radius.w/o.bark)^2 (cm^2)
+dbh$area_nobark <- pi*(dbh$radius_nobark)^2
+
 #the bottom equation is the total regression equation
 dbh$sapwood_area_ln <- NA
-dbh$sapwood_area_ln <- ifelse(dbh$sp == "caco", -3.41+1.6*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "cagl", -4.34+1.77*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "cato", -3.14+1.59*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "fram", -7.75+2.4*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "juni", -4.23+1.64*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "litu", -5.5+1.98*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "qual", -2.66+1.35*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "qupr", -4.89+1.76*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "quru", -5.35+1.74*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "quve", -4.57+1.63*log(dbh$dbh_old),
-                           -3.13+1.5*log(dbh$dbh_old)))))))))))
+dbh$sapwood_area_ln <- ifelse(dbh$sp == "caco", 6.17-0.419*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "cagl", 5.32-0.26*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "cato", 6.51-0.444*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "fram", 2.19+0.326*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "juni", 5.53-0.404*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "litu", 4.31-0.0718*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "qual", 7.09-0.692*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "qupr", 4.99-0.305*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "quru", 4.27-0.282*log(dbh$dbh_old),
+                    ifelse(dbh$sp == "quve", 5.1-0.402*log(dbh$dbh_old),
+                           6.6-0.543*log(dbh$dbh_old)))))))))))
 
 dbh$sapwood_area <- exp(dbh$sapwood_area_ln)
 
-#ratio = sapwood area:area without bark
-sap$dbh_nobark <- sap$dbh_nobark/10
-sap$total_wood_area <- pi*(sap$dbh_nobark/2)^2
-sap$sap_ratio <- sap$sap_area/sap$total_wood_area
+
 
 dbh$sap_ratio <- dbh$sapwood_area/dbh$area_nobark
 trees_all$sap_ratio <- dbh$sap_ratio[match(trees_all$tree, dbh$tree)]
@@ -931,6 +940,7 @@ x1977 <- trees_all[trees_all$year == 1977, ]
 x1999 <- trees_all[trees_all$year == 1999, ]
 
 model_df <- list(trees_all, x1966, x1977, x1999)
+names(model_df) <- c("all_years", "x1966", "x1977", "x1999")
 ##############################################################################################
 #6. mixed effects model for output of #5. ####
 library(lme4)
