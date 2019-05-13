@@ -8,10 +8,10 @@ library(data.table)
 setnames(heights, old="species.code", new="sp")
 
 dbh_2008 <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_main_census/data/census-csv-files/scbi.stem1.csv")
-dbh_2008$dbh <- dbh_2008$dbh/10
+dbh_2008$dbh <- dbh_2008$dbh/10 #cm
 
 dbh_2013 <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_main_census/data/census-csv-files/scbi.stem2.csv")
-dbh_2013$dbh <- dbh_2013$dbh/10
+dbh_2013$dbh <- dbh_2013$dbh/10 #cm
 
 dbh_2018 <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_main_census/data/scbi.stem3_TEMPORARY.csv", stringsAsFactors = FALSE)
 
@@ -26,8 +26,8 @@ dbh_2018$stemtag <- as.numeric(as.character(dbh_2018$stemtag))
 dbh_2018$stemID <- dbh_2013$stemID[match(paste(dbh_2018$tag, dbh_2018$stemtag), paste(dbh_2013$tag, dbh_2013$StemTag))]
 
 #create subsets and match dbh by stemID
-heights_2013 <- heights[heights$height.year < 2018, ]
-heights_2018 <- heights[heights$height.year == 2018, ]
+heights_2013 <- heights[heights$height.year < 2018, ] #cm
+heights_2018 <- heights[heights$height.year == 2018, ] #cm
 
 heights_2013$dbh <- dbh_2013$dbh[match(heights_2013$stemID, dbh_2013$stemID)]
 heights_2013$dbh_year <- 2013
@@ -44,7 +44,7 @@ heights$dbh <- ifelse(heights$dbh == 0 & heights$dbh_year == 2013,
                       dbh_2008$dbh[match(heights$stemID, dbh_2008$stemID)], 
                       ifelse(is.na(heights$dbh) & heights$dbh_year == 2018, 
                              dbh_2013$dbh[match(heights$stemID, dbh_2013$stemID)], 
-                              heights$dbh))
+                              heights$dbh)) #cm
 #check again before moving on
 check <- heights[is.na(heights$dbh) | heights$dbh ==0, ]
 
