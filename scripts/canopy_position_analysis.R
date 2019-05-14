@@ -973,7 +973,7 @@ summary_models <- data.frame(
   "model_vars_sep_years" = NA,
   "null_model_sep_years" = NA,
   "response_predict" = c(-1, -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, NA),
-  "response_sign" = c("-", "-", "canopy<subcanopy", "canopy<subcanopy", "+", "+", "-", "+", "-", "-", "ring>diffuse", "+"),
+  "response_sign" = c("-", "-", "dominant < codominant < intermediate < supressed", "dominant < codominant < intermediate < supressed", "+", "+", "-", "+", "-", "-", "ring>diffuse", "+"),
    "dAIC_all_years" = NA,
     "response_obs_all" = NA,
     "coef_all_years" = NA,
