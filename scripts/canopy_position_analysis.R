@@ -503,6 +503,7 @@ ggplot(data = pdsi_true) +
 ##########################################################################################
 #5. add in climate and growth variables ####
 library(ggplot2)
+library(devtools) #for sourcing functions for regression equations
 library(rgdal) #to read in shapefiles
 library(broom) #for the tidy function
 library(sf) #for mapping
@@ -691,7 +692,6 @@ bark$diam_nobark_2008 <- bark$DBH.mm.2008 - 2*bark$bark.depth.mm
 
 #2. log-transform both diam_nobark_2008 (x) and bark.depth.mm (y)
 #3. Fit a linear model, and use model to predict log(bark.depth.mm)
-library(devtools)
 source_gist("524eade46135f6348140")
 ggplot(data = bark, aes(x = log(diam_nobark_2008^2), y = log(bark.depth.mm), label = log(bark.depth.mm))) +
   stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
@@ -784,6 +784,7 @@ for (i in seq(along=widths)){
 ## bark.depth.1999 = exp(log(bark.depth.1999))
 
 #the full equation at the bottom is the regression equation for all these species put together. "fagr" is given a bark thickness of 0 because it is negligble
+#these equations are the same as above in #3 of this code section
 dbh$bark_thick_old_ln <- NA
 dbh$bark_thick_old_ln <- ifelse(dbh$sp == "caco", -1.56+0.416*log(dbh$diam_nobark_old),
                       ifelse(dbh$sp == "cagl", -0.393+0.268*log(dbh$diam_nobark_old),
@@ -812,7 +813,7 @@ trees_all$dbh_old <- dbh$dbh_old[match(trees_all$tree, dbh$tree) & match(trees_a
 trees_all$dbh_ln <- log(trees_all$dbh_old)
 
 ##5f. add in ratio of sapwood area to total wood ####
-
+### It has been determined that since sapwood ratio is so tied to DBH (in other words, testing it in a model is akin to testing DBH again), that we are going to leave it out of the full models. However, I'm leaving the code here in case we want anything with it later.
 
 #calculate sapwood area
 ##sapwood area[iii] = tree area (minus bark)[i] - heartwood area[ii]
