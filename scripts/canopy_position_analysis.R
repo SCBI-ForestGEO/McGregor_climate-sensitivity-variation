@@ -548,7 +548,7 @@ ggplot(data = rp_test) +
 ##5c. add in elevation data ####
 elev <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/spatial_data/elevation/full_stem_elevation_2013.csv"))
 
-trees_all$elev_m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
+trees_all$elev.m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
 ##5d. add in distance to water ####
 ## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
@@ -597,8 +597,8 @@ colnames(distance_water) <- "distance_water"
 distance <- cbind(neil_map, distance_water)
 
 ## next, do a log transformation on the distances before adding as a column to trees_all (similar to the dbh calculations below)
-distance$distance_ln <- log(distance$distance_water)
-trees_all$distance_ln <- distance$distance_ln[match(trees_all$tree, distance$tag)]
+distance$distance_log.m <- log(distance$distance_water)
+trees_all$distance_log.m <- distance$distance_log.m[match(trees_all$tree, distance$tag)]
 
 ## this is to double check the accuracy of the map.
 distance_short <- distance[distance$distance_water <= 30, ]
@@ -641,8 +641,8 @@ map <- ggplot() +
 # dbh$rw_prelim <- (0.5*dbh$dbh2013) - (dbh$bark_thick*(dbh$dbh2013^dbh$intercept))
 # 
 # 
-# dbh$dbh_old <- "0" #in prep for below
-# dbh$dbh_old <- as.numeric(dbh$dbh_old)
+# dbh$dbh_old.mm <- "0" #in prep for below
+# dbh$dbh_old.mm <- as.numeric(dbh$dbh_old.mm)
 # 
 # for (i in seq(along=widths)){
 #   df <- widths[[i]] #the list "widths" comes from #4a-4b
@@ -665,25 +665,23 @@ map <- ggplot() +
 #                  dbh$rw_prelim - sum(rw[, ring_col], na.rm=TRUE), 0)
 #         }))
 #         
-#         q$dbh_old <- q[,1] +q[,2] + q[,3] #add columns together
-#         # q$dbh_old <- q[,1] +q[,2] + q[,3] + q[,4]
-#         dbh$dbh_old <- dbh$dbh_old + q$dbh_old #combine with dbh
+#         q$dbh_old.mm <- q[,1] +q[,2] + q[,3] #add columns together
+#         # q$dbh_old.mm <- q[,1] +q[,2] + q[,3] + q[,4]
+#         dbh$dbh_old.mm <- dbh$dbh_old.mm + q$dbh_old.mm #combine with dbh
 #       }
 #     }
 #   }
 # }
 # 
-# # check <- dbh[dbh$dbh_old == 0, ] #check if any tree was missed
+# # check <- dbh[dbh$dbh_old.mm == 0, ] #check if any tree was missed
 # 
-# trees_all$dbh_old <- dbh$dbh_old
-# trees_all$dbh_old <- ifelse(trees_all$dbh_old < 0, 0, trees_all$dbh_old)
-# trees_all$dbh_old <- ifelse(trees_all$dbh_old > 0, trees_all$dbh_old/10, trees_all$dbh_old)
-# trees_all$dbh_ln <- ifelse(trees_all$dbh_old == 0, NA, log(trees_all$dbh_old))
+# trees_all$dbh_old.mm <- dbh$dbh_old.mm
+# trees_all$dbh_old.mm <- ifelse(trees_all$dbh_old.mm < 0, 0, trees_all$dbh_old.mm)
+# trees_all$dbh_old.mm <- ifelse(trees_all$dbh_old.mm > 0, trees_all$dbh_old.mm/10, trees_all$dbh_old.mm)
+# trees_all$dbh_ln <- ifelse(trees_all$dbh_old.mm == 0, NA, log(trees_all$dbh_old.mm))
 
 
 ###new method ####
-#steps to calculate old dbh
-
 bark <- read.csv("data/SCBI_bark_depth.csv")
 bark <- bark[bark$species %in% sp_can | bark$species %in% sp_subcan, ]
 
@@ -772,7 +770,7 @@ for (i in seq(along=widths)){
         }))
         
         q$diam_nobark_old <- q[,1] +q[,2] + q[,3] #add columns together
-        # q$dbh_old <- q[,1] +q[,2] + q[,3] + q[,4]
+        # q$dbh_old.mm <- q[,1] +q[,2] + q[,3] + q[,4]
         dbh$diam_nobark_old <- dbh$diam_nobark_old + q$diam_nobark_old #combine with dbh (it's the same order of rows) #mm
       }
     }
@@ -804,13 +802,14 @@ dbh$bark_thick_old <- ifelse(dbh$sp == "fagr", 0, exp(dbh$bark_thick_old_ln))
 
 #8. Add to soluation from #6 to get full dbh1999
 ## dbh1999 = diam_nobark_1999 + 2*bark.depth.1999
-dbh$dbh_old <- dbh$diam_nobark_old + 2*dbh$bark_thick_old #mm
+dbh$dbh_old.mm <- dbh$diam_nobark_old + 2*dbh$bark_thick_old #mm
 
 ##NOTE
 ##The first time I ran this code I was getting NaNs for one tree (140939), because the dbh in 2008 was listed as 16.9. I double-checked this, and that was the second stem, which we obviously didn't core at a size of 1.69 cm (or 2.2 cm in 2013). The dbh is meant to be the first stem. However, there was confusion with the dbh in the field. 
 
-trees_all$dbh_old <- dbh$dbh_old[match(trees_all$tree, dbh$tree) & match(trees_all$year, dbh$year)] #mm
-trees_all$dbh_ln <- log(trees_all$dbh_old)
+trees_all$dbh_old.mm <- dbh$dbh_old.mm[match(trees_all$tree, dbh$tree) & match(trees_all$year, dbh$year)] #mm
+trees_all$dbh_old.cm <- trees_all$dbh_old.mm/10
+trees_all$dbh_log.cm <- log(trees_all$dbh_old.cm)
 
 ##5f. add in ratio of sapwood area to total wood ####
 ### It has been determined that since sapwood ratio is so tied to DBH (in other words, testing it in a model is akin to testing DBH again), that we are going to leave it out of the full models. However, I'm leaving the code here in case we want anything with it later.
@@ -877,17 +876,17 @@ dbh$area_nobark <- pi*(dbh$radius_nobark)^2
 
 #the bottom equation is the total regression equation
 dbh$sapwood_area_ln <- NA
-dbh$sapwood_area_ln <- ifelse(dbh$sp == "caco", 6.17-0.419*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "cagl", 5.32-0.26*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "cato", 6.51-0.444*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "fram", 2.19+0.326*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "juni", 5.53-0.404*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "litu", 4.31-0.0718*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "qual", 7.09-0.692*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "qupr", 4.99-0.305*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "quru", 4.27-0.282*log(dbh$dbh_old),
-                    ifelse(dbh$sp == "quve", 5.1-0.402*log(dbh$dbh_old),
-                           6.6-0.543*log(dbh$dbh_old)))))))))))
+dbh$sapwood_area_ln <- ifelse(dbh$sp == "caco", 6.17-0.419*log(dbh$dbh_old.mm),
+                    ifelse(dbh$sp == "cagl", 5.32-0.26*log(dbh$dbh_old.mm),
+                    ifelse(dbh$sp == "cato", 6.51-0.444*log(dbh$dbh_old.mm),
+                    ifelse(dbh$sp == "fram", 2.19+0.326*log(dbh$dbh_old.mm),
+                    ifelse(dbh$sp == "juni", 5.53-0.404*log(dbh$dbh_old.mm),
+                    ifelse(dbh$sp == "litu", 4.31-0.0718*log(dbh$dbh_old.mm),
+                    ifelse(dbh$sp == "qual", 7.09-0.692*log(dbh$dbh_old.mm),
+                    ifelse(dbh$sp == "qupr", 4.99-0.305*log(dbh$dbh_old.mm),
+                    ifelse(dbh$sp == "quru", 4.27-0.282*log(dbh$dbh_old.mm),
+                    ifelse(dbh$sp == "quve", 5.1-0.402*log(dbh$dbh_old.mm),
+                           6.6-0.543*log(dbh$dbh_old.mm)))))))))))
 
 dbh$sapwood_area <- exp(dbh$sapwood_area_ln)
 
@@ -898,16 +897,16 @@ trees_all$sap_ratio <- dbh$sap_ratio[match(trees_all$tree, dbh$tree) & match(tre
 
 ##5g. add in tree heights ####
 ## taken from the canopy_heights script
-trees_all$height_ln <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh_ln),
-                      ifelse(trees_all$sp == "cagl", (0.652+0.751*trees_all$dbh_ln),
-                      ifelse(trees_all$sp == "caovl", (0.9+0.659*trees_all$dbh_ln),
-                      ifelse(trees_all$sp == "cato", (0.879+0.668*trees_all$dbh_ln),
-                      ifelse(trees_all$sp == "fagr", (0.513+0.712*trees_all$dbh_ln),
-                      ifelse(trees_all$sp == "litu", (1.57+0.488*trees_all$dbh_ln),
-                      ifelse(trees_all$sp == "quru", (1.13+0.54*trees_all$dbh_ln),
-                             (0.849+0.659*trees_all$dbh_ln))))))))
+trees_all$height_log.m <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh_log.cm),
+                      ifelse(trees_all$sp == "cagl", (0.652+0.751*trees_all$dbh_log.cm),
+                      ifelse(trees_all$sp == "caovl", (0.9+0.659*trees_all$dbh_log.cm),
+                      ifelse(trees_all$sp == "cato", (0.879+0.668*trees_all$dbh_log.cm),
+                      ifelse(trees_all$sp == "fagr", (0.513+0.712*trees_all$dbh_log.cm),
+                      ifelse(trees_all$sp == "litu", (1.57+0.488*trees_all$dbh_log.cm),
+                      ifelse(trees_all$sp == "quru", (1.13+0.54*trees_all$dbh_log.cm),
+                             (0.849+0.659*trees_all$dbh_log.cm))))))))
 
-trees_all$height <- exp(trees_all$height_ln) #cm
+trees_all$height.m <- exp(trees_all$height_log.m) #m, because these equations come from a plotting of log(DBH in cm) against log(height in m).
 
 ##5h. add in all crown positions ####
 
@@ -959,17 +958,17 @@ summary_models <- data.frame(
   "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2", "4"), 
   "model_vars_all_years" = 
     c("resist.value ~ dbh_ln+year+(1|sp/tree)", 
-       "resist.value ~ height_ln+year+(1|sp/tree)", 
+       "resist.value ~ height_log.m+year+(1|sp/tree)", 
        "resist.value ~ position_all+year+(1|sp/tree)", 
-       "resist.value ~ position_all+height_ln+year+(1|sp/tree)", 
-       "resist.value ~ elev_m+height_ln+year+(1|sp/tree)", 
-       "resist.value ~ elev_m*height_ln+height_ln+year+(1|sp/tree)",
-       "resist.value ~ elev_m*height_ln+height_ln+year+(1|sp/tree)",
-       "resist.value ~ distance_ln+height_ln+year+(1|sp/tree)", 
-       "resist.value ~ distance_ln*height_ln+height_ln+year+(1|sp/tree)", 
-       "resist.value ~ tlp+height_ln+year+(1|sp/tree)", 
-       "resist.value ~ rp+height_ln+year+(1|sp/tree)",
-        "resist.value ~ sap_ratio+position_all+height_ln+height_ln*elev_m+distance_ln+tlp+rp+year+(1|sp/tree)"),
+       "resist.value ~ position_all+height_log.m+year+(1|sp/tree)", 
+       "resist.value ~ elev.m+height_log.m+year+(1|sp/tree)", 
+       "resist.value ~ elev.m*height_log.m+height_log.m+year+(1|sp/tree)",
+       "resist.value ~ elev.m*height_log.m+height_log.m+year+(1|sp/tree)",
+       "resist.value ~ distance_log.m+height_log.m+year+(1|sp/tree)", 
+       "resist.value ~ distance_log.m*height_log.m+height_log.m+year+(1|sp/tree)", 
+       "resist.value ~ tlp+height_log.m+year+(1|sp/tree)", 
+       "resist.value ~ rp+height_log.m+year+(1|sp/tree)",
+        "resist.value ~ sap_ratio+position_all+height_log.m+height_log.m*elev.m+distance_log.m+tlp+rp+year+(1|sp/tree)"),
   "null_model_all_years" = NA,
   "model_vars_sep_years" = NA,
   "null_model_sep_years" = NA,
@@ -998,7 +997,7 @@ summary_models %>% mutate_if(is.factor, as.character) -> summary_models
 
 # fill in other columns
 summary_models[c(1:3), 3] <- "resist.value ~ year+(1|sp/tree)"
-summary_models[c(4:12), 3] <- "resist.value ~ height_ln+year+(1|sp/tree)"
+summary_models[c(4:12), 3] <- "resist.value ~ height_log.m+year+(1|sp/tree)"
 summary_models$model_vars_sep_years <- gsub("year\\+|/tree", "", summary_models$model_vars_all_years)
 summary_models$null_model_sep_years <- gsub("year\\+|/tree", "", summary_models$null_model_all_years)
 
@@ -1033,7 +1032,7 @@ for (i in seq_along(model_df)){
       #define response and effects
       response <- gsub(" ~.*", "", summary_mod_vars_sep[[h]])
       effects <- unlist(strsplit(summary_mod_vars_sep[[h]], "\\+|~ "))[-1]
-      # all fixed effects <- c("position", "tlp", "rp", "elev_m", "dbh_ln", "height_ln")
+      # all fixed effects <- c("position", "tlp", "rp", "elev.m", "dbh_ln", "height_log.m")
       
       #create all combinations of random / fixed effects
       effects_comb <- 
@@ -1327,23 +1326,23 @@ write.csv(full_mod_all, "manuscript/full_models_dAIC1.csv", row.names=FALSE)
 summary_models <- data.frame(
   "prediction" = c("1.1", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.2c2,1.3b1", "2.1", "2.2"), 
   "model_vars_all_years" = 
-    c("resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln+elev_m+height_ln*elev_m+tlp+rp+year+(1|sp/tree)"),
+    c("resist.value ~ position+height_log.m+elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m+elev.m+height_log.m*elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m+elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m+elev.m+height_log.m*elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m+elev.m+height_log.m*elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m+elev.m+height_log.m*elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m+elev.m+height_log.m*elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m+elev.m+height_log.m*elev.m+tlp+rp+year+(1|sp/tree)"),
   "null_model_all_years" = 
-    c("resist.value ~ position+elev_m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ height_ln*elev_m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln+elev_m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln*elev_m+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_ln*elev_m+tlp+year+(1|sp/tree)"),
+    c("resist.value ~ position+elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ height_log.m*elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m+elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m+elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m*elev.m+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_log.m*elev.m+tlp+year+(1|sp/tree)"),
   "response_predict" = c(1, 1, -1, 1, -1, 1, -1, 1),
   "response_sign" = c("+", "canopy<subcanopy", "-", "+", "-", "+", "-", "ring>diffuse"),
   "dAIC_all_years" = NA,
@@ -1413,7 +1412,7 @@ for (i in seq_along(model_df)){
             for (y in seq(along = coeff$model_var)){ ##4
               same <- coeff$model_var[[y]]
               
-              if(same == "height_ln"){
+              if(same == "height_log.m"){
                 coeff_sub <- coeff[coeff$model_var == same, ]
                 summary_models[,8][[h]] <- same
               }
@@ -1433,7 +1432,7 @@ for (i in seq_along(model_df)){
             for (y in seq(along = coeff$model_var)){ ##4
               same <- coeff$model_var[[y]]
               
-              if(same == "elev_m"){
+              if(same == "elev.m"){
                 coeff_sub <- coeff[coeff$model_var == same, ]
                 summary_models[,8][[h]] <- same
               }
@@ -1443,7 +1442,7 @@ for (i in seq_along(model_df)){
             for (y in seq(along = coeff$model_var)){ ##4
               same <- coeff$model_var[[y]]
               
-              if(same == "height_ln:elev_m"){
+              if(same == "height_log.m:elev.m"){
                 coeff_sub <- coeff[coeff$model_var == same, ]
                 summary_models[,8][[h]] <- same
               }
@@ -1495,7 +1494,7 @@ write.csv(summary_models, "manuscript/results_full_models_combined_years.csv", r
 best <- lmm_all[[64]]
 coef(summary(best))[ , "Estimate"]
 
-lm_new <- lm(resist.value ~ dbh_ln*distance_ln, data=trees_all, REML=FALSE)
+lm_new <- lm(resist.value ~ dbh_ln*distance_log.m, data=trees_all, REML=FALSE)
 
 q <- sapply(lmm_all, anova, simplify=FALSE)
 mapply(anova, lmm_all, SIMPLIFY = FALSE)
@@ -1507,7 +1506,7 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position_all", "sap_ratio", "tlp", "rp", "elev_m", "height_ln", "year", "(1|sp/tree)")
+effects <- c("position_all", "sap_ratio", "tlp", "rp", "elev.m", "height_log.m", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -1580,20 +1579,19 @@ scbi.stem3$Tree_ID_Num <- gsub("_.*$", "", scbi.stem3$Tree_ID_Num)
 current_ht <- trees_all[!duplicated(trees_all$tree), ]
 current_ht$year <- 2018
 
-current_ht$dbh_old <- scbi.stem3$DBHcm[match(current_ht$tree, scbi.stem3$Tree_ID_Num)] #mm
-current_ht$dbh_old<- current_ht$dbh_old*10 #cm
-current_ht$dbh_ln <- log(current_ht$dbh_old)
+current_ht$dbh_old.cm <- scbi.stem3$DBHcm[match(current_ht$tree, scbi.stem3$Tree_ID_Num)]
+current_ht$dbh_log.cm <- log(current_ht$dbh_old.cm)
 current_ht$sap_ratio <- NA
 
-current_ht$height_ln <- ifelse(current_ht$sp == "caco", (0.55+0.766*current_ht$dbh_ln),
-                        ifelse(current_ht$sp == "cagl", (0.652+0.751*current_ht$dbh_ln),
-                        ifelse(current_ht$sp == "caovl", (0.9+0.659*current_ht$dbh_ln),
-                        ifelse(current_ht$sp == "cato", (0.879+0.668*current_ht$dbh_ln),
-                        ifelse(current_ht$sp == "fagr", (0.513+0.712*current_ht$dbh_ln),
-                        ifelse(current_ht$sp == "litu", (1.57+0.488*current_ht$dbh_ln),
-                        ifelse(current_ht$sp == "quru", (1.13+0.54*current_ht$dbh_ln),
-                                 (0.849+0.659*current_ht$dbh_ln))))))))
-current_ht$height <- exp(current_ht$height_ln) #cm
+current_ht$height_log.m <- ifelse(current_ht$sp == "caco", (0.55+0.766*current_ht$dbh_log.cm),
+                        ifelse(current_ht$sp == "cagl", (0.652+0.751*current_ht$dbh_log.cm),
+                        ifelse(current_ht$sp == "caovl", (0.9+0.659*current_ht$dbh_log.cm),
+                        ifelse(current_ht$sp == "cato", (0.879+0.668*current_ht$dbh_log.cm),
+                        ifelse(current_ht$sp == "fagr", (0.513+0.712*current_ht$dbh_log.cm),
+                        ifelse(current_ht$sp == "litu", (1.57+0.488*current_ht$dbh_log.cmn),
+                        ifelse(current_ht$sp == "quru", (1.13+0.54*current_ht$dbh_log.cm),
+                                 (0.849+0.659*current_ht$dbh_log.cm))))))))
+current_ht$height.m <- exp(current_ht$height_log.m)
 
 current_ht <- rbind(current_ht, trees_all)
 current_ht <- current_ht[order(current_ht$tree, current_ht$year), ]
@@ -1601,22 +1599,22 @@ current_ht <- current_ht[order(current_ht$tree, current_ht$year), ]
 pdf("graphs_plots/current_dbh_height_all_years.pdf", width=12)
 #with dbh
 ggplot(data = current_ht) +
-  aes(x = year, y = dbh_old, fill = position_all) +
-  # aes(x=position_all, y=dbh_old, fill=year) +
+  aes(x = year, y = dbh_old.cm, fill = position_all) +
+  # aes(x=position_all, y=dbh_old.cm, fill=year) +
   geom_boxplot() +
   ggtitle("DBH vs crown position")+
   xlab("year") +
-  ylab("DBH(mm)") +
+  ylab("DBH(cm)") +
   theme_minimal()
 
 #with height
 ggplot(data = current_ht) +
-  aes(x = year, y = height, fill = position_all) +
-  # aes(x=position_all, y=height, fill=year) +
+  aes(x = year, y = height.m, fill = position_all) +
+  # aes(x=position_all, y=height.m, fill=year) +
   geom_boxplot() +
   ggtitle("Height vs crown position")+
   xlab("year") +
-  ylab("height(cm)") +
+  ylab("height(m)") +
   theme_minimal()
 dev.off()
 

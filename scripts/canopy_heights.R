@@ -16,13 +16,13 @@ heights <- heights[,c(1:3,5:6)]
 
 setnames(heights, old="species.code", new="sp")
 
-dbh_2008 <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_main_census/data/census-csv-files/scbi.stem1.csv")
-dbh_2008$dbh <- dbh_2008$dbh/10 #cm
+dbh_2008 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem1.csv"))
+dbh_2008$dbh.cm <- dbh_2008$dbh/10 #cm
 
-dbh_2013 <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_main_census/data/census-csv-files/scbi.stem2.csv")
-dbh_2013$dbh <- dbh_2013$dbh/10 #cm
+dbh_2013 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem2.csv"))
+dbh_2013$dbh.cm <- dbh_2013$dbh/10 #cm
 
-dbh_2018 <- read.csv("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/tree_main_census/data/scbi.stem3_TEMPORARY.csv", stringsAsFactors = FALSE)
+dbh_2018 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/scbi.stem3_TEMPORARY.csv"), stringsAsFactors = FALSE)
 
 #get stemIDs for each stem
 heights$stemID <- dbh_2013$stemID[match(paste(heights$tag, heights$stemtag), paste(dbh_2013$tag, dbh_2013$StemTag))]
@@ -38,7 +38,7 @@ dbh_2018$stemID <- dbh_2013$stemID[match(paste(dbh_2018$tag, dbh_2018$stemtag), 
 heights_2013 <- heights[heights$height.year < 2018, ]
 heights_2018 <- heights[heights$height.year == 2018, ]
 
-heights_2013$dbh.cm <- dbh_2013$dbh[match(heights_2013$stemID, dbh_2013$stemID)]
+heights_2013$dbh.cm <- dbh_2013$dbh.cm[match(heights_2013$stemID, dbh_2013$stemID)]
 heights_2013$dbh_year <- 2013
 
 heights_2018$dbh.cm <- dbh_2018$DBHcm[match(heights_2018$stemID, dbh_2018$stemID)]
@@ -50,7 +50,7 @@ heights <- rbind(heights_2013, heights_2018)
 check <- heights[is.na(heights$dbh) | heights$dbh ==0, ]
 
 heights$dbh.cm <- ifelse(heights$dbh.cm == 0 & heights$dbh_year == 2013, 
-                      dbh_2008$dbh[match(heights$stemID, dbh_2008$stemID)], 
+                      dbh_2008$dbh.cm[match(heights$stemID, dbh_2008$stemID)], 
                       ifelse(is.na(heights$dbh.cm) & heights$dbh_year == 2018, 
                              dbh_2013$dbh[match(heights$stemID, dbh_2013$stemID)], 
                               heights$dbh.cm))
@@ -66,7 +66,7 @@ paper_heights <- paper_heights[complete.cases(paper_heights), ]
 paper_heights <- paper_heights[order(paper_heights$sp), ]
 
 unique(paper_heights$sp) #shows the sp that we have data for
-paper_heights <- paper_heights[!paper_heights$sp %in% c("fram", "juni", "qual", "quve") & !paper_heights$dbh == 0, ] #juni, fram, and quve have <10 measurements has only one measure and 0 dbh meant dead
+paper_heights <- paper_heights[!paper_heights$sp %in% c("fram", "juni", "qual", "quve") & !paper_heights$dbh.cm == 0, ] #juni, fram, and quve have <10 measurements has only one measure and 0 dbh meant dead
 
 
 
@@ -85,7 +85,7 @@ paper_heights <- paper_heights[!paper_heights$sp %in% c("fram", "juni", "qual", 
 #DBH IS IN CM, HEIGHT IS IN M
 
 source_gist("524eade46135f6348140")
-ggplot(data = paper_heights, aes(x = log(dbh), y = log(height.m), label = log(height.m))) +
+ggplot(data = paper_heights, aes(x = log(dbh.cm), y = log(height.m), label = log(height.m))) +
   stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
