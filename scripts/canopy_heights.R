@@ -11,7 +11,7 @@ library(devtools)
 
 heights <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
 
-heights <- heights[,c(1:3,5:6)]
+heights <- heights[,c(1:3,5:6,10)]
 
 
 setnames(heights, old="species.code", new="sp")
@@ -56,6 +56,23 @@ heights$dbh.cm <- ifelse(heights$dbh.cm == 0 & heights$dbh_year == 2013,
                               heights$dbh.cm))
 #check again before moving on
 check <- heights[is.na(heights$dbh) | heights$dbh ==0, ]
+
+#get quadrat and coordinates
+heights$quadrat <- dbh_2013$quadrat[match(heights$stemID, dbh_2013$stemID)]
+heights <- heights[order(heights$quadrat, heights$tag), ]
+dbh_2013$lx <- dbh_2013$gx - 20*((dbh_2013$quadrat %/% 100) - 1)
+dbh_2013$ly <- dbh_2013$gy - 20*((dbh_2013$quadrat %% 100) - 1)
+heights$lx <- dbh_2013$lx[match(heights$stemID, dbh_2013$stemID)]
+heights$ly <- dbh_2013$ly[match(heights$stemID, dbh_2013$stemID)]
+
+#round local coordinates to nearest tenth
+heights$lx <- round(heights$lx, digits=1)
+heights$ly <- round(heights$ly, digits=1)
+
+#get current dbh and live/dead status from 2018
+heights <- heights[c(1:3,10:12,4:9)]
+heights$dbh_2018.cm <- dbh_2018$DBHcm[match(heights$stemID, dbh_2018$stemID)]
+heights$status <- dbh_2018$Tree_Status[match(heights$stemID, dbh_2018$stemID)]
 
 #bring in list of cored species we're using
 neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
