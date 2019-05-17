@@ -1583,15 +1583,28 @@ current_ht$dbh_old.cm <- scbi.stem3$DBHcm[match(current_ht$tree, scbi.stem3$Tree
 current_ht$dbh_log.cm <- log(current_ht$dbh_old.cm)
 current_ht$sap_ratio <- NA
 
+#linear log-log regression
 current_ht$height_log.m <- ifelse(current_ht$sp == "caco", (0.55+0.766*current_ht$dbh_log.cm),
                         ifelse(current_ht$sp == "cagl", (0.652+0.751*current_ht$dbh_log.cm),
                         ifelse(current_ht$sp == "caovl", (0.9+0.659*current_ht$dbh_log.cm),
                         ifelse(current_ht$sp == "cato", (0.879+0.668*current_ht$dbh_log.cm),
                         ifelse(current_ht$sp == "fagr", (0.513+0.712*current_ht$dbh_log.cm),
-                        ifelse(current_ht$sp == "litu", (1.57+0.488*current_ht$dbh_log.cmn),
+                        ifelse(current_ht$sp == "litu", (1.57+0.488*current_ht$dbh_log.cm),
                         ifelse(current_ht$sp == "quru", (1.13+0.54*current_ht$dbh_log.cm),
-                                 (0.849+0.659*current_ht$dbh_log.cm))))))))
+                                 (1.11+0.573*current_ht$dbh_log.cm))))))))
 current_ht$height.m <- exp(current_ht$height_log.m)
+
+#power function Height = intercept*(diameter^slope)
+current_ht$height_power_log <- 
+                      ifelse(current_ht$sp == "caco", (0.55*(current_ht$dbh_log.cm^0.766)),
+                      ifelse(current_ht$sp == "cagl", (0.652*(current_ht$dbh_log.cm^0.751)),
+                      ifelse(current_ht$sp == "caovl", (0.9*(current_ht$dbh_log.cm^0.659)),
+                      ifelse(current_ht$sp == "cato", (0.879*(current_ht$dbh_log.cm^0.668)),
+                      ifelse(current_ht$sp == "fagr", (0.513*(current_ht$dbh_log.cm^0.712)),
+                      ifelse(current_ht$sp == "litu", (1.57*(current_ht$dbh_log.cm^0.488)),
+                      ifelse(current_ht$sp == "quru", (1.13*(current_ht$dbh_log.cm^0.54)),
+                                   (0.849*(current_ht$dbh_log.cm^0.659)))))))))
+current_ht$height_power.m <- exp(current_ht$height_power_log)
 
 current_ht <- rbind(current_ht, trees_all)
 current_ht <- current_ht[order(current_ht$tree, current_ht$year), ]

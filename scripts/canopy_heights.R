@@ -94,18 +94,9 @@ ggplot(data = paper_heights, aes(x = log(dbh.cm), y = log(height.m), label = log
 
 
 #equations for all species together
-ggplot(data = paper_heights, aes(x = log(dbh), y = log(height.m), label = log(height.m))) +
+ggplot(data = paper_heights, aes(x = log(dbh.cm), y = log(height.m), label = log(height.m))) +
   stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal()
 
-library(lme4)
-mix <- lmer(height.m.ln ~ dbh + (1|sp), data=paper_heights)
-
-library(AICcmodavg)
-pol <- lmer(height.m ~ poly(ln(dbh),2) + (1|sp), data=paper_heights)
-# mix <- lmer(height.m ~ dbh + (1|sp), data=paper_heights)
-log <- lmer(ln(height.m) ~ ln(dbh) + (1|sp), data=paper_heights)
-
-aictab(list(log=log), second.ord=TRUE, sort=TRUE)
