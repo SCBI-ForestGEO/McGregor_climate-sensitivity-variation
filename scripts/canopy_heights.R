@@ -74,6 +74,9 @@ heights <- heights[c(1:3,10:12,4:9)]
 heights$dbh_2018.cm <- dbh_2018$DBHcm[match(heights$stemID, dbh_2018$stemID)]
 heights$status <- dbh_2018$Tree_Status[match(heights$stemID, dbh_2018$stemID)]
 
+heights_check <- heights[c(1:8,10:14)]
+#write.csv(heights_check, "data/heights_check.csv", row.names=FALSE)
+
 #bring in list of cored species we're using
 neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
 neil_sp <- unique(neil_list$sp)
