@@ -597,8 +597,8 @@ colnames(distance_water) <- "distance_water"
 distance <- cbind(neil_map, distance_water)
 
 ## next, do a log transformation on the distances before adding as a column to trees_all (similar to the dbh calculations below)
-distance$distance_log.m <- log(distance$distance_water)
-trees_all$distance_log.m <- distance$distance_log.m[match(trees_all$tree, distance$tag)]
+distance$distance_ln.m <- log(distance$distance_water)
+trees_all$distance_ln.m <- distance$distance_ln.m[match(trees_all$tree, distance$tag)]
 
 ## this is to double check the accuracy of the map.
 distance_short <- distance[distance$distance_water <= 30, ]
@@ -809,7 +809,7 @@ dbh$dbh_old.mm <- dbh$diam_nobark_old + 2*dbh$bark_thick_old #mm
 
 trees_all$dbh_old.mm <- dbh$dbh_old.mm[match(trees_all$tree, dbh$tree) & match(trees_all$year, dbh$year)] #mm
 trees_all$dbh_old.cm <- trees_all$dbh_old.mm/10
-trees_all$dbh_log.cm <- log(trees_all$dbh_old.cm)
+trees_all$dbh_ln.cm <- log(trees_all$dbh_old.cm)
 
 ##5f. add in ratio of sapwood area to total wood ####
 ### It has been determined that since sapwood ratio is so tied to DBH (in other words, testing it in a model is akin to testing DBH again), that we are going to leave it out of the full models. However, I'm leaving the code here in case we want anything with it later.
@@ -853,14 +853,14 @@ sap$sap_ratio <- sap$sap_area/sap$total_wood_area
 
 library(devtools)
 source_gist("524eade46135f6348140")
-ggplot(data = sap, aes(x = log(DBH), y = log(sap_ratio), label = log(sap_ratio))) +
+ggplot(data = sap, aes(x = log(DBH), y = log(sap_ratio), label = sap_ratio_ln)) +
   stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=1.5,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal() +
   facet_wrap(vars(sp))
 
-ggplot(data = sap, aes(x = log(DBH), y = log(sap_ratio), label = log(sap_ratio))) +
+ggplot(data = sap, aes(x = log(DBH), y = log(sap_ratio), label = sap_ratio_ln)) +
   stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
@@ -897,16 +897,18 @@ trees_all$sap_ratio <- dbh$sap_ratio[match(trees_all$tree, dbh$tree) & match(tre
 
 ##5g. add in tree heights ####
 ## taken from the canopy_heights script
-trees_all$height_log.m <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh_log.cm),
-                      ifelse(trees_all$sp == "cagl", (0.652+0.751*trees_all$dbh_log.cm),
-                      ifelse(trees_all$sp == "caovl", (0.9+0.659*trees_all$dbh_log.cm),
-                      ifelse(trees_all$sp == "cato", (0.879+0.668*trees_all$dbh_log.cm),
-                      ifelse(trees_all$sp == "fagr", (0.513+0.712*trees_all$dbh_log.cm),
-                      ifelse(trees_all$sp == "litu", (1.57+0.488*trees_all$dbh_log.cm),
-                      ifelse(trees_all$sp == "quru", (1.13+0.54*trees_all$dbh_log.cm),
-                             (0.849+0.659*trees_all$dbh_log.cm))))))))
+#the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
+trees_all$height_ln.m <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh_ln.cm),
+                      ifelse(trees_all$sp == "cagl", (0.652+0.751*trees_all$dbh_ln.cm),
+                      ifelse(trees_all$sp == "caovl", (0.9+0.659*trees_all$dbh_ln.cm),
+                      ifelse(trees_all$sp == "cato", (0.879+0.668*trees_all$dbh_ln.cm),
+                      ifelse(trees_all$sp == "fagr", (0.513+0.712*trees_all$dbh_ln.cm),
+                      ifelse(trees_all$sp == "litu", (1.57+0.488*trees_all$dbh_ln.cm),
+                      ifelse(trees_all$sp == "quru", (1.13+0.54*trees_all$dbh_ln.cm),
+                             (1.11+0.573*current_ht$dbh_ln.cm))))))))
+                             #0.849+0.659*trees_all$dbh_ln.cm -> original equation only using points from the species for which we had equations. This was yielding predicted heights for some trees of about 54m.
 
-trees_all$height.m <- exp(trees_all$height_log.m) #m, because these equations come from a plotting of log(DBH in cm) against log(height in m).
+trees_all$height.m <- exp(trees_all$height_ln.m) #m, because these equations come from a plotting of log(DBH in cm) against log(height in m).
 
 ##5h. add in all crown positions ####
 
@@ -958,17 +960,17 @@ summary_models <- data.frame(
   "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2", "4"), 
   "model_vars_all_years" = 
     c("resist.value ~ dbh_ln+year+(1|sp/tree)", 
-       "resist.value ~ height_log.m+year+(1|sp/tree)", 
+       "resist.value ~ height_ln.m+year+(1|sp/tree)", 
        "resist.value ~ position_all+year+(1|sp/tree)", 
-       "resist.value ~ position_all+height_log.m+year+(1|sp/tree)", 
-       "resist.value ~ elev.m+height_log.m+year+(1|sp/tree)", 
-       "resist.value ~ elev.m*height_log.m+height_log.m+year+(1|sp/tree)",
-       "resist.value ~ elev.m*height_log.m+height_log.m+year+(1|sp/tree)",
-       "resist.value ~ distance_log.m+height_log.m+year+(1|sp/tree)", 
-       "resist.value ~ distance_log.m*height_log.m+height_log.m+year+(1|sp/tree)", 
-       "resist.value ~ tlp+height_log.m+year+(1|sp/tree)", 
-       "resist.value ~ rp+height_log.m+year+(1|sp/tree)",
-        "resist.value ~ sap_ratio+position_all+height_log.m+height_log.m*elev.m+distance_log.m+tlp+rp+year+(1|sp/tree)"),
+       "resist.value ~ position_all+height_ln.m+year+(1|sp/tree)", 
+       "resist.value ~ elev.m+height_ln.m+year+(1|sp/tree)", 
+       "resist.value ~ elev.m*height_ln.m+height_ln.m+year+(1|sp/tree)",
+       "resist.value ~ elev.m*height_ln.m+height_ln.m+year+(1|sp/tree)",
+       "resist.value ~ distance_ln.m+height_ln.m+year+(1|sp/tree)", 
+       "resist.value ~ distance_ln.m*height_ln.m+height_ln.m+year+(1|sp/tree)", 
+       "resist.value ~ tlp+height_ln.m+year+(1|sp/tree)", 
+       "resist.value ~ rp+height_ln.m+year+(1|sp/tree)",
+        "resist.value ~ sap_ratio+position_all+height_ln.m+height_ln.m*elev.m+distance_ln.m+tlp+rp+year+(1|sp/tree)"),
   "null_model_all_years" = NA,
   "model_vars_sep_years" = NA,
   "null_model_sep_years" = NA,
@@ -997,7 +999,7 @@ summary_models %>% mutate_if(is.factor, as.character) -> summary_models
 
 # fill in other columns
 summary_models[c(1:3), 3] <- "resist.value ~ year+(1|sp/tree)"
-summary_models[c(4:12), 3] <- "resist.value ~ height_log.m+year+(1|sp/tree)"
+summary_models[c(4:12), 3] <- "resist.value ~ height_ln.m+year+(1|sp/tree)"
 summary_models$model_vars_sep_years <- gsub("year\\+|/tree", "", summary_models$model_vars_all_years)
 summary_models$null_model_sep_years <- gsub("year\\+|/tree", "", summary_models$null_model_all_years)
 
@@ -1032,7 +1034,7 @@ for (i in seq_along(model_df)){
       #define response and effects
       response <- gsub(" ~.*", "", summary_mod_vars_sep[[h]])
       effects <- unlist(strsplit(summary_mod_vars_sep[[h]], "\\+|~ "))[-1]
-      # all fixed effects <- c("position", "tlp", "rp", "elev.m", "dbh_ln", "height_log.m")
+      # all fixed effects <- c("position", "tlp", "rp", "elev.m", "dbh_ln", "height_ln.m")
       
       #create all combinations of random / fixed effects
       effects_comb <- 
@@ -1078,16 +1080,16 @@ for (i in seq_along(model_df)){
             coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
           } else if (h == 4){
             coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
           } else if (h %in% 5:10){
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
           } else if (h == 11){
             coeff$model_var <- gsub("ring", "", coeff$model_var)
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
           } else if (h == 12){
             coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
             coeff$model_var <- gsub("ring", "", coeff$model_var)
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
             
             full_mod <- var_aic[!duplicated(var_aic$Delta_AICc), ]
             full_mod <- full_mod[1:10, c(1,4)]
@@ -1141,16 +1143,16 @@ for (i in seq_along(model_df)){
             coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
           } else if (h == 4){
             coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
           } else if (h %in% 5:10){
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
           } else if (h == 11){
             coeff$model_var <- gsub("ring", "", coeff$model_var)
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
           } else if (h == 12){
             coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
             coeff$model_var <- gsub("ring", "", coeff$model_var)
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
             
             full_mod_1966 <- var_aic[!duplicated(var_aic$Delta_AICc), ]
             full_mod_1966 <- full_mod_1966[1:10, c(1,4)]
@@ -1204,16 +1206,16 @@ for (i in seq_along(model_df)){
             coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
           } else if (h == 4){
             coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
           } else if (h %in% 5:10){
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
           } else if (h == 11){
             coeff$model_var <- gsub("ring", "", coeff$model_var)
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
           } else if (h == 12){
             coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
             coeff$model_var <- gsub("ring", "", coeff$model_var)
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
             
             full_mod_1977 <- var_aic[!duplicated(var_aic$Delta_AICc), ]
             full_mod_1977 <- full_mod_1977[1:10, c(1,4)]
@@ -1267,16 +1269,16 @@ for (i in seq_along(model_df)){
             coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
           } else if (h == 4){
             coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
           } else if (h %in% 5:10){
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
           } else if (h == 11){
             coeff$model_var <- gsub("ring", "", coeff$model_var)
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
           } else if (h == 12){
             coeff$model_var <- gsub("subcanopy", "", coeff$model_var)
             coeff$model_var <- gsub("ring", "", coeff$model_var)
-            coeff$model_var <- gsub("height", "ht_nat_log", coeff$model_var)
+            coeff$model_var <- gsub("height", "ht_nat_ln", coeff$model_var)
             
             full_mod_1999 <- var_aic[!duplicated(var_aic$Delta_AICc), ]
             full_mod_1999 <- full_mod_1999[1:10, c(1,4)]
@@ -1326,23 +1328,23 @@ write.csv(full_mod_all, "manuscript/full_models_dAIC1.csv", row.names=FALSE)
 summary_models <- data.frame(
   "prediction" = c("1.1", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.2c2,1.3b1", "2.1", "2.2"), 
   "model_vars_all_years" = 
-    c("resist.value ~ position+height_log.m+elev.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m+elev.m+height_log.m*elev.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m+elev.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m+elev.m+height_log.m*elev.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m+elev.m+height_log.m*elev.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m+elev.m+height_log.m*elev.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m+elev.m+height_log.m*elev.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m+elev.m+height_log.m*elev.m+tlp+rp+year+(1|sp/tree)"),
+    c("resist.value ~ position+height_ln.m+elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m+elev.m+height_ln.m*elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m+elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m+elev.m+height_ln.m*elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m+elev.m+height_ln.m*elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m+elev.m+height_ln.m*elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m+elev.m+height_ln.m*elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m+elev.m+height_ln.m*elev.m+tlp+rp+year+(1|sp/tree)"),
   "null_model_all_years" = 
     c("resist.value ~ position+elev.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ height_log.m*elev.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m+elev.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m+elev.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m+tlp+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m*elev.m+rp+year+(1|sp/tree)",
-      "resist.value ~ position+height_log.m*elev.m+tlp+year+(1|sp/tree)"),
+      "resist.value ~ height_ln.m*elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m+elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m+elev.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m+tlp+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m*elev.m+rp+year+(1|sp/tree)",
+      "resist.value ~ position+height_ln.m*elev.m+tlp+year+(1|sp/tree)"),
   "response_predict" = c(1, 1, -1, 1, -1, 1, -1, 1),
   "response_sign" = c("+", "canopy<subcanopy", "-", "+", "-", "+", "-", "ring>diffuse"),
   "dAIC_all_years" = NA,
@@ -1412,7 +1414,7 @@ for (i in seq_along(model_df)){
             for (y in seq(along = coeff$model_var)){ ##4
               same <- coeff$model_var[[y]]
               
-              if(same == "height_log.m"){
+              if(same == "height_ln.m"){
                 coeff_sub <- coeff[coeff$model_var == same, ]
                 summary_models[,8][[h]] <- same
               }
@@ -1442,7 +1444,7 @@ for (i in seq_along(model_df)){
             for (y in seq(along = coeff$model_var)){ ##4
               same <- coeff$model_var[[y]]
               
-              if(same == "height_log.m:elev.m"){
+              if(same == "height_ln.m:elev.m"){
                 coeff_sub <- coeff[coeff$model_var == same, ]
                 summary_models[,8][[h]] <- same
               }
@@ -1494,7 +1496,7 @@ write.csv(summary_models, "manuscript/results_full_models_combined_years.csv", r
 best <- lmm_all[[64]]
 coef(summary(best))[ , "Estimate"]
 
-lm_new <- lm(resist.value ~ dbh_ln*distance_log.m, data=trees_all, REML=FALSE)
+lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
 
 q <- sapply(lmm_all, anova, simplify=FALSE)
 mapply(anova, lmm_all, SIMPLIFY = FALSE)
@@ -1506,7 +1508,7 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position_all", "sap_ratio", "tlp", "rp", "elev.m", "height_log.m", "year", "(1|sp/tree)")
+effects <- c("position_all", "sap_ratio", "tlp", "rp", "elev.m", "height_ln.m", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -1580,31 +1582,32 @@ current_ht <- trees_all[!duplicated(trees_all$tree), ]
 current_ht$year <- 2018
 
 current_ht$dbh_old.cm <- scbi.stem3$DBHcm[match(current_ht$tree, scbi.stem3$Tree_ID_Num)]
-current_ht$dbh_log.cm <- log(current_ht$dbh_old.cm)
+current_ht$dbh_ln.cm <- log(current_ht$dbh_old.cm)
 current_ht$sap_ratio <- NA
 
 #linear log-log regression
-current_ht$height_log.m <- ifelse(current_ht$sp == "caco", (0.55+0.766*current_ht$dbh_log.cm),
-                        ifelse(current_ht$sp == "cagl", (0.652+0.751*current_ht$dbh_log.cm),
-                        ifelse(current_ht$sp == "caovl", (0.9+0.659*current_ht$dbh_log.cm),
-                        ifelse(current_ht$sp == "cato", (0.879+0.668*current_ht$dbh_log.cm),
-                        ifelse(current_ht$sp == "fagr", (0.513+0.712*current_ht$dbh_log.cm),
-                        ifelse(current_ht$sp == "litu", (1.57+0.488*current_ht$dbh_log.cm),
-                        ifelse(current_ht$sp == "quru", (1.13+0.54*current_ht$dbh_log.cm),
-                                 (1.11+0.573*current_ht$dbh_log.cm))))))))
-current_ht$height.m <- exp(current_ht$height_log.m)
+#the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
+current_ht$height_ln.m <- ifelse(current_ht$sp == "caco", (0.55+0.766*current_ht$dbh_ln.cm),
+                        ifelse(current_ht$sp == "cagl", (0.652+0.751*current_ht$dbh_ln.cm),
+                        ifelse(current_ht$sp == "caovl", (0.9+0.659*current_ht$dbh_ln.cm),
+                        ifelse(current_ht$sp == "cato", (0.879+0.668*current_ht$dbh_ln.cm),
+                        ifelse(current_ht$sp == "fagr", (0.513+0.712*current_ht$dbh_ln.cm),
+                        ifelse(current_ht$sp == "litu", (1.57+0.488*current_ht$dbh_ln.cm),
+                        ifelse(current_ht$sp == "quru", (1.13+0.54*current_ht$dbh_ln.cm),
+                                 (1.11+0.573*current_ht$dbh_ln.cm))))))))
+current_ht$height.m <- exp(current_ht$height_ln.m)
 
 #power function Height = intercept*(diameter^slope)
-current_ht$height_power_log <- 
-                      ifelse(current_ht$sp == "caco", (0.55*(current_ht$dbh_log.cm^0.766)),
-                      ifelse(current_ht$sp == "cagl", (0.652*(current_ht$dbh_log.cm^0.751)),
-                      ifelse(current_ht$sp == "caovl", (0.9*(current_ht$dbh_log.cm^0.659)),
-                      ifelse(current_ht$sp == "cato", (0.879*(current_ht$dbh_log.cm^0.668)),
-                      ifelse(current_ht$sp == "fagr", (0.513*(current_ht$dbh_log.cm^0.712)),
-                      ifelse(current_ht$sp == "litu", (1.57*(current_ht$dbh_log.cm^0.488)),
-                      ifelse(current_ht$sp == "quru", (1.13*(current_ht$dbh_log.cm^0.54)),
-                                   (0.849*(current_ht$dbh_log.cm^0.659)))))))))
-current_ht$height_power.m <- exp(current_ht$height_power_log)
+current_ht$height_power_ln <- 
+                      ifelse(current_ht$sp == "caco", (0.55*(current_ht$dbh_ln.cm^0.766)),
+                      ifelse(current_ht$sp == "cagl", (0.652*(current_ht$dbh_ln.cm^0.751)),
+                      ifelse(current_ht$sp == "caovl", (0.9*(current_ht$dbh_ln.cm^0.659)),
+                      ifelse(current_ht$sp == "cato", (0.879*(current_ht$dbh_ln.cm^0.668)),
+                      ifelse(current_ht$sp == "fagr", (0.513*(current_ht$dbh_ln.cm^0.712)),
+                      ifelse(current_ht$sp == "litu", (1.57*(current_ht$dbh_ln.cm^0.488)),
+                      ifelse(current_ht$sp == "quru", (1.13*(current_ht$dbh_ln.cm^0.54)),
+                                   (0.849*(current_ht$dbh_ln.cm^0.659)))))))))
+current_ht$height_power.m <- exp(current_ht$height_power_ln)
 
 current_ht <- rbind(current_ht, trees_all)
 current_ht <- current_ht[order(current_ht$tree, current_ht$year), ]
