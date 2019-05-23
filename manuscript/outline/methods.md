@@ -12,16 +12,29 @@ To determine focus drought years, we used the pointRes package in R (version 3.6
 Canopy classes were observed in the field during the growing season of 2018 following the crown position protocol from Jennings 1999, whereby positions were ranked as dominant, codominant, intermediate, or suppressed. For ease of core analysis, these labels were condensed to canopy (including dominant and codominant) and subcanopy (intermediate and suppressed). Individual cores were then grouped by canopy or subcanopy before being processed by ARSTAN, and species inclusion in the study was dependent on the robustness of each species’ cores. In total, 14 species had cores that were considered complete and usable, as seen in Table 1.
 
 Geographic info
-- Elevation
-- Distance to water
+Elevation for the trees was extracted from a USGS DEM in ArcMap. Distance to water was calculated as the shortest distance in meters between each individual tree and the major streams running through the ForestGEO plot.
 
 Growth
-- old dbh
+As part of the ForestGEO five-year census, there are DBH(diameter at breast height) measurements for all stems. Using the data from 2008 and a dataset of bark thickness for the plot collected from previous studies, we devised an equation to retroactively calculate DBH for all trees,
+
+diam_nobark_1999 = dbh2008 - 2*(bark.depth2008) - 2*(sum(ring.width1999:ring.width2008))
+
+First, we generated log-log regression equations for bark thickness based on DBH, and then determined mean bark thickness per species. Ring widths were determined from the processed cores, and once the diameter without bark was calculated for a certain year, we added the mean bark thickness in from the regression equations.
+
+Sapwood ratio also used the bark thickness data, and was also calculated for 2008, where
+
+sapwood_area = total wood area (without bark) - heartwood area, and
+sapwood_Ratio = sapwood area / total wood area (without bark)
+
+Once sapwood area for each tree was calculated, log-log regression equations were determined on a per-species basis, which were then used 
+
+
+
+
 - height
 - sapwood ratio
 
 Traits
-- turgor loss point
-- ring porosity
+Turgor loss point was determined per species from __________________________. Ring porosity was qualified from Anderson-Teixeira et al 2015.
 
 After the data was collected, linear mixed models were run with the resistance value of each tree for each pointer year (determined from the pointRes package) as the response variable. Traits and other geographic data were used as independent variables.
