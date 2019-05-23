@@ -846,7 +846,7 @@ sap$sap_area.cm2 <- (pi*(0.5*sap$dbh_nobark.mm)^2 - sap$hw_area.mm2)/100
 
 sap <- sap[sap$sp %in% sp_can | sap$sp %in% sp_subcan, ]
 
-#ratio = sapwood area:area without bark
+#ratio = sapwood area:total wood area (without bark)
 ##calculate ratio to find the regression equations
 sap$dbh_nobark.cm <- sap$dbh_nobark.mm/10
 sap$total_wood_area.cm2 <- pi*(sap$dbh_nobark.cm/2)^2
