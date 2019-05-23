@@ -35,6 +35,6 @@ Once sapwood area for each tree was calculated, log-log regression equations wer
 - sapwood ratio
 
 Traits
-Turgor loss point was determined per species from __________________________. Ring porosity was qualified from Anderson-Teixeira et al 2015.
+Turgor loss point (TLP) was determined per species from leaf trait studies carried out at sCBI in 2018. TLP was determined using __________________ on ### of individuals from each species.  Ring porosity was qualified from Anderson-Teixeira et al 2015.
 
 After the data was collected, linear mixed models were run with the resistance value of each tree for each pointer year (determined from the pointRes package) as the response variable. Traits and other geographic data were used as independent variables.
