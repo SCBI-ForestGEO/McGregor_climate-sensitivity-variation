@@ -11,8 +11,13 @@ library(devtools)
 
 heights <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
 
-heights <- heights[,c(1:3,5:6,10)]
+heights <- heights[,c(1:3,5:6,13)]
 
+heights_dup <- heights[duplicated(heights$tag), ]
+dup <- heights_dup$tag
+
+heights_dup <- heights[heights$tag %in% dup, ]
+heights_dup <- heights_dup[order(heights_dup$tag), ]
 
 setnames(heights, old="species.code", new="sp")
 
