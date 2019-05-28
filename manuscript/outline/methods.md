@@ -12,9 +12,11 @@ To determine focus drought years, we used the pointRes package in R (version 3.6
 Canopy classes were observed in the field during the growing season of 2018 following the crown position protocol from Jennings 1999, whereby positions were ranked as dominant, codominant, intermediate, or suppressed. For ease of core analysis, these labels were condensed to canopy (including dominant and codominant) and subcanopy (intermediate and suppressed). Individual cores were then grouped by canopy or subcanopy before being processed by ARSTAN, and species inclusion in the study was dependent on the robustness of each species’ cores. In total, 14 species had cores that were considered complete and usable, as seen in Table 1.
 
 Geographic info
+
 Elevation for the trees was extracted from a USGS DEM in ArcMap. Distance to water was calculated as the shortest distance in meters between each individual tree and the major streams running through the ForestGEO plot.
 
 Growth
+
 As part of the ForestGEO five-year census, there are DBH(diameter at breast height) measurements for all stems. Using the data from 2008 and a dataset of bark thickness for the plot collected from previous studies, we devised an equation to retroactively calculate DBH for all trees,
 
 diam_nobark_1999 = dbh2008 - 2*(bark.depth2008) - 2*(sum(ring.width1999:ring.width2008))
@@ -29,6 +31,7 @@ sapwood_Ratio = sapwood area / total wood area (without bark)
 Once sapwood area for each tree was calculated, log-log regression equations were determined on a per-species basis, which were then used 
 
 Height
+
 Height data for trees was obtained from clinometers and rangefinders, from 2012 to 2019. Log=log regression equations were developed for species based on this height data, then heights of the study trees were calculated using these equations. For species that didn't have enough height measurements, heights were calculated from equations derived from all study-focus species.  
 
 - sapwood ratio
