@@ -912,14 +912,15 @@ trees_all$sap_ratio <- dbh$sap_ratio[match(trees_all$tree, dbh$tree) & match(tre
 ##5g. add in tree heights ####
 ## taken from the canopy_heights script
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
-trees_all$height.ln.m <- ifelse(trees_all$sp == "caco", (0.55+0.766*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "cagl", (0.652+0.751*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "caovl", (0.9+0.659*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "cato", (0.879+0.668*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "fagr", (0.513+0.712*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "litu", (1.57+0.488*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "quru", (1.13+0.54*trees_all$dbh.ln.cm),
-                             (1.11+0.573*trees_all$dbh.ln.cm))))))))
+trees_all$height.ln.m <- ifelse(trees_all$sp == "caco", (0.628+0.753*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "cagl", (0.621+0.76*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "caovl", (0.914+0.656*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "cato", (0.996+0.642*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "fagr", (0.511+0.709*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "litu", (1.72+0.441*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "qual", (1.87+0.395*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "quru", (1.31+0.495*trees_all$dbh.ln.cm),
+                             (0.939+0.633*trees_all$dbh.ln.cm)))))))))
                              #0.849+0.659*trees_all$dbh_ln.cm -> original equation only using points from the species for which we had equations. This was yielding predicted heights for some trees of about 54m.
 
 trees_all$height.m <- exp(trees_all$height.ln.m) #m, because these equations come from a plotting of log(DBH in cm) against log(height in m).
@@ -1596,32 +1597,34 @@ current_ht <- trees_all[!duplicated(trees_all$tree), ]
 current_ht$year <- 2018
 
 current_ht$dbh_old.cm <- scbi.stem3$DBHcm[match(current_ht$tree, scbi.stem3$Tree_ID_Num)]
-current_ht$dbh_ln.cm <- log(current_ht$dbh_old.cm)
+current_ht$dbh.ln.cm <- log(current_ht$dbh_old.cm)
 current_ht$sap_ratio <- NA
 
 #linear log-log regression
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
-current_ht$height_ln.m <- ifelse(current_ht$sp == "caco", (0.55+0.766*current_ht$dbh_ln.cm),
-                        ifelse(current_ht$sp == "cagl", (0.652+0.751*current_ht$dbh_ln.cm),
-                        ifelse(current_ht$sp == "caovl", (0.9+0.659*current_ht$dbh_ln.cm),
-                        ifelse(current_ht$sp == "cato", (0.879+0.668*current_ht$dbh_ln.cm),
-                        ifelse(current_ht$sp == "fagr", (0.513+0.712*current_ht$dbh_ln.cm),
-                        ifelse(current_ht$sp == "litu", (1.57+0.488*current_ht$dbh_ln.cm),
-                        ifelse(current_ht$sp == "quru", (1.13+0.54*current_ht$dbh_ln.cm),
-                                 (1.11+0.573*current_ht$dbh_ln.cm))))))))
-current_ht$height.m <- exp(current_ht$height_ln.m)
+current_ht$height.ln.m <- 
+                        ifelse(current_ht$sp == "caco", (0.628+0.753*current_ht$dbh.ln.cm),
+                        ifelse(current_ht$sp == "cagl", (0.621+0.76*current_ht$dbh.ln.cm),
+                        ifelse(current_ht$sp == "caovl", (0.914+0.656*current_ht$dbh.ln.cm),
+                        ifelse(current_ht$sp == "cato", (0.996+0.642*current_ht$dbh.ln.cm),
+                        ifelse(current_ht$sp == "fagr", (0.511+0.709*current_ht$dbh.ln.cm),
+                        ifelse(current_ht$sp == "litu", (1.72+0.441*current_ht$dbh.ln.cm),
+                        ifelse(current_ht$sp == "qual", (1.87+0.395*current_ht$dbh.ln.cm),
+                        ifelse(current_ht$sp == "quru", (1.31+0.495*current_ht$dbh.ln.cm),
+                                    (0.939+0.633*current_ht$dbh.ln.cm)))))))))
+current_ht$height.m <- exp(current_ht$height.ln.m)
 
-#power function Height = intercept*(diameter^slope)
-current_ht$height_power_ln <- 
-                      ifelse(current_ht$sp == "caco", (0.55*(current_ht$dbh_ln.cm^0.766)),
-                      ifelse(current_ht$sp == "cagl", (0.652*(current_ht$dbh_ln.cm^0.751)),
-                      ifelse(current_ht$sp == "caovl", (0.9*(current_ht$dbh_ln.cm^0.659)),
-                      ifelse(current_ht$sp == "cato", (0.879*(current_ht$dbh_ln.cm^0.668)),
-                      ifelse(current_ht$sp == "fagr", (0.513*(current_ht$dbh_ln.cm^0.712)),
-                      ifelse(current_ht$sp == "litu", (1.57*(current_ht$dbh_ln.cm^0.488)),
-                      ifelse(current_ht$sp == "quru", (1.13*(current_ht$dbh_ln.cm^0.54)),
-                                   (0.849*(current_ht$dbh_ln.cm^0.659)))))))))
-current_ht$height_power.m <- exp(current_ht$height_power_ln)
+# #power function Height = intercept*(diameter^slope)
+# current_ht$height_power_ln <- 
+#                     ifelse(current_ht$sp == "caco", (0.55*(current_ht$dbh_ln.cm^0.766)),
+#                     ifelse(current_ht$sp == "cagl", (0.652*(current_ht$dbh_ln.cm^0.751)),
+#                     ifelse(current_ht$sp == "caovl", (0.9*(current_ht$dbh_ln.cm^0.659)),
+#                     ifelse(current_ht$sp == "cato", (0.879*(current_ht$dbh_ln.cm^0.668)),
+#                     ifelse(current_ht$sp == "fagr", (0.513*(current_ht$dbh_ln.cm^0.712)),
+#                     ifelse(current_ht$sp == "litu", (1.57*(current_ht$dbh_ln.cm^0.488)),
+#                     ifelse(current_ht$sp == "quru", (1.13*(current_ht$dbh_ln.cm^0.54)),
+#                                  (0.849*(current_ht$dbh_ln.cm^0.659)))))))))
+# current_ht$height_power.m <- exp(current_ht$height_power_ln)
 
 current_ht <- rbind(current_ht, trees_all)
 current_ht <- current_ht[order(current_ht$tree, current_ht$year), ]

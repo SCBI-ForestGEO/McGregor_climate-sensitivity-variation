@@ -33,65 +33,74 @@ dbh_2018$stemtag <- gsub("[[:digit:]]*_", "", dbh_2018$Tree_ID_Num)
 dbh_2018$tag <- as.numeric(as.character(dbh_2018$tag))
 dbh_2018$stemtag <- as.numeric(as.character(dbh_2018$stemtag))
 
-dbh_2018$stemID <- ifelse(is.na(heights$stemID), dbh_2013$stemID[match(paste(dbh_2018$tag, dbh_2018$stemtag), paste(dbh_2013$tag, dbh_2013$StemTag))], heights$stemID)
-
-
-
 #create subsets and match dbh by stemID
-heights_2013 <- heights[heights$height.year < 2018, ]
-heights_2018 <- heights[heights$height.year == 2018, ]
+# heights_2013 <- heights[heights$height.year < 2018, ]
+# heights_2018 <- heights[heights$height.year >= 2018, ]
+# 
+# heights_2013$dbh.cm <- dbh_2013$dbh.cm[match(heights_2013$stemID, dbh_2013$stemID)]
+# heights_2013$dbh_year <- 2013
+# 
+# heights_2018$dbh.cm <- dbh_2018$DBHcm[match(heights_2018$stemID, dbh_2018$stemID)]
+# heights_2018$dbh_year <- 2018
+# 
+# heights <- rbind(heights_2013, heights_2018)
 
-heights_2013$dbh.cm <- dbh_2013$dbh.cm[match(heights_2013$stemID, dbh_2013$stemID)]
-heights_2013$dbh_year <- 2013
+heights$dbh_regr.cm <- paste0(heights$DBH.2008.cm, heights$DBH.2013.cm, heights$DBH.TLS.2015.cm, heights$DBH.2018.cm)
+heights$dbh_regr.cm <- gsub("NA", "", heights$dbh_regr.cm)
+heights$dbh_regr.cm <- as.numeric(heights$dbh_regr.cm)
 
-heights_2018$dbh.cm <- dbh_2018$DBHcm[match(heights_2018$stemID, dbh_2018$stemID)]
-heights_2018$dbh_year <- 2018
+heights$dbh_year <- ifelse(heights$dbh_regr.cm %in% heights$DBH.2008.cm, 2008,
+                     ifelse(heights$dbh_regr.cm %in% heights$DBH.2013.cm, 2013,
+                      ifelse(heights$dbh_regr.cm %in% heights$DBH.TLS.2015.cm, 2015,
+                      ifelse(heights$dbh_regr.cm %in% heights$DBH.2018.cm, 2018,
+                                 heights$dbh_year))))
 
-heights <- rbind(heights_2013, heights_2018)
+heights_regr <- heights[c(1:4,6,8,15:17,24:25)]
 
 #check which ones need dbh from previous census because they died
-check <- heights[is.na(heights$dbh) | heights$dbh ==0, ]
+check <- heights_regr[is.na(heights_regr$dbh) | heights_regr$dbh ==0, ]
 
-heights$dbh.cm <- ifelse(heights$dbh.cm == 0 & heights$dbh_year == 2013, 
-                      dbh_2008$dbh.cm[match(heights$stemID, dbh_2008$stemID)], 
-                      ifelse(is.na(heights$dbh.cm) & heights$dbh_year == 2018, 
-                             dbh_2013$dbh[match(heights$stemID, dbh_2013$stemID)], 
-                              heights$dbh.cm))
+# heights_regr$dbh.cm <- ifelse(heights_regr$dbh.cm == 0 & heights_regr$dbh_year == 2013, 
+#                       dbh_2008$dbh.cm[match(heights_regr$stemID, dbh_2008$stemID)], 
+#                       ifelse(is.na(heights_regr$dbh.cm) & heights_regr$dbh_year == 2018, 
+#                              dbh_2013$dbh[match(heights_regr$stemID, dbh_2013$stemID)], 
+#                               heights_regr$dbh.cm))
 #check again before moving on
-check <- heights[is.na(heights$dbh) | heights$dbh ==0, ]
+check <- heights_regr[is.na(heights_regr$dbh) | heights_regr$dbh ==0, ]
 
-#get quadrat and coordinates
-heights$quadrat <- dbh_2013$quadrat[match(heights$stemID, dbh_2013$stemID)]
-heights <- heights[order(heights$quadrat, heights$tag), ]
+#get quadrat and coordinates for field data ####
+heights_regr$quadrat <- dbh_2013$quadrat[match(heights_regr$stemID, dbh_2013$stemID)]
+heights_regr <- heights_regr[order(heights_regr$quadrat, heights_regr$tag), ]
 dbh_2013$lx <- dbh_2013$gx - 20*((dbh_2013$quadrat %/% 100) - 1)
 dbh_2013$ly <- dbh_2013$gy - 20*((dbh_2013$quadrat %% 100) - 1)
-heights$lx <- dbh_2013$lx[match(heights$stemID, dbh_2013$stemID)]
-heights$ly <- dbh_2013$ly[match(heights$stemID, dbh_2013$stemID)]
+heights_regr$lx <- dbh_2013$lx[match(heights_regr$stemID, dbh_2013$stemID)]
+heights_regr$ly <- dbh_2013$ly[match(heights_regr$stemID, dbh_2013$stemID)]
 
 #round local coordinates to nearest tenth
-heights$lx <- round(heights$lx, digits=1)
-heights$ly <- round(heights$ly, digits=1)
+heights_regr$lx <- round(heights_regr$lx, digits=1)
+heights_regr$ly <- round(heights_regr$ly, digits=1)
 
 #get current dbh and live/dead status from 2018
-heights <- heights[c(1:3,10:12,4:9)]
-heights$dbh_2018.cm <- dbh_2018$DBHcm[match(heights$stemID, dbh_2018$stemID)]
-heights$status <- dbh_2018$Tree_Status[match(heights$stemID, dbh_2018$stemID)]
+heights_regr <- heights_regr[c(1:3,10:12,4:9)]
+heights_regr$dbh_2018.cm <- dbh_2018$DBHcm[match(heights_regr$stemID, dbh_2018$stemID)]
+heights_regr$status <- dbh_2018$Tree_Status[match(heights_regr$stemID, dbh_2018$stemID)]
 
-heights_check <- heights[c(1:8,10:14)]
-#write.csv(heights_check, "data/heights_check.csv", row.names=FALSE)
+heights_regr_check <- heights_regr[c(1:8,10:14)]
+write.csv(heights_regr_check, "data/heights_regr_check.csv", row.names=FALSE)
 
+#make regression equations ####
 #bring in list of cored species we're using
 neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
 neil_sp <- unique(neil_list$sp)
 
-paper_heights <- heights[heights$sp %in% neil_sp, ]
-paper_heights <- paper_heights[complete.cases(paper_heights), ]
+paper_heights <- heights_regr[heights_regr$sp %in% neil_sp, ]
 paper_heights <- paper_heights[order(paper_heights$sp), ]
 
-unique(paper_heights$sp) #shows the sp that we have data for
-paper_heights <- paper_heights[!paper_heights$sp %in% c("fram", "juni", "qual", "quve") & !paper_heights$dbh.cm == 0, ] #juni, fram, and quve have <10 measurements has only one measure and 0 dbh meant dead
+unique(heights_regr$sp) #shows all sp that we have height data for
+unique(paper_heights$sp) #shows the cored sp that we have data for
+paper_heights <- paper_heights[!paper_heights$sp %in% c("fram", "juni", "quve"), ] #juni, fram, and quve have <5 measurements has only one measure
 
-
+test <- paper_heights[paper_heights$method != "manual", ]
 
 # library(dplyr)
 # max_ht <- paper_heights %>% 
@@ -108,7 +117,7 @@ paper_heights <- paper_heights[!paper_heights$sp %in% c("fram", "juni", "qual", 
 #DBH IS IN CM, HEIGHT IS IN M
 
 source_gist("524eade46135f6348140")
-ggplot(data = paper_heights, aes(x = log(dbh.cm), y = log(height.m), label = log(height.m))) +
+ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label = log(height.m))) +
   stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
@@ -117,13 +126,14 @@ ggplot(data = paper_heights, aes(x = log(dbh.cm), y = log(height.m), label = log
 
 
 #equations for all species together
-ggplot(data = paper_heights, aes(x = log(dbh.cm), y = log(height.m), label = log(height.m))) +
+ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label = log(height.m))) +
   stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal()
 
 ############################################################################################
+#figure out differences between researcher measurements #####
 heights <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
 
 heights <- heights[,c(1:4,6,8,14:17)]
