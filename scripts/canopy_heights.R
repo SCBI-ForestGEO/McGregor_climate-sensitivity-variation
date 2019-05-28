@@ -9,17 +9,8 @@ library(RCurl)
 library(ggplot2)
 library(devtools)
 
+# create regression equations ####
 heights <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
-
-heights <- heights[,c(1:3,5:6,13)]
-
-heights_dup <- heights[duplicated(heights$tag), ]
-dup <- heights_dup$tag
-
-heights_dup <- heights[heights$tag %in% dup, ]
-heights_dup <- heights_dup[order(heights_dup$tag), ]
-
-setnames(heights, old="species.code", new="sp")
 
 dbh_2008 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem1.csv"))
 dbh_2008$dbh.cm <- dbh_2008$dbh/10 #cm
@@ -29,15 +20,22 @@ dbh_2013$dbh.cm <- dbh_2013$dbh/10 #cm
 
 dbh_2018 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/scbi.stem3_TEMPORARY.csv"), stringsAsFactors = FALSE)
 
-#get stemIDs for each stem
-heights$stemID <- dbh_2013$stemID[match(paste(heights$tag, heights$stemtag), paste(dbh_2013$tag, dbh_2013$StemTag))]
+# #get stemIDs for each stem (leaving this here if need be)
+# heights$stemID <- ifelse(is.na(heights$stemID), dbh_2013$stemID[match(paste(heights$tag, heights$stemtag), paste(dbh_2013$tag, dbh_2013$StemTag))], heights$stemID)
+# 
+# heights$tag <- ifelse(is.na(heights$tag), dbh_2013$tag[match(heights$stemID, dbh_2013$stemID)], heights$tag)
 
+
+
+#separate stemID in 2018 data
 dbh_2018$tag <- gsub("_.*$", "", dbh_2018$Tree_ID_Num)
 dbh_2018$stemtag <- gsub("[[:digit:]]*_", "", dbh_2018$Tree_ID_Num)
 dbh_2018$tag <- as.numeric(as.character(dbh_2018$tag))
 dbh_2018$stemtag <- as.numeric(as.character(dbh_2018$stemtag))
 
-dbh_2018$stemID <- dbh_2013$stemID[match(paste(dbh_2018$tag, dbh_2018$stemtag), paste(dbh_2013$tag, dbh_2013$StemTag))]
+dbh_2018$stemID <- ifelse(is.na(heights$stemID), dbh_2013$stemID[match(paste(dbh_2018$tag, dbh_2018$stemtag), paste(dbh_2013$tag, dbh_2013$StemTag))], heights$stemID)
+
+
 
 #create subsets and match dbh by stemID
 heights_2013 <- heights[heights$height.year < 2018, ]
@@ -125,3 +123,71 @@ ggplot(data = paper_heights, aes(x = log(dbh.cm), y = log(height.m), label = log
   geom_point(color = "#0c4c8a") +
   theme_minimal()
 
+############################################################################################
+heights <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
+
+heights <- heights[,c(1:4,6,8,14:17)]
+
+heights_dup <- heights[duplicated(heights$stemID), ]
+dup <- heights_dup$stemID
+
+heights_dup <- heights[heights$stemID %in% dup, ]
+heights_dup <- heights_dup[order(heights_dup$tag), ]
+heights_dup$height.year <- as.character(heights_dup$height.year)
+
+setnames(heights, old="species.code", new="sp")
+
+heights_dup$researcher <- ifelse(heights_dup$researcher == "Jonathan Thompson", "JT",
+                            ifelse(heights_dup$researcher == "Atticus Stovall", "AS",
+                            ifelse(heights_dup$researcher == "Ian McGregor", "IM",
+                            ifelse(heights_dup$researcher == "Sarah Macey (GIS Lab)", "SM",
+                            ifelse(heights_dup$researcher == "Jennifer McGarvey", "JM",
+                                    heights_dup$researcher)))))
+
+#graph showing difference between height measurements (by year and method) per tag
+ggplot(data = heights_dup) +
+  aes(x = researcher, color = method, fill=height.year, weight=height.m) +
+  geom_bar() +
+  theme_minimal() +
+  facet_wrap(vars(tag))
+
+#simplify to just be my re-measurements
+ian <- heights_dup[heights_dup$researcher == "IM", ]
+ian_tag <- ian$tag
+ian <- heights_dup[heights_dup$tag %in% ian_tag, ]
+
+#graph showing just my measurements compared to older ones
+ggplot(data = ian) +
+  aes(x = researcher, color = method, fill=height.year, weight=height.m) +
+  geom_bar() +
+  theme_minimal() +
+  facet_wrap(vars(tag))
+
+#get % difference between measurements and difference in years
+ian$height.year <- as.numeric(ian$height.year)
+ian$height.diff <- NA
+ian$year.diff <- NA
+for (i in seq(along=ian$tag)){
+  sub <- ian[ian$tag == ian$tag[[i]], ]
+  sub_ian <- sub[sub$researcher == "IM", ]
+  sub_oth <- sub[sub$researcher != "IM", ]
+  
+  ian$height.diff <- ifelse(ian$tag == sub_ian$tag & ian$researcher == "IM", 
+    100-(sub_oth$height.m[sub_oth$height.year == max(sub_oth$height.year)]/sub_ian$height.m)*100,
+                    ian$height.diff)
+  
+  ian$year.diff <- ifelse(ian$tag == sub_ian$tag & ian$researcher == "IM", 
+                         sub_ian$height.year-sub_oth$height.year, ian$year.diff)
+}
+
+ian_mean <- ian[ian$researcher == "IM", ]
+
+#if sign is -1, that means my measurement was lower than a previous measurement. +1 means mine was higher.
+ian_mean$height.dir <- ifelse(ian_mean$height.diff < 0, -1,
+                         ifelse(ian_mean$height.diff >= 0, 1, ian_mean$height.dir))
+ian_mean$height.diff <- ifelse(ian_mean$height.diff <0, -1*ian_mean$height.diff, ian_mean$height.diff)
+
+#get mean % difference based on category
+mean(ian_mean$height.diff)
+mean(ian_mean$height.diff[ian_mean$height.dir == -1])
+mean(ian_mean$height.diff[ian_mean$height.dir == 1])
