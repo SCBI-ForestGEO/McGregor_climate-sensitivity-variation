@@ -28,10 +28,9 @@ sapwood_Ratio = sapwood area / total wood area (without bark)
 
 Once sapwood area for each tree was calculated, log-log regression equations were determined on a per-species basis, which were then used 
 
+Height
+Height data for trees was obtained from clinometers and rangefinders, from 2012 to 2019. Log=log regression equations were developed for species based on this height data, then heights of the study trees were calculated using these equations. For species that didn't have enough height measurements, heights were calculated from equations derived from all study-focus species.  
 
-
-
-- height
 - sapwood ratio
 
 Traits
