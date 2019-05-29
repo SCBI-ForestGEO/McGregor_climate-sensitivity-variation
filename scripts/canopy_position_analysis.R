@@ -545,6 +545,18 @@ ggplot(data = rp_test) +
   facet_wrap(vars(position))
 
 
+##5c. add in leaf trait (PLA dry percent) ####
+#this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
+
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEJFA6KVAZG7JUVKZXC4666OY"), stringsAsFactors = FALSE)
+
+leaf_traits <- leaf_traits[c(1,8,12,22,24,28)]
+
+for (i in seq(along=2:ncol(leaf_traits))){
+  trait <- colnames(leaf_traits[2:ncol(leaf_traits)])
+  trees_all[, trait[[i]]] <- leaf_traits[, trait[[i]]][match(trees_all$sp, leaf_traits$sp)]
+}
+
 ##5c. add in elevation data ####
 elev <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/spatial_data/elevation/full_stem_elevation_2013.csv"))
 
@@ -924,6 +936,11 @@ trees_all$height.ln.m <- ifelse(trees_all$sp == "caco", (0.628+0.753*trees_all$d
                              #0.849+0.659*trees_all$dbh_ln.cm -> original equation only using points from the species for which we had equations. This was yielding predicted heights for some trees of about 54m.
 
 trees_all$height.m <- exp(trees_all$height.ln.m) #m, because these equations come from a plotting of log(DBH in cm) against log(height in m).
+
+#cap values at max for different species.
+heights_full <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
+
+max_ht <- aggregate(height.m ~ sp, data=heights_full, FUN=max)
 
 ##5h. add in all crown positions ####
 
@@ -1611,7 +1628,8 @@ current_ht$height.ln.m <-
                         ifelse(current_ht$sp == "litu", (1.72+0.441*current_ht$dbh.ln.cm),
                         ifelse(current_ht$sp == "qual", (1.87+0.395*current_ht$dbh.ln.cm),
                         ifelse(current_ht$sp == "quru", (1.31+0.495*current_ht$dbh.ln.cm),
-                                    (0.939+0.633*current_ht$dbh.ln.cm)))))))))
+                                    # (0.939+0.633*current_ht$dbh.ln.cm))))))))) #focus sp
+                                    (0.764+0.665*current_ht$dbh.ln.cm))))))))) #all sp 
 current_ht$height.m <- exp(current_ht$height.ln.m)
 
 # #power function Height = intercept*(diameter^slope)
