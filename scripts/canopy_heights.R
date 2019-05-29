@@ -8,6 +8,7 @@ library(data.table)
 library(RCurl)
 library(ggplot2)
 library(devtools)
+library(stringr)
 
 # create regression equations ####
 heights <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
@@ -33,74 +34,99 @@ dbh_2018$stemtag <- gsub("[[:digit:]]*_", "", dbh_2018$Tree_ID_Num)
 dbh_2018$tag <- as.numeric(as.character(dbh_2018$tag))
 dbh_2018$stemtag <- as.numeric(as.character(dbh_2018$stemtag))
 
-#create subsets and match dbh by stemID
-# heights_2013 <- heights[heights$height.year < 2018, ]
-# heights_2018 <- heights[heights$height.year >= 2018, ]
-# 
-# heights_2013$dbh.cm <- dbh_2013$dbh.cm[match(heights_2013$stemID, dbh_2013$stemID)]
-# heights_2013$dbh_year <- 2013
-# 
-# heights_2018$dbh.cm <- dbh_2018$DBHcm[match(heights_2018$stemID, dbh_2018$stemID)]
-# heights_2018$dbh_year <- 2018
-# 
-# heights <- rbind(heights_2013, heights_2018)
 
 heights$dbh_regr.cm <- paste0(heights$DBH.2008.cm, heights$DBH.2013.cm, heights$DBH.TLS.2015.cm, heights$DBH.2018.cm)
 heights$dbh_regr.cm <- gsub("NA", "", heights$dbh_regr.cm)
 heights$dbh_regr.cm <- as.numeric(heights$dbh_regr.cm)
 
+heights$dbh_year <- NA
 heights$dbh_year <- ifelse(heights$dbh_regr.cm %in% heights$DBH.2008.cm, 2008,
                      ifelse(heights$dbh_regr.cm %in% heights$DBH.2013.cm, 2013,
                       ifelse(heights$dbh_regr.cm %in% heights$DBH.TLS.2015.cm, 2015,
                       ifelse(heights$dbh_regr.cm %in% heights$DBH.2018.cm, 2018,
                                  heights$dbh_year))))
 
-heights_regr <- heights[c(1:4,6,8,15:17,24:25)]
+heights_all <- heights[c(1:4,6,8,15:17,24:25)]
+
+#get neon height data ####
+file_path <- file.path("data/heights/NEON/neon_heights/")
+dirs_map <- dir("data/heights/NEON/neon_heights", pattern="mapping_and_tagging.*$")
+dirs_ht <- dir("data/heights/NEON/neon_heights", pattern="neon_ht.*$")
+
+neon_all <- NULL
+for (i in seq(along=dirs_map)){
+  for (j in seq(along=dirs_ht)){
+    if (i == j){
+    neon_id <- read.csv(paste(file_path, dirs_map[[i]], sep="//"), stringsAsFactors = FALSE)
+    neon_ht <- read.csv(paste(file_path, dirs_ht[[j]], sep="//"), stringsAsFactors = FALSE)
+      
+      id <- neon_id$individualID
+      
+      neon_id <- neon_id[c("individualID", "taxonID", "scientificName")]
+      neon_ht$sp <- neon_id$taxonID[match(neon_ht$individualID, neon_id$individualID)]
+      neon_ht <- neon_ht[c("plotID", "sp", "individualID", "plantStatus", "stemDiameter", "measurementHeight", "height")]
+      
+      neon_ht$sp <- tolower(neon_ht$sp)
+      neon_ht$dbh_year <- str_extract(dirs_ht[[j]], "[[:digit:]]*-[[:digit:]]*")
+      neon_ht$dbh_year <- gsub("-", ".", neon_ht$dbh_year)
+      setnames(neon_ht, old=c("stemDiameter", "measurementHeight", "height"), new=c("dbh_regr.cm", "dbh_height.cm", "height.m"))
+      
+      #exclude unknown id (2plant, 2plant-h), vines/shrubs (syor, vitis, ceor7, tora2, paqu2, romu, loma6, loja, rual, ruph), and non-sp-specific (carya, querc, fraxi, ulmus, vibur, pyrus, diosp, rubus)
+      neon_ht <- neon_ht[!(neon_ht$sp %in% c("2plant", "2plant-h", "syor", "vitis", "ceor7", "tora2", "paqu2", "romu", "loma6", "loja", "rual", "ruph", "carya", "querc", "fraxi", "ulmus", "vibur", "pyrus", "diosp", "rubus")), ]
+      neon_ht$sp <- ifelse(neon_ht$sp == "asimi", "astr",
+                    ifelse(neon_ht$sp == "fram2", "fram",
+                    ifelse(neon_ht$sp == "cagl8", "cagl",
+                    ifelse(neon_ht$sp == "caov3", "caovl",
+                    ifelse(neon_ht$sp == "sassa", "saal",
+                    ifelse(neon_ht$sp == "cato6", "cato",
+                    ifelse(neon_ht$sp == "libe3", "libe",
+                    ifelse(neon_ht$sp == "cecac", "ceca",
+                    ifelse(neon_ht$sp == "caco15", "caco",
+                    ifelse(neon_ht$sp == "acnen", "acne",
+                    ifelse(neon_ht$sp == "prses", "prse",
+                    ifelse(neon_ht$sp == "qumo4", "qupr",
+                    ifelse(neon_ht$sp == "pivi2", "pivi",
+                    ifelse(neon_ht$sp == "cofl2", "cofl",
+                    ifelse(neon_ht$sp == "pato2", "pato", neon_ht$sp)))))))))))))))
+      
+      #filter out saplings and weird dbh
+      neon_ht <- neon_ht[!(is.na(neon_ht$dbh_height.cm)) & !(neon_ht$dbh_height.cm <110) & !(neon_ht$dbh_height.cm >150), ]
+      
+      #rbind to have full dataset ####
+      neon_ht_sub <- neon_ht[c(2,5,7,8)]
+      
+      neon_all <- rbind(neon_all, neon_ht_sub)
+    }
+  }
+}
+
+neon_all <- neon_all[complete.cases(neon_all), ]
+
+#rbind with general height data and determine equations ####
+heights_sub <- heights[c(4,8,24,25)]
+heights_all <- rbind(heights_sub, neon_all)
+
 
 #check which ones need dbh from previous census because they died
-check <- heights_regr[is.na(heights_regr$dbh) | heights_regr$dbh ==0, ]
+check <- heights_all[is.na(heights_all$dbh) | heights_all$dbh ==0, ]
 
-# heights_regr$dbh.cm <- ifelse(heights_regr$dbh.cm == 0 & heights_regr$dbh_year == 2013, 
-#                       dbh_2008$dbh.cm[match(heights_regr$stemID, dbh_2008$stemID)], 
-#                       ifelse(is.na(heights_regr$dbh.cm) & heights_regr$dbh_year == 2018, 
-#                              dbh_2013$dbh[match(heights_regr$stemID, dbh_2013$stemID)], 
-#                               heights_regr$dbh.cm))
-#check again before moving on
-check <- heights_regr[is.na(heights_regr$dbh) | heights_regr$dbh ==0, ]
-
-#get quadrat and coordinates for field data ####
-heights_regr$quadrat <- dbh_2013$quadrat[match(heights_regr$stemID, dbh_2013$stemID)]
-heights_regr <- heights_regr[order(heights_regr$quadrat, heights_regr$tag), ]
-dbh_2013$lx <- dbh_2013$gx - 20*((dbh_2013$quadrat %/% 100) - 1)
-dbh_2013$ly <- dbh_2013$gy - 20*((dbh_2013$quadrat %% 100) - 1)
-heights_regr$lx <- dbh_2013$lx[match(heights_regr$stemID, dbh_2013$stemID)]
-heights_regr$ly <- dbh_2013$ly[match(heights_regr$stemID, dbh_2013$stemID)]
-
-#round local coordinates to nearest tenth
-heights_regr$lx <- round(heights_regr$lx, digits=1)
-heights_regr$ly <- round(heights_regr$ly, digits=1)
-
-#get current dbh and live/dead status from 2018
-heights_regr <- heights_regr[c(1:3,10:12,4:9)]
-heights_regr$dbh_2018.cm <- dbh_2018$DBHcm[match(heights_regr$stemID, dbh_2018$stemID)]
-heights_regr$status <- dbh_2018$Tree_Status[match(heights_regr$stemID, dbh_2018$stemID)]
-
-heights_regr_check <- heights_regr[c(1:8,10:14)]
-write.csv(heights_regr_check, "data/heights_regr_check.csv", row.names=FALSE)
+# heights_all$dbh.cm <- ifelse(heights_all$dbh.cm == 0 & heights_all$dbh_year == 2013, 
+#                       dbh_2008$dbh.cm[match(heights_all$stemID, dbh_2008$stemID)], 
+#                       ifelse(is.na(heights_all$dbh.cm) & heights_all$dbh_year == 2018, 
+#                              dbh_2013$dbh[match(heights_all$stemID, dbh_2013$stemID)], 
+#                               heights_all$dbh.cm))
 
 #make regression equations ####
 #bring in list of cored species we're using
 neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
 neil_sp <- unique(neil_list$sp)
 
-paper_heights <- heights_regr[heights_regr$sp %in% neil_sp, ]
+paper_heights <- heights_all[heights_all$sp %in% neil_sp, ]
 paper_heights <- paper_heights[order(paper_heights$sp), ]
 
-unique(heights_regr$sp) #shows all sp that we have height data for
+unique(heights_all$sp) #shows all sp that we have height data for
 unique(paper_heights$sp) #shows the cored sp that we have data for
 paper_heights <- paper_heights[!paper_heights$sp %in% c("fram", "juni", "quve"), ] #juni, fram, and quve have <5 measurements has only one measure
-
-test <- paper_heights[paper_heights$method != "manual", ]
 
 # library(dplyr)
 # max_ht <- paper_heights %>% 
@@ -118,7 +144,7 @@ test <- paper_heights[paper_heights$method != "manual", ]
 
 source_gist("524eade46135f6348140")
 ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label = log(height.m))) +
-  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal() +
@@ -131,6 +157,28 @@ ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label 
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal()
+
+
+#########################################################################################
+#get quadrat and coordinates for field data ####
+heights_all$quadrat <- dbh_2013$quadrat[match(heights_all$stemID, dbh_2013$stemID)]
+heights_all <- heights_all[order(heights_all$quadrat, heights_all$tag), ]
+dbh_2013$lx <- dbh_2013$gx - 20*((dbh_2013$quadrat %/% 100) - 1)
+dbh_2013$ly <- dbh_2013$gy - 20*((dbh_2013$quadrat %% 100) - 1)
+heights_all$lx <- dbh_2013$lx[match(heights_all$stemID, dbh_2013$stemID)]
+heights_all$ly <- dbh_2013$ly[match(heights_all$stemID, dbh_2013$stemID)]
+
+#round local coordinates to nearest tenth
+heights_all$lx <- round(heights_all$lx, digits=1)
+heights_all$ly <- round(heights_all$ly, digits=1)
+
+#get current dbh and live/dead status from 2018
+heights_all <- heights_all[c(1:3,10:12,4:9)]
+heights_all$dbh_2018.cm <- dbh_2018$DBHcm[match(heights_all$stemID, dbh_2018$stemID)]
+heights_all$status <- dbh_2018$Tree_Status[match(heights_all$stemID, dbh_2018$stemID)]
+
+heights_all_check <- heights_all[c(1:8,10:14)]
+write.csv(heights_all_check, "data/heights_all_check.csv", row.names=FALSE)
 
 ############################################################################################
 #figure out differences between researcher measurements #####
