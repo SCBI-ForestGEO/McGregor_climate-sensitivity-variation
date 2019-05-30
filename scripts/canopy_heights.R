@@ -10,7 +10,7 @@ library(ggplot2)
 library(devtools)
 library(stringr)
 
-# create regression equations ####
+#1. prepare SCBI data ####
 heights <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
 
 dbh_2008 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem1.csv"))
@@ -46,9 +46,56 @@ heights$dbh_year <- ifelse(heights$dbh_regr.cm %in% heights$DBH.2008.cm, 2008,
                       ifelse(heights$dbh_regr.cm %in% heights$DBH.2018.cm, 2018,
                                  heights$dbh_year))))
 
-heights_all <- heights[c(1:4,6,8,15:17,24:25)]
+dup <- heights$stemID[duplicated(heights$stemID)]
+heights_dup <- heights[heights$stemID %in% dup, ]
+heights_nodup <- heights[!heights$stemID %in% dup, ]
 
-#get neon height data ####
+heights_recent <- NULL
+for (i in seq(along=unique(heights_dup$stemID))){
+  sub <- heights_dup[heights_dup$stemID == unique(heights_dup$stemID)[[i]], ]
+  
+  sub <- sub[sub$height.year == max(sub$height.year), ]
+  
+  heights_recent <- rbind(heights_recent, sub)
+}
+
+heights_all <- rbind(heights_nodup, heights_recent)
+heights_all <- heights_all[c(1:4,6,8,15:17,24:25)]
+
+
+#1a. apply fix for sine bias ####
+heights_nosine <- heights_all[!(heights_all$method_math %in% "sine"), ]
+
+## make regression equations with just the nosine data
+neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
+neil_sp <- unique(neil_list$sp)
+
+paper_heights <- heights_nosine[heights_nosine$sp %in% neil_sp, ]
+
+source_gist("524eade46135f6348140")
+ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label = log(height.m))) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
+  geom_smooth(method="lm", se=FALSE, color="black") +
+  geom_point(color = "#0c4c8a") +
+  theme_minimal() +
+  facet_wrap(vars(sp))
+
+
+#equations for all species together
+ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label = log(height.m))) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
+  geom_smooth(method="lm", se=FALSE, color="black") +
+  geom_point(color = "#0c4c8a") +
+  theme_minimal()
+
+##get what height the trees should be based on 2018 dbh
+heights_nosine$dbh2018 <- 
+
+heights_nosine$height.new <- ifelse
+  
+
+
+#2. get neon height data ####
 file_path <- file.path("data/heights/NEON/neon_heights/")
 dirs_map <- dir("data/heights/NEON/neon_heights", pattern="mapping_and_tagging.*$")
 dirs_ht <- dir("data/heights/NEON/neon_heights", pattern="neon_ht.*$")
@@ -92,6 +139,9 @@ for (i in seq(along=dirs_map)){
       #filter out saplings and weird dbh
       neon_ht <- neon_ht[!(is.na(neon_ht$dbh_height.cm)) & !(neon_ht$dbh_height.cm <110) & !(neon_ht$dbh_height.cm >150), ]
       
+      neon_ht <- neon_ht[grepl("Live", neon_ht$plantStatus), ]
+      neon_ht <- neon_ht[neon_ht$individualID %in% unique(neon_ht$individualID[neon_ht$dbh_year == max(neon_ht$dbh_year)]), ]
+      
       #rbind to have full dataset ####
       neon_ht_sub <- neon_ht[c(2,5,7,8)]
       
@@ -102,7 +152,7 @@ for (i in seq(along=dirs_map)){
 
 neon_all <- neon_all[complete.cases(neon_all), ]
 
-#rbind with general height data and determine equations ####
+#3. rbind with general height data and determine equations ####
 heights_sub <- heights[c(4,8,24,25)]
 heights_all <- rbind(heights_sub, neon_all)
 
@@ -116,7 +166,7 @@ check <- heights_all[is.na(heights_all$dbh) | heights_all$dbh ==0, ]
 #                              dbh_2013$dbh[match(heights_all$stemID, dbh_2013$stemID)], 
 #                               heights_all$dbh.cm))
 
-#make regression equations ####
+#4. make regression equations ####
 #bring in list of cored species we're using
 neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
 neil_sp <- unique(neil_list$sp)
@@ -249,3 +299,4 @@ ian_mean$height.diff <- ifelse(ian_mean$height.diff <0, -1*ian_mean$height.diff,
 mean(ian_mean$height.diff)
 mean(ian_mean$height.diff[ian_mean$height.dir == -1])
 mean(ian_mean$height.diff[ian_mean$height.dir == 1])
+
