@@ -557,12 +557,12 @@ for (i in seq(along=2:ncol(leaf_traits))){
   trees_all[, trait[[i]]] <- leaf_traits[, trait[[i]]][match(trees_all$sp, leaf_traits$sp)]
 }
 
-##5c. add in elevation data ####
+##5d. add in elevation data ####
 elev <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/spatial_data/elevation/full_stem_elevation_2013.csv"))
 
 trees_all$elev.m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
-##5d. add in distance to water ####
+##5e. add in distance to water ####
 ## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
 
 ## I have not found a way to make this not involve personal directories without moving all the data to my folder, which I'm hesitant about doing due to data redundancy.
@@ -628,7 +628,7 @@ map <- ggplot() +
   coord_sf(crs = "crs = +proj=merc", xlim=c(747350,747800), ylim=c(4308500, 4309125))
 
 
-##5e. add in dbh for each year ####
+##5f. add in dbh for each year ####
 ###original method ####
 # dbh <- trees_all[, c(1:4)]
 # dbh$dbh2013 <- elev$dbh[match(dbh$tree, elev$tag)]
@@ -825,7 +825,7 @@ trees_all$dbh_old.mm <- dbh$dbh_old.mm[match(trees_all$tree, dbh$tree) & match(t
 trees_all$dbh_old.cm <- trees_all$dbh_old.mm/10
 trees_all$dbh.ln.cm <- log(trees_all$dbh_old.cm)
 
-##5f. add in ratio of sapwood area to total wood ####
+##5g. add in ratio of sapwood area to total wood ####
 ### It has been determined that since sapwood ratio is so tied to DBH (in other words, testing it in a model is akin to testing DBH again), that we are going to leave it out of the full models. However, I'm leaving the code here in case we want anything with it later.
 
 #calculate sapwood area
@@ -921,7 +921,7 @@ dbh$total_wood_area.cm2 <- pi*(dbh$radius_nobark.cm)^2
 dbh$sap_ratio <- dbh$sapwood_area.cm2/dbh$total_wood_area.cm2
 trees_all$sap_ratio <- dbh$sap_ratio[match(trees_all$tree, dbh$tree) & match(trees_all$year, dbh$year)]
 
-##5g. add in tree heights ####
+##5h. add in tree heights ####
 ## taken from the canopy_heights script
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
 trees_all$height.ln.m <- ifelse(trees_all$sp == "caco", (0.628+0.753*trees_all$dbh.ln.cm),
@@ -942,7 +942,7 @@ heights_full <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-For
 
 max_ht <- aggregate(height.m ~ sp, data=heights_full, FUN=max)
 
-##5h. add in all crown positions ####
+##5i. add in all crown positions ####
 
 positions <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_crowns/cored_dendroband_crown_position_data/dendro_cored_full.csv"))
 
@@ -959,15 +959,15 @@ trees_all$position_all <- gsub("S", "suppressed", trees_all$position_all)
 #this csv has avg/min/max dbh for each canopy position by sp
 # positionsp <- read.csv("data/core_chronologies_by_crownposition.csv")
 
-##5i. remove all NAs and one bad tree ####
+##5j. remove all NAs and one bad tree ####
 trees_all <- trees_all[complete.cases(trees_all), ]
 
 ##fram 140939 has been mislabeled. It is recorded as having a small dbh when that is the second stem. In terms of canopy position, though, it fell between time of coring and when positions were recorded, thus we do not know its position.
 trees_all <- trees_all[!trees_all$tree == 140939, ]
 
-##5j. remove resistance values >2 ####
+##5k. remove resistance values >2 ####
 trees_all <- trees_all[trees_all$resist.value <=2,]
-##5k. make subsets for individual years, combine all to list ####
+##5l. make subsets for individual years, combine all to list ####
 # x1964 <- trees_all[trees_all$year == 1964, ]
 x1966 <- trees_all[trees_all$year == 1966, ]
 x1977 <- trees_all[trees_all$year == 1977, ]
@@ -1540,7 +1540,7 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position_all", "sap_ratio", "tlp", "rp", "elev.m", "distance.ln.m", "height.ln.m", "year", "(1|sp/tree)")
+effects <- c("position_all", "sap_ratio", "tlp", "rp", "elev.m", "distance.ln.m", "height.ln.m", "PLA_dry_percent", "LMA_g_per_m2", "mean_SPAD", "Chl_m2_per_g", "WD_g_per_cm3", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -1607,6 +1607,27 @@ print(q)
 #7. interpreting the outcomes ####
 library(ggplot2)
 
+##compare tree drought responses between those that lived and died ####
+library(RCurl)
+
+data_2018 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/scbi.stem3_TEMPORARY.csv"), stringsAsFactors=FALSE)
+
+data_live <- data_2018[data_2018$Tree_Status == "Live", ]
+data_live$tree <- gsub( "_.*$", "", data_live$Tree_ID_Num)
+
+cores <- unique(trees_all$tree)
+data_live <- data_live[data_live$tree %in% cores, ]
+
+livepast <- unique(data_live$tree)
+
+#do all of step 4, then just 5i and 5j
+trees_all$live <- ifelse(trees_all$tree %in% livepast, 1, 0)
+trees_all$live <- as.character(trees_all$live)
+
+ggplot(data = trees_all) +
+  aes(x = live, y = resist.value, color = position_all) +
+  geom_boxplot(fill = "#0c4c8a") +
+  theme_minimal()
 ##height and canopy position by size class ####
 scbi.stem3 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/scbi.stem3_TEMPORARY.csv"))
 scbi.stem3$Tree_ID_Num <- gsub("_.*$", "", scbi.stem3$Tree_ID_Num)
