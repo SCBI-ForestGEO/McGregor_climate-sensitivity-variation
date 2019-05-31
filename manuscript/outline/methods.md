@@ -1,3 +1,9 @@
+---
+title: "Methods"
+author: "Ian McGregor"
+
+
+
 # Methods
 
 Research was conducted at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA, with cores taken from trees on the 25.6 ha ForestGEO (Global Earth Observatory) study plot (Anderson-Teixeira 2015). SCBI (38°53'36.6"N, 78° 08'43.4"W) (Gonzalez-Akre et al 2016) is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park. Primary forest composition in the plot is oak-hickory, while elevations range from 273-338m above sea level (Gonzalez-Akre 2016) with a topographic relief of 65m (Bourg et al 2013).
