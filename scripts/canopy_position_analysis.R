@@ -545,8 +545,9 @@ ggplot(data = rp_test) +
   facet_wrap(vars(position))
 
 
-##5c. add in leaf trait (PLA dry percent) ####
+##5c. add in leaf traits ####
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
+##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, mean_SPAD, Chl_m2_per_g, and WD [wood density]
 
 leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEJFA6KVAZG7JUVKZXC4666OY"), stringsAsFactors = FALSE)
 
@@ -924,23 +925,27 @@ trees_all$sap_ratio <- dbh$sap_ratio[match(trees_all$tree, dbh$tree) & match(tre
 ##5h. add in tree heights ####
 ## taken from the canopy_heights script
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
-trees_all$height.ln.m <- ifelse(trees_all$sp == "caco", (0.628+0.753*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "cagl", (0.621+0.76*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "caovl", (0.914+0.656*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "cato", (0.996+0.642*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "fagr", (0.511+0.709*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "litu", (1.72+0.441*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "qual", (1.87+0.395*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "quru", (1.31+0.495*trees_all$dbh.ln.cm),
-                             (0.939+0.633*trees_all$dbh.ln.cm)))))))))
-                             #0.849+0.659*trees_all$dbh_ln.cm -> original equation only using points from the species for which we had equations. This was yielding predicted heights for some trees of about 54m.
+trees_all$height.ln.m <- ifelse(trees_all$sp == "caco", (0.348+0.808*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "cagl", (0.681+0.704*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "caovl", (0.621+0.722*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "cato", (0.776+0.701*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "fagr", (0.708+0.662*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "fram", (0.715+0.619*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "juni", (1.22+0.49*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "litu", (1.32+0.524*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "qual", (1.14+0.548*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "qupr", (0.44+0.751*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "quru", (1.17+0.533*trees_all$dbh.ln.cm),
+                      ifelse(trees_all$sp == "quve", (0.864+0.585*trees_all$dbh.ln.cm),
+                             (0.791+0.645*trees_all$dbh.ln.cm)))))))))))))
+                             #0.849+0.659*trees_all$dbh_ln.cm -> original equation that was yielding predicted heights for some trees of about 54m.
 
 trees_all$height.m <- exp(trees_all$height.ln.m) #m, because these equations come from a plotting of log(DBH in cm) against log(height in m).
 
 #cap values at max for different species.
-heights_full <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
-
-max_ht <- aggregate(height.m ~ sp, data=heights_full, FUN=max)
+# heights_full <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
+# 
+# max_ht <- aggregate(height.m ~ sp, data=heights_full, FUN=max)
 
 ##5i. add in all crown positions ####
 
@@ -1608,6 +1613,7 @@ print(q)
 library(ggplot2)
 
 ##compare tree drought responses between those that lived and died ####
+##corresponding to issue 26 in github
 library(RCurl)
 
 data_2018 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/scbi.stem3_TEMPORARY.csv"), stringsAsFactors=FALSE)
@@ -1641,16 +1647,19 @@ current_ht$sap_ratio <- NA
 #linear log-log regression
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
 current_ht$height.ln.m <- 
-                        ifelse(current_ht$sp == "caco", (0.628+0.753*current_ht$dbh.ln.cm),
-                        ifelse(current_ht$sp == "cagl", (0.621+0.76*current_ht$dbh.ln.cm),
-                        ifelse(current_ht$sp == "caovl", (0.914+0.656*current_ht$dbh.ln.cm),
-                        ifelse(current_ht$sp == "cato", (0.996+0.642*current_ht$dbh.ln.cm),
-                        ifelse(current_ht$sp == "fagr", (0.511+0.709*current_ht$dbh.ln.cm),
-                        ifelse(current_ht$sp == "litu", (1.72+0.441*current_ht$dbh.ln.cm),
-                        ifelse(current_ht$sp == "qual", (1.87+0.395*current_ht$dbh.ln.cm),
-                        ifelse(current_ht$sp == "quru", (1.31+0.495*current_ht$dbh.ln.cm),
-                                    # (0.939+0.633*current_ht$dbh.ln.cm))))))))) #focus sp
-                                    (0.764+0.665*current_ht$dbh.ln.cm))))))))) #all sp 
+                      ifelse(current_ht$sp == "caco", (0.348+0.808*current_ht$dbh.ln.cm),
+                      ifelse(current_ht$sp == "cagl", (0.681+0.704*current_ht$dbh.ln.cm),
+                      ifelse(current_ht$sp == "caovl", (0.621+0.722*current_ht$dbh.ln.cm),
+                      ifelse(current_ht$sp == "cato", (0.776+0.701*current_ht$dbh.ln.cm),
+                      ifelse(current_ht$sp == "fagr", (0.708+0.662*current_ht$dbh.ln.cm),
+                      ifelse(current_ht$sp == "fram", (0.715+0.619*current_ht$dbh.ln.cm),
+                      ifelse(current_ht$sp == "juni", (1.22+0.49*current_ht$dbh.ln.cm),
+                      ifelse(current_ht$sp == "litu", (1.32+0.524*current_ht$dbh.ln.cm),
+                      ifelse(current_ht$sp == "qual", (1.14+0.548*current_ht$dbh.ln.cm),
+                      ifelse(current_ht$sp == "qupr", (0.44+0.751*current_ht$dbh.ln.cm),
+                      ifelse(current_ht$sp == "quru", (1.17+0.533*current_ht$dbh.ln.cm),
+                      ifelse(current_ht$sp == "quve", (0.864+0.585*current_ht$dbh.ln.cm),
+                              (0.791+0.645*current_ht$dbh.ln.cm)))))))))))))
 current_ht$height.m <- exp(current_ht$height.ln.m)
 
 # #power function Height = intercept*(diameter^slope)

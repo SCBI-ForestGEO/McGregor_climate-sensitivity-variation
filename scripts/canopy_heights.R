@@ -63,38 +63,8 @@ heights_all <- rbind(heights_nodup, heights_recent)
 heights_all <- heights_all[c(1:4,6,8,15:17,24:25)]
 
 
-#1a. apply fix for sine bias ####
-heights_nosine <- heights_all[!(heights_all$method_math %in% "sine"), ]
-
-## make regression equations with just the nosine data
-neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
-neil_sp <- unique(neil_list$sp)
-
-paper_heights <- heights_nosine[heights_nosine$sp %in% neil_sp, ]
-
-source_gist("524eade46135f6348140")
-ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label = log(height.m))) +
-  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
-  geom_smooth(method="lm", se=FALSE, color="black") +
-  geom_point(color = "#0c4c8a") +
-  theme_minimal() +
-  facet_wrap(vars(sp))
-
-
-#equations for all species together
-ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label = log(height.m))) +
-  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
-  geom_smooth(method="lm", se=FALSE, color="black") +
-  geom_point(color = "#0c4c8a") +
-  theme_minimal()
-
-##get what height the trees should be based on 2018 dbh
-heights_nosine$dbh2018 <- 
-
-heights_nosine$height.new <- ifelse
-  
-
-
+## sine bias ####
+#we are not applying a fix for sine bias because a number of papers that used the sine method also did not apply any corrections. Instead, they (sometimes) acknowledged the error associated with it.
 #2. get neon height data ####
 file_path <- file.path("data/heights/NEON/neon_heights/")
 dirs_map <- dir("data/heights/NEON/neon_heights", pattern="mapping_and_tagging.*$")
@@ -118,15 +88,15 @@ for (i in seq(along=dirs_map)){
       neon_ht$dbh_year <- gsub("-", ".", neon_ht$dbh_year)
       setnames(neon_ht, old=c("stemDiameter", "measurementHeight", "height"), new=c("dbh_regr.cm", "dbh_height.cm", "height.m"))
       
-      #exclude unknown id (2plant, 2plant-h), vines/shrubs (syor, vitis, ceor7, tora2, paqu2, romu, loma6, loja, rual, ruph), and non-sp-specific (carya, querc, fraxi, ulmus, vibur, pyrus, diosp, rubus)
-      neon_ht <- neon_ht[!(neon_ht$sp %in% c("2plant", "2plant-h", "syor", "vitis", "ceor7", "tora2", "paqu2", "romu", "loma6", "loja", "rual", "ruph", "carya", "querc", "fraxi", "ulmus", "vibur", "pyrus", "diosp", "rubus")), ]
+      #exclude unknown id (2plant, 2plant-h), vines/shrubs (syor, vitis, ceor7, tora2, paqu2, romu, loma6, loja, rual, ruph, beth, libe), and non-sp-specific (carya, querc, fraxi, ulmus, vibur, pyrus, diosp, rubus)
+      
+      neon_ht <- neon_ht[!(neon_ht$sp %in% c("2plant", "2plant-h", "syor", "vitis", "ceor7", "tora2", "paqu2", "romu", "loma6", "loja", "rual", "ruph", "beth", "libe3", "carya", "querc", "fraxi", "ulmus", "vibur", "pyrus", "diosp", "rubus")), ]
       neon_ht$sp <- ifelse(neon_ht$sp == "asimi", "astr",
                     ifelse(neon_ht$sp == "fram2", "fram",
                     ifelse(neon_ht$sp == "cagl8", "cagl",
                     ifelse(neon_ht$sp == "caov3", "caovl",
                     ifelse(neon_ht$sp == "sassa", "saal",
                     ifelse(neon_ht$sp == "cato6", "cato",
-                    ifelse(neon_ht$sp == "libe3", "libe",
                     ifelse(neon_ht$sp == "cecac", "ceca",
                     ifelse(neon_ht$sp == "caco15", "caco",
                     ifelse(neon_ht$sp == "acnen", "acne",
@@ -134,7 +104,7 @@ for (i in seq(along=dirs_map)){
                     ifelse(neon_ht$sp == "qumo4", "qupr",
                     ifelse(neon_ht$sp == "pivi2", "pivi",
                     ifelse(neon_ht$sp == "cofl2", "cofl",
-                    ifelse(neon_ht$sp == "pato2", "pato", neon_ht$sp)))))))))))))))
+                    ifelse(neon_ht$sp == "pato2", "pato", neon_ht$sp))))))))))))))
       
       #filter out saplings and weird dbh
       neon_ht <- neon_ht[!(is.na(neon_ht$dbh_height.cm)) & !(neon_ht$dbh_height.cm <110) & !(neon_ht$dbh_height.cm >150), ]
@@ -143,7 +113,7 @@ for (i in seq(along=dirs_map)){
       neon_ht <- neon_ht[neon_ht$individualID %in% unique(neon_ht$individualID[neon_ht$dbh_year == max(neon_ht$dbh_year)]), ]
       
       #rbind to have full dataset ####
-      neon_ht_sub <- neon_ht[c(2,5,7,8)]
+      neon_ht_sub <- neon_ht[c(2,3,5,7,8)]
       
       neon_all <- rbind(neon_all, neon_ht_sub)
     }
@@ -151,10 +121,31 @@ for (i in seq(along=dirs_map)){
 }
 
 neon_all <- neon_all[complete.cases(neon_all), ]
+neon_all$dbh_year <- as.numeric(neon_all$dbh_year)
+
+#get only one measurement per tree (most recent)
+neon_new <- NULL
+for (i in seq(along=neon_all$individualID)){
+  poss <- neon_all[neon_all$individualID == neon_all$individualID[[i]], ]
+
+  poss <- poss[poss$dbh_year == max(poss$dbh_year), ]
+  
+  neon_new <- rbind(neon_new, poss)
+}
+
+#get rid of duplicates again (unsure why the loop does this)
+neon_new <- neon_new[!duplicated(neon_new$individualID), ]
+
+#get rid of data outliers (impossible height or dbh given the other)
+neon_new <- neon_new[!neon_new$individualID %in% c("NEON.PLA.D02.SCBI.03428", "NEON.PLA.D02.SCBI.02787"), ]
+
+#remove individualID so can rbind below
+neon_new <- neon_new[-c(2)]
+
 
 #3. rbind with general height data and determine equations ####
 heights_sub <- heights[c(4,8,24,25)]
-heights_all <- rbind(heights_sub, neon_all)
+heights_all <- rbind(heights_sub, neon_new)
 
 
 #check which ones need dbh from previous census because they died
@@ -178,18 +169,6 @@ unique(heights_all$sp) #shows all sp that we have height data for
 unique(paper_heights$sp) #shows the cored sp that we have data for
 paper_heights <- paper_heights[!paper_heights$sp %in% c("fram", "juni", "quve"), ] #juni, fram, and quve have <5 measurements has only one measure
 
-# library(dplyr)
-# max_ht <- paper_heights %>% 
-#   group_by(sp) %>% 
-#   summarise(height.m = max(height.m))
-# min_ht <- paper_heights %>% 
-#   group_by(sp) %>% 
-#   summarise(height.m = min(height.m))
-# paper_heights$max_ht <- max_ht$height.m[match(paper_heights$sp, max_ht$sp)]
-# paper_heights$min_ht <- min_ht$height.m[match(paper_heights$sp, min_ht$sp)]
-
-
-
 #DBH IS IN CM, HEIGHT IS IN M
 
 source_gist("524eade46135f6348140")
@@ -202,6 +181,12 @@ ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label 
 
 
 #equations for all species together
+ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label = log(height.m))) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
+  geom_smooth(method="lm", se=FALSE, color="black") +
+  geom_point(color = "#0c4c8a") +
+  theme_minimal()
+
 ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label = log(height.m))) +
   stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
