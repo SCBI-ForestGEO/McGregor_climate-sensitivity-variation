@@ -275,6 +275,7 @@ years_bysp <- years_bysp[order(years_bysp$year, years_bysp$sp), ]
 
 ##4d. resistance metrics for all trees ####
 neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
+neil_sp <- unique(neil_list$sp)
 
 neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
 
@@ -510,6 +511,8 @@ library(sf) #for mapping
 library(ggthemes) #for removing graticules when making pdf
 library(rgeos) #for distance calculation
 library(RCurl) #for reading in URLs
+library(dplyr)
+library(readxl)
 
 ##5a. add in turgor loss point values ####
 #add in tlp values (from Krista github issue #6 https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/6)
@@ -549,9 +552,9 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, mean_SPAD, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEJFA6KVAZG7JUVKZXC4666OY"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEOX3ZOPZRRBOJXJXUC5AKN6W"), stringsAsFactors = FALSE)
 
-leaf_traits <- leaf_traits[c(1,8,12,22,24,28)]
+leaf_traits <- leaf_traits[, c(1,8,12,22,24,28)]
 
 for (i in seq(along=2:ncol(leaf_traits))){
   trait <- colnames(leaf_traits[2:ncol(leaf_traits)])
@@ -563,15 +566,34 @@ elev <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/S
 
 trees_all$elev.m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
+##5ci. add in SLA data ####
+traits_sla <- read_excel("data/traits/photosynthesis_traits.xlsx", sheet = "Data")
+traits_sla$species <- paste(traits_sla$Genus, traits_sla$Species)
+SLA <- traits_sla
+SLA$Genus.spp <- paste0(gsub("^(..).*", "\\1", SLA$Genus.spp), 
+                        gsub("^.* (..).*", "\\1", SLA$Genus.spp))
+SLA$Genus.spp <- tolower(SLA$Genus.spp)
+SLA <- SLA[SLA$Genus %in% c("Carya", "Fraxinus", "Fagus", "Juglans", "Liriodendron", "Pinus", "Quercus"), ]
+SLA <- SLA[SLA$Genus.spp %in% neil_sp & !is.na(SLA$SLA), ]
+SLA <- SLA[order(SLA$Genus.spp), ]
+SLA <- SLA[c(10,20,28)]
+unique(SLA$Genus.spp)
+
+mean_SLA <- 
+  group_by(SLA, Genus.spp) %>%
+  summarize(SLA_mean = mean(SLA))
+
+trees_all$SLA_mean <- mean_SLA$SLA_mean[match(trees_all$sp, mean_SLA$Genus.spp)]
+
 ##5e. add in distance to water ####
 ## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
 
 ## I have not found a way to make this not involve personal directories without moving all the data to my folder, which I'm hesitant about doing due to data redundancy.
-scbi_plot <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/20m_grid.shp")
-deer <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/deer_exclosure_2011.shp")
-roads <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_roads_edits.shp")
-streams <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_streams_edits.shp")
-NS_divide <- readOGR("C:/Users/mcgregori/Dropbox (Smithsonian)/Github_Ian/Dendrobands/resources/maps/shapefiles/NS_divide1.shp")
+scbi_plot <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/20m_grid.shp")
+deer <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/deer_exclosure_2011.shp")
+roads <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_roads_edits.shp")
+streams <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_streams_edits.shp")
+NS_divide <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/Dendrobands/resources/maps/shapefiles/NS_divide1.shp")
 
 #convert all shp to dataframe so that it can be used by ggplot
 #if tidy isn't working, can also do: xxx_df <- as(xxx, "data.frame")
@@ -695,7 +717,7 @@ map <- ggplot() +
 
 
 ###new method ####
-bark <- read.csv("data/SCBI_bark_depth.csv")
+bark <- read.csv("data/traits/SCBI_bark_depth.csv")
 bark <- bark[bark$species %in% sp_can | bark$species %in% sp_subcan, ]
 
 #1. Calculate diameter_nobark for 2008 = DBH.mm.2008-2*bark.depth.mm
@@ -831,7 +853,7 @@ trees_all$dbh.ln.cm <- log(trees_all$dbh_old.cm)
 
 #calculate sapwood area
 ##sapwood area[iii] = tree area (minus bark)[i] - heartwood area[ii]
-sap <- read.csv("data/SCBI_Sapwood_Data.csv", stringsAsFactors = FALSE)
+sap <- read.csv("data/traits/SCBI_Sapwood_Data.csv", stringsAsFactors = FALSE)
 sap <- sap[,c(1:5,8:10,24)]
 sap$sp <- paste0(gsub("^(..).*", "\\1", sap$Latin), 
                        gsub("^.* (..).*", "\\1", sap$Latin))
@@ -1545,7 +1567,7 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position_all", "sap_ratio", "tlp", "rp", "elev.m", "distance.ln.m", "height.ln.m", "PLA_dry_percent", "LMA_g_per_m2", "mean_SPAD", "Chl_m2_per_g", "WD_g_per_cm3", "year", "(1|sp/tree)")
+effects <- c("position_all", "sap_ratio", "tlp", "rp", "elev.m", "distance.ln.m", "height.ln.m", "PLA_dry_percent", "LMA_g_per_m2", "mean_SPAD", "Chl_m2_per_g", "WD_g_per_cm3", "SLA_mean", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 

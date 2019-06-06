@@ -285,3 +285,13 @@ mean(ian_mean$height.diff)
 mean(ian_mean$height.diff[ian_mean$height.dir == -1])
 mean(ian_mean$height.diff[ian_mean$height.dir == 1])
 
+
+
+p50 <- read.csv("data/P50/P50_data.csv")
+p50_sub <- p50
+p50_sub$SpeciesName <- paste0(gsub("^(..).*", "\\1", p50_sub$SpeciesName), 
+                              gsub("^.* (..).*", "\\1", p50_sub$SpeciesName))
+p50_sub$SpeciesName <- tolower(p50_sub$SpeciesName)
+p50_sub <- p50_sub[p50_sub$SpeciesName %in% neil_sp & (grepl("Mpa", p50_sub$OrigUnitStr) | (grepl("MPa", p50_sub$OrigUnitStr))), ]
+unique(p50_sub$SpeciesName)
+
