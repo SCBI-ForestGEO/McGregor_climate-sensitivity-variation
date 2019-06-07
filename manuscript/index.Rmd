@@ -9,3 +9,10 @@ link-citations: yes
 github-repo: manuscript/outline
 description: "Article for Ian's research during his time in Anderson-Teixeira lab"
 ---
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
