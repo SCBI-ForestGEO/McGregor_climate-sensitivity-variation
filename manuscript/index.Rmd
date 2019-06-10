@@ -3,7 +3,7 @@ title: "Tree size, exposure, and hydraulic traits interactively shape drought re
 author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Valentine Herrmann, Neil Pederson, Lawren Sack, Joseph Zailaa, Krista Anderson-Teixeira"
 output: html_document
 documentclass: book
-bibliography: [book.bib]
+bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
 github-repo: manuscript/outline
@@ -13,6 +13,6 @@ description: "Article for Ian's research during his time in Anderson-Teixeira la
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'lme4', 'AICcmodavg', 'car', 'piecewiseSEM', 'MuMIn', 'stringr', 'dplyr', 'ggplot2', 'devtools', 'rgdal', 'broom', 'sf', 'ggthemes', 'rgeos', 'RCurl', 'readxl', 'pointRes', 'dplR', 'data.table', 'tools', 'reshape2'
 ), 'packages.bib')
 ```
