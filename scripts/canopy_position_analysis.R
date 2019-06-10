@@ -566,24 +566,25 @@ elev <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/S
 
 trees_all$elev.m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
-##5ci. add in SLA data ####
-traits_sla <- read_excel("data/traits/photosynthesis_traits.xlsx", sheet = "Data")
-traits_sla$species <- paste(traits_sla$Genus, traits_sla$Species)
-SLA <- traits_sla
-SLA$Genus.spp <- paste0(gsub("^(..).*", "\\1", SLA$Genus.spp), 
-                        gsub("^.* (..).*", "\\1", SLA$Genus.spp))
-SLA$Genus.spp <- tolower(SLA$Genus.spp)
-SLA <- SLA[SLA$Genus %in% c("Carya", "Fraxinus", "Fagus", "Juglans", "Liriodendron", "Pinus", "Quercus"), ]
-SLA <- SLA[SLA$Genus.spp %in% neil_sp & !is.na(SLA$SLA), ]
-SLA <- SLA[order(SLA$Genus.spp), ]
-SLA <- SLA[c(10,20,28)]
-unique(SLA$Genus.spp)
-
-mean_SLA <- 
-  group_by(SLA, Genus.spp) %>%
-  summarize(SLA_mean = mean(SLA))
-
-trees_all$SLA_mean <- mean_SLA$SLA_mean[match(trees_all$sp, mean_SLA$Genus.spp)]
+##5ci. add in SLA data (here for reference) ####
+### I initially was going to include SLA but Krista mentioned that SLA is the inverse of LMA, so for the purposes of this modelling, they're equal. We're focused more on having SCBI-specific data when possible, so we're using LMA.
+# traits_sla <- read_excel("data/traits/photosynthesis_traits.xlsx", sheet = "Data")
+# traits_sla$species <- paste(traits_sla$Genus, traits_sla$Species)
+# SLA <- traits_sla
+# SLA$Genus.spp <- paste0(gsub("^(..).*", "\\1", SLA$Genus.spp), 
+#                         gsub("^.* (..).*", "\\1", SLA$Genus.spp))
+# SLA$Genus.spp <- tolower(SLA$Genus.spp)
+# SLA <- SLA[SLA$Genus %in% c("Carya", "Fraxinus", "Fagus", "Juglans", "Liriodendron", "Pinus", "Quercus"), ]
+# SLA <- SLA[SLA$Genus.spp %in% neil_sp & !is.na(SLA$SLA), ]
+# SLA <- SLA[order(SLA$Genus.spp), ]
+# SLA <- SLA[c(10,20,28)]
+# unique(SLA$Genus.spp)
+# 
+# mean_SLA <- 
+#   group_by(SLA, Genus.spp) %>%
+#   summarize(SLA_mean = mean(SLA))
+# 
+# trees_all$SLA_mean <- mean_SLA$SLA_mean[match(trees_all$sp, mean_SLA$Genus.spp)]
 
 ##5e. add in distance to water ####
 ## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
@@ -1379,8 +1380,8 @@ for (i in seq_along(model_df)){
 }
 
 #csv has a 1 in the title to make sure any notes in current file are not overwritten
-write.csv(summary_models, "manuscript/results_individual_years1.csv", row.names=FALSE)
-write.csv(full_mod_all, "manuscript/full_models_dAIC1.csv", row.names=FALSE)
+write.csv(summary_models, "tables_figures/results_individual_years1.csv", row.names=FALSE)
+write.csv(full_mod_all, "tables_figures/full_models_dAIC1.csv", row.names=FALSE)
 
 ##table looking at only full model over all years ####
 ##we ran all variables (aka a full model) against all years combined and found that position, height*elev, tlp, and rp were the variables in the best model. Using this knowledge, here we created a dfferent version of the original table.
@@ -1549,7 +1550,7 @@ for (i in seq_along(model_df)){
 }
 
 #csv has a 1 in the title to make sure any notes in current file are not overwritten
-write.csv(summary_models, "manuscript/results_full_models_combined_years.csv", row.names=FALSE)
+write.csv(summary_models, "tables_figures/results_full_models_combined_years.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
 best <- lmm_all[[64]]
@@ -1567,7 +1568,7 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position_all", "sap_ratio", "tlp", "rp", "elev.m", "distance.ln.m", "height.ln.m", "PLA_dry_percent", "LMA_g_per_m2", "mean_SPAD", "Chl_m2_per_g", "WD_g_per_cm3", "SLA_mean", "year", "(1|sp/tree)")
+effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
