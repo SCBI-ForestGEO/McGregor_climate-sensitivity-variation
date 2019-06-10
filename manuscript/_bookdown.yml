@@ -4,7 +4,7 @@ language:
   ui:
     chapter_name: "Chapter "
 repo: https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/tree/master/manuscript/outline
-output_dir: "full_paper"
+output_dir: "output_files"
 rmd_files: ["index.Rmd", "01-abstract.Rmd", "02-intro.Rmd", "03-methods.Rmd",
             "04-results.Rmd", "05-discussion.Rmd", "06-conclusion.Rmd", "07-references.Rmd"]
 clean: [packages.bib, bookdown.bbl]
