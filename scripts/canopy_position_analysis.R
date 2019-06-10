@@ -554,17 +554,12 @@ ggplot(data = rp_test) +
 
 leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEOX3ZOPZRRBOJXJXUC5AKN6W"), stringsAsFactors = FALSE)
 
-leaf_traits <- leaf_traits[, c(1,8,12,22,24,28)]
+leaf_traits <- leaf_traits[, c(1,8,12,24,28)]
 
 for (i in seq(along=2:ncol(leaf_traits))){
   trait <- colnames(leaf_traits[2:ncol(leaf_traits)])
   trees_all[, trait[[i]]] <- leaf_traits[, trait[[i]]][match(trees_all$sp, leaf_traits$sp)]
 }
-
-##5d. add in elevation data ####
-elev <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/spatial_data/elevation/full_stem_elevation_2013.csv"))
-
-trees_all$elev.m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
 ##5ci. add in SLA data (here for reference) ####
 ### I initially was going to include SLA but Krista mentioned that SLA is the inverse of LMA, so for the purposes of this modelling, they're equal. We're focused more on having SCBI-specific data when possible, so we're using LMA.
@@ -585,6 +580,20 @@ trees_all$elev.m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 #   summarize(SLA_mean = mean(SLA))
 # 
 # trees_all$SLA_mean <- mean_SLA$SLA_mean[match(trees_all$sp, mean_SLA$Genus.spp)]
+
+##5cii. add in hydraulic safety margin ####
+#get P50 from traits table
+hydra <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/results/SCBI_best_fits.csv?token=AJNRBEMQJ72VBJTIH7QXN325A72PW"))
+
+#the definition of HSM is p50 - minimum water potential. We don't have data for the latter, but Zhu et al 2018 has found that TLP is highly correlated (0.78) to min potential. I've emailed the authors asking for the exact equation, but until then, I'm using TLP as a stand-in since the values in the model are relationary.
+trees_all$p50.MPa <- hydra$psi_0.5_kl50[match(trees_all$sp, hydra$data.type)]
+trees_all$hsm <- trees_all$tlp-trees_all$p50.MPa
+
+#
+##5d. add in elevation data ####
+elev <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/spatial_data/elevation/full_stem_elevation_2013.csv"))
+
+trees_all$elev.m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
 ##5e. add in distance to water ####
 ## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
@@ -1553,7 +1562,7 @@ for (i in seq_along(model_df)){
 write.csv(summary_models, "tables_figures/results_full_models_combined_years.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
-best <- lmm_all[[64]]
+best <- lmm_all[[16]]
 coef(summary(best))[ , "Estimate"]
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
@@ -1568,7 +1577,8 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "year", "(1|sp/tree)")
+# effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "year", "(1|sp/tree)")
+effects <- c("tlp", "rp", "PLA_dry_percent", "LMA_g_per_m2", "Chl_m2_per_g", "WD_g_per_cm3", "hsm", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
