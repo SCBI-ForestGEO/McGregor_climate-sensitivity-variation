@@ -514,26 +514,7 @@ library(RCurl) #for reading in URLs
 library(dplyr)
 library(readxl)
 
-##5a. add in turgor loss point values ####
-#add in tlp values (from Krista github issue #6 https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/6)
-turgor <- data.frame("sp" = c("cagl", "caovl", "fagr", "fram", "juni", "litu", "pist", "qual", "qupr", "quru", "quve", "caco", "cato", "frni"), "tlp" = c(-2.1282533, -2.24839333, -2.57164, -2.1012133, -2.75936, -1.9212933, NA, -2.58412, -2.3601733, -2.6395867, -2.3879067, -2.1324133, -2.31424, NA))
-
-trees_all$tlp <- turgor$tlp[match(trees_all$sp, turgor$sp)]
-
-#tlp for pist is NA. Removing pist (because of the tlp NA) gives different results.
-#trees_all <- trees_all[!trees_all$sp == "pist", ]
-
-tlp_test <- trees_all[!duplicated(trees_all$tree), ]
-tlp_test$tree <- as.numeric(tlp_test$tree)
-
-ggplot(data = tlp_test) +
-  aes(x = position, y = tlp) +
-  geom_boxplot(fill = "#0c4c8a") +
-  theme_minimal()
-  # facet_wrap(vars(year))
-
-
-##5b. add in ring porosity qualifications ####
+##5a. add in ring porosity qualifications ####
 ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "juni",  "litu",  "pist",  "qual",  "qupr",  "quru",  "quve", "caco", "frni"), "rp" = c("ring", "ring", "ring", "diffuse", "ring", "semi-ring", "diffuse", NA, "ring", "ring", "ring", "ring", "ring", "ring"))
 
 trees_all$rp <- ring_porosity$rp[match(trees_all$sp, ring_porosity$sp)]
@@ -548,20 +529,20 @@ ggplot(data = rp_test) +
   facet_wrap(vars(position))
 
 
-##5c. add in leaf traits ####
+##5b. add in leaf traits ####
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, mean_SPAD, Chl_m2_per_g, and WD [wood density]
 
 leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEOX3ZOPZRRBOJXJXUC5AKN6W"), stringsAsFactors = FALSE)
 
-leaf_traits <- leaf_traits[, c(1,8,12,24,28)]
+leaf_traits <- leaf_traits[, c(1,8,12,24,26,28)]
 
 for (i in seq(along=2:ncol(leaf_traits))){
   trait <- colnames(leaf_traits[2:ncol(leaf_traits)])
   trees_all[, trait[[i]]] <- leaf_traits[, trait[[i]]][match(trees_all$sp, leaf_traits$sp)]
 }
 
-##5ci. add in SLA data (here for reference) ####
+##5bi. add in SLA data (here for reference) ####
 ### I initially was going to include SLA but Krista mentioned that SLA is the inverse of LMA, so for the purposes of this modelling, they're equal. We're focused more on having SCBI-specific data when possible, so we're using LMA.
 # traits_sla <- read_excel("data/traits/photosynthesis_traits.xlsx", sheet = "Data")
 # traits_sla$species <- paste(traits_sla$Genus, traits_sla$Species)
@@ -581,21 +562,21 @@ for (i in seq(along=2:ncol(leaf_traits))){
 # 
 # trees_all$SLA_mean <- mean_SLA$SLA_mean[match(trees_all$sp, mean_SLA$Genus.spp)]
 
-##5cii. add in hydraulic safety margin ####
+##5bii. add in p50 and p88 ####
 #get P50 from traits table
 hydra <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/results/SCBI_best_fits.csv?token=AJNRBEMQJ72VBJTIH7QXN325A72PW"))
 
-#the definition of HSM is p50 - minimum water potential. We don't have data for the latter, but Zhu et al 2018 has found that TLP is highly correlated (0.78) to min potential. I've emailed the authors asking for the exact equation, but until then, I'm using TLP as a stand-in since the values in the model are relationary.
+#Anderegg 2018 found that p50 and p80 came out significant in modelling
 trees_all$p50.MPa <- hydra$psi_0.5_kl50[match(trees_all$sp, hydra$data.type)]
-trees_all$hsm <- trees_all$tlp-trees_all$p50.MPa
+trees_all$p80.MPa <- hydra$psi_0.5_kl80[match(trees_all$sp, hydra$data.type)]
 
 #
-##5d. add in elevation data ####
+##5c. add in elevation data ####
 elev <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/spatial_data/elevation/full_stem_elevation_2013.csv"))
 
 trees_all$elev.m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
-##5e. add in distance to water ####
+##5d. add in distance to water ####
 ## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
 
 ## I have not found a way to make this not involve personal directories without moving all the data to my folder, which I'm hesitant about doing due to data redundancy.
@@ -661,7 +642,7 @@ map <- ggplot() +
   coord_sf(crs = "crs = +proj=merc", xlim=c(747350,747800), ylim=c(4308500, 4309125))
 
 
-##5f. add in dbh for each year ####
+##5e. add in dbh for each year ####
 ###original method ####
 # dbh <- trees_all[, c(1:4)]
 # dbh$dbh2013 <- elev$dbh[match(dbh$tree, elev$tag)]
@@ -858,7 +839,7 @@ trees_all$dbh_old.mm <- dbh$dbh_old.mm[match(trees_all$tree, dbh$tree) & match(t
 trees_all$dbh_old.cm <- trees_all$dbh_old.mm/10
 trees_all$dbh.ln.cm <- log(trees_all$dbh_old.cm)
 
-##5g. add in ratio of sapwood area to total wood ####
+##5f. add in ratio of sapwood area to total wood ####
 ### It has been determined that since sapwood ratio is so tied to DBH (in other words, testing it in a model is akin to testing DBH again), that we are going to leave it out of the full models. However, I'm leaving the code here in case we want anything with it later.
 
 #calculate sapwood area
@@ -954,7 +935,7 @@ dbh$total_wood_area.cm2 <- pi*(dbh$radius_nobark.cm)^2
 dbh$sap_ratio <- dbh$sapwood_area.cm2/dbh$total_wood_area.cm2
 trees_all$sap_ratio <- dbh$sap_ratio[match(trees_all$tree, dbh$tree) & match(trees_all$year, dbh$year)]
 
-##5h. add in tree heights ####
+##5g. add in tree heights ####
 ## taken from the canopy_heights script
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
 trees_all$height.ln.m <- ifelse(trees_all$sp == "caco", (0.348+0.808*trees_all$dbh.ln.cm),
@@ -979,7 +960,7 @@ trees_all$height.m <- exp(trees_all$height.ln.m) #m, because these equations com
 # 
 # max_ht <- aggregate(height.m ~ sp, data=heights_full, FUN=max)
 
-##5i. add in all crown positions ####
+##5h. add in all crown positions ####
 
 positions <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_crowns/cored_dendroband_crown_position_data/dendro_cored_full.csv"))
 
@@ -996,19 +977,21 @@ trees_all$position_all <- gsub("S", "suppressed", trees_all$position_all)
 #this csv has avg/min/max dbh for each canopy position by sp
 # positionsp <- read.csv("data/core_chronologies_by_crownposition.csv")
 
-##5j. remove all NAs and one bad tree ####
-trees_all <- trees_all[complete.cases(trees_all), ]
-
+##5i. remove one bad tree & resistance values >2 ####
 ##fram 140939 has been mislabeled. It is recorded as having a small dbh when that is the second stem. In terms of canopy position, though, it fell between time of coring and when positions were recorded, thus we do not know its position.
 trees_all <- trees_all[!trees_all$tree == 140939, ]
-
-##5k. remove resistance values >2 ####
 trees_all <- trees_all[trees_all$resist.value <=2,]
-##5l. make subsets for individual years, combine all to list ####
-# x1964 <- trees_all[trees_all$year == 1964, ]
-x1966 <- trees_all[trees_all$year == 1966, ]
-x1977 <- trees_all[trees_all$year == 1977, ]
-x1999 <- trees_all[trees_all$year == 1999, ]
+
+##5j. subset for either leaf hydraulic traits or biophysical ####
+trees_all_traits <- trees_all[complete.cases(trees_all), ]
+
+trees_all_bio <- trees_all[c("year", "sp", "tree", "resist.value", "elev.m", "distance.ln.m", "height.ln.m", "position_all")]
+trees_all_bio <- trees_all_bio[complete.cases(trees_all_bio), ]
+
+##5k. make subsets for individual years, combine all to list ####
+x1966 <- trees_all_bio[trees_all_bio$year == 1966, ]
+x1977 <- trees_all_bio[trees_all_bio$year == 1977, ]
+x1999 <- trees_all_bio[trees_all_bio$year == 1999, ]
 
 model_df <- list(trees_all, x1966, x1977, x1999)
 names(model_df) <- c("all_years", "x1966", "x1977", "x1999")
@@ -1562,7 +1545,7 @@ for (i in seq_along(model_df)){
 write.csv(summary_models, "tables_figures/results_full_models_combined_years.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
-best <- lmm_all[[16]]
+best <- lmm_all[[7]]
 coef(summary(best))[ , "Estimate"]
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
@@ -1577,8 +1560,8 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-# effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "year", "(1|sp/tree)")
-effects <- c("tlp", "rp", "PLA_dry_percent", "LMA_g_per_m2", "Chl_m2_per_g", "WD_g_per_cm3", "hsm", "year", "(1|sp/tree)")
+effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "(1|sp)")
+# effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "Chl_m2_per_g", "WD_g_per_cm3", "mean_TLP_Mpa", "p50.MPa", "p80.MPa", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -1591,7 +1574,7 @@ effects_comb <-
 #in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
 var_comb <- expand.grid(response, effects_comb) 
 var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
-var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+# var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
 
 # formulas for all combinations. $Var1 is the response, and $Var2 is the effect
 # for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
@@ -1599,7 +1582,7 @@ formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
 
 # create list of model outputs
 lmm_all <- lapply(formula_vec, function(x){
-  fit1 <- lmer(x, data = trees_all, REML=FALSE, 
+  fit1 <- lmer(x, data = x1999, REML=FALSE, 
                control = lmerControl(optimizer ="Nelder_Mead"))
   return(fit1)
 })
@@ -1644,10 +1627,10 @@ print(q)
 ########################################################################################
 #7. interpreting the outcomes ####
 library(ggplot2)
+library(RCurl)
 
 ##compare tree drought responses between those that lived and died ####
 ##corresponding to issue 26 in github
-library(RCurl)
 
 data_2018 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/scbi.stem3_TEMPORARY.csv"), stringsAsFactors=FALSE)
 
@@ -1749,6 +1732,17 @@ ggplot(data = trees_all) +
   theme_minimal() +
   facet_wrap(vars(position))
 
+ggplot(data = census3_sub) +
+  aes(x = DBH, fill = position.crown) +
+  geom_histogram(bins = 30) +
+  theme_minimal() +
+  facet_wrap(vars(position.crown), ncol=1)
+
+ggplot(data = census3_sub) +
+  aes(x = DBH, fill = position.crown) +
+  geom_histogram(bins = 30) +
+  theme_minimal()
+
 #graphs looking at results from "best" AICc model (residuals, norm line, etc)
 plot(lmm_all[[31]])
 resid(lmm_all[[31]])
@@ -1790,9 +1784,5 @@ boxplot(resist.value ~ sp, data=trees_all)
 library(plotly)
 p <- qqp(residuals(lmm_all[[13]]), "norm")
 ggplotly(p)
-
-
-#count of values>1 for each species, and for each canopy position
-#take out 1947, 1911, 1991
 
 
