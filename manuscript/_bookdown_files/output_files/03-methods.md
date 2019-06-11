@@ -29,17 +29,7 @@ Individual cores were then grouped by canopy or subcanopy before being processed
 *Quercus velutina*|54|23|yes
 
 
-``` {r sample, echo=FALSE}
-#numbers for the table above come from this table
-# library(RCurl)
-# library(dplyr)
-# species <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/master/data/core_list_for_neil.csv?token=AJNRBELCYZY576ARLE7BXNK5BEF3O"))
-# 
-# test <- species %>%
-#   group_by(sp, crown.position) %>%
-#   summarize(count=n())
 
-```
 
 ### Biophysical traits
 Canopy classes were observed in the field during the growing season of 2018 following the crown position protocol from [@jennings_assessing_1999], whereby positions were ranked as dominant, codominant, intermediate, or suppressed. For ease of core analysis, these labels were condensed to canopy (including dominant and codominant) and subcanopy (intermediate and suppressed).
@@ -57,19 +47,57 @@ First, we generated log-log regression equations for bark thickness based on DBH
 ### Leaf Hydraulic Traits
 Hydraulic traits were collected from SCBI and are summarized in Table 1.
 
-```{r, echo=FALSE}
-library(knitr)
-library(kableExtra)
-
-traits_table <- data.frame(
-  "Trait" = c("Ring Porosity", "Percent Leaf Area", "Leaf Mass Area", "Chlorophyll", "Wood density", "TLP", "P50", "P80"),
-  "Unit" = c("", "%", "g/m2", "m2/g", "g/cm3", "MPa", "MPa", "MPa"),
-  "Source" = c("[@andersonteixeira_ctfs-forestgeo:_2015]", "Kunert et al 2019 [in prep]", "Kunert et al 2019 [in prep]", "Kunert et al 2019 [in prep]", "Kunert et al 2019 [in prep]", "Kunert et al 2019 [in prep]", "Kunert et al 2019 [in prep]", "Kunert et al 2019 [in prep]"))
-
-kable(traits_table) %>%
-  kable_styling(bootstrap_options = "striped", full_width = F)
-
-```
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Trait </th>
+   <th style="text-align:left;"> Unit </th>
+   <th style="text-align:left;"> Source </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Ring Porosity </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:left;"> [@andersonteixeira_ctfs-forestgeo:_2015] </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Percent Leaf Area </td>
+   <td style="text-align:left;"> % </td>
+   <td style="text-align:left;"> Kunert et al 2019 [in prep] </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Leaf Mass Area </td>
+   <td style="text-align:left;"> g/m2 </td>
+   <td style="text-align:left;"> Kunert et al 2019 [in prep] </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Chlorophyll </td>
+   <td style="text-align:left;"> m2/g </td>
+   <td style="text-align:left;"> Kunert et al 2019 [in prep] </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Wood density </td>
+   <td style="text-align:left;"> g/cm3 </td>
+   <td style="text-align:left;"> Kunert et al 2019 [in prep] </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> TLP </td>
+   <td style="text-align:left;"> MPa </td>
+   <td style="text-align:left;"> Kunert et al 2019 [in prep] </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> P50 </td>
+   <td style="text-align:left;"> MPa </td>
+   <td style="text-align:left;"> Kunert et al 2019 [in prep] </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> P80 </td>
+   <td style="text-align:left;"> MPa </td>
+   <td style="text-align:left;"> Kunert et al 2019 [in prep] </td>
+  </tr>
+</tbody>
+</table>
 
 
 After the data was collected, linear mixed models were run with the resistance value of each tree for each pointer year (determined from the pointRes package) as the response variable. Traits and other geographic data were used as independent variables.
