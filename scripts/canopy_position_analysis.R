@@ -570,6 +570,12 @@ hydra <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/Hydr
 trees_all$p50.MPa <- hydra$psi_0.5_kl50[match(trees_all$sp, hydra$data.type)]
 trees_all$p80.MPa <- hydra$psi_0.5_kl80[match(trees_all$sp, hydra$data.type)]
 
+trees_all$Pmin.MPa <- 1.1122*trees_all$mean_TLP_Mpa + 0.3849
+trees_all$hsm.MPa <- trees_all$Pmin.MPa - trees_all$p50.MPa
+
+# meh <- trees_all[!duplicated(trees_all$sp), ]
+# meh <- meh[, c("sp", "mean_TLP_Mpa", "Pmin.MPa")]
+# meh$psi_Kmax_0.5 <- hydra$psi_Kmax_0.5[match(meh$sp, hydra$data.type)]
 #
 ##5c. add in elevation data ####
 elev <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/spatial_data/elevation/full_stem_elevation_2013.csv"))
@@ -955,6 +961,14 @@ trees_all$height.ln.m <- ifelse(trees_all$sp == "caco", (0.348+0.808*trees_all$d
 
 trees_all$height.m <- exp(trees_all$height.ln.m) #m, because these equations come from a plotting of log(DBH in cm) against log(height in m).
 
+#see mean of height changes
+ht_change <- trees_all %>%
+  group_by(tree) %>%
+  summarize(max(height.m) - min(height.m))
+
+ht_change <- ht_change[ht_change$`max(height.m) - min(height.m)` > 0, ]
+mean(ht_change$`max(height.m) - min(height.m)`)
+
 #cap values at max for different species.
 # heights_full <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
 # 
@@ -985,7 +999,7 @@ trees_all <- trees_all[trees_all$resist.value <=2,]
 ##5j. subset for either leaf hydraulic traits or biophysical ####
 trees_all_traits <- trees_all[complete.cases(trees_all), ]
 
-trees_all_bio <- trees_all[c("year", "sp", "tree", "resist.value", "elev.m", "distance.ln.m", "height.ln.m", "position_all")]
+trees_all_bio <- trees_all[c("year", "sp", "tree", "position", "resist.value", "elev.m", "distance.ln.m", "height.ln.m", "position_all")]
 trees_all_bio <- trees_all_bio[complete.cases(trees_all_bio), ]
 
 ##5k. make subsets for individual years, combine all to list ####
@@ -1545,7 +1559,7 @@ for (i in seq_along(model_df)){
 write.csv(summary_models, "tables_figures/results_full_models_combined_years.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
-best <- lmm_all[[7]]
+best <- lmm_all[[8]]
 coef(summary(best))[ , "Estimate"]
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
@@ -1560,8 +1574,8 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "(1|sp)")
-# effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "Chl_m2_per_g", "WD_g_per_cm3", "mean_TLP_Mpa", "p50.MPa", "p80.MPa", "year", "(1|sp/tree)")
+effects <- c("position", "elev.m", "distance.ln.m", "height.ln.m", "(1|sp)")
+# effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "Chl_m2_per_g", "WD_g_per_cm3", "mean_TLP_Mpa", "p50.MPa", "p80.MPa", "hsm.MPa", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -1582,7 +1596,7 @@ formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
 
 # create list of model outputs
 lmm_all <- lapply(formula_vec, function(x){
-  fit1 <- lmer(x, data = x1999, REML=FALSE, 
+  fit1 <- lmer(x, data = trees_all_bio, REML=FALSE, 
                control = lmerControl(optimizer ="Nelder_Mead"))
   return(fit1)
 })
