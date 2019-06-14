@@ -1576,7 +1576,7 @@ aic_top <- var_aic %>%
 #define response and effects
 response <- "resist.value"
 effects <- c("position", "elev.m", "distance.ln.m", "height.ln.m", "(1|sp)")
-# effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "Chl_m2_per_g", "WD_g_per_cm3", "mean_TLP_Mpa", "p50.MPa", "p80.MPa", "hsm.MPa", "year", "(1|sp/tree)")
+# effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "WD_g_per_cm3", "mean_TLP_Mpa", "p50.MPa", "p80.MPa", "hsm.MPa", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
