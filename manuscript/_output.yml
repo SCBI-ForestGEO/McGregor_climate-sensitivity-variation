@@ -1,4 +1,4 @@
 bookdown::gitbook: default
 
 bookdown::html_book:
-  theme: !expr sample(c("yeti", "united", "lumen"), 1)
+  theme: "lumen"
