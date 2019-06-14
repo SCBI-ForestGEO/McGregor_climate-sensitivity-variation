@@ -1,3 +1,0 @@
-# Results
-
-something something something

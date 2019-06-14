@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Tree size, exposure, and hydraulic traits interactively shape drought response in a temperate broadleaf forest" />
+<meta property="og:type" content="book" />
+
+
+<meta property="og:description" content="Article for Ian’s research during his time in Anderson-Teixeira lab" />
+<meta name="github-repo" content="manuscript" />
+
+<meta name="author" content="Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Valentine Herrmann, Neil Pederson, Lawren Sack, Joseph Zailaa, Krista Anderson-Teixeira" />
+
+
+
+<meta name="description" content="Article for Ian’s research during his time in Anderson-Teixeira lab">
+
+<title>Tree size, exposure, and hydraulic traits interactively shape drought response in a temperate broadleaf forest</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<!--bookdown:title:start-->
+<div id="header">
+<h1 class="title">Tree size, exposure, and hydraulic traits interactively shape drought response in a temperate broadleaf forest</h1>
+<h4 class="author"><em>Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Valentine Herrmann, Neil Pederson, Lawren Sack, Joseph Zailaa, Krista Anderson-Teixeira</em></h4>
+</div>
+<!--bookdown:title:end-->
+
+<!--bookdown:toc:start-->
+<div id="TOC">
+<ul>
+<li><a href="#abstract"><span class="toc-section-number">1</span> Abstract</a></li>
+<li><a href="#introduction"><span class="toc-section-number">2</span> Introduction</a></li>
+<li><a href="#methods"><span class="toc-section-number">3</span> Methods</a><ul>
+<li><a href="#data-collection"><span class="toc-section-number">3.1</span> Data Collection</a><ul>
+<li><a href="#biophysical-traits"><span class="toc-section-number">3.1.1</span> Biophysical traits</a></li>
+<li><a href="#leaf-hydraulic-traits"><span class="toc-section-number">3.1.2</span> Leaf Hydraulic Traits</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#results"><span class="toc-section-number">4</span> Results</a><ul>
+<li><a href="#biophysical-models"><span class="toc-section-number">4.1</span> Biophysical Models</a></li>
+</ul></li>
+<li><a href="#discussion"><span class="toc-section-number">5</span> Discussion</a></li>
+<li><a href="#conclusion"><span class="toc-section-number">6</span> Conclusion</a></li>
+<li><a href="#references"><span class="toc-section-number">7</span> References</a></li>
+</ul>
+</div>
+<!--bookdown:toc:end-->
+
+<!--bookdown:body:start-->
+<!--chapter:end:index.Rmd-->
+<div id="abstract" class="section level1">
+<h1><span class="header-section-number">1</span> Abstract</h1>
+<p>something something something</p>
+<!--chapter:end:01-abstract.Rmd-->
+</div>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">2</span> Introduction</h1>
+<p>Understanding how and why trees respond to drought is critical to predicting forest drought responses and climate change feedbacks.</p>
+<p>Forests are diverse in terms of tree sizes and functional traits, and it is known that trees varying in size and functional traits respond differently to drought. Therefore, in order to understand whole-forest response to drought, we need to know how responses vary by tree size/ species. To do so, there are three fundamental questions that must be addressed:</p>
+<p><em>First, what drives the observed tendency for large trees to suffer more during drought?</em><br />
+Bennett et al. 2015 showed that in forests globally, large trees suffer greater growth reductions during drought. However, this analysis quantified tree size based on DBH, which has no direct mechanistic meaning. This study proposed two major mechanisms (besides insects): (1) inherently greater biophysical challenge of being tall; (2) greater exposure of the crowns of large trees. It is also expected that roots play a role. These hypotheses need to be tested.</p>
+<p><em>Second, how do species’ traits influence drought response?</em>
+Analyzed drought responses on the species level doesn’t get at mechanisms and is not feasible in diverse forests. The solution is a trait-based approach. Leaf hydraulic traits hold more promise than more commonly/ traditionally measured traits such as wood density and SLA (Medeiros et al.).</p>
+<p><em>Third, how do tree size and functional traits interact to influence drought response?</em>
+Its possible that pattern observed by Bennett et al. could be caused by smaller trees being more drought resistant. Alternatively, larger trees may have more drought-resistant traits.</p>
+<p><em>Questions &amp; Hypotheses</em></p>
+<p><strong>1. Why do larger trees suffer greater growth declines during drought?</strong></p>
+<p>1.0. Our forest displays the same trend as most forests globally (Bennett et al. 2015). (Note that Bennett et al. 2015 identified only one study on tree growth responses to drought in the Eastern US temperate deciduous biome. We know little about how tree size shapes drought response in this biome.)</p>
+<p>1.1. Height is a strong predictor of drought stress.</p>
+<pre><code>* P1.1-Drought response increases with height at time of drought.</code></pre>
+<p>1.2. Large trees suffer more during drought because of greater exposure (to radiation, wind, etc.)–either in relation to neighboring trees or because of position on landscape.</p>
+<pre><code>* P1.2a- Trees currently in a dominant canopy position suffered more during drought. </code></pre>
+<p>1.3. Rooting volume/depth relative to water sources are critical in drought response. Effects of drought on larger trees are mediated by the fact that large trees have better access to water.</p>
+<pre><code> * P1.3a- drought response increases with elevation and/or distance from stream
+ * P1.3b- There is a dbh\*elev interaction, elevation (relative to stream?) matters less for big trees with larger (and potentially deeper) root system.</code></pre>
+<p><strong>2.Do species functional traits predict drought response?</strong></p>
+<pre><code> * P2.1- TLP correlates negatively with drought resistance (NEVER tested), 
+ * P2.2- diffuse porous species are more sensitive than ring porous (previously observed in eastern dec forests- Elliot et al. 2015, Friedrichs et al. 2009)</code></pre>
+<p><strong>3.How are functional traits distributed across size classes, and how does this affect size-resistance relationship?</strong> (Reviewers of Bennett et al. 2015 suggested that larger trees may suffer more because larger trees tend to be species with more drought-sensitive traits. <em>Conversely, larger size classes may have more drought-resistant species because of greater biophysical challenges.</em></p>
+<pre><code> * P3.1a- TLP is lower (larger negative) in smaller/ understory trees
+ * P3.1a- diffuse porous species more common in understory </code></pre>
+<p><em>For the above, I think it would be more interesting to test the converse prediction, which appears to be true. However, it should sample from tree population based on census data, not cores.</em></p>
+<pre><code> * P3.2- Inclusion of TLP / rp in model eliminates (or significantly reduces) effect of tree size.</code></pre>
+<!--chapter:end:02-intro.Rmd-->
+</div>
+<div id="methods" class="section level1">
+<h1><span class="header-section-number">3</span> Methods</h1>
+<p>Research was conducted at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA, with cores taken from trees on the 25.6 ha ForestGEO (Global Earth Observatory) study plot <span class="citation">(Anderson‐Teixeira et al. <a href="#ref-andersonteixeira_ctfs-forestgeo:_2015" role="doc-biblioref">2015</a>)</span>. SCBI (38°53’36.6“N, 78° 08’43.4”W) <span class="citation">(Gonzalez‐Akre et al. <a href="#ref-gonzalezakre_patterns_2016" role="doc-biblioref">2016</a>)</span> is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park. Primary forest composition in the plot is oak-hickory, while elevations range from 273-338m above sea level <span class="citation">(Gonzalez‐Akre et al. <a href="#ref-gonzalezakre_patterns_2016" role="doc-biblioref">2016</a>)</span> with a topographic relief of 65m (Bourg et al 2013).</p>
+<div id="data-collection" class="section level2">
+<h2><span class="header-section-number">3.1</span> Data Collection</h2>
+<p>Cores were collected in 2010-2011 or 2016-2017 from a breast height of 1.3m using a 5mm increment borer. Live trees were selected at random from each species in 2010-2011, with at least 30 of those trees having a diameter at breast height (DBH) of at least 10cm (Bourg et al 2013). In 2016-2017, cores were collected from all dead trees found in the annual mortality census <span class="citation">(Gonzalez‐Akre et al. <a href="#ref-gonzalezakre_patterns_2016" role="doc-biblioref">2016</a>)</span>. They were sanded, measured, and standardized in the same process as seen in Helcoski et al 2019.</p>
+<p>Cores were then split into canopy and subcanopy groupings and processed with ARSTAN. Using CRU data <strong>with Valentine’s quilts for each grouping</strong>, it was found that all climate variables tested were significant by tree position when using a linear mixed model (<strong>this was done early-on, included here because unsure if will keep for full analysis</strong>).</p>
+<p>To determine focus drought years, we used the pointRes package in R (version 3.5.2) to determine resilience metrics. Specifically, we calculated pointer years (main drought years) if &gt;50% of the cored trees experienced &lt;30% growth in a year compared to the past 5 years. The top 6 pointer years were compared with PDSI (Palmer Drought Severity Index) values for the region, obtained from NOAA. For ease of research, we then took the top three pointer years of 1964-1966 (resistance metric averaged due to a single, prolonged drought), 1977, and 1999.</p>
+<p>Individual cores were then grouped by canopy or subcanopy before being processed by ARSTAN, and species inclusion in the study was dependent on the robustness of each species’ cores. In total, 14 species had cores that were considered complete and usable, as seen in Table 1.</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Species</strong></th>
+<th><strong>n_cores.canopy</strong></th>
+<th><strong>n_cores.subcanopy</strong></th>
+<th><strong>included</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>Carya cordiformis</em></td>
+<td>2</td>
+<td>11</td>
+<td>sub-canopy only</td>
+</tr>
+<tr class="even">
+<td><em>Carya glabra</em></td>
+<td>9</td>
+<td>22</td>
+<td>yes</td>
+</tr>
+<tr class="odd">
+<td><em>Carya ovalis</em></td>
+<td>9</td>
+<td>14</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td><em>Carya tomentosa</em></td>
+<td>0</td>
+<td>13</td>
+<td>sub-canopy only</td>
+</tr>
+<tr class="odd">
+<td><em>Fagus grandifolia</em></td>
+<td>7</td>
+<td>73</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td><em>Fraxinus americana</em></td>
+<td>20</td>
+<td>42</td>
+<td>yes</td>
+</tr>
+<tr class="odd">
+<td><em>Fraxinus nigra</em></td>
+<td>1</td>
+<td>11</td>
+<td>sub-canopy only</td>
+</tr>
+<tr class="even">
+<td><em>Juglans nigra</em></td>
+<td>22</td>
+<td>9</td>
+<td>yes</td>
+</tr>
+<tr class="odd">
+<td><em>Liriodendron tulipifera</em></td>
+<td>38</td>
+<td>60</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td><em>Pinus strobus</em></td>
+<td>14</td>
+<td>21</td>
+<td>no</td>
+</tr>
+<tr class="odd">
+<td><em>Quercus alba</em></td>
+<td>38</td>
+<td>23</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td><em>Quercus prinus</em></td>
+<td>27</td>
+<td>32</td>
+<td>yes</td>
+</tr>
+<tr class="odd">
+<td><em>Quercus rubra</em></td>
+<td>43</td>
+<td>26</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td><em>Quercus velutina</em></td>
+<td>54</td>
+<td>23</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<div id="biophysical-traits" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Biophysical traits</h3>
+<p>Canopy classes were observed in the field during the growing season of 2018 following the crown position protocol from <span class="citation">(Jennings, Brown, and Sheil <a href="#ref-jennings_assessing_1999" role="doc-biblioref">1999</a>)</span>, whereby positions were ranked as dominant, codominant, intermediate, or suppressed. For ease of core analysis, these labels were condensed to canopy (including dominant and codominant) and subcanopy (intermediate and suppressed).</p>
+<p>Elevation for the trees was extracted from a USGS DEM in ArcMap. Distance to water was calculated as the shortest distance in meters between each individual tree and the major streams running through the ForestGEO plot.</p>
+<p>Height data for trees was collected from several researchers at SCBI from 2012 to 2019, with methods including manual <span class="citation">(Stovall, Anderson-Teixeira, and Shugart <a href="#ref-stovall_assessing_2018" role="doc-biblioref">2018</a><a href="#ref-stovall_assessing_2018" role="doc-biblioref">b</a>, NEON)</span>, digital rangefinders <span class="citation">(Anderson‐Teixeira et al. <a href="#ref-andersonteixeira_ctfs-forestgeo:_2015" role="doc-biblioref">2015</a>)</span>, and automatic LiDAR <span class="citation">(Stovall, Anderson-Teixeira, and Shugart <a href="#ref-stovall_terrestrial_2018" role="doc-biblioref">2018</a><a href="#ref-stovall_terrestrial_2018" role="doc-biblioref">a</a>)</span>. Rangefinders either used the tangent method (Impulse 200LR, TruPulse 360R) or the sine method (Nikon ForestryPro) for calculating heights. The associated errors for using either method were acknowledged <span class="citation">(Larjavaara and Muller‐Landau <a href="#ref-larjavaara_measuring_2013" role="doc-biblioref">2013</a>)</span>. Log-log, species-specific regression equations were developed, which were used to calculate heights of the study trees. For species that didn’t have enough height measurements, heights were calculated from equations derived from all species in the study.</p>
+<p>Equations required the DBH in each individual drought year. As part of the ForestGEO five-year census, there are DBH(diameter at breast height) measurements for all stems. Using the data from 2008 and a dataset of bark thickness for the plot collected from previous studies, we devised an equation to retroactively calculate DBH for all trees,</p>
+<p><code>diam_nobark_1999 = dbh2008 - 2*(bark.depth2008) - 2*(sum(ring.width1999:ring.width2008))</code></p>
+<p>First, we generated log-log regression equations for bark thickness based on DBH, and then determined mean bark thickness per species. Ring widths were determined from the processed cores, and once the diameter without bark was calculated for a certain year, we added the mean bark thickness from the regression equations.</p>
+</div>
+<div id="leaf-hydraulic-traits" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Leaf Hydraulic Traits</h3>
+<p>Hydraulic traits were collected from SCBI and are summarized in Table 1.</p>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Trait
+</th>
+<th style="text-align:left;">
+Unit
+</th>
+<th style="text-align:left;">
+Source
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Ring Porosity
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+<span class="citation">(Anderson‐Teixeira et al. <a href="#ref-andersonteixeira_ctfs-forestgeo:_2015" role="doc-biblioref">2015</a>)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Percent Leaf Area
+</td>
+<td style="text-align:left;">
+%
+</td>
+<td style="text-align:left;">
+Kunert et al 2019 [in prep]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Leaf Mass Area
+</td>
+<td style="text-align:left;">
+g/m2
+</td>
+<td style="text-align:left;">
+Kunert et al 2019 [in prep]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chlorophyll
+</td>
+<td style="text-align:left;">
+m2/g
+</td>
+<td style="text-align:left;">
+Kunert et al 2019 [in prep]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Wood density
+</td>
+<td style="text-align:left;">
+g/cm3
+</td>
+<td style="text-align:left;">
+Kunert et al 2019 [in prep]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TLP
+</td>
+<td style="text-align:left;">
+MPa
+</td>
+<td style="text-align:left;">
+Kunert et al 2019 [in prep]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+P50
+</td>
+<td style="text-align:left;">
+MPa
+</td>
+<td style="text-align:left;">
+Kunert et al 2019 [in prep]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+P80
+</td>
+<td style="text-align:left;">
+MPa
+</td>
+<td style="text-align:left;">
+Kunert et al 2019 [in prep]
+</td>
+</tr>
+</tbody>
+</table>
+<p>After the data was collected, linear mixed models were run with the resistance value of each tree for each pointer year (determined from the pointRes package) as the response variable. Traits and other geographic data were used as independent variables.</p>
+<!--chapter:end:03-methods.Rmd-->
+</div>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1><span class="header-section-number">4</span> Results</h1>
+<div id="biophysical-models" class="section level2">
+<h2><span class="header-section-number">4.1</span> Biophysical Models</h2>
+<p>Crown position
+When including only biophysical traits, trees’ resistance value (on a per-species basis) is explained best by crown position and height, with codominant trees being the most resistant to drought. This follows on work done by <span class="citation">(Bennett et al. <a href="#ref-bennett_larger_2015" role="doc-biblioref">2015</a>)</span> [and others?] which show that larger trees suffer more during drought, and confirms that this susceptibility can be seen in tree ring analyses.</p>
+<p>From <span class="citation">(Kannenberg et al. <a href="#ref-kannenberg_linking_2019" role="doc-biblioref">2019</a>)</span>, species with diffuse porous wood anatomy (<em>Liriodendron</em>) are more sensitive to drought, whereas ring-porous are not as affected because they more easily rebuild structures for hydraulic conductivity. This paper mentions it would be good to have this data with respect to latent affects from drought.</p>
+<!--chapter:end:04-results.Rmd-->
+</div>
+</div>
+<div id="discussion" class="section level1">
+<h1><span class="header-section-number">5</span> Discussion</h1>
+<p><em>1. paragraph summarizing main results–&gt; primary conclusions</em></p>
+<p>We partially supported the hypothesis that crown exposure makes trees more vulnerable to drought. Co-dominant trees had the highest drought resistance. Dominant trees had lower resistance, likely because they are the most exposed. Other studies have found clear evidence of greater drought sensitivity in trees with exposed crowns (e.g., <span class="citation">(Suarez, Ghermandi, and Kitzberger <a href="#ref-suarez_factors_2004" role="doc-biblioref">2004</a>)</span>; <span class="citation">(Scharnweber et al. <a href="#ref-scharnweber_confessions_2019" role="doc-biblioref">2019</a>)</span>). At the same time, intermediate and suppressed trees had even lower resistance. This indicates that other mechanisms such as competition or rooting depth were important. (Also note that our study design was not ideal for testing the role of canopy position. Current canopy position is a conservative separator of canopy position: trees may currently be in more dominant positions than they were at the time, but backwards movement is unlikely. This would bias against finding a signficant effect for H1.2. Height may be a more reliable predictor of past canopy position than is current canopy position, and explains a portion of variation in canopy position.)</p>
+<p>Proximity to stream–either vertical (elev) or horizontal (distance)– did not increase drought resistance; rather, it tended to decrease resistance (H1.3a). This may be because individuals growing further from water are acclimatized to drier conditions. However, the increase in drought resistance with distance from stream was less for small than large trees (H1.3b), indicating a potential importance of root depth/volume in conferring drought resistance.</p>
+<!--chapter:end:05-discussion.Rmd-->
+</div>
+<div id="conclusion" class="section level1">
+<h1><span class="header-section-number">6</span> Conclusion</h1>
+<p>words words words</p>
+<!--chapter:end:06-conclusion.Rmd-->
+</div>
+<div id="references" class="section level1">
+<h1><span class="header-section-number">7</span> References</h1>
+<p>TRY database - ONLY INCLUDE IF USING SLA
+Kattge, J., S. Diaz, S. Lavorel, I. C. Prentice, P. Leadley, G. Boenisch, E. Garnier, M. Westoby, P. B. Reich, I. J. Wright, J. H. C. Cornelissen, C. Violle, S. P. Harrison, P. M. v. Bodegom, M. Reichstein, B. J. Enquist, N. A. Soudzilovskaia, D. D. Ackerly, M. Anand, O. Atkin, M. Bahn, T. R. Baker, D. Baldocchi, R. Bekker, C. Blanco, B. Blonder, W. J. Bond, R. Bradstock, D. E. Bunker, F. Casanoves, J. Cavender-Bares, J. Q. Chambers, F. S. Chapin, J. Chave, D. Coomes, W. K. Cornwell, J. M. Craine, B. H. Dobrin, L. Duarte, W. Durka, J. Elser, G. Esser, M. Estiarte, W. F. Fagan, J. Fang, F. Fernandez-Mendez, A. Fidelis, B. Finegan, O. Flores, H. Ford, D. Frank, G. T. Freschet, N. M. Fyllas, R. V. Gallagher, W. A. Green, A. G. Gutierrez, T. Hickler, S. Higgins, J. G. Hodgson, A. Jalili, S. Jansen, C. Joly, A. J. Kerkhoff, D. Kirkup, K. Kitajima, M. Kleyer, S. Klotz, J. M. H. Knops, K. Kramer, I. Kuehn, H. Kurokawa, D. Laughlin, T. D. Lee, M. Leishman, F. Lens, T. Lenz, S. L. Lewis, J. Lloyd, J. Llusia, F. Louault, S. Ma, M. D. Mahecha, P. Manning, T. Massad, B. Medlyn, J. Messier, A. T. Moles, S. C. Mueller, K. Nadrowski, S. Naeem, U. Niinemets, S. Noellert, A. Nueske, R. Ogaya, J. Oleksyn, V. G. Onipchenko, Y. Onoda, J. Ordonez, G. Overbeck, W. A. Ozinga, S. Patino, S. Paula, J. G. Pausas, J. Penuelas, O. L. Phillips, V. Pillar, H. Poorter, L. Poorter, P. Poschlod, A. Prinzing, R. Proulx, A. Rammig, S. Reinsch, B. Reu, L. Sack, B. Salgado-Negret, J. Sardans, S. Shiodera, B. Shipley, A. Siefert, E. Sosinski, J.-F. Soussana, E. Swaine, N. Swenson, K. Thompson, P. Thornton, M. Waldram, E. Weiher, M. White, S. White, S. J. Wright, B. Yguel, S. Zaehle, A. E. Zanne, C. Wirth. 2011. TRY - a global database of plant traits. Global Change Biology, 17:2905-2935.</p>
+<!--chapter:end:07-references.Rmd-->
+<div id="refs" class="references">
+<div id="ref-andersonteixeira_ctfs-forestgeo:_2015">
+<p>Anderson‐Teixeira, Kristina J., Stuart J. Davies, Amy C. Bennett, Erika B. Gonzalez‐Akre, Helene C. Muller‐Landau, S. Joseph Wright, Kamariah Abu Salim, et al. 2015. “CTFS-ForestGEO: A Worldwide Network Monitoring Forests in an Era of Global Change.” <em>Global Change Biology</em> 21 (2): 528–49. <a href="https://doi.org/10.1111/gcb.12712">https://doi.org/10.1111/gcb.12712</a>.</p>
+</div>
+<div id="ref-bennett_larger_2015">
+<p>Bennett, Amy C., Nathan G. McDowell, Craig D. Allen, and Kristina J. Anderson-Teixeira. 2015. “Larger Trees Suffer Most During Drought in Forests Worldwide.” <em>Nature Plants</em> 1 (10): 15139. <a href="https://doi.org/10.1038/nplants.2015.139">https://doi.org/10.1038/nplants.2015.139</a>.</p>
+</div>
+<div id="ref-gonzalezakre_patterns_2016">
+<p>Gonzalez‐Akre, Erika, Victoria Meakem, Cheng-Yin Eng, Alan J. Tepley, Norman A. Bourg, William McShea, Stuart J. Davies, and Kristina Anderson‐Teixeira. 2016. “Patterns of Tree Mortality in a Temperate Deciduous Forest Derived from a Large Forest Dynamics Plot.” <em>Ecosphere</em> 7 (12): e01595. <a href="https://doi.org/10.1002/ecs2.1595">https://doi.org/10.1002/ecs2.1595</a>.</p>
+</div>
+<div id="ref-jennings_assessing_1999">
+<p>Jennings, S. B., N. D. Brown, and D. Sheil. 1999. “Assessing Forest Canopies and Understorey Illumination: Canopy Closure, Canopy Cover and Other Measures.” <em>Forestry: An International Journal of Forest Research</em> 72 (1): 59–74. <a href="https://doi.org/10.1093/forestry/72.1.59">https://doi.org/10.1093/forestry/72.1.59</a>.</p>
+</div>
+<div id="ref-kannenberg_linking_2019">
+<p>Kannenberg, Steven A., Kimberly A. Novick, M. Ross Alexander, Justin T. Maxwell, David J. P. Moore, Richard P. Phillips, and William R. L. Anderegg. 2019. “Linking Drought Legacy Effects Across Scales: From Leaves to Tree Rings to Ecosystems.” <em>Global Change Biology</em> 0 (ja). <a href="https://doi.org/10.1111/gcb.14710">https://doi.org/10.1111/gcb.14710</a>.</p>
+</div>
+<div id="ref-larjavaara_measuring_2013">
+<p>Larjavaara, Markku, and Helene C. Muller‐Landau. 2013. “Measuring Tree Height: A Quantitative Comparison of Two Common Field Methods in a Moist Tropical Forest.” <em>Methods in Ecology and Evolution</em> 4 (9): 793–801. <a href="https://doi.org/10.1111/2041-210X.12071">https://doi.org/10.1111/2041-210X.12071</a>.</p>
+</div>
+<div id="ref-scharnweber_confessions_2019">
+<p>Scharnweber, Tobias, Lisa Heinze, Roberto Cruz-García, Marieke van der Maaten-Theunissen, and Martin Wilmking. 2019. “Confessions of Solitary Oaks: We Grow Fast but We Fear the Drought.” <em>Dendrochronologia</em> 55 (June): 43–49. <a href="https://doi.org/10.1016/j.dendro.2019.04.001">https://doi.org/10.1016/j.dendro.2019.04.001</a>.</p>
+</div>
+<div id="ref-stovall_terrestrial_2018">
+<p>Stovall, Atticus E. L., Kristina J. Anderson-Teixeira, and Herman H. Shugart. 2018a. “Terrestrial LiDAR-Derived Non-Destructive Woody Biomass Estimates for 10 Hardwood Species in Virginia.” <em>Data in Brief</em> 19 (August): 1560–9. <a href="https://doi.org/10.1016/j.dib.2018.06.046">https://doi.org/10.1016/j.dib.2018.06.046</a>.</p>
+</div>
+<div id="ref-stovall_assessing_2018">
+<p>———. 2018b. “Assessing Terrestrial Laser Scanning for Developing Non-Destructive Biomass Allometry.” <em>Forest Ecology and Management</em> 427 (November): 217–29. <a href="https://doi.org/10.1016/j.foreco.2018.06.004">https://doi.org/10.1016/j.foreco.2018.06.004</a>.</p>
+</div>
+<div id="ref-suarez_factors_2004">
+<p>Suarez, Maria Laura, Luciana Ghermandi, and Thomas Kitzberger. 2004. “Factors Predisposing Episodic Drought-Induced Tree Mortality in Nothofagus– Site, Climatic Sensitivity and Growth Trends.” <em>Journal of Ecology</em> 92 (6): 954–66. <a href="https://doi.org/10.1111/j.1365-2745.2004.00941.x">https://doi.org/10.1111/j.1365-2745.2004.00941.x</a>.</p>
+</div>
+</div>
+</div>
+<!--bookdown:body:end-->
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

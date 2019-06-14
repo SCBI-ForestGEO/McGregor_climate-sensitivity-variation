@@ -1,3 +1,4 @@
+
 # Introduction
 
 Understanding how and why trees respond to drought is critical to predicting forest drought responses and climate change feedbacks.

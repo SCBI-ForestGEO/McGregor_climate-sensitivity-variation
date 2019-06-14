@@ -1,9 +1,11 @@
-book_filename: "Ian_Research"
+book_filename: "McGregor et al 2019"
 delete_merged_file: true
+before_chapter_script: "script1.R"
 language:
   ui:
     chapter_name: "Chapter "
 repo: https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/tree/master/manuscript/outline
+edit: https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/tree/master/manuscript/outline/%s
 output_dir: "output_files"
 rmd_files: ["index.Rmd", "01-abstract.Rmd", "02-intro.Rmd", "03-methods.Rmd",
             "04-results.Rmd", "05-discussion.Rmd", "06-conclusion.Rmd", "07-references.Rmd"]
