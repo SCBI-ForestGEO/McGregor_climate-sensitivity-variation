@@ -533,7 +533,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, mean_SPAD, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEOX3ZOPZRRBOJXJXUC5AKN6W"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEMR4YV3HMJYVS3N3325BTQ4U"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,24,26,28)]
 
@@ -570,8 +570,9 @@ hydra <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/Hydr
 trees_all$p50.MPa <- hydra$psi_0.5_kl50[match(trees_all$sp, hydra$data.type)]
 trees_all$p80.MPa <- hydra$psi_0.5_kl80[match(trees_all$sp, hydra$data.type)]
 
-trees_all$Pmin.MPa <- 1.1122*trees_all$mean_TLP_Mpa + 0.3849
-trees_all$hsm.MPa <- trees_all$Pmin.MPa - trees_all$p50.MPa
+#after review, we have decided to not focus on pmin or HSM
+# trees_all$Pmin.MPa <- 1.1122*trees_all$mean_TLP_Mpa + 0.3849
+# trees_all$hsm.MPa <- trees_all$Pmin.MPa - trees_all$p50.MPa
 
 # meh <- trees_all[!duplicated(trees_all$sp), ]
 # meh <- meh[, c("sp", "mean_TLP_Mpa", "Pmin.MPa")]
