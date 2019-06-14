@@ -13,7 +13,7 @@ library(data.table)
 ##4. Relative humidity: DP1.00098.001, avg = 1min or 30min
 ##5. Shortwave radiation: DP1.00022.001, avg = 1min or 30min
 
-#this command will load the data into R and collapse into one df (within a list).
+#the function "loadByProduct" will load the data into R and collapse into one df (within a list).
 #it will not download/store anything on the computer, but working with large dfs will run slowly. Hence, it is a good idea to look at the 30min avg first.
 
 dp <- data.frame("data" = c("SAAT", "wind", "biotemp", "RH", "SR"),
@@ -28,6 +28,7 @@ dp[] <- lapply(dp, as.character)
 
 #this loop for some reason isn't producing plotly graphs that will work, but everything else runs smoothly
 for (i in seq(along=1:5)){
+  dp$value <- as.character(dp$value)
   value <- dp$value[[i]]
   
   neon_tower <- loadByProduct(dpID=dp$id[[i]], 
@@ -35,8 +36,8 @@ for (i in seq(along=1:5)){
                 package="basic", avg=30, 
                 check.size = FALSE, 
                 #(use TRUE outside loop to see how big the dowloads are)
-                startdate="2018-05",
-                enddate="2018-08")
+                startdate="2017-05",
+                enddate="2017-08")
   
   neon_data <- neon_tower[[1]]
   neon_data_sub <- neon_data[colnames(neon_data) %in% c("verticalPosition", "startDateTime", value)]
@@ -69,9 +70,11 @@ biotemp_plot
 RH_plot
 SR_plot
 
-neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, nchar(neon_data_sub$startDateTime)-0)
+
 
 #determine threshold for sunny/cloudy day
+neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, nchar(neon_data_sub$startDateTime)-0)
+
 q <- neon_data_sub %>%
       group_by(day) %>%
       summarize(total_Rad = sum(shortRadMean))
