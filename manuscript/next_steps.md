@@ -3,10 +3,12 @@
 ## Data
 1. We officially have all the data that we're going to be using. The last step involves figuring out how to parse the threshold between sunny and cloudy days based on daily solar radiation.
 
-- [ ] search more for any precedents, but don't take a lot of time on this. If anything, we can assign our own threshold (median looking over the timeframe, or looking at the average of each month)
-- the whole point is to think biologically about this and what makes sense, in other words, what can be sufficiently and logically argued 
+- [X] search more for any precedents, but don't take a lot of time on this. If anything, we can assign our own threshold (median looking over the timeframe, or looking at the average of each month)
+- [X] get threshold / figure out how to split by sun/cloud
+  - the whole point is to think biologically about this and what makes sense, in other words, what can be sufficiently and logically argued 
+  - \[Edit 17 June] we have decided to forego this step for the time being 
 
-- [ ] when above is done, get daily mean of other variables, split by sun/cloud
+- [ ] Get daily mean of other variables, and make graphs
 - Krista mentioned that we should be doing monthly mean, and this would become a figure where like you have a different line for each month with height on the y-axis
 
 ## Figures
