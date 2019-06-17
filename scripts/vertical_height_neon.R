@@ -40,7 +40,7 @@ for (i in seq(along=1:5)){
                 enddate="2018-08")
   
   neon_data <- neon_tower[[1]]
-  neon_data_sub <- neon_data[colnames(neon_data) %in% c("verticalPosition", "startDateTime", value, "dirRadMean")]
+  neon_data_sub <- neon_data[colnames(neon_data) %in% c("verticalPosition", "startDateTime", value, "dirRadMean", "sunPres")]
   
   #reformat dates
   # neon_data_sub$startDateTime <- ymd_hms(as.character(neon_data_sub$startDateTime))
@@ -72,19 +72,23 @@ SR_plot
 
 
 
-#determine threshold for sunny/cloudy day
+#determine threshold for sunny/cloudy day ####
 neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, nchar(neon_data_sub$startDateTime)-0)
 
 q <- neon_data_sub %>%
       group_by(day) %>%
-      summarize(total_difRad = sum(difRadMean), total_dirRad = sum(dirRadMean, na.rm=TRUE))
+      summarize(mean_difRad = mean(difRadMean, na.rm=TRUE), mean_dirRad = mean(dirRadMean, na.rm=TRUE))
+
+q <- neon_data_sub %>%
+  group_by(day) %>%
+  summarize(mean_sun = sum(sunPres, na.rm=TRUE))
 
 q1 <- q[c(1,2)]
 q1$type <- "difRad"
-setnames(q1, old="total_difRad", new="measure")
+setnames(q1, old="mean_difRad", new="measure")
 q2 <- q[c(1,3)]
 q2$type <- "dirRad"
-setnames(q2, old="total_dirRad", new="measure")
+setnames(q2, old="mean_dirRad", new="measure")
 q3 <- rbind(q1,q2)
 
 
@@ -99,18 +103,17 @@ wind <- neon_data_sub %>%
         group_by(month, verticalPosition) %>%
         summarize(total_ws = mean(windSpeedMean, na.rm=TRUE))
 
+#base ggplot, all months on same graph
 wind$month_f <- factor(wind$month, levels=c("May", "June", "July", "August"))
-ggplot(wind, aes(verticalPosition)) +
-  geom_line(data=wind[wind$month == "May", ], aes(y=total_ws), color="blue", size = 1) +
-  geom_line(data=wind[wind$month == "June", ], aes(y=total_ws), color=" dark green", size = 1) +
-  geom_line(data=wind[wind$month == "July", ], aes(y=total_ws), color="red", size = 1) +
-  geom_line(data=wind[wind$month == "August", ], aes(y=total_ws), color="orange", size = 1) +
-  xlab("Height (m)") +
-  ylab("Mean windspeed 2018 (m/s)") +
-  facet_grid(.~month_f) +
+p <- ggplot(wind) +
+  geom_line(aes(x = verticalPosition, y = total_ws, color = month_f), size = 1) +
+  scale_color_manual(values = c("orange", "red", "dark green", "blue"), name = "Month") +
+  geom_point(aes(x = verticalPosition, y = total_ws, color = month_f)) +
+  labs(title = "Mean monthly windspeed 2018", x = "Height (m)", y = "Windspeed (m/s)") +
   theme_grey()
 
-
+#graph in split sections
+p + facet_grid(.~month_f)
 
 # other small things ####
 boxplot(q$total_Rad)
