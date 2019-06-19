@@ -26,8 +26,10 @@ date <- data.frame("year" = c(rep(2018, 4), rep(2017, 4), rep(2016, 4), rep(2015
 
 dp[] <- lapply(dp, as.character)
 
+
 #this loop for some reason isn't producing plotly graphs that will work, but everything else runs smoothly
-for (i in seq(along=1:5)){
+neon_vars <- list()
+for (i in seq(along=1:4)){ #make 1:5 if using radiation (cloud vs sun threshold)
   dp$value <- as.character(dp$value)
   value <- dp$value[[i]]
   
@@ -47,22 +49,68 @@ for (i in seq(along=1:5)){
   neon_data_sub$startDateTime <- as.character(neon_data_sub$startDateTime)
   neon_data_sub$startDateTime <- gsub("T", " ", neon_data_sub$startDateTime)
   neon_data_sub$startDateTime <- as.POSIXct(neon_data_sub$startDateTime, format = "%Y-%m-%d %H:%M:%OS")
+
+  ## make consolidated graph over different months for each variable ####
+  neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, nchar(neon_data_sub$startDateTime)-0)
+  neon_data_sub$month <- NA
+  neon_data_sub$month <- ifelse(grepl("05", neon_data_sub$day), "May",
+                        ifelse(grepl("06", neon_data_sub$day), "June",
+                         ifelse(grepl("07", neon_data_sub$day), "July", "August")))
   
-  #graph with plotly
-  y <- list(title = value)
+  #the 10m air temperature values are completely off, and stop at 19 May 2018. The sensor is broken and hasn't been fixed
+  if(value == "tempSingleMean"){
+    neon_data_sub$tempSingleMean <- ifelse(neon_data_sub$verticalPosition == 10, NA, neon_data_sub$tempSingleMean)
+  }
   
-  assign(paste0(dp$data[[i]], "_plot"), 
-         plot_ly(data = neon_data_sub, x = ~startDateTime, y = ~neon_data_sub[, value], type = "scatter", color = ~verticalPosition, mode = "markers") %>%
-           layout(yaxis = y))
+  #want to preserve the dfs, so put them in a list, then make a generic new_df
+  neon_vars[[i]] <- neon_data_sub
+  names(neon_vars)[i] <- paste0("neon_", dp$data[[i]])
   
-  #graph with ggplot
-  neon_data_sub$verticalPosition <- as.character(neon_data_sub$verticalPosition)
-  assign(paste0(dp$data[[i]], "_graph"), 
-         ggplot(data = neon_data_sub) +
-           aes_string(x = colnames(neon_data_sub)[2], y = colnames(neon_data_sub)[3]) +
-           geom_point(aes(group=verticalPosition, color=verticalPosition)) +
-           theme_minimal())
+  #this doesn't
+  data_analy <- neon_data_sub %>%
+    group_by(month, verticalPosition) %>%
+    summarize(test = mean(neon_data_sub[[3]], na.rm=TRUE))
+  
+  #this works
+  neon_data_sub %>% 
+    group_by(month, verticalPosition) %>% 
+    summarize(test = mean(tempSingleMean, na.rm=TRUE))
+  
+  #base ggplot, all months on same graph
+  neon_vars[[i]]$month_f <- factor(neon_vars[[i]]$month, levels=c("May", "June", "July", "August"))
+  p <- ggplot(neon_vars[[i]]) +
+    geom_line(aes(x = verticalPosition, y = colnames(neon_vars[[i]][3]), color = month_f), size = 1) +
+    scale_color_manual(values = c("orange", "red", "dark green", "blue"), name = "Month") +
+    geom_point(aes(x = verticalPosition, y = colnames(neon_vars[[i]][3]), color = month_f)) +
+    labs(title = "Mean monthly windspeed 2018", x = "Height (m)", y = "Windspeed (m/s)") +
+    theme_grey()
+  
+  #graph in split sections
+  p + facet_grid(.~month_f)
+  
+  wind <- neon_data_sub %>%
+    group_by(month, verticalPosition) %>%
+    summarize(total_ws = mean(windSpeedMean, na.rm=TRUE))
+  
+  
+  
+  
 }
+
+#graph with plotly
+y <- list(title = value)
+
+assign(paste0(dp$data[[i]], "_plot"), 
+       plot_ly(data = neon_data_sub, x = ~startDateTime, y = ~neon_data_sub[, value], type = "scatter", color = ~verticalPosition, mode = "markers") %>%
+         layout(yaxis = y))
+
+#graph with ggplot
+neon_data_sub$verticalPosition <- as.character(neon_data_sub$verticalPosition)
+assign(paste0(dp$data[[i]], "_graph"), 
+       ggplot(data = neon_data_sub) +
+         aes_string(x = colnames(neon_data_sub)[2], y = colnames(neon_data_sub)[3]) +
+         geom_point(aes(group=verticalPosition, color=verticalPosition)) +
+         theme_minimal())
 
 SAAT_plot
 wind_plot
@@ -70,7 +118,7 @@ biotemp_plot
 RH_plot
 SR_plot
 
-
+##make this below into loop
 
 #determine threshold for sunny/cloudy day ####
 neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, nchar(neon_data_sub$startDateTime)-0)
@@ -92,28 +140,7 @@ setnames(q2, old="mean_dirRad", new="measure")
 q3 <- rbind(q1,q2)
 
 
-## make consolidated graph over different months for each variable ####
-neon_data_sub$month <- NA
-neon_data_sub$month <- ifelse(grepl("05", neon_data_sub$day), "May",
-                        ifelse(grepl("06", neon_data_sub$day), "June",
-                        ifelse(grepl("07", neon_data_sub$day), "July",
-                        ifelse(grepl("08", neon_data_sub$day), "August", 
-                               neon_data_sub$month))))
-wind <- neon_data_sub %>%
-        group_by(month, verticalPosition) %>%
-        summarize(total_ws = mean(windSpeedMean, na.rm=TRUE))
 
-#base ggplot, all months on same graph
-wind$month_f <- factor(wind$month, levels=c("May", "June", "July", "August"))
-p <- ggplot(wind) +
-  geom_line(aes(x = verticalPosition, y = total_ws, color = month_f), size = 1) +
-  scale_color_manual(values = c("orange", "red", "dark green", "blue"), name = "Month") +
-  geom_point(aes(x = verticalPosition, y = total_ws, color = month_f)) +
-  labs(title = "Mean monthly windspeed 2018", x = "Height (m)", y = "Windspeed (m/s)") +
-  theme_grey()
-
-#graph in split sections
-p + facet_grid(.~month_f)
 
 # other small things ####
 boxplot(q$total_Rad)
