@@ -5,6 +5,7 @@ library(plotly)
 library(lubridate)
 library(dplyr)
 library(data.table)
+library(gridExtra)
 
 #traits from NEON
 ##1. single aspirated air temp: DP1.00002.001, avg = 1min or 30min
@@ -18,13 +19,15 @@ library(data.table)
 
 dp <- data.frame("data" = c("SAAT", "wind", "biotemp", "RH", "SR"),
                  "id" = c("DP1.00002.001", "DP1.00001.001", "DP1.00005.001", "DP1.00098.001", "DP1.00014.001"),
-                 "value" = c("tempSingleMean", "windSpeedMean", "bioTempMean", "RHMean", "difRadMean"))
+                 "value" = c("tempSingleMean", "windSpeedMean", "bioTempMean", "RHMean", "difRadMean"),
+                 "ylabs" = c("Mean Air Temperature (C)", "Mean Windspeed (m/s)", "Mean Infrared Biological Temperature (C)", "Relative Humidity", "Mean shortwave downward radiation (W/m2)"))
 
 date <- data.frame("year" = c(rep(2018, 4), rep(2017, 4), rep(2016, 4), rep(2015, 4)),
                     "month" = c(rep(5:8, 4)))
 
 
 dp[] <- lapply(dp, as.character)
+
 
 
 #this loop for some reason isn't producing plotly graphs that will work, but everything else runs smoothly
@@ -66,36 +69,29 @@ for (i in seq(along=1:4)){ #make 1:5 if using radiation (cloud vs sun threshold)
   neon_vars[[i]] <- neon_data_sub
   names(neon_vars)[i] <- paste0("neon_", dp$data[[i]])
   
-  #this doesn't
-  data_analy <- neon_data_sub %>%
-    group_by(month, verticalPosition) %>%
-    summarize(test = mean(neon_data_sub[[3]], na.rm=TRUE))
-  
-  #this works
-  neon_data_sub %>% 
+  #get mean of values per month per verticalPosition
+  data_analy <- neon_data_sub %>% 
     group_by(month, verticalPosition) %>% 
-    summarize(test = mean(tempSingleMean, na.rm=TRUE))
-  
+    summarize(test = mean(get(value), na.rm=TRUE))
+
   #base ggplot, all months on same graph
-  neon_vars[[i]]$month_f <- factor(neon_vars[[i]]$month, levels=c("May", "June", "July", "August"))
-  p <- ggplot(neon_vars[[i]]) +
-    geom_line(aes(x = verticalPosition, y = colnames(neon_vars[[i]][3]), color = month_f), size = 1) +
+  data_analy$month_f <- factor(data_analy$month, levels=c("May", "June", "July", "August"))
+  
+  assign(paste0(dp$data[[i]], "_plot"),
+         ggplot(data_analy) +
+    geom_line(aes(x = verticalPosition, y = test, color = month_f), size = 1) +
     scale_color_manual(values = c("orange", "red", "dark green", "blue"), name = "Month") +
-    geom_point(aes(x = verticalPosition, y = colnames(neon_vars[[i]][3]), color = month_f)) +
-    labs(title = "Mean monthly windspeed 2018", x = "Height (m)", y = "Windspeed (m/s)") +
+    geom_point(aes(x = verticalPosition, y = test, color = month_f)) +
+    labs(x = "Height (m)", y = dp$ylabs[[i]]) +
     theme_grey()
-  
-  #graph in split sections
-  p + facet_grid(.~month_f)
-  
-  wind <- neon_data_sub %>%
-    group_by(month, verticalPosition) %>%
-    summarize(total_ws = mean(windSpeedMean, na.rm=TRUE))
-  
-  
-  
-  
+  )
 }
+
+#arrange all graphs together
+grid.arrange(SAAT_plot, wind_plot, RH_plot, biotemp_plot, nrow=2)
+
+
+
 
 #graph with plotly
 y <- list(title = value)
@@ -104,21 +100,12 @@ assign(paste0(dp$data[[i]], "_plot"),
        plot_ly(data = neon_data_sub, x = ~startDateTime, y = ~neon_data_sub[, value], type = "scatter", color = ~verticalPosition, mode = "markers") %>%
          layout(yaxis = y))
 
-#graph with ggplot
-neon_data_sub$verticalPosition <- as.character(neon_data_sub$verticalPosition)
-assign(paste0(dp$data[[i]], "_graph"), 
-       ggplot(data = neon_data_sub) +
-         aes_string(x = colnames(neon_data_sub)[2], y = colnames(neon_data_sub)[3]) +
-         geom_point(aes(group=verticalPosition, color=verticalPosition)) +
-         theme_minimal())
-
 SAAT_plot
 wind_plot
 biotemp_plot
 RH_plot
 SR_plot
 
-##make this below into loop
 
 #determine threshold for sunny/cloudy day ####
 neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, nchar(neon_data_sub$startDateTime)-0)
