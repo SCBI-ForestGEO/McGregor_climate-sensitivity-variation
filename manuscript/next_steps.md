@@ -8,7 +8,7 @@
   - the whole point is to think biologically about this and what makes sense, in other words, what can be sufficiently and logically argued 
   - \[Edit 17 June] we have decided to forego this step for the time being 
 
-- [ ] Get daily mean of other variables, and make graphs
+- [X] Get daily mean of other variables, and make graphs
 - Krista mentioned that we should be doing monthly mean, and this would become a figure where like you have a different line for each month with height on the y-axis
 
 ## Figures
