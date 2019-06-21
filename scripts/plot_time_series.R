@@ -42,9 +42,15 @@ clim <- clim[clim$year <= 2009 & clim$year >= 1901,]
 
 clim <- data.frame(apply(clim, 2, function(x) tapply(x, clim$year, mean)))
 
-drought_years <- clim$year[which(c(clim$pet_sum - clim$pre) >= (sort(clim$pet_sum - clim$pre, decreasing = T)[10]))]
+# drought_years <- clim$year[which(c(clim$pet_sum - clim$pre) >= (sort(clim$pet_sum - clim$pre, decreasing = T)[10]))]
 
-cbind(drought_years, c(clim$pet_sum - clim$pre)[which(c(clim$pet_sum - clim$pre) >= (sort(clim$pet_sum - clim$pre, decreasing = T)[10]))])
+# cbind(drought_years, c(clim$pet_sum - clim$pre)[which(c(clim$pet_sum - clim$pre) >= (sort(clim$pet_sum - clim$pre, decreasing = T)[10]))])
+
+
+drought_years <- c(1964:1966, 1977, 1999)
+pre_drought_years <- drought_years - 5
+
+
 
 if(save.plots)  {
   tiff(paste0("manuscript/tables_figures/Time_series_for_each_species.tif"), res = 300, width = 150, height = 150, units = "mm", pointsize = 10)
@@ -60,7 +66,8 @@ plot(NULL,
      xlim = c(1900,2020), ylim = c(100, 160))
 
 
-abline(v = drought_years, col = "grey", lty = 2) # seq(1900, 2000, by = 20)
+abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1900, 2000, by = 20)
+abline(v = drought_years, col = "grey20", lty = 2) # seq(1900, 2000, by = 20)
 
 lines(pet_sum ~ year, data = clim, col  = "red", lwd = 2)
 text(x = 2010, y = 130, "PET", pos = 4, col = "red")
@@ -75,7 +82,8 @@ plot(NULL,
      xlim = c(1900,2020), ylim = c(40, 180))
 
 
-abline(v = drought_years, col = "grey", lty = 2)
+abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1900, 2000, by = 20)
+abline(v = drought_years, col = "grey20", lty = 2) # seq(1900, 2000, by = 20)
 
 lines(pre ~ year, data = clim, col  = "blue",lwd = 2)
 
@@ -93,7 +101,8 @@ plot(NULL,
      xlim = c(1900,2020), ylim = c(-7, 5))
 
 
-abline(v = drought_years, col = "grey", lty = 2)
+abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1900, 2000, by = 20)
+abline(v = drought_years, col = "grey20", lty = 2) # seq(1900, 2000, by = 20)
 
 lines(pdsi ~ year, data = clim, col  = "black", lwd = 2)
 
@@ -126,7 +135,8 @@ for(f in SPECIES_IN_ORDER) {
        ann = F, 
        xlim = c(1900,2020), ylim = c(0.5, 1.5))
   
-  abline(v = drought_years, col = "grey", lty = 2)
+  abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1900, 2000, by = 20)
+  abline(v = drought_years, col = "grey20", lty = 2) # seq(1900, 2000, by = 20)
   
   lines(res ~ year, data = core,
         col = colors.species[which(SPECIES_IN_ORDER %in% f)])
