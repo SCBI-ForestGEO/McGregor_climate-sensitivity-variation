@@ -14,7 +14,7 @@ setwd(".")
 
 
 # set parameters ####
-save.plots <- FALSE
+save.plots <- TRUE
 
 # time series for each species ####
 
