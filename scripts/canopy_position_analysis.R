@@ -187,7 +187,7 @@ library(reshape2)
 ##4a. canopy ####
 dirs_can <- dir("data/core_files/canopy_cores", pattern = "_canopy.rwl")
 
-dirs_can <- dirs_can[!dirs_can %in% c("frni_canopy.rwl", "frni_drop_canopy.rwl", "caco_drop_canopy.rwl")]
+dirs_can <- dirs_can[!dirs_can %in% c("frni_canopy.rwl", "frni_drop_canopy.rwl")]
 
 sp_can <- gsub("_drop_canopy.rwl", "", dirs_can)
 
@@ -204,12 +204,14 @@ for (i in seq(along=dirs_can)){
       canopy[[i]] <- testr
       widths_can[[i]] <- rings
       
-      testr_table <- data.frame(testr$out)
-      testr_table <- testr_table[testr_table$nb.series > 4, ] #remove where there are < 4 series
-      testr_table$sp <- sp_can[[j]]
-      testr_table$position <- "canopy"
-      
-      canopy_table <- rbind(canopy_table, testr_table)
+      if(sp_can[[j]] != "caco" & sp_can[[j]] != "frni"){
+        testr_table <- data.frame(testr$out)
+        testr_table <- testr_table[testr_table$nb.series > 4, ] #remove where there are < 4 series
+        testr_table$sp <- sp_can[[j]]
+        testr_table$position <- "canopy"
+        
+        canopy_table <- rbind(canopy_table, testr_table)
+      }
     }
   }
 }
