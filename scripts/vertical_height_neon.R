@@ -4,6 +4,7 @@ library(neonUtilities)
 library(plotly)
 library(lubridate)
 library(dplyr)
+library(tidyr)
 library(data.table)
 library(gridExtra)
 
@@ -20,20 +21,19 @@ library(gridExtra)
 dp <- data.frame("data" = c("SAAT", "wind", "biotemp", "RH", "SR"),
                  "id" = c("DP1.00002.001", "DP1.00001.001", "DP1.00005.001", "DP1.00098.001", "DP1.00014.001"),
                  "value" = c("tempSingleMean", "windSpeedMean", "bioTempMean", "RHMean", "difRadMean"),
-                 "ylabs" = c("Mean Air Temperature (C)", "Mean Windspeed (m/s)", "Mean Infrared Biological Temperature (C)", "Relative Humidity", "Mean shortwave downward radiation (W/m2)"))
-
-date <- data.frame("year" = c(rep(2018, 4), rep(2017, 4), rep(2016, 4), rep(2015, 4)),
-                    "month" = c(rep(5:8, 4)))
+                 "xlabs" = c("Mean Air Temperature (C)", "Mean Windspeed (m/s)", "Mean Infrared Biological Temperature (C)", "Relative Humidity", "Mean shortwave downward radiation (W/m2)"))
 
 
 dp[] <- lapply(dp, as.character)
+dp$value <- as.character(dp$value)
 
+date <- data.frame("year" = c(rep(2018, 4), rep(2017, 4), rep(2016, 4), rep(2015, 4)),
+                   "month" = c(rep(5:8, 4)))
 
 
 #this loop for some reason isn't producing plotly graphs that will work, but everything else runs smoothly
 neon_vars <- list()
 for (i in seq(along=1:4)){ #make 1:5 if using radiation (cloud vs sun threshold)
-  dp$value <- as.character(dp$value)
   value <- dp$value[[i]]
   
   neon_tower <- loadByProduct(dpID=dp$id[[i]], 
@@ -65,25 +65,50 @@ for (i in seq(along=1:4)){ #make 1:5 if using radiation (cloud vs sun threshold)
     neon_data_sub$tempSingleMean <- ifelse(neon_data_sub$verticalPosition == 10, NA, neon_data_sub$tempSingleMean)
   }
   
-  #want to preserve the dfs, so put them in a list, then make a generic new_df
+  #want to preserve the dfs, so put them in a list
   neon_vars[[i]] <- neon_data_sub
   names(neon_vars)[i] <- paste0("neon_", dp$data[[i]])
   
   #get mean of values per month per verticalPosition
   data_analy <- neon_data_sub %>% 
-    group_by(month, verticalPosition) %>% 
-    summarize(test = mean(get(value), na.rm=TRUE))
+    group_by(day, verticalPosition) %>% 
+    summarize(test_max = max(get(value), na.rm=TRUE),
+              test_min = min(get(value), na.rm=TRUE))
+  
+  data_analy$test_max <- ifelse(grepl("Inf", data_analy$test_max), NA, data_analy$test_max)
+  data_analy$test_min <- ifelse(grepl("Inf", data_analy$test_min), NA, data_analy$test_min)
+  
+  data_analy$month <- NA
+  data_analy$month <- ifelse(grepl("2017-05", data_analy$day), "May",
+                         ifelse(grepl("2017-06", data_analy$day), "June",
+                         ifelse(grepl("2017-07", data_analy$day), "July", "August")))
+  
+  if(value %in% c("windSpeedMean", "bioTempMean")){
+    data_analy <- data_analy[-c(1:10), ]
+  } else {
+    if(value == "RHMean")
+      data_analy <- data_analy[-c(1:4), ]
+  }
+  
+  data_analy <- data_analy %>%
+    group_by(month, verticalPosition) %>%
+    summarize(mmax = mean(test_max, na.rm=TRUE),
+              mmin = mean(test_min, na.rm=TRUE))
 
   #base ggplot, all months on same graph
+  data_analy <- data_analy %>%
+    gather(mmax, mmin, key = type, value = measure)
+  
   data_analy$month_f <- factor(data_analy$month, levels=c("May", "June", "July", "August"))
   
   assign(paste0(dp$data[[i]], "_plot"),
          ggplot(data_analy) +
-    geom_line(aes(x = verticalPosition, y = test, color = month_f), size = 1) +
+    geom_line(aes(x = verticalPosition, y = measure, color = month_f), size = 1) +
     scale_color_manual(values = c("orange", "red", "dark green", "blue"), name = "Month") +
-    geom_point(aes(x = verticalPosition, y = test, color = month_f)) +
-    labs(x = "Height (m)", y = dp$ylabs[[i]]) +
-    theme_grey()
+    geom_point(aes(x = verticalPosition, y = measure, color = month_f)) +
+    labs(x = "Height (m)", y = dp$xlabs[[i]]) +
+    theme_grey() +
+    facet_wrap(~type)
   )
 }
 
