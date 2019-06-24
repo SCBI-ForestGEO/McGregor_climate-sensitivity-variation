@@ -187,7 +187,7 @@ library(reshape2)
 ##4a. canopy ####
 dirs_can <- dir("data/core_files/canopy_cores", pattern = "_canopy.rwl")
 
-dirs_can <- dirs_can[!dirs_can %in% c("frni_canopy.rwl", "frni_drop_canopy.rwl")]
+dirs_can <- dirs_can[!dirs_can %in% c("frni_canopy.rwl", "frni_drop_canopy.rwl", "pist_drop_canopy.rwl")]
 
 sp_can <- gsub("_drop_canopy.rwl", "", dirs_can)
 
@@ -225,6 +225,8 @@ names(widths_can) <- values
 dirs_subcan <- dir("data/core_files/subcanopy_cores", pattern = "_subcanopy.rwl")
 
 #dirs_subcan <- dirs_subcan[dirs_subcan != "frni_drop_subcanopy.rwl" & dirs_subcan != "caco_drop_subcanopy.rwl"]
+
+dirs_subcan <- dirs_subcan[!dirs_subcan == "pist_drop_subcanopy", ]
 
 sp_subcan <- gsub("_drop_subcanopy.rwl", "", dirs_subcan)
 
@@ -533,9 +535,9 @@ ggplot(data = rp_test) +
 
 ##5b. add in leaf traits ####
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
-##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, mean_SPAD, Chl_m2_per_g, and WD [wood density]
+##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEMR4YV3HMJYVS3N3325BTQ4U"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEK7M54M5JLHLYBRDZ25DJLFS"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,24,26,28)]
 
