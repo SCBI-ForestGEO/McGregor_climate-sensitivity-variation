@@ -30,47 +30,54 @@ dp$value <- as.character(dp$value)
 date <- data.frame("year" = c(rep(2018, 4), rep(2017, 4), rep(2016, 4), rep(2015, 4)),
                    "month" = c(rep(5:8, 4)))
 
+years <- c("2017", "2018")
 
 #this loop for some reason isn't producing plotly graphs that will work, but everything else runs smoothly
-neon_vars <- list()
+
 for (i in seq(along=1:4)){ #make 1:5 if using radiation (cloud vs sun threshold)
+  neon_data_all <- NULL
   value <- dp$value[[i]]
   
-  neon_tower <- loadByProduct(dpID=dp$id[[i]], 
-                site=c("SCBI"),
-                package="basic", avg=30, 
-                check.size = FALSE, 
-                #(use TRUE outside loop to see how big the dowloads are)
-                startdate="2018-05",
-                enddate="2018-08")
-  
-  neon_data <- neon_tower[[1]]
-  neon_data_sub <- neon_data[colnames(neon_data) %in% c("verticalPosition", "startDateTime", value, "dirRadMean", "sunPres")]
-  
-  #reformat dates
-  # neon_data_sub$startDateTime <- ymd_hms(as.character(neon_data_sub$startDateTime))
-  neon_data_sub$startDateTime <- as.character(neon_data_sub$startDateTime)
-  neon_data_sub$startDateTime <- gsub("T", " ", neon_data_sub$startDateTime)
-  neon_data_sub$startDateTime <- as.POSIXct(neon_data_sub$startDateTime, format = "%Y-%m-%d %H:%M:%OS")
-
-  ## make consolidated graph over different months for each variable ####
-  neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, nchar(neon_data_sub$startDateTime)-0)
-  neon_data_sub$month <- NA
-  neon_data_sub$month <- ifelse(grepl("05", neon_data_sub$day), "May",
-                        ifelse(grepl("06", neon_data_sub$day), "June",
-                         ifelse(grepl("07", neon_data_sub$day), "July", "August")))
-  
-  #the 10m air temperature values are completely off, and stop at 19 May 2018. The sensor is broken and hasn't been fixed
-  if(value == "tempSingleMean"){
-    neon_data_sub$tempSingleMean <- ifelse(neon_data_sub$verticalPosition == 10, NA, neon_data_sub$tempSingleMean)
+  for (j in seq(along=1:2)){
+    neon_tower <- loadByProduct(dpID=dp$id[[i]], 
+                                site=c("SCBI"),
+                                package="basic", avg=30, 
+                                check.size = FALSE, 
+                                #(use TRUE outside loop to see how big the dowloads are)
+                                startdate=paste0(years[[j]], "-05"),
+                                enddate=paste0(years[[j]], "-08"))
+    
+    neon_data <- neon_tower[[1]]
+    neon_data_sub <- neon_data[colnames(neon_data) %in% c("verticalPosition", "startDateTime", value, "dirRadMean", "sunPres")]
+    
+    #reformat dates
+    neon_data_sub$startDateTime <- as.character(neon_data_sub$startDateTime)
+    neon_data_sub$startDateTime <- gsub("T", " ", neon_data_sub$startDateTime)
+    neon_data_sub$startDateTime <- as.POSIXct(neon_data_sub$startDateTime, format = "%Y-%m-%d %H:%M:%OS")
+    
+    #get rid of erroneous April datapoints
+    neon_data_sub <- neon_data_sub[!grepl("04-30", neon_data_sub$startDateTime), ]
+    
+    ## make consolidated graph over different months for each variable ####
+    neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, nchar(neon_data_sub$startDateTime)-0)
+    
+    #want to preserve the dfs, so put them in a list
+    # neon_vars[[i]] <- neon_data_sub
+    # names(neon_vars)[i] <- paste0("neon_", dp$data[[i]])
+    
+    neon_data_all <- rbind(neon_data_all, neon_data_sub)
   }
   
-  #want to preserve the dfs, so put them in a list
-  neon_vars[[i]] <- neon_data_sub
-  names(neon_vars)[i] <- paste0("neon_", dp$data[[i]])
+  #the 10m air temperature values are completely off, and stop at 19 May 2018. The sensor is broken and hasn't been fixed
+  if (value == "tempSingleMean"){
+    neon_data_all$tempSingleMean <- ifelse(neon_data_all$verticalPosition == 10 & 
+                                          grepl("2018", neon_data_all$day), NA, 
+                                           neon_data_all$tempSingleMean)
+  }
+ 
   
   #get mean of values per month per verticalPosition
-  data_analy <- neon_data_sub %>% 
+  data_analy <- neon_data_all %>% 
     group_by(day, verticalPosition) %>% 
     summarize(test_max = max(get(value), na.rm=TRUE),
               test_min = min(get(value), na.rm=TRUE))
@@ -79,16 +86,17 @@ for (i in seq(along=1:4)){ #make 1:5 if using radiation (cloud vs sun threshold)
   data_analy$test_min <- ifelse(grepl("Inf", data_analy$test_min), NA, data_analy$test_min)
   
   data_analy$month <- NA
-  data_analy$month <- ifelse(grepl("2017-05", data_analy$day), "May",
-                         ifelse(grepl("2017-06", data_analy$day), "June",
-                         ifelse(grepl("2017-07", data_analy$day), "July", "August")))
+  data_analy$month <- 
+    ifelse(grepl(paste0(years[[1]], "-05"), data_analy$day) |
+             grepl(paste0(years[[2]], "-05"), data_analy$day), "May",
+    ifelse(grepl(paste0(years[[1]], "-06"), data_analy$day) |
+             grepl(paste0(years[[2]], "-06"), data_analy$day), "June",
+    ifelse(grepl(paste0(years[[1]], "-07"), data_analy$day) |
+             grepl(paste0(years[[2]], "-07"), data_analy$day), "July", 
+                         "August")))
   
-  if(value %in% c("windSpeedMean", "bioTempMean")){
-    data_analy <- data_analy[-c(1:10), ]
-  } else {
-    if(value == "RHMean")
-      data_analy <- data_analy[-c(1:4), ]
-  }
+  #get rid of random days that aren't full dates
+  data_analy <- data_analy[grepl(".{10}", data_analy$day), ]
   
   data_analy <- data_analy %>%
     group_by(month, verticalPosition) %>%
@@ -102,18 +110,34 @@ for (i in seq(along=1:4)){ #make 1:5 if using radiation (cloud vs sun threshold)
   data_analy$month_f <- factor(data_analy$month, levels=c("May", "June", "July", "August"))
   
   assign(paste0(dp$data[[i]], "_plot"),
-         ggplot(data_analy) +
-    geom_line(aes(x = verticalPosition, y = measure, color = month_f), size = 1) +
-    scale_color_manual(values = c("orange", "red", "dark green", "blue"), name = "Month") +
-    geom_point(aes(x = verticalPosition, y = measure, color = month_f)) +
-    labs(x = "Height (m)", y = dp$xlabs[[i]]) +
-    theme_grey() +
-    facet_wrap(~type)
+    data_analy %>%
+      arrange(verticalPosition) %>%
+      ggplot(aes(x = measure, y = verticalPosition)) +
+      geom_path(aes(color = month_f), size = 1) +
+      scale_color_manual(values = c("orange", "red", "dark green", "blue"), name = "Month") +
+      geom_point(aes(color = month_f)) +
+      labs(x = dp$xlabs[[i]], y = "Height (m)") +
+      theme_grey() +
+      facet_wrap(~type)
   )
 }
 
 #arrange all graphs together
 grid.arrange(SAAT_plot, wind_plot, RH_plot, biotemp_plot, nrow=2)
+
+#original graphing format
+# assign(paste0(dp$data[[i]], "_plot"),
+#        ggplot(data_analy) +
+#          geom_line(aes(x = verticalPosition, y = measure, color = month_f), size = 1) +
+#          scale_color_manual(values = c("orange", "red", "dark green", "blue"), name = "Month") +
+#          geom_point(aes(x = verticalPosition, y = measure, color = month_f)) +
+#          labs(x = "Height (m)", y = dp$xlabs[[i]]) +
+#          theme_grey() +
+#          facet_wrap(~type)
+# )
+
+
+
 
 
 
