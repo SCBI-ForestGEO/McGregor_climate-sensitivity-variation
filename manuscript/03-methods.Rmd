@@ -1,19 +1,19 @@
 # Methods
 
-Research was conducted at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA, with cores taken from trees on the 25.6 ha ForestGEO (Global Earth Observatory) study plot [@andersonteixeira_ctfs-forestgeo:_2015]. SCBI (38°53'36.6"N, 78° 08'43.4"W) [@gonzalezakre_patterns_2016] is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park. Primary forest composition in the plot is oak-hickory, while elevations range from 273-338m above sea level [@gonzalezakre_patterns_2016] with a topographic relief of 65m (Bourg et al 2013).
+Research was conducted at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA, with cores taken from trees on the 25.6 ha ForestGEO (Global Earth Observatory) study plot [@andersonteixeira_ctfs-forestgeo:_2015]. SCBI (38°53'36.6"N, 78° 08'43.4"W) [@gonzalezakre_patterns_2016] is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park. Primary forest composition in the plot is oak-hickory, while elevations range from 273-338m above sea level [@gonzalezakre_patterns_2016] with a topographic relief of 65m [@bourg_initial_2013].
+
+![Structure of ForestGEO plot](tables_figures/ForestGEO_plot.jpg)
 
 ## Data Collection
-Cores were collected in 2010-2011 or 2016-2017 from a breast height of 1.3m using a 5mm increment borer. Live trees were selected at random from each species in 2010-2011, with at least 30 of those trees having a diameter at breast height (DBH) of at least 10cm (Bourg et al 2013). In 2016-2017, cores were collected from all dead trees found in the annual mortality census [@gonzalezakre_patterns_2016]. They were sanded, measured, and standardized in the same process as seen in [@helcoski_growing_2019].
+Cores were collected in 2010-2011 or 2016-2017 from a breast height of 1.3m using a 5mm increment borer. Live trees were selected at random from each species in 2010-2011, with at least 30 of those trees having a diameter at breast height (DBH) of at least 10cm [@bourg_initial_2013]. In 2016-2017, cores were collected from all dead trees found in the annual mortality census [@gonzalezakre_patterns_2016]. They were sanded, measured, and standardized in the same process as seen in [@helcoski_growing_2019]. Cores were then split into canopy and subcanopy groupings as determined in the field. Species' inclusion in the study was dependent on the robustness of each species’ cores. In total, 14 species had cores that were considered complete and usable, as seen in Table 1.
 
-Cores were then split into canopy and subcanopy groupings and processed with ARSTAN. Using CRU data **with Valentine's quilts for each grouping**, it was found that all climate variables tested were significant by tree position when using a linear mixed model (**this was done early-on, included here because unsure if will keep for full analysis**).
+Using CRU data **with Valentine's quilts for each grouping**, it was found that all climate variables tested were significant by tree position when using a linear mixed model (**this was done early-on, included here because unsure if will keep for full analysis**).
 
-To determine focus drought years, we used the pointRes package in R (version 3.5.2) to determine resilience metrics. Specifically, we calculated pointer years (main drought years) if >50% of the cored trees experienced <30% growth in a year compared to the past 5 years. The top 6 pointer years were compared with PDSI (Palmer Drought Severity Index) values for the region, obtained from NOAA. For ease of research, we then took the top three pointer years of 1964-1966 (resistance metric averaged due to a single, prolonged drought), 1977, and 1999.
-
-Individual cores were then grouped by canopy or subcanopy before being processed by ARSTAN, and species inclusion in the study was dependent on the robustness of each species’ cores. In total, 14 species had cores that were considered complete and usable, as seen in Table 1.
+To determine focus drought years, we used the pointRes package [@R-pointRes] in R (version 3.5.2) to determine resilience metrics. Specifically, we calculated pointer years (main drought years) if >50% of the cored trees experienced <30% growth in a year compared to the previous 5 years. The top 6 pointer years were compared with PDSI (Palmer Drought Severity Index) values for the region, obtained from NOAA. Based on this comparison, we then took the top three pointer years of 1964-1966 (resistance metric averaged due to a single, prolonged drought), 1977, and 1999.
 
 |**Species**|**n_cores.canopy**|**n_cores.subcanopy**|**included**
 |----------|-------------|---------------|-----------|
-*Carya cordiformis*|2|11| sub-canopy only
+*Carya cordiformis*|2|11|yes
 *Carya glabra*|9|22|yes
 *Carya ovalis*|9|14|yes
 *Carya tomentosa*|0|13|sub-canopy only
@@ -22,7 +22,6 @@ Individual cores were then grouped by canopy or subcanopy before being processed
 *Fraxinus nigra*|1|11| sub-canopy only
 *Juglans nigra*|22|9|yes
 *Liriodendron tulipifera*|38|60|yes
-*Pinus strobus*|14|21|no
 *Quercus alba*|38|23|yes
 *Quercus prinus*|27|32|yes
 *Quercus rubra*|43|26|yes
@@ -55,7 +54,17 @@ Equations required the DBH in each individual drought year. As part of the Fores
 First, we generated log-log regression equations for bark thickness based on DBH, and then determined mean bark thickness per species. Ring widths were determined from the processed cores, and once the diameter without bark was calculated for a certain year, we added the mean bark thickness from the regression equations.
 
 ### Leaf Hydraulic Traits
-Hydraulic traits were collected from SCBI and are summarized in Table 1.
+Hydraulic traits were collected from SCBI and are summarized in Table 1. Ring porosity qualifications were obtained from [@andersonteixeira_size-related_2015].
+
+
+Need to say the methodology for all traits used
+1. PLA
+2. LMA
+3. Chlorophyll
+4. Wood density
+5. TLP
+6. P50 = psi_0.5_kl50
+7. P80 = psi_0.5_kl80
 
 ```{r, echo=FALSE}
 library(knitr)
@@ -63,8 +72,7 @@ library(kableExtra)
 
 traits_table <- data.frame(
   "Trait" = c("Ring Porosity", "Percent Leaf Area", "Leaf Mass Area", "Chlorophyll", "Wood density", "TLP", "P50", "P80"),
-  "Unit" = c("", "%", "g/m2", "m2/g", "g/cm3", "MPa", "MPa", "MPa"),
-  "Source" = c("[@andersonteixeira_ctfs-forestgeo:_2015]", "Kunert et al 2019 [in prep]", "Kunert et al 2019 [in prep]", "Kunert et al 2019 [in prep]", "Kunert et al 2019 [in prep]", "Kunert et al 2019 [in prep]", "Kunert et al 2019 [in prep]", "Kunert et al 2019 [in prep]"))
+  "Unit" = c("", "%", "g/m2", "m2/g", "g/cm3", "MPa", "MPa", "MPa"))
 
 kable(traits_table) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
