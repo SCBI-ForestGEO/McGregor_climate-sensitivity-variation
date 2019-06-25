@@ -13,9 +13,9 @@
 
 ## Figures
 ### Graphs
-- [ ] basic map of plot
-- [ ] vertical profile graphs (would go in results)
-- [ ] ring-width index like in Ryan's paper, but exclude frni and pist, and add line for PDSI at top (ask valentine for help)
+- [X] basic map of plot
+- [X] vertical profile graphs (would go in results)
+- [ ] ring-width index like in Ryan's paper, but exclude pist, and add line for PDSI at top (ask valentine for help)
 - also add line to indicate 5 years pre-drought and a line at the drought
   - the droughts we've chosen based on PDSI values are 1964-1966, 1977, and 1999. So the 5 years pre-drought would be 1959-1961$, 1972, and 1994. 
     - $ only do one year for this? since in the data we take the average of this and just call it 1966 for simplicity? This is a question for Krista.
