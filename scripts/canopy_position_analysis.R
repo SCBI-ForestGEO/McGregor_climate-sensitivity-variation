@@ -184,7 +184,8 @@ library(reshape2)
 #NB ####
 ##to be clear, I wrote this code before I realized that some of the work done in these loops had already been done in the outputs of res.comp (specifically out.select). However, since the code runs well, and I double-checked that it was giving the same outputs as analyzing out.select, I'm keeping it as is.
 
-##4a. canopy ####
+##4a. determine pointer years 
+###canopy ####
 dirs_can <- dir("data/core_files/canopy_cores", pattern = "_canopy.rwl")
 
 #originally, getting the pointer years was done without caco and frni because of too few cores. Now that we have the pointer years, we're adding them back in for the full analysis.
@@ -223,7 +224,7 @@ values <- paste0(sp_can, "_canopy")
 names(widths_can) <- values
 
 
-##4b. subcanopy ####
+###subcanopy ####
 dirs_subcan <- dir("data/core_files/subcanopy_cores", pattern = "_subcanopy.rwl")
 
 #frni_canopy had only 1 core. Originally this was excluded when finding pointer years, but now that we have calculated them, we have added appended the frni_canopy to the frni_subcanopy file and called it "frni_all_drop_subcanopy.rwl"
@@ -263,7 +264,7 @@ widths <- c(widths_can, widths_sub) #combine into one, then delete individual. F
 widths_can <- NULL
 widths_subcan <- NULL
 
-##4c. df for pointer years of all trees combined ####
+### df for pointer years of all trees combined ####
 full_ind <- rbind(canopy_table, subcanopy_table) #full table of indices for canopy and subcanopy cores
 pointers <- full_ind[full_ind$nature == -1, ]
 
@@ -279,7 +280,7 @@ years_bysp <- years_bysp[order(years_bysp$year, years_bysp$sp), ]
 
 #write.csv(pointers, "data/occurrence_of_pointer_yrs.csv", row.names=FALSE)
 
-##4d. resistance metrics for all trees ####
+##4b. resistance metrics for all trees ####
 neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
 neil_sp <- unique(neil_list$sp)
 
@@ -369,7 +370,7 @@ trees_all$year <- as.numeric(trees_all$year)
 trees_all <- trees_all[!is.na(trees_all$resist.value), ]
 trees_all$year <- as.character(trees_all$year)
 
-##4e. determine proportion of resistance values per sp ####
+##4c. determine proportion of resistance values per sp ####
 prop <- data.frame("sp" = unique(trees_all$sp))
 prop$value.over1 <- NA
 prop$can.value.over1 <- NA
@@ -391,7 +392,7 @@ for (i in seq(along=prop$sp)){
 
 
 
-##4f. comparing residuals of PDSI values and BAI of all trees ####
+##4d. comparing residuals of PDSI values and BAI of all trees ####
 dirs_can <- dir("data/core_files/canopy_cores", pattern = "_canopy.rwl")
 
 dirs_can <- dirs_can[!dirs_can %in% c("frni_canopy.rwl", "frni_drop_canopy.rwl", "caco_drop_canopy.rwl")]
