@@ -64,7 +64,7 @@ par(mfrow = c(length(SPECIES_IN_ORDER) + 3, 1), mar = c(0,0,0,0), oma = c(4, 6, 
 plot(NULL,
      axes = F,
      ann = F, 
-     xlim = c(1959,2020), ylim = c(100, 160))
+     xlim = c(1959,2015), ylim = c(100, 160))
 
 
 rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
@@ -82,7 +82,7 @@ axis(2, at = c(110, 130, 150), las = 1)
 plot(NULL,
      axes = F,
      ann = F, 
-     xlim = c(1959,2020), ylim = c(40, 180))
+     xlim = c(1959,2015), ylim = c(40, 180))
 
 
 rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
@@ -97,13 +97,13 @@ text(x = 2010, y = 100, "PRE", pos = 4, col = "blue")
 axis(2, at = c(60, 110, 160), las = 1)
 
 mtext(side = 2, text = expression("(mm mo"^-1*")"), line = 3, adj = 0)
-# axis(1, at = c(1700, 2020), labels = F, tck = 0, col = "grey60")
+# axis(1, at = c(1700, 2015), labels = F, tck = 0, col = "grey60")
 
 # pdsi ####
 plot(NULL,
      axes = F,
      ann = F, 
-     xlim = c(1959,2020), ylim = c(-7, 5))
+     xlim = c(1959,2015), ylim = c(-7, 5))
 
 
 rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
@@ -118,7 +118,7 @@ text(x = 2010, y = 0, "PDSI", pos = 4, col = "black")
 axis(2, at = c(-4, 0, 4), las = 1)
 
 # mtext(side = 2, text = expression("(mm mo"^-1*")"), line = 3, adj = -0.5)
-axis(1, at = c(1700, 2020), labels = F, tck = 0, col = "grey60")
+axis(1, at = c(1700, 2015), labels = F, tck = 0, col = "grey60")
 
 # chronologies ####
 for(f in SPECIES_IN_ORDER) {
@@ -140,7 +140,7 @@ for(f in SPECIES_IN_ORDER) {
   plot(NULL,
        axes = F,
        ann = F, 
-       xlim = c(1959,2020), ylim = c(0.5, 1.5))
+       xlim = c(1959,2015), ylim = c(0.5, 1.5))
   
   rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
        xright = drought_years, ytop = par("usr")[4],  col = "grey90", border = "transparent")
