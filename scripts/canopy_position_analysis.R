@@ -518,7 +518,6 @@ library(sf) #for mapping
 library(ggthemes) #for removing graticules when making pdf
 library(rgeos) #for distance calculation
 library(RCurl) #for reading in URLs
-library(dplyr)
 library(readxl)
 
 ##5a. add in ring porosity qualifications ####
@@ -1025,7 +1024,6 @@ library(car)
 library(piecewiseSEM) #for R^2 values for all model outputs in a list
 library(MuMIn) #for R^2 values of one model output
 library(stringr)
-library(dplyr)
 
 ##6a. Determine best model to use with AICc ####
 ##6ai. test predictions for paper and put in table
