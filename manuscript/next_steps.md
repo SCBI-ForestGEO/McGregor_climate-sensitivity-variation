@@ -29,9 +29,9 @@
 - [ ] table of coefficients of best models (biophysical and traits)
 
 ## Models
-- [ ] officially remove pist from analysis (because it already is de facto)
+- [X] officially remove pist from analysis (because it already is de facto)
 - [ ] check if frni is de facto removed from model runs. If not, see what the effect is if we remove it altogether (from both biophysical and traits runs)
-- [ ] for caco and cato (<3 canopy cores), combine the cores to get the overall resistance values for them, then split into canopy/subcanopy (using the tag number)
+- [X] for caco and cato (<3 canopy cores), combine the cores to get the overall resistance values for them, then split into canopy/subcanopy (using the tag number)
 - [ ] Use both height and position in traits model (reasoning is that "we did the biophysical model first to determine which was the most important trait, before adding it in with hydraulic traits to see how that affected drought resistance")
 
 ## Paper
