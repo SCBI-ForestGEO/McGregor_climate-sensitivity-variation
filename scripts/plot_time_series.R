@@ -19,7 +19,7 @@ save.plots <- TRUE
 # time series for each species ####
 
 SPECIES_IN_ORDER <- c("LITU", "QUAL", "QURU", "QUVE", "QUPR", "FRAM", "CAGL", "JUNI", 
-             "CATO", "CACO", "FAGR", "CAOV", "FRNI")
+             "CATO", "CACO", "FAGR", "CAOV")
 
 all_sss <- read.csv("https://raw.githubusercontent.com/SCBI-ForestGEO/climate_sensitivity_cores/master/results/SSS_as_a_function_of_the_number_of_trees_in_sample.csv")
 
@@ -48,7 +48,7 @@ clim <- clim[clim$year >= 1959, ]
 # cbind(drought_years, c(clim$pet_sum - clim$pre)[which(c(clim$pet_sum - clim$pre) >= (sort(clim$pet_sum - clim$pre, decreasing = T)[10]))])
 
 
-drought_years <- c(1966, 1977, 1999)
+drought_years <- c(1964, 1965, 1966, 1977, 1999)
 pre_drought_years <- drought_years - 5
 
 
