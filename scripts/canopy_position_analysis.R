@@ -184,12 +184,18 @@ library(reshape2)
 #NB ####
 ##to be clear, I wrote this code before I realized that some of the work done in these loops had already been done in the outputs of res.comp (specifically out.select). However, since the code runs well, and I double-checked that it was giving the same outputs as analyzing out.select, I'm keeping it as is.
 
+#Note about FRNI and CACO
+#originally, getting the pointer years was done without caco because of too few cores. Now that we have the pointer years, we're adding them back in for the full analysis.
+#we thought about including frni (combining the canopy and subcanopy cores because only 1 canopy), but we excluded for two reasons
+##1. including frni doesn't impact the model much, and
+##2. frni is the 19th most productive species, whereas every other species we have is the top 12.
+
+#Note about PIST
+##we originally included pist but ultimately we have no leaf trait data for this species, so we excluded it
+
 ##4a. determine pointer years 
 ###canopy ####
 dirs_can <- dir("data/core_files/canopy_cores", pattern = "_canopy.rwl")
-
-#originally, getting the pointer years was done without caco and frni because of too few cores. Now that we have the pointer years, we're adding them back in for the full analysis.
-#frni_canopy is excluded here but is included in subcanopy (see notes in subcanopy section)
 dirs_can <- dirs_can[!dirs_can %in% c("pist_drop_canopy.rwl", "frni_drop_canopy.rwl")]
 
 sp_can <- gsub("_drop_canopy.rwl", "", dirs_can)
@@ -226,11 +232,8 @@ names(widths_can) <- values
 
 ###subcanopy ####
 dirs_subcan <- dir("data/core_files/subcanopy_cores", pattern = "_subcanopy.rwl")
-
-#frni_canopy had only 1 core. Originally this was excluded when finding pointer years, but now that we have calculated them, we have added appended the frni_canopy to the frni_subcanopy file and called it "frni_all_drop_subcanopy.rwl"
 dirs_subcan <- dirs_subcan[!dirs_subcan %in% c("pist_drop_subcanopy.rwl", "frni_drop_subcanopy.rwl")]
 
-dirs_subcan <- gsub("_all", "", dirs_subcan) #from the frni_all
 sp_subcan <- gsub("_drop_subcanopy.rwl", "", dirs_subcan)
 
 subcanopy <- list()
@@ -1580,7 +1583,7 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position", "elev.m", "distance.ln.m", "height.ln.m", "year", "(1|sp)")
+effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "year", "(1|sp)")
 # effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "WD_g_per_cm3", "mean_TLP_Mpa", "p50.MPa", "p80.MPa", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
