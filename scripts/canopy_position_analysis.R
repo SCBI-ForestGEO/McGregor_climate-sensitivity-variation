@@ -570,7 +570,7 @@ for (i in seq(along=2:ncol(leaf_traits))){
 
 ##5bii. add in p50 and p88 ####
 #get P50 from traits table
-hydra <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/results/SCBI_best_fits.csv?token=AJNRBEMQJ72VBJTIH7QXN325A72PW"))
+hydra <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/results/SCBI_best_fits.csv?token=AJNRBEN7LB443AVIH26I6AC5DOTIM"))
 
 #Anderegg 2018 found that p50 and p80 came out significant in modelling
 trees_all$p50.MPa <- hydra$psi_0.5_kl50[match(trees_all$sp, hydra$data.type)]
@@ -1580,8 +1580,8 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position", "elev.m", "distance.ln.m", "height.ln.m", "(1|sp)")
-# effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "WD_g_per_cm3", "mean_TLP_Mpa", "p50.MPa", "p80.MPa", "hsm.MPa", "year", "(1|sp/tree)")
+effects <- c("position", "elev.m", "distance.ln.m", "height.ln.m", "year", "(1|sp)")
+# effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "WD_g_per_cm3", "mean_TLP_Mpa", "p50.MPa", "p80.MPa", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -1594,7 +1594,7 @@ effects_comb <-
 #in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
 var_comb <- expand.grid(response, effects_comb) 
 var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
-# var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
 
 # formulas for all combinations. $Var1 is the response, and $Var2 is the effect
 # for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset

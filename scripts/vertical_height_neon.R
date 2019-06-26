@@ -123,7 +123,11 @@ for (i in seq(along=1:4)){ #make 1:5 if using radiation (cloud vs sun threshold)
 }
 
 #arrange all graphs together
-grid.arrange(SAAT_plot, wind_plot, RH_plot, biotemp_plot, nrow=2)
+
+png("manuscript/tables_figures/NEON_vertical_profiles.png", width = 1000, height = 1000, pointsize = 18)
+graph <- grid.arrange(SAAT_plot, wind_plot, RH_plot, biotemp_plot, nrow=2)
+
+dev.off()
 
 #original graphing format
 # assign(paste0(dp$data[[i]], "_plot"),
