@@ -1,4 +1,0 @@
-bookdown::gitbook: default
-
-bookdown::html_book:
-  theme: "lumen"
