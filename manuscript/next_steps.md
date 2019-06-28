@@ -25,13 +25,14 @@
 - [X] trait table, showing trait, unit, mean, and range
 - [ ] hypothesis testing table (like the one we have already)
 - null model will be the best model, so like, if testing effect of height, you'd do null minus height
-- [ ] table of coefficients of best models (biophysical and traits)
+- [X] table of coefficients of best models (biophysical and traits)
 
 ## Models
 - [X] officially remove pist from analysis (because it already is de facto)
 - [X] check if frni is de facto removed from model runs. If not, see what the effect is if we remove it altogether (from both biophysical and traits runs)
 - [X] for caco and cato (<3 canopy cores), combine the cores to get the overall resistance values for them, then split into canopy/subcanopy (using the tag number)
-- [ ] Use both height and position in traits model (reasoning is that "we did the biophysical model first to determine which was the most important trait, before adding it in with hydraulic traits to see how that affected drought resistance")
+- [X] Use both height and position in traits model (reasoning is that "we did the biophysical model first to determine which was the most important trait, before adding it in with hydraulic traits to see how that affected drought resistance")
+- [ ] run through the different hypotheses and fill out the hypothesis table
 
 ## Paper
 New Phytologist
