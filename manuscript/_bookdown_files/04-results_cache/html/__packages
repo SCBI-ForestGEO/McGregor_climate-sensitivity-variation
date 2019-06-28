@@ -1,0 +1,9 @@
+base
+Matrix
+lme4
+AICcmodavg
+carData
+car
+data.table
+knitr
+kableExtra

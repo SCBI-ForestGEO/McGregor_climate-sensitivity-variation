@@ -34,7 +34,131 @@ To determine focus drought years, we used the pointRes package [@R-pointRes] in 
 ![Time series of combined tree cores by species](tables_figures/Time_series_for_each_species.jpg){width=500px}
 
 ### Biophysical traits
-Canopy classes were observed in the field during the growing season of 2018 following the crown position protocol from [@jennings_assessing_1999], whereby positions were ranked as dominant, codominant, intermediate, or suppressed. For ease of core analysis, these labels were condensed to canopy (including dominant and codominant) and subcanopy (intermediate and suppressed).
+Canopy classes were observed in the field during the growing season of 2018 following the crown position protocol from [@jennings_assessing_1999], whereby positions were ranked as dominant, codominant, intermediate, or suppressed. In determining pointer years, these labels were condensed to canopy (including dominant and codominant) and subcanopy (intermediate and suppressed). The full set of canopy classes were used for all other analyses.
+
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> sp </th>
+   <th style="text-align:right;"> n_cores </th>
+   <th style="text-align:right;"> dominant </th>
+   <th style="text-align:right;"> co-dominant </th>
+   <th style="text-align:right;"> intermediate </th>
+   <th style="text-align:right;"> suppressed </th>
+   <th style="text-align:right;"> prior dead </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> caco </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> cagl </td>
+   <td style="text-align:right;"> 31 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 16 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> caovl </td>
+   <td style="text-align:right;"> 23 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> cato </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> fagr </td>
+   <td style="text-align:right;"> 80 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 48 </td>
+   <td style="text-align:right;"> 25 </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> fram </td>
+   <td style="text-align:right;"> 62 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 17 </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 12 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> juni </td>
+   <td style="text-align:right;"> 31 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 21 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> litu </td>
+   <td style="text-align:right;"> 98 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 29 </td>
+   <td style="text-align:right;"> 25 </td>
+   <td style="text-align:right;"> 30 </td>
+   <td style="text-align:right;"> 5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> qual </td>
+   <td style="text-align:right;"> 61 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 34 </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> qupr </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> quru </td>
+   <td style="text-align:right;"> 69 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 36 </td>
+   <td style="text-align:right;"> 23 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> quve </td>
+   <td style="text-align:right;"> 77 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 46 </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+</tbody>
+</table>
 
 Elevation for the trees was extracted from a USGS DEM in ArcMap. Distance to water was calculated as the shortest distance in meters between each individual tree and the major streams running through the ForestGEO plot.
 
@@ -50,7 +174,7 @@ First, we generated log-log regression equations for bark thickness based on DBH
 Hydraulic traits were collected from SCBI and are summarized in Table 1. Ring porosity qualifications were obtained from [@andersonteixeira_size-related_2015].
 
 
-Need to say the methodology for all traits used
+Need to say the methodology for all traits used (**Nobby making short list**)
 1. PLA
 2. LMA
 3. Chlorophyll
@@ -64,43 +188,73 @@ Need to say the methodology for all traits used
   <tr>
    <th style="text-align:left;"> Trait </th>
    <th style="text-align:left;"> Unit </th>
+   <th style="text-align:right;"> mean </th>
+   <th style="text-align:right;"> min </th>
+   <th style="text-align:right;"> max </th>
   </tr>
  </thead>
 <tbody>
   <tr>
    <td style="text-align:left;"> Ring Porosity </td>
-   <td style="text-align:left;">  </td>
+   <td style="text-align:left;"> ring, semi-ring, diffuse </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Percent Leaf Area </td>
    <td style="text-align:left;"> % </td>
+   <td style="text-align:right;"> 15.09 </td>
+   <td style="text-align:right;"> 8.52 </td>
+   <td style="text-align:right;"> 24.64 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Leaf Mass Area </td>
    <td style="text-align:left;"> g/m2 </td>
+   <td style="text-align:right;"> 53.50 </td>
+   <td style="text-align:right;"> 30.68 </td>
+   <td style="text-align:right;"> 75.80 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Chlorophyll </td>
    <td style="text-align:left;"> m2/g </td>
+   <td style="text-align:right;"> 0.67 </td>
+   <td style="text-align:right;"> 0.36 </td>
+   <td style="text-align:right;"> 0.98 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Wood density </td>
    <td style="text-align:left;"> g/cm3 </td>
+   <td style="text-align:right;"> 0.70 </td>
+   <td style="text-align:right;"> 0.40 </td>
+   <td style="text-align:right;"> 1.09 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> TLP </td>
    <td style="text-align:left;"> MPa </td>
+   <td style="text-align:right;"> -2.36 </td>
+   <td style="text-align:right;"> -2.76 </td>
+   <td style="text-align:right;"> -1.92 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> P50 </td>
    <td style="text-align:left;"> MPa </td>
+   <td style="text-align:right;"> 0.75 </td>
+   <td style="text-align:right;"> 0.44 </td>
+   <td style="text-align:right;"> 1.36 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> P80 </td>
    <td style="text-align:left;"> MPa </td>
+   <td style="text-align:right;"> 1.42 </td>
+   <td style="text-align:right;"> 0.68 </td>
+   <td style="text-align:right;"> 2.60 </td>
   </tr>
 </tbody>
 </table>
 
 
 After the data was collected, linear mixed models were run with the resistance value of each tree for each pointer year (determined from the pointRes package) as the response variable. Traits and other geographic data were used as independent variables.
+
+## Model runs
+Traits' importance in predicting drought tolerance was calculated from mixed-effects models and the lowest AICc [@R-lme4, @R-AICcmodavg]. Specifically, we first determined the most important biophysical traits before including them in the model with the leaf hydraulic traits [**need to say why?**]

@@ -109,3 +109,6 @@ From [@kannenberg_linking_2019], species with diffuse porous wood anatomy (*Liri
 ### Vertical Profiles
 
 ![Climate variables with height](tables_figures/NEON_vertical_profiles.png){width=500px}
+
+### Traits to height
+![Leaf hydraulic traits with log-values of height](tables_figures/traits_vs_traits.png){width=500px}
