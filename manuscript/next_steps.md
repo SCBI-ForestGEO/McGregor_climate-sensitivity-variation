@@ -15,10 +15,9 @@
 ### Graphs
 - [X] basic map of plot
 - [X] vertical profile graphs (would go in results)
-- [ ] ring-width index like in Ryan's paper, but exclude pist, and add line for PDSI at top (ask valentine for help)
+- [X] ring-width index like in Ryan's paper, but exclude pist, and add line for PDSI at top (ask valentine for help)
 - also add line to indicate 5 years pre-drought and a line at the drought
-  - the droughts we've chosen based on PDSI values are 1964-1966, 1977, and 1999. So the 5 years pre-drought would be 1959-1961$, 1972, and 1994. 
-    - $ only do one year for this? since in the data we take the average of this and just call it 1966 for simplicity? This is a question for Krista.
+  - the droughts we've chosen based on PDSI values are 1964-1966, 1977, and 1999. So the 5 years pre-drought would be 1959-1961$, 1972, and 1994.
 - [ ] each trait plotted against height (logged values of height), possibly by weighted mean/% (Meakem made code for this when she was here, ask valentine if know anything)
 
 ### Table
@@ -39,7 +38,7 @@ New Phytologist
 - [ ] get formatting options that they prefer and update bookdown code for that
 
 ### Writing
-- [ ] get bookdown working so that it makes correct html and .md (but .md most important)
+- [X] get bookdown working
 - [ ] write abstract / have it mostly written
 - [ ] change main questions? structure paper according to them
 - [ ] would need to get specific methods from Nobby, since he's not publishing this data from SCBI right now. This will be the first time this data is published. (If a ton of methods, then some will be moved to supplementary data)
