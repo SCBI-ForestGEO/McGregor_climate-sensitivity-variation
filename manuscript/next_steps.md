@@ -35,8 +35,9 @@
 - [ ] run through the different hypotheses and fill out the hypothesis table
 
 ## Paper
-New Phytologist
-- [ ] get formatting options that they prefer and update bookdown code for that
+New Phytologist formatting options [here](https://nph.onlinelibrary.wiley.com/hub/journal/14698137/about/author-guidelines)
+- [X] get formatting options that they prefer
+- [ ] update bookdown code accordingly
 
 ### Writing
 - [X] get bookdown working
