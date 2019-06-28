@@ -1001,6 +1001,8 @@ trees_all$position_all <- gsub("S", "suppressed", trees_all$position_all)
 #this csv has avg/min/max dbh for each canopy position by sp
 # positionsp <- read.csv("data/core_chronologies_by_crownposition.csv")
 
+##5h1. write trees_all to csv for use in manuscript code ####
+write.csv(trees_all, "manuscript/tables_figures/trees_all.csv", row.names=FALSE)
 ##5i. remove one bad tree & resistance values >2 ####
 ##fram 140939 has been mislabeled. It is recorded as having a small dbh when that is the second stem. In terms of canopy position, though, it fell between time of coring and when positions were recorded, thus we do not know its position.
 trees_all <- trees_all[!trees_all$tree == 140939, ]
@@ -1008,9 +1010,17 @@ trees_all <- trees_all[trees_all$resist.value <=2,]
 
 ##5j. subset for either leaf hydraulic traits or biophysical ####
 trees_all_traits <- trees_all[complete.cases(trees_all), ]
+write.csv(trees_all_traits, "manuscript/tables_figures/trees_all_traits.csv", row.names=FALSE)
 
 trees_all_bio <- trees_all[c("year", "sp", "tree", "position", "resist.value", "elev.m", "distance.ln.m", "height.ln.m", "position_all")]
 trees_all_bio <- trees_all_bio[complete.cases(trees_all_bio), ]
+write.csv(trees_all_bio, "manuscript/tables_figures/trees_all_bio.csv", row.names=FALSE)
+
+#take out p50 and p80, then keep all leaf traits and additionally height plus position
+trees_all_full <- trees_all[!colnames(trees_all) %in% c("p50.MPa", "p80.MPa")]
+trees_all_full <- trees_all_full[, c(1:11,18:20)]
+trees_all_full<- trees_all_full[complete.cases(trees_all_full), ]
+write.csv(trees_all_full, "manuscript/tables_figures/trees_all_full.csv", row.names=FALSE)
 
 ##5k. make subsets for individual years, combine all to list ####
 x1966 <- trees_all_bio[trees_all_bio$year == 1966, ]
@@ -1569,7 +1579,7 @@ write.csv(summary_models, "tables_figures/results_full_models_combined_years.csv
 
 ##6aii. coefficients ####
 best <- lmm_all[[8]]
-coef(summary(best))[ , "Estimate"]
+cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
 
@@ -1651,6 +1661,40 @@ print(q)
 #7. interpreting the outcomes ####
 library(ggplot2)
 library(RCurl)
+library(tidyr)
+library(grid)
+library(gridExtra)
+
+graph_traits <- colnames(trees_all_full[, 7:11])
+color <- c("dark green", "blue", "gold", "purple", "magenta")
+
+for(i in seq(along=graph_traits)){
+  trait <- graph_traits[[i]]
+  trees_all_full$trait <- trees_all_full[, trait]
+ 
+   p <- ggplot(trees_all_full) +
+    geom_point(aes(x = trait, y = height.ln.m), color = color[[i]]) +
+    xlab(print(trait)) +
+    theme_minimal()
+  
+  assign(paste0(trait, "_plot"), p)
+}
+
+grid.arrange(PLA_dry_percent_plot, LMA_g_per_m2_plot, Chl_m2_per_g_plot, mean_TLP_Mpa_plot, WD_g_per_cm3_plot, nrow=2, top = textGrob(expression(bold("Hydraulic Traits by Height"))))
+
+test
+#
+
+
+
+
+graph_traits <- graph_traits %>%
+  gather("PLA_dry_percent", "LMA_g_per_m2", "Chl_m2_per_g", "mean_TLP_Mpa", "WD_g_per_cm3", key = "trait", value = measure)
+
+ggplot(graph_traits) +
+  geom_point(aes(x=measure, y=height.ln.m)) +
+  facet_wrap(~trait) +
+  theme_minimal()
 
 ##compare tree drought responses between those that lived and died ####
 ##corresponding to issue 26 in github
