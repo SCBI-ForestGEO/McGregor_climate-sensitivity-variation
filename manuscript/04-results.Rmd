@@ -1,14 +1,107 @@
+```{r include=FALSE, cache=FALSE}
+rm(list = ls(all = TRUE))
+```
 # Results
 
-## Biophysical Models
-Crown position 
-When including only biophysical traits, trees' resistance value (on a per-species basis) is explained best by crown position and height, with codominant trees being the most resistant to drought. This follows on work done by [@bennett_larger_2015] [and others?] which show that larger trees suffer more during drought, and confirms that this susceptibility can be seen in tree ring analyses.
+## Model runs
+When including only biophysical traits, trees' resistance value (on a per-species basis) is explained best by crown position and height, with codominant trees being the most resistant to drought. This follows on work done by [@bennett_larger_2015] [and others?] which show that larger trees suffer more during drought, and confirms that this susceptibility can be seen in tree ring analyses. Adding in crown position with the leaf hydraulic traits yields a slightly worse predictive model for drought tolerance, with height remaining as the only significant biophysical variable.
 
+``` {r, biophysical-model, eval=TRUE, echo=FALSE, message=FALSE, cache=TRUE}
+library(lme4)
+library(AICcmodavg) #aictab function
+library(car)
+library(data.table)
+library(knitr)
+library(kableExtra)
 
+trees_all_bio <- read.csv("tables_figures/trees_all_bio.csv", stringsAsFactors = FALSE)
 
+response <- "resist.value"
+effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "year", "(1|sp)")
 
+#create all combinations of random / fixed effects
+effects_comb <- 
+  unlist( sapply( seq_len(length(effects)), 
+                  function(i) {
+                    apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
+                  }))
 
+# pair response with effect and sub out combinations that don't include random effects
+#in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
+var_comb <- expand.grid(response, effects_comb) 
+var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
 
+# formulas for all combinations. $Var1 is the response, and $Var2 is the effect
+# for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
+formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
+
+# create list of model outputs
+lmm_all <- lapply(formula_vec, function(x){
+  fit1 <- lmer(x, data = trees_all_bio, REML=FALSE, 
+               control = lmerControl(optimizer ="Nelder_Mead"))
+  return(fit1)
+})
+names(lmm_all) <- formula_vec
+
+var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+
+best <- lmm_all[[8]]
+cof_bio <- data.frame("value" = coef(summary(best))[ , "Estimate"])
+cof_bio <- setDT(cof_bio, keep.rownames = TRUE)[]
+setnames(cof_bio, old="rn", new="coefficients")
+
+```
+``` {r, full-model, eval=TRUE, echo=FALSE, message=FALSE, cache=TRUE}
+trees_all_full <- read.csv("tables_figures/trees_all_full.csv", stringsAsFactors = FALSE)
+
+response <- "resist.value"
+effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "WD_g_per_cm3", "mean_TLP_Mpa", "height.ln.m", "position_all", "year", "(1|sp/tree)")
+
+#create all combinations of random / fixed effects
+effects_comb <- 
+  unlist( sapply( seq_len(length(effects)), 
+                  function(i) {
+                    apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
+                  }))
+
+# pair response with effect and sub out combinations that don't include random effects
+#in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
+var_comb <- expand.grid(response, effects_comb) 
+var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+
+# formulas for all combinations. $Var1 is the response, and $Var2 is the effect
+# for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
+formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
+
+# create list of model outputs
+lmm_all <- lapply(formula_vec, function(x){
+  fit1 <- lmer(x, data = trees_all_full, REML=FALSE, 
+               control = lmerControl(optimizer ="Nelder_Mead"))
+  return(fit1)
+})
+names(lmm_all) <- formula_vec
+
+var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+
+best <- lmm_all[[121]]
+cof_full <- data.frame("value" = coef(summary(best))[ , "Estimate"])
+cof_full <- setDT(cof_full, keep.rownames = TRUE)[]
+setnames(cof_full, old="rn", new="coefficients")
+```
+```{r, make-tables, eval=TRUE, echo=FALSE, message=FALSE, results = 'asis'}
+library(knitr)
+library(kableExtra)
+
+cof_bio %>%
+  kable("html", align = 'clc', caption = 'Biophysical Model') %>%
+    kable_styling(full_width = F, position = "float_left")
+ 
+cof_full %>%
+  kable("html", align = 'clc', caption = 'Full Model') %>%
+    kable_styling(full_width = F, position = "right")
+```
 
 From [@kannenberg_linking_2019], species with diffuse porous wood anatomy (*Liriodendron*) are more sensitive to drought, whereas ring-porous are not as affected because they more easily rebuild structures for hydraulic conductivity. This paper mentions it would be good to have this data with respect to latent affects from drought.
 

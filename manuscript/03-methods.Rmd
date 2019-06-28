@@ -43,7 +43,46 @@ To determine focus drought years, we used the pointRes package [@R-pointRes] in 
 ![Time series of combined tree cores by species](tables_figures/Time_series_for_each_species.jpg){width=500px}
 
 ### Biophysical traits
-Canopy classes were observed in the field during the growing season of 2018 following the crown position protocol from [@jennings_assessing_1999], whereby positions were ranked as dominant, codominant, intermediate, or suppressed. For ease of core analysis, these labels were condensed to canopy (including dominant and codominant) and subcanopy (intermediate and suppressed).
+Canopy classes were observed in the field during the growing season of 2018 following the crown position protocol from [@jennings_assessing_1999], whereby positions were ranked as dominant, codominant, intermediate, or suppressed. In determining pointer years, these labels were condensed to canopy (including dominant and codominant) and subcanopy (intermediate and suppressed). The full set of canopy classes were used for all other analyses.
+
+```{r, Table-cores-position, eval=TRUE, echo=FALSE, message=FALSE}
+library(RCurl)
+library(dplyr)
+library(tidyr)
+library(data.table)
+library(knitr)
+library(kableExtra)
+
+species <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/master/data/core_list_for_neil.csv?token=AJNRBEIAVYFAN2CJB3Y3UAS5D5BNG"), stringsAsFactors = FALSE)
+
+table <- species[, c(1:3,6,17)]
+
+positions <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_crowns/cored_dendroband_crown_position_data/dendro_cored_full.csv"))
+
+table$position_all <- positions$crown.position[match(table$tag, positions$tag)]
+table$position_all <- gsub("D", "dominant", table$position_all)
+table$position_all <- gsub("C", "co-dominant", table$position_all)
+table$position_all <- gsub("I", "intermediate", table$position_all)
+table$position_all <- gsub("S", "suppressed", table$position_all)
+
+table1 <- table %>%
+  group_by(sp) %>%
+  summarize(n_cores=n())
+
+table2 <- table %>%
+  group_by(sp, position_all) %>%
+  summarize(count=n())
+
+table2 <- spread(table2, key=position_all, value=count)
+setnames(table2, old="<NA>", new="prior dead")
+
+table2$n_cores <- table1$n_cores[match(table2$sp, table1$sp)]
+table2 <- table2[, c(1,7,3,2,4:6)]
+table2 <- table2[!table2$sp %in% c("frni", "pist"), ]
+
+kable(table2) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+```
 
 Elevation for the trees was extracted from a USGS DEM in ArcMap. Distance to water was calculated as the shortest distance in meters between each individual tree and the major streams running through the ForestGEO plot.
 
@@ -59,7 +98,7 @@ First, we generated log-log regression equations for bark thickness based on DBH
 Hydraulic traits were collected from SCBI and are summarized in Table 1. Ring porosity qualifications were obtained from [@andersonteixeira_size-related_2015].
 
 
-Need to say the methodology for all traits used
+Need to say the methodology for all traits used (**Nobby making short list**)
 1. PLA
 2. LMA
 3. Chlorophyll
@@ -68,13 +107,46 @@ Need to say the methodology for all traits used
 6. P50 = psi_0.5_kl50
 7. P80 = psi_0.5_kl80
 
-```{r, echo=FALSE}
+```{r, traits-overview, eval=TRUE, echo=FALSE, message=FALSE}
 library(knitr)
 library(kableExtra)
 
+trees_all <- read.csv("tables_figures/trees_all.csv", stringsAsFactors = FALSE)
+
+trees_all <- trees_all[!duplicated(trees_all$sp), ]
+  
+
 traits_table <- data.frame(
   "Trait" = c("Ring Porosity", "Percent Leaf Area", "Leaf Mass Area", "Chlorophyll", "Wood density", "TLP", "P50", "P80"),
-  "Unit" = c("", "%", "g/m2", "m2/g", "g/cm3", "MPa", "MPa", "MPa"))
+  "Unit" = c("ring, semi-ring, diffuse", "%", "g/m2", "m2/g", "g/cm3", "MPa", "MPa", "MPa"))
+traits_table$abb <- c("rp", "PLA", "LMA", "Chl", "WD", "TLP", "p50", "p80")
+
+traits_table$mean <- NA
+traits_table$min <- NA
+traits_table$max <- NA
+
+for (i in seq(along=traits_table$abb[2:8])){
+  trait <- traits_table$abb[2:8][i]
+  
+  sub <- trees_all[grepl(trait, colnames(trees_all))]
+  traits_table$mean[2:8][i] <- ifelse(grepl(trait, colnames(sub)), 
+                              mean(sub[, 1], na.rm=TRUE), 
+                              traits_table$mean)
+  
+  traits_table$min[2:8][i] <- ifelse(grepl(trait, colnames(sub)), 
+                              min(sub[, 1], na.rm=TRUE), 
+                              traits_table$min)
+  
+  traits_table$max[2:8][i] <- ifelse(grepl(trait, colnames(sub)), 
+                              max(sub[, 1], na.rm=TRUE), 
+                              traits_table$max)
+}
+
+traits_table[, c("mean", "min", "max")] <- 
+  sapply(traits_table[, c("mean", "min", "max")], function(x)
+  round(x, 2)
+)
+traits_table$abb <- NULL
 
 kable(traits_table) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
@@ -83,3 +155,6 @@ kable(traits_table) %>%
 
 
 After the data was collected, linear mixed models were run with the resistance value of each tree for each pointer year (determined from the pointRes package) as the response variable. Traits and other geographic data were used as independent variables.
+
+## Model runs
+Traits' importance in predicting drought tolerance was calculated from mixed-effects models and the lowest AICc [@R-lme4, @R-AICcmodavg]. Specifically, we first determined the most important biophysical traits before including them in the model with the leaf hydraulic traits [**need to say why?**]
