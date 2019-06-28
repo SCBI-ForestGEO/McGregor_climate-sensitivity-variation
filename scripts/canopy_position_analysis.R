@@ -1665,6 +1665,8 @@ library(tidyr)
 library(grid)
 library(gridExtra)
 
+trees_all_full <- read.csv("manuscript/tables_figures/trees_all_full.csv", stringsAsFactors = FALSE)
+
 graph_traits <- colnames(trees_all_full[, 7:11])
 color <- c("dark green", "blue", "gold", "purple", "magenta")
 
@@ -1680,7 +1682,12 @@ for(i in seq(along=graph_traits)){
   assign(paste0(trait, "_plot"), p)
 }
 
-grid.arrange(PLA_dry_percent_plot, LMA_g_per_m2_plot, Chl_m2_per_g_plot, mean_TLP_Mpa_plot, WD_g_per_cm3_plot, nrow=2, top = textGrob(expression(bold("Hydraulic Traits by Height"))))
+#arrange all graphs together and save image
+png("manuscript/tables_figures/traits_vs_traits.png", width = 1000, height = 1000, pointsize = 18)
+graph <- grid.arrange(PLA_dry_percent_plot, LMA_g_per_m2_plot, Chl_m2_per_g_plot, mean_TLP_Mpa_plot, WD_g_per_cm3_plot, nrow=2, top = textGrob(expression(bold("Hydraulic Traits by Height"))))
+
+dev.off()
+
 
 test
 #
