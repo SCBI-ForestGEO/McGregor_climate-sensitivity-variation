@@ -21,8 +21,8 @@
 - [ ] each trait plotted against height (logged values of height), possibly by weighted mean/% (Meakem made code for this when she was here, ask valentine if know anything)
 
 ### Table
-- [ ] species table showing species, number of cores, and number of trees in each crown position (6 total columns)
-- [ ] trait table, showing trait, unit, mean, and range
+- [X] species table showing species, number of cores, and number of trees in each crown position (6 total columns)
+- [X] trait table, showing trait, unit, mean, and range
 - [ ] hypothesis testing table (like the one we have already)
 - null model will be the best model, so like, if testing effect of height, you'd do null minus height
 - [ ] table of coefficients of best models (biophysical and traits)
