@@ -121,7 +121,9 @@ kable(traits_table) %>%
 
 ```
 
-## Identification of drought years
+## Climate and drought years
+[**add description of climate data used in Fig. 1, NEON vertical profiles**]
+
 To determine focus drought years, we used the pointRes package [@R-pointRes] in R (version 3.5.2) to determine resilience metrics. Specifically, we calculated pointer years (main drought years) if >50% of the cored trees experienced <30% growth in a year compared to the previous 5 years. The top 6 pointer years were compared with PDSI (Palmer Drought Severity Index) values for the region, obtained from NOAA. Based on this comparison, we then took the top three pointer years of 1964-1966 (resistance metric averaged due to a single, prolonged drought), 1977, and 1999. [**This needs work. It's very complex to describe what you did, and in retrospect not well-aligned with our current analysis. It would be much more straightforward to simply combine ALL cores in the pointRes package to identify potential pointer years. Is this a lot of work? In any case, we should find a way to present this analysis in one paragraph (no tables!) of main body text. If you need to stick with species/canopy position-level analysis, any tables and detailed description should go in SI**]
 
 **Figure 1. Time series of peak growing season (May-August) climate conditions and residual chronologies for each species.** Droughts analyzed here are indicated by dashed lines, and shading indicates the pre-drought period used in calculations of the resistance metric. Figure modified from [@helcoski_growing_2019].
