@@ -11,7 +11,7 @@ Height measurements (n=# trees) were taken by several researchers between 2012 t
 
 For each tree, we combined tree-ring records and allometric equations of height and bark thickness to retroactively calculate DBH and estimate height for the years 1950-2009. Prior DBH was estimated using the following equation:
 
-`diam_1999 = dbh2008 - 2*(bark.depth2008) - 2*(sum(ring.width1999:ring.width2008)) + 2*(bark.depth_1999)`  ([issue #35](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/35)) (**clean up this equation--put a generic year instead of 1999, use sum symbol, etc.**)
+`diam_1999 = dbh2008 - 2*(bark.depth2008) - 2*(sum(ring.width1999:ring.width2008)) + 2*(bark.depth_1999)`  (**clean up this equation--put a generic year instead of 1999, use sum symbol, etc.**)
 
 Here, *ring.width* was measured from cores. Bark thickness was estimated from species-specific allometries based on the bark thickness data of [@andersonteixeira_size-related_2015].
 Specifically, we used linear regression equations on log-transformed data to relate bark thickness to DBH (Table S#- **create table to give these equations in SI**) and then used these to estimate bark thickness based on DBH. 
