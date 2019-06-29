@@ -7,36 +7,6 @@ We analyzed tree-ring data from the twelve species contributing most to woody ab
 
 *Table 1. Species analyzed here, listed in descending order of ANPP_stem. n cores and DBH range represented, and species traits* [this should combine the two remaining tables in this section]
 
-|**Species**|**n_cores.canopy**|**n_cores.subcanopy**|**included**
-|----------|-------------|---------------|-----------|
-*Carya cordiformis*|2|11|yes
-*Carya glabra*|9|22|yes
-*Carya ovalis*|9|14|yes
-*Carya tomentosa*|0|13|sub-canopy only
-*Fagus grandifolia*|7|73|yes
-*Fraxinus americana*|20|42|yes
-*Fraxinus nigra*|1|11| sub-canopy only
-*Juglans nigra*|22|9|yes
-*Liriodendron tulipifera*|38|60|yes
-*Quercus alba*|38|23|yes
-*Quercus prinus*|27|32|yes
-*Quercus rubra*|43|26|yes
-*Quercus velutina*|54|23|yes
-
-
-``` {r sample, echo=FALSE}
-#numbers for the table above come from this table
-# library(RCurl)
-# library(dplyr)
-# species <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/master/data/core_list_for_neil.csv?token=AJNRBELCYZY576ARLE7BXNK5BEF3O"))
-# 
-# test <- species %>%
-#   group_by(sp, crown.position) %>%
-#   summarize(count=n())
-
-```
-
-Using CRU data **with Valentine's quilts for each grouping**, it was found that all climate variables tested were significant by tree position when using a linear mixed model (**this was done early-on, included here because unsure if will keep for full analysis**).
 
 To determine focus drought years, we used the pointRes package [@R-pointRes] in R (version 3.5.2) to determine resilience metrics. Specifically, we calculated pointer years (main drought years) if >50% of the cored trees experienced <30% growth in a year compared to the previous 5 years. The top 6 pointer years were compared with PDSI (Palmer Drought Severity Index) values for the region, obtained from NOAA. Based on this comparison, we then took the top three pointer years of 1964-1966 (resistance metric averaged due to a single, prolonged drought), 1977, and 1999.
 
