@@ -17,20 +17,16 @@ Equations required the DBH in each individual drought year. As part of the Fores
 
 First, we generated log-log regression equations for bark thickness based on DBH, and then determined mean bark thickness per species. Ring widths were determined from the processed cores, and once the diameter without bark was calculated for a certain year, we added the mean bark thickness from the regression equations.
 
-Hydraulic traits were collected from SCBI and are summarized in Table 1. Ring porosity qualifications were obtained from [@andersonteixeira_size-related_2015].
-
-
-Need to say the methodology for all traits used (**Nobby making short list**)
+Hydraulic traits were collected from SCBI and are summarized in Table 1. In August 2018, we collected leaf samples from three individuals of each species ... (**Nobby's description of methods for the following**) 
 1. PLA
 2. LMA
-3. Chlorophyll
 4. Wood density
 5. TLP
 6. P50 = psi_0.5_kl50
-7. P80 = psi_0.5_kl80
+7. P80 = psi_0.5_kl80 
 
 
-*Table 1. Species analyzed here, listed in descending order of ANPP_stem. n cores and DBH range represented, and species traits* [this should combine the two remaining tables in this section]
+**Table 1. Species analyzed here, listed in descending order of ANPP_stem. n cores and DBH range represented, and species traits** [*This replaces/combines the two remaining tables in this section. Suggested columns, with those to include only if they fit in parentheses: species, (stems >=10 cm per ha in plot), (ANPP_stem), n cores, DBH range of cores, (n cores in each canopy position) species means for each trait]
 
 
 ```{r, Table-cores-position, eval=TRUE, echo=FALSE, message=FALSE}
