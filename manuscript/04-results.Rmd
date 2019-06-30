@@ -23,6 +23,10 @@ P1.1. Drought resistance decreased with height at time of drought.
 P1.2. Trees currently in a dominant crown position suffered more during drought. Intermediate and suppressed trees also suffered more (in model with height)
 P1.3. Resistance was independent of elevation and distance from stream.
 
+[**HYPOTHESIS TESTING TABLE**]
+
+## [2- traits]
+
 ``` {r, biophysical-model, eval=TRUE, echo=FALSE, message=FALSE, cache=TRUE}
 library(lme4)
 library(AICcmodavg) #aictab function
