@@ -3,7 +3,7 @@ rm(list = ls(all = TRUE))
 ```
 # Results
 
-## tree and trait distribution within the biophysical setting
+### tree and trait distribution within the biophysical setting
 
 **Figure 2. Vertical profiles in microclimate, crown positions, and traits.**[combines the two following figures]
 
@@ -13,10 +13,10 @@ rm(list = ls(all = TRUE))
 
 [consider an analysis of trait distribution in relation to topography??]
 
-## droughts(?)
+### droughts(?)
 [description of the 3 droughts in terms of timing, duration, severity, proportion of trees showing pointer year..?]
 
-## 1- tree size and exposure
+### 1- tree size and exposure
 We evaluated the predictions outlined in the introduction
 P1.0. Drought resistance decreased with DBH at time of drought.
 P1.1. Drought resistance decreased with height at time of drought.
@@ -25,7 +25,7 @@ P1.3. Resistance was independent of elevation and distance from stream.
 
 [**HYPOTHESIS TESTING TABLE**]
 
-## 2- traits
+### 2- traits
 
 ``` {r, biophysical-model, eval=TRUE, echo=FALSE, message=FALSE, cache=TRUE}
 library(lme4)
