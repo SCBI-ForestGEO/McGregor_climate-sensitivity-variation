@@ -3,8 +3,25 @@ rm(list = ls(all = TRUE))
 ```
 # Results
 
-## Model runs
-When including only biophysical traits, trees' resistance value (on a per-species basis) is explained best by crown position and height, with codominant trees being the most resistant to drought. This follows on work done by [@bennett_larger_2015] [and others?] which show that larger trees suffer more during drought, and confirms that this susceptibility can be seen in tree ring analyses. Adding in crown position with the leaf hydraulic traits yields a slightly worse predictive model for drought tolerance, with height remaining as the only significant biophysical variable.
+## tree and trait distribution within the biophysical setting
+
+**Figure 2. Vertical profiles in microclimate, crown positions, and traits.**[combines the two following figures]
+
+![Climate variables with height](tables_figures/NEON_vertical_profiles.png){width=500px} 
+
+![Leaf hydraulic traits with log-values of height](tables_figures/traits_vs_traits.png){width=500px}
+
+[consider an analysis of trait distribution in relation to topography??]
+
+## droughts(?)
+[description of the 3 droughts in terms of timing, duration, severity, proportion of trees showing pointer year..?]
+
+## [1- tree size and exposure]
+We evaluated the predictions outlined in the introduction
+P1.0. Drought resistance decreased with DBH at time of drought.
+P1.1. Drought resistance decreased with height at time of drought.
+P1.2. Trees currently in a dominant crown position suffered more during drought. Intermediate and suppressed trees also suffered more (in model with height)
+P1.3. Resistance was independent of elevation and distance from stream.
 
 ``` {r, biophysical-model, eval=TRUE, echo=FALSE, message=FALSE, cache=TRUE}
 library(lme4)
@@ -103,12 +120,5 @@ cof_full %>%
     kable_styling(full_width = F, position = "right")
 ```
 
-From [@kannenberg_linking_2019], species with diffuse porous wood anatomy (*Liriodendron*) are more sensitive to drought, whereas ring-porous are not as affected because they more easily rebuild structures for hydraulic conductivity. This paper mentions it would be good to have this data with respect to latent affects from drought.
 
 
-### Vertical Profiles
-
-![Climate variables with height](tables_figures/NEON_vertical_profiles.png){width=500px}
-
-### Traits to height
-![Leaf hydraulic traits with log-values of height](tables_figures/traits_vs_traits.png){width=500px}
