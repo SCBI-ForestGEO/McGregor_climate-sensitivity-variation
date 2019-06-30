@@ -2,8 +2,29 @@
 
 # Results
 
-## Model runs
-When including only biophysical traits, trees' resistance value (on a per-species basis) is explained best by crown position and height, with codominant trees being the most resistant to drought. This follows on work done by [@bennett_larger_2015] [and others?] which show that larger trees suffer more during drought, and confirms that this susceptibility can be seen in tree ring analyses. Adding in crown position with the leaf hydraulic traits yields a slightly worse predictive model for drought tolerance, with height remaining as the only significant biophysical variable.
+## tree and trait distribution within the biophysical setting
+
+**Figure 2. Vertical profiles in microclimate, crown positions, and traits.**[combines the two following figures]
+
+![Climate variables with height](tables_figures/NEON_vertical_profiles.png){width=500px} 
+
+![Leaf hydraulic traits with log-values of height](tables_figures/traits_vs_traits.png){width=500px}
+
+[consider an analysis of trait distribution in relation to topography??]
+
+## droughts(?)
+[description of the 3 droughts in terms of timing, duration, severity, proportion of trees showing pointer year..?]
+
+## 1- tree size and exposure
+We evaluated the predictions outlined in the introduction
+P1.0. Drought resistance decreased with DBH at time of drought.
+P1.1. Drought resistance decreased with height at time of drought.
+P1.2. Trees currently in a dominant crown position suffered more during drought. Intermediate and suppressed trees also suffered more (in model with height)
+P1.3. Resistance was independent of elevation and distance from stream.
+
+[**HYPOTHESIS TESTING TABLE**]
+
+## 2- traits
 
 
 
@@ -18,27 +39,35 @@ When including only biophysical traits, trees' resistance value (on a per-specie
 <tbody>
   <tr>
    <td style="text-align:center;"> (Intercept) </td>
-   <td style="text-align:left;"> 4.5959863 </td>
+   <td style="text-align:left;"> 1.1969314 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> position_alldominant </td>
-   <td style="text-align:left;"> -0.0443306 </td>
+   <td style="text-align:left;"> -0.0446162 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> position_allintermediate </td>
-   <td style="text-align:left;"> -0.0393504 </td>
+   <td style="text-align:left;"> -0.0398600 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> position_allsuppressed </td>
-   <td style="text-align:left;"> -0.0455848 </td>
+   <td style="text-align:left;"> -0.0470137 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> height.ln.m </td>
-   <td style="text-align:left;"> -0.0824031 </td>
+   <td style="text-align:left;"> -0.0840061 </td>
   </tr>
   <tr>
-   <td style="text-align:center;"> year </td>
-   <td style="text-align:left;"> -0.0017463 </td>
+   <td style="text-align:center;"> year1977 </td>
+   <td style="text-align:left;"> -0.0885718 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> year1999 </td>
+   <td style="text-align:left;"> -0.0736875 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> r^2 </td>
+   <td style="text-align:left;"> 0.1053492 </td>
   </tr>
 </tbody>
 </table>
@@ -54,49 +83,46 @@ When including only biophysical traits, trees' resistance value (on a per-specie
 <tbody>
   <tr>
    <td style="text-align:center;"> (Intercept) </td>
-   <td style="text-align:left;"> 4.3699798 </td>
+   <td style="text-align:left;"> 0.7569236 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> rpring </td>
-   <td style="text-align:left;"> 0.1317385 </td>
+   <td style="text-align:left;"> 0.1291659 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> rpsemi-ring </td>
-   <td style="text-align:left;"> 0.2535448 </td>
+   <td style="text-align:left;"> 0.2920676 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> PLA_dry_percent </td>
-   <td style="text-align:left;"> -0.0075767 </td>
+   <td style="text-align:left;"> -0.0097121 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> LMA_g_per_m2 </td>
-   <td style="text-align:left;"> -0.0042186 </td>
+   <td style="text-align:left;"> -0.0049295 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> WD_g_per_cm3 </td>
-   <td style="text-align:left;"> -0.3024895 </td>
+   <td style="text-align:left;"> -0.3062093 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> mean_TLP_Mpa </td>
-   <td style="text-align:left;"> -0.2988857 </td>
+   <td style="text-align:left;"> -0.2853792 </td>
   </tr>
   <tr>
-   <td style="text-align:center;"> height.ln.m </td>
-   <td style="text-align:left;"> -0.0592808 </td>
+   <td style="text-align:center;"> year1977 </td>
+   <td style="text-align:left;"> -0.0919863 </td>
   </tr>
   <tr>
-   <td style="text-align:center;"> year </td>
-   <td style="text-align:left;"> -0.0018175 </td>
+   <td style="text-align:center;"> year1999 </td>
+   <td style="text-align:left;"> -0.0804358 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> r^2 </td>
+   <td style="text-align:left;"> 0.1333869 </td>
   </tr>
 </tbody>
 </table>
 
-From [@kannenberg_linking_2019], species with diffuse porous wood anatomy (*Liriodendron*) are more sensitive to drought, whereas ring-porous are not as affected because they more easily rebuild structures for hydraulic conductivity. This paper mentions it would be good to have this data with respect to latent affects from drought.
 
 
-### Vertical Profiles
-
-![Climate variables with height](tables_figures/NEON_vertical_profiles.png){width=500px}
-
-### Traits to height
-![Leaf hydraulic traits with log-values of height](tables_figures/traits_vs_traits.png){width=500px}

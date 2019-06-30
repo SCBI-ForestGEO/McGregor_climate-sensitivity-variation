@@ -1,7 +1,7 @@
 
 ---
 title: "Tree size, exposure, and hydraulic traits interactively shape drought response in a temperate broadleaf forest"
-author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Valentine Herrmann, Neil Pederson, Lawren Sack, Joseph Zailaa, Krista Anderson-Teixeira"
+author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Valentine Herrmann, Joseph Zailaa, Neil Pederson, Lawren Sack, Krista Anderson-Teixeira"
 output:
   html_document:
     fig.width: 12
