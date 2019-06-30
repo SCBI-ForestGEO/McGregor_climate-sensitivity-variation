@@ -778,6 +778,7 @@ range(bark$predict_barkthick.mm - bark$bark.depth.mm)
 dbh <- trees_all[, c(1:4)]
 scbi.stem1 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem1.csv"))
 dbh$dbh2008.mm <- scbi.stem1$dbh[match(dbh$tree, scbi.stem1$tag)]
+dbh$dbh2008.mm <- as.numeric(dbh$dbh2008.mm)
 
 mean_bark <- aggregate(bark$bark.depth.mm, by=list(bark$species), mean) #mm
 colnames(mean_bark) <- c("sp", "mean_bark_2008.mm")
@@ -1578,7 +1579,7 @@ for (i in seq_along(model_df)){
 write.csv(summary_models, "tables_figures/results_full_models_combined_years.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
-best <- lmm_all[[8]]
+best <- lmm_all[[58]]
 cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
@@ -1593,8 +1594,9 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "year", "(1|sp)")
+# effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "year", "(1|sp)")
 # effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "WD_g_per_cm3", "mean_TLP_Mpa", "p50.MPa", "p80.MPa", "year", "(1|sp/tree)")
+effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "WD_g_per_cm3", "mean_TLP_Mpa", "height.ln.m", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -1615,7 +1617,7 @@ formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
 
 # create list of model outputs
 lmm_all <- lapply(formula_vec, function(x){
-  fit1 <- lmer(x, data = trees_all_bio, REML=FALSE, 
+  fit1 <- lmer(x, data = trees_all_full, REML=FALSE, 
                control = lmerControl(optimizer ="Nelder_Mead"))
   return(fit1)
 })
