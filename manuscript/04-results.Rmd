@@ -14,7 +14,7 @@ rm(list = ls(all = TRUE))
 [consider an analysis of trait distribution in relation to topography??]
 
 ### droughts(?)
-[description of the 3 droughts in terms of timing, duration, severity, proportion of trees showing pointer year..?]
+[description of the 3 droughts in terms of timing, duration, severity, proportion of trees showing pointer year..?. See [Slette et al. (2019)](https://onlinelibrary-wiley-com.smithsonian.idm.oclc.org/doi/abs/10.1111/gcb.14747)]
 
 ### 1- tree size and exposure
 We evaluated the predictions outlined in the introduction
