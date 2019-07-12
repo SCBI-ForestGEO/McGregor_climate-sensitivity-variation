@@ -28,7 +28,7 @@
 - [X] table of coefficients of best models (biophysical and traits)
 
 ## Models
-- [ ] make table going through each trait individually (#36, and by extension #33)
+- [ ] make table going through each trait individually (#36, and by extension #33, #16)
 - [ ] run through the different hypotheses and fill out the hypothesis table
 - [X] Use both height and position in traits model (reasoning is that "we did the biophysical model first to determine which was the most important trait, before adding it in with hydraulic traits to see how that affected drought resistance")
 
