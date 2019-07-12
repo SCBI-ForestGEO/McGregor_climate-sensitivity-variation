@@ -1,5 +1,8 @@
-#get NEON data for vertically-scaled air temperature
-
+######################################################
+# Purpose: Create vertical profiles of climate variables for ForestGEO plot using NEON tower data
+# Developed by: Ian McGregor - mcgregori@si.edu
+# R version 3.5.3 - First created May 2019
+######################################################
 library(neonUtilities)
 library(plotly)
 library(lubridate)
