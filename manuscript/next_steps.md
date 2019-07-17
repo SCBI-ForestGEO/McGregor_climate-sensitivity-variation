@@ -1,7 +1,7 @@
 # Remaining steps for paper
 
 ## Data
-- [ ] topographic wetness index (#38)
+- [X] topographic wetness index (#38)
 - [X] search more for any precedents, but don't take a lot of time on this. If anything, we can assign our own threshold (median looking over the timeframe, or looking at the average of each month)
 - [X] get threshold / figure out how to split by sun/cloud
   - the whole point is to think biologically about this and what makes sense, in other words, what can be sufficiently and logically argued 
