@@ -1074,8 +1074,29 @@ library(piecewiseSEM) #for R^2 values for all model outputs in a list
 library(MuMIn) #for R^2 values of one model output
 library(stringr)
 
-##6a. Determine best model to use with AICc ####
-##6ai. test predictions for paper and put in table
+##6ai. test predictions for paper and put in table ####
+##testing each trait
+
+#null model <- "resist.value ~ height.ln.m+year+(1|sp/tree)"
+sum_mod_traits <- data.frame(
+  "variables" = c("position_all", "elev.m", "distance.ln.m", "TWI", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
+  "model_variables" = c("crown.position", "elevation", "stream.distance", "topographic.wetness.index", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
+  "null_model" = 
+    c("resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)"),
+  "dAIC_variable" = NA,
+  "coef_all_years" = NA)
+
+# change factor columns to character
+summary_models %>% mutate_if(is.factor, as.character) -> summary_models
+
 ##initial table with models based on github issue predictions ####
 summary_models <- data.frame(
   "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2", "4"), 
@@ -1613,20 +1634,7 @@ for (i in seq_along(model_df)){
 #csv has a 1 in the title to make sure any notes in current file are not overwritten
 write.csv(summary_models, "tables_figures/results_full_models_combined_years.csv", row.names=FALSE)
 
-##6aii. coefficients ####
-best <- lmm_all[[250]]
-cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
-
-lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
-
-q <- sapply(lmm_all, anova, simplify=FALSE)
-mapply(anova, lmm_all, SIMPLIFY = FALSE)
-
-#subset by only the top result (the minimum AICc value)
-aic_top <- var_aic %>%
-  filter(AICc == min(AICc))
-
-##6aiii. base code for running multiple models through AICc eval ####
+##6aii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
 # effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "TWI", "year", "(1|sp)")
@@ -1660,6 +1668,19 @@ names(lmm_all) <- formula_vec
 
 var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
 r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+
+##6aiii. coefficients ####
+best <- lmm_all[[250]]
+cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
+
+lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
+
+q <- sapply(lmm_all, anova, simplify=FALSE)
+mapply(anova, lmm_all, SIMPLIFY = FALSE)
+
+#subset by only the top result (the minimum AICc value)
+aic_top <- var_aic %>%
+  filter(AICc == min(AICc))
 
 ##6b. determine the best model from anova (using the model candidates above) ####
 #interestingly, this gives a similar result to running AICc, with Pr(>Chisq) acting as a kind of p-value for showing which model is best to use.
