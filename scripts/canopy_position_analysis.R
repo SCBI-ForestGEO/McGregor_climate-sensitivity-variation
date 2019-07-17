@@ -522,6 +522,9 @@ library(ggthemes) #for removing graticules when making pdf
 library(rgeos) #for distance calculation
 library(RCurl) #for reading in URLs
 library(readxl)
+library(raster)
+library(elevatr)
+library(dynatopmodel)
 
 ##5a. add in ring porosity qualifications ####
 ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "juni",  "litu",  "pist",  "qual",  "qupr",  "quru",  "quve", "caco", "frni"), "rp" = c("ring", "ring", "ring", "diffuse", "ring", "semi-ring", "diffuse", NA, "ring", "ring", "ring", "ring", "ring", "ring"))
@@ -542,7 +545,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEK7M54M5JLHLYBRDZ25DJLFS"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEJQMFQQQHLV5MJVM7K5HCCRC"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,24,26,28)]
 
@@ -573,7 +576,7 @@ for (i in seq(along=2:ncol(leaf_traits))){
 
 ##5bii. add in p50 and p88 ####
 #get P50 from traits table
-hydra <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/results/SCBI_best_fits.csv?token=AJNRBEN7LB443AVIH26I6AC5DOTIM"))
+hydra <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/results/SCBI_best_fits.csv?token=AJNRBEP62SALMQHAV45TP2S5HCCPK"))
 
 #Anderegg 2018 found that p50 and p80 came out significant in modelling
 trees_all$p50.MPa <- hydra$psi_0.5_kl50[match(trees_all$sp, hydra$data.type)]
@@ -776,9 +779,9 @@ range(bark$predict_barkthick.mm - bark$bark.depth.mm)
 
 ##set up dbh dataframe
 dbh <- trees_all[, c(1:4)]
-scbi.stem1 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem1.csv"))
+scbi.stem1 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem1.csv"), stringsAsFactors = FALSE)
+scbi.stem1$dbh <- as.numeric(scbi.stem1$dbh)
 dbh$dbh2008.mm <- scbi.stem1$dbh[match(dbh$tree, scbi.stem1$tag)]
-dbh$dbh2008.mm <- as.numeric(dbh$dbh2008.mm)
 
 mean_bark <- aggregate(bark$bark.depth.mm, by=list(bark$species), mean) #mm
 colnames(mean_bark) <- c("sp", "mean_bark_2008.mm")
@@ -1002,28 +1005,60 @@ trees_all$position_all <- gsub("S", "suppressed", trees_all$position_all)
 #this csv has avg/min/max dbh for each canopy position by sp
 # positionsp <- read.csv("data/core_chronologies_by_crownposition.csv")
 
-##5h1. write trees_all to csv for use in manuscript code ####
+##5i. add in topographic wetness index ####
+### this code comes from topo_wetness_index in ForestGEO-Data
+ext <- extent(747370.6, 747785.8, 4308505.5, 4309154.8)
+xy <- abs(apply(as.matrix(bbox(ext)), 1, diff))
+n <- 5
+r <- raster(ext, ncol=xy[1]*n, nrow=xy[2]*n)
+proj4string(r) <- CRS("+proj=utm +zone=17 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0")
+
+#2 Get elevation raster from online
+q <- get_elev_raster(r, z=14)
+
+#3 Crop online raster to the dimensions of the empty raster, set resolution to 5m
+r <- raster(ext, res = 5)
+q <- resample(q, r)
+res(q)
+proj4string(q) <- CRS("+proj=utm +zone=17 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0") #q lost its crs in the resample function
+plot(q)
+
+#4 Get hydrological features of landscape (upslope area and topographical wetness index)
+layers <- build_layers(q)
+sp::plot(layers, main=c("Elevation AMSL (m)", "Upslope area (log(m^2/m))", "TWI ((log(m^2/m))"))
+
+#5 get TWI values for trees
+twi_trees <- read.csv("D:/Dropbox (Smithsonian)/Github_Ian/McGregor_climate-sensitivity-variation/data/core_list_for_neil.csv")
+twi_trees <- twi_trees[, c(1,23:24)]
+twi_trees1 <- twi_trees[, c(2:3)]
+twi <- extract(layers[[3]], twi_trees1, method="simple")
+twi_trees$TWI <- twi
+
+#6 add to trees_all
+trees_all$TWI <- twi_trees$TWI[match(trees_all$tree, twi_trees$tag)]
+
+##5i1. write trees_all to csv for use in manuscript code ####
 write.csv(trees_all, "manuscript/tables_figures/trees_all.csv", row.names=FALSE)
-##5i. remove one bad tree & resistance values >2 ####
+##5j. remove one bad tree & resistance values >2 ####
 ##fram 140939 has been mislabeled. It is recorded as having a small dbh when that is the second stem. In terms of canopy position, though, it fell between time of coring and when positions were recorded, thus we do not know its position.
 trees_all <- trees_all[!trees_all$tree == 140939, ]
 trees_all <- trees_all[trees_all$resist.value <=2,]
 
-##5j. subset for either leaf hydraulic traits or biophysical ####
+##5k. subset for either leaf hydraulic traits or biophysical ####
 trees_all_traits <- trees_all[complete.cases(trees_all), ]
 write.csv(trees_all_traits, "manuscript/tables_figures/trees_all_traits.csv", row.names=FALSE)
 
-trees_all_bio <- trees_all[c("year", "sp", "tree", "position", "resist.value", "elev.m", "distance.ln.m", "height.ln.m", "position_all")]
+trees_all_bio <- trees_all[c("year", "sp", "tree", "position", "resist.value", "elev.m", "distance.ln.m", "height.ln.m", "position_all", "TWI")]
 trees_all_bio <- trees_all_bio[complete.cases(trees_all_bio), ]
 write.csv(trees_all_bio, "manuscript/tables_figures/trees_all_bio.csv", row.names=FALSE)
 
 #take out p50 and p80, then keep all leaf traits and additionally height plus position
 trees_all_full <- trees_all[!colnames(trees_all) %in% c("p50.MPa", "p80.MPa")]
-trees_all_full <- trees_all_full[, c(1:11,18:20)]
+trees_all_full <- trees_all_full[, c(1:11,18:21)]
 trees_all_full<- trees_all_full[complete.cases(trees_all_full), ]
 write.csv(trees_all_full, "manuscript/tables_figures/trees_all_full.csv", row.names=FALSE)
 
-##5k. make subsets for individual years, combine all to list ####
+##5l. make subsets for individual years, combine all to list ####
 x1966 <- trees_all_bio[trees_all_bio$year == 1966, ]
 x1977 <- trees_all_bio[trees_all_bio$year == 1977, ]
 x1999 <- trees_all_bio[trees_all_bio$year == 1999, ]
@@ -1579,7 +1614,7 @@ for (i in seq_along(model_df)){
 write.csv(summary_models, "tables_figures/results_full_models_combined_years.csv", row.names=FALSE)
 
 ##6aii. coefficients ####
-best <- lmm_all[[58]]
+best <- lmm_all[[250]]
 cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
@@ -1594,9 +1629,9 @@ aic_top <- var_aic %>%
 ##6aiii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-# effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "year", "(1|sp)")
-# effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "WD_g_per_cm3", "mean_TLP_Mpa", "p50.MPa", "p80.MPa", "year", "(1|sp/tree)")
-effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "WD_g_per_cm3", "mean_TLP_Mpa", "height.ln.m", "year", "(1|sp/tree)")
+# effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "TWI", "year", "(1|sp)")
+# effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3", "p50.MPa", "p80.MPa", "year", "(1|sp/tree)")
+effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3",  "position_all", "height.ln.m", "TWI", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
