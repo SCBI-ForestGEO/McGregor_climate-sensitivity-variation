@@ -1295,14 +1295,6 @@ for (i in seq(along=1:6)){
 
 ##loop to create table of individually-tested traits
 
-for (i in seq_along(1:6)){
-  
-  if(
-
-  }
-  
-  
-  
   for (z in seq(along = lmm_all)){
     if (names(lmm_all[z]) == test_mod){
       coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
