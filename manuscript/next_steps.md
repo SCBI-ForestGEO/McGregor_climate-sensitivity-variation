@@ -47,3 +47,13 @@ New Phytologist formatting options [here](https://nph.onlinelibrary.wiley.com/hu
 - [ ] Keep methods updated (by subsections [hypothesis, etc])
 - [ ] do some discussion input
 - [X] get bookdown working
+
+Test traits individually against a null model, and if those are siginificant on their own, then they are candidates for the full model
+
+1. Start out looking at size, and we determine it to be significant. Height is better than DBH, so look at height going forward (is statistically better, calculated from DBH).
+2. Biophysical is the environment, add in other effects.
+3. Separately, we look at leaf traits.
+4. Look at null model using height, test all effects together, anything with dAIC <2 is dropped as a contender for full model
+5. Then run full model and see what comes out on top
+
+6. make comment in discussion about the effect of drought in individual years (have table showing the different years)
