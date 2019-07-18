@@ -547,7 +547,7 @@ ggplot(data = rp_test) +
 
 leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEJQMFQQQHLV5MJVM7K5HCCRC"), stringsAsFactors = FALSE)
 
-leaf_traits <- leaf_traits[, c(1,8,12,24,26,28)]
+leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
 for (i in seq(along=2:ncol(leaf_traits))){
   trait <- colnames(leaf_traits[2:ncol(leaf_traits)])
@@ -1048,13 +1048,13 @@ trees_all <- trees_all[trees_all$resist.value <=2,]
 trees_all_traits <- trees_all[complete.cases(trees_all), ]
 write.csv(trees_all_traits, "manuscript/tables_figures/trees_all_traits.csv", row.names=FALSE)
 
-trees_all_bio <- trees_all[c("year", "sp", "tree", "position", "resist.value", "elev.m", "distance.ln.m", "height.ln.m", "position_all", "TWI")]
+trees_all_bio <- trees_all[c("year", "sp", "tree", "position", "resist.value", "elev.m", "distance.ln.m", "dbh.ln.cm", "height.ln.m", "position_all", "TWI")]
 trees_all_bio <- trees_all_bio[complete.cases(trees_all_bio), ]
 write.csv(trees_all_bio, "manuscript/tables_figures/trees_all_bio.csv", row.names=FALSE)
 
 #take out p50 and p80, then keep all leaf traits and additionally height plus position
 trees_all_full <- trees_all[!colnames(trees_all) %in% c("p50.MPa", "p80.MPa")]
-trees_all_full <- trees_all_full[, c(1:11,18:21)]
+trees_all_full <- trees_all_full[, c(1:10,17:20)]
 trees_all_full<- trees_all_full[complete.cases(trees_all_full), ]
 write.csv(trees_all_full, "manuscript/tables_figures/trees_all_full.csv", row.names=FALSE)
 
@@ -1079,10 +1079,13 @@ library(stringr)
 
 #null model <- "resist.value ~ height.ln.m+year+(1|sp/tree)"
 sum_mod_traits <- data.frame(
-  "variables" = c("position_all", "elev.m", "distance.ln.m", "TWI", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
-  "model_variables" = c("crown.position", "elevation", "stream.distance", "topographic.wetness.index", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
+  "prediction" = c(1.1, 1.2, 2.1, 2.2, 2.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5),
+  "variable" = c("dbh.ln.cm", "height.ln.m","elev.m", "distance.ln.m", "position_all",  "TWI", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
+  "variable_description" = c("ln[DBH]", "ln[height]", "crown.position", "elevation", "stream.distance", "topographic.wetness.index", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
   "null_model" = 
-    c("resist.value ~ height.ln.m+year+(1|sp/tree)",
+    c("resist.value ~ year+(1|sp/tree)",
+      "resist.value ~ year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
@@ -1091,13 +1094,143 @@ sum_mod_traits <- data.frame(
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)"),
+  "tested_model" = NA,
   "dAIC_variable" = NA,
-  "coef_all_years" = NA)
+  "coef_direction" = NA,
+  "coef_variable" = NA)
 
 # change factor columns to character
-summary_models %>% mutate_if(is.factor, as.character) -> summary_models
+sum_mod_traits <- sum_mod_traits %>% mutate_if(is.factor, as.character) 
 
-##initial table with models based on github issue predictions ####
+sum_mod_traits$tested_model <- paste0(sum_mod_traits$null_model, "+", sum_mod_traits$variable)
+
+##loop to create table of individually-tested traits
+coeff_all <- NULL
+for (i in seq_along(1:11)){
+  null_mod <- sum_mod_traits$null_model[[i]]
+  test_mod <- sum_mod_traits$tested_model[[i]]
+  var <- sum_mod_traits$variable[[i]]
+  
+  models <- c(null_mod, test_mod)
+  
+  if(var %in% c("dbh.ln.cm", "height.ln.m", "elev.m", "distance.ln.m")){
+    lmm_all <- lapply(models, function(x){
+      fit1 <- lmer(x, data = trees_all_bio, REML=FALSE, 
+                   control = lmerControl(optimizer ="Nelder_Mead"))
+      return(fit1)
+    })
+  } else {
+    lmm_all <- lapply(models, function(x){
+      fit1 <- lmer(x, data = trees_all_full, REML=FALSE, 
+                   control = lmerControl(optimizer ="Nelder_Mead"))
+      return(fit1)
+    })
+  }
+  
+  names(lmm_all) <- models
+  
+  var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+  
+  #put AIC value in table
+  sum_mod_traits$dAIC_variable[[i]] <- var_aic$AICc[[1]] - var_aic$AICc[[2]]
+  sum_mod_traits$dAIC_variable[[i]] <- round(sum_mod_traits$dAIC_variable[[i]], 3)
+  
+  for (z in seq(along = lmm_all)){
+    if (names(lmm_all[z]) == test_mod){
+      coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
+      coeff[,2] <- rownames(coeff)
+      colnames(coeff) <- c("value", "model_var")
+      coeff$value <- round(coeff$value, 3)
+      coeff$combo <- paste0(coeff$model_var, " (", coeff$value, ")")
+      
+      coeff <- coeff[grepl(sum_mod_traits$variable[[i]], coeff$combo), ]
+      coeff_vec <- coeff$combo
+      
+      coeff_all <- rbind(coeff_all, coeff)
+      
+      #put coefficients in table
+      sum_mod_traits$coef_direction[[i]] <- ifelse(any(coeff$value < 0), "-", "+")
+      sum_mod_traits$coef_variable[[i]] <- paste(coeff_vec, collapse = ", ")
+    }
+  }
+}
+write.csv(sum_mod_traits, "manuscript/tables_figures/individually_tested_traits.csv", row.names=FALSE)
+
+##6aii. compare coefficients of individually-tested traits with the coefficients of the traits in the full model ####
+response <- "resist.value"
+effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3",  "position_all", "height.ln.m", "TWI", "year", "(1|sp/tree)")
+
+full <- paste0(response, "~", paste(effects, collapse = "+"))
+fit1 <- lmer(full, data = trees_all_full, REML=FALSE, 
+             control = lmerControl(optimizer ="Nelder_Mead"))
+cof_full <- data.frame("value" = coef(summary(fit1))[ , "Estimate"])
+cof_full$value <- round(cof_full$value, 3)
+cof_full[,2] <- rownames(cof_full)
+cof_full <- cof_full[!cof_full$V2 %in% c("(Intercept)", "height.ln.m", "year1999", "year1977"), ]
+colnames(cof_full) <- c("value_full_model", "var")
+
+
+response <- "resist.value"
+effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "TWI", "year", "(1|sp)")
+
+full <- paste0(response, "~", paste(effects, collapse = "+"))
+fit1 <- lmer(full, data = trees_all_bio, REML=FALSE, 
+             control = lmerControl(optimizer ="Nelder_Mead"))
+cof_bio <- data.frame("value" = coef(summary(fit1))[ , "Estimate"])
+cof_bio$value <- round(cof_bio$value, 3)
+cof_bio[,2] <- rownames(cof_bio)
+cof_bio <- cof_bio[cof_bio$V2 %in% c("elev.m", "distance.ln.m"), ]
+colnames(cof_bio) <- c("value_full_model", "var")
+
+coeff_full <- rbind(cof_full, cof_bio)
+coeff_full <- coeff_full[order(coeff_full$var), ]
+coeff_all <- coeff_all[order(coeff_all$model_var), ]
+
+coeff_all <- cbind(coeff_all, coeff_full)
+coeff_all$model_var <- NULL
+coeff_all$combo <- NULL
+coeff_all$model <- ifelse(coeff_all$var %in% c("elev.m", "distance.ln.m"), "trees_all_bio", "trees_all_full")
+
+
+##6b. determine the best full model ####
+##all contenders here are those that had dAIC > 2 from 6ai
+contenders <- sum_mod_traits[sum_mod_traits$dAIC_variable < -2 & !sum_mod_traits$variable == "dbh.ln.cm", ]
+
+response <- "resist.value"
+effects <- c(contenders$variable, "year", "(1|sp/tree)")
+
+effects_comb <- 
+  unlist( sapply( seq_len(length(effects)), 
+                  function(i) {
+                    apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
+                  }))
+
+# pair response with effect and sub out combinations that don't include random effects
+#in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
+var_comb <- expand.grid(response, effects_comb) 
+var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+
+# formulas for all combinations. $Var1 is the response, and $Var2 is the effect
+# for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
+formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
+
+# create list of model outputs
+lmm_all <- lapply(formula_vec, function(x){
+  fit1 <- lmer(x, data = trees_all_full, REML=FALSE, 
+               control = lmerControl(optimizer ="Nelder_Mead"))
+  return(fit1)
+})
+names(lmm_all) <- formula_vec
+
+var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+
+##6bi. coefficients ####
+best <- lmm_all[[46]]
+cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
+cof$value <- round(cof$value, 3)
+
+##6c initial table with models based on github issue predictions ####
 summary_models <- data.frame(
   "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2", "4"), 
   "model_vars_all_years" = 
@@ -1465,7 +1598,7 @@ for (i in seq_along(model_df)){
 write.csv(summary_models, "tables_figures/results_individual_years1.csv", row.names=FALSE)
 write.csv(full_mod_all, "tables_figures/full_models_dAIC1.csv", row.names=FALSE)
 
-##table looking at only full model over all years ####
+##6ci. table looking at only full model over all years ####
 ##we ran all variables (aka a full model) against all years combined and found that position, height*elev, tlp, and rp were the variables in the best model. Using this knowledge, here we created a dfferent version of the original table.
 summary_models <- data.frame(
   "prediction" = c("1.1", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.2c2,1.3b1", "2.1", "2.2"), 
@@ -1634,7 +1767,7 @@ for (i in seq_along(model_df)){
 #csv has a 1 in the title to make sure any notes in current file are not overwritten
 write.csv(summary_models, "tables_figures/results_full_models_combined_years.csv", row.names=FALSE)
 
-##6aii. base code for running multiple models through AICc eval ####
+##6cii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
 # effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "TWI", "year", "(1|sp)")
@@ -1669,20 +1802,17 @@ names(lmm_all) <- formula_vec
 var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
 r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
 
-##6aiii. coefficients ####
-best <- lmm_all[[250]]
-cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
-
-lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
-
-q <- sapply(lmm_all, anova, simplify=FALSE)
-mapply(anova, lmm_all, SIMPLIFY = FALSE)
-
 #subset by only the top result (the minimum AICc value)
 aic_top <- var_aic %>%
   filter(AICc == min(AICc))
 
-##6b. determine the best model from anova (using the model candidates above) ####
+##6ciii. coefficients ####
+best <- lmm_all[[256]]
+cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
+
+lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
+
+##6d. determine the best model from anova (using the model candidates above) ####
 #interestingly, this gives a similar result to running AICc, with Pr(>Chisq) acting as a kind of p-value for showing which model is best to use.
 anova(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full)
       #lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full) 
@@ -1698,7 +1828,7 @@ anova(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lm
 #   ---
 #   Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-##6c. Run the best model, changing REML to TRUE ####
+##6e. Run the best model, changing REML to TRUE ####
 lmm.full <- lmer(resist.value ~ position + (1 | sp) + (1 | year), data=trees_all)
 summary(lmm.full)
 # Fixed effects:
@@ -1916,5 +2046,3 @@ boxplot(resist.value ~ sp, data=trees_all)
 library(plotly)
 p <- qqp(residuals(lmm_all[[13]]), "norm")
 ggplotly(p)
-
-
