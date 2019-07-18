@@ -1059,11 +1059,11 @@ trees_all_full<- trees_all_full[complete.cases(trees_all_full), ]
 write.csv(trees_all_full, "manuscript/tables_figures/trees_all_full.csv", row.names=FALSE)
 
 ##5l. make subsets for individual years, combine all to list ####
-x1966 <- trees_all_bio[trees_all_bio$year == 1966, ]
-x1977 <- trees_all_bio[trees_all_bio$year == 1977, ]
-x1999 <- trees_all_bio[trees_all_bio$year == 1999, ]
+x1966 <- trees_all_full[trees_all_full$year == 1966, ]
+x1977 <- trees_all_full[trees_all_full$year == 1977, ]
+x1999 <- trees_all_full[trees_all_full$year == 1999, ]
 
-model_df <- list(trees_all, x1966, x1977, x1999)
+model_df <- list(trees_all_full, x1966, x1977, x1999)
 names(model_df) <- c("all_years", "x1966", "x1977", "x1999")
 ##############################################################################################
 #6. mixed effects model for output of #5. ####
@@ -1076,8 +1076,6 @@ library(stringr)
 
 ##6ai. test predictions for paper and put in table ####
 ##testing each trait
-
-#null model <- "resist.value ~ height.ln.m+year+(1|sp/tree)"
 sum_mod_traits <- data.frame(
   "prediction" = c(1.1, 1.2, 2.1, 2.2, 2.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5),
   "variable" = c("dbh.ln.cm", "height.ln.m","elev.m", "distance.ln.m", "position_all",  "TWI", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
@@ -1230,6 +1228,109 @@ best <- lmm_all[[46]]
 cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
 cof$value <- round(cof$value, 3)
 
+##6bii. make table for best full model over ind. years ####
+best_mod_traits <- contenders
+best_mod_traits[,5] <- NA
+best_mod_traits[,6:8] <- NULL
+best_mod_traits[, c("null_model_year", "tested_model_year", "coef_all", "dAIC_all", "coef_1964.1966", "dAIC_1964.1966", "coef_1977", "dAIC_1977", "coef_1999", "dAIC_1999")] <- NA
+best_mod_traits$null_model <- "resist.value ~ height.ln.m+TWI+PLA_dry_percent+mean_TLP_Mpa+year+(1|sp/tree)"
+
+
+coeff_all <- NULL
+for (i in seq(along=1:6)){
+  null_mod <- best_mod_traits$null_model[[i]]
+  var <- best_mod_traits$variable[[i]]
+  
+  #if the variable is in the null model, then take it out, otherwise add it in
+  best_mod_traits$tested_model[[i]] <- 
+    ifelse(grepl(var, null_mod),
+           gsub(paste0(var, "[[:punct:]]"), "", best_mod_traits$null_model[[i]]),
+           paste0(null_mod, "+", var))
+  best_mod_traits$tested_model_year[[i]] <- 
+    gsub("year\\+|/tree", "", best_mod_traits$tested_model[[i]])
+  best_mod_traits$null_model_year[[i]] <- 
+    gsub("year\\+|/tree", "", best_mod_traits$null_model[[i]])
+  
+  test_mod <- best_mod_traits$tested_model[[i]]
+  test_mod_yr <- best_mod_traits$tested_model_year[[i]]
+  null_mod_yr <- best_mod_traits$null_model_year[[i]]
+  
+  models <- c(null_mod, test_mod)
+  models_yr <- c(null_mod_yr, test_mod_yr)
+  
+  for (j in seq(along=model_df)){
+   for (h in seq(along=best_mod_traits[,c(9,11,13,15)])){
+     column <- colnames(best_mod_traits[,c(9,11,13,15)][h])
+
+     if(j == 1 & h == 1){
+       lmm_all <- lapply(models, function(x){
+         fit1 <- lmer(x, data = model_df[[j]], REML=FALSE, 
+                      control = lmerControl(optimizer ="Nelder_Mead"))
+         return(fit1)
+       })
+       
+       names(lmm_all) <- models
+       var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+       
+       #put AIC value in table
+       best_mod_traits[,column][[i]] <- var_aic$AICc[[1]] - var_aic$AICc[[2]]
+       best_mod_traits[,column][[i]] <- round(best_mod_traits$dAIC_all[[i]], 3)
+     } else if (j == h){
+       lmm_all <- lapply(models_yr, function(x){
+         fit1 <- lmer(x, data = model_df[[j]], REML=FALSE, 
+                      control = lmerControl(optimizer ="Nelder_Mead"))
+         return(fit1)
+       })
+       
+       names(lmm_all) <- models
+       var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+       
+       #put AIC value in table
+       best_mod_traits[,column][[i]] <- var_aic$AICc[[1]] - var_aic$AICc[[2]]
+       best_mod_traits[,column][[i]] <- round(best_mod_traits$dAIC_all[[i]], 3)
+      }
+    }
+  }
+}
+
+##loop to create table of individually-tested traits
+
+for (i in seq_along(1:6)){
+  
+  if(
+
+  }
+  
+  
+  
+  for (z in seq(along = lmm_all)){
+    if (names(lmm_all[z]) == test_mod){
+      coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
+      coeff[,2] <- rownames(coeff)
+      colnames(coeff) <- c("value", "model_var")
+      coeff$value <- round(coeff$value, 3)
+      coeff$combo <- paste0(coeff$model_var, " (", coeff$value, ")")
+      
+      coeff <- coeff[grepl(sum_mod_traits$variable[[i]], coeff$combo), ]
+      coeff_vec <- coeff$combo
+      
+      coeff_all <- rbind(coeff_all, coeff)
+      
+      #put coefficients in table
+      sum_mod_traits$coef_direction[[i]] <- ifelse(any(coeff$value < 0), "-", "+")
+      sum_mod_traits$coef_variable[[i]] <- paste(coeff_vec, collapse = ", ")
+    }
+  }
+}
+
+
+
+
+
+
+
+
+#
 ##6c initial table with models based on github issue predictions ####
 summary_models <- data.frame(
   "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2", "4"), 
