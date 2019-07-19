@@ -1048,23 +1048,33 @@ trees_all <- trees_all[trees_all$resist.value <=2,]
 trees_all_traits <- trees_all[complete.cases(trees_all), ]
 write.csv(trees_all_traits, "manuscript/tables_figures/trees_all_traits.csv", row.names=FALSE)
 
-trees_all_bio <- trees_all[c("year", "sp", "tree", "position", "resist.value", "elev.m", "distance.ln.m", "dbh.ln.cm", "height.ln.m", "position_all", "TWI")]
-trees_all_bio <- trees_all_bio[complete.cases(trees_all_bio), ]
-write.csv(trees_all_bio, "manuscript/tables_figures/trees_all_bio.csv", row.names=FALSE)
+##take out columns that are unnecessary for model runs
+trees_all_sub <- trees_all[, !colnames(trees_all) %in% c("p50.MPa", "p80.MPa", "dbh_old.mm",  "dbh_old.cm", "sap_ratio", "height.m")]
 
-#take out p50 and p80, then keep all leaf traits and additionally height plus position
-trees_all_full <- trees_all[!colnames(trees_all) %in% c("p50.MPa", "p80.MPa")]
-trees_all_full <- trees_all_full[, c(1:10,17:20)]
-trees_all_full<- trees_all_full[complete.cases(trees_all_full), ]
-write.csv(trees_all_full, "manuscript/tables_figures/trees_all_full.csv", row.names=FALSE)
+##get rid of missing data
+trees_all_sub <- trees_all_sub[complete.cases(trees_all_sub), ]
+
+##5ki. NOTE ####
+##originally I was separating out trees_all into 2 datasets (trees_all_bio and trees_all_full) because I thought that there was alternative missing data depending on if you were looking at biophysical traits compared to leaf traits. It turns out this was mainly due to p50 and p80, which we have since determined will not be in the model runs at all. Thus, I'm only doing one subset here.
+
+# 
+# trees_all_bio <- trees_all[c("year", "sp", "tree", "position", "resist.value", "elev.m", "distance.ln.m", "dbh.ln.cm", "height.ln.m", "position_all", "TWI")]
+# trees_all_bio <- trees_all_bio[complete.cases(trees_all_bio), ]
+# write.csv(trees_all_bio, "manuscript/tables_figures/trees_all_bio.csv", row.names=FALSE)
+# 
+# #take out p50 and p80, then keep all leaf traits and additionally height plus position
+# trees_all_full <- trees_all[!colnames(trees_all) %in% c("p50.MPa", "p80.MPa")]
+# trees_all_full <- trees_all_full[, c(1:10,17:20)]
+# trees_all_full<- trees_all_full[complete.cases(trees_all_full), ]
+# write.csv(trees_all_full, "manuscript/tables_figures/trees_all_full.csv", row.names=FALSE)
 
 ##5l. make subsets for individual years, combine all to list ####
-x1966 <- trees_all_full[trees_all_full$year == 1966, ]
-x1977 <- trees_all_full[trees_all_full$year == 1977, ]
-x1999 <- trees_all_full[trees_all_full$year == 1999, ]
+x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
+x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
+x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
 
-model_df <- list(trees_all_full, x1966, x1977, x1999)
-names(model_df) <- c("all_years", "x1966", "x1977", "x1999")
+model_df <- list(trees_all_sub, x1966, x1977, x1999)
+names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
 ##############################################################################################
 #6. mixed effects model for output of #5. ####
 library(lme4)
@@ -1074,14 +1084,15 @@ library(piecewiseSEM) #for R^2 values for all model outputs in a list
 library(MuMIn) #for R^2 values of one model output
 library(stringr)
 
-##6ai. test predictions for paper and put in table ####
+##6ai. test predictions for paper and put in table (combined dataset only) ####
 ##testing each trait
 sum_mod_traits <- data.frame(
-  "prediction" = c(1.1, 1.2, 2.1, 2.2, 2.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5),
-  "variable" = c("dbh.ln.cm", "height.ln.m","elev.m", "distance.ln.m", "position_all",  "TWI", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
-  "variable_description" = c("ln[DBH]", "ln[height]", "crown.position", "elevation", "stream.distance", "topographic.wetness.index", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
+  "prediction" = c(1.1, 2.1, 2.2, 3.1, 3.2, 3.3, 3.4, 4.1, 4.2, 4.3, 4.4, 4.5),
+  "variable" = c("year", "dbh.ln.cm", "height.ln.m","elev.m", "distance.ln.m", "position_all",  "TWI", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
+  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "elevation", "stream.distance", "crown.position", "topographic.wetness.index", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
   "null_model" = 
-    c("resist.value ~ year+(1|sp/tree)",
+    c("resist.value ~ (1|sp/tree)",
+      "resist.value ~ year+(1|sp/tree)",
       "resist.value ~ year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
@@ -1103,15 +1114,15 @@ sum_mod_traits <- sum_mod_traits %>% mutate_if(is.factor, as.character)
 sum_mod_traits$tested_model <- paste0(sum_mod_traits$null_model, "+", sum_mod_traits$variable)
 
 ##loop to create table of individually-tested traits
-coeff_all <- NULL
-for (i in seq_along(1:11)){
+for (i in seq_along(1:12)){
+  coeff_all <- NULL
   null_mod <- sum_mod_traits$null_model[[i]]
   test_mod <- sum_mod_traits$tested_model[[i]]
   var <- sum_mod_traits$variable[[i]]
   
   models <- c(null_mod, test_mod)
   
-  if(var %in% c("dbh.ln.cm", "height.ln.m", "elev.m", "distance.ln.m")){
+  if(var %in% c("year", "dbh.ln.cm", "height.ln.m", "elev.m", "distance.ln.m")){
     lmm_all <- lapply(models, function(x){
       fit1 <- lmer(x, data = trees_all_bio, REML=FALSE, 
                    control = lmerControl(optimizer ="Nelder_Mead"))
@@ -1127,10 +1138,10 @@ for (i in seq_along(1:11)){
   
   names(lmm_all) <- models
   
-  #we know that each variable on its own will make the null model better, it's just a question of by how much. Thus, we sort to have dAIC = 0 (best model) on top.
-  var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+  #sort=FALSE because we want the order to be consistent (in this case, null first, tested second)
+  var_aic <- aictab(lmm_all, second.ord=TRUE, sort=FALSE) #rank based on AICc
   
-  #put AIC value in table
+  #put AIC value in table (null minus tested)
   sum_mod_traits$dAIC_variable[[i]] <- var_aic$AICc[[1]] - var_aic$AICc[[2]]
   sum_mod_traits$dAIC_variable[[i]] <- round(sum_mod_traits$dAIC_variable[[i]], 3)
   
@@ -1191,9 +1202,172 @@ coeff_all$combo <- NULL
 coeff_all$model <- ifelse(coeff_all$var %in% c("elev.m", "distance.ln.m", "dbh.ln.cm", "height.ln.m"), "trees_all_bio", "trees_all_full")
 
 
+##6aiii. test predictions for paper and put in table (everything) ####
+sum_mod_traits <- data.frame(
+  "prediction" = c(1.1, 2.1, 2.2, 3.1, 3.2, 3.3, 3.4, 4.1, 4.2, 4.3, 4.4, 4.5),
+  "variable" = c("year", "dbh.ln.cm", "height.ln.m","elev.m", "distance.ln.m", "position_all",  "TWI", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
+  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "elevation", "stream.distance", "crown.position", "topographic.wetness.index", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
+  "null_model" = 
+    c("resist.value ~ (1|sp/tree)",
+      "resist.value ~ year+(1|sp/tree)",
+      "resist.value ~ year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)"),
+  "tested_model" = NA)
+
+sum_mod_traits[, c("null_model_year", "tested_model_year", "dAIC_all", "coef_all", "coef_var_all", "dAIC_1964.1966", "coef_1964.1966", "coef_var_1964.1966", "dAIC_1977", "coef_1977", "coef_var_1977", "dAIC_1999", "coef_1999", "coef_var_1999")] <- NA
+
+# change factor columns to character
+sum_mod_traits <- sum_mod_traits %>% mutate_if(is.factor, as.character) 
+
+##loop to create table of individually-tested traits
+coeff_all <- NULL
+for (i in seq_along(1:12)){
+  null_mod <- sum_mod_traits$null_model[[i]] #all years
+  var <- sum_mod_traits$variable[[i]]
+  
+  #if the variable is in the null model, then take it out, otherwise add it in
+  sum_mod_traits$tested_model[[i]] <- 
+    ifelse(grepl(var, null_mod),
+           gsub(paste0(var, "[[:punct:]]"), "", sum_mod_traits$null_model[[i]]),
+           paste0(null_mod, "+", var))
+  
+  sum_mod_traits$null_model_year[[i]] <- 
+    gsub("year\\+|/tree", "", sum_mod_traits$null_model[[i]])
+  sum_mod_traits$tested_model_year[[i]] <- 
+    gsub("year\\+|/tree", "", sum_mod_traits$tested_model[[i]])
+  
+  #obviously, the tested model of the "year" effect doesn't work over the individual years
+  if (i == 1){
+    sum_mod_traits$tested_model_year[[i]] <- sum_mod_traits$null_model_year[[i]]
+  }
+  
+  test_mod <- sum_mod_traits$tested_model[[i]] #all years
+  test_mod_yr <- sum_mod_traits$tested_model_year[[i]] #individual years
+  null_mod_yr <- sum_mod_traits$null_model_year[[i]] #individual years
+  
+  models <- c(null_mod, test_mod) #all years
+  models_yr <- c(null_mod_yr, test_mod_yr) #ndividual years
+  
+  for (j in seq(along=model_df)){
+    for (h in seq(along=sum_mod_traits[,c(8,11,14,17)])){ #dAIC
+      column <- colnames(sum_mod_traits[,c(8,11,14,17)][h])
+      
+      for (k in seq(along=sum_mod_traits[,c(9,12,15,18)])){ #coefficients direction
+        column_cof <- colnames(sum_mod_traits[,c(9,12,15,18)][h])
+        
+        for (l in seq(along=sum_mod_traits[,c(10,13,16,19)])){ #coefficient values
+          column_cof_val <- colnames(sum_mod_traits[,c(10,13,16,19)][l])
+          
+          #ALL YEARS
+          if(j == 1 & h == 1 & k == 1 & l == 1){
+            lmm_all <- lapply(models, function(x){
+              fit1 <- lmer(x, data = model_df[[j]], REML=FALSE, 
+                           control = lmerControl(optimizer ="Nelder_Mead"))
+              return(fit1)
+            })
+            names(lmm_all) <- models
+            var_aic <- aictab(lmm_all, second.ord=TRUE, sort=FALSE) #rank based on AICc
+            
+            #put AIC value in table (#null - test)
+            sum_mod_traits[,column][[i]] <- var_aic$AICc[[1]] - var_aic$AICc[[2]] 
+            sum_mod_traits[,column][[i]] <- round(sum_mod_traits[,column][[i]], 3)
+            
+            for (z in seq(along = lmm_all)){
+              if (grepl(var, test_mod)){
+                if (names(lmm_all[z]) == test_mod){
+                  coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
+                  coeff[,2] <- rownames(coeff)
+                  colnames(coeff) <- c("value", "model_var")
+                  coeff$value <- round(coeff$value, 3)
+                  coeff$combo <- paste0(coeff$model_var, " (", coeff$value, ")")
+                  
+                  coeff <- coeff[grepl(sum_mod_traits$variable[[i]], coeff$combo), ]
+                  coeff_vec <- coeff$combo
+                  
+                  #this rbind is to get a full df showing all coefficient values from the entire for-loop
+                  coeff_all <- rbind(coeff_all, coeff)
+                  
+                  #put coefficients in table
+                  sum_mod_traits[,column_cof][[i]] <- ifelse(any(coeff$value < 0), "-", "+")
+                  sum_mod_traits[,column_cof_val][[i]] <- paste(coeff_vec, collapse = ", ")
+                }
+              }
+            }
+            
+            #INDIVIDUAL YEARS
+          } else if (j == h & h == k & k == l){ 
+            if(i == 1){
+              sum_mod_traits[,column][[i]] <- NA
+              sum_mod_traits[,column_cof][[i]] <- NA
+              sum_mod_traits[,column_cof_val][[i]] <- NA
+            }
+            
+            lmm_all <- lapply(models_yr, function(x){
+              fit1 <- lmer(x, data = model_df[[j]], REML=FALSE, 
+                           control = lmerControl(optimizer ="Nelder_Mead"))
+              return(fit1)
+            })
+            
+            names(lmm_all) <- models_yr
+            var_aic <- aictab(lmm_all, second.ord=TRUE, sort=FALSE) #rank based on AICc
+            
+            #put AIC value in table (null - tested)
+            sum_mod_traits[,column][[i]] <- var_aic$AICc[[1]] - var_aic$AICc[[2]]
+            sum_mod_traits[,column][[i]] <- round(sum_mod_traits[,column][[i]], 3)
+            
+            for (z in seq(along = lmm_all)){
+              if (grepl(var, test_mod_yr)){
+                if (names(lmm_all[z]) == test_mod_yr){
+                  coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
+                  coeff[,2] <- rownames(coeff)
+                  colnames(coeff) <- c("value", "model_var")
+                  coeff$value <- round(coeff$value, 3)
+                  coeff$combo <- paste0(coeff$model_var, " (", coeff$value, ")")
+                  
+                  coeff <- coeff[grepl(sum_mod_traits$variable[[i]], coeff$combo), ]
+                  coeff_vec <- coeff$combo
+                  
+                  #this rbind is to get a full df showing all coefficient values from the entire for-loop
+                  coeff_all <- rbind(coeff_all, coeff)
+                  
+                  #put coefficients in table
+                  sum_mod_traits[,column_cof][[i]] <- ifelse(any(coeff$value < 0), "-", "+")
+                  sum_mod_traits[,column_cof_val][[i]] <- paste(coeff_vec, collapse = ", ")
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+cand_full <- NULL
+for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
+  column <- colnames(sum_mod_traits[,c(8,11,14,17)])[[i]]
+  
+  cand <- sum_mod_traits[sum_mod_traits[,column] > 2 & 
+                            !sum_mod_traits$variable %in% c("dbh.ln.cm"), c(1:3)]
+  cand$top_model <- c("all", "1966", "1977", "1999")[[i]]
+  
+  cand_full <- rbind(cand_full, cand)
+  cand_full <- cand_full[order(cand_full$prediction), ]
+}
+
+write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all.csv", row.names=FALSE)
+
 ##6b. determine the best full model ####
 ##all contenders here are those that had dAIC > 2 from 6ai
-contenders <- sum_mod_traits[sum_mod_traits$dAIC_variable < -2 & !sum_mod_traits$variable == "dbh.ln.cm", ]
+contenders <- sum_mod_traits[sum_mod_traits$dAIC_variable > 2 & !sum_mod_traits$variable %in% c("dbh.ln.cm", "year"), ]
 
 response <- "resist.value"
 effects <- c(contenders$variable, "year", "(1|sp/tree)")
