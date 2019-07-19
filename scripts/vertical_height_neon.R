@@ -121,7 +121,9 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
   data_analy <- data_analy %>%
     group_by(month, verticalPosition) %>%
     summarize(mmax = mean(test_max, na.rm=TRUE),
-              mmin = mean(test_min, na.rm=TRUE))
+              mmin = mean(test_min, na.rm=TRUE),
+              sd_max = sd(test_max, na.rm=TRUE),
+              sd_min = sd(test_min, na.rm=TRUE))
 
   #base ggplot, all months on same graph
   data_analy$month_f <- factor(data_analy$month, levels=c("May", "June", "July", "August"))
@@ -130,22 +132,45 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
     data_analy %>%
       arrange(verticalPosition) %>%
       ggplot() +
-      scale_color_manual(values = c("orange", "red", "dark green", "blue"), name = "Month") +
-      geom_point(aes(x = mmax, y = verticalPosition, color = month_f), shape=19) +
-      geom_point(aes(x = mmin, y = verticalPosition, color = month_f), shape=17) +
+      scale_color_manual(values = c("dark orange", "red", "dark green", "blue"), name = "Month") +
+      geom_point(aes(x = mmax, y = verticalPosition, color = month_f), shape=19, position = "jitter") +
+      geom_point(aes(x = mmin, y = verticalPosition, color = month_f), shape=17, position = "jitter") +
       geom_path(aes(x = mmax, y = verticalPosition, color = month_f, linetype = "Max"), size = 1) +
       geom_path(aes(x = mmin, y = verticalPosition, color = month_f, linetype = "Min"), size = 1) +
+      geom_errorbarh(aes(xmin=mmax-sd_min, xmax=mmax+sd_max, y=verticalPosition, color = month_f, linetype = "Max", height=.8)) +
+      geom_errorbarh(aes(xmin=mmin-sd_min, xmax=mmin+sd_max, y=verticalPosition, color = month_f, linetype = "Min", height=.8)) +
       labs(x = dp$xlabs[[i]], y = "Height (m)") +
+      scale_y_continuous(breaks = scales::pretty_breaks(n = 6), limits=c(0,60)) +
       theme_grey() +
       guides(linetype = guide_legend("Line type"))
   )
 }
 
+#extract legend
+#https://github.com/hadley/ggplot2/wiki/Share-a-legend-between-two-ggplot2-graphs
+g_legend<-function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)}
+
+mylegend <- g_legend(SAAT_plot)
+
 #arrange all graphs together and save image
 png("manuscript/tables_figures/NEON_vertical_profiles.png", width = 1000, height = 1000, pointsize = 18)
-graph <- grid.arrange(SAAT_plot, wind_plot, RH_plot, biotemp_plot, nrow=2, top = textGrob(expression(bold("NEON Vertical Profile 2016-2018"))))
+graph <- grid.arrange(arrangeGrob(SAAT_plot + theme(legend.position = "none"),
+                                  wind_plot + theme(legend.position = "none"),
+                                  RH_plot + theme(legend.position = "none"),
+                                  biotemp_plot + theme(legend.position = "none"), 
+                                  nrow=1), 
+                      mylegend, nrow=1, 
+                      top = textGrob(expression(bold("NEON Vertical Profile 2016-2018"))))
 
 dev.off()
+
+library(ggpubr)
+ggarrange(SAAT_plot, wind_plot, biotemp_plot, RH_plot, nrow=1, ncol=4, common.legend = TRUE, legend = "right")
+
 
 SAAT_plot
 wind_plot
