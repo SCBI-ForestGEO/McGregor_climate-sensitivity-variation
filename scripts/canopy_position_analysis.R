@@ -2241,21 +2241,26 @@ current_ht$height.ln.m <-
                               (0.791+0.645*current_ht$dbh.ln.cm)))))))))))))
 current_ht$height.m <- exp(current_ht$height.ln.m)
 
-# #power function Height = intercept*(diameter^slope)
-# current_ht$height_power_ln <- 
-#                     ifelse(current_ht$sp == "caco", (0.55*(current_ht$dbh_ln.cm^0.766)),
-#                     ifelse(current_ht$sp == "cagl", (0.652*(current_ht$dbh_ln.cm^0.751)),
-#                     ifelse(current_ht$sp == "caovl", (0.9*(current_ht$dbh_ln.cm^0.659)),
-#                     ifelse(current_ht$sp == "cato", (0.879*(current_ht$dbh_ln.cm^0.668)),
-#                     ifelse(current_ht$sp == "fagr", (0.513*(current_ht$dbh_ln.cm^0.712)),
-#                     ifelse(current_ht$sp == "litu", (1.57*(current_ht$dbh_ln.cm^0.488)),
-#                     ifelse(current_ht$sp == "quru", (1.13*(current_ht$dbh_ln.cm^0.54)),
-#                                  (0.849*(current_ht$dbh_ln.cm^0.659)))))))))
-# current_ht$height_power.m <- exp(current_ht$height_power_ln)
+# power function Height = intercept*(diameter^slope) #for reference
 
-# current_ht <- rbind(current_ht, trees_all) #run this line to get full picture going back in time
+current_ht <- rbind(current_ht, trees_all) #run this line to get full picture going back in time
 current_ht <- current_ht[order(current_ht$tree, current_ht$year), ]
 
+#graphing height by crown position (for paper)
+current_ht <- current_ht[!is.na(current_ht$position_all), ]
+current_ht$position_all <- factor(current_ht$position_all, levels = c("dominant", "co-dominant", "intermediate", "suppressed"))
+
+ggplot(data = current_ht) +
+  aes(x = position_all, y = height.m, fill = position_all, group = position_all) +
+  # aes(x=position_all, y=height.m, fill=year) +
+  geom_boxplot() +
+  ggtitle("Current height vs crown position")+
+  xlab("year") +
+  ylab("height(m)") +
+  theme_minimal()
+
+
+# pdf of multiple graphs
 pdf("graphs_plots/current_dbh_height_all_years.pdf", width=12)
 #with dbh
 ggplot(data = current_ht) +
@@ -2266,18 +2271,6 @@ ggplot(data = current_ht) +
   xlab("year") +
   ylab("DBH(cm)") +
   theme_minimal()
-
-#with height (for paper)
-current_ht <- current_ht[!is.na(current_ht$position_all), ]
-ggplot(data = current_ht) +
-  aes(x = position_all, y = height.m, fill = position_all) +
-  # aes(x=position_all, y=height.m, fill=year) +
-  geom_boxplot() +
-  ggtitle("Height vs crown position")+
-  xlab("year") +
-  ylab("height(m)") +
-  theme_minimal()
-dev.off()
 
 #with height
 ggplot(data = current_ht) +
