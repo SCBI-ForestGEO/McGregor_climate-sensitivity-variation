@@ -1204,15 +1204,13 @@ coeff_all$model <- ifelse(coeff_all$var %in% c("elev.m", "distance.ln.m", "dbh.l
 
 ##6aiii. test predictions for paper and put in table (everything) ####
 sum_mod_traits <- data.frame(
-  "prediction" = c(1.1, 2.1, 2.2, 3.1, 3.2, 3.3, 3.4, 4.1, 4.2, 4.3, 4.4, 4.5),
-  "variable" = c("year", "dbh.ln.cm", "height.ln.m","elev.m", "distance.ln.m", "position_all",  "TWI", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
-  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "elevation", "stream.distance", "crown.position", "topographic.wetness.index", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
+  "prediction" = c(1.1, 2.1, 2.2, 3.3, 3.4, 4.1, 4.2, 4.3, 4.4, 4.5),
+  "variable" = c("year", "dbh.ln.cm", "height.ln.m", "position_all",  "TWI", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
+  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "crown.position", "topographic.wetness.index", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
   "null_model" = 
     c("resist.value ~ (1|sp/tree)",
       "resist.value ~ year+(1|sp/tree)",
       "resist.value ~ year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
@@ -1229,7 +1227,7 @@ sum_mod_traits <- sum_mod_traits %>% mutate_if(is.factor, as.character)
 
 ##loop to create table of individually-tested traits
 coeff_all <- NULL
-for (i in seq_along(1:12)){
+for (i in seq_along(1:10)){
   null_mod <- sum_mod_traits$null_model[[i]] #all years
   var <- sum_mod_traits$variable[[i]]
   
@@ -2066,9 +2064,12 @@ write.csv(summary_models, "tables_figures/results_full_models_combined_years.csv
 ##6cii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
-# effects <- c("position_all", "elev.m", "distance.ln.m", "height.ln.m", "TWI", "year", "(1|sp)")
-# effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3", "p50.MPa", "p80.MPa", "year", "(1|sp/tree)")
-effects <- c("rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3",  "position_all", "height.ln.m", "TWI", "year", "(1|sp/tree)")
+
+# effects <- c("height.ln.m", "position_all", "TWI", "rp", "PLA_dry_percent", "mean_TLP_Mpa",  "LMA_g_per_m2", "WD_g_per_cm3", "year", "(1|sp/tree)")
+effects <- c("height.ln.m", "position_all", "TWI", "rp", "PLA_dry_percent", "mean_TLP_Mpa", "LMA_g_per_m2", "WD_g_per_cm3", "(1|sp)")
+
+# effects <- c("height.ln.m", "position_all", "TWI", "PLA_dry_percent", "mean_TLP_Mpa", "(1|sp)")
+# effects <- c("height.ln.m", "position_all", "TWI", "PLA_dry_percent", "mean_TLP_Mpa", "year", "(1|sp/tree)")
 
 #create all combinations of random / fixed effects
 effects_comb <- 
@@ -2089,7 +2090,7 @@ formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
 
 # create list of model outputs
 lmm_all <- lapply(formula_vec, function(x){
-  fit1 <- lmer(x, data = trees_all_full, REML=FALSE, 
+  fit1 <- lmer(x, data = x1999, REML=FALSE, 
                control = lmerControl(optimizer ="Nelder_Mead"))
   return(fit1)
 })
@@ -2103,7 +2104,8 @@ aic_top <- var_aic %>%
   filter(AICc == min(AICc))
 
 ##6ciii. coefficients ####
-best <- lmm_all[[256]]
+best <- lmm_all[[150]]
+coef(summary(best))[ , "Estimate"]
 cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
@@ -2209,14 +2211,17 @@ ggplot(data = trees_all) +
   geom_boxplot(fill = "#0c4c8a") +
   theme_minimal()
 ##height and canopy position by size class ####
-scbi.stem3 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/scbi.stem3_TEMPORARY.csv"))
-scbi.stem3$Tree_ID_Num <- gsub("_.*$", "", scbi.stem3$Tree_ID_Num)
+scbi.stem3 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
+
+scbi.stem3$dbh <- as.numeric(scbi.stem3$dbh)
+
 current_ht <- trees_all[!duplicated(trees_all$tree), ]
 current_ht$year <- 2018
+current_ht <- current_ht[,c(1:4,15:17,19:21)]
 
-current_ht$dbh_old.cm <- scbi.stem3$DBHcm[match(current_ht$tree, scbi.stem3$Tree_ID_Num)]
+current_ht$dbh_old.mm <- scbi.stem3$dbh[match(current_ht$tree, scbi.stem3$tag)]
+current_ht$dbh_old.cm <- current_ht$dbh_old.mm/10
 current_ht$dbh.ln.cm <- log(current_ht$dbh_old.cm)
-current_ht$sap_ratio <- NA
 
 #linear log-log regression
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
@@ -2248,7 +2253,7 @@ current_ht$height.m <- exp(current_ht$height.ln.m)
 #                                  (0.849*(current_ht$dbh_ln.cm^0.659)))))))))
 # current_ht$height_power.m <- exp(current_ht$height_power_ln)
 
-current_ht <- rbind(current_ht, trees_all)
+# current_ht <- rbind(current_ht, trees_all) #run this line to get full picture going back in time
 current_ht <- current_ht[order(current_ht$tree, current_ht$year), ]
 
 pdf("graphs_plots/current_dbh_height_all_years.pdf", width=12)
@@ -2261,6 +2266,18 @@ ggplot(data = current_ht) +
   xlab("year") +
   ylab("DBH(cm)") +
   theme_minimal()
+
+#with height (for paper)
+current_ht <- current_ht[!is.na(current_ht$position_all), ]
+ggplot(data = current_ht) +
+  aes(x = position_all, y = height.m, fill = position_all) +
+  # aes(x=position_all, y=height.m, fill=year) +
+  geom_boxplot() +
+  ggtitle("Height vs crown position")+
+  xlab("year") +
+  ylab("height(m)") +
+  theme_minimal()
+dev.off()
 
 #with height
 ggplot(data = current_ht) +
