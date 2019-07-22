@@ -73,7 +73,7 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
       
       neon_data_all <- rbind(neon_data_all, neon_data_sub)
       
-    } else { #no RH data for 2016, so have to recreate the df to make sure code runs
+    } else if(value == "RHMean" & j == 1){ #no RH data for 2016, so have to recreate the df to make sure code runs
       neon_data_sub[, 3] <- NULL
       neon_data_sub[, value] <- NA
       neon_data_sub <- neon_data_sub[, c(1:2,4,3)]
@@ -128,18 +128,47 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
   #base ggplot, all months on same graph
   data_analy$month_f <- factor(data_analy$month, levels=c("May", "June", "July", "August"))
   
+  data_analy$vertPos_jitter <- NA
+  
+  if(!i == 4){
+    data_analy$vertPos_jitter <- 
+      ifelse(data_analy$month == "May", data_analy$verticalPosition + 0.05,
+       ifelse(data_analy$month == "June", data_analy$verticalPosition + 0.25,
+       ifelse(data_analy$month == "July", data_analy$verticalPosition + 0.5,
+                                          data_analy$verticalPosition + 0.75)))
+  } else {
+    data_analy$vertPos_jitter <- 
+      ifelse(data_analy$month == "May" & data_analy$verticalPosition == 0, 
+             data_analy$verticalPosition + 0.05,
+      ifelse(data_analy$month == "June" & data_analy$verticalPosition == 0,
+              data_analy$verticalPosition + 0.25,
+      ifelse(data_analy$month == "July" & data_analy$verticalPosition == 0,
+             data_analy$verticalPosition + 0.5,
+      ifelse(data_analy$month == "August" & data_analy$verticalPosition == 0,
+             data_analy$verticalPosition + 0.75,
+      
+      ifelse(data_analy$month == "May" & data_analy$verticalPosition == 60, 
+             data_analy$verticalPosition - 0.75,
+      ifelse(data_analy$month == "June" & data_analy$verticalPosition == 60,
+                    data_analy$verticalPosition - 0.5,
+      ifelse(data_analy$month == "July" & data_analy$verticalPosition == 60,
+                           data_analy$verticalPosition - 0.25,
+                                  data_analy$verticalPosition - 0.05)))))))
+  }
+  
+  
   assign(paste0(dp$data[[i]], "_plot"),
     data_analy %>%
       arrange(verticalPosition) %>%
       ggplot() +
       scale_color_manual(values = c("dark orange", "red", "dark green", "blue"), name = "Month") +
-      geom_point(aes(x = mmax, y = verticalPosition, color = month_f), shape=19, position = "jitter") +
-      geom_point(aes(x = mmin, y = verticalPosition, color = month_f), shape=17, position = "jitter") +
-      geom_path(aes(x = mmax, y = verticalPosition, color = month_f, linetype = "Max"), size = 1) +
-      geom_path(aes(x = mmin, y = verticalPosition, color = month_f, linetype = "Min"), size = 1) +
-      geom_errorbarh(aes(xmin=mmax-sd_min, xmax=mmax+sd_max, y=verticalPosition, color = month_f, linetype = "Max", height=.8)) +
-      geom_errorbarh(aes(xmin=mmin-sd_min, xmax=mmin+sd_max, y=verticalPosition, color = month_f, linetype = "Min", height=.8)) +
-      labs(x = dp$xlabs[[i]], y = "Height (m)") +
+      geom_point(aes(x = mmax, y = vertPos_jitter, color = month_f), shape=19, position = "jitter") +
+      geom_point(aes(x = mmin, y = vertPos_jitter, color = month_f), shape=17, position = "jitter") +
+      geom_path(aes(x = mmax, y = vertPos_jitter, color = month_f, linetype = "Max"), size = 1) +
+      geom_path(aes(x = mmin, y = vertPos_jitter, color = month_f, linetype = "Min"), size = 1) +
+      geom_errorbarh(aes(xmin=mmax-sd_min, xmax=mmax+sd_max, y=vertPos_jitter, color = month_f, linetype = "Max", height=.8)) +
+      geom_errorbarh(aes(xmin=mmin-sd_min, xmax=mmin+sd_max, y=vertPos_jitter, color = month_f, linetype = "Min", height=.8)) +
+      labs(x = dp$xlabs[[i]], y = " ") +
       scale_y_continuous(breaks = scales::pretty_breaks(n = 6), limits=c(0,60)) +
       theme_grey() +
       guides(linetype = guide_legend("Line type"))
@@ -169,7 +198,12 @@ graph <- grid.arrange(arrangeGrob(SAAT_plot + theme(legend.position = "none"),
 dev.off()
 
 library(ggpubr)
-ggarrange(SAAT_plot, wind_plot, biotemp_plot, RH_plot, nrow=1, ncol=4, common.legend = TRUE, legend = "right")
+NEON <- ggarrange(SAAT_plot, wind_plot, biotemp_plot, RH_plot, nrow=1, ncol=4, common.legend = TRUE, legend = "right")
+
+annotate_figure(NEON,
+                left = text_grob("Height (m)", rot = 90),
+                fig.lab = "Figure 1", fig.lab.face = "bold"
+)
 
 
 SAAT_plot
@@ -179,81 +213,21 @@ RH_plot
 SR_plot
 
 
-#other graphing code ####
-#this was the original code in the loop, where max and min are on different graphs, and facetted together
-data_analy <- data_analy %>%
-  gather(mmax, mmin, key = type, value = measure)
-
-assign(paste0(dp$data[[i]], "_plot"),
-       data_analy %>%
-         arrange(verticalPosition) %>%
-         ggplot(aes(x = measure, y = verticalPosition)) +
-         geom_path(aes(color = month_f), size = 1) +
-         scale_color_manual(values = c("orange", "red", "dark green", "blue"), name = "Month") +
-         geom_point(aes(color = month_f)) +
-         labs(x = dp$xlabs[[i]], y = "Height (m)") +
-         theme_grey() +
-         facet_wrap(~type)
-)
-
-
-#graph with plotly
-y <- list(title = value)
-
-assign(paste0(dp$data[[i]], "_plot"), 
-       plot_ly(data = neon_data_sub, x = ~startDateTime, y = ~neon_data_sub[, value], type = "scatter", color = ~verticalPosition, mode = "markers") %>%
-         layout(yaxis = y))
-
-
 #determine threshold for sunny/cloudy day ####
-neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, nchar(neon_data_sub$startDateTime)-0)
-
-q <- neon_data_sub %>%
-      group_by(day) %>%
-      summarize(mean_difRad = mean(difRadMean, na.rm=TRUE), mean_dirRad = mean(dirRadMean, na.rm=TRUE))
-
-q <- neon_data_sub %>%
-  group_by(day) %>%
-  summarize(mean_sun = sum(sunPres, na.rm=TRUE))
-
-q1 <- q[c(1,2)]
-q1$type <- "difRad"
-setnames(q1, old="mean_difRad", new="measure")
-q2 <- q[c(1,3)]
-q2$type <- "dirRad"
-setnames(q2, old="mean_dirRad", new="measure")
-q3 <- rbind(q1,q2)
-
-
-
-
-# other small things ####
-boxplot(q$total_Rad)
-ggplot(q) +
-  aes(x = day, y = total_Rad) +
-  geom_point(color = "#0c4c8a") +
-  theme_minimal()
-
-esquisser()
-
-
-
-
-neon_data <- neon_air[[1]]
-unique(neon_data$verticalPosition)
-
-neon_data_sub <- neon_data[ ,c("verticalPosition", "startDateTime", "tempSingleMean")]
-neon_data_sub <- neon_data_sub[neon_data_sub$tempSingleMean > -10, ]
-
-ggplot(data = neon_data_sub) +
-  aes(x = startDateTime, y = tempSingleMean) +
-  geom_point(color = "#0c4c8a") +
-  theme_minimal()+
-  facet_wrap(~verticalPosition)
-
-
-neon_data_sub$verticalPosition <- as.character(neon_data_sub$verticalPosition)
-ggplot(data = neon_data_sub) +
-  aes(x = startDateTime) +
-  geom_line(aes(y=tempSingleMean, group=verticalPosition, color=verticalPosition)) +
-  theme_minimal()
+# neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, nchar(neon_data_sub$startDateTime)-0)
+# 
+# q <- neon_data_sub %>%
+#       group_by(day) %>%
+#       summarize(mean_difRad = mean(difRadMean, na.rm=TRUE), mean_dirRad = mean(dirRadMean, na.rm=TRUE))
+# 
+# q <- neon_data_sub %>%
+#   group_by(day) %>%
+#   summarize(mean_sun = sum(sunPres, na.rm=TRUE))
+# 
+# q1 <- q[c(1,2)]
+# q1$type <- "difRad"
+# setnames(q1, old="mean_difRad", new="measure")
+# q2 <- q[c(1,3)]
+# q2$type <- "dirRad"
+# setnames(q2, old="mean_dirRad", new="measure")
+# q3 <- rbind(q1,q2)
