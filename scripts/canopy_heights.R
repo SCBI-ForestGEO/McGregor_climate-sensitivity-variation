@@ -1,5 +1,5 @@
 ######################################################
-# Purpose: Calculate heights of different species in ForestGEO from regression equations
+# Purpose: Calculate past heights of different species in ForestGEO from regression equations
 # Developed by: Ian McGregor - mcgregori@si.edu
 # R version 3.5.3 - First created April 2019
 ######################################################
