@@ -21,6 +21,7 @@
   - the droughts we've chosen based on PDSI values are 1964-1966, 1977, and 1999. So the 5 years pre-drought would be 1959-1961$, 1972, and 1994.
 
 ### Table
+- [ ] in final tables, remember to include r2 values
 - [X] hypothesis testing table (like the one we have already)
   - null model will be the best model, so like, if testing effect of height, you'd do null minus height
 - [X] species table showing species, number of cores, and number of trees in each crown position (6 total columns)
@@ -40,6 +41,7 @@ New Phytologist formatting options [here](https://nph.onlinelibrary.wiley.com/hu
 
 
 ### Writing
+*remember, we're using "crown position" to describe the classes*
 - [ ] give good description of droughts in publication (#39)
 - [ ] write abstract / have it mostly written
 - [ ] change main questions? structure paper according to them
