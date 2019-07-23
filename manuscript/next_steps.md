@@ -50,7 +50,8 @@ New Phytologist formatting options [here](https://nph.onlinelibrary.wiley.com/hu
 
 Test traits individually against a null model, and if those are siginificant on their own, then they are candidates for the full model
 
-1. Start out looking at size, and we determine it to be significant. Height is better than DBH, so look at height going forward (is statistically better, calculated from DBH).
+1. Start out looking at year (combined scenario) to see if significant. It is by a large margin.
+2. Then move to size, and we also determine it to be significant. Height is better than DBH in terms of dAIC, so look at height going forward (is statistically better, calculated from DBH).
 2. Biophysical is the environment, add in other effects.
 3. Separately, we look at leaf traits.
 4. Look at null model using height, test all effects together, anything with dAIC <2 is dropped as a contender for full model
