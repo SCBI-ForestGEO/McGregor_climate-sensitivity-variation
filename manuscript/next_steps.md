@@ -21,15 +21,15 @@
   - the droughts we've chosen based on PDSI values are 1964-1966, 1977, and 1999. So the 5 years pre-drought would be 1959-1961$, 1972, and 1994.
 
 ### Table
-- [ ] hypothesis testing table (like the one we have already)
+- [X] hypothesis testing table (like the one we have already)
   - null model will be the best model, so like, if testing effect of height, you'd do null minus height
 - [X] species table showing species, number of cores, and number of trees in each crown position (6 total columns)
 - [X] trait table, showing trait, unit, mean, and range
 - [X] table of coefficients of best models (biophysical and traits)
 
 ## Models
-- [ ] make table going through each trait individually (#36, and by extension #33, #16)
-- [ ] run through the different hypotheses and fill out the hypothesis table
+- [X] make table going through each trait individually (#36, and by extension #33, #16)
+- [X] run through the different hypotheses and fill out the hypothesis table
 - [X] Use both height and position in traits model (reasoning is that "we did the biophysical model first to determine which was the most important trait, before adding it in with hydraulic traits to see how that affected drought resistance")
 
 
