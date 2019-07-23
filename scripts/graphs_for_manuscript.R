@@ -158,8 +158,8 @@ ggplot(tlp, aes(x = bins, y = avg)) +
    geom_point() +
    geom_errorbar(aes(x = bins, ymin = sdmin, ymax = sdmax)) +
    scale_y_continuous(breaks=c(-2.8,-2.6,-2.4,-2.2,-2.0,-1.8), limits=c(-2.8,-1.8)) +
-   ylab("Tree height (m)") +
-   xlab("Mean TLP (MPa)") +
+   xlab("Tree height (m)") +
+   ylab("Mean TLP (MPa)") +
    theme_minimal()
 
 #TLP by TWI
