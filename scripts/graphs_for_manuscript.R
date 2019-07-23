@@ -14,6 +14,7 @@ library(tidyr) #2
 library(grid) #2
 library(gridExtra) #2
 
+#2a. heights for all cored trees ####
 trees_all <- read.csv("manuscript/tables_figures/trees_all.csv", stringsAsFactors = FALSE)
 
 scbi.stem3 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
@@ -67,7 +68,7 @@ heights <-
   scale_y_continuous(breaks = scales::pretty_breaks(n = 6), limits=c(0,60)) +
   theme_minimal()
 
-#get height data for all trees >10cm dbh in census
+#2a. get height data for all trees >10cm dbh in census ####
 scbi.stem3 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
 
 scbi.stem3$dbh <- as.numeric(scbi.stem3$dbh)
@@ -100,9 +101,12 @@ scbi18_ht$height.ln.m <-
 scbi18_ht$height.m <- exp(scbi18_ht$height.ln.m) #used below in #4
 
 #######################################################################################
-#4 Get mean leaf traits as function of TWI ####
+#4 Get mean leaf traits as function of TWI and height ####
 library(ggstance)
+library(raster)
+library(dplyr)
 
+#4a. get TWI values for all trees in census, add trait values ####
 scbi.stem3$dbh <- ifelse(is.na(scbi.stem3$dbh), 0, scbi.stem3$dbh)
 scbi.stem3 <- scbi.stem3[scbi.stem3$dbh >= 100, ] #>10cm dbh
 
@@ -127,18 +131,45 @@ for (i in seq(along=2:ncol(leaf_traits))){
    scbi18[, trait[[i]]] <- leaf_traits[, trait[[i]]][match(scbi18$sp, leaf_traits$sp)]
 }
 
-scbi18 <- scbi18[complete.cases(scbi18), ]
+
+
+#4b. create height groupings ####
 scbi18$height.m <- scbi18_ht$height.m[match(scbi18$stemID, scbi18_ht$stemID)]
 
-#graph results
+range(scbi18$height.m)
+scbi18$bins <- cut(scbi18$height.m, breaks=c(-Inf,10,15,20,25,30,35,40,45, Inf), 
+   labels=c("5-10","10-15", "15-20", "20-25", "25-30", "30-35", "35-40", "40-45", "45-50"))
+
+tlp <- scbi18 %>%
+   group_by(bins) %>%
+   summarize(avg = mean(mean_TLP_Mpa, na.rm=TRUE),
+             dev = sd(mean_TLP_Mpa, na.rm=TRUE),
+             no_data = (sum(is.na(mean_TLP_Mpa))/length(mean_TLP_Mpa)))
+
+tlp$sdmin <- tlp$avg - tlp$dev
+tlp$sdmax <- tlp$avg + tlp$dev
+
+
+#graph results ####
 plot(scbi18$TWI, scbi18$mean_TLP_Mpa)
 
+#TLP by height bins
+ggplot(tlp, aes(x = bins, y = avg)) +
+   geom_point() +
+   geom_errorbar(aes(x = bins, ymin = sdmin, ymax = sdmax)) +
+   scale_y_continuous(breaks=c(-2.8,-2.6,-2.4,-2.2,-2.0,-1.8), limits=c(-2.8,-1.8)) +
+   ylab("Tree height (m)") +
+   xlab("Mean TLP (MPa)") +
+   theme_minimal()
+
+#TLP by TWI
 ggplot(scbi18) +
    aes(x = TWI, y = mean_TLP_Mpa, colour = sp) +
    geom_boxploth() +
    scale_color_hue() +
    theme_minimal()
 
+#TLP by height
 ggplot(scbi18) +
    aes(x = TWI, y = height.m) +
    geom_point(size = 1L, colour = "#0c4c8a") +
