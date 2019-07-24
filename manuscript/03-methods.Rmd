@@ -124,8 +124,6 @@ kable(traits_table) %>%
 
 To accurately understand climate sensitivity, this study used a specific definition of drought, which is not a common practice [@slette_how_2019]. We used the pointRes package [@R-pointRes] in R (version 3.5.3) to determine drought periods based on trees' drought resistance, which is defined by [@lloret_components_2011] as the ratio between the performance during and before the disturbance. Candidate drought years were defined if >50% of the cored trees experienced <30% growth in a year compared to the previous 5 years. These were then cross-validated with the regional Palmer Drought Severity Index (PDSI) values for each year, which yielded a set of three periods that were consistently shown as drought: 1964-1966, 1977, and 1999.
 
-[**We should find a way to present this analysis in one paragraph (no tables!) of main body text. If you need to stick with species/crown position-level analysis, any tables and detailed description should go in SI**]
-
 **Figure 1. Time series of peak growing season (May-August) climate conditions and residual chronologies for each species.** Droughts analyzed here are indicated by dashed lines, and shading indicates the pre-drought period used in calculations of the resistance metric. Figure modified from [@helcoski_growing_2019].
 ![Time series of combined tree cores by species](tables_figures/Time_series_for_each_species.jpg){width=500px}
 
