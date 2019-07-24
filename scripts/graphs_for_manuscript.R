@@ -23,7 +23,7 @@ scbi.stem3$dbh <- as.numeric(scbi.stem3$dbh)
 
 current_ht <- trees_all[!duplicated(trees_all$tree), ]
 current_ht$year <- 2018
-current_ht <- current_ht[,c(1:4,15:17,19:21)]
+current_ht <- current_ht[,c(1:4,13:15,17:19)]
 
 current_ht$dbh_old.mm <- scbi.stem3$dbh[match(current_ht$tree, scbi.stem3$tag)]
 current_ht$dbh_old.cm <- current_ht$dbh_old.mm/10
@@ -64,7 +64,7 @@ heights <-
   geom_boxplot() +
   ggtitle("Height vs crown position 2018") +
   xlab("crown position") +
-  ylab("height(m)") +
+  ylab("Height (m)") +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 6), limits=c(0,60)) +
   theme_minimal()
 
@@ -118,13 +118,11 @@ scbi18 <- sigeo_coords
 scbi18 <- scbi18[, c(2:5,20:21)]
 scbi18_x <- scbi18[, c(5:6)]
 topo <- raster("data/plot_TWI.tif")
-twi <- extract(topo, scbi18_x, method="simple")
+twi <- raster::extract(topo, scbi18_x, method="simple")
 scbi18$TWI <- twi
 
 #add in leaf traits (no rp because it's categorical)
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEJQMFQQQHLV5MJVM7K5HCCRC"), stringsAsFactors = FALSE)
-
-leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
+leaf_traits <- trees_all[, c(2,7:10)]
 
 for (i in seq(along=2:ncol(leaf_traits))){
    trait <- colnames(leaf_traits[2:ncol(leaf_traits)])
@@ -151,9 +149,10 @@ trait_tlp$sdmin <- trait_tlp$avg - trait_tlp$dev
 trait_tlp$sdmax <- trait_tlp$avg + trait_tlp$dev
 
 #TLP by height bins
-ggplot(trait_tlp, aes(x = avg, y = bins)) +
+graph_tlp <- 
+   ggplot(trait_tlp, aes(x = avg, y = bins)) +
    geom_point() +
-   ggplot2::geom_errorbarh(aes(y = bins, xmin = sdmin, xmax = sdmax)) +
+   ggplot2::geom_errorbarh(aes(y = bins, xmin = sdmin, xmax = sdmax, height=0.25)) +
    scale_x_continuous(breaks=c(-2.8,-2.6,-2.4,-2.2,-2.0,-1.8), limits=c(-2.8,-1.8)) +
    ylab("Tree height (m)") +
    xlab("Mean TLP (MPa)") +
@@ -170,13 +169,16 @@ trait_pla$sdmin <- trait_pla$avg - trait_pla$dev
 trait_pla$sdmax <- trait_pla$avg + trait_pla$dev
 
 #PLA by height bins
-ggplot(trait_pla, aes(x = avg, y = bins)) +
+graph_pla <- 
+   ggplot(trait_pla, aes(x = avg, y = bins)) +
    geom_point() +
-   ggplot2::geom_errorbarh(aes(y = bins, xmin = sdmin, xmax = sdmax)) +
+   scale_x_continuous(breaks = c(8,10,12,14,16,18,20,22,24,26), limits=c(8,26)) +
+   ggplot2::geom_errorbarh(aes(y = bins, xmin = sdmin, xmax = sdmax, height=0.25)) +
    ylab("Tree height (m)") +
    xlab("PLA (dry) %") +
-   theme_minimal()
-
+   theme_minimal() +
+   theme(axis.title.y = element_blank(), axis.text.y=element_blank())
+   
 # TWI ####
 trait_twi <- scbi18 %>%
    group_by(bins) %>%
@@ -188,13 +190,15 @@ trait_twi$sdmin <- trait_twi$avg - trait_twi$dev
 trait_twi$sdmax <- trait_twi$avg + trait_twi$dev
 
 #TWI by height bins
-ggplot(trait_twi, aes(x = avg, y = bins)) +
+graph_TWI <- 
+   ggplot(trait_twi, aes(x = avg, y = bins)) +
    geom_point() +
-   ggplot2::geom_errorbarh(aes(y = bins, xmin = sdmin, xmax = sdmax)) +
+   ggplot2::geom_errorbarh(aes(y = bins, xmin = sdmin, xmax = sdmax, height=0.25)) +
    scale_x_continuous(breaks=c(4,6,8,10,12,14,16), limits=c(4,17)) + #shows full TWI range
    ylab("Tree height (m)") +
    xlab("TWI") +
-   theme_minimal()
+   theme_minimal()+
+   theme(axis.title.y = element_blank(), axis.text.y=element_blank())
 #######################################################################################
 #5 Add the graphs together ####
 quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 35.002m
@@ -203,3 +207,12 @@ quant <- data.frame(yintercept = 35.0022, Lines = "95th percentile")
 
 #add this part to each graph:
 geom_hline(aes(yintercept = yintercept, linetype = "dashed"), quant)
+
+library(ggpubr)
+NEON <- ggarrange(SAAT_plot, wind_plot, biotemp_plot, RH_plot, nrow=1, ncol=4, common.legend = TRUE, legend = "right")
+
+traits <- ggarrange(graph_tlp, graph_pla, graph_TWI, nrow=1, ncol=4)
+
+ggarrange(NEON, heights, traits, nrow=2, ncol=4)
+
+grid.arrange(ggplotGrob(NEON), ggplotGrob(heights), ggplotGrob(traits), ncol=1)

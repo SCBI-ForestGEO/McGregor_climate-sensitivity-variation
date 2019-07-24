@@ -157,7 +157,7 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
   }
   
   
-  assign(paste0(dp$data[[i]], "_plot"),
+  graph <-
     data_analy %>%
       arrange(verticalPosition) %>%
       ggplot() +
@@ -166,54 +166,62 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
       geom_point(aes(x = mmin, y = vertPos_jitter, color = month_f), shape=17, position = "jitter") +
       geom_path(aes(x = mmax, y = vertPos_jitter, color = month_f, linetype = "Max"), size = 1) +
       geom_path(aes(x = mmin, y = vertPos_jitter, color = month_f, linetype = "Min"), size = 1) +
-      geom_errorbarh(aes(xmin=mmax-sd_min, xmax=mmax+sd_max, y=vertPos_jitter, color = month_f, linetype = "Max", height=.8)) +
-      geom_errorbarh(aes(xmin=mmin-sd_min, xmax=mmin+sd_max, y=vertPos_jitter, color = month_f, linetype = "Min", height=.8)) +
-      labs(x = dp$xlabs[[i]], y = " ") +
+      ggplot2::geom_errorbarh(aes(xmin=mmax-sd_min, xmax=mmax+sd_max, y=vertPos_jitter, color = month_f, linetype = "Max", height=0.8)) +
+      ggplot2::geom_errorbarh(aes(xmin=mmin-sd_min, xmax=mmin+sd_max, y=vertPos_jitter, color = month_f, linetype = "Min", height=0.8)) +
+      labs(x = dp$xlabs[[i]], y = "Height (m)") +
       scale_y_continuous(breaks = scales::pretty_breaks(n = 6), limits=c(0,60)) +
       theme_grey() +
       guides(linetype = guide_legend("Line type"))
-  )
+  
+  if(!i == 1){
+    graph <- graph + theme(axis.title.y = element_blank(), axis.text.y=element_blank(), axis.ticks.y = element_blank())
+  }
+  
+  assign(paste0(dp$data[[i]], "_plot"), graph)
 }
 
-#extract legend
-#https://github.com/hadley/ggplot2/wiki/Share-a-legend-between-two-ggplot2-graphs
-g_legend<-function(a.gplot){
-  tmp <- ggplot_gtable(ggplot_build(a.gplot))
-  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
-  legend <- tmp$grobs[[leg]]
-  return(legend)}
-
-mylegend <- g_legend(SAAT_plot)
-
-#arrange all graphs together and save image
-png("manuscript/tables_figures/NEON_vertical_profiles.png", width = 1000, height = 1000, pointsize = 18)
-graph <- grid.arrange(arrangeGrob(SAAT_plot + theme(legend.position = "none"),
-                                  wind_plot + theme(legend.position = "none"),
-                                  RH_plot + theme(legend.position = "none"),
-                                  biotemp_plot + theme(legend.position = "none"), 
-                                  nrow=1), 
-                      mylegend, nrow=1, 
-                      top = textGrob(expression(bold("NEON Vertical Profile 2016-2018"))))
-
-dev.off()
-
-library(ggpubr)
-NEON <- ggarrange(SAAT_plot, wind_plot, biotemp_plot, RH_plot, nrow=1, ncol=4, common.legend = TRUE, legend = "right")
-
-annotate_figure(NEON,
-                left = text_grob("Height (m)", rot = 90),
-                fig.lab = "Figure 1", fig.lab.face = "bold"
-)
 
 
-SAAT_plot
-wind_plot
-biotemp_plot
-RH_plot
-SR_plot
+# #arrange all graphs together and save image ####
+# #extract legend
+# #https://github.com/hadley/ggplot2/wiki/Share-a-legend-between-two-ggplot2-graphs
+# g_legend<-function(a.gplot){
+#   tmp <- ggplot_gtable(ggplot_build(a.gplot))
+#   leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+#   legend <- tmp$grobs[[leg]]
+#   return(legend)}
+# 
+# mylegend <- g_legend(SAAT_plot)
+# 
+# #formatting
+# png("manuscript/tables_figures/NEON_vertical_profiles.png", width = 1000, height = 1000, pointsize = 18)
+# graph <- grid.arrange(arrangeGrob(SAAT_plot + theme(legend.position = "none"),
+#                                   wind_plot + theme(legend.position = "none"),
+#                                   RH_plot + theme(legend.position = "none"),
+#                                   biotemp_plot + theme(legend.position = "none"), 
+#                                   nrow=1), 
+#                       mylegend, nrow=1, 
+#                       top = textGrob(expression(bold("NEON Vertical Profile 2016-2018"))))
+# 
+# dev.off()
+# 
+# library(ggpubr)
+# NEON <- ggarrange(SAAT_plot, wind_plot, biotemp_plot, RH_plot, nrow=1, ncol=4, common.legend = TRUE, legend = "right")
+# 
+# annotate_figure(NEON,
+#                 left = text_grob("Height (m)", rot = 90),
+#                 fig.lab = "Figure 1", fig.lab.face = "bold"
+# )
+# 
+# 
+# SAAT_plot
+# wind_plot
+# biotemp_plot
+# RH_plot
+# SR_plot
+# 
 
-
-#determine threshold for sunny/cloudy day ####
+# #determine threshold for sunny/cloudy day ####
 # neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, nchar(neon_data_sub$startDateTime)-0)
 # 
 # q <- neon_data_sub %>%

@@ -269,9 +269,9 @@ widths_subcan <- NULL
 
 ### df for pointer years of all trees combined ####
 full_ind <- rbind(canopy_table, subcanopy_table) #full table of indices for canopy and subcanopy cores
+
 pointers <- full_ind[full_ind$nature == -1, ]
 
-library(dplyr)
 years_point <- count(pointers, vars=year) #counts the occurrences of each unique year
 colnames(years_point) <- c("yr", "n.pointer")
 years_point <- years_point[order(years_point$n.pointer, decreasing=TRUE), ]
@@ -511,6 +511,29 @@ ggplot(data = pdsi_true) +
 #plot and manually subset to 1950+
 # plot_ly(pdsi_true, x=pdsi_true$year, y=pdsi_true$resid, type="scatter", mode="line")
 
+##4e. Statistics for paper ####
+
+#these numbers are
+#1. subset for year
+#2. proportion of all trees that show growth deficit meeting the threshold we defined
+#3. proportion of species-canopy classes that have >50% trees meeting growth deficit threshold
+
+sum_table <- data.frame("year" = c(1966, 1977, 1999), 
+                        "prop_growth" = NA, 
+                        "prop_pointer" = NA)
+
+for (i in seq(along=sum_table$year)){
+  full_ind_sub <- full_ind[full_ind$year %in% sum_table$year[[i]],  ]
+  
+  sum_table$prop_growth[[i]] <- (sum(full_ind_sub$nb.series*(full_ind_sub$perc.neg/100))/sum(full_ind_sub$nb.series))*100
+  
+  sum_table$prop_growth[[i]] <- round(sum_table$prop_growth[[i]], 2)
+  
+  sum_table$prop_pointer[[i]] <- (nrow(full_ind_sub[full_ind_sub$nature == -1, ])/nrow(full_ind_sub))*100
+  
+  sum_table$prop_pointer[[i]] <- round(sum_table$prop_pointer[[i]], 2)
+}
+
 ##########################################################################################
 #5. add in climate and growth variables ####
 library(ggplot2)
@@ -545,7 +568,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEJQMFQQQHLV5MJVM7K5HCCRC"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBELAM347ZL7W3JUGZ3S5IHYKE"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
