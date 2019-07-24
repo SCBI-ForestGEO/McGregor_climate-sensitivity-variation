@@ -133,48 +133,68 @@ for (i in seq(along=2:ncol(leaf_traits))){
 
 
 
-#4b. create height groupings ####
+#4b. create height groupings and graphs ####
 scbi18$height.m <- scbi18_ht$height.m[match(scbi18$stemID, scbi18_ht$stemID)]
 
 range(scbi18$height.m)
-scbi18$bins <- cut(scbi18$height.m, breaks=c(-Inf,10,15,20,25,30,35,40,45, Inf), 
+scbi18$bins <- cut(scbi18$height.m, breaks=c(-Inf,10,15,20,25,30,35,40,45,Inf), 
    labels=c("5-10","10-15", "15-20", "20-25", "25-30", "30-35", "35-40", "40-45", "45-50"))
 
-tlp <- scbi18 %>%
+# tlp ####
+trait_tlp <- scbi18 %>%
    group_by(bins) %>%
    summarize(avg = mean(mean_TLP_Mpa, na.rm=TRUE),
              dev = sd(mean_TLP_Mpa, na.rm=TRUE),
              no_data = (sum(is.na(mean_TLP_Mpa))/length(mean_TLP_Mpa)))
 
-tlp$sdmin <- tlp$avg - tlp$dev
-tlp$sdmax <- tlp$avg + tlp$dev
-
-
-#graph results ####
-plot(scbi18$TWI, scbi18$mean_TLP_Mpa)
+trait_tlp$sdmin <- trait_tlp$avg - trait_tlp$dev
+trait_tlp$sdmax <- trait_tlp$avg + trait_tlp$dev
 
 #TLP by height bins
-ggplot(tlp, aes(x = bins, y = avg)) +
+ggplot(trait_tlp, aes(x = avg, y = bins)) +
    geom_point() +
-   geom_errorbar(aes(x = bins, ymin = sdmin, ymax = sdmax)) +
-   scale_y_continuous(breaks=c(-2.8,-2.6,-2.4,-2.2,-2.0,-1.8), limits=c(-2.8,-1.8)) +
-   xlab("Tree height (m)") +
-   ylab("Mean TLP (MPa)") +
+   ggplot2::geom_errorbarh(aes(y = bins, xmin = sdmin, xmax = sdmax)) +
+   scale_x_continuous(breaks=c(-2.8,-2.6,-2.4,-2.2,-2.0,-1.8), limits=c(-2.8,-1.8)) +
+   ylab("Tree height (m)") +
+   xlab("Mean TLP (MPa)") +
    theme_minimal()
 
-#TLP by TWI
-ggplot(scbi18) +
-   aes(x = TWI, y = mean_TLP_Mpa, colour = sp) +
-   geom_boxploth() +
-   scale_color_hue() +
+# pla ####
+trait_pla <- scbi18 %>%
+   group_by(bins) %>%
+   summarize(avg = mean(PLA_dry_percent, na.rm=TRUE),
+             dev = sd(PLA_dry_percent, na.rm=TRUE),
+             no_data = (sum(is.na(PLA_dry_percent))/length(PLA_dry_percent)))
+
+trait_pla$sdmin <- trait_pla$avg - trait_pla$dev
+trait_pla$sdmax <- trait_pla$avg + trait_pla$dev
+
+#PLA by height bins
+ggplot(trait_pla, aes(x = avg, y = bins)) +
+   geom_point() +
+   ggplot2::geom_errorbarh(aes(y = bins, xmin = sdmin, xmax = sdmax)) +
+   ylab("Tree height (m)") +
+   xlab("PLA (dry) %") +
    theme_minimal()
 
-#TLP by height
-ggplot(scbi18) +
-   aes(x = TWI, y = height.m) +
-   geom_point(size = 1L, colour = "#0c4c8a") +
-   theme_minimal() +
-   facet_wrap(vars(sp))
+# TWI ####
+trait_twi <- scbi18 %>%
+   group_by(bins) %>%
+   summarize(avg = mean(TWI, na.rm=TRUE),
+             dev = sd(TWI, na.rm=TRUE),
+             no_data = (sum(is.na(TWI))/length(TWI)))
+
+trait_twi$sdmin <- trait_twi$avg - trait_twi$dev
+trait_twi$sdmax <- trait_twi$avg + trait_twi$dev
+
+#TWI by height bins
+ggplot(trait_twi, aes(x = avg, y = bins)) +
+   geom_point() +
+   ggplot2::geom_errorbarh(aes(y = bins, xmin = sdmin, xmax = sdmax)) +
+   scale_x_continuous(breaks=c(4,6,8,10,12,14,16), limits=c(4,17)) + #shows full TWI range
+   ylab("Tree height (m)") +
+   xlab("TWI") +
+   theme_minimal()
 #######################################################################################
 #5 Add the graphs together ####
 quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 35.002m
