@@ -598,12 +598,13 @@ for (i in seq(along=2:ncol(leaf_traits))){
 # trees_all$SLA_mean <- mean_SLA$SLA_mean[match(trees_all$sp, mean_SLA$Genus.spp)]
 
 ##5bii. add in p50 and p88 ####
-#get P50 from traits table
-hydra <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/results/SCBI_best_fits.csv?token=AJNRBEP62SALMQHAV45TP2S5HCCPK"))
-
-#Anderegg 2018 found that p50 and p80 came out significant in modelling
-trees_all$p50.MPa <- hydra$psi_0.5_kl50[match(trees_all$sp, hydra$data.type)]
-trees_all$p80.MPa <- hydra$psi_0.5_kl80[match(trees_all$sp, hydra$data.type)]
+#after review, we have decided to not focus on p50 and p80
+# #get P50 from traits table
+# hydra <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/results/SCBI_best_fits.csv?token=AJNRBEP62SALMQHAV45TP2S5HCCPK"))
+# 
+# #Anderegg 2018 found that p50 and p80 came out significant in modelling
+# trees_all$p50.MPa <- hydra$psi_0.5_kl50[match(trees_all$sp, hydra$data.type)]
+# trees_all$p80.MPa <- hydra$psi_0.5_kl80[match(trees_all$sp, hydra$data.type)]
 
 #after review, we have decided to not focus on pmin or HSM
 # trees_all$Pmin.MPa <- 1.1122*trees_all$mean_TLP_Mpa + 0.3849
@@ -1282,6 +1283,7 @@ best_mod_full_year <- best_mod_full_year[!best_mod_full_year %in% c("year")]
 
 
 #this loop determines the best full model for each scenario, using the traits from cand_full in #6a, and populates the table created above
+coeff_list <- list()
 for (i in seq(along=c(1:4))){
   for (j in seq(along=model_df)){
     #ALL YEARS
@@ -1326,19 +1328,20 @@ for (i in seq(along=c(1:4))){
           #get coefficients and put in table
           coeff <- data.frame(coef(summary(fit1))[ , "Estimate"]) ##2
           coeff[,2] <- rownames(coeff)
-          colnames(coeff) <- c("value", "model_var")
-          coeff$value <- round(coeff$value, 3)
-          coeff$combo <- paste0(coeff$model_var, " (", coeff$value, ")")
-          
-          coeff_vec <- coeff$combo
-          
-          # best_mod_traits[,column_cof][[i]] <- ifelse(any(coeff$value < 0), "-", "+")
-          best_mod_traits[,"coef"][[i]] <- paste(coeff_vec, collapse = ", ")
+          coeff[,1] <- round(coeff[,1], 3)
+          colnames(coeff) <- c(names(model_df[j]), "model_var")
           
           #put r2 in table
           r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
           
-          best_mod_traits$r2[[i]] <- round(r$Conditional, 2)
+          r <- data.frame(r[,6])
+          colnames(r) <- names(model_df[j])
+          r$model_var <- "r^2"
+          r[,1] <- round(r[,1], 2)
+          
+          coeff <- rbind(r,coeff)
+          
+          coeff_list[[paste0("coeff_", names(model_df[j]))]] <- coeff
         }
       }
       
@@ -1381,19 +1384,24 @@ for (i in seq(along=c(1:4))){
           #get coefficients and put in table
           coeff <- data.frame(coef(summary(fit1))[ , "Estimate"]) ##2
           coeff[,2] <- rownames(coeff)
-          colnames(coeff) <- c("value", "model_var")
-          coeff$value <- round(coeff$value, 3)
-          coeff$combo <- paste0(coeff$model_var, " (", coeff$value, ")")
+          coeff[,1] <- round(coeff[,1], 3)
+          colnames(coeff) <- c(names(model_df[j]), "model_var")
           
-          coeff_vec <- coeff$combo
           
-          # best_mod_traits[,column_cof][[i]] <- ifelse(any(coeff$value < 0), "-", "+")
-          best_mod_traits[,"coef"][[i]] <- paste(coeff_vec, collapse = ", ")
           
           #put r2 in table
           r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
           
-          best_mod_traits$r2[[i]] <- round(r$Conditional, 2)
+          r <- data.frame(r[,6])
+          colnames(r) <- names(model_df[j])
+          r$model_var <- "r^2"
+          r[,1] <- round(r[,1], 2)
+          
+          coeff <- rbind(r,coeff)
+          
+          coeff_list[[paste0("coeff_", names(model_df[j]))]] <- coeff
+          
+          
         }
       }
     }
@@ -1402,6 +1410,19 @@ for (i in seq(along=c(1:4))){
 
 write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", row.names=FALSE)
 
+##make table of coefficients and r2, then reorder table
+coeff_table <- Reduce(function(dtf1, dtf2) 
+  merge(dtf1, dtf2, by = "model_var", all = TRUE),
+       coeff_list)
+setnames(coeff_table, old="trees_all_sub", new="all years")
+
+vars <- coeff_table$model_var
+vars <- vars[!vars %in% "r^2"]
+vars <- c("r^2", vars)
+
+coeff_table <- coeff_table %>%
+  slice(match(vars, model_var))
+
 ##6c. standalone code to get coefficients and r2 #### 
 ##(for paper, should do ONLY w/REML=TRUE) 
 best <- lmm_all[[46]]
@@ -1409,6 +1430,7 @@ cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
 cof$value <- round(cof$value, 3)
 
 r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+
 
 ##6d. original table with models based on github issue predictions ####
 summary_models <- data.frame(

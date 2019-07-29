@@ -1,0 +1,14 @@
+"model_var","all years","x1966","x1977","x1999"
+"r^2",0.13,0.24,0.21,0.25
+"(Intercept)",1.041,1.564,0.28,1.215
+"height.ln.m",-0.089,-0.139,NA,-0.082
+"mean_TLP_Mpa",-0.147,NA,-0.365,NA
+"PLA_dry_percent",-0.008,-0.021,NA,-0.009
+"position_alldominant",-0.043,NA,NA,0.002
+"position_allintermediate",-0.039,NA,NA,-0.077
+"position_allsuppressed",-0.048,NA,NA,-0.097
+"rpring",NA,0.086,-0.237,0.191
+"rpsemi-ring",NA,0.227,-0.325,0.222
+"TWI",-0.008,NA,-0.02,-0.013
+"year1977",-0.089,NA,NA,NA
+"year1999",-0.073,NA,NA,NA
