@@ -1423,6 +1423,8 @@ vars <- c("r^2", vars)
 coeff_table <- coeff_table %>%
   slice(match(vars, model_var))
 
+write.csv(coeff_table, "manuscript/tables_figures/tested_traits_best_coeffs.csv", row.names=FALSE)
+
 ##6c. standalone code to get coefficients and r2 #### 
 ##(for paper, should do ONLY w/REML=TRUE) 
 best <- lmm_all[[46]]
