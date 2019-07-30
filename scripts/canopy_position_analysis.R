@@ -1060,6 +1060,7 @@ twi_trees$TWI <- twi
 
 #6 add to trees_all
 trees_all$TWI <- twi_trees$TWI[match(trees_all$tree, twi_trees$tag)]
+trees_all$TWI.ln <- log(trees_all$TWI)
 
 ##5i1. write trees_all to csv for use in manuscript code ####
 write.csv(trees_all, "manuscript/tables_figures/trees_all.csv", row.names=FALSE)
@@ -1111,8 +1112,8 @@ library(stringr)
 ##6a. test each variable individually for each drought scenario ####
 sum_mod_traits <- data.frame(
   "prediction" = c(1.1, 2.1, 2.2, 3.3, 3.4, 4.1, 4.2, 4.3, 4.4, 4.5),
-  "variable" = c("year", "dbh.ln.cm", "height.ln.m", "position_all",  "TWI", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
-  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "crown.position", "topographic.wetness.index", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
+  "variable" = c("year", "dbh.ln.cm", "height.ln.m", "position_all",  "TWI.ln", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
+  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "crown.position", "ln[topographic.wetness.index]", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
   "null_model" = 
     c("resist.value ~ (1|sp/tree)",
       "resist.value ~ year+(1|sp/tree)",
@@ -1270,11 +1271,10 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 }
 
 write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/candidate_traits.csv", row.names=FALSE)
 
 ##6b. determine the best full model ####
 best_mod_traits <- data.frame("best_model" = NA,
-                              "coef" = NA,
-                              "r2" = NA,
                               "scenario" = c("all droughts", "1964-1966", "1977", "1999")
 )
 best_mod_full <- c(unique(cand_full$variable), "(1|sp/tree)")
@@ -1400,8 +1400,6 @@ for (i in seq(along=c(1:4))){
           coeff <- rbind(r,coeff)
           
           coeff_list[[paste0("coeff_", names(model_df[j]))]] <- coeff
-          
-          
         }
       }
     }
