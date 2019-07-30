@@ -26,7 +26,7 @@ library(gridExtra)
 dp <- data.frame("data" = c("SAAT", "wind", "biotemp", "RH", "SR"),
                  "id" = c("DP1.00002.001", "DP1.00001.001", "DP1.00005.001", "DP1.00098.001", "DP1.00014.001"),
                  "value" = c("tempSingleMean", "windSpeedMean", "bioTempMean", "RHMean", "difRadMean"),
-                 "xlabs" = c("Mean Air Temperature (C)", "Mean Windspeed (m/s)", "Mean Infrared Biological Temperature (C)", "Relative Humidity", "Mean shortwave downward radiation (W/m2)"))
+                 "xlabs" = c("Mean Air Temperature [°C]", "Mean Windspeed [m/s]", "Mean Infrared Biological Temperature [°C]", "Relative Humidity [%]", "Mean shortwave downward radiation [W/m^2]"))
 
 
 dp[] <- lapply(dp, as.character)
@@ -168,7 +168,7 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
       geom_path(aes(x = mmin, y = vertPos_jitter, color = month_f, linetype = "Min"), size = 1) +
       ggplot2::geom_errorbarh(aes(xmin=mmax-sd_min, xmax=mmax+sd_max, y=vertPos_jitter, color = month_f, linetype = "Max", height=0.8)) +
       ggplot2::geom_errorbarh(aes(xmin=mmin-sd_min, xmax=mmin+sd_max, y=vertPos_jitter, color = month_f, linetype = "Min", height=0.8)) +
-      labs(x = dp$xlabs[[i]], y = "Height (m)") +
+      labs(x = dp$xlabs[[i]], y = "Height [m]") +
       scale_y_continuous(breaks = scales::pretty_breaks(n = 6), limits=c(0,60)) +
       theme_grey() +
       guides(linetype = guide_legend("Line type"))
