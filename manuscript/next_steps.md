@@ -13,7 +13,7 @@
 ## Figures
 ### Graphs
 - [ ] make more consolidated graphs (#37)
-- [ ] each trait plotted against height (logged values of height), possibly by weighted mean/% (Meakem made code for this when she was here, ask valentine if know anything)
+- [X] each trait plotted against height (logged values of height), possibly by weighted mean/% (Meakem made code for this when she was here, ask valentine if know anything)
 - [X] basic map of plot
 - [X] vertical profile graphs (would go in results)
 - [X] ring-width index like in Ryan's paper, but exclude pist, and add line for PDSI at top (ask valentine for help)
@@ -21,7 +21,7 @@
   - the droughts we've chosen based on PDSI values are 1964-1966, 1977, and 1999. So the 5 years pre-drought would be 1959-1961$, 1972, and 1994.
 
 ### Table
-- [ ] in final tables, remember to include r2 values
+- [X] in final tables, remember to include r2 values
 - [X] hypothesis testing table (like the one we have already)
   - null model will be the best model, so like, if testing effect of height, you'd do null minus height
 - [X] species table showing species, number of cores, and number of trees in each crown position (6 total columns)
