@@ -1,3 +1,6 @@
+```{r include=FALSE, cache=FALSE}
+rm(list = ls(all = TRUE))
+```
 # Methods
 ### Study site
 Research was conducted at the 25.6 ha ForestGEO (Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38°53'36.6"N, 78° 08'43.4"W) [@andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park.  Elevations range from 273-338m above sea level [@gonzalezakre_patterns_2016] with a topographic relief of 65m [@bourg_initial_2013]. Dominant species include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.).
@@ -40,7 +43,7 @@ library(data.table)
 library(knitr)
 library(kableExtra)
 
-species <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/master/data/core_list_for_neil.csv?token=AJNRBEIAVYFAN2CJB3Y3UAS5D5BNG"), stringsAsFactors = FALSE)
+species <- read.csv("D:/Dropbox (Smithsonian)/Github_Ian/McGregor_climate-sensitivity-variation/data/core_list_for_neil.csv", stringsAsFactors = FALSE)
 
 table <- species[, c(1:3,6,17)]
 
@@ -81,27 +84,27 @@ trees_all <- trees_all[!duplicated(trees_all$sp), ]
   
 
 traits_table <- data.frame(
-  "Trait" = c("Ring Porosity", "Percent Leaf Area", "Leaf Mass Area", "Chlorophyll", "Wood density", "TLP", "P50", "P80"),
-  "Unit" = c("ring, semi-ring, diffuse", "%", "g/m2", "m2/g", "g/cm3", "MPa", "MPa", "MPa"))
-traits_table$abb <- c("rp", "PLA", "LMA", "Chl", "WD", "TLP", "p50", "p80")
+  "Trait" = c("Ring Porosity", "Percent Leaf Area", "Leaf Mass Area", "Wood density", "TLP"),
+  "Unit" = c("ring, semi-ring, diffuse", "%", "g/m2", "g/cm3", "MPa"))
+traits_table$abb <- c("rp", "PLA", "LMA", "WD", "TLP")
 
 traits_table$mean <- NA
 traits_table$min <- NA
 traits_table$max <- NA
 
-for (i in seq(along=traits_table$abb[2:8])){
-  trait <- traits_table$abb[2:8][i]
+for (i in seq(along=traits_table$abb[2:5])){
+  trait <- traits_table$abb[2:5][i]
   
   sub <- trees_all[grepl(trait, colnames(trees_all))]
-  traits_table$mean[2:8][i] <- ifelse(grepl(trait, colnames(sub)), 
+  traits_table$mean[2:5][i] <- ifelse(grepl(trait, colnames(sub)), 
                               mean(sub[, 1], na.rm=TRUE), 
                               traits_table$mean)
   
-  traits_table$min[2:8][i] <- ifelse(grepl(trait, colnames(sub)), 
+  traits_table$min[2:5][i] <- ifelse(grepl(trait, colnames(sub)), 
                               min(sub[, 1], na.rm=TRUE), 
                               traits_table$min)
   
-  traits_table$max[2:8][i] <- ifelse(grepl(trait, colnames(sub)), 
+  traits_table$max[2:5][i] <- ifelse(grepl(trait, colnames(sub)), 
                               max(sub[, 1], na.rm=TRUE), 
                               traits_table$max)
 }
@@ -113,7 +116,7 @@ traits_table[, c("mean", "min", "max")] <-
 traits_table$abb <- NULL
 
 kable(traits_table) %>%
-  kable_styling(bootstrap_options = "striped", full_width = F)
+  kable_styling(bootstrap_options = "striped", full_width = FALSE)
 
 ```
 
@@ -134,7 +137,7 @@ kable(traits_test) %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE)
 ```
 
-```{r, all_candidates, eval=TRUE, echo=TRUE, message=FALSE}
+```{r, all_candidates, eval=TRUE, echo=FALSE, message=FALSE}
 candidates <- read.csv("tables_figures/candidate_traits.csv")
 kable(candidates) %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE)

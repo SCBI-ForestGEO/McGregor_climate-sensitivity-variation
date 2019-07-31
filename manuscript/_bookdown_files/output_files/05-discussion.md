@@ -11,5 +11,5 @@ Proximity to stream--either vertical (elev) or horizontal (distance)-- did not i
 
 
 
-#### misc content to integrate
+### misc content to integrate
 From [@kannenberg_linking_2019], species with diffuse porous wood anatomy (*Liriodendron*) are more sensitive to drought, whereas ring-porous are not as affected because they more easily rebuild structures for hydraulic conductivity. This paper mentions it would be good to have this data with respect to latent affects from drought.

@@ -2,7 +2,7 @@
 
 # Results
 
-## tree and trait distribution within the biophysical setting
+### tree and trait distribution within the biophysical setting
 
 **Figure 2. Vertical profiles in microclimate, crown positions, and traits.**[combines the two following figures]
 
@@ -12,10 +12,22 @@
 
 [consider an analysis of trait distribution in relation to topography??]
 
-## droughts(?)
-[description of the 3 droughts in terms of timing, duration, severity, proportion of trees showing pointer year..?]
+### droughts(?)
+description of the 3 droughts in terms of timing, duration, severity, proportion of trees showing pointer year..?. See
 
-## 1- tree size and exposure
+Proportion of all trees showing growth deficit for that year (meeting our threshold)
+1966: 28.18% (20.88% if doing all trees 1964-1966)
+1977:31.23%
+1999: 26.21%
+
+Proportion of species-canopy classes (e.g. fagr_canopy, quve_subcanopy) that have >50% of their trees showing a pointer year
+1966: 22.73%
+1977: 22.73%
+1999: 13.64%
+
+
+
+### 1- tree size and exposure
 We evaluated the predictions outlined in the introduction
 P1.0. Drought resistance decreased with DBH at time of drought.
 P1.1. Drought resistance decreased with height at time of drought.
@@ -24,9 +36,15 @@ P1.3. Resistance was independent of elevation and distance from stream.
 
 [**HYPOTHESIS TESTING TABLE**]
 
-## 2- traits
+### 2- traits
 
 
+
+
+```
+## Warning in xml_parse_options(): '.Random.seed[1]' is not a valid integer,
+## so ignored
+```
 
 <table class="table" style="width: auto !important; float: left; margin-right: 10px;">
 <caption>Biophysical Model</caption>
@@ -39,35 +57,35 @@ P1.3. Resistance was independent of elevation and distance from stream.
 <tbody>
   <tr>
    <td style="text-align:center;"> (Intercept) </td>
-   <td style="text-align:left;"> 1.1969314 </td>
+   <td style="text-align:left;"> 1.2216127 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> position_alldominant </td>
-   <td style="text-align:left;"> -0.0446162 </td>
+   <td style="text-align:left;"> -0.0439116 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> position_allintermediate </td>
-   <td style="text-align:left;"> -0.0398600 </td>
+   <td style="text-align:left;"> -0.0422884 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> position_allsuppressed </td>
-   <td style="text-align:left;"> -0.0470137 </td>
+   <td style="text-align:left;"> -0.0525058 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> height.ln.m </td>
-   <td style="text-align:left;"> -0.0840061 </td>
+   <td style="text-align:left;"> -0.0918930 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> year1977 </td>
-   <td style="text-align:left;"> -0.0885718 </td>
+   <td style="text-align:left;"> -0.0883842 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> year1999 </td>
-   <td style="text-align:left;"> -0.0736875 </td>
+   <td style="text-align:left;"> -0.0727707 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> r^2 </td>
-   <td style="text-align:left;"> 0.1053492 </td>
+   <td style="text-align:left;"> 0.1056121 </td>
   </tr>
 </tbody>
 </table>

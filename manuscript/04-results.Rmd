@@ -39,7 +39,7 @@ P1.3. Resistance was independent of elevation and distance from stream.
 
 ### 2- traits
 
-``` {r, biophysical-model, eval=TRUE, echo=FALSE, message=FALSE, cache=TRUE}
+``` {r, biophysical-model, eval=TRUE, echo=FALSE, message=FALSE}
 library(lme4)
 library(AICcmodavg) #aictab function
 library(car)
