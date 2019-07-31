@@ -135,147 +135,131 @@ for (i in seq(along=2:ncol(leaf_traits))){
 
 #4b. create height groupings and graphs ####
 scbi18$height.m <- scbi18_ht$height.m[match(scbi18$stemID, scbi18_ht$stemID)]
-scbi18$height.ln.m <- log(scbi18$height.m)
 
-range(scbi18$height.ln.m)
-scbi18$bins <- cut(scbi18$height.m, breaks=c(-Inf,10,15,20,25,30,35,40,45,Inf), 
-   labels=c("5-10","10-15", "15-20", "20-25", "25-30", "30-35", "35-40", "40-45", "45-50"))
-scbi18$bins <- cut(scbi18$height.m, breaks=c(-Inf,7.5,10,12.5,15,17.5,20,22.5,25,27.5,30,32.5,35,37.5,40,42.5,45,47.5,51))
+
+
 
 scbi18$bins <- cut2(scbi18$height.m, g=19)
-
-# tlp ####
-trait_tlp <- scbi18 %>%
-   group_by(bins) %>%
-   dplyr::summarize(avg = mean(mean_TLP_Mpa, na.rm=TRUE),
-             dev = sd(mean_TLP_Mpa, na.rm=TRUE),
-             no_data = (sum(is.na(mean_TLP_Mpa))/length(mean_TLP_Mpa)))
-
-trait_tlp$sdmin <- trait_tlp$avg - trait_tlp$dev
-trait_tlp$sdmax <- trait_tlp$avg + trait_tlp$dev
-trait_tlp$col <- ifelse(trait_tlp$no_data > 0.25, "grey", "black")
-trait_tlp$lab <- seq(5,95,by=5)
-trait_tlp$y <- gsub("^.*,", "", trait_tlp$bins)
-trait_tlp$y <- gsub("[[:punct:]]$", "", trait_tlp$y)
-trait_tlp$y <- as.numeric(trait_tlp$y)
-
-
-#TLP by height bins
-# plot_tlp_ht <- 
-   ggplot(trait_tlp, aes(x = avg, y = lab)) +
-      geom_point(aes(color=col)) +
-      scale_color_manual(values=c("black", "grey")) +
-      ggplot2::geom_errorbarh(aes(y = lab, xmin = sdmin, xmax = sdmax, height=0.25, color=col)) +
-      scale_x_continuous(breaks=c(-2.8,-2.6,-2.4,-2.2,-2.0,-1.8), limits=c(-2.8,-1.8)) +
-      scale_y_continuous(breaks=seq(5,95,by=5)) +
-      geom_path(aes(x=avg, y=lab, color=col, group=1)) +
-      ylab("Height [percentiles]") +
-      xlab("Mean TLP (MPa)") +
-      theme_minimal()
-   
-   ggplot(trait_tlp, aes(x = avg, y = y)) +
-      geom_point(aes(color=col)) +
-      scale_color_manual(values=c("black", "grey")) +
-      ggplot2::geom_errorbarh(aes(y = y, xmin = sdmin, xmax = sdmax, height=0.25, color=col)) +
-      scale_x_continuous(breaks=c(-2.8,-2.6,-2.4,-2.2,-2.0,-1.8), limits=c(-2.8,-1.8)) +
-      scale_y_continuous(breaks=c(0,10,20,30,40,50,60), limits=c(0,60)) +
-      geom_path(aes(x=avg, y=y, color=col, group=1)) +
-      ylab("Height [percentiles]") +
-      xlab("Mean TLP (MPa)") +
-      theme_minimal()
-
-# pla ####
-trait_pla <- scbi18 %>%
-   group_by(bins) %>%
-   dplyr::summarize(avg = mean(PLA_dry_percent, na.rm=TRUE),
-             dev = sd(PLA_dry_percent, na.rm=TRUE),
-             no_data = (sum(is.na(PLA_dry_percent))/length(PLA_dry_percent)))
-
-trait_pla$sdmin <- trait_pla$avg - trait_pla$dev
-trait_pla$sdmax <- trait_pla$avg + trait_pla$dev
-
-#PLA by height bins
-graph_pla <-
-   ggplot(trait_pla, aes(x = avg, y = bins)) +
-   geom_point() +
-   scale_x_continuous(breaks = c(8,10,12,14,16,18,20,22,24,26), limits=c(8,26)) +
-   geom_text(aes(label=round(no_data*100, 2)), vjust=-0.5) +
-   ggplot2::geom_errorbarh(aes(y = bins, xmin = sdmin, xmax = sdmax, height=0.25)) +
-   ylab("log(Height) [m]") +
-   xlab("Percent Leaf Area [%]") +
-   theme_minimal() +
-   theme(axis.title.y = element_blank(), axis.text.y=element_blank())
-
-#4c. create TWI groupings and graphs ####
-scbi18$bins_TWI <- cut(scbi18$TWI, breaks=c(-Inf,4,6,8,10,12,14,Inf), 
-      labels=c("2-4","4-6", "6-8", "8-10", "10-12", "12-14", "14-16"))
 scbi18$bins_TWI <- cut2(scbi18$TWI, g=20)
 
-#tlp_twi ####
-trait_tlp_twi <- scbi18 %>%
-   group_by(bins_TWI) %>%
-   dplyr::summarize(avg = mean(mean_TLP_Mpa, na.rm=TRUE),
-             dev = sd(mean_TLP_Mpa, na.rm=TRUE),
-             no_data = (sum(is.na(mean_TLP_Mpa))/length(mean_TLP_Mpa)))
+type = c("tlp_ht", "pla_ht", "tlp_twi", "pla_twi")
+var = c("mean_TLP_Mpa", "PLA_dry_percent", "mean_TLP_Mpa", "PLA_dry_percent")
 
-trait_tlp_twi$sdmin <- trait_tlp_twi$avg - trait_tlp_twi$dev
-trait_tlp_twi$sdmax <- trait_tlp_twi$avg + trait_tlp_twi$dev
+breaks_tlp = c(-2.8,-2.6,-2.4,-2.2,-2.0,-1.8)
+breaks_pla = c(8,10,12,14,16,18,20,22,24,26)
 
-# plot_tlp_twi <- 
-ggplot(trait_tlp_twi[!is.na(trait_tlp_twi$bins_TWI), ], aes(x = avg, y = bins_TWI)) +
-   geom_point() +
-   geom_text(aes(label=round(no_data*100, 2)), vjust=-0.5) +
-   ggplot2::geom_errorbarh(aes(y = bins_TWI, xmin = sdmin, xmax = sdmax, height=0.25)) +
-   scale_x_continuous(breaks=c(-2.8,-2.6,-2.4,-2.2,-2.0,-1.8), limits=c(-2.8,-1.8)) +
-   ylab("TWI") +
-   xlab("Mean TLP (MPa)") +
-   theme_minimal()
+limits_tlp = c(-2.8,-1.8)
+limits_pla = c(8,26)
 
-ggplot(trait_tlp_twi[!is.na(trait_tlp_twi$bins_TWI), ], aes(y = avg, x = bins_TWI)) +
-   geom_point() +
-   # geom_text(aes(label=round(no_data*100, 2)), vjust=-0.5) +
-   ggplot2::geom_errorbar(aes(x = bins_TWI, ymin = sdmin, ymax = sdmax, height=0.25)) +
-   scale_y_continuous(breaks=c(-2.8,-2.6,-2.4,-2.2,-2.0,-1.8), limits=c(-2.8,-1.8)) +
-   xlab("TWI") +
-   ylab("Mean TLP (MPa)") +
-   theme_minimal()
+graph_names <- paste0(main$type, "_plot")
 
-#pla_twi ####
-trait_pla_twi <- scbi18 %>%
-   group_by(bins_TWI) %>%
-   summarize(avg = mean(PLA_dry_percent, na.rm=TRUE),
-            dev = sd(PLA_dry_percent, na.rm=TRUE),
-             no_data = (sum(is.na(PLA_dry_percent))/length(PLA_dry_percent)))
+for (i in seq(along=1:4)){
+   if(!grepl("twi", type[[i]])){
+      df <- scbi18 %>%
+         group_by(bins) %>%
+         dplyr::summarize(avg = mean(eval(parse(text = var[i])), na.rm=TRUE),
+                          dev = sd(eval(parse(text = var[i])), na.rm=TRUE),
+                          no_data = (sum(is.na(eval(parse(text = var[i]))))/length(eval(parse(text = var[i])))))
+      
+      df$sdmin <- df$avg - df$dev
+      df$sdmax <- df$avg + df$dev
+      df$col <- ifelse(df$no_data > 0.25, "grey", "black")
+      df$lab <- seq(5,95,by=5) #percentiles
+      df$num <- gsub("^.*,", "", df$bins) #upper bound of bin
+      df$num <- gsub("[[:punct:]]$", "", df$num)
+      df$num <- as.numeric(df$num)
+      
+   } else if (grepl("twi", type[[i]])){
+      df <- scbi18 %>%
+         group_by(bins_TWI) %>%
+         dplyr::summarize(avg = mean(eval(parse(text = var[i])), na.rm=TRUE),
+                          dev = sd(eval(parse(text = var[i])), na.rm=TRUE),
+                          no_data = (sum(is.na(eval(parse(text = var[i]))))/length(eval(parse(text = var[i])))))
+      
+      df$sdmin <- df$avg - df$dev
+      df$sdmax <- df$avg + df$dev
+      df$col <- ifelse(df$no_data > 0.25, "grey", "black")
+      df$num <- gsub("^.*,", "", df$bins_TWI) #upper bound of bin
+      df$num <- gsub("[[:punct:]]$", "", df$num)
+      df$num <- as.numeric(df$num)
+   }
    
-trait_pla_twi$sdmin <- trait_pla_twi$avg - trait_pla_twi$dev
-trait_pla_twi$sdmax <- trait_pla_twi$avg + trait_pla_twi$dev
+   #create plots
+   if(!grepl("twi", type[[i]])){
+      q <- ggplot(df, aes(x = avg, y = num)) +
+         geom_point(aes(color=col)) +
+         scale_color_manual(values=c("black", "grey")) +
+         ggplot2::geom_errorbarh(aes(y = num, xmin = sdmin, xmax = sdmax, height=0.5, color=col)) +
+         scale_y_continuous(breaks=c(0,10,20,30,40,50,60), limits=c(0,60)) +
+         geom_path(aes(x=avg, y=num, color=col, group=1)) +
+         ylab("Height [m]") +
+         theme_minimal() +
+         theme(legend.position = "none")
+      
+      if(i==1){
+         q <- q + 
+            xlab("Mean turgor loss point [MPa]") +
+            scale_x_continuous(breaks=breaks_tlp, limits=limits_tlp)
+      } else if(i==2){
+         q <- q + 
+            xlab("Percent leaf area [%]") +
+            scale_x_continuous(breaks=breaks_pla, limits=limits_pla)
+      }
+   } else if(grepl("twi", type[[i]])){
+      q <- 
+         ggplot(df[!is.na(df$bins_TWI), ], aes(y = avg, x = num)) +
+         geom_point(aes(color=col)) +
+         scale_color_manual(values=c("black", "grey")) +
+         ggplot2::geom_errorbar(aes(x = num, ymin = sdmin, ymax = sdmax, width=0.25, color=col)) +
+         geom_path(aes(x=num, y=avg, color=col, group=1)) +
+         scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16), limits=c(0,16)) +
+         xlab("Topographic wetness index") +
+         theme_minimal() +
+         theme(legend.position = "none")
+      
+      if(i==3){
+         q <- q + 
+            ylab("Mean turgor loss point [MPa]") +
+            scale_y_continuous(breaks=breaks_tlp, limits=limits_tlp)
+      } else if(i==4){
+         q <- q + 
+            ylab("Percent leaf area [%]") +
+            scale_y_continuous(breaks=breaks_pla, limits=limits_pla)
+      }
+   }
+   assign(paste0("plot_", type[i]), q)
+}
+
    
-# plot_pla_twi <- 
-ggplot(trait_pla_twi[!is.na(trait_pla_twi$bins_TWI), ], aes(x = avg, y = bins_TWI)) +
-   geom_point() +
-   geom_text(aes(label=round(no_data*100, 2)), vjust=-0.5) +
-   ggplot2::geom_errorbarh(aes(y = bins_TWI, xmin = sdmin, xmax = sdmax, height=0.25)) +
-   scale_x_continuous(breaks = c(8,10,12,14,16,18,20,22,24,26), limits=c(8,26)) +
-   ylab("TWI") +
-   xlab("PLA_dry_percent") +
-   theme_minimal()
+graphs[[1]]
+graphs[[2]]
+graphs[[3]]
+graphs[[4]]
 
 
 #######################################################################################
 #5 Add the graphs together ####
-quantile(current_ht$height.m, c(.99), na.rm=TRUE) #95% quantile = 35.002m
-top <- current_ht[current_ht$position_all == "dominant", ]
-mean(top$height.m, na.rm=TRUE)
-
+quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 35.002m
 quant <- data.frame(yintercept = 35.0022, Lines = "95th percentile")
 
 #add this part to each graph:
-geom_hline(aes(yintercept = yintercept, linetype = "dashed"), quant)
+geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+
+wind_plot <- wind_plot + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+RH_plot <- RH_plot + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+SAAT_plot <- SAAT_plot + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+biotemp_plot <- biotemp_plot + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+
+plot_tlp_ht <- plot_tlp_ht + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+plot_pla_ht <- plot_pla_ht + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+
+heights <- heights + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+
 
 library(ggpubr)
 NEON <- ggarrange(wind_plot, RH_plot, SAAT_plot, biotemp_plot,  nrow=1, ncol=4, common.legend = TRUE, legend = "right")
 
-traits <- ggarrange(graph_tlp, graph_pla, nrow=1, ncol=4)
+traits <- ggarrange(plot_tlp_ht, plot_pla_ht, plot_pla_twi, plot_pla_twi, nrow=1, ncol=4)
 
 ggarrange(NEON, heights, traits, nrow=2, ncol=4)
 
