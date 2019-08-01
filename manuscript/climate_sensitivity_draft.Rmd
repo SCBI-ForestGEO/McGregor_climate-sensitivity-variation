@@ -247,11 +247,6 @@ kable(traits_test, booktabs=TRUE, format = "latex", caption = "All variables tes
   
 ```
 
-```{r, results="asis"}
-library(stargazer)
-stargazer(traits_test, 
-          float.env = "sidewaystable")
-```
 
 ```{r, Table 2, eval=TRUE, echo=FALSE, message=FALSE}
 candidates <- read.csv("tables_figures/candidate_traits.csv")
