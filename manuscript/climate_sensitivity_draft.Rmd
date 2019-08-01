@@ -27,21 +27,23 @@ options(tinytex.verbose = TRUE)
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'lme4', 'AICcmodavg', 'car', 'piecewiseSEM', 'MuMIn', 'stringr', 'dplyr', 'ggplot2', 'devtools', 'rgdal', 'broom', 'sf', 'ggthemes', 'rgeos', 'RCurl', 'readxl', 'pointRes', 'dplR', 'data.table', 'tools', 'reshape2', 'kableExtra', 'raster', 'elevatr', 'dynatopmodel'
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'lme4', 'AICcmodavg', 'car', 'piecewiseSEM', 'MuMIn', 'stringr', 'dplyr', 'ggplot2', 'devtools', 'rgdal', 'broom', 'sf', 'ggthemes', 'rgeos', 'RCurl', 'readxl', 'pointRes', 'dplR', 'data.table', 'tools', 'reshape2', 'kableExtra', 'raster', 'elevatr', 'dynatopmodel', 'grid', 'gridExtra', 'ggstance', 'Hmisc', 'magrittr', 'ggpubr'
 ), 'packages.bib')
 ```
 
 
 ### Abstract
-*content from AGU abstract:*
-Here, we integrate forest census data from a 25.6-ha ForestGEO plot in Virginia (USA), tree-ring records for 12 species representing ##% of woody productivity, leaf hydraulic trait measurements, and microhabitat data. 
-Individual-level growth responses to three droughts (1964-66, 1977, 1999) were stronger among taller trees in dominant canopy positions, those in wetter microsites, and for more drought-sensitive species as assessed by leaf traits (turgor loss at less negative leaf water potential, greater shrinkage with leaf dehydration), with substantial variation in the best predictor variables across given droughts. 
-We conclude that when droughts occur, large dominant trees, drought sensitive species, and individuals in moist microhabitats are likely to be most strongly affected.
+Predicting forest responses to drought is an increasingly critical task under climate change effects.
+Part of the problem is due the lack of a set definition of drought in recent studies, while often the effects of biophysical and hydraulic traits are interpreted separately.
+In this study, we analyze the interaction between these two trait groups using forest census data from a 25.6-ha ForestGEO plot in Virginia (USA).
+Drought periods were defined by both Palmer Drought Severity Indices (PDSI) and their identification from tree-ring records for 12 species representing 97% of woody productivity.
+Each drought scenario (1964-66, 1977, 1999), along with the overall trend, was then tested again leaf hyraulic trait measurements and microhabitat biophysical data.
+Individual-level growth responses to three droughts  were stronger among taller trees in dominant canopy positions, those in wetter microsites, and for more drought-sensitive species as assessed by leaf traits (turgor loss at less negative leaf water potential, greater shrinkage with leaf dehydration), with substantial variation in the best predictor variables across given droughts. 
+We conclude that when droughts occur, large dominant trees, drought-sensitive species, and individuals in wetter microhabitats are likely to be most strongly affected.
 
 ### Introduction
 
 Understanding how and why trees respond to drought is critical to predicting forest drought responses and climate change feedbacks.
-
 Forests are diverse in terms of tree sizes and functional traits, and it is known that trees varying in size and functional traits respond differently to drought (e.g., [@bennett_larger_2015]; REFS). Therefore, in order to understand whole-forest response to drought, we need to know how responses vary by tree size/ species. To do so, there are four fundamental questions that must be addressed:
 
 *First, how significant is the effect of individual drought years?*
@@ -83,15 +85,15 @@ Our forest displays the same trend as most forests globally [@bennett_larger_201
     
 2.4. Rooting volume/depth relative to water sources are critical in drought response. Effects of drought on larger trees are mediated by the fact that large trees have better access to water.
   
-     * P3.2- drought response increases with topographic wetness index
+  * P3.2- drought response increases with topographic wetness index
 
 **3. Do species functional traits predict drought response?**
 
-     * P3.1 - diffuse porous species are more sensitive than ring porous (previously observed in eastern dec forests- Elliot et al. 2015, Friedrichs et al. 2009)
-     * P3.2 - higher percent leaf area predicts higher drought stress
-     * P3.3 - higher leaf mass area correlates positively to drought resistance (more sclerophyllous vegetation [thick leaves] usually means more adaptation) [Abrams 1990] [Guerfel et al 2009]
-     * P3.4 - TLP correlates negatively with drought resistance (NEVER tested),
-     * P3.5 - higher wood density means more drought resistant
+   * P3.1 - diffuse porous species are more sensitive than ring porous (previously observed in eastern dec forests- Elliot et al. 2015, Friedrichs et al. 2009)
+    * P3.2 - higher percent leaf area predicts higher drought stress
+    * P3.3 - higher leaf mass area correlates positively to drought resistance (more sclerophyllous vegetation [thick leaves] usually means more adaptation) [@abrams_adaptations_1990] [@guerfel_impacts_2009] <- *valid? it looks at olive trees*
+    * P3.4 - TLP correlates negatively with drought resistance (NEVER tested),
+    * P3.5 - higher wood density means more drought resistant
 
 **4. How are functional traits distributed across size classes, and how does this affect size-resistance relationship?** 
 
@@ -117,15 +119,15 @@ Our forest displays the same trend as most forests globally [@bennett_larger_201
 Research was conducted at the 25.6 ha ForestGEO (Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38°53'36.6"N, 78° 08'43.4"W) [@andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park.  Elevations range from 273-338m above sea level [@gonzalezakre_patterns_2016] with a topographic relief of 65m [@bourg_initial_2013]. Dominant species include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.).
 
 *Data collection and preparation*
-The SCBI ForestGEO plot was censused in 2008, 2013, and 2018 following standard ForestGEO protocols... [DETAILS]. Here, we use ...(*very brief summary of which data we use for what purpose-- but some will be better integrated with methods descriptions below*)
+The SCBI ForestGEO plot was censused in 2008, 2013, and 2018 following standard ForestGEO protocols, whereby all free-standing woody stems >= 1cm diameter at breast height (DBH) were mapped, tagged, measured at DBH, and identified to species [@condit_tropical_1998]. From this census data, we used measurements of DBH from 2008 to calculate historical DBH (described below), along with tree location in the plot to determine the topographic wetness index. *I think that's it, really, in terms of data we're using coming from the censuses.*
 
-We analyzed tree-ring data from the twelve species contributing most to woody aboveground net primary productivity (ANPP_stem) (Table 1), which together comprised 97% of whole-ecosystem ANPP_stem between 2008 and 2013. Cores were collected in 2010-2011 or 2016-2017 from a breast height of 1.3m using a 5mm increment borer. In 2010-2011, cores were collected from randomly selected live trees were selected at random from each species in 2010-2011, with at least 30 of those trees having a diameter at breast height (DBH) of at least 10cm [@bourg_initial_2013]. In 2016-2017, cores were collected from all dead trees found in the annual mortality census [@gonzalezakre_patterns_2016]. Cores were sanded, measured, and cross-dated using standard procedures, as detailed in [@helcoski_growing_2019]. The resulting chronologies have been published in association with [@helcoski_growing_2019]: (GitHub URL), (ITRDB). 
+We analyzed tree-ring data from the twelve species contributing most to woody aboveground net primary productivity, which together comprised 97% of whole-ecosystem between 2008 and 2013 [@helcoski_growing_2019]. Cores were collected in 2010-2011 or 2016-2017 from a breast height of 1.3m using a 5mm increment borer. In 2010-2011, cores were collected from randomly selected live trees were selected at random from each species in 2010-2011, with at least 30 of those trees having a diameter at breast height (DBH) of at least 10cm [@bourg_initial_2013]. In 2016-2017, cores were collected from all dead trees found in the annual mortality census [@gonzalezakre_patterns_2016]. Cores were sanded, measured, and cross-dated using standard procedures, as detailed in [@helcoski_growing_2019]. The resulting chronologies have been [published](https://github.com/SCBI-ForestGEO/climate_sensitivity_cores) in association with [@helcoski_growing_2019]: (ITRDB). *is this a database?* 
 
-Height measurements (n=# trees) were taken by several researchers between 2012 to 2019, and are archived in a public GitHub repository (*GitHUB URL*). Measurement methods included manual [@stovall_assessing_2018, NEON], digital rangefinders [@andersonteixeira_size-related_2015], and automatic LiDAR [@stovall_terrestrial_2018]. Rangefinders either used the tangent method (Impulse 200LR, TruPulse 360R) or the sine method (Nikon ForestryPro) for calculating heights. The associated errors for using either method were acknowledged [@larjavaara_measuring_2013]. Species-specific height allometries were developed (Table S# - **ADD THIS TABLE TO SI**). For species that didn't have enough height measurements, heights were calculated from equations derived from all species in the study. 
+Height measurements (n=# trees) were taken by several researchers between 2012 to 2019, and are archived in a public [GitHub repository](https://github.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/tree/master/tree_dimensions/tree_heights). Measurement methods included manual [@stovall_assessing_2018, NEON], digital rangefinders [@andersonteixeira_size-related_2015], and automatic LiDAR [@stovall_terrestrial_2018]. Rangefinders either used the tangent method (Impulse 200LR, TruPulse 360R) or the sine method (Nikon ForestryPro) for calculating heights. The associated errors for using either method were acknowledged [@larjavaara_measuring_2013]. Species-specific height allometries were developed (Table S# - **ADD THIS TABLE TO SI**). For species that didn't have enough height measurements, heights were calculated from equations derived from all species in the study. 
 
 For each tree, we combined tree-ring records and allometric equations of height and bark thickness to retroactively calculate DBH and estimate height for the years 1950-2009. Prior DBH was estimated using the following equation, using 2008 as the earliest year for having reliable DBH measurements:
 
-$$ diamYEAR = dbh2008 - 2*(bark.depth2008) - 2*\Sigma(ring.widthYEAR:ring.width2008) + 2*(bark.depth_YEAR) $$
+$$ diamYEAR = dbh2008 - 2*(bark.depth2008) - 2*\Sigma(ring.widthYEAR:ring.width2008) + 2*(bark.depthYEAR) $$
 
 Here, *ring.width* was measured from cores. Bark thickness was estimated from species-specific allometries based on the bark thickness data of [@andersonteixeira_size-related_2015].
 Specifically, we used linear regression equations on log-transformed data to relate bark thickness to DBH (Table S#- **create table to give these equations in SI**) and then used these to estimate bark thickness based on DBH. 
@@ -251,7 +253,7 @@ kable(traits_test, booktabs=TRUE, format = "latex", caption = "All variables tes
 ```{r, Table 2, eval=TRUE, echo=FALSE, message=FALSE}
 candidates <- read.csv("tables_figures/candidate_traits.csv")
 kable(candidates, booktabs=TRUE, format = "latex", caption = "Candidate variables to be included in full model, chosen by dAICc>2 when individually tested against a null model") %>%
-  kable_styling(bootstrap_options = "striped", latex_options = c("scale_down", "hold_position"))
+  kable_styling(bootstrap_options = "striped", latex_options ="hold_position")
 ```
 
 ```{r, Table 3, eval=TRUE, echo=FALSE, message=FALSE}
@@ -275,8 +277,11 @@ Proximity to stream--either vertical (elev) or horizontal (distance)-- did not i
 **misc content to integrate**
 From [@kannenberg_linking_2019], species with diffuse porous wood anatomy (*Liriodendron*) are more sensitive to drought, whereas ring-porous are not as affected because they more easily rebuild structures for hydraulic conductivity. This paper mentions it would be good to have this data with respect to latent affects from drought.
 ### Conclusion
+
 words
+
 ### Supplementary Information
+
 ```{r echo=FALSE, out.width='100%', fig.cap = "Map of ForestGEO plot", fig.pos='H'}
   knitr::include_graphics("tables_figures/ForestGEO_plot.jpg")
 ```
