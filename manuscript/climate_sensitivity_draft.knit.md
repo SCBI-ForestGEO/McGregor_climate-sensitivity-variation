@@ -20,16 +20,9 @@ header-includes:
 - \usepackage{dcolumn} #for sidewaystable
 ---
 
-```{r, include=FALSE}
-options(tinytex.verbose = TRUE)
-```
 
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'lme4', 'AICcmodavg', 'car', 'piecewiseSEM', 'MuMIn', 'stringr', 'dplyr', 'ggplot2', 'devtools', 'rgdal', 'broom', 'sf', 'ggthemes', 'rgeos', 'RCurl', 'readxl', 'pointRes', 'dplR', 'data.table', 'tools', 'reshape2', 'kableExtra', 'raster', 'elevatr', 'dynatopmodel'
-), 'packages.bib')
-```
+
+
 
 
 ### Abstract
@@ -144,89 +137,56 @@ Hydraulic traits were collected from SCBI and are summarized in Table 1. In Augu
 **Table 1. Species analyzed here, listed in descending order of ANPP_stem. n cores and DBH range represented, and species traits** [*This replaces/combines the two remaining tables in this section. Suggested columns, with those to include only if they fit in parentheses: species, (stems >=10 cm per ha in plot), (ANPP_stem), n cores, DBH range of cores, (n cores in each crown position) species means for each trait]
 
 
-```{r, Table-cores-position, eval=TRUE, echo=FALSE, message=FALSE}
-library(RCurl)
-library(dplyr)
-library(tidyr)
-library(data.table)
-library(knitr)
-library(kableExtra)
-
-species <- read.csv("D:/Dropbox (Smithsonian)/Github_Ian/McGregor_climate-sensitivity-variation/data/core_list_for_neil.csv", stringsAsFactors = FALSE)
-
-table <- species[, c(1:3,6,17)]
-
-positions <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_crowns/cored_dendroband_crown_position_data/dendro_cored_full.csv"))
-
-table$position_all <- positions$crown.position[match(table$tag, positions$tag)]
-table$position_all <- gsub("D", "dominant", table$position_all)
-table$position_all <- gsub("C", "co-dominant", table$position_all)
-table$position_all <- gsub("I", "intermediate", table$position_all)
-table$position_all <- gsub("S", "suppressed", table$position_all)
-
-table1 <- table %>%
-  group_by(sp) %>%
-  summarize(n_cores=n())
-
-table2 <- table %>%
-  group_by(sp, position_all) %>%
-  summarize(count=n())
-
-table2 <- spread(table2, key=position_all, value=count)
-setnames(table2, old="<NA>", new="prior dead")
-
-table2$n_cores <- table1$n_cores[match(table2$sp, table1$sp)]
-table2 <- table2[, c(1,7,3,2,4:6)]
-table2 <- table2[!table2$sp %in% c("frni", "pist"), ]
-
-kable(table2) %>%
-  kable_styling(bootstrap_options = "striped", full_width = F)
-```
-```{r, traits-overview, eval=TRUE, echo=FALSE, message=FALSE}
-library(knitr)
-library(kableExtra)
-
-trees_all <- read.csv("tables_figures/trees_all.csv", stringsAsFactors = FALSE)
-
-trees_all <- trees_all[!duplicated(trees_all$sp), ]
-  
-
-traits_table <- data.frame(
-  "Trait" = c("Ring Porosity", "Percent Leaf Area", "Leaf Mass Area", "Wood density", "TLP"),
-  "Unit" = c("ring, semi-ring, diffuse", "%", "g/m2", "g/cm3", "MPa"))
-traits_table$abb <- c("rp", "PLA", "LMA", "WD", "TLP")
-
-traits_table$mean <- NA
-traits_table$min <- NA
-traits_table$max <- NA
-
-for (i in seq(along=traits_table$abb[2:5])){
-  trait <- traits_table$abb[2:5][i]
-  
-  sub <- trees_all[grepl(trait, colnames(trees_all))]
-  traits_table$mean[2:5][i] <- ifelse(grepl(trait, colnames(sub)), 
-                              mean(sub[, 1], na.rm=TRUE), 
-                              traits_table$mean)
-  
-  traits_table$min[2:5][i] <- ifelse(grepl(trait, colnames(sub)), 
-                              min(sub[, 1], na.rm=TRUE), 
-                              traits_table$min)
-  
-  traits_table$max[2:5][i] <- ifelse(grepl(trait, colnames(sub)), 
-                              max(sub[, 1], na.rm=TRUE), 
-                              traits_table$max)
-}
-
-traits_table[, c("mean", "min", "max")] <- 
-  sapply(traits_table[, c("mean", "min", "max")], function(x)
-  round(x, 2)
-)
-traits_table$abb <- NULL
-
-kable(traits_table) %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE)
-
-```
+\begin{table}[H]
+\centering
+\begin{tabular}{l|r|r|r|r|r|r}
+\hline
+sp & n\_cores & dominant & co-dominant & intermediate & suppressed & prior dead\\
+\hline
+caco & 13 & NA & 2 & 5 & 5 & 1\\
+\hline
+cagl & 31 & 1 & 8 & 16 & 5 & 1\\
+\hline
+caovl & 23 & 4 & 5 & 12 & 2 & NA\\
+\hline
+cato & 13 & NA & NA & 6 & 2 & 5\\
+\hline
+fagr & 80 & NA & 7 & 48 & 25 & NA\\
+\hline
+fram & 62 & NA & 17 & 19 & 14 & 12\\
+\hline
+juni & 31 & NA & 21 & 8 & NA & 2\\
+\hline
+litu & 98 & 9 & 29 & 25 & 30 & 5\\
+\hline
+qual & 61 & 4 & 34 & 20 & 3 & NA\\
+\hline
+qupr & 59 & 1 & 26 & 20 & 12 & NA\\
+\hline
+quru & 69 & 6 & 36 & 23 & 2 & 2\\
+\hline
+quve & 77 & 6 & 46 & 22 & 1 & 2\\
+\hline
+\end{tabular}
+\end{table}
+\begin{table}[H]
+\centering
+\begin{tabular}{l|l|r|r|r}
+\hline
+Trait & Unit & mean & min & max\\
+\hline
+Ring Porosity & ring, semi-ring, diffuse & NA & NA & NA\\
+\hline
+Percent Leaf Area & \% & 15.09 & 8.52 & 24.64\\
+\hline
+Leaf Mass Area & g/m2 & 53.50 & 30.68 & 75.80\\
+\hline
+Wood density & g/cm3 & 0.70 & 0.40 & 1.09\\
+\hline
+TLP & MPa & -2.36 & -2.76 & -1.92\\
+\hline
+\end{tabular}
+\end{table}
 
 *Climate and drought years*
 [**add description of climate data used in Fig. 1, NEON vertical profiles**]
@@ -239,31 +199,117 @@ To accurately understand climate sensitivity, this study used a specific definit
 ### Results
 Once the data was collected, linear mixed models were run following the order of the hypotheses as seen in Figure ??? [individual_tested_traits]. Using the [@R-pointRes] package, we set up models with the resistance value as the response variable, and each prediction's variable as the independent variable. Variables' importance in predicting drought tolerance was calculated from mixed-effects models and the lowest AICc [@R-lme4, @R-AICcmodavg].Null models were determined in order of the predictions. First, we analyzed the combined scenario to determine if "year" was significant. Upon establishing this, we tested height and DBH as size parameters. Although both were significant, height was kept due to its larger delta AICc compared with the null model. We then tested the remaining biophysical and hydraulic traits individually against a null model containing height and year. This yielded Figure ??? (cand_full). All variables with dAICc >2 were used as candidates for each scenario's best model (figure ???? (tested_traits_best))
 
-```{r, Table 1, eval=TRUE, echo=FALSE, message=FALSE}
-traits_test <- read.csv("tables_figures/tested_traits_all.csv")
-kable(traits_test, booktabs=TRUE, format = "latex", caption = "All variables tested for climate sensitivity against appropriate null models, in line with hypothesis predictions. Each variable was tested for each drought scenario excepting \"year\" ") %>%
-  kableExtra::landscape()
-  # kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "scale_down")
-  
+
+\begin{landscape}\begin{table}[t]
+
+\caption{\label{tab:Table 1}All variables tested for climate sensitivity against appropriate null models, in line with hypothesis predictions. Each variable was tested for each drought scenario excepting "year" }
+\centering
+\begin{tabular}{rllllllrllrllrllrll}
+\toprule
+prediction & variable & variable\_description & null\_model & tested\_model & null\_model\_year & tested\_model\_year & dAIC\_all & coef\_all & coef\_var\_all & dAIC\_1964.1966 & coef\_1964.1966 & coef\_var\_1964.1966 & dAIC\_1977 & coef\_1977 & coef\_var\_1977 & dAIC\_1999 & coef\_1999 & coef\_var\_1999\\
+\midrule
+1.1 & year & drought.year & resist.value \textasciitilde{} (1|sp/tree) & resist.value \textasciitilde{} (1|sp/tree)+year & resist.value \textasciitilde{} (1|sp) & resist.value \textasciitilde{} (1|sp) & 35.834 & - & year1977 (-0.09), year1999 (-0.081) & 0.000 & NA & NA & 0.000 & NA & NA & 0.000 & NA & NA\\
+2.1 & dbh.ln.cm & ln[DBH] & resist.value \textasciitilde{} year+(1|sp/tree) & resist.value \textasciitilde{} year+(1|sp/tree)+dbh.ln.cm & resist.value \textasciitilde{} (1|sp) & resist.value \textasciitilde{} (1|sp)+dbh.ln.cm & 7.411 & - & dbh.ln.cm (-0.035) & 18.276 & - & dbh.ln.cm (-0.082) & -0.947 & - & dbh.ln.cm (-0.021) & -1.918 & + & dbh.ln.cm (0.006)\\
+2.2 & height.ln.m & ln[height] & resist.value \textasciitilde{} year+(1|sp/tree) & resist.value \textasciitilde{} year+(1|sp/tree)+height.ln.m & resist.value \textasciitilde{} (1|sp) & resist.value \textasciitilde{} (1|sp)+height.ln.m & 7.591 & - & height.ln.m (-0.058) & 17.788 & - & height.ln.m (-0.133) & -1.077 & - & height.ln.m (-0.032) & -2.022 & + & height.ln.m (0.002)\\
+3.3 & position\_all & crown.position & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree) & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree)+position\_all & resist.value \textasciitilde{} height.ln.m+(1|sp) & resist.value \textasciitilde{} height.ln.m+(1|sp)+position\_all & 1.682 & - & position\_alldominant (-0.044), position\_allintermediate (-0.042), position\_allsuppressed (-0.053) & -2.548 & - & position\_alldominant (-0.055), position\_allintermediate (0.007), position\_allsuppressed (-0.044) & -0.700 & - & position\_alldominant (-0.076), position\_allintermediate (-0.033), position\_allsuppressed (0.029) & 4.087 & - & position\_alldominant (-0.003), position\_allintermediate (-0.082), position\_allsuppressed (-0.102)\\
+3.4 & TWI & topographic.wetness.index & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree) & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree)+TWI & resist.value \textasciitilde{} height.ln.m+(1|sp) & resist.value \textasciitilde{} height.ln.m+(1|sp)+TWI & 2.631 & - & TWI (-0.009) & -0.563 & + & TWI (0.009) & 5.264 & - & TWI (-0.02) & 3.037 & - & TWI (-0.015)\\
+\addlinespace
+4.1 & rp & ring.porosity & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree) & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree)+rp & resist.value \textasciitilde{} height.ln.m+(1|sp) & resist.value \textasciitilde{} height.ln.m+(1|sp)+rp & -3.553 & + & rpring (0.04), rpsemi-ring (0.013) & -2.161 & + & rpring (0.101), rpsemi-ring (0.015) & 0.895 & - & rpring (-0.19), rpsemi-ring (-0.147) & 4.083 & + & rpring (0.2), rpsemi-ring (0.151)\\
+4.2 & PLA\_dry\_percent & percent.leaf.area & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree) & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree)+PLA\_dry\_percent & resist.value \textasciitilde{} height.ln.m+(1|sp) & resist.value \textasciitilde{} height.ln.m+(1|sp)+PLA\_dry\_percent & 4.413 & - & PLA\_dry\_percent (-0.011) & 5.825 & - & PLA\_dry\_percent (-0.016) & -0.190 & - & PLA\_dry\_percent (-0.01) & -0.701 & - & PLA\_dry\_percent (-0.007)\\
+4.3 & LMA\_g\_per\_m2 & leaf.mass.area & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree) & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree)+LMA\_g\_per\_m2 & resist.value \textasciitilde{} height.ln.m+(1|sp) & resist.value \textasciitilde{} height.ln.m+(1|sp)+LMA\_g\_per\_m2 & -1.895 & + & LMA\_g\_per\_m2 (0.001) & -1.075 & + & LMA\_g\_per\_m2 (0.002) & -1.698 & - & LMA\_g\_per\_m2 (-0.001) & -1.985 & + & LMA\_g\_per\_m2 (0)\\
+4.4 & mean\_TLP\_Mpa & mean.turgor.loss.point & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree) & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree)+mean\_TLP\_Mpa & resist.value \textasciitilde{} height.ln.m+(1|sp) & resist.value \textasciitilde{} height.ln.m+(1|sp)+mean\_TLP\_Mpa & 4.580 & - & mean\_TLP\_Mpa (-0.207) & 1.352 & - & mean\_TLP\_Mpa (-0.217) & 1.008 & - & mean\_TLP\_Mpa (-0.236) & 0.132 & - & mean\_TLP\_Mpa (-0.177)\\
+4.5 & WD\_g\_per\_cm3 & wood.density & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree) & resist.value \textasciitilde{} height.ln.m+year+(1|sp/tree)+WD\_g\_per\_cm3 & resist.value \textasciitilde{} height.ln.m+(1|sp) & resist.value \textasciitilde{} height.ln.m+(1|sp)+WD\_g\_per\_cm3 & -2.018 & + & WD\_g\_per\_cm3 (0.005) & -1.960 & - & WD\_g\_per\_cm3 (-0.049) & -1.236 & - & WD\_g\_per\_cm3 (-0.175) & 0.171 & + & WD\_g\_per\_cm3 (0.247)\\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+
+```r
+library(stargazer)
 ```
 
-```{r, results="asis"}
-library(stargazer)
+```
+## 
+## Please cite as:
+```
+
+```
+##  Hlavac, Marek (2018). stargazer: Well-Formatted Regression and Summary Statistics Tables.
+```
+
+```
+##  R package version 5.2.2. https://CRAN.R-project.org/package=stargazer
+```
+
+```r
 stargazer(traits_test, 
           float.env = "sidewaystable")
 ```
 
-```{r, Table 2, eval=TRUE, echo=FALSE, message=FALSE}
-candidates <- read.csv("tables_figures/candidate_traits.csv")
-kable(candidates, booktabs=TRUE, format = "latex", caption = "Candidate variables to be included in full model, chosen by dAICc>2 when individually tested against a null model") %>%
-  kable_styling(bootstrap_options = "striped", latex_options = c("scale_down", "hold_position"))
-```
 
-```{r, Table 3, eval=TRUE, echo=FALSE, message=FALSE}
-traits_best <- read.csv("tables_figures/tested_traits_best.csv")
-kable(traits_best, booktabs=TRUE, format = "latex", caption = "Best full models for each drought scenario") %>%
-  kable_styling(bootstrap_options = "striped", latex_options = c("scale_down", "hold_position"))
-```
+% Table created by stargazer v.5.2.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Thu, Aug 01, 2019 - 12:30:35 PM
+% Requires LaTeX packages: rotating 
+\begin{sidewaystable}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Pctl(25)} & \multicolumn{1}{c}{Pctl(75)} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+prediction & 10 & 3.360 & 1.182 & 1.100 & 2.475 & 4.275 & 4.500 \\ 
+dAIC\_all & 10 & 5.668 & 11.284 & $-$3.553 & $-$1.001 & 6.703 & 35.834 \\ 
+dAIC\_1964.1966 & 10 & 3.493 & 8.032 & $-$3 & $-$1.7 & 4.7 & 18 \\ 
+dAIC\_1977 & 10 & 0.132 & 2.010 & $-$2 & $-$1.0 & 0.7 & 5 \\ 
+dAIC\_1999 & 10 & 0.488 & 2.414 & $-$2 & $-$1.6 & 2.3 & 4 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{sidewaystable} 
+
+\begin{table}[!h]
+
+\caption{\label{tab:Table 2}Candidate variables to be included in full model, chosen by dAICc>2 when individually tested against a null model}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}{rlll}
+\toprule
+prediction & variable & variable\_description & top\_model\\
+\midrule
+1.1 & year & drought.year & all\\
+2.2 & height.ln.m & ln[height] & all\\
+2.2 & height.ln.m & ln[height] & 1966\\
+3.3 & position\_all & crown.position & 1999\\
+3.4 & TWI.ln & topographic.wetness.index & all\\
+\addlinespace
+3.4 & TWI.ln & topographic.wetness.index & 1977\\
+3.4 & TWI.ln & topographic.wetness.index & 1999\\
+4.1 & rp & ring.porosity & 1999\\
+4.2 & PLA\_dry\_percent & percent.leaf.area & all\\
+4.2 & PLA\_dry\_percent & percent.leaf.area & 1966\\
+\addlinespace
+4.4 & mean\_TLP\_Mpa & mean.turgor.loss.point & all\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[!h]
+
+\caption{\label{tab:Table 3}Best full models for each drought scenario}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}{lrl}
+\toprule
+best\_model & r2 & scenario\\
+\midrule
+resist.value \textasciitilde{} year+height.ln.m+position\_all+TWI+PLA\_dry\_percent+mean\_TLP\_Mpa+(1|sp/tree) & 0.13 & all droughts\\
+resist.value \textasciitilde{} height.ln.m+rp+PLA\_dry\_percent+(1|sp) & 0.24 & 1964-1966\\
+resist.value \textasciitilde{} TWI+rp+mean\_TLP\_Mpa+(1|sp) & 0.21 & 1977\\
+resist.value \textasciitilde{} height.ln.m+position\_all+TWI+rp+PLA\_dry\_percent+(1|sp) & 0.25 & 1999\\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 ### Discussion
 
@@ -282,9 +328,9 @@ From [@kannenberg_linking_2019], species with diffuse porous wood anatomy (*Liri
 ### Conclusion
 words
 ### Supplementary Information
-```{r echo=FALSE, out.width='100%', fig.cap = "Map of ForestGEO plot", fig.pos='H'}
-  knitr::include_graphics("tables_figures/ForestGEO_plot.jpg")
-```
+\begin{figure}[H]
+\includegraphics[width=1\linewidth]{tables_figures/ForestGEO_plot} \caption{Map of ForestGEO plot}\label{fig:unnamed-chunk-4}
+\end{figure}
 
 *p50 and p80*
 We decided to include values of P50 and P80 in the leaf traits model, defined by [@anderegg_meta-analysis_2016] as the water potentials at which a species loses 50% and 88% [80% by proxy], respectively, of hydraulic conductivity. Values were calculated by (**insert new methods here??**), and were only available for six species (*C. glabra*, *L. tulipifera*, *Q. alba*, *Q. prinus*, *Q. rubra*, and *Q. velutina*). Because of this, the model runs were considered to be incomplete due to the exclusion of the other 8 species. Results revealed neither p50 nor p80 to be significant, thus for the full analysis we decided to drop the two traits in order to include all species in the full analysis.
