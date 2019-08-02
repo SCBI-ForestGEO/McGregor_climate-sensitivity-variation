@@ -75,11 +75,10 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
 
     * P1.1- Drought resistance decreases with height at time of drought, and height is a better predictor than DBH. (supported most of the time)
 
-1.2. (Beyond the effects of height,) canopy trees have lower drought resistance because they are exposed to higher solar radiation, greater wind speeds, and lower humidity. Alternatively, the generally supressed status of subcanopy trees may be insufficient to override the benefits of their buffered environment during drought. 
-
-    (add predictions for model without height- ([issue #44](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/44)))
-    * P1.2- After accounting for height, trees currently in a dominant canopy position have lowest resistance. (partially supported)
-    * P1.2alt- After accounting for height, subcanopy trees have lowest resistance. (partially supported)
+1.2. Canopy trees have lower drought resistance because they are exposed to higher solar radiation, greater wind speeds, and lower humidity. Alternatively, the generally supressed status of subcanopy trees may be insufficient to override the benefits of their buffered environment during drought. 
+    * P1.2a- Canopy position is a better predictor of resistance than height, with trees currently in a dominant canopy position having lowest resistance. (rejected)
+    * P1.2b- After accounting for height, trees currently in a dominant canopy position have lowest resistance. (partially supported)
+    * P1.2b_alt- After accounting for height, subcanopy trees have lowest resistance. (partially supported)
     
 1.3. During drought, larger trees are at a relatively smaller disadvantage in drier microenvironments where rooting volume/depth is more important for reliable water access.
   
