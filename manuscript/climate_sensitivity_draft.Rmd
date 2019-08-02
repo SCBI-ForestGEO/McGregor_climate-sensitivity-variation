@@ -77,13 +77,13 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
 
 1.2. (Beyond the effects of height,) canopy trees have lower drought resistance because they are exposed to higher solar radiation, greater wind speeds, and lower humidity. Alternatively, the generally supressed status of subcanopy trees may be insufficient to override the benefits of their buffered environment during drought. 
 
-    (add predictions for model without height)
+    (add predictions for model without height- ([issue #44](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/44)))
     * P1.2- After accounting for height, trees currently in a dominant canopy position have lowest resistance. (partially supported)
     * P1.2alt- After accounting for height, subcanopy trees have lowest resistance. (partially supported)
     
 1.3. During drought, larger trees are at a relatively smaller disadvantage in drier microenvironments where rooting volume/depth is more important for reliable water access.
   
-  * P1.3- There is a negative interactive effect between tree height and topographic water index. 
+  * P1.3- There is a negative interactive effect between tree height and topographic water index. ([issue #45](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/45))
 
 **2. Species functional traits predict drought response?**
 
@@ -93,7 +93,7 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
     * P2.4 - TLP correlates negatively with drought resistance (NEVER tested),
     * P2.5 - higher wood density means more drought resistant
 
-**3. How are functional traits distributed across size classes, and how does this affect size-resistance relationship?** 
+**3. How are functional traits distributed across size classes, and how does this affect size-resistance relationship?**  ([issue #43](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/43))
 
 3.1. Larger/ more exposed trees have more drought resistant traits, meaning size effects are buffered by traits  
 3.1_alt. Larger trees suffer more because they have more drought vulnerable traits.
