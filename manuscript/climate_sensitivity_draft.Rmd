@@ -43,20 +43,20 @@ We conclude that when droughts occur, large dominant trees, drought-sensitive sp
 
 ### Introduction
 
-Understanding how and why trees respond to drought is critical to predicting forest drought responses and climate change feedbacks.
-Forests are diverse in terms of tree sizes and functional traits, and it is known that trees varying in size and functional traits respond differently to drought (e.g., [@bennett_larger_2015]; REFS). Therefore, in order to understand whole-forest response to drought, we need to know how responses vary by tree size/ species. To do so, there are four fundamental questions that must be addressed:
+Understanding how and why trees respond to drought is critical to predicting forest drought responses and climate change feedbacks. (1 paragraph on this- I have lots of content on this and will add later.)
+
+[Understanding forest responses to drought requires increased functional understanding of the factors that confir individual-level vulnerability or resistance.] Forests are diverse in terms of tree sizes and functional traits, and it is known that trees varying in size and functional traits respond differently to drought (e.g., [@bennett_larger_2015]; REFS). Therefore, in order to understand whole-forest response to drought, we need a functional understanding of how responses vary by tree size, microhabitat, and species. There are 3 fundamental questions that must be addressed:
 
 *First, what drives the observed tendency for large trees to suffer more during drought?*  
-[@bennett_larger_2015] showed that in forests globally, large trees suffer greater growth reductions during drought. However, this analysis quantified tree size based on DBH, which has no direct mechanistic meaning. This study proposed three major mechanisms (besides insects): (1) inherently greater biophysical challenge of being tall; (2) greater exposure of the crowns of large trees; and (3) greater water availability. It is also expected that roots play a role, though these hypotheses still need to be tested.
+[@bennett_larger_2015] showed that in forests globally, large trees suffer greater growth reductions during drought. However, this analysis quantified tree size based on DBH, which has no direct mechanistic meaning. This study proposed two major mechanisms (besides insects) for the observed greater drougth growth reductions of large trees: (1) inherently greater biophysical challenge of being tall; (2) greater exposure of the crowns of large trees. Counteracting these effects, (3) the larger root systems of larger trees may confir an advantage in terms of allowing greater access to water, but it appears that this effect is usually insufficient to offset the costs of height and/or crown exposure.
 
-*Second, how do species' traits influence drought response?* 
-Analyzing drought responses on the species level does not fully explain mechanisms and is not feasible in diverse forests. The solution is a trait-based approach. Leaf hydraulic traits hold more promise than more commonly/traditionally-measured traits such as wood density and SLA (Medeiros et al.). 
+*Second, how do species' traits--alone and in interaction with tree size--influence drought response?* 
+Analyzing drought responses on the species level does not fully explain mechanisms and is not feasible in diverse forests. The solution is a trait-based approach. Leaf hydraulic traits hold more promise than more commonly/traditionally-measured traits such as wood density and SLA ([Medeiros et al. 2019](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2435.13229)). 
 
-*Third, how do tree size and functional traits interact to influence drought response?*
-It is possible that the pattern observed by [@bennett_larger_2015] could be caused by smaller trees being more drought resistant. Alternatively, larger trees may have more drought-resistant traits as adpatations to greater biophysical challenges.
+Moreover, there may be an interaction between traits and tree size. It is possible that the pattern observed by [@bennett_larger_2015] could be caused by smaller trees being more drought resistant. Alternatively, larger trees may have more drought-resistant traits as adpatations to greater biophysical challenges.
 
 
-*Fourth, how significant is the effect of individual drought years?*
+*Third, are responses similar or variable across individual drought years?*
 Droughts are rarely explicitly defined in ecological studies [@slette_how_2019], yet no two droughts are the same. This study addressed this by analyzing trees' resistance to drought within and across three defined drought periods.
 
 
@@ -65,37 +65,38 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
 
 
 **1. Why do larger trees suffer greater growth declines during drought?**
-Our forest displays the same trend as most forests globally [@bennett_larger_2015]. (Note that Bennett et al. 2015 identified only one study on tree growth responses to drought in the Eastern US temperate deciduous biome. We know little about how tree size shapes drought response in this biome.)
 
-2.1 DBH is a strong predictor of drought stress.
 
-    * P2.2-Drought response increases with DBH at time of drought.
+1.0. Consistent with most forests globally [@bennett_larger_2015], larger-diameter trees have lower drought resistance. (Note that Bennett et al. 2015 identified only one study on tree growth responses to drought in the Eastern US temperate deciduous biome. We know little about how tree size shapes drought response in this biome.)
 
-2.2. Height is a strong predictor of drought stress.
+    * P1.0-Drought resistance decreases with DBH at time of drought. (supported most of the time)
 
-    * P2.2-Drought response increases with height at time of drought.
-    * P2.2a - Drought response is better predicted by height than DBH.
+1.1. Drought resistance decreases with tree height.
 
-2.3. Large trees suffer more during drought because of greater exposure (to radiation, wind, etc.)--either in relation to neighboring trees or because of position on landscape.
+    * P1.1- Drought resistance decreases with height at time of drought, and height is a better predictor than DBH. (supported most of the time)
 
-    * P3.1- Trees currently in a dominant canopy position suffered more during drought. 
+1.2. (Beyond the effects of height,) canopy trees have lower drought resistance because they are exposed to higher solar radiation, greater wind speeds, and lower humidity. Alternatively, the generally supressed status of subcanopy trees may be insufficient to override the benefits of their buffered environment during drought. 
+
+    (add predictions for model without height)
+    * P1.2- After accounting for height, trees currently in a dominant canopy position have lowest resistance. (partially supported)
+    * P1.2alt- After accounting for height, subcanopy trees have lowest resistance. (partially supported)
     
-2.4. Rooting volume/depth relative to water sources are critical in drought response. Effects of drought on larger trees are mediated by the fact that large trees have better access to water.
+1.3. During drought, larger trees are at a relatively smaller disadvantage in drier microenvironments where rooting volume/depth is more important for reliable water access.
   
-  * P3.2- drought response increases with topographic wetness index
+  * P1.3- There is a negative interactive effect between tree height and topographic water index. 
 
-**3. Do species functional traits predict drought response?**
+**2. Species functional traits predict drought response?**
 
-   * P3.1 - diffuse porous species are more sensitive than ring porous (previously observed in eastern dec forests- Elliot et al. 2015, Friedrichs et al. 2009)
-    * P3.2 - higher percent leaf area predicts higher drought stress
-    * P3.3 - higher leaf mass area correlates positively to drought resistance (more sclerophyllous vegetation [thick leaves] usually means more adaptation) [@abrams_adaptations_1990] [@guerfel_impacts_2009] <- *valid? it looks at olive trees*
-    * P3.4 - TLP correlates negatively with drought resistance (NEVER tested),
-    * P3.5 - higher wood density means more drought resistant
+   * P2.1 - diffuse porous species are more sensitive than ring porous (previously observed in eastern dec forests- Elliot et al. 2015, Friedrichs et al. 2009)
+    * P2.2 - higher percent leaf area predicts higher drought stress
+    * P2.3 - higher leaf mass area correlates positively to drought resistance (more sclerophyllous vegetation [thick leaves] usually means more adaptation) [@abrams_adaptations_1990] [@guerfel_impacts_2009] <- *valid? it looks at olive trees*
+    * P2.4 - TLP correlates negatively with drought resistance (NEVER tested),
+    * P2.5 - higher wood density means more drought resistant
 
-**4. How are functional traits distributed across size classes, and how does this affect size-resistance relationship?** 
+**3. How are functional traits distributed across size classes, and how does this affect size-resistance relationship?** 
 
-4.1. Larger/ more exposed trees have more drought resistant traits, meaning size effects are buffered by traits  
-4.1_alt. Larger trees suffer more because they have more drought vulnerable traits.
+3.1. Larger/ more exposed trees have more drought resistant traits, meaning size effects are buffered by traits  
+3.1_alt. Larger trees suffer more because they have more drought vulnerable traits.
 
      * P3.1a- TLP is lower (larger negative) in taller/canopy trees
      * P3.1b- diffuse porous species more common in understory 
@@ -110,7 +111,7 @@ Our forest displays the same trend as most forests globally [@bennett_larger_201
 
     * P1.1 - Drought stress is proportional to the severity of each drought.
     
-**4. How do droughts vary in their affect on tree resistance? **
+**4. How do droughts vary in their effect on tree resistance? **
 
     * P4.1 - The combined-years scenario will have more explaining variables than the individual scenarios.
     * P4.2 - Inclusion of leaf hydraulic traits does not eliminate or significantly reduce effect of tree size.
