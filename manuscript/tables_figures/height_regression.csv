@@ -1,0 +1,11 @@
+"Species","Equations","r.2"
+"Carya cordiformis","0.348+0.808*x",0.879
+"Carya glabra","0.681+0.704*x",0.855
+"Carya ovalis","0.621+0.722*x",0.916
+"Carya tomentosa","0.776+0.701*x",0.894
+"Fagus grandifolia","0.708+0.662*x",0.857
+"Liriodendron tulipifera","1.32+0.524*x",0.761
+"Quercus alba","1.14+0.548*x",0.647
+"Quercus prinus","0.44+0.751*x",0.869
+"Quercus rubra","1.17+0.533*x",0.773
+"all","0.879+0.634*x",0.857

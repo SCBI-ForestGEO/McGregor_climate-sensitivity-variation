@@ -3,7 +3,6 @@
 # Developed by: Ian McGregor - mcgregori@si.edu
 # R version 3.5.3 - First created April 2019
 ######################################################
-
 library(data.table)
 library(RCurl)
 library(ggplot2)
@@ -13,20 +12,18 @@ library(stringr)
 #1. prepare SCBI data ####
 heights <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
 
-dbh_2008 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem1.csv"))
-dbh_2008$dbh.cm <- dbh_2008$dbh/10 #cm
+dbh_2008 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem1.csv"), stringsAsFactors = FALSE)
+dbh_2008$dbh.cm <- as.numeric(dbh_2008$dbh)/10 #cm
 
-dbh_2013 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem2.csv"))
+dbh_2013 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem2.csv"), stringsAsFactors = FALSE)
 dbh_2013$dbh.cm <- dbh_2013$dbh/10 #cm
 
-dbh_2018 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/scbi.stem3_TEMPORARY.csv"), stringsAsFactors = FALSE)
+dbh_2018 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
 
 # #get stemIDs for each stem (leaving this here if need be)
 # heights$stemID <- ifelse(is.na(heights$stemID), dbh_2013$stemID[match(paste(heights$tag, heights$stemtag), paste(dbh_2013$tag, dbh_2013$StemTag))], heights$stemID)
 # 
 # heights$tag <- ifelse(is.na(heights$tag), dbh_2013$tag[match(heights$stemID, dbh_2013$stemID)], heights$tag)
-
-
 
 #separate stemID in 2018 data
 dbh_2018$tag <- gsub("_.*$", "", dbh_2018$Tree_ID_Num)
@@ -144,11 +141,11 @@ neon_new <- neon_new[-c(2)]
 
 
 #3. rbind with general height data and determine equations ####
-heights_sub <- heights[c(4,8,24,25)]
+heights_sub <- heights[c(5,9,26,27)]
 heights_all <- rbind(heights_sub, neon_new)
 
 
-#check which ones need dbh from previous census because they died
+#check which ones need dbh from previous census because they died (should be 0)
 check <- heights_all[is.na(heights_all$dbh) | heights_all$dbh ==0, ]
 
 # heights_all$dbh.cm <- ifelse(heights_all$dbh.cm == 0 & heights_all$dbh_year == 2013, 
@@ -187,12 +184,11 @@ ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label 
   geom_point(color = "#0c4c8a") +
   theme_minimal()
 
-ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label = log(height.m))) +
-  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
-  geom_smooth(method="lm", se=FALSE, color="black") +
-  geom_point(color = "#0c4c8a") +
-  theme_minimal()
+regr <- data.frame("Species" = c("Carya cordiformis", "Carya glabra", "Carya ovalis", "Carya tomentosa", "Fagus grandifolia", "Liriodendron tulipifera", "Quercus alba", "Quercus prinus", "Quercus rubra", "all"),
+                   "Equations" = c("0.348+0.808*x", "0.681+0.704*x", "0.621+0.722*x", "0.776+0.701*x", "0.708+0.662*x", "1.32+0.524*x", "1.14+0.548*x", "0.44+0.751*x", "1.17+0.533*x", "0.879+0.634*x"),
+                   "r^2" = c(0.879, 0.855, 0.916, 0.894, 0.857, 0.761, 0.647, 0.869, 0.773, 0.857))
 
+write.csv(regr, "manuscript/tables_figures/height_regression.csv", row.names=FALSE)
 
 #########################################################################################
 #get quadrat and coordinates for field data ####
