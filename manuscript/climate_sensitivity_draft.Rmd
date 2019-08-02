@@ -46,28 +46,25 @@ We conclude that when droughts occur, large dominant trees, drought-sensitive sp
 Understanding how and why trees respond to drought is critical to predicting forest drought responses and climate change feedbacks.
 Forests are diverse in terms of tree sizes and functional traits, and it is known that trees varying in size and functional traits respond differently to drought (e.g., [@bennett_larger_2015]; REFS). Therefore, in order to understand whole-forest response to drought, we need to know how responses vary by tree size/ species. To do so, there are four fundamental questions that must be addressed:
 
-*First, how significant is the effect of individual drought years?*
-Droughts are rarely explicitly defined in ecological studies [@slette_how_2019], yet no two droughts are the same. This study addressed this by analyzing trees' resistance to drought within and across three defined drought periods.
-
-*Second, what drives the observed tendency for large trees to suffer more during drought?*  
+*First, what drives the observed tendency for large trees to suffer more during drought?*  
 [@bennett_larger_2015] showed that in forests globally, large trees suffer greater growth reductions during drought. However, this analysis quantified tree size based on DBH, which has no direct mechanistic meaning. This study proposed three major mechanisms (besides insects): (1) inherently greater biophysical challenge of being tall; (2) greater exposure of the crowns of large trees; and (3) greater water availability. It is also expected that roots play a role, though these hypotheses still need to be tested.
 
-*Third, how do species' traits influence drought response?* 
+*Second, how do species' traits influence drought response?* 
 Analyzing drought responses on the species level does not fully explain mechanisms and is not feasible in diverse forests. The solution is a trait-based approach. Leaf hydraulic traits hold more promise than more commonly/traditionally-measured traits such as wood density and SLA (Medeiros et al.). 
 
-*Fourth, how do tree size and functional traits interact to influence drought response?*
+*Third, how do tree size and functional traits interact to influence drought response?*
 It is possible that the pattern observed by [@bennett_larger_2015] could be caused by smaller trees being more drought resistant. Alternatively, larger trees may have more drought-resistant traits as adpatations to greater biophysical challenges.
 
+
+*Fourth, how significant is the effect of individual drought years?*
+Droughts are rarely explicitly defined in ecological studies [@slette_how_2019], yet no two droughts are the same. This study addressed this by analyzing trees' resistance to drought within and across three defined drought periods.
 
 
 *Hypotheses*
 
-**1. How significant are individual drought years on a long time-frame trend?**
-1.1 Individual drought scenario is a strong predictor of drought stress.
 
-    * P1.1 - Drought stress is proportional to the severity of each drought.
 
-**2. Why do larger trees suffer greater growth declines during drought?**
+**1. Why do larger trees suffer greater growth declines during drought?**
 Our forest displays the same trend as most forests globally [@bennett_larger_2015]. (Note that Bennett et al. 2015 identified only one study on tree growth responses to drought in the Eastern US temperate deciduous biome. We know little about how tree size shapes drought response in this biome.)
 
 2.1 DBH is a strong predictor of drought stress.
@@ -105,9 +102,14 @@ Our forest displays the same trend as most forests globally [@bennett_larger_201
    
      * P3.2- Inclusion of TLP / rp in model does not eliminate or significantly reduce effect of tree size.
 
-
+[differences among droughts:]
 **I think for #4 here the focus should be on hypotheses looking at the overall trend compared to the specific scenarios?**
 
+**1. How significant are individual drought years on a long time-frame trend?**
+1.1 Individual drought scenario is a strong predictor of drought stress.
+
+    * P1.1 - Drought stress is proportional to the severity of each drought.
+    
 **4. How do droughts vary in their affect on tree resistance? **
 
     * P4.1 - The combined-years scenario will have more explaining variables than the individual scenarios.
