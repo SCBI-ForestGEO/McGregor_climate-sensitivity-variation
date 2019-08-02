@@ -85,7 +85,7 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
   
   * P1.3- There is a negative interactive effect between tree height and topographic water index. ([issue #45](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/45))
 
-**2. Which species functional traits predict drought response (and which are the best predictors)?**
+**2. How do species' traits--alone and in interaction with tree size--influence drought response?**
 
 2.1. Commonly measured traits including wood density (REFS), leaf mass per area [@abrams_adaptations_1990] [@guerfel_impacts_2009], and ring porosity (Elliot et al. 2015, Friedrichs et al. 2009) have been linked to drought responses and likely correlated with drought resistance in this forest. However, we hypothesize that leaf hydraulic traits such as leaf area shrinkage upon dessication and turgor loss point, which are emerging as potentially more informative traits but whose effect on drought resistance has never been tested (CONFIRM), will prove better predictors.
     * P2.1 - wood density correlates positively drought resistant
@@ -94,17 +94,13 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
     * P2.4 -leaf area shrinkage upon dessication (PLA) is negatively correlated with drought resistance
     * P2.5 - TLP correlates negatively with drought resistance 
  
- 2.2. 
+2.2. Traits vary with microenvironment, with more drought-resistant traits associated to taller trees (and drier topographic positions) ([issue #43](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/43))
 
-**3. How are functional traits distributed across size classes, and how does this affect size-resistance relationship?**  ([issue #43](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/43))
-
-3.1. Larger/ more exposed trees have more drought resistant traits, meaning size effects are buffered by traits  
-3.1_alt. Larger trees suffer more because they have more drought vulnerable traits.
-
-     * P3.1a- TLP is lower (larger negative) in taller/canopy trees
-     * P3.1b- diffuse porous species more common in understory 
+     * P2.2a- traits (all 5 above) correlate with tree height 
+     * (P2.2b- traits (all 5 above) correlate with TWI)
    
-     * P3.2- Inclusion of TLP / rp in model does not eliminate or significantly reduce effect of tree size.
+2.3. Size-dependent drought resistance is driven by--or alternatively, buffered by--functional traits (i.e., larger trees have more drought vulnerable traits).
+    * P3.1 Inclusion of traits in the statistical model does not eliminate or significantly reduce effect of tree size (or TWI).
 
 [differences among droughts:]
 **I think for #4 here the focus should be on hypotheses looking at the overall trend compared to the specific scenarios?**
