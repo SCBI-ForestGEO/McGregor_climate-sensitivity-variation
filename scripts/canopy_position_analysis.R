@@ -568,7 +568,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBELAM347ZL7W3JUGZ3S5IHYKE"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEMTPO5NOAZ2XCEGJPS5JWOTK"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
@@ -1425,11 +1425,11 @@ write.csv(coeff_table, "manuscript/tables_figures/tested_traits_best_coeffs.csv"
 
 ##6c. standalone code to get coefficients and r2 #### 
 ##(for paper, should do ONLY w/REML=TRUE) 
-best <- lmm_all[[46]]
+best <- lmm_all[[58]]
 cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
 cof$value <- round(cof$value, 3)
 
-r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+r <- rsquared(best) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
 
 
 ##6d. original table with models based on github issue predictions ####
