@@ -85,13 +85,16 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
   
   * P1.3- There is a negative interactive effect between tree height and topographic water index. ([issue #45](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/45))
 
-**2. Species functional traits predict drought response?**
+**2. Which species functional traits predict drought response (and which are the best predictors)?**
 
-   * P2.1 - diffuse porous species are more sensitive than ring porous (previously observed in eastern dec forests- Elliot et al. 2015, Friedrichs et al. 2009)
-    * P2.2 - higher percent leaf area predicts higher drought stress
-    * P2.3 - higher leaf mass area correlates positively to drought resistance (more sclerophyllous vegetation [thick leaves] usually means more adaptation) [@abrams_adaptations_1990] [@guerfel_impacts_2009] <- *valid? it looks at olive trees*
-    * P2.4 - TLP correlates negatively with drought resistance (NEVER tested),
-    * P2.5 - higher wood density means more drought resistant
+2.1. Commonly measured traits including wood density (REFS), leaf mass per area [@abrams_adaptations_1990] [@guerfel_impacts_2009], and ring porosity (Elliot et al. 2015, Friedrichs et al. 2009) have been linked to drought responses and likely correlated with drought resistance in this forest. However, we hypothesize that leaf hydraulic traits such as leaf area shrinkage upon dessication and turgor loss point, which are emerging as potentially more informative traits but whose effect on drought resistance has never been tested (CONFIRM), will prove better predictors.
+    * P2.1 - wood density correlates positively drought resistant
+    * P2.2 - leaf mass area correlates positively to drought resistance 
+    * P2.3 - diffuse porous species are more sensitive than ring porous  
+    * P2.4 -leaf area shrinkage upon dessication (PLA) is negatively correlated with drought resistance
+    * P2.5 - TLP correlates negatively with drought resistance 
+ 
+ 2.2. 
 
 **3. How are functional traits distributed across size classes, and how does this affect size-resistance relationship?**  ([issue #43](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/43))
 
