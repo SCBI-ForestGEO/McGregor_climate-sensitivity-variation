@@ -91,8 +91,8 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
     * P2.1 - wood density correlates positively drought resistant
     * P2.2 - leaf mass area correlates positively to drought resistance 
     * P2.3 - diffuse porous species are more sensitive than ring porous  
-    * P2.4 -leaf area shrinkage upon dessication (PLA) is negatively correlated with drought resistance
-    * P2.5 - TLP correlates negatively with drought resistance 
+    * P2.4 -leaf area shrinkage upon dessication (PLA) is negatively correlated with drought resistance (supported as one of the best predictors)
+    * P2.5 - TLP correlates negatively with drought resistance  (supported as one of the best predictors)
  
 2.2. Traits vary with microenvironment, with more drought-resistant traits associated to taller trees (and drier topographic positions) ([issue #43](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/43))
 
@@ -102,19 +102,14 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
 2.3. Size-dependent drought resistance is driven by--or alternatively, buffered by--functional traits (i.e., larger trees have more drought vulnerable traits).
     * P3.1 Inclusion of traits in the statistical model does not eliminate or significantly reduce effect of tree size (or TWI).
 
-[differences among droughts:]
-**I think for #4 here the focus should be on hypotheses looking at the overall trend compared to the specific scenarios?**
+**3. Did responses vary across droughts?**
+3.1 Overall community response is proportional to the severity of each drought.
 
-**1. How significant are individual drought years on a long time-frame trend?**
-1.1 Individual drought scenario is a strong predictor of drought stress.
-
-    * P1.1 - Drought stress is proportional to the severity of each drought.
+    * P3.1 -  (How do you define severity? min PDSI? duration? it may be tricky to find the right metric, but I agree that its interesting to compare across droughts)
     
-**4. How do droughts vary in their effect on tree resistance? **
+3.2. Predictor variables varied across droughts.
 
-    * P4.1 - The combined-years scenario will have more explaining variables than the individual scenarios.
-    * P4.2 - Inclusion of leaf hydraulic traits does not eliminate or significantly reduce effect of tree size.
-    * P4.3 - Drought resistance for each scenario will be explained more by hydraulic traits than by the biophysical environment
+    * P3.2 - There will be overall consistnecy in terms of the directions of responses to predictor variables; however, the best set of predictor variables will vary across droughts.
 
 ### Methods
 *Study site*
