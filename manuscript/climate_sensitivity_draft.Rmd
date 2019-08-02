@@ -78,7 +78,7 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
 1.2. Canopy trees have lower drought resistance because they are exposed to higher solar radiation, greater wind speeds, and lower humidity. Alternatively, the generally supressed status of subcanopy trees may be insufficient to override the benefits of their buffered environment during drought. 
     * P1.2a- Canopy position is a better predictor of resistance than height, with trees currently in a dominant canopy position having lowest resistance. (rejected)
     * P1.2b- After accounting for height, trees currently in a dominant canopy position have lowest resistance. (partially supported)
-    * P1.2b_alt- After accounting for height, subcanopy trees have lowest resistance. (partially supported)
+
     
 1.3. During drought, larger trees are at a relatively smaller disadvantage in drier microenvironments where rooting volume/depth is more important for reliable water access.
   
@@ -99,7 +99,7 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
      * (P2.2b- traits (all 5 above) correlate with TWI)
    
 2.3. Size-dependent drought resistance is driven by--or alternatively, buffered by--functional traits (i.e., larger trees have more drought vulnerable traits).
-    * P3.1 Inclusion of traits in the statistical model does not eliminate or significantly reduce effect of tree size (or TWI).
+    * P2.3 Inclusion of traits in the statistical model does not eliminate or significantly reduce effect of tree size (or TWI). That is, the effects of height and and microhabitat will not be negated in the best model including size, microhabitat, and traits.  (supported)
 
 **3. Did responses vary across droughts?**
 3.1 Overall community response is proportional to the severity of each drought.
