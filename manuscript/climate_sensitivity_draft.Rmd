@@ -62,7 +62,7 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
 
 *Hypotheses*
 
-**Table 1. Summary of hypotheses, predictions and results** We count predictions as fully supported (or rejected) when the direction of response matches (or contradicts) the prediction and model dAIC≥2 relative to the approriate null model or to any alternative multivariate model with within 2 dAIC. Parentheses indicate that predictions were partially supported (or rejected)-- i.e., with direction of response matching (or contradicting) the prediction but model dAIC<2 relative to the approriate null model, when response partially matched predicted order for categorical variable (canopy position), or when an alternative multivariate model within 2 dAIC had a contradictory response.  (Table 1.xlsx)
+**Table 1. Summary of hypotheses, predictions and results** We count predictions as fully supported (or rejected) when the direction of response matches (or contradicts) the prediction and model dAIC≥2 relative to the approriate null model or to any alternative multivariate model with within 2 dAIC. Parentheses indicate that predictions were partially supported (or rejected)-- i.e., with direction of response matching (or contradicting) the prediction but model dAIC<2 relative to the approriate null model, when response partially matched predicted order for categorical variable (canopy position), or when an alternative multivariate model within 2 dAIC had a contradictory response. "(yes/no) or ("no/yes")" indicates tendancies in opposite directions in univariate tests versus the best full models, respectively. (Table 1.xlsx)
 
 (The content below needs to be re-written / mostly removed to go with Table 1.)
 
