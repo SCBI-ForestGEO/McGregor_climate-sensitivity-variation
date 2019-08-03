@@ -82,7 +82,7 @@ Droughts are rarely explicitly defined in ecological studies [@slette_how_2019],
     
 1.3. During drought, larger trees are at a relatively smaller disadvantage in drier microenvironments where rooting volume/depth is more important for reliable water access.
   
-  * P1.3- There is a negative interactive effect between tree height and topographic water index. ([issue #45](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/45))
+  * P1.3- There is a negative interactive effect between tree height and topographic water index. (rejected- [issue #45](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/45))
 
 **2. How do species' traits--alone and in interaction with tree size--influence drought response?**
 
