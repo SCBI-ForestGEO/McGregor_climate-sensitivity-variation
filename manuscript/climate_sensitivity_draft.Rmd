@@ -70,16 +70,7 @@ Here, we combine tree-ring records covering three droughts (1964-66, 1977, 1999)
 
 **Table 1. Summary of hypotheses, predictions and results** We count predictions as fully supported (or rejected) when the direction of response matches (or contradicts) the prediction and model dAIC>=2 relative to the approriate null model or to any alternative multivariate model with within 2 dAIC. Parentheses indicate that predictions were partially supported (or rejected)-- i.e., with direction of response matching (or contradicting) the prediction but model dAIC<2 relative to the approriate null model, when response partially matched predicted order for categorical variable (canopy position), or when an alternative multivariate model within 2 dAIC had a contradictory response. "(yes/no) or ("no/yes")" indicates tendancies in opposite directions in univariate tests versus the best full models, respectively. (Table 1.xlsx)
 
-```{r, Table 1, eval=TRUE, echo=FALSE, message=FALSE}
-library(readxl)
-library(kableExtra)
-Table1 <- read_xlsx("tables_figures/Table1.xlsx")
-Table1 <- sapply(Table1, as.character)
-Table1[is.na(Table1)] <- " "
-
-kable(Table1) %>%
-  kable_styling(bootstrap_options = "striped", full_width = F)
-```
+![Table 1](tables_figures/Table1.png){width=500px}
 
 ### Methods
 *Study site*
@@ -203,13 +194,20 @@ kable(traits_table) %>%
 To accurately understand climate sensitivity, this study used a specific definition of drought, which is not a common practice [@slette_how_2019]. We used the pointRes package [@R-pointRes] in R (version 3.5.3) to determine drought periods based on trees' drought resistance, which is defined by [@lloret_components_2011] as the ratio between the performance during and before the disturbance. Candidate drought years were defined if >50% of the cored trees experienced <30% growth in a year compared to the previous 5 years. These were then cross-validated with the regional Palmer Drought Severity Index (PDSI) values for each year, which yielded a set of three periods that were consistently shown as drought: 1964-1966, 1977, and 1999.
 
 **Figure 1. Time series of peak growing season (May-August) climate conditions and residual chronologies for each species.** Droughts analyzed here are indicated by dashed lines, and shading indicates the pre-drought period used in calculations of the resistance metric. Figure modified from [@helcoski_growing_2019].
+
 ![Time series of combined tree cores by species](tables_figures/Time_series_for_each_species.jpg){width=500px}
 
 ### Results
 Once the data was collected, linear mixed models were run following the order of the hypotheses as seen in Figure ??? [individual_tested_traits]. Using the [@R-pointRes] package, we set up models with the resistance value as the response variable, and each prediction's variable as the independent variable. Variables' importance in predicting drought tolerance was calculated from mixed-effects models and the lowest AICc [@R-lme4, @R-AICcmodavg].Null models were determined in order of the predictions. First, we analyzed the combined scenario to determine if "year" was significant. Upon establishing this, we tested height and DBH as size parameters. Although both were significant, height was kept due to its larger delta AICc compared with the null model. We then tested the remaining biophysical and hydraulic traits individually against a null model containing height and year. This yielded Figure ??? (cand_full). All variables with dAICc >2 were used as candidates for each scenario's best model (figure ???? (tested_traits_best))
 
-```{r, Table 1, eval=TRUE, echo=FALSE, message=FALSE}
+```{r, Table x, eval=TRUE, echo=FALSE, message=FALSE}
 traits_test <- read.csv("tables_figures/tested_traits_all.csv")
+traits_test$null_model <- gsub("resist.value ~ ", "", traits_test$null_model)
+traits_test$tested_model <- NULL
+traits_test$null_model_year <- gsub("resist.value ~ ", "", traits_test$null_model_year)
+traits_test$tested_model_year <- NULL
+
+
 kable(traits_test, booktabs=TRUE, format = "latex", caption = "All variables tested for climate sensitivity against appropriate null models, in line with hypothesis predictions. Each variable was tested for each drought scenario excepting \"year\" ") %>%
   kableExtra::landscape()
   # kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "scale_down")

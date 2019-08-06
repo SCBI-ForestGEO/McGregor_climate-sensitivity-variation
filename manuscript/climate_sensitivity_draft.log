@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.6.6)  2 AUG 2019 15:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.6.6)  6 AUG 2019 09:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -880,80 +880,55 @@ Package caption Info: End \AtBeginDocument code.
 
 {c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/p
 dftex.map}]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 205.
-
-(c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Overfull \hbox (18.49356pt too wide) in paragraph at lines 207--207
-[]\T1/lmtt/m/n/10 * P1.0-Drought resistance decreases with DBH at time of droug
-ht. (supported most of the time)[] 
- []
-
-
-Overfull \hbox (265.24284pt too wide) in paragraph at lines 213--213
-[]\T1/lmtt/m/n/10 * P1.1- Drought resistance decreases with height at time of d
-rought, and height is a better predictor than DBH. (supported most of the time)
-[] 
- []
-
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 232.
+<tables_figures/Table1.png, id=59, 538.26094pt x 482.55281pt>
+File: tables_figures/Table1.png Graphic file (type png)
+<use tables_figures/Table1.png>
+Package pdftex.def Info: tables_figures/Table1.png  used on input line 259.
+(pdftex.def)             Requested size: 376.41049pt x 337.45331pt.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 268.
 
 (c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Overfull \hbox (380.74251pt too wide) in paragraph at lines 280--280
-[]\T1/lmtt/m/n/10 * P3.1 -  (How do you define severity? min PDSI? duration? it
- may be tricky to find the right metric, but I agree that its interesting to co
-mpare across droughts)[] 
- []
-
-[2]
-Overfull \hbox (464.74226pt too wide) in paragraph at lines 286--286
-[]\T1/lmtt/m/n/10 * P3.2 - There will be overall consistnecy in terms of the di
-rections of responses to predictor variables; however, the best set of predicto
-r variables will vary across droughts.[] 
- []
-
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 350.
+) [2] [3 <./tables_figures/Table1.PNG>]
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 325.
 
 (c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 350.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 325.
 
 (c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 350
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 325
 .
 (c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 350
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 325
 .
 (c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 350.
+(Font)              <10> on input line 325.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 350.
+(Font)              <7> on input line 325.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 350.
-LaTeX Font Info:    Try loading font information for U+msa on input line 350.
+(Font)              <5> on input line 325.
+LaTeX Font Info:    Try loading font information for U+msa on input line 325.
 
 (c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.
 fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 350.
+LaTeX Font Info:    Try loading font information for U+msb on input line 325.
 
 (c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.
 fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Overfull \hbox (16.29347pt too wide) detected at line 350
+Overfull \hbox (16.29347pt too wide) detected at line 325
 \OML/lmm/m/it/10 diamYEAR \OT1/lmr/m/n/10 = \OML/lmm/m/it/10 dbh\OT1/lmr/m/n/10
  2008 \OMS/lmsy/m/n/10 ^^@ \OT1/lmr/m/n/10 2 \OMS/lmsy/m/n/10 ^^C \OT1/lmr/m/n/
 10 (\OML/lmm/m/it/10 bark:depth\OT1/lmr/m/n/10 2008) \OMS/lmsy/m/n/10 ^^@ \OT1/
@@ -963,52 +938,53 @@ OMS/lmsy/m/n/10 ^^C \OT1/lmr/m/n/10 (\OML/lmm/m/it/10 bark:depthYEAR\OT1/lmr/m/
 n/10 )
  []
 
-[3]
-<tables_figures/Time_series_for_each_species.jpg, id=131, 426.6339pt x 426.6339
+[4]
+<tables_figures/Time_series_for_each_species.jpg, id=141, 426.6339pt x 426.6339
 pt>
 File: tables_figures/Time_series_for_each_species.jpg Graphic file (type jpg)
 <use tables_figures/Time_series_for_each_species.jpg>
 Package pdftex.def Info: tables_figures/Time_series_for_each_species.jpg  used 
-on input line 459.
+on input line 437.
 (pdftex.def)             Requested size: 376.40895pt x 376.40895pt.
-[4] [5 <./tables_figures/Time_series_for_each_species.jpg>]
-Overfull \hbox (2770.35016pt too wide) in paragraph at lines 486--503
+[5] [6 <./tables_figures/Time_series_for_each_species.jpg>]
+Overfull \hbox (2126.06927pt too wide) in paragraph at lines 466--483
  [][] 
  []
 
-[6] [7
+[7] [8
 
 
 ]
-<tables_figures/ForestGEO_plot.jpg, id=185, 312.2064pt x 389.0535pt>
+<tables_figures/ForestGEO_plot.jpg, id=192, 312.2064pt x 389.0535pt>
 File: tables_figures/ForestGEO_plot.jpg Graphic file (type jpg)
 <use tables_figures/ForestGEO_plot.jpg>
 Package pdftex.def Info: tables_figures/ForestGEO_plot.jpg  used on input line 
-601.
+581.
 (pdftex.def)             Requested size: 312.21992pt x 389.07034pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-(./climate_sensitivity_draft.bbl [8 <./tables_figures/ForestGEO_plot.jpg>] [9])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 647.
-[10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 647.
+(./climate_sensitivity_draft.bbl [9 <./tables_figures/ForestGEO_plot.jpg>] [10]
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 627.
+[11]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 627.
 (./climate_sensitivity_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 647.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 647.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 627.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 627.
 Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
 ed.
-(rerunfilecheck)             Checksum: 249396110D1ABD2F8F48C03F1B928146;614.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 647.
+(rerunfilecheck)             Checksum: 9C82A638F27CCEB76A9D657237EEC275;614.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 627.
  ) 
 Here is how much of TeX's memory you used:
- 13649 strings out of 494553
- 200952 string characters out of 6175704
- 286274 words of memory out of 5000000
- 17047 multiletter control sequences out of 15000+600000
- 46966 words of font info for 43 fonts, out of 8000000 for 9000
+ 13615 strings out of 494553
+ 200420 string characters out of 6175704
+ 287277 words of memory out of 5000000
+ 17014 multiletter control sequences out of 15000+600000
+ 46647 words of font info for 42 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 36i,10n,39p,804b,449s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,10n,39p,600b,444s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-
 ec.enc}{c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/l
 m/lm-mathsy.enc}{c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/fonts/en
@@ -1024,12 +1000,11 @@ s/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb>
 r9.pfb><c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/publi
 c/lm/lmri10.pfb><c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist/fonts/ty
 pe1/public/lm/lmri12.pfb><c:/Users/mcgregori/AppData/Roaming/TinyTeX/texmf-dist
-/fonts/type1/public/lm/lmsy10.pfb><c:/Users/mcgregori/AppData/Roaming/TinyTeX/t
-exmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on climate_sensitivity_draft.pdf (10 pages, 839002 bytes).
+/fonts/type1/public/lm/lmsy10.pfb>
+Output written on climate_sensitivity_draft.pdf (11 pages, 848235 bytes).
 PDF statistics:
- 262 PDF objects out of 1000 (max. 8388607)
- 235 compressed objects within 3 object streams
- 54 named destinations out of 1000 (max. 500000)
- 59 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 267 PDF objects out of 1000 (max. 8388607)
+ 238 compressed objects within 3 object streams
+ 57 named destinations out of 1000 (max. 500000)
+ 64 words of extra memory for PDF output out of 10000 (max. 10000000)
 
