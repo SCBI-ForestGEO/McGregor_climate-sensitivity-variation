@@ -1111,11 +1111,12 @@ library(stringr)
 
 ##6a. test each variable individually for each drought scenario ####
 sum_mod_traits <- data.frame(
-  "prediction" = c(1.1, 2.1, 2.2, 2.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5),
-  "variable" = c("year", "dbh.ln.cm", "height.ln.m", "position_all",  "TWI.ln", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
-  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "crown.position", "ln[topographic.wetness.index]", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
+  "prediction" = c(3.1, 2.1, 2.2, 2.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5),
+  "variable" = c("year", "dbh.ln.cm", "height.ln.m", "position_all", "TWI.ln*height.ln.m", "TWI.ln", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
+  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "crown.position", "ln[topographic.wetness.index]*ln[height]", "ln[topographic.wetness.index]", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
   "null_model" = 
     c("resist.value ~ (1|sp/tree)",
+      "resist.value ~ year+(1|sp/tree)",
       "resist.value ~ year+(1|sp/tree)",
       "resist.value ~ year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
