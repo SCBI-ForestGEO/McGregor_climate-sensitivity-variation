@@ -1,0 +1,6 @@
+"Prediction","variable","model","coefficient_of_ht","p.value_of_ht"
+"2.1a","WD_g_per_cm3","WD_g_per_cm3~height.ln.m",-0.157563704169704,5.2529175956029e-153
+"2.1b","LMA_g_per_m2","LMA_g_per_m2~height.ln.m",7.85506823795195,7.99567901675774e-95
+"2.1c","rp_no","rp_no~height.ln.m",0.340561989573909,5.03741767770513e-96
+"2.1d","PLA_dry_percent","PLA_dry_percent~height.ln.m",1.36529779114903,1.17969314587513e-21
+"2.1e","mean_TLP_Mpa","mean_TLP_Mpa~height.ln.m",0.133879856887654,4.40758579675838e-51
