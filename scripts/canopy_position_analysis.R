@@ -1483,6 +1483,74 @@ cof$value <- round(cof$value, 3)
 r <- rsquared(best) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
 
 
+##6d. test each leaf trait against only height ####
+scbi.stem3 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
+
+scbi.stem3$dbh <- as.numeric(scbi.stem3$dbh)
+scbi.stem3$dbh <- ifelse(is.na(scbi.stem3$dbh), 0, scbi.stem3$dbh)
+scbi.stem3 <- scbi.stem3[scbi.stem3$dbh>100 & !scbi.stem3$status %in% c("D", "G"), ]
+
+current_ht <- scbi.stem3[,c(2:5,11)]
+current_ht$year <- 2018
+
+current_ht$dbh_orig.cm <- current_ht$dbh/10
+current_ht$dbh.ln.cm <- log(current_ht$dbh_orig.cm)
+
+#linear log-log regression
+#the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
+current_ht$height.ln.m <- 
+  ifelse(current_ht$sp == "caco", (0.348+0.808*current_ht$dbh.ln.cm),
+  ifelse(current_ht$sp == "cagl", (0.681+0.704*current_ht$dbh.ln.cm),
+  ifelse(current_ht$sp == "caovl", (0.621+0.722*current_ht$dbh.ln.cm),
+  ifelse(current_ht$sp == "cato", (0.776+0.701*current_ht$dbh.ln.cm),
+  ifelse(current_ht$sp == "fagr", (0.708+0.662*current_ht$dbh.ln.cm),
+  ifelse(current_ht$sp == "fram", (0.715+0.619*current_ht$dbh.ln.cm),
+  ifelse(current_ht$sp == "juni", (1.22+0.49*current_ht$dbh.ln.cm),
+  ifelse(current_ht$sp == "litu", (1.32+0.524*current_ht$dbh.ln.cm),
+  ifelse(current_ht$sp == "qual", (1.14+0.548*current_ht$dbh.ln.cm),
+  ifelse(current_ht$sp == "qupr", (0.44+0.751*current_ht$dbh.ln.cm),
+  ifelse(current_ht$sp == "quru", (1.17+0.533*current_ht$dbh.ln.cm),
+  ifelse(current_ht$sp == "quve", (0.864+0.585*current_ht$dbh.ln.cm),
+        (0.791+0.645*current_ht$dbh.ln.cm)))))))))))))
+
+current_ht$height.m <- exp(current_ht$height.ln.m)
+current_ht <- current_ht[order(current_ht$tag, current_ht$year), ]
+
+for (i in seq(along=trees_all[,c(6:10)])){
+  col <- colnames(trees_all[,c(6:10)][i])
+  
+  temp <- trees_all[,c("sp", col)]
+  
+  current_ht[,col] <- temp[,col][match(current_ht$sp, temp$sp)]
+}
+
+current_ht$rp <- as.character(current_ht$rp)
+current_ht$rp_no <- ifelse(current_ht$rp == "ring", 1,
+                           ifelse(current_ht$rp == "semi-ring", 1.5,
+                           2))
+
+trait <- c("WD_g_per_cm3", "LMA_g_per_m2", "rp_no", "PLA_dry_percent", "mean_TLP_Mpa")
+
+trait_ht <- data.frame("Prediction" = c("2.1a", "2.1b", "2.1c", "2.1d", "2.1e"),
+                       "variable" = NA,
+                       "model" = NA,
+                       "coefficient_of_ht" = NA,
+                       "p.value_of_ht" = NA)
+for(i in seq(along=trait)){
+  l <- lm(current_ht[,trait[[i]]] ~ current_ht[,"height.ln.m"])
+  
+  trait_ht[,2][[i]] <- trait[[i]]
+  
+  trait_ht$model[[i]] <- paste0(trait[[i]], "~height.ln.m")
+  
+  lm_cof <- data.frame(l$coefficients)
+  trait_ht[,4][[i]] <- lm_cof[,1][[2]]
+  
+  lm_anova <- anova(l)
+  trait_ht[,5][[i]] <- lm_anova$`Pr(>F)`[1]
+}
+
+#
 ##6d. original table with models based on github issue predictions ####
 summary_models <- data.frame(
   "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2", "4"), 
