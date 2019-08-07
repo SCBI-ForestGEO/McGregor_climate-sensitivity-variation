@@ -1111,15 +1111,16 @@ library(stringr)
 
 ##6a. test each variable individually for each drought scenario ####
 sum_mod_traits <- data.frame(
-  "prediction" = c(3.1, 2.1, 2.2, 2.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5),
-  "variable" = c("year", "dbh.ln.cm", "height.ln.m", "position_all", "TWI.ln*height.ln.m", "TWI.ln", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
-  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "crown.position", "ln[topographic.wetness.index]*ln[height]", "ln[topographic.wetness.index]", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
+  "prediction" = c(3.1, 2.1, 2.2, 2.3, 1.2, 1.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5),
+  "variable" = c("year", "dbh.ln.cm", "height.ln.m", "position_all", "position_all", "height.ln.m*TWI.ln", "TWI.ln", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
+  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "crown.position alone", "crown.position w/height", "ln[height]*ln[topographic.wetness.index]", "ln[topographic.wetness.index]", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
   "null_model" = 
     c("resist.value ~ (1|sp/tree)",
       "resist.value ~ year+(1|sp/tree)",
       "resist.value ~ year+(1|sp/tree)",
       "resist.value ~ year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
@@ -1137,7 +1138,7 @@ sum_mod_traits <- sum_mod_traits %>% mutate_if(is.factor, as.character)
 ##For each variable, it compares the variable's effects in the null model and the tested model. The loop defines these models, then has two parts. If the full data (all years) model is being run [j,h,k,l == 1], it calculates the dAIC for null minus tested and the coefficient of the variable, either a "+" or a "-". If the individual year models are being run, it does the same thing but using different models from before [e.g. models_yr], to specifically exclude the "year" and "1/tree" effects.
 
 coeff_all <- NULL
-for (i in seq_along(1:10)){
+for (i in seq_along(1:12)){
   null_mod <- sum_mod_traits$null_model[[i]] #all years
   var <- sum_mod_traits$variable[[i]]
   
@@ -1189,15 +1190,19 @@ for (i in seq_along(1:10)){
             sum_mod_traits[,column][[i]] <- round(sum_mod_traits[,column][[i]], 3)
             
             for (z in seq(along = lmm_all)){
-              if (grepl(var, test_mod)){
                 if (names(lmm_all[z]) == test_mod){
                   coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
                   coeff[,2] <- rownames(coeff)
                   colnames(coeff) <- c("value", "model_var")
                   coeff$value <- round(coeff$value, 3)
                   coeff$combo <- paste0(coeff$model_var, " (", coeff$value, ")")
+                  coeff$mod <- gsub("coef_", "", column_cof)
                   
-                  coeff <- coeff[grepl(sum_mod_traits$variable[[i]], coeff$combo), ]
+                  if(i == 6){
+                    coeff <- coeff[grepl("height.ln.m:", coeff$combo), ]
+                  } else {
+                    coeff <- coeff[grepl(sum_mod_traits$variable[[i]], coeff$combo), ]
+                  }
                   coeff_vec <- coeff$combo
                   
                   #this rbind is to get a full df showing all coefficient values from the entire for-loop
@@ -1208,7 +1213,6 @@ for (i in seq_along(1:10)){
                   sum_mod_traits[,column_cof_val][[i]] <- paste(coeff_vec, collapse = ", ")
                 }
               }
-            }
             
             #INDIVIDUAL YEARS
           } else if (j == h & h == k & k == l){ 
@@ -1232,15 +1236,19 @@ for (i in seq_along(1:10)){
             sum_mod_traits[,column][[i]] <- round(sum_mod_traits[,column][[i]], 3)
             
             for (z in seq(along = lmm_all)){
-              if (grepl(var, test_mod_yr)){
                 if (names(lmm_all[z]) == test_mod_yr){
                   coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
                   coeff[,2] <- rownames(coeff)
                   colnames(coeff) <- c("value", "model_var")
                   coeff$value <- round(coeff$value, 3)
                   coeff$combo <- paste0(coeff$model_var, " (", coeff$value, ")")
+                  coeff$mod <- gsub("coef_", "", column_cof)
                   
-                  coeff <- coeff[grepl(sum_mod_traits$variable[[i]], coeff$combo), ]
+                  if(i == 6){
+                    coeff <- coeff[grepl("height.ln.m:", coeff$combo), ]
+                  } else {
+                    coeff <- coeff[grepl(sum_mod_traits$variable[[i]], coeff$combo), ]
+                  }
                   coeff_vec <- coeff$combo
                   
                   #this rbind is to get a full df showing all coefficient values from the entire for-loop
@@ -1249,7 +1257,6 @@ for (i in seq_along(1:10)){
                   #put coefficients in table
                   sum_mod_traits[,column_cof][[i]] <- ifelse(any(coeff$value < 0), "-", "+")
                   sum_mod_traits[,column_cof_val][[i]] <- paste(coeff_vec, collapse = ", ")
-                }
               }
             }
           }
@@ -1300,10 +1307,25 @@ for (i in seq(along=c(1:4))){
           apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
         }))
       
-      # pair response with effect and sub out combinations that don't include random effects
+      #pair response with effect and sub out combinations that don't include random effects
       #in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
       var_comb <- expand.grid(response, effects_comb) 
       var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+      var_comb$Var2 <- as.character(var_comb$Var2)
+      
+      #can't have height and TWI separately when the interaction is in
+      for (q in seq(along=var_comb$Var2)){
+        cell <- var_comb$Var2[[q]]
+        if(grepl("\\*", cell)){
+          if(grepl("\\+TWI.ln", cell)){
+            var_comb$Var2[[q]] <- gsub("\\+TWI.ln", "", var_comb$Var2[[q]])
+          }
+          if(grepl("\\+height.ln.m", cell)){
+          var_comb$Var2[[q]] <- gsub("\\+height.ln.m\\+", "\\+", var_comb$Var2[[q]])
+          }
+        }
+      }
+      var_comb <- unique(var_comb[,1:2])
       
       # formulas for all combinations. $Var1 is the response, and $Var2 is the effect
       # for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
@@ -1387,6 +1409,22 @@ for (i in seq(along=c(1:4))){
       
       var_comb <- expand.grid(response, effects_comb) 
       var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+      
+      var_comb$Var2 <- as.character(var_comb$Var2)
+      
+      #can't have height and TWI separately when the interaction is in
+      for (q in seq(along=var_comb$Var2)){
+        cell <- var_comb$Var2[[q]]
+        if(grepl("\\*", cell)){
+          if(grepl("\\+TWI.ln", cell)){
+            var_comb$Var2[[q]] <- gsub("\\+TWI.ln", "", var_comb$Var2[[q]])
+          }
+          if(grepl("\\+height.ln.m", cell)){
+            var_comb$Var2[[q]] <- gsub("\\+height.ln.m\\+", "\\+", var_comb$Var2[[q]])
+          }
+        }
+      }
+      var_comb <- unique(var_comb[,1:2])
       
       formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
       
