@@ -74,6 +74,8 @@ Second, we focus on the role of species' functional and hydraulic traits and the
 We then test whether these traits correlate with tree height (P2.2), potentially driving the observed tendency for taller trees to suffer more during drought (P2.3). 
 Finally, we focused on variability among droughts, asking how  community resistance varied across droughts (H3.1) and whether the factors confirming vulnerability or resistance varied across droughts (H3.2).
 
+*Let's put Table 1 here. We need to give the hypotheses/ predictions here. It seems counterintuitive to put the results right up front like that, but it actually tends to be a higher-impact style of writing, and recommended [here](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005619).*
+
 ### Methods
 *Study site*
 Research was conducted at the 25.6 ha ForestGEO (Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38°53'36.6"N, 78° 08'43.4"W) [@andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park.  Elevations range from 273-338m above sea level [@gonzalezakre_patterns_2016] with a topographic relief of 65m [@bourg_initial_2013]. Dominant species include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.).
