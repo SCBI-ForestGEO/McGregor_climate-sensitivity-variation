@@ -1120,7 +1120,7 @@ sum_mod_traits <- data.frame(
       "resist.value ~ year+(1|sp/tree)",
       "resist.value ~ year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
       "resist.value ~ height.ln.m+year+(1|sp/tree)",
@@ -1156,6 +1156,11 @@ for (i in seq_along(1:12)){
   #obviously, the tested model of the "year" effect doesn't work over the individual years
   if (i == 1){
     sum_mod_traits$tested_model_year[[i]] <- sum_mod_traits$null_model_year[[i]]
+  }
+  
+  if (i == 6){
+    sum_mod_traits$tested_model[[i]] <- "resist.value~height.ln.m*TWI.ln+year+(1|sp/tree)"
+    sum_mod_traits$tested_model_year[[i]] <- "resist.value~height.ln.m*TWI.ln+(1|sp)"
   }
   
   test_mod <- sum_mod_traits$tested_model[[i]] #all years
