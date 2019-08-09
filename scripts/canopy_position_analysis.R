@@ -1199,7 +1199,7 @@ for (i in seq_along(1:12)){
                   coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
                   coeff[,2] <- rownames(coeff)
                   colnames(coeff) <- c("value", "model_var")
-                  coeff$value <- round(coeff$value, 3)
+                  coeff$value <- round(coeff$value, 4)
                   coeff$combo <- paste0(coeff$model_var, " (", coeff$value, ")")
                   coeff$mod <- gsub("coef_", "", column_cof)
                   
@@ -1245,7 +1245,7 @@ for (i in seq_along(1:12)){
                   coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
                   coeff[,2] <- rownames(coeff)
                   colnames(coeff) <- c("value", "model_var")
-                  coeff$value <- round(coeff$value, 3)
+                  coeff$value <- round(coeff$value, 4)
                   coeff$combo <- paste0(coeff$model_var, " (", coeff$value, ")")
                   coeff$mod <- gsub("coef_", "", column_cof)
                   
