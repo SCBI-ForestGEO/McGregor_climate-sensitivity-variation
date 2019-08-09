@@ -109,83 +109,13 @@ Hydraulic traits were collected from SCBI and are summarized in Table 1. In Augu
 
 
 ```{r, Table-cores-position, eval=TRUE, echo=FALSE, message=FALSE}
-library(RCurl)
-library(dplyr)
-library(tidyr)
-library(data.table)
-library(knitr)
-library(kableExtra)
 
-species <- read.csv("D:/Dropbox (Smithsonian)/Github_Ian/McGregor_climate-sensitivity-variation/data/core_list_for_neil.csv", stringsAsFactors = FALSE)
-
-table <- species[, c(1:3,6,17)]
-
-positions <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_crowns/cored_dendroband_crown_position_data/dendro_cored_full.csv"))
-
-table$position_all <- positions$crown.position[match(table$tag, positions$tag)]
-table$position_all <- gsub("D", "dominant", table$position_all)
-table$position_all <- gsub("C", "co-dominant", table$position_all)
-table$position_all <- gsub("I", "intermediate", table$position_all)
-table$position_all <- gsub("S", "suppressed", table$position_all)
-
-table1 <- table %>%
-  group_by(sp) %>%
-  summarize(n_cores=n())
-
-table2 <- table %>%
-  group_by(sp, position_all) %>%
-  summarize(count=n())
-
-table2 <- spread(table2, key=position_all, value=count)
-setnames(table2, old="<NA>", new="prior dead")
-
-table2$n_cores <- table1$n_cores[match(table2$sp, table1$sp)]
-table2 <- table2[, c(1,7,3,2,4:6)]
-table2 <- table2[!table2$sp %in% c("frni", "pist"), ]
 
 kable(table2) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 ```{r, traits-overview, eval=TRUE, echo=FALSE, message=FALSE}
-library(knitr)
-library(kableExtra)
 
-trees_all <- read.csv("tables_figures/trees_all.csv", stringsAsFactors = FALSE)
-
-trees_all <- trees_all[!duplicated(trees_all$sp), ]
-  
-
-traits_table <- data.frame(
-  "Trait" = c("Ring Porosity", "Percent Leaf Area", "Leaf Mass Area", "Wood density", "TLP"),
-  "Unit" = c("ring, semi-ring, diffuse", "%", "g/m2", "g/cm3", "MPa"))
-traits_table$abb <- c("rp", "PLA", "LMA", "WD", "TLP")
-
-traits_table$mean <- NA
-traits_table$min <- NA
-traits_table$max <- NA
-
-for (i in seq(along=traits_table$abb[2:5])){
-  trait <- traits_table$abb[2:5][i]
-  
-  sub <- trees_all[grepl(trait, colnames(trees_all))]
-  traits_table$mean[2:5][i] <- ifelse(grepl(trait, colnames(sub)), 
-                              mean(sub[, 1], na.rm=TRUE), 
-                              traits_table$mean)
-  
-  traits_table$min[2:5][i] <- ifelse(grepl(trait, colnames(sub)), 
-                              min(sub[, 1], na.rm=TRUE), 
-                              traits_table$min)
-  
-  traits_table$max[2:5][i] <- ifelse(grepl(trait, colnames(sub)), 
-                              max(sub[, 1], na.rm=TRUE), 
-                              traits_table$max)
-}
-
-traits_table[, c("mean", "min", "max")] <- 
-  sapply(traits_table[, c("mean", "min", "max")], function(x)
-  round(x, 2)
-)
-traits_table$abb <- NULL
 
 kable(traits_table) %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE)
@@ -222,19 +152,7 @@ if the effect is negative mostly
 
 Once the data was collected, linear mixed models were run following the order of the hypotheses as seen in Figure ??? [individual_tested_traits]. Using the [@R-pointRes] package, we set up models with the resistance value as the response variable, and each prediction's variable as the independent variable. Variables' importance in predicting drought tolerance was calculated from mixed-effects models and the lowest AICc [@R-lme4, @R-AICcmodavg].Null models were determined in order of the predictions. First, we analyzed the combined scenario to determine if "year" was significant. Upon establishing this, we tested height and DBH as size parameters. Although both were significant, height was kept due to its larger delta AICc compared with the null model. We then tested the remaining biophysical and hydraulic traits individually against a null model containing height and year. This yielded Figure ??? (cand_full). All variables with dAICc >2 were used as candidates for each scenario's best model (figure ???? (tested_traits_best))
 
-```{r, Table x, eval=TRUE, echo=FALSE, message=FALSE}
-traits_test <- read.csv("tables_figures/tested_traits_all.csv")
-traits_test$null_model <- gsub("resist.value ~ ", "", traits_test$null_model)
-traits_test$tested_model <- NULL
-traits_test$null_model_year <- gsub("resist.value ~ ", "", traits_test$null_model_year)
-traits_test$tested_model_year <- NULL
-
-
-kable(traits_test, booktabs=TRUE, format = "latex", caption = "All variables tested for climate sensitivity against appropriate null models, in line with hypothesis predictions. Each variable was tested for each drought scenario excepting \"year\" ") %>%
-  kableExtra::landscape()
-  # kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "scale_down")
-  
-```
+![Table 3 (example!)](tables_figures/Table3.png)
 
 
 ```{r, Table 2, eval=TRUE, echo=FALSE, message=FALSE}
