@@ -1,8 +1,6 @@
 #tables for manuscript
 
-#Table 1 was originally made as .xslx
-#Table 3 was originally made as .xlsx from tested_traits_all.csv
-
+#Table 1 was originally made as .xslx ####
 #Table 2 ####
 library(RCurl)
 library(tidyr)
@@ -43,55 +41,23 @@ traits <- trees_all[,c(2,6:10)]
 traits <- traits[!duplicated(traits$sp), ]
 
 table2 <- merge(table2, traits, by="sp")
-table2[,c(8:11)] <- round(table2[,c(8:11)], 2)
+table2[,c(9:12)] <- round(table2[,c(9:12)], 2)
 
 #bring in mean DBH and DBH range for each species
 
 dbh_cored <- species[,c(1:9)]
 
-detach("package:tidyr", unload = TRUE)
-
-aggregate(dbh_cored[,c(2,9)], by = list(dbh_cored$sp), "mean")
-
-dbh_cored2 <- dbh_cored %>%
+dbh_cored <- dbh_cored %>%
   group_by(sp) %>%
-  summarise(mean = mean(dbh2018)) %>%
-  summarise(range = max(dbh2018) - min(dbh2018))
+  summarise(mean = mean(dbh2018),
+            range = max(dbh2018) - min(dbh2018))
+dbh_cored$mean <- round(dbh_cored$mean, 2)
 
+table2 <- merge(dbh_cored, table2, by = "sp")
 
+setnames(table2, old=c("mean", "range", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), new=c("mean_DBH", "range_DBH", "RP", "PLA", "LMA", "TLP", "WD"))
 
-trees_all <- read.csv("tables_figures/trees_all.csv", stringsAsFactors = FALSE)
+write.csv(table2, "manuscript/tables_figures/Table2.csv", row.names=FALSE)
 
-trees_all <- trees_all[!duplicated(trees_all$sp), ]
+#Table 3 was originally made as .xlsx from tested_traits_all.csv ####
 
-
-traits_table <- data.frame(
-  "Trait" = c("Ring Porosity", "Percent Leaf Area", "Leaf Mass Area", "Wood density", "TLP"),
-  "Unit" = c("ring, semi-ring, diffuse", "%", "g/m2", "g/cm3", "MPa"))
-traits_table$abb <- c("RP", "PLA", "LMA", "WD", "TLP")
-
-traits_table$mean <- NA
-traits_table$min <- NA
-traits_table$max <- NA
-
-for (i in seq(along=traits_table$abb[2:5])){
-  trait <- traits_table$abb[2:5][i]
-  
-  sub <- trees_all[grepl(trait, colnames(trees_all))]
-  traits_table$mean[2:5][i] <- ifelse(grepl(trait, colnames(sub)), 
-                                      mean(sub[, 1], na.rm=TRUE), 
-                                      traits_table$mean)
-  
-  traits_table$min[2:5][i] <- ifelse(grepl(trait, colnames(sub)), 
-                                     min(sub[, 1], na.rm=TRUE), 
-                                     traits_table$min)
-  
-  traits_table$max[2:5][i] <- ifelse(grepl(trait, colnames(sub)), 
-                                     max(sub[, 1], na.rm=TRUE), 
-                                     traits_table$max)
-}
-
-traits_table[, c("mean", "min", "max")] <- 
-  sapply(traits_table[, c("mean", "min", "max")], function(x)
-    round(x, 2)
-  )

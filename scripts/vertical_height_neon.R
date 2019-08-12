@@ -26,8 +26,9 @@ library(gridExtra)
 dp <- data.frame("data" = c("SAAT", "wind", "biotemp", "RH", "SR"),
                  "id" = c("DP1.00002.001", "DP1.00001.001", "DP1.00005.001", "DP1.00098.001", "DP1.00014.001"),
                  "value" = c("tempSingleMean", "windSpeedMean", "bioTempMean", "RHMean", "difRadMean"),
-                 "xlabs" = c("Mean Air Temperature [°C]", "Mean Windspeed [m/s]", "Mean Infrared Biological Temperature [°C]", "Relative Humidity [%]", "Mean shortwave downward radiation [W/m^2]"))
+                 "xlabs" = c("Mean Air Temperature [°C]", "Wind [m/s]", "Mean Infrared Biological Temperature [°C]", "RH [%]", "Mean shortwave downward radiation [W/m^2]"))
 
+dp <- dp[c(2,4,1,3,5), ]
 
 dp[] <- lapply(dp, as.character)
 dp$value <- as.character(dp$value)
@@ -130,7 +131,7 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
   
   data_analy$vertPos_jitter <- NA
   
-  if(!i == 4){
+  if(!i == 2){
     data_analy$vertPos_jitter <- 
       ifelse(data_analy$month == "May", data_analy$verticalPosition + 0.05,
        ifelse(data_analy$month == "June", data_analy$verticalPosition + 0.25,
@@ -170,11 +171,29 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
       ggplot2::geom_errorbarh(aes(xmin=mmin-sd_min, xmax=mmin+sd_max, y=vertPos_jitter, color = month_f, linetype = "Min", height=0.8)) +
       labs(x = dp$xlabs[[i]], y = "Height [m]") +
       scale_y_continuous(breaks = scales::pretty_breaks(n = 6), limits=c(0,60)) +
-      theme_grey() +
+      theme_bw() +
       guides(linetype = guide_legend("Line type"))
   
   if(!i == 1){
     graph <- graph + theme(axis.title.y = element_blank(), axis.text.y=element_blank(), axis.ticks.y = element_blank())
+  }
+  
+  if(i == 2){
+    graph <- graph + scale_x_continuous(breaks=c(40,60,80,100))
+  }
+  
+  if(i == 3){
+    graph <- 
+      graph + 
+      labs(x= expression(paste("T_air [",degree,"C]"))) +
+      scale_x_continuous(breaks=c(10,20,30), limits=c(5,35))
+  }
+  
+  if(i == 4){
+    graph <- 
+      graph + 
+      labs(x = expression(paste("T_infrared [",degree,"C]"))) +
+      scale_x_continuous(breaks=c(10,20,30), limits=c(5,35))
   }
   
   assign(paste0(dp$data[[i]], "_plot"), graph)

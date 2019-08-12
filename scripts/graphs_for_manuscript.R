@@ -5,8 +5,9 @@
 ######################################################
 library(ggplot2)
 
-#1 NEON vertical height profiles
+#1. NEON vertical height profiles
 source('scripts/vertical_height_neon.R', echo=TRUE)
+NEON_list <- list(wind_plot, RH_plot, SAAT_plot, biotemp_plot)
 #########################################################################
 #2 height by crown position in 2018 ####
 library(RCurl) #2
@@ -14,7 +15,7 @@ library(tidyr) #2
 library(grid) #2
 library(gridExtra) #2
 
-#2a. heights for all cored trees ####
+##2a. heights for all cored trees ####
 trees_all <- read.csv("manuscript/tables_figures/trees_all.csv", stringsAsFactors = FALSE)
 
 scbi.stem3 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
@@ -51,23 +52,23 @@ current_ht <- current_ht[order(current_ht$tree, current_ht$year), ]
 
 #graphing height by crown position (for paper)
 current_ht <- current_ht[!is.na(current_ht$position_all), ]
-current_ht$position_all <- factor(current_ht$position_all, levels = c("dominant", "co-dominant", "intermediate", "suppressed"))
+current_ht$position_all_abb <- substring(current_ht$position_all, 0, 1)
+current_ht$position_all_abb <- toupper(current_ht$position_all_abb)
+current_ht$position_all_abb <- factor(current_ht$position_all_abb, levels = c("D", "C", "I", "S"))
 
-quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 35.002m
-
-quant <- data.frame(yintercept = 35.0022, Lines = "95th percentile")
 
 heights <-
-  ggplot(data = current_ht) +
-  aes(x = position_all, y = height.m, group = position_all) +
+  ggplot(data = current_ht, aes(x = position_all_abb, y = height.m, group = position_all)) +
   # aes(x=position_all, y=height.m, fill=year) +
   geom_boxplot() +
-  xlab("crown position") +
+  xlab("Crown position") +
   ylab("Height [m]") +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 6), limits=c(0,60)) +
-  theme_minimal()
+  theme_minimal() +
+  theme(axis.text = element_text(size=12)) +
+  theme(axis.title = element_text(size=14))
 
-#2b. get height data for all trees >10cm dbh in census ####
+##2b. get height data for all trees >10cm dbh in census ####
 scbi.stem3 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
 
 scbi.stem3$dbh <- as.numeric(scbi.stem3$dbh)
@@ -100,14 +101,14 @@ scbi18_ht$height.ln.m <-
 scbi18_ht$height.m <- exp(scbi18_ht$height.ln.m) #used below in #4
 
 #######################################################################################
-#4 Get mean leaf traits as function of TWI and height ####
+#3 Get PLA and TLP as function of TWI and height ####
 library(ggstance)
 library(raster)
 library(dplyr)
 library(Hmisc)
 library(magrittr)
 
-#4a. get TWI values for all trees in census, add trait values ####
+##3a. get TWI values for all trees in census, add trait values ####
 scbi.stem3$dbh <- ifelse(is.na(scbi.stem3$dbh), 0, scbi.stem3$dbh)
 scbi.stem3 <- scbi.stem3[scbi.stem3$dbh >= 100, ] #>10cm dbh
 
@@ -131,12 +132,8 @@ for (i in seq(along=2:ncol(leaf_traits))){
    scbi18[, trait[[i]]] <- leaf_traits[, trait[[i]]][match(scbi18$sp, leaf_traits$sp)]
 }
 
-
-
-#4b. create height groupings and graphs ####
+##3b. create height groupings and graphs (Figure S1) ####
 scbi18$height.m <- scbi18_ht$height.m[match(scbi18$stemID, scbi18_ht$stemID)]
-
-
 
 
 scbi18$bins <- cut2(scbi18$height.m, g=19)
@@ -146,7 +143,7 @@ type = c("tlp_ht", "pla_ht", "tlp_twi", "pla_twi")
 var = c("mean_TLP_Mpa", "PLA_dry_percent", "mean_TLP_Mpa", "PLA_dry_percent")
 
 breaks_tlp = c(-2.8,-2.6,-2.4,-2.2,-2.0,-1.8)
-breaks_pla = c(8,10,12,14,16,18,20,22,24,26)
+breaks_pla = c(8,12,16,20,24)
 
 limits_tlp = c(-2.8,-1.8)
 limits_pla = c(8,26)
@@ -194,7 +191,9 @@ for (i in seq(along=1:4)){
          geom_path(aes(x=avg, y=num, color=col, group=1)) +
          ylab("Height [m]") +
          theme_minimal() +
-         theme(legend.position = "none")
+         theme(legend.position = "none",
+               axis.text = element_text(size=12),
+               axis.title = element_text(size=14))
       
       if(i==1){
          q <- q + 
@@ -212,10 +211,12 @@ for (i in seq(along=1:4)){
          scale_color_manual(values=c("black", "grey")) +
          ggplot2::geom_errorbar(aes(x = num, ymin = sdmin, ymax = sdmax, width=0.25, color=col)) +
          geom_path(aes(x=num, y=avg, color=col, group=1)) +
-         scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16), limits=c(0,16)) +
+         scale_x_continuous(breaks=c(2,6,10,14), limits=c(0,16)) +
          xlab("Topographic wetness index") +
          theme_minimal() +
-         theme(legend.position = "none")
+         theme(legend.position = "none",
+               axis.text = element_text(size=12),
+               axis.title = element_text(size=14))
       
       if(i==3){
          q <- q + 
@@ -230,37 +231,80 @@ for (i in seq(along=1:4)){
    assign(paste0("plot_", type[i]), q)
 }
 
-   
-graphs[[1]]
-graphs[[2]]
-graphs[[3]]
-graphs[[4]]
+##3c. Make map of plot using TWI and cored tree locations ####
+species <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
 
+cored_points <- SpatialPointsDataFrame(data.frame(species$NAD83_X, species$NAD83_Y), data=species)
+
+plot.new()
+
+png("manuscript/tables_figures/Figure3.png", width=5, height=7, units="in", res=72)
+plot(topo, axes=FALSE, box=FALSE, 
+     legend.args = list(text="Topographic Wetness Index", side=4, font=2, line=2.5, cex=0.8))
+plot(cored_points, pch=20, add=TRUE)
+dev.off()
 
 #######################################################################################
-#5 Add the graphs together ####
+#4 Export the graphs ####
+library(ggpubr)
+
 quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 35.002m
 quant <- data.frame(yintercept = 35.0022, Lines = "95th percentile")
 
 #add this part to each graph:
 geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
 
-wind_plot <- wind_plot + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
-RH_plot <- RH_plot + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
-SAAT_plot <- SAAT_plot + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
-biotemp_plot <- biotemp_plot + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+##4a. Figure S1 (TLP and PLA with height and TWI) ####
+plot_pla_twi
+plot_tlp_twi
 
-plot_tlp_ht <- plot_tlp_ht + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
-plot_pla_ht <- plot_pla_ht + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+traits <- ggarrange(plot_tlp_twi, plot_pla_twi, nrow=1, ncol=2)
+ggsave("manuscript/tables_figures/FigureS1.png", width=5, height=7, units="in", traits)
 
-heights <- heights + geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+##4b. height profiles ####
+NEON_names <- c("wind_plot", "RH_plot", "SAAT_plot", "biotemp_plot")
+NEON_order <- c("a", "b", "c", "d")
+NEON_order_x <- c(0.5, 35, 7.5, 7.5)
+NEON_order_y <- c(57.5, 52.5, 57.5, 57.5)
+for (i in seq(along=1:4)){
+   assign(NEON_names[[i]],
+          NEON_list[[i]] +
+             geom_hline(aes(yintercept = yintercept), linetype = "dotted", quant) +
+             theme(axis.text = element_text(size=12),
+                   axis.title = element_text(size=14),
+                   legend.text = element_text(size=12),
+                   legend.title = element_text(size=12, face="bold")) +
+             annotate(geom="text", x=NEON_order_x[[i]], y=NEON_order_y[[i]], 
+                      label = NEON_order[[i]], fontface="bold", size=7)
+          )
+}
+
+NEON <- ggarrange(wind_plot, RH_plot, SAAT_plot, biotemp_plot,  nrow=1, ncol=4, common.legend = TRUE, legend = "top", align="h")
+
+###format the other height graphs
+heights <- 
+   heights + 
+   geom_hline(aes(yintercept = yintercept), linetype = "dotted", quant) +
+   annotate(geom="text", x=0.7, y=57.5, label = "e", fontface="bold", size=7)
+
+plot_pla_ht <- 
+   plot_pla_ht + 
+   theme(axis.text.y=element_blank(), 
+         axis.title.y=element_blank()) +
+   geom_hline(aes(yintercept = yintercept), linetype = "dotted", quant) +
+   annotate(geom="text", x=9, y=57.5, label = "f", fontface="bold", size=7)
+
+plot_tlp_ht <- 
+   plot_tlp_ht + 
+   theme(axis.text.y=element_blank(), 
+         axis.title.y=element_blank()) +
+   geom_hline(aes(yintercept = yintercept), linetype = "dotted", quant) +
+   annotate(geom="text", x=-2.75, y=57.5, label = "g", fontface="bold", size=7)
 
 
-library(ggpubr)
-NEON <- ggarrange(wind_plot, RH_plot, SAAT_plot, biotemp_plot,  nrow=1, ncol=4, common.legend = TRUE, legend = "right")
+heights_other <- ggarrange(heights, plot_pla_ht, plot_tlp_ht, nrow=1, ncol=3)
 
-traits <- ggarrange(plot_tlp_ht, plot_pla_ht, plot_pla_twi, plot_pla_twi, nrow=1, ncol=4)
-
-ggarrange(NEON, heights, traits, nrow=2, ncol=4)
-
-grid.arrange(ggplotGrob(NEON), ggplotGrob(heights), ggplotGrob(traits), ncol=1)
+###put plots together
+png("manuscript/tables_figures/Figure2.png", width=11, height=11, units="in", res=150)
+ggarrange(NEON, heights_other, nrow=2, ncol=1)
+dev.off()
