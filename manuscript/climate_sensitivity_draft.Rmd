@@ -16,7 +16,8 @@ header-includes:
 - \newcommand{\elandscape}{\end{landscape}}
 - \usepackage{caption}
 - \captionsetup[table]{font=small}
-- \captionsetup[figure]{font=small} 
+- \captionsetup[figure]{font=small}
+- \captionsetup[table]{labelformat=empty}
 - \usepackage{dcolumn} #for sidewaystable
 ---
 
@@ -106,6 +107,8 @@ Crown positions were recorded in the field during the growing season of 2018 fol
 
 Topographic wetness index (TWI) was calculated using the [@R-dynatopmodel] package in R.
 
+![Location of cored trees](tables_figures/Figure3.png){width=500px}
+
 Hydraulic traits were collected from SCBI and are summarized in Table 1. In August 2018, we collected leaf samples from three individuals of each species ... (**Nobby's description of methods for the following (see word document**) 
 1. PLA
 2. LMA
@@ -140,15 +143,14 @@ Once the data was collected, linear mixed models were run following the order of
 
 **Figure 1. Time series of peak growing season (May-August) climate conditions and residual chronologies for each species.** Droughts analyzed here are indicated by dashed lines, and shading indicates the pre-drought period used in calculations of the resistance metric. Figure modified from [@helcoski_growing_2019].
 
-![Time series of combined tree cores by species](tables_figures/Time_series_for_each_species.jpg){width=500px}
+![Time series of combined tree cores by species](tables_figures/Figure1.jpg){width=500px}
 
 
 **Results for first main question: what drives the observed tendency for large trees to suffer more during drought?**
 H1.0, H1.1, H1.2, H1.3
 DBH, height, crown position, and TWI
 
-![Height profile graphs]
-(tables_figures/height graphs ){width=500px}
+![Height profile graphs](tables_figures/Figure2.png){width=500px}
 
 
 **Results for second main question: how do species' traits - alone and in interaction with tree size - influence drought response? **
@@ -207,9 +209,7 @@ kable(tableS3, booktabs=TRUE, format = "latex", caption = "Top model variations 
 ```
 
 
-
+![Figure S1](tables_figures/Table3.png) #this is tested_traits_all
 (see Issue #32)
 
 
-
-**include TWI by trait graphs (2) here**
