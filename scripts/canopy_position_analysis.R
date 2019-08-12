@@ -568,7 +568,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEMTPO5NOAZ2XCEGJPS5JWOTK"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEJ2XM4T3UWCR6WNPLS5LKJKE"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
@@ -1113,7 +1113,7 @@ library(stringr)
 sum_mod_traits <- data.frame(
   "prediction" = c(3.1, 2.1, 2.2, 2.3, 1.2, 1.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5),
   "variable" = c("year", "dbh.ln.cm", "height.ln.m", "position_all", "position_all", "height.ln.m*TWI.ln", "TWI.ln", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
-  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "crown.position alone", "crown.position w/height", "ln[height]*ln[topographic.wetness.index]", "ln[topographic.wetness.index]", "ring.porosity", "percent.leaf.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
+  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "crown.position alone", "crown.position w/height", "ln[height]*ln[topographic.wetness.index]", "ln[topographic.wetness.index]", "ring.porosity", "percent.loss.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
   "null_model" = 
     c("resist.value ~ (1|sp/tree)",
       "resist.value ~ year+(1|sp/tree)",
