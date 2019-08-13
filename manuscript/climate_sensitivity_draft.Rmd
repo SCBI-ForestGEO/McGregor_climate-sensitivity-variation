@@ -137,6 +137,28 @@ kable(table2, booktabs=TRUE, format = "latex", caption = "Overview of analyzed s
 To accurately understand climate sensitivity, this study used a specific definition of drought, which is not a common practice [@slette_how_2019]. We used the pointRes package [@R-pointRes] in R (version 3.5.3) to determine drought periods based on trees' drought resistance, which is defined by [@lloret_components_2011] as the ratio between the performance during and before the disturbance. Candidate drought years were defined if >50% of the cored trees experienced <30% growth in a year compared to the previous 5 years. These were then cross-validated with the regional Palmer Drought Severity Index (PDSI) values for each year, which yielded a set of three periods that were consistently shown as drought: 1964-1966, 1977, and 1999.
 
 ### Results
+Results outline
+
+Descriptions of Droughts
+
+- physical characteristics of drought: duration, min PDSI (and when occurred), see slette et al 2019 to see how they suggest reporting each one
+- sum nb.series for each scenario, mult by perc.neg (pointers df), define thresholds (e.g. 75% of all trees experienced the growth reduction of 40% or more)
+  - make table for this
+  - citing table 3 (the coefficient for individual year) - maybe mention how 77 and 99 have neg coefficients, indicating potential height effect: as time goes on, trees are more affected by drought anyways because they grow taller
+  - this is followed by Figure 2
+
+Hypothesis results
+- one header for each main question
+- present results for each one, walk through via order and logic of Table 1
+- no citations here
+
+
+
+
+
+
+
+
 Once the data was collected, linear mixed models were run following the order of the hypotheses as seen in Figure ??? [individual_tested_traits]. Using the [@R-pointRes] package, we set up models with the resistance value as the response variable, and each prediction's variable as the independent variable. Variables' importance in predicting drought tolerance was calculated from mixed-effects models and the lowest AICc [@R-lme4, @R-AICcmodavg].Null models were determined in order of the predictions. First, we analyzed the combined scenario to determine if "year" was significant. Upon establishing this, we tested height and DBH as size parameters. Although both were significant, height was kept due to its larger delta AICc compared with the null model. We then tested the remaining biophysical and hydraulic traits individually against a null model containing height and year. This yielded Figure ??? (cand_full). All variables with dAICc >2 were used as candidates for each scenario's best model (figure ???? (tested_traits_best))
 
 **Describe each individual drought scenario **
@@ -160,7 +182,7 @@ DBH, height, crown position, and TWI
 H2.1, H2.2, H2.3
 Hydraulic traits alone, traits with height
 
-![Table 3 (example!)](tables_figures/Table3.png) #this is tested_traits_all
+![Table 4 (example!)](tables_figures/Table4.png) #this is tested_traits_all
 
 **Results for third main question: are responses similar or variable across individual drought years?**
 H3.1 and H3.2
@@ -168,6 +190,46 @@ Combining biophysical with hydraulic traits, which come out as candidates for be
 
 
 ### Discussion
+Discussion outline
+
+- first paragraph is summary of main findings, not re-presenting the results
+  - "we supported this hypothesis, but not this one" (following same order as Table 1 still)
+  - direction of responses seems to be relatively consistent but the individual responses vary
+- tie things in (see here
+  - main thing is that we're now better understanding what confers vulnerability or resilience on trees during drought - how forests respond to future droughts/climate change
+- "we filled the gap" = 1-2 sentences
+- limitations at our site:
+  - aren't able to analyze historical forest community, nor trees that were killed by these droughts [aka we don't have data for individuals that were most severely affected] (though we found that there's little variation in climate sensitivity for trees that were cored dead vs cored alive).
+  - p50/p80
+  - We used crown position despite its uncertainty. However, height and crown position change relatively slowly so it shouldn't be that far off.
+  - We did not use crowding index because it has much more uncertainty
+- limitations for extrapolating other sites:
+  - forests are different from place to place, but we've seen how in forests around the world, forests tend to suffer more. We've identified some facets for why this happens. (cite other studies)
+  - has been observed elsewhere that individuals in more moist habitats are more susceptible to drought (cite other studies)
+  - the species may be different from other sites but the hydraulic traits are general across species;
+- next paragraph saying that our study advances understanding of droughts, e.g. bennett et al 2015 doesn't go into mechanisms but we do
+  - and we show that height is more important than exposure, but doesn't eliminate the effect of it
+  - further contribution is we show that two leaf hydraulic traits - relatively easy to measure - are good predictors of drought response, can be helpful for scaling up (e.g. from our site to eastern deciduous biome)
+  - biophysical mechanisms are things that should be seen as universal but relative importance of each can vary within each drought
+  - first study to show how these traits affect woody growth response to drought **confirmed by Lawren**
+  - science is better now. by advancing our understanding of the mechanisms for individual-level responses to drought, this opens door for better predictions (elaborate from above). "This is absolutely critical to predicting forest responses to future droughts, which we're likely to see more of in the future as a result to climate change. Forecasting forest responses to these droughts is a huge and important challenge", science is better.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 *1. paragraph summarizing main results--> primary conclusions*
 When including only biophysical traits, trees' resistance value (on a per-species basis) is explained best by crown position and height, with codominant trees being the most resistant to drought. This follows on work done by [@bennett_larger_2015] [and others?] which show that larger trees suffer more during drought, and confirms that this susceptibility can be seen in tree ring analyses. Adding in crown position with the leaf hydraulic traits yields a slightly worse predictive model for drought tolerance, with height remaining as the only significant biophysical variable.
@@ -215,7 +277,7 @@ kable(tableS3, booktabs=TRUE, format = "latex", caption = "Top model variations 
 ```
 
 
-![Figure S1](tables_figures/Table3.png) #this is tested_traits_all
+![Figure S1](tables_figures/FigureS1.png)
 (see Issue #32)
 
 
