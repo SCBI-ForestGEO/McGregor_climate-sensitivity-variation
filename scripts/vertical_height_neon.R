@@ -185,14 +185,14 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
   if(i == 3){
     graph <- 
       graph + 
-      labs(x= expression(paste("T_air [",degree,"C]"))) +
+      labs(x= expression(paste("T"["air"], " [",degree,"C]"))) +
       scale_x_continuous(breaks=c(10,20,30), limits=c(5,35))
   }
   
   if(i == 4){
     graph <- 
       graph + 
-      labs(x = expression(paste("T_infrared [",degree,"C]"))) +
+      labs(x = expression(paste("T"["biological"], " [",degree,"C]"))) +
       scale_x_continuous(breaks=c(10,20,30), limits=c(5,35))
   }
   
