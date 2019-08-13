@@ -57,7 +57,11 @@ table2 <- merge(dbh_cored, table2, by = "sp")
 
 setnames(table2, old=c("mean", "range", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), new=c("mean_DBH", "range_DBH", "RP", "PLA", "LMA", "TLP", "WD"))
 
+table2_SI <- table2[,c(4:9)]
+table2 <- table2[,-c(4:9)]
+
 write.csv(table2, "manuscript/tables_figures/Table2.csv", row.names=FALSE)
+write.csv(table2_SI, "manuscript/tables_figures/TableS2.csv", row.names=FALSE)
 
 #Table 3 was originally made as .xlsx from tested_traits_all.csv ####
 
