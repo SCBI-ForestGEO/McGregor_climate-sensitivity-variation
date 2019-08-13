@@ -247,7 +247,7 @@ cored_points <- SpatialPointsDataFrame(data.frame(species$NAD83_X, species$NAD83
 
 plot.new()
 
-png("manuscript/tables_figures/Figure3.png", width=5, height=7, units="in", res=72)
+png("manuscript/tables_figures/FigureS3.png", width=5, height=7, units="in", res=300)
 plot(topo, axes=FALSE, box=FALSE, 
      legend.args = list(text="Topographic Wetness Index", side=4, font=2, line=2.5, cex=0.8))
 plot(cored_points, pch=20, col = species_colors[species$sp_fact], add=TRUE)
