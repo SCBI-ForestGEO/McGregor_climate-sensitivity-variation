@@ -122,7 +122,6 @@ Hydraulic traits were collected from SCBI and are summarized in Table 1. In Augu
 
 **Table 2. Species analyzed here, listed in descending order of ANPP_stem. n cores and DBH range represented, and species traits** [*This replaces/combines the two remaining tables in this section. Suggested columns, with those to include only if they fit in parentheses: species, (stems >=10 cm per ha in plot), (ANPP_stem), n cores, DBH range of cores, (n cores in each crown position) species means for each trait]
 
-
 ```{r, Table2, eval=TRUE, echo=FALSE, message=FALSE}
 library(knitr)
 library(kableExtra)
@@ -213,21 +212,6 @@ Discussion outline
   - biophysical mechanisms are things that should be seen as universal but relative importance of each can vary within each drought
   - first study to show how these traits affect woody growth response to drought **confirmed by Lawren**
   - science is better now. by advancing our understanding of the mechanisms for individual-level responses to drought, this opens door for better predictions (elaborate from above). "This is absolutely critical to predicting forest responses to future droughts, which we're likely to see more of in the future as a result to climate change. Forecasting forest responses to these droughts is a huge and important challenge", science is better.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
