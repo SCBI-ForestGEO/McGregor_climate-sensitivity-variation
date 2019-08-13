@@ -33,7 +33,7 @@ knitr::write_bib(c(
 ```
 
 
-### Abstract
+### Summary
 Predicting forest responses to drought is an increasingly critical task under climate change effects.
 Part of the problem is due to the lack of studies analyzing the confluence of leaf hydraulic traits with biophysical parameters.
 In this study, we analyze the interaction between these two trait groups using forest census data from a 25.6-ha ForestGEO plot in Virginia (USA).
@@ -41,6 +41,9 @@ Drought periods were defined by both Palmer Drought Severity Indices (PDSI) and 
 Each drought scenario (1964-66, 1977, 1999), along with the overall trend, was then tested against leaf hyraulic trait measurements and microhabitat biophysical data.
 Individual-level growth responses to the three individual droughts  were stronger among taller trees in dominant canopy positions, those in wetter microsites, and for more drought-sensitive species as assessed by leaf traits (turgor loss at less negative leaf water potential, greater shrinkage with leaf dehydration), with substantial variation in the best predictor variables across given droughts. 
 We conclude that when droughts occur, large dominant trees, drought-sensitive species, and individuals in wetter microhabitats are likely to be most strongly affected.
+
+
+*The Summary for research papers, which must be usable as a stand- alone document, must not exceed 200 words and should be organized using four bullet points to indicate: (1) the research conducted, including the rationale, (2) methods, (3) key results, and (4) the main conclusion, including the key points of discussion. It should not contain citations of other papers.* 
 
 ### Introduction
 Understanding how and why trees respond to drought is critical to predicting forest drought responses and climate change feedbacks. (1 paragraph on this- I have lots of content on this and will add later.)
@@ -85,7 +88,7 @@ Parentheses indicate that predictions were partially supported (or rejected). In
 A "(yes/no) or ("no/yes")" indicates tendencies in opposite directions in univariate tests versus the best full models, respectively. 
 "(yes)
 
-### Methods
+### Materials and Methods
 *Study site*
 Research was conducted at the 25.6 ha ForestGEO (Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38°53'36.6"N, 78° 08'43.4"W) [@andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park.  Elevations range from 273-338m above sea level [@gonzalezakre_patterns_2016] with a topographic relief of 65m [@bourg_initial_2013]. Dominant species include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.).
 
@@ -177,8 +180,11 @@ Proximity to stream--either vertical (elev) or horizontal (distance)-- did not i
 
 **misc content to integrate**
 From [@kannenberg_linking_2019], species with diffuse porous wood anatomy (*Liriodendron*) are more sensitive to drought, whereas ring-porous are not as affected because they more easily rebuild structures for hydraulic conductivity. This paper mentions it would be good to have this data with respect to latent affects from drought.
-### Conclusion
+### Acknowledgements
 
+words
+
+### Author Contribution ####
 words
 
 ### Supplementary Information
