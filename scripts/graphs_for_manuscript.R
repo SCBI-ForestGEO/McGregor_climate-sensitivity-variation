@@ -8,6 +8,7 @@ library(ggplot2)
 #1. NEON vertical height profiles
 source('scripts/vertical_height_neon.R', echo=TRUE)
 NEON_list <- list(wind_plot, RH_plot, SAAT_plot, biotemp_plot)
+names(NEON_list) <- c("wind_plot", "RH_plot", "SAAT_plot", "biotemp_plot")
 #########################################################################
 #2 height by crown position in 2018 ####
 library(RCurl) #2
@@ -197,11 +198,11 @@ for (i in seq(along=1:4)){
       
       if(i==1){
          q <- q + 
-            xlab("Mean turgor loss point [MPa]") +
+            xlab("TLP [MPa]") +
             scale_x_continuous(breaks=breaks_tlp, limits=limits_tlp)
       } else if(i==2){
          q <- q + 
-            xlab("Percent leaf area [%]") +
+            xlab("PLA [%]") +
             scale_x_continuous(breaks=breaks_pla, limits=limits_pla)
       }
    } else if(grepl("twi", type[[i]])){
@@ -233,6 +234,14 @@ for (i in seq(along=1:4)){
 
 ##3c. Make map of plot using TWI and cored tree locations ####
 species <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
+species <- species[!species$sp %in% c("frni", "pist"), ]
+species$sp_fact <- as.factor(species$sp)
+
+color_pallete_function <- colorRampPalette(
+   colors = c("red", "blue", "brown", "purple", "dark green", "light blue"),
+   space = "Lab" # Option used when colors do not represent a quantitative scale
+)
+species_colors <- color_pallete_function(nlevels(species$sp_fact))
 
 cored_points <- SpatialPointsDataFrame(data.frame(species$NAD83_X, species$NAD83_Y), data=species)
 
@@ -241,12 +250,15 @@ plot.new()
 png("manuscript/tables_figures/Figure3.png", width=5, height=7, units="in", res=72)
 plot(topo, axes=FALSE, box=FALSE, 
      legend.args = list(text="Topographic Wetness Index", side=4, font=2, line=2.5, cex=0.8))
-plot(cored_points, pch=20, add=TRUE)
+plot(cored_points, pch=20, col = species_colors[species$sp_fact], add=TRUE)
 dev.off()
 
 #######################################################################################
 #4 Export the graphs ####
 library(ggpubr)
+library(extrafont)
+
+loadfonts(device="win") #to get TNR
 
 quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 35.002m
 quant <- data.frame(yintercept = 35.0022, Lines = "95th percentile")
@@ -262,49 +274,69 @@ traits <- ggarrange(plot_tlp_twi, plot_pla_twi, nrow=1, ncol=2)
 ggsave("manuscript/tables_figures/FigureS1.png", width=5, height=7, units="in", traits)
 
 ##4b. height profiles ####
-NEON_names <- c("wind_plot", "RH_plot", "SAAT_plot", "biotemp_plot")
-NEON_order <- c("a", "b", "c", "d")
+NEON_order <- c("(a)", "(b)", "(c)", "(d)")
 NEON_order_x <- c(0.5, 35, 7.5, 7.5)
 NEON_order_y <- c(57.5, 52.5, 57.5, 57.5)
 for (i in seq(along=1:4)){
-   assign(NEON_names[[i]],
-          NEON_list[[i]] +
-             geom_hline(aes(yintercept = yintercept), linetype = "dotted", quant) +
-             theme(axis.text = element_text(size=12),
-                   axis.title = element_text(size=14),
-                   legend.text = element_text(size=12),
-                   legend.title = element_text(size=12, face="bold")) +
-             annotate(geom="text", x=NEON_order_x[[i]], y=NEON_order_y[[i]], 
-                      label = NEON_order[[i]], fontface="bold", size=7)
-          )
+  NEON_list[[i]] <-
+     NEON_list[[i]] +
+         theme_bw(base_size = 16) + 
+         # theme_bw(base_family = "serif") + #for TNR font
+         geom_hline(aes(yintercept = yintercept), linetype = "longdash", quant) +
+         annotate(geom="text", x=NEON_order_x[[i]], y=NEON_order_y[[i]], 
+                  label = NEON_order[[i]], fontface="bold", size=7)
+  if(i==4){
+     NEON_list[[i]] <- 
+        NEON_list[[i]] +
+        theme(legend.title = element_blank(),
+              legend.box = "vertical",
+              legend.position = c(0.75, 0.85),
+              legend.background = element_rect(fill=alpha("white", 0.01)),
+              legend.text=element_text(size=12),
+              legend.key.size=unit(4,"mm"),
+              legend.spacing=unit(-0.5,"cm")
+              )
+  }
+  
+  if(!i==4){
+     NEON_list[[i]] <-
+        NEON_list[[i]] +
+        theme(legend.position = "none")
+  }
 }
 
-NEON <- ggarrange(wind_plot, RH_plot, SAAT_plot, biotemp_plot,  nrow=1, ncol=4, common.legend = TRUE, legend = "top", align="h")
+NEON <- ggarrange(NEON_list$wind_plot, NEON_list$RH_plot, NEON_list$SAAT_plot, NEON_list$biotemp_plot,  nrow=1, ncol=4, align="h")
 
 ###format the other height graphs
-heights <- 
-   heights + 
-   geom_hline(aes(yintercept = yintercept), linetype = "dotted", quant) +
-   annotate(geom="text", x=0.7, y=57.5, label = "e", fontface="bold", size=7)
+plots_bw <- list(heights, plot_pla_ht, plot_tlp_ht)
+names(plots_bw) <- c("heights", "plot_pla_ht", "plot_tlp_ht")
+plots_bw_order <- c("(e)", "(f)", "(g)")
+plots_bw_order_x <- c(0.7, 9, -2.75)
+plots_bw_order_y <- c(57.5, 57.5, 57.5)
 
-plot_pla_ht <- 
-   plot_pla_ht + 
-   theme(axis.text.y=element_blank(), 
-         axis.title.y=element_blank()) +
-   geom_hline(aes(yintercept = yintercept), linetype = "dotted", quant) +
-   annotate(geom="text", x=9, y=57.5, label = "f", fontface="bold", size=7)
+for (i in seq(along=1:3)){
+   plots_bw[[i]] <- #all graphs
+      plots_bw[[i]] + 
+      theme_bw(base_size = 16) + 
+      # theme_bw(base_family = "serif") + #for TNR font
+      geom_hline(aes(yintercept = yintercept), linetype = "longdash", quant) +
+      annotate(geom="text", x=plots_bw_order_x[[i]], y=plots_bw_order_y[[i]], 
+               label = plots_bw_order[[i]], fontface="bold", size=7)
+   
+   if(!i == 1){ #only trait graphs
+      plots_bw[[i]] <- 
+         plots_bw[[i]] + 
+         theme(axis.text.y=element_blank(), 
+               axis.title.y=element_blank(),
+               axis.ticks = element_blank(),
+               legend.position = "none")
+   }
+}
 
-plot_tlp_ht <- 
-   plot_tlp_ht + 
-   theme(axis.text.y=element_blank(), 
-         axis.title.y=element_blank()) +
-   geom_hline(aes(yintercept = yintercept), linetype = "dotted", quant) +
-   annotate(geom="text", x=-2.75, y=57.5, label = "g", fontface="bold", size=7)
 
-
-heights_other <- ggarrange(heights, plot_pla_ht, plot_tlp_ht, nrow=1, ncol=3)
+heights_other <- ggarrange(plots_bw$heights, plots_bw$plot_pla_ht, plots_bw$plot_tlp_ht, nrow=1, ncol=3)
 
 ###put plots together
-png("manuscript/tables_figures/Figure2.png", width=11, height=11, units="in", res=150)
+png("manuscript/tables_figures/Figure2.png", width=11, height=11, units="in", res=300)
 ggarrange(NEON, heights_other, nrow=2, ncol=1)
 dev.off()
