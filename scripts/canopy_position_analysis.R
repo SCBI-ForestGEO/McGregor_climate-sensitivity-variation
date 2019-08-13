@@ -1100,6 +1100,24 @@ x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
 
 model_df <- list(trees_all_sub, x1966, x1977, x1999)
 names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
+
+##5m. get base stats for everything from trees_all_sub ####
+trees_all_sub$dbh.cm <- exp(trees_all_sub$dbh.ln.cm)
+trees_all_sub$height.m <- exp(trees_all_sub$height.ln.m)
+
+stats <- NULL
+for(i in seq(along=trees_all_sub[,c(5,7:10,16,18,19)])){
+  name_trait <- trees_all_sub[,c(5,7:10,16,18,19)][i]
+  tree_stats <- 
+    trees_all_sub %>%
+    summarize(median = median(trees_all_sub[, which(colnames(trees_all_sub) == colnames(name_trait))]),
+              min = min(trees_all_sub[, which(colnames(trees_all_sub) == colnames(name_trait))]),
+              max = max(trees_all_sub[, which(colnames(trees_all_sub) == colnames(name_trait))])
+              )
+  tree_stats$trait <- colnames(name_trait)
+  stats <- rbind(stats, tree_stats)
+}
+
 ##############################################################################################
 #6. mixed effects model for output of #5. ####
 library(lme4)
@@ -1350,52 +1368,41 @@ for (i in seq(along=c(1:4))){
       
       #get all mods <2 dAIC
       var_aic <- var_aic[var_aic$Delta_AICc <= 2, ]
+      var_aic$mod_no <- rownames(var_aic)
       top <- var_aic[,c(1,4)]
       top$Delta_AICc <- round(top$Delta_AICc, 2)
       top$scenario <- mods[[i]]
       top$coef <- NA
       
       for (z in seq(along = lmm_all)){
-        if (names(lmm_all[z]) == var_aic$Modnames[[1]]){
-          
-          #run the best model alone with REML=TRUE
-          fit1 <- lmer(formula_vec[[z]], data = model_df[[j]], REML=TRUE, 
-                      control = lmerControl(optimizer ="Nelder_Mead"))
-          
-          #get coefficients and put in table
-          coeff <- data.frame(coef(summary(fit1))[ , "Estimate"]) ##2
-          coeff[,2] <- rownames(coeff)
-          coeff[,1] <- round(coeff[,1], 3)
-          colnames(coeff) <- c(names(model_df[j]), "model_var")
-
-          #put r2 in table
-          r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
-          
-          r <- data.frame(r[,6])
-          colnames(r) <- names(model_df[j])
-          r$model_var <- "r^2"
-          r[,1] <- round(r[,1], 2)
-          
-          coeff <- rbind(r,coeff)
-          
-          coeff_list[[paste0("coeff_", names(model_df[j]))]] <- coeff
-        }
-        if (names(lmm_all[z]) %in% var_aic$Modnames){
-          
-          #run the best model alone with REML=TRUE
-          fit1 <- lmer(formula_vec[[z]], data = model_df[[j]], REML=FALSE, 
-                       control = lmerControl(optimizer ="Nelder_Mead"))
-          
-          #get coefficients and put in table
-          coeff <- data.frame(coef(summary(fit1))[ , "Estimate"]) ##2
-          coeff[,2] <- rownames(coeff)
-          coeff[,1] <- round(coeff[,1], 3)
-          coeff$comb <- paste0(coeff[,2], " (", coeff[,1], ")")
-          
-          for (g in seq(along=1:nrow(top))){
-            if(rownames(top)[[g]] == z){
-              top$coef[[g]] <- paste(unlist(coeff$comb), collapse=", ")
-            }
+        for (w in seq(along=1:nrow(var_aic))){
+          if (names(lmm_all[z]) == var_aic$Modnames[[w]]){
+         
+           #run the best model alone with REML=TRUE
+           fit1 <- lmer(formula_vec[[z]], data = model_df[[j]], REML=TRUE, 
+                        control = lmerControl(optimizer ="Nelder_Mead"))
+           
+           #get coefficients and put in table
+           coeff <- data.frame(coef(summary(fit1))[ , "Estimate"]) ##2
+           coeff[,2] <- rownames(coeff)
+           coeff[,1] <- round(coeff[,1], 3)
+           colnames(coeff) <- c(paste0(names(model_df[j]), "_", w), "model_var")
+           
+           #put r2 in table
+           r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+           r <- data.frame(r[,6])
+           colnames(r) <- paste0(names(model_df[j]), "_", w)
+           r$model_var <- "r^2"
+           r[,1] <- round(r[,1], 2)
+           
+           coeff <- rbind(r,coeff)
+           
+           coeff$dAICc <- var_aic$Delta_AICc[[w]]
+           coeff$dAICc <- round(coeff$dAICc, 2)
+           
+           setnames(coeff, old="dAICc", new=paste0("dAICc_", names(model_df[j]), "_", w))
+           
+           coeff_list[[paste0("coeff_", names(model_df[j]), "_", w)]] <- coeff
           }
         }
       }
@@ -1453,47 +1460,36 @@ for (i in seq(along=c(1:4))){
       top$coef <- NA
       
       for (z in seq(along = lmm_all)){
-        if (names(lmm_all[z]) == var_aic$Modnames[[1]]){
-          
-          #run the best model alone with REML=TRUE
-          fit1 <- lmer(formula_vec[[z]], data = model_df[[j]], REML=TRUE, 
-                       control = lmerControl(optimizer ="Nelder_Mead"))
-          
-          #get coefficients and put in table
-          coeff <- data.frame(coef(summary(fit1))[ , "Estimate"]) ##2
-          coeff[,2] <- rownames(coeff)
-          coeff[,1] <- round(coeff[,1], 3)
-          colnames(coeff) <- c(names(model_df[j]), "model_var")
-          
-          #put r2 in table
-          r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
-          
-          r <- data.frame(r[,6])
-          colnames(r) <- names(model_df[j])
-          r$model_var <- "r^2"
-          r[,1] <- round(r[,1], 2)
-          
-          coeff <- rbind(r,coeff)
-          
-          coeff_list[[paste0("coeff_", names(model_df[j]))]] <- coeff
-        }
-      if (names(lmm_all[z]) %in% var_aic$Modnames){
-        #run the best model alone with REML=TRUE
-        fit1 <- lmer(formula_vec[[z]], data = model_df[[j]], REML=FALSE, 
-                     control = lmerControl(optimizer ="Nelder_Mead"))
-        
-        #get coefficients and put in table
-        coeff <- data.frame(coef(summary(fit1))[ , "Estimate"]) ##2
-        coeff[,2] <- rownames(coeff)
-        coeff[,1] <- round(coeff[,1], 3)
-        coeff$comb <- paste0(coeff[,2], " (", coeff[,1], ")")
-        
-        for (g in seq(along=1:nrow(top))){
-          if(rownames(top)[[g]] == z){
-            top$coef[[g]] <- paste(unlist(coeff$comb), collapse=", ")
+        for (w in seq(along=1:nrow(var_aic))){
+          if (names(lmm_all[z]) == var_aic$Modnames[[w]]){
+            
+            #run the best model alone with REML=TRUE
+            fit1 <- lmer(formula_vec[[z]], data = model_df[[j]], REML=TRUE, 
+                         control = lmerControl(optimizer ="Nelder_Mead"))
+            
+            #get coefficients and put in table
+            coeff <- data.frame(coef(summary(fit1))[ , "Estimate"]) ##2
+            coeff[,2] <- rownames(coeff)
+            coeff[,1] <- round(coeff[,1], 3)
+            colnames(coeff) <- c(paste0(names(model_df[j]), "_", w), "model_var")
+            
+            #put r2 in table
+            r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+            r <- data.frame(r[,6])
+            colnames(r) <- paste0(names(model_df[j]), "_", w)
+            r$model_var <- "r^2"
+            r[,1] <- round(r[,1], 2)
+            
+            coeff <- rbind(r,coeff)
+            
+            coeff$dAICc <- var_aic$Delta_AICc[[w]]
+            coeff$dAICc <- round(coeff$dAICc, 2)
+            
+            setnames(coeff, old="dAICc", new=paste0("dAICc_", names(model_df[j]), "_", w))
+            
+            coeff_list[[paste0("coeff_", names(model_df[j]), "_", w)]] <- coeff
           }
         }
-      }
       }
     }
   }
@@ -1504,6 +1500,12 @@ write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", r
 write.csv(top_models, "manuscript/tables_figures/top_models_dAIC.csv", row.names=FALSE)
 
 ##make table of coefficients and r2, then reorder table
+library(purrr)
+coeff_table <- 
+  coeff_list %>%
+  reduce(left_join, by = "model_var")
+
+
 coeff_table <- Reduce(function(dtf1, dtf2) 
   merge(dtf1, dtf2, by = "model_var", all = TRUE),
        coeff_list)
