@@ -253,6 +253,13 @@ plot(topo, axes=FALSE, box=FALSE,
 plot(cored_points, pch=20, col = species_colors[species$sp_fact], add=TRUE)
 dev.off()
 
+##density graph of resistance values ####
+ggplot(trees_all_sub) +
+   aes(x = resist.value, fill = year) +
+   geom_density(adjust = 1L) +
+   scale_fill_hue() +
+   theme_minimal()
+
 #######################################################################################
 #4 Export the graphs ####
 library(ggpubr)
