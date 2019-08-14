@@ -1071,13 +1071,13 @@ trees_all <- trees_all[trees_all$resist.value <=2,]
 
 ##5k. subset for either leaf hydraulic traits or biophysical ####
 trees_all_traits <- trees_all[complete.cases(trees_all), ]
-write.csv(trees_all_traits, "manuscript/tables_figures/trees_all_traits.csv", row.names=FALSE)
 
 ##take out columns that are unnecessary for model runs
 trees_all_sub <- trees_all[, !colnames(trees_all) %in% c("p50.MPa", "p80.MPa", "dbh_old.mm",  "dbh_old.cm", "sap_ratio", "height.m")]
 
 ##get rid of missing data
 trees_all_sub <- trees_all_sub[complete.cases(trees_all_sub), ]
+write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub.csv", row.names=FALSE)
 
 ##5ki. NOTE ####
 ##originally I was separating out trees_all into 2 datasets (trees_all_bio and trees_all_full) because I thought that there was alternative missing data depending on if you were looking at biophysical traits compared to leaf traits. It turns out this was mainly due to p50 and p80, which we have since determined will not be in the model runs at all. Thus, I'm only doing one subset here.

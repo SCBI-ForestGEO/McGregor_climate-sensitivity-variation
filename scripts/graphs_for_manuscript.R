@@ -254,9 +254,11 @@ plot(cored_points, pch=20, col = species_colors[species$sp_fact], add=TRUE)
 dev.off()
 
 ##density graph of resistance values ####
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv")
+trees_all_sub$year <- as.character(trees_all_sub$year)
 ggplot(trees_all_sub) +
    aes(x = resist.value, fill = year) +
-   geom_density(adjust = 1L) +
+   geom_density(adjust = 1L, alpha=.5) +
    scale_fill_hue() +
    theme_minimal()
 
