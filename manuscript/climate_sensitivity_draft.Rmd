@@ -89,6 +89,9 @@ A "(yes/no) or ("no/yes")" indicates tendencies in opposite directions in univar
 "(yes)
 
 ### Materials and Methods
+
+**table_variables.png** <- where in methods do we want? (following the first citation)
+
 *Study site*
 Research was conducted at the 25.6 ha ForestGEO (Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38°53'36.6"N, 78° 08'43.4"W) [@andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park.  Elevations range from 273-338m above sea level [@gonzalezakre_patterns_2016] with a topographic relief of 65m [@bourg_initial_2013]. Dominant species include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.).
 
