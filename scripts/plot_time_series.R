@@ -1,5 +1,5 @@
 ######################################################
-# Purpose: Plot figure of time series for manuscript
+# Purpose: Plot figure of ring width time series for McGregor manuscript
 # Developped by: Valentine Herrmann - HerrmannV@si.edu
 # R version 3.5.1 (2018-07-02)
 ######################################################
@@ -68,7 +68,7 @@ plot(NULL,
 
 
 rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
-     xright = drought_years, ytop = par("usr")[4],  col = "grey90", border = "transparent")
+     xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#FF9999", "#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
 # abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1959, 2000, by = 20)
 abline(v = drought_years, col = "grey50", lty = 2) # seq(1959, 2000, by = 20)
 
@@ -86,7 +86,7 @@ plot(NULL,
 
 
 rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
-     xright = drought_years, ytop = par("usr")[4],  col = "grey90", border = "transparent")
+     xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#FF9999", "#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
 # abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1959, 2000, by = 20)
 abline(v = drought_years, col = "grey50", lty = 2) # seq(1959, 2000, by = 20)
 
@@ -107,7 +107,7 @@ plot(NULL,
 
 
 rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
-     xright = drought_years, ytop = par("usr")[4],  col = "grey90", border = "transparent")
+     xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#FF9999", "#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
 # abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1959, 2000, by = 20)
 abline(v = drought_years, col = "grey50", lty = 2) # seq(1959, 2000, by = 20)
 
@@ -143,7 +143,7 @@ for(f in SPECIES_IN_ORDER) {
        xlim = c(1959,2015), ylim = c(0.5, 1.5))
   
   rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
-       xright = drought_years, ytop = par("usr")[4],  col = "grey90", border = "transparent")
+       xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#FF9999", "#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
   # abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1959, 2000, by = 20)
   abline(v = drought_years, col = "grey50", lty = 2) # seq(1959, 2000, by = 20)
   
