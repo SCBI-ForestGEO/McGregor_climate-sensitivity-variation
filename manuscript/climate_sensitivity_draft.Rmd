@@ -149,7 +149,9 @@ Once the data was collected, linear mixed models were run following the order of
 *Descriptions of Droughts*
 In the 60-year period between 1950 and 2009, there were three droughts that met our criteria of anomalously dry climatic conditions coupled with substantial reductions in tree growth for at least some portions of the community: 1964-1966, 1977, and 1999 (Fig. 1). The years 1964 and 1966 were separately identified as drought years and grouped into a single multi-year drought period because 1965 was also anomalously hot and dry, albiet not identified as a pointer year, and because inclusion of 1964 in the reference period for 1966 would have biased analyses. Climatically, these droughts included four of the five years between 1950 and 2009 with greatest moisture deficit (PET-PRE) during the peak growing season months of May-August, which are the months to which annual tree growth at this site is most sensitive [@helcoski_growing_2019]. Specifically, 1964, 1966, 1977, and 1999 had mean MJJA PET-PRE of 83.87, 83.37, 86.97, and 80 mm mo<sup>-1</sup>, respectively. The year 2007 also ranked in the top five driest (PET-PRE = 82.13 mm mo<sup>-1</sup>), but it did not have *particualarly low* PDSI and was not identified as a pointer year. **add stats for PDSI, T, precip**
 
-Community-level tree growth responses to these droughts were modest, with modal resistance values of #, #, and # for 1964-1966, 1977, and 1999, respectively (Fig. 1b). In each drought, roughly 30% of the cored trees suffered growth reductions of 30% or more (resistance <= 0.7): *28.2%* in 1964-66, 31.2% un 1977, and 26.2% in 1999. *Some* trees exhibited increased growth: (resistance > 1.0): #% in 1964-66, #% un 1977, and #% in 1999.
+Community-level tree growth responses to these droughts were modest, with modal resistance values of #, #, and # for 1964-1966, 1977, and 1999, respectively (Fig. 1b). In each drought, roughly 30% of the cored trees suffered growth reductions of 30% or more (resistance <= 0.7): *28.2%* in 1964-66, 31.2% un 1977, and 26.2% in 1999. *Some* trees exhibited increased growth: (resistance > 1.0): #% in 1964-66, #% un 1977, and #% in 1999. 
+
+Comparing across droughts, resistance *was highest in 1964-66 drought*, lower in 1999, and lowest in 1977 (Tables 4-5).
 
   - citing table 3 (the coefficient for individual year) - maybe mention how 77 and 99 have neg coefficients, indicating potential height effect: as time goes on, trees are more affected by drought anyways because they grow taller
 
@@ -157,6 +159,9 @@ Community-level tree growth responses to these droughts were modest, with modal 
 
 ![Time series of combined tree cores by species](tables_figures/Figure1.jpg){width=500px}
 
+![Table 4 - individual variable tests](tables_figures/Table4.png) #this is tested_traits_all
+
+![Table 5 - best full models ](tables_figures/Table5.png) 
 
 **Results for first main question: what drives the observed tendency for large trees to suffer more during drought?**
 H1.0, H1.1, H1.2, H1.3
@@ -169,7 +174,7 @@ DBH, height, crown position, and TWI
 H2.1, H2.2, H2.3
 Hydraulic traits alone, traits with height
 
-![Table 4 (example!)](tables_figures/Table4.png) #this is tested_traits_all
+
 
 **Results for third main question: are responses similar or variable across individual drought years?**
 H3.1 and H3.2

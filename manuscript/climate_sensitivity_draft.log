@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  15 AUG 2019 10:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  15 AUG 2019 10:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -875,33 +875,37 @@ ne 449.
 <tables_figures/Figure1.jpg, id=149, 426.6339pt x 426.6339pt>
 File: tables_figures/Figure1.jpg Graphic file (type jpg)
 <use tables_figures/Figure1.jpg>
-Package pdftex.def Info: tables_figures/Figure1.jpg  used on input line 507.
+Package pdftex.def Info: tables_figures/Figure1.jpg  used on input line 510.
 (pdftex.def)             Requested size: 376.40895pt x 376.40895pt.
-<tables_figures/Figure2.png, id=150, 794.97pt x 794.97pt>
-File: tables_figures/Figure2.png Graphic file (type png)
-<use tables_figures/Figure2.png>
-Package pdftex.def Info: tables_figures/Figure2.png  used on input line 517.
-(pdftex.def)             Requested size: 376.41377pt x 376.41377pt.
-[6 <./tables_figures/Figure1.jpg>] [7 <./tables_figures/Figure2.png (PNG copy)>
-]
-<tables_figures/Table4.png, id=163, 469.2732pt x 249.5724pt>
+<tables_figures/Table4.png, id=150, 469.2732pt x 249.5724pt>
 File: tables_figures/Table4.png Graphic file (type png)
 <use tables_figures/Table4.png>
-Package pdftex.def Info: tables_figures/Table4.png  used on input line 525.
+Package pdftex.def Info: tables_figures/Table4.png  used on input line 514.
 (pdftex.def)             Requested size: 469.28636pt x 249.57939pt.
-[8 <./tables_figures/Table4.png>]
+[6 <./tables_figures/Figure1.jpg>]
+<tables_figures/Table5.png, id=157, 834.11626pt x 516.93124pt>
+File: tables_figures/Table5.png Graphic file (type png)
+<use tables_figures/Table5.png>
+Package pdftex.def Info: tables_figures/Table5.png  used on input line 519.
+(pdftex.def)             Requested size: 469.762pt x 291.12805pt.
+<tables_figures/Figure2.png, id=158, 794.97pt x 794.97pt>
+File: tables_figures/Figure2.png Graphic file (type png)
+<use tables_figures/Figure2.png>
+Package pdftex.def Info: tables_figures/Figure2.png  used on input line 529.
+(pdftex.def)             Requested size: 376.41377pt x 376.41377pt.
+[7 <./tables_figures/Table4.png> <./tables_figures/Table5.png>] [8 <./tables_fi
+gures/Figure2.png (PNG copy)>] [9]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[9]
 <tables_figures/ForestGEO_plot.jpg, id=188, 312.2064pt x 389.0535pt>
 File: tables_figures/ForestGEO_plot.jpg Graphic file (type jpg)
 <use tables_figures/ForestGEO_plot.jpg>
 Package pdftex.def Info: tables_figures/ForestGEO_plot.jpg  used on input line 
-726.
+735.
 (pdftex.def)             Requested size: 312.21992pt x 389.07034pt.
 
-Overfull \hbox (1252.47025pt too wide) in paragraph at lines 737--764
+Overfull \hbox (1252.47025pt too wide) in paragraph at lines 746--773
  [][] 
  []
 
@@ -911,37 +915,37 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <tables_figures/FigureS3.png, id=189, 361.35pt x 505.89pt>
 File: tables_figures/FigureS3.png Graphic file (type png)
 <use tables_figures/FigureS3.png>
-Package pdftex.def Info: tables_figures/FigureS3.png  used on input line 768.
+Package pdftex.def Info: tables_figures/FigureS3.png  used on input line 777.
 (pdftex.def)             Requested size: 361.35463pt x 505.89645pt.
 <tables_figures/FigureS1.png, id=190, 361.35pt x 505.89pt>
 File: tables_figures/FigureS1.png Graphic file (type png)
 <use tables_figures/FigureS1.png>
-Package pdftex.def Info: tables_figures/FigureS1.png  used on input line 772.
+Package pdftex.def Info: tables_figures/FigureS1.png  used on input line 781.
 (pdftex.def)             Requested size: 361.34912pt x 505.88875pt.
 (./climate_sensitivity_draft.bbl [10]
-Overfull \vbox (281.52908pt too high) has occurred while \output is active []
+Overfull \vbox (354.73038pt too high) has occurred while \output is active []
 
-[11 <./tables_figures/ForestGEO_plot.jpg> <./tables_figures/FigureS1.png>] [12 
-<./tables_figures/FigureS3.png (PNG copy)>] [13])
+[11 <./tables_figures/FigureS1.png>] [12 <./tables_figures/ForestGEO_plot.jpg>]
+[13 <./tables_figures/FigureS3.png (PNG copy)>])
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 777.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 786.
 [14]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 777.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 786.
 (./climate_sensitivity_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 777.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 777.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 786.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 786.
 Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
 ed.
-(rerunfilecheck)             Checksum: F1A192D7E6AD690B720D4040D23429C3;826.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 777.
+(rerunfilecheck)             Checksum: 7C59D315285EA647824C3D293FE33BDB;827.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 786.
  ) 
 Here is how much of TeX's memory you used:
- 15870 strings out of 492616
- 234662 string characters out of 6129482
- 366037 words of memory out of 5000000
- 19369 multiletter control sequences out of 15000+600000
+ 15875 strings out of 492616
+ 234803 string characters out of 6129482
+ 369040 words of memory out of 5000000
+ 19373 multiletter control sequences out of 15000+600000
  52618 words of font info for 104 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  37i,9n,41p,988b,448s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -958,10 +962,10 @@ ist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2019/texmf-dist/fonts/ty
 pe1/public/lm/lmri10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public
 /lm/lmri12.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10
 .pfb>
-Output written on climate_sensitivity_draft.pdf (14 pages, 1293226 bytes).
+Output written on climate_sensitivity_draft.pdf (14 pages, 1324371 bytes).
 PDF statistics:
- 272 PDF objects out of 1000 (max. 8388607)
- 234 compressed objects within 3 object streams
- 50 named destinations out of 1000 (max. 500000)
- 12380 words of extra memory for PDF output out of 14400 (max. 10000000)
+ 275 PDF objects out of 1000 (max. 8388607)
+ 235 compressed objects within 3 object streams
+ 51 named destinations out of 1000 (max. 500000)
+ 12385 words of extra memory for PDF output out of 14400 (max. 10000000)
 
