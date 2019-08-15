@@ -106,7 +106,7 @@ We analyzed tree-ring data from 571 trees representing the twelve species contri
 
 For each tree, we combined tree-ring records and allometric equations of bark thickness to retroactively calculate DBH for the years 1950-2009. Prior DBH was estimated using the following equation:
 
-$$ DBH_Y  = DBH_{2008} - 2*[\sum_{year=Y}^{2008} (r_{ring, Y}:r_{ring,2008}) - r_{bark,Y} + r_{bark,2008}] $$
+$$ DBH_Y  = DBH_{2008} - 2*\left[\sum_{year=Y}^{2008} (r_{ring, Y}:r_{ring,2008}) - r_{bark,Y} + r_{bark,2008}\right] $$
 
 Here,  *Y*  is denotes the year of interest, $r_{ring}$ denotes ring width derived from cores, and $r_{bark}$ denotes bark thickness. Bark thickness was estimated from species-specific allometries based on the bark thickness data from the site [@andersonteixeira_size-related_2015].
 Specifically, we used linear regression equations on log-transformed data to relate bark thickness to DBH (Table S#- **create table to give these equations in SI**) and then used these to estimate bark thickness based on DBH. 
