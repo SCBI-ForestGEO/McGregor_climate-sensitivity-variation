@@ -1,6 +1,6 @@
 ---
 title: "Tree size, (microhabitat)?, and hydraulic traits shape drought responses in a temperate broadleaf forest"
-author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Valentine Herrmann, Joseph Zailaa, Atticus Stovall, Norm Bourg?, Bill McShea?, Neil Pederson, Lawren Sack, Krista Anderson-Teixeira"
+author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Valentine Herrmann, Joseph Zailaa, Atticus Stovall, Norm Bourg?, Bill McShea?, Neil Pederson, Lawren Sack, Kristina Anderson-Teixeira"
 output:
   pdf_document:
     citation_package: natbib
@@ -114,8 +114,6 @@ Specifically, we used linear regression equations on log-transformed data to rel
 Crown positions were recorded in the field during the growing season of 2018 following the crown position protocol from [@jennings_assessing_1999], whereby positions were ranked as dominant, codominant, intermediate, or suppressed. As there was no way to retroactively estimate crown position, we assumed that 2018 crown position was reflective of each tree's position over the past 60 years. While some trees undoubtedly changed position, an analysis of crown position relative to height (Fig. XX) and height change since *1959* indicated that change was likely slow. [**work on this-- provide details?**]
 
 Topographic wetness index (TWI) was calculated using the [@R-dynatopmodel] package in R.
-
-![Location of cored trees](tables_figures/Figure3.png){width=500px}
 
 Hydraulic traits were collected from SCBI and are summarized in Table 1. In August 2018, we collected leaf samples from three individuals of each species ... (**Nobby's description of methods for the following (see word document**) 
 1. PLA
@@ -249,6 +247,8 @@ tableS3 <- read.csv("tables_figures/top_models_dAIC.csv", stringsAsFactors = FAL
 kable(tableS3, booktabs=TRUE, format = "latex", caption = "Top model variations for each drought scenario, with dAICc values <= 2") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
+
+![Location of cored trees](tables_figures/FigureS3.png){width=500px}
 
 
 ![Figure S1](tables_figures/FigureS1.png)
