@@ -77,11 +77,8 @@ Second, we focus on the role of species' functional and hydraulic traits and the
 We then test whether these traits correlate with tree height (P2.2), potentially driving the observed tendency for taller trees to suffer more during drought (P2.3). 
 Finally, we focused on variability among droughts, asking how  community resistance varied across droughts (H3.1) and whether the factors confirming vulnerability or resistance varied across droughts (H3.2).
 
-*Let's put Table 1 here. We need to give the hypotheses/ predictions here. It seems counterintuitive to put the results right up front like that, but it actually tends to be a higher-impact style of writing, and recommended [here](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005619).*
 
-**Table 1. Summary of hypotheses, predictions and results** 
-
-![Table 1](tables_figures/Table1.png){width=500px}
+![**Table 1. Summary of hypotheses, predictions and results**](tables_figures/Table1.png){width=500px}
 
 
 We count predictions as fully supported (or rejected) when the direction of response matches (or contradicts) the prediction. 
@@ -92,30 +89,35 @@ A "(yes/no) or ("no/yes")" indicates tendencies in opposite directions in univar
 
 ### Materials and Methods
 
-**table_variables.png** <- where in methods do we want? (following the first citation)
+
 
 *Study site*
 Research was conducted at the 25.6 ha ForestGEO (Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38°53'36.6"N, 78° 08'43.4"W) [[Bourg et al. 2013](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/13-0010.1); @andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park.  Elevations range from 273-338m above sea level [@gonzalezakre_patterns_2016] with a topographic relief of 65m [@bourg_initial_2013]. Dominant species include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.).
 
 *Data collection and preparation*
-The SCBI ForestGEO plot was censused in 2008, 2013, and 2018 following standard ForestGEO protocols, whereby all free-standing woody stems >= 1cm diameter at breast height (DBH) were mapped, tagged, measured at DBH, and identified to species [@condit_tropical_1998]. From this census data, we used measurements of DBH from 2008 to calculate historical DBH (described below), along with tree location in the plot to determine the topographic wetness index. Furthermore, we used data for all stems >= 10cm to analyze functional trait composition relative to tree height.  *I added the last sentence-- not sure if you've described that below yet. I don't think you need to note here which data we use, so long as that's described in the portions where you describe the analysis.*
 
-We analyzed tree-ring data from the twelve species contributing most to woody aboveground net primary productivity (ANPP), which together comprised 97% of study plot ANPP between 2008 and 2013 [@helcoski_growing_2019]. Cores were obtained in 2010-2011 or 2016-2017 from a breast height of 1.3m using a 5mm increment borer. In 2010-2011, cores were collected from randomly selected live trees of species with at least 30 individuals of DBH >= 10cm [@bourg_initial_2013]. In 2016-2017, cores were collected from all trees found dead in the annual mortality census [@gonzalezakre_patterns_2016]. Cores were sanded, measured, and cross-dated using standard procedures, as detailed in [@helcoski_growing_2019]. The resulting chronologies have been published in association with @helcoski_growing_2019: (ITRDB; GitHub/Zenodo). *is this a database? Yes. Ryan submitted the data but I don't think its posted yet. We should also cite GitHub/Zenodo here. I'll come back to that. * 
+Within or just outside the ForestGEO plot, we collected data on a suite of variables including tree size, microenvironemnt, and species traits (Table 2). The SCBI ForestGEO plot was censused in 2008, 2013, and 2018 following standard ForestGEO protocols, whereby all free-standing woody stems >= 1cm diameter at breast height (DBH) were mapped, tagged, measured at DBH, and identified to species [@condit_tropical_1998]. From this census data, we used measurements of DBH from 2008 to calculate historical DBH, tree location in the plot to determine the topographic wetness index, and data for all stems >= 10cm to analyze functional trait composition relative to tree height (all analyses described below). Census data, which were last updated in 2018 (**???**), were obtained through the ForestGEO data portal (www.forestgeo.si.edu).
 
-Height measurements (n=# trees) were taken by several researchers between 2012 to 2019, and are archived in a public [GitHub repository](https://github.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/tree/master/tree_dimensions/tree_heights). Measurement methods included manual [@stovall_assessing_2018, NEON], digital rangefinders [@andersonteixeira_size-related_2015], and automatic LiDAR [@stovall_terrestrial_2018]. Rangefinders either used the tangent method (Impulse 200LR, TruPulse 360R) or the sine method (Nikon ForestryPro) for calculating heights. The associated errors for using either method were acknowledged [@larjavaara_measuring_2013]. Species-specific height allometries were developed (Table S# - **ADD THIS TABLE TO SI**). For species that didn't have enough height measurements, heights were calculated from equations derived from all species in the study. 
 
-For each tree, we combined tree-ring records and allometric equations of height and bark thickness to retroactively calculate DBH and estimate height for the years 1950-2009. Prior DBH was estimated using the following equation, using 2008 as the earliest year for having reliable DBH measurements:
 
-$$ diamYEAR = dbh2008 - 2*(bark.depth2008) - 2*\Sigma(ring.widthYEAR:ring.width2008) + 2*(bark.depthYEAR) $$
+![**Table 2. Summary of hypotheses, predictions and results** ](tables_figures/table_variables.png){width=500px}
 
-Here, *ring.width* was measured from cores. Bark thickness was estimated from species-specific allometries based on the bark thickness data of [@andersonteixeira_size-related_2015].
+We analyzed tree-ring data from 571 trees representing the twelve species contributing most to woody aboveground net primary productivity (ANPP), which together comprised 97% of study plot ANPP between 2008 and 2013 [@helcoski_growing_2019]. Cores were obtained in 2010-2011 or 2016-2017 from a breast height of 1.3m using a 5mm increment borer. In 2010-2011, cores were collected from randomly selected live trees of species with at least 30 individuals of DBH >= 10cm [@bourg_initial_2013]. In 2016-2017, cores were collected from all trees found dead in the annual mortality census [@gonzalezakre_patterns_2016]. Cores were sanded, measured, and cross-dated using standard procedures, as detailed in [@helcoski_growing_2019]. The resulting chronologies have been published in association with @helcoski_growing_2019: (ITRDB; GitHub/Zenodo).  * Ryan submitted the data to ITRDB but I don't think its posted yet. We should also cite GitHub/Zenodo here. I'll come back to that. * 
+
+For each tree, we combined tree-ring records and allometric equations of bark thickness to retroactively calculate DBH for the years 1950-2009. Prior DBH was estimated using the following equation:
+
+$$ DBH_Y  = DBH_{2008} - 2*[\sum_{year=Y}^{2008} (r_{ring, Y}:r_{ring,2008}) - r_{bark,Y} + r_{bark,2008}] $$
+
+Here,  *Y*  is denotes the year of interest, $r_{ring}$ denotes ring width derived from cores, and $r_{bark}$ denotes bark thickness. Bark thickness was estimated from species-specific allometries based on the bark thickness data from the site [@andersonteixeira_size-related_2015].
 Specifically, we used linear regression equations on log-transformed data to relate bark thickness to DBH (Table S#- **create table to give these equations in SI**) and then used these to estimate bark thickness based on DBH. 
+
+Height measurements (n=# trees) were taken by several researchers between 2012 to 2019, and are archived in a public [GitHub repository](https://github.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/tree/master/tree_dimensions/tree_heights). Measurement methods included manual [@stovall_assessing_2018, NEON], digital rangefinders [@andersonteixeira_size-related_2015], and automatic LiDAR [@stovall_terrestrial_2018]. Rangefinders either used the tangent method (Impulse 200LR, TruPulse 360R) or the sine method (Nikon ForestryPro) for calculating heights. Both methods are associated with some error [@larjavaara_measuring_2013]. Species-specific height allometries were developed (Table S# - **ADD THIS TABLE TO SI**). For species with insufficient height data to create reliable species-specific allometries, heights were calculated from equations derived from all species in the study. 
 
 Crown positions were recorded in the field during the growing season of 2018 following the crown position protocol from [@jennings_assessing_1999], whereby positions were ranked as dominant, codominant, intermediate, or suppressed. As there was no way to retroactively estimate crown position, we assumed that 2018 crown position was reflective of each tree's position over the past 60 years. While some trees undoubtedly changed position, an analysis of crown position relative to height (Fig. XX) and height change since *1959* indicated that change was likely slow. [**work on this-- provide details?**]
 
-Topographic wetness index (TWI) was calculated using the [@R-dynatopmodel] package in R.
+Topographic wetness index (TWI) was calculated using the [@R-dynatopmodel] package in R. [**include a brief explanation of what this is**]
 
-Hydraulic traits were collected from SCBI and are summarized in Table 1. In August 2018, we collected leaf samples from three individuals of each species ... (**Nobby's description of methods for the following (see word document**) 
+Hydraulic traits were collected from SCBI and are summarized in Table 3. In August 2018, we collected leaf samples from three individuals of each species ... (**Nobby's description of methods for the following (see word document**) 
 1. PLA
 2. LMA
 4. Wood density
@@ -123,9 +125,9 @@ Hydraulic traits were collected from SCBI and are summarized in Table 1. In Augu
 
 
 
-**Table 2. Species analyzed here, listed in descending order of ANPP_stem. n cores and DBH range represented, and species traits** [*This replaces/combines the two remaining tables in this section. Suggested columns, with those to include only if they fit in parentheses: species, (stems >=10 cm per ha in plot), (ANPP_stem), n cores, DBH range of cores, (n cores in each crown position) species means for each trait]
+**Table 3. Species analyzed here, listed in descending order of ANPP_stem. n cores and DBH range represented, and species traits** [*This replaces/combines the two remaining tables in this section. Suggested columns, with those to include only if they fit in parentheses: species, (stems >=10 cm per ha in plot), (ANPP_stem), n cores, DBH range of cores, (n cores in each crown position) species means for each trait]
 
-```{r, Table2, eval=TRUE, echo=FALSE, message=FALSE}
+```{r, Table3, eval=TRUE, echo=FALSE, message=FALSE}
 library(knitr)
 library(kableExtra)
 table2 <- read.csv("tables_figures/Table2.csv")
@@ -144,6 +146,7 @@ We identified droughts within the time period 1950-2009, defining drought [@slet
 Once the data was collected, linear mixed models were run following the order of the hypotheses as seen in Figure ??? [individual_tested_traits]. Using the [@R-pointRes] package, we set up models with the resistance value as the response variable, and each prediction's variable as the independent variable. Variables' importance in predicting drought tolerance was calculated from mixed-effects models and the lowest AICc [@R-lme4, @R-AICcmodavg].Null models were determined in order of the predictions. First, we analyzed the combined scenario to determine if "year" was significant. Upon establishing this, we tested height and DBH as size parameters. Although both were significant, height was kept due to its larger delta AICc compared with the null model. We then tested the remaining biophysical and hydraulic traits individually against a null model containing height and year. This yielded Figure ??? (cand_full). All variables with dAICc >2 were used as candidates for each scenario's best model (figure ???? (tested_traits_best))
 
 
+
 ### Results
 
 *Descriptions of Droughts*
@@ -151,9 +154,8 @@ In the 60-year period between 1950 and 2009, there were three droughts that met 
 
 Community-level tree growth responses to these droughts were modest, with modal resistance values of #, #, and # for 1964-1966, 1977, and 1999, respectively (Fig. 1b). In each drought, roughly 30% of the cored trees suffered growth reductions of 30% or more (resistance <= 0.7): *28.2%* in 1964-66, 31.2% un 1977, and 26.2% in 1999. *Some* trees exhibited increased growth: (resistance > 1.0): #% in 1964-66, #% un 1977, and #% in 1999. Within the context of mixed effects models, there were signficiant differences among droughts (Table 4), and drought year came out as a factor in all top models (Table 5). In all cases, resistance *was highest in 1964-66 drought*, lower in 1999, and lowest in 1977 (Tables 4-5).
 
-**Figure 1. ** (a) Time series of peak growing season (May-August) climate conditions and residual chronologies for each species. Droughts analyzed here are indicated by dashed lines, and shading indicates the pre-drought period used in calculations of the resistance metric. Figure modified from [@helcoski_growing_2019]. (b) density plots of community- wide resitance values for each drought.
 
-![Time series of combined tree cores by species](tables_figures/Figure1.jpg){width=500px}
+![**Figure 1. ** (a) Time series of peak growing season (May-August) climate conditions and residual chronologies for each species. Droughts analyzed here are indicated by dashed lines, and shading indicates the pre-drought period used in calculations of the resistance metric. Figure modified from [@helcoski_growing_2019]. (b) density plots of community- wide resitance values for each drought.](tables_figures/Figure1.jpg){width=500px}
 
 ![Table 4 - individual variable tests](tables_figures/Table4.png) #this is tested_traits_all
 
