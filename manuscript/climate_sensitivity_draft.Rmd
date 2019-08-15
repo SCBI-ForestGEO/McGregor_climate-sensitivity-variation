@@ -1,6 +1,6 @@
 ---
-title: "Tree size and hydraulic traits shape drought responses in a temperate broadleaf forest"
-author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Valentine Herrmann, Joseph Zailaa, Atticus Stovall, Neil Pederson, Lawren Sack, Krista Anderson-Teixeira"
+title: "Tree size, (microhabitat)?, and hydraulic traits shape drought responses in a temperate broadleaf forest"
+author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Valentine Herrmann, Joseph Zailaa, Atticus Stovall, Norm Bourg?, Bill McShea?, Neil Pederson, Lawren Sack, Krista Anderson-Teixeira"
 output:
   pdf_document:
     citation_package: natbib
@@ -93,7 +93,7 @@ A "(yes/no) or ("no/yes")" indicates tendencies in opposite directions in univar
 **table_variables.png** <- where in methods do we want? (following the first citation)
 
 *Study site*
-Research was conducted at the 25.6 ha ForestGEO (Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38°53'36.6"N, 78° 08'43.4"W) [@andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park.  Elevations range from 273-338m above sea level [@gonzalezakre_patterns_2016] with a topographic relief of 65m [@bourg_initial_2013]. Dominant species include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.).
+Research was conducted at the 25.6 ha ForestGEO (Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38°53'36.6"N, 78° 08'43.4"W) [[Bourg et al. 2013](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/13-0010.1); @andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park.  Elevations range from 273-338m above sea level [@gonzalezakre_patterns_2016] with a topographic relief of 65m [@bourg_initial_2013]. Dominant species include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.).
 
 *Data collection and preparation*
 The SCBI ForestGEO plot was censused in 2008, 2013, and 2018 following standard ForestGEO protocols, whereby all free-standing woody stems >= 1cm diameter at breast height (DBH) were mapped, tagged, measured at DBH, and identified to species [@condit_tropical_1998]. From this census data, we used measurements of DBH from 2008 to calculate historical DBH (described below), along with tree location in the plot to determine the topographic wetness index. Furthermore, we used data for all stems >= 10cm to analyze functional trait composition relative to tree height.  *I added the last sentence-- not sure if you've described that below yet. I don't think you need to note here which data we use, so long as that's described in the portions where you describe the analysis.*
@@ -136,37 +136,21 @@ kable(table2, booktabs=TRUE, format = "latex", caption = "Overview of analyzed s
 *Climate and drought years*
 [**add description of climate data used in Fig. 1, NEON vertical profiles**]
 
-To accurately understand climate sensitivity, this study used a specific definition of drought, which is not a common practice [@slette_how_2019]. We used the pointRes package [@R-pointRes] in R (version 3.5.3) to determine drought periods based on trees' drought resistance, which is defined by [@lloret_components_2011] as the ratio between the performance during and before the disturbance. Candidate drought years were defined if >50% of the cored trees experienced <30% growth in a year compared to the previous 5 years. These were then cross-validated with the regional Palmer Drought Severity Index (PDSI) values for each year, which yielded a set of three periods that were consistently shown as drought: 1964-1966, 1977, and 1999.
+We identified droughts within the time period as 1950-2009, defining drought as events where where peak growing season climatic conditions were anomalously dry relative to the long-term record and where tree growth was substantially reduced for at least some components of the community. To identify years with widespread reductions in tree growth, we used the pointRes package [@R-pointRes] in R (version 3.5.3) to determine drought periods based on trees' drought resistance, which is defined as the ratio between the performance during and before the disturbance [@lloret_components_2011]. Candidate drought years were defined if >50% of the cored trees experienced <30% growth in a year compared to the previous 5 years for at least three species-canopy class combinations, where canopy class included canopy (dominant and co-domiant) and subcanopy (suppressed and intermediate). **[this includes 1991- why did we drop it? [issue #52](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/52)]** Candidate droughts were then cross-validated with the regional Palmer Drought Severity Index (PDSI) values [**source?**] **(and MJJA PET-PRE (droughts identified in Helcoski)?)**. **[This paragraph needs work. See issue #52](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/52). Put climate criteria first.]**
 
-### Results
-Results outline
-
-Descriptions of Droughts
-
-- physical characteristics of drought: duration, min PDSI (and when occurred), see slette et al 2019 to see how they suggest reporting each one
-- sum nb.series for each scenario, mult by perc.neg (pointers df), define thresholds (e.g. 75% of all trees experienced the growth reduction of 40% or more)
-  - make table for this
-  - citing table 3 (the coefficient for individual year) - maybe mention how 77 and 99 have neg coefficients, indicating potential height effect: as time goes on, trees are more affected by drought anyways because they grow taller
-  - this is followed by Figure 2
-
-Hypothesis results
-- one header for each main question
-- present results for each one, walk through via order and logic of Table 1
-- no citations here
-
-
-
-
-
-
-
-
+*Analysis* 
 Once the data was collected, linear mixed models were run following the order of the hypotheses as seen in Figure ??? [individual_tested_traits]. Using the [@R-pointRes] package, we set up models with the resistance value as the response variable, and each prediction's variable as the independent variable. Variables' importance in predicting drought tolerance was calculated from mixed-effects models and the lowest AICc [@R-lme4, @R-AICcmodavg].Null models were determined in order of the predictions. First, we analyzed the combined scenario to determine if "year" was significant. Upon establishing this, we tested height and DBH as size parameters. Although both were significant, height was kept due to its larger delta AICc compared with the null model. We then tested the remaining biophysical and hydraulic traits individually against a null model containing height and year. This yielded Figure ??? (cand_full). All variables with dAICc >2 were used as candidates for each scenario's best model (figure ???? (tested_traits_best))
 
-**Describe each individual drought scenario **
-1964-1966
-1977
-1999
+
+### Results
+
+*Descriptions of Droughts*
+In the 60-year period between 1950 and 2009, there were three droughts that met our definition of anomalously dry climatic conditions coupled with substantial reductions in tree growth for at least some portions of the community: 1964-1966, 1977, and 1999 (Fig. 1). We note that 1964 and 1966 were separately identified as drought years and grouped into a single multi-year drought period because 1965 was also anomalously hot and dry, albiet not identified as a pointer year. Climatically, these droughts included four of the five years between 1950 and 2009 with greatest moisture deficit (PET-PRE) during the peak growing season months of May-August, which are the months to which annual tree growth at this site is most sensitive [@helcoski_growing_2019]. Specifically, 1964, 1966, 1977, and 1999 had mean MJJA PET-PRE of 83.87, 83.37, 86.97, and 80 mm mo<sup>-1</sup>, respectively. The year 2007 also ranked in the top five driest (PET-PRE = 82.13 mm mo<sup>-1</sup>), but it did not have particualarly low PDSI and was not identified as a pointer year. **add stats for PDSI, T, precip**
+
+- physical characteristics of drought: duration, min PDSI (and when occurred), see [@slette_how_2019] to see how they suggest reporting each one
+- sum nb.series for each scenario, mult by perc.neg (pointers df), define thresholds (e.g. 75% of all trees experienced the growth reduction of 40% or more)
+
+  - citing table 3 (the coefficient for individual year) - maybe mention how 77 and 99 have neg coefficients, indicating potential height effect: as time goes on, trees are more affected by drought anyways because they grow taller
 
 **Figure 1. Time series of peak growing season (May-August) climate conditions and residual chronologies for each species.** Droughts analyzed here are indicated by dashed lines, and shading indicates the pre-drought period used in calculations of the resistance metric. Figure modified from [@helcoski_growing_2019].
 
