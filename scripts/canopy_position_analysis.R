@@ -229,7 +229,6 @@ names(canopy) <- values
 values <- paste0(sp_can, "_canopy")
 names(widths_can) <- values
 
-
 ###subcanopy ####
 dirs_subcan <- dir("data/core_files/subcanopy_cores", pattern = "_subcanopy.rwl")
 dirs_subcan <- dirs_subcan[!dirs_subcan %in% c("pist_drop_subcanopy.rwl", "frni_drop_subcanopy.rwl")]
@@ -262,6 +261,7 @@ values_sub <- paste0(sp_subcan, "_subcan_res")
 names(subcanopy) <- values_sub
 values <- paste0(sp_subcan, "_subcanopy")
 names(widths_sub) <- values
+names(all_bai_subcan) <- values
 
 widths <- c(widths_can, widths_sub) #combine into one, then delete individual. For use in #5d
 widths_can <- NULL
@@ -310,17 +310,39 @@ for (i in seq(along=1:length(tag_n))){
   ind <- can_resist
   ind_neil <- neil_list[neil_list$tag %in% tree_series, ]
   
+  ##for original code here, see below in the subcanopy loop
+  
   ind$year <- years
+  ind$year <- as.numeric(ind$year)
   ind$sp <- unique(ind_neil$sp)
   ind$position <- "canopy"
+
+  ind <- ind[ind$year %in% c(1959:1963,1964:1966,1977,1999), ]
   
-  ind <- ind[ind$year %in% pointer_years, ]
-  
-  ## these three lines of code are for taking the mean of 1964-1966, 
+  ## these lines of code get the mean of 1959:163 for pre-drought, and then do the mean of the drought growth itself (1964:1966). Then you get the resistance value by doing:
+  ###[average growth 1964-66] / [ average growth 1959 - 1963]
   ## since it was a multi-year drought. We're calling it 1966 for simplicity.
-  ind["1966", 1:(ncol(ind) -3)] <- colMeans(ind[c(1:3), 1:(ncol(ind) -3)])
-  ind <- ind[-c(1,2), ]
-  ind[, 1:(ncol(ind) -3)] <- round(ind[, 1:(ncol(ind) -3)], 2)
+  df <- ind[, 1:(ncol(ind) -3)]
+  df_pre <- df[rownames(df) %in% c(1959:1963), ]
+  df_dro <- df[rownames(df) %in% c(1964:1966), ]
+  
+  df_pre <- as.data.frame(t(data.frame(colMeans(df_pre))))
+  colnames(df_pre) <- colnames(df)
+  
+  df_dro <- as.data.frame(t(data.frame(colMeans(df_dro))))
+  colnames(df_dro) <- colnames(df)
+  
+  df_resist <- df_dro/df_pre
+  df_resist <- round(df_resist, 2)
+  
+  rownames(df_resist) <- 1966
+  df_resist$year <- 1966
+  df_resist$sp <- unique(ind$sp)
+  df_resist$position <- unique(ind$position)
+  
+  ind <- ind[-c(1:8), ]
+  ind <- rbind(df_resist, ind)
+  ind$year <- as.character(ind$year)
   
   change <- melt(ind)
   setnames(change, old=c("variable", "value"), new=c("tree", "resist.value"))
@@ -345,17 +367,50 @@ for (i in seq(along=1:length(tag_n))){
     ind <- sub_resist
     ind_neil <- neil_list[neil_list$tag %in% tree_series, ]
     
+    ## this code was the original we used to make the averages. we've since changed it to include the ratio of 1964:1966 to 1959:1963, but I'm keeping it here just in case.
+    # ind$year <- years
+    # ind$sp <- unique(ind_neil$sp)
+    # ind$position <- "subcanopy"
+    # 
+    # ind <- ind[ind$year %in% pointer_years, ]
+    # 
+    # ## these three lines of code are for taking the mean of 1964-1966, 
+    # ## since it was a multi-year drought. We're calling it 1966 for simplicity.
+    # ind["1966", 1:(ncol(ind) -3)] <- colMeans(ind[c(1:3), 1:(ncol(ind) -3)])
+    # ind <- ind[-c(1,2), ]
+    # ind[, 1:(ncol(ind) -3)] <- round(ind[, 1:(ncol(ind) -3)], 2)
+    
     ind$year <- years
+    ind$year <- as.numeric(ind$year)
     ind$sp <- unique(ind_neil$sp)
-    ind$position <- "subcanopy"
+    ind$position <- "canopy"
     
-    ind <- ind[ind$year %in% pointer_years, ]
+    ind <- ind[ind$year %in% c(1959:1963,1964:1966,1977,1999), ]
     
-    ## these three lines of code are for taking the mean of 1964-1966, 
+    ## these lines of code get the mean of 1959:163 for pre-drought, and then do the mean of the drought growth itself (1964:1966). Then you get the resistance value by doing:
+    ###[average growth 1964-66] / [ average growth 1959 - 1963]
     ## since it was a multi-year drought. We're calling it 1966 for simplicity.
-    ind["1966", 1:(ncol(ind) -3)] <- colMeans(ind[c(1:3), 1:(ncol(ind) -3)])
-    ind <- ind[-c(1,2), ]
-    ind[, 1:(ncol(ind) -3)] <- round(ind[, 1:(ncol(ind) -3)], 2)
+    df <- ind[, 1:(ncol(ind) -3)]
+    df_pre <- df[rownames(df) %in% c(1959:1963), ]
+    df_dro <- df[rownames(df) %in% c(1964:1966), ]
+    
+    df_pre <- as.data.frame(t(data.frame(colMeans(df_pre))))
+    colnames(df_pre) <- colnames(df)
+    
+    df_dro <- as.data.frame(t(data.frame(colMeans(df_dro))))
+    colnames(df_dro) <- colnames(df)
+    
+    df_resist <- df_dro/df_pre
+    df_resist <- round(df_resist, 2)
+    
+    rownames(df_resist) <- 1966
+    df_resist$year <- 1966
+    df_resist$sp <- unique(ind$sp)
+    df_resist$position <- unique(ind$position)
+    
+    ind <- ind[-c(1:8), ]
+    ind <- rbind(df_resist, ind)
+    ind$year <- as.character(ind$year)
     
     change <- melt(ind)
     setnames(change, old=c("variable", "value"), new=c("tree", "resist.value"))
@@ -1126,6 +1181,7 @@ library(car)
 library(piecewiseSEM) #for R^2 values for all model outputs in a list
 library(MuMIn) #for R^2 values of one model output
 library(stringr)
+library(purrr)
 
 ##6a. test each variable individually for each drought scenario ####
 sum_mod_traits <- data.frame(
@@ -1386,21 +1442,20 @@ for (i in seq(along=c(1:4))){
            coeff <- data.frame(coef(summary(fit1))[ , "Estimate"]) ##2
            coeff[,2] <- rownames(coeff)
            coeff[,1] <- round(coeff[,1], 3)
-           colnames(coeff) <- c(paste0(names(model_df[j]), "_", w), "model_var")
+           colnames(coeff) <- c(paste0("[All years] ","Model #", w), "model_var")
            
            #put r2 in table
+           delta <- data.frame(var_aic$Delta_AICc[[w]])
+           colnames(delta) <- paste0("[All years] ","Model #", w)
+           delta$model_var <- "dAICc"
+           
            r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
            r <- data.frame(r[,6])
-           colnames(r) <- paste0(names(model_df[j]), "_", w)
+           colnames(r) <- paste0("[All years] ","Model #", w)
            r$model_var <- "r^2"
            r[,1] <- round(r[,1], 2)
            
-           coeff <- rbind(r,coeff)
-           
-           coeff$dAICc <- var_aic$Delta_AICc[[w]]
-           coeff$dAICc <- round(coeff$dAICc, 2)
-           
-           setnames(coeff, old="dAICc", new=paste0("dAICc_", names(model_df[j]), "_", w))
+           coeff <- rbind(delta, r, coeff)
            
            coeff_list[[paste0("coeff_", names(model_df[j]), "_", w)]] <- coeff
           }
@@ -1471,21 +1526,20 @@ for (i in seq(along=c(1:4))){
             coeff <- data.frame(coef(summary(fit1))[ , "Estimate"]) ##2
             coeff[,2] <- rownames(coeff)
             coeff[,1] <- round(coeff[,1], 3)
-            colnames(coeff) <- c(paste0(names(model_df[j]), "_", w), "model_var")
+            colnames(coeff) <- c(paste0("[", names(model_df[j]), "] ","Model #", w), "model_var")
             
             #put r2 in table
+            delta <- data.frame(var_aic$Delta_AICc[[w]])
+            colnames(delta) <- paste0("[", names(model_df[j]), "] ","Model #", w)
+            delta$model_var <- "dAICc"
+            
             r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
             r <- data.frame(r[,6])
-            colnames(r) <- paste0(names(model_df[j]), "_", w)
+            colnames(r) <- paste0("[", names(model_df[j]), "] ","Model #", w)
             r$model_var <- "r^2"
             r[,1] <- round(r[,1], 2)
             
-            coeff <- rbind(r,coeff)
-            
-            coeff$dAICc <- var_aic$Delta_AICc[[w]]
-            coeff$dAICc <- round(coeff$dAICc, 2)
-            
-            setnames(coeff, old="dAICc", new=paste0("dAICc_", names(model_df[j]), "_", w))
+            coeff <- rbind(delta, r, coeff)
             
             coeff_list[[paste0("coeff_", names(model_df[j]), "_", w)]] <- coeff
           }
@@ -1500,25 +1554,35 @@ write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", r
 write.csv(top_models, "manuscript/tables_figures/top_models_dAIC.csv", row.names=FALSE)
 
 ##make table of coefficients and r2, then reorder table
-library(purrr)
+#reorder the list 
+coeff_list <- coeff_list[c(3,2,1,4,6,5,7:9,16:17,13,15,11,14,12,18,10)]
+coeff_list <- coeff_list[c(2,1,4,5,3,6:7,9,8,11,12,10)]
+
 coeff_table <- 
   coeff_list %>%
   reduce(left_join, by = "model_var")
 
+coeff_table <- coeff_table[,c(2,1,3:ncol(coeff_table))]
+coeff_table[,2:ncol(coeff_table)] <- round(coeff_table[,2:ncol(coeff_table)], 3)
 
-coeff_table <- Reduce(function(dtf1, dtf2) 
-  merge(dtf1, dtf2, by = "model_var", all = TRUE),
-       coeff_list)
-setnames(coeff_table, old="trees_all_sub", new="all years")
+coeff_new <- as.data.frame(t(coeff_table[,-1]))
+colnames(coeff_new) <- coeff_table$model_var
 
-vars <- coeff_table$model_var
-vars <- vars[!vars %in% "r^2"]
-vars <- c("r^2", vars)
+coeff_new$year1964 <- ifelse(!is.na(coeff_new$year1977), 0, NA)
+coeff_new$codominant <- ifelse(!is.na(coeff_new$position_alldominant), 0, NA)
 
-coeff_table <- coeff_table %>%
-  slice(match(vars, model_var))
+coeff_new <- coeff_new[,c(1:3,13,9:10,7,4,14,5:6,8,11:12)]
+colnames(coeff_new) <- c("dAICc", "r^2", "Intercept", "1964-66", "1977", "1999", "ln[H]", "D", "C", "I", "S", "ln[TWI]", "PLA", "TLP")
 
-write.csv(coeff_table, "manuscript/tables_figures/tested_traits_best_coeffs.csv", row.names=FALSE)
+coeff_new <- setDT(coeff_new, keep.rownames = TRUE)[]
+setnames(coeff_new, old="rn", new="rank")
+
+patterns <- c("\\[", "x", "\\]")
+for(i in seq(along=patterns)){
+  coeff_new$rank <- gsub(patterns[[i]], "", coeff_new$rank)
+}
+
+write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeffs.csv", row.names=FALSE)
 
 ##6c. standalone code to get coefficients and r2 #### 
 ##(for paper, should do ONLY w/REML=TRUE) 

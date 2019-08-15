@@ -256,11 +256,16 @@ dev.off()
 ##density graph of resistance values ####
 trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv")
 trees_all_sub$year <- as.character(trees_all_sub$year)
+
+jpeg("manuscript/tables_figures/Figure1a.jpg", res=300, width=150, height=75, units="mm")
 ggplot(trees_all_sub) +
    aes(x = resist.value, fill = year) +
    geom_density(adjust = 1L, alpha=.5) +
-   scale_fill_hue() +
+   geom_vline(xintercept=1) +
+   scale_fill_hue(labels=c("1964-1966", "1977", "1999")) +
+   labs(x="resistance value") +
    theme_minimal()
+dev.off()
 
 #######################################################################################
 #4 Export the graphs ####
