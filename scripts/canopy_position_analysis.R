@@ -194,6 +194,57 @@ library(reshape2)
 ##we originally included pist but ultimately we have no leaf trait data for this species, so we excluded it
 
 ##4a. determine pointer years 
+
+###all cores together ####
+#this is a combination of the two canopy and subcanopy groupings below
+
+rings <- read.rwl("data/core_files/all_species_except_FRNI_PIST.rwl") #read in rwl file
+widths <- rings #for consistency with original code
+area <- bai.in(rings) #convert to bai.in
+resil_metrics <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 25) #get resilience metrics
+
+resil_pointers <- data.frame(resil_metrics$out)
+resil_pointers <- resist[resist$nb.series >=4, ]
+
+pointers <- resil_pointers[resil_pointers$nature == -1, ]
+pointers <- pointers[,c(1:3,5)]
+pointers <- pointers[order(pointers$nb.series, decreasing=TRUE), ]
+rownames(pointers) <- 1:nrow(pointers)
+
+#get specific resist values for all trees
+neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
+neil_sp <- unique(neil_list$sp)
+
+neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
+
+pointer_years_simple <- c(1966, 1977, 1999)
+
+resist <- data.frame(resil_metrics$resist)
+years <- rownames(resist)
+colnames(resist) <- gsub("A", "", colnames(resist))
+tree_series <- colnames(resist)
+
+ind <- resist
+ind_neil <- neil_list[neil_list$tag %in% tree_series, ]
+ind$year <- years
+ind$year <- as.numeric(ind$year)
+ind <- ind[ind$year %in% c(1966,1977,1999), ]
+
+ind$year <- as.character(ind$year) #to melt
+change <- melt(ind)
+setnames(change, old=c("variable", "value"), new=c("tree", "resist.value"))
+
+
+#bring in species from neil_list
+change$sp <- ind_neil$sp[match(change$tree, ind_neil$tag)]
+
+change$tree <- gsub("X", "", change$tree)
+change$tree <- gsub("^0", "", change$tree)
+
+#this is trees_all
+trees_all <- change[complete.cases(change), ]
+
+#
 ###canopy ####
 dirs_can <- dir("data/core_files/canopy_cores", pattern = "_canopy.rwl")
 dirs_can <- dirs_can[!dirs_can %in% c("pist_drop_canopy.rwl", "frni_drop_canopy.rwl")]
@@ -623,7 +674,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEJ2XM4T3UWCR6WNPLS5LKJKE"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEN4O7QACR7L5X4AHK25OZHZM"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
@@ -652,7 +703,7 @@ for (i in seq(along=2:ncol(leaf_traits))){
 # 
 # trees_all$SLA_mean <- mean_SLA$SLA_mean[match(trees_all$sp, mean_SLA$Genus.spp)]
 
-##5bii. add in p50 and p88 ####
+##5bii. add in p50 and p88 (here for reference) ####
 #after review, we have decided to not focus on p50 and p80
 # #get P50 from traits table
 # hydra <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/results/SCBI_best_fits.csv?token=AJNRBEP62SALMQHAV45TP2S5HCCPK"))
@@ -674,71 +725,71 @@ elev <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/S
 
 trees_all$elev.m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
-##5d. add in distance to water ####
-## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
-
-## I have not found a way to make this not involve personal directories without moving all the data to my folder, which I'm hesitant about doing due to data redundancy.
-scbi_plot <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/20m_grid.shp")
-deer <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/deer_exclosure_2011.shp")
-roads <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_roads_edits.shp")
-streams <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_streams_edits.shp")
-NS_divide <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/Dendrobands/resources/maps/shapefiles/NS_divide1.shp")
-
-#convert all shp to dataframe so that it can be used by ggplot
-#if tidy isn't working, can also do: xxx_df <- as(xxx, "data.frame")
-scbi_plot_df <- tidy(scbi_plot)
-deer_df <- tidy(deer)
-roads_df <- tidy(roads)
-streams_df <- tidy(streams)
-NS_divide_df <- tidy(NS_divide)
-
-## now we get into code specific for this analysis
-neil_map <- neil_list
-neil_map$tag <- gsub("X", "", neil_map$tag)
-neil_map$tag <- as.numeric(neil_map$tag)
-neil_map <- neil_map[, c(1:6,23:24)]
-
-map <- ggplot() +
-  geom_path(data = scbi_plot_df, aes(x = long, y = lat, group = group))+
-  geom_path(data=roads_df, aes(x=long, y=lat, group=group), 
-            color="#996600", linetype=2)+
-  geom_path(data=streams_df, aes(x=long, y=lat, group=group), color="blue")+
-  geom_path(data=deer_df, aes(x=long, y=lat, group=group), size=1.1)+
-  geom_point(data=neil_map, aes(x=NAD83_X, y=NAD83_Y), shape=19)+
-  geom_text(data=neil_map, aes(x=NAD83_X, y=NAD83_Y, label=tag), 
-            size=3, hjust=1.25, nudge_y=-1, nudge_x=1, check_overlap=TRUE)+
-  theme(plot.title=element_text(vjust=0.1))+
-  coord_sf(crs = "crs = +proj=merc", xlim=c(747350,747800), ylim=c(4308500, 4309125))
-
-## calculating the distance requires some conversion. First, the points of the cored trees from neil_map must be in their own dataframe before they can be converted to a SpatialPoints object.
-neil_map_sub <- neil_map[, c(7:8)]
-neil_points <- SpatialPoints(neil_map_sub, proj4string = CRS(as.character("+proj=merc")))
-
-## here, the minimum distance to water is calculated before binding with neil_map.
-## A warning says that neil_points and streams are projected differently, but the output has been verified to be accurate.
-distance_water <- data.frame(apply(gDistance(neil_points, streams, byid=TRUE), 2, min))
-colnames(distance_water) <- "distance_water"
-distance <- cbind(neil_map, distance_water)
-
-## next, do a log transformation on the distances before adding as a column to trees_all (similar to the dbh calculations below)
-distance$distance.ln.m <- log(distance$distance_water)
-trees_all$distance.ln.m <- distance$distance.ln.m[match(trees_all$tree, distance$tag)]
-
-## this is to double check the accuracy of the map.
-distance_short <- distance[distance$distance_water <= 30, ]
-
-map <- ggplot() +
-  geom_path(data = scbi_plot_df, aes(x = long, y = lat, group = group))+
-  geom_path(data=roads_df, aes(x=long, y=lat, group=group), 
-            color="#996600", linetype=2)+
-  geom_path(data=streams_df, aes(x=long, y=lat, group=group), color="blue")+
-  geom_path(data=deer_df, aes(x=long, y=lat, group=group), size=1.1)+
-  geom_point(data=distance_short, aes(x=NAD83_X, y=NAD83_Y), shape=19)+
-  geom_text(data=distance_short, aes(x=NAD83_X, y=NAD83_Y, label=tag), 
-            size=3, hjust=1.25, nudge_y=-1, nudge_x=1, check_overlap=TRUE)+
-  theme(plot.title=element_text(vjust=0.1))+
-  coord_sf(crs = "crs = +proj=merc", xlim=c(747350,747800), ylim=c(4308500, 4309125))
-
+# ##5d. add in distance to water (here for reference) ####
+# ## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
+# 
+# ## I have not found a way to make this not involve personal directories without moving all the data to my folder, which I'm hesitant about doing due to data redundancy.
+# scbi_plot <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/20m_grid.shp")
+# deer <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/deer_exclosure_2011.shp")
+# roads <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_roads_edits.shp")
+# streams <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/spatial_data/shapefiles/SCBI_streams_edits.shp")
+# NS_divide <- readOGR("D:/Dropbox (Smithsonian)/Github_Ian/Dendrobands/resources/maps/shapefiles/NS_divide1.shp")
+# 
+# #convert all shp to dataframe so that it can be used by ggplot
+# #if tidy isn't working, can also do: xxx_df <- as(xxx, "data.frame")
+# scbi_plot_df <- tidy(scbi_plot)
+# deer_df <- tidy(deer)
+# roads_df <- tidy(roads)
+# streams_df <- tidy(streams)
+# NS_divide_df <- tidy(NS_divide)
+# 
+# ## now we get into code specific for this analysis
+# neil_map <- neil_list
+# neil_map$tag <- gsub("X", "", neil_map$tag)
+# neil_map$tag <- as.numeric(neil_map$tag)
+# neil_map <- neil_map[, c(1:6,23:24)]
+# 
+# map <- ggplot() +
+#   geom_path(data = scbi_plot_df, aes(x = long, y = lat, group = group))+
+#   geom_path(data=roads_df, aes(x=long, y=lat, group=group), 
+#             color="#996600", linetype=2)+
+#   geom_path(data=streams_df, aes(x=long, y=lat, group=group), color="blue")+
+#   geom_path(data=deer_df, aes(x=long, y=lat, group=group), size=1.1)+
+#   geom_point(data=neil_map, aes(x=NAD83_X, y=NAD83_Y), shape=19)+
+#   geom_text(data=neil_map, aes(x=NAD83_X, y=NAD83_Y, label=tag), 
+#             size=3, hjust=1.25, nudge_y=-1, nudge_x=1, check_overlap=TRUE)+
+#   theme(plot.title=element_text(vjust=0.1))+
+#   coord_sf(crs = "crs = +proj=merc", xlim=c(747350,747800), ylim=c(4308500, 4309125))
+# 
+# ## calculating the distance requires some conversion. First, the points of the cored trees from neil_map must be in their own dataframe before they can be converted to a SpatialPoints object.
+# neil_map_sub <- neil_map[, c(7:8)]
+# neil_points <- SpatialPoints(neil_map_sub, proj4string = CRS(as.character("+proj=merc")))
+# 
+# ## here, the minimum distance to water is calculated before binding with neil_map.
+# ## A warning says that neil_points and streams are projected differently, but the output has been verified to be accurate.
+# distance_water <- data.frame(apply(gDistance(neil_points, streams, byid=TRUE), 2, min))
+# colnames(distance_water) <- "distance_water"
+# distance <- cbind(neil_map, distance_water)
+# 
+# ## next, do a log transformation on the distances before adding as a column to trees_all (similar to the dbh calculations below)
+# distance$distance.ln.m <- log(distance$distance_water)
+# trees_all$distance.ln.m <- distance$distance.ln.m[match(trees_all$tree, distance$tag)]
+# 
+# ## this is to double check the accuracy of the map.
+# distance_short <- distance[distance$distance_water <= 30, ]
+# 
+# map <- ggplot() +
+#   geom_path(data = scbi_plot_df, aes(x = long, y = lat, group = group))+
+#   geom_path(data=roads_df, aes(x=long, y=lat, group=group), 
+#             color="#996600", linetype=2)+
+#   geom_path(data=streams_df, aes(x=long, y=lat, group=group), color="blue")+
+#   geom_path(data=deer_df, aes(x=long, y=lat, group=group), size=1.1)+
+#   geom_point(data=distance_short, aes(x=NAD83_X, y=NAD83_Y), shape=19)+
+#   geom_text(data=distance_short, aes(x=NAD83_X, y=NAD83_Y, label=tag), 
+#             size=3, hjust=1.25, nudge_y=-1, nudge_x=1, check_overlap=TRUE)+
+#   theme(plot.title=element_text(vjust=0.1))+
+#   coord_sf(crs = "crs = +proj=merc", xlim=c(747350,747800), ylim=c(4308500, 4309125))
+# 
 
 ##5e. add in dbh for each year ####
 ###original method ####
@@ -807,7 +858,8 @@ map <- ggplot() +
 
 ###new method ####
 bark <- read.csv("data/traits/SCBI_bark_depth.csv")
-bark <- bark[bark$species %in% sp_can | bark$species %in% sp_subcan, ]
+# bark <- bark[bark$species %in% sp_can | bark$species %in% sp_subcan, ]
+bark <- bark[bark$species %in% unique(trees_all$sp), ]
 
 #1. Calculate diameter_nobark for 2008 = DBH.mm.2008-2*bark.depth.mm
 bark$diam_nobark_2008.mm <- bark$DBH.mm.2008 - 2*bark$bark.depth.mm 
@@ -873,36 +925,66 @@ dbh$mean_bark_2008.mm <- round(dbh$mean_bark_2008.mm, 2)
 ## diam_nobark_1999 = dbh2008 - 2*(bark.depth2008) - 2*(sum(ring.width1999:ring.width2008))
 
 ##define this column before loop
-
 dbh$diam_nobark_old.mm <- 0
-for (i in seq(along=widths)){
-  df <- widths[[i]] #the list "widths" comes from #4a-4b
-  colnames(df) <- gsub("A", "", colnames(df)) #remove "A"
-  colnames(df) <- gsub("^0", "", colnames(df)) #remove leading 0
+
+df <- rings #the original file read-in from read.rwl
+colnames(df) <- gsub("A", "", colnames(df)) #remove "A"
+colnames(df) <- gsub("^0", "", colnames(df)) #remove leading 0
   
-  cols <- colnames(df) #define cols for below
-  colnames(df) <- gsub("^", "x", colnames(df)) #add "x" to make calling colnames below feasible
+cols <- colnames(df) #define cols for below
+colnames(df) <- gsub("^", "x", colnames(df)) #add "x" to make calling colnames below feasible
   
-  for (j in seq(along=cols)){
-    for (k in seq(along=colnames(df))){
-      ring_ind <- cols[[j]]
-      ring_col <- colnames(df)[[k]]
+for (j in seq(along=cols)){
+  for (k in seq(along=colnames(df))){
+    ring_ind <- cols[[j]]
+    ring_col <- colnames(df)[[k]]
       
-      if(j==k){
-        #the output of this loop is 3 separate columns for each year's old dbh, hence why it is set to q as a dataframe before being combined below. Pointer_years_simple comes from #4d.
-        q <- data.frame(sapply(pointer_years_simple, function(x){
-          rw <- df[rownames(df)>=x, ]
-          ifelse(dbh$year == x & dbh$tree == ring_ind, 
-                 dbh$dbh2008.mm - 2*(dbh$mean_bark_2008.mm) - sum(rw[rownames(rw) %in% c(x:2008), ring_col], na.rm=TRUE), 0)
-        }))
+    if(j==k){
+      #the output of this loop is 3 separate columns for each year's old dbh, hence why it is set to q as a dataframe before being combined below. Pointer_years_simple comes from #4d.
+      q <- data.frame(sapply(pointer_years_simple, function(x){
+        rw <- df[rownames(df)>=x, ]
+        ifelse(dbh$year == x & dbh$tree == ring_ind, 
+               dbh$dbh2008.mm - 2*(dbh$mean_bark_2008.mm) - sum(rw[rownames(rw) %in% c(x:2008), ring_col], na.rm=TRUE), 0)
+      }))
         
-        q$diam_nobark_old.mm <- q[,1] +q[,2] + q[,3] #add columns together
-        # q$dbh_old.mm <- q[,1] +q[,2] + q[,3] + q[,4]
-        dbh$diam_nobark_old.mm <- dbh$diam_nobark_old.mm + q$diam_nobark_old.mm #combine with dbh (it's the same order of rows) #mm
-      }
+      q$diam_nobark_old.mm <- q[,1] +q[,2] + q[,3] #add columns together
+      # q$dbh_old.mm <- q[,1] +q[,2] + q[,3] + q[,4]
+      dbh$diam_nobark_old.mm <- dbh$diam_nobark_old.mm + q$diam_nobark_old.mm #combine with dbh (it's the same order of rows) #mm
     }
   }
 }
+
+
+##code for original canopy/subcanopy groupings using list made in #4a.
+# dbh$diam_nobark_old.mm <- 0
+# for (i in seq(along=widths)){
+#   df <- widths[[i]] #the list "widths" comes from #4a-4b
+#   colnames(df) <- gsub("A", "", colnames(df)) #remove "A"
+#   colnames(df) <- gsub("^0", "", colnames(df)) #remove leading 0
+#   
+#   cols <- colnames(df) #define cols for below
+#   colnames(df) <- gsub("^", "x", colnames(df)) #add "x" to make calling colnames below feasible
+#   
+#   for (j in seq(along=cols)){
+#     for (k in seq(along=colnames(df))){
+#       ring_ind <- cols[[j]]
+#       ring_col <- colnames(df)[[k]]
+#       
+#       if(j==k){
+#         #the output of this loop is 3 separate columns for each year's old dbh, hence why it is set to q as a dataframe before being combined below. Pointer_years_simple comes from #4d.
+#         q <- data.frame(sapply(pointer_years_simple, function(x){
+#           rw <- df[rownames(df)>=x, ]
+#           ifelse(dbh$year == x & dbh$tree == ring_ind, 
+#                  dbh$dbh2008.mm - 2*(dbh$mean_bark_2008.mm) - sum(rw[rownames(rw) %in% c(x:2008), ring_col], na.rm=TRUE), 0)
+#         }))
+#         
+#         q$diam_nobark_old.mm <- q[,1] +q[,2] + q[,3] #add columns together
+#         # q$dbh_old.mm <- q[,1] +q[,2] + q[,3] + q[,4]
+#         dbh$diam_nobark_old.mm <- dbh$diam_nobark_old.mm + q$diam_nobark_old.mm #combine with dbh (it's the same order of rows) #mm
+#       }
+#     }
+#   }
+# }
     
 #7. Calculate bark thickness using regression equation per appropriate sp
 ## log(bark.depth.1999) = intercept + log(diam_nobark)*constant
@@ -969,7 +1051,8 @@ sap$hw_area.mm2 <- pi*(sap$hw_rad.mm)^2
 #Sapwood area = pi*((0.5*dbh)^2) – heartwood area (cm^2 with the /100)
 sap$sap_area.cm2 <- (pi*(0.5*sap$dbh_nobark.mm)^2 - sap$hw_area.mm2)/100
 
-sap <- sap[sap$sp %in% sp_can | sap$sp %in% sp_subcan, ]
+sap <- sap[sap$sp %in% unique(trees_all$sp), ]
+# sap <- sap[sap$sp %in% sp_can | sap$sp %in% sp_subcan, ]
 
 #ratio = sapwood area:total wood area (without bark)
 ##calculate ratio to find the regression equations
@@ -1060,7 +1143,7 @@ ht_change <- trees_all %>%
   summarize(max(height.m) - min(height.m))
 
 ht_change <- ht_change[ht_change$`max(height.m) - min(height.m)` > 0, ]
-mean(ht_change$`max(height.m) - min(height.m)`)
+mean(ht_change$`max(height.m) - min(height.m)`, na.rm=TRUE)
 
 #cap values at max for different species.
 # heights_full <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_heights/SCBI_tree_heights.csv"), stringsAsFactors = FALSE)
@@ -1107,7 +1190,7 @@ layers <- build_layers(q)
 sp::plot(layers, main=c("Elevation AMSL (m)", "Upslope area (log(m^2/m))", "TWI ((log(m^2/m))"))
 
 #5 get TWI values for trees
-twi_trees <- read.csv("D:/Dropbox (Smithsonian)/Github_Ian/McGregor_climate-sensitivity-variation/data/core_list_for_neil.csv")
+twi_trees <- read.csv("data/core_list_for_neil.csv")
 twi_trees <- twi_trees[, c(1,23:24)]
 twi_trees1 <- twi_trees[, c(2:3)]
 twi <- extract(layers[[3]], twi_trees1, method="simple")
@@ -1231,7 +1314,6 @@ for (i in seq_along(1:12)){
   if (i == 1){
     sum_mod_traits$tested_model_year[[i]] <- sum_mod_traits$null_model_year[[i]]
   }
-  
   if (i == 6){
     sum_mod_traits$tested_model[[i]] <- "resist.value~height.ln.m*TWI.ln+year+(1|sp/tree)"
     sum_mod_traits$tested_model_year[[i]] <- "resist.value~height.ln.m*TWI.ln+(1|sp)"
@@ -1249,7 +1331,7 @@ for (i in seq_along(1:12)){
       column <- colnames(sum_mod_traits[,c(8,11,14,17)][h])
       
       for (k in seq(along=sum_mod_traits[,c(9,12,15,18)])){ #coefficients direction
-        column_cof <- colnames(sum_mod_traits[,c(9,12,15,18)][h])
+        column_cof <- colnames(sum_mod_traits[,c(9,12,15,18)][k])
         
         for (l in seq(along=sum_mod_traits[,c(10,13,16,19)])){ #coefficient values
           column_cof_val <- colnames(sum_mod_traits[,c(10,13,16,19)][l])
@@ -1357,12 +1439,12 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
   cand_full <- cand_full[order(cand_full$prediction), ]
 }
 
-write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/candidate_traits.csv", row.names=FALSE)
+write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all0209.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/candidate_traits0209.csv", row.names=FALSE)
 
 ##6b. determine the best full model ####
 best_mod_traits <- data.frame("best_model" = NA,
-                              "scenario" = c("all droughts", "1964-1966", "1977", "1999")
+                              "scenario" = c("all droughts", "1966", "1977", "1999")
 )
 best_mod_full <- c(unique(cand_full$variable), "(1|sp/tree)")
 best_mod_full_year <- gsub("/tree", "", best_mod_full)
@@ -1550,13 +1632,14 @@ for (i in seq(along=c(1:4))){
   top_models <- rbind(top_models, top)
 }
 
-write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/top_models_dAIC.csv", row.names=FALSE)
+write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best0209.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/top_models_dAIC0209.csv", row.names=FALSE)
 
 ##make table of coefficients and r2, then reorder table
 #reorder the list 
-coeff_list <- coeff_list[c(3,2,1,4,6,5,7:9,16:17,13,15,11,14,12,18,10)]
-coeff_list <- coeff_list[c(2,1,4,5,3,6:7,9,8,11,12,10)]
+coeff_list <- coeff_list[c(3,2,1,4,6,5,7:9,16:17,13,15,11,14,12,18,10)] #18 models
+coeff_list <- coeff_list[c(2,1,4,5,3,6:7,9,8,11,12,10)] #12 models
+coeff_list <- coeff_list[c(2,3,1,4,6,5,7,8:10,15,13,12,14,11)] #15 models
 
 coeff_table <- 
   coeff_list %>%
@@ -1568,11 +1651,14 @@ coeff_table[,2:ncol(coeff_table)] <- round(coeff_table[,2:ncol(coeff_table)], 3)
 coeff_new <- as.data.frame(t(coeff_table[,-1]))
 colnames(coeff_new) <- coeff_table$model_var
 
-coeff_new$year1964 <- ifelse(!is.na(coeff_new$year1977), 0, NA)
+coeff_new$year1966 <- ifelse(!is.na(coeff_new$year1977), 0, NA) #only if year is variable
 coeff_new$codominant <- ifelse(!is.na(coeff_new$position_alldominant), 0, NA)
 
-coeff_new <- coeff_new[,c(1:3,13,9:10,7,4,14,5:6,8,11:12)]
-colnames(coeff_new) <- c("dAICc", "r^2", "Intercept", "1964-66", "1977", "1999", "ln[H]", "D", "C", "I", "S", "ln[TWI]", "PLA", "TLP")
+coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m", 
+                           "position_alldominant", "codominant", "position_allintermediate","position_allsuppressed", 
+                           "TWI.ln", "PLA_dry_percent")]
+colnames(coeff_new) <- c("dAICc", "r^2", "Intercept", "1966", "1977", "1999", "ln[H]", "D", "C", "I", "S", "ln[TWI]", "PLA", "TLP")
+colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "ln[TWI]", "PLA")
 
 coeff_new <- setDT(coeff_new, keep.rownames = TRUE)[]
 setnames(coeff_new, old="rn", new="rank")
@@ -1582,7 +1668,7 @@ for(i in seq(along=patterns)){
   coeff_new$rank <- gsub(patterns[[i]], "", coeff_new$rank)
 }
 
-write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeffs.csv", row.names=FALSE)
+write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeffs0209.csv", row.names=FALSE)
 
 ##6c. standalone code to get coefficients and r2 #### 
 ##(for paper, should do ONLY w/REML=TRUE) 
