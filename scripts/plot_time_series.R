@@ -48,7 +48,7 @@ clim <- clim[clim$year >= 1950, ]
 # cbind(drought_years, c(clim$pet_sum - clim$pre)[which(c(clim$pet_sum - clim$pre) >= (sort(clim$pet_sum - clim$pre, decreasing = T)[10]))])
 
 
-drought_years <- c(1964, 1965, 1966, 1977, 1999)
+drought_years <- c(1966, 1977, 1999)
 pre_drought_years <- drought_years - 5
 
 
