@@ -38,7 +38,7 @@ Predicting forest responses to drought is an increasingly critical task under cl
 Part of the problem is due to the lack of studies analyzing the confluence of leaf hydraulic traits with biophysical parameters.
 In this study, we analyze the interaction between these two trait groups using forest census data from a 25.6-ha ForestGEO plot in Virginia (USA).
 Drought periods were defined by both Palmer Drought Severity Indices (PDSI) and their identification from tree-ring records for 12 species representing 97% of woody productivity.
-Each drought scenario (1964-66, 1977, 1999), along with the overall trend, was then tested against leaf hyraulic trait measurements and microhabitat biophysical data.
+Each drought scenario (1966, 1977, 1999), along with the overall trend, was then tested against leaf hyraulic trait measurements and microhabitat biophysical data.
 Individual-level growth responses to the three individual droughts  were stronger among taller trees in dominant canopy positions, those in wetter microsites, and for more drought-sensitive species as assessed by leaf traits (turgor loss at less negative leaf water potential, greater shrinkage with leaf dehydration), with substantial variation in the best predictor variables across given droughts. 
 We conclude that when droughts occur, large dominant trees, drought-sensitive species, and individuals in wetter microhabitats are likely to be most strongly affected.
 
