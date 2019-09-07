@@ -11,7 +11,7 @@ rm(list = ls())
 setwd(".")
 
 # Load libraries ####
-
+library(png)
 
 # set parameters ####
 save.plots <- TRUE
@@ -52,13 +52,12 @@ drought_years <- c(1966, 1977, 1999)
 pre_drought_years <- drought_years - 5
 
 
-
+# create plot ####
 if(save.plots)  {
-  jpeg(paste0("manuscript/tables_figures/Time_series_for_each_species.jpg"), res = 300, width = 150, height = 150, units = "mm", pointsize = 10)
+  png(paste0("manuscript/tables_figures/Time_series_for_each_species.png"), res = 300, width = 150, height = 150, units = "mm", pointsize = 10)
 }
 
 par(mfrow = c(length(SPECIES_IN_ORDER) + 3, 1), mar = c(0,0,0,0), oma = c(4, 6, 0, 0))
-
 
 # pet_sum ####
 plot(NULL,
@@ -157,4 +156,6 @@ axis(1)
 mtext(side = 1, "Year", outer = T, line = 2.5)
 mtext(side = 2, "Ring Width Index", outer = T, line = 4)
 
+
+# save plot ####
 if(save.plots) dev.off()
