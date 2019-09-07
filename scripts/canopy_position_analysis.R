@@ -204,7 +204,7 @@ area <- bai.in(rings) #convert to bai.in
 resil_metrics <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 25) #get resilience metrics
 
 resil_pointers <- data.frame(resil_metrics$out)
-resil_pointers <- resist[resist$nb.series >=4, ]
+resil_pointers <- resil_pointers[resil_pointers$nb.series >=4, ]
 
 pointers <- resil_pointers[resil_pointers$nature == -1, ]
 pointers <- pointers[,c(1:3,5)]
@@ -1200,13 +1200,12 @@ twi_trees$TWI <- twi
 trees_all$TWI <- twi_trees$TWI[match(trees_all$tree, twi_trees$tag)]
 trees_all$TWI.ln <- log(trees_all$TWI)
 
-##5i1. write trees_all to csv for use in manuscript code ####
-write.csv(trees_all, "manuscript/tables_figures/trees_all.csv", row.names=FALSE)
 ##5j. remove one bad tree & resistance values >2 ####
 ##fram 140939 has been mislabeled. It is recorded as having a small dbh when that is the second stem. In terms of canopy position, though, it fell between time of coring and when positions were recorded, thus we do not know its position.
 trees_all <- trees_all[!trees_all$tree == 140939, ]
 trees_all <- trees_all[trees_all$resist.value <=2,]
-
+##5j1. write trees_all to csv for use in manuscript code ####
+write.csv(trees_all, "manuscript/tables_figures/trees_all.csv", row.names=FALSE)
 ##5k. subset for either leaf hydraulic traits or biophysical ####
 trees_all_traits <- trees_all[complete.cases(trees_all), ]
 
@@ -1439,8 +1438,8 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
   cand_full <- cand_full[order(cand_full$prediction), ]
 }
 
-write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all0209.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/candidate_traits0209.csv", row.names=FALSE)
+write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/candidate_traits.csv", row.names=FALSE)
 
 ##6b. determine the best full model ####
 best_mod_traits <- data.frame("best_model" = NA,
@@ -1632,13 +1631,13 @@ for (i in seq(along=c(1:4))){
   top_models <- rbind(top_models, top)
 }
 
-write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best0209.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/top_models_dAIC0209.csv", row.names=FALSE)
+write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/top_models_dAIC.csv", row.names=FALSE)
 
 ##make table of coefficients and r2, then reorder table
 #reorder the list 
-coeff_list <- coeff_list[c(3,2,1,4,6,5,7:9,16:17,13,15,11,14,12,18,10)] #18 models
-coeff_list <- coeff_list[c(2,1,4,5,3,6:7,9,8,11,12,10)] #12 models
+# coeff_list <- coeff_list[c(3,2,1,4,6,5,7:9,16:17,13,15,11,14,12,18,10)] #18 models
+# coeff_list <- coeff_list[c(2,1,4,5,3,6:7,9,8,11,12,10)] #12 models
 coeff_list <- coeff_list[c(2,3,1,4,6,5,7,8:10,15,13,12,14,11)] #15 models
 
 coeff_table <- 
@@ -1651,13 +1650,13 @@ coeff_table[,2:ncol(coeff_table)] <- round(coeff_table[,2:ncol(coeff_table)], 3)
 coeff_new <- as.data.frame(t(coeff_table[,-1]))
 colnames(coeff_new) <- coeff_table$model_var
 
-coeff_new$year1966 <- ifelse(!is.na(coeff_new$year1977), 0, NA) #only if year is variable
+# coeff_new$year1966 <- ifelse(!is.na(coeff_new$year1977), 0, NA) #only applicable if "year" is a significant variable
 coeff_new$codominant <- ifelse(!is.na(coeff_new$position_alldominant), 0, NA)
 
 coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m", 
                            "position_alldominant", "codominant", "position_allintermediate","position_allsuppressed", 
                            "TWI.ln", "PLA_dry_percent")]
-colnames(coeff_new) <- c("dAICc", "r^2", "Intercept", "1966", "1977", "1999", "ln[H]", "D", "C", "I", "S", "ln[TWI]", "PLA", "TLP")
+# colnames(coeff_new) <- c("dAICc", "r^2", "Intercept", "1966", "1977", "1999", "ln[H]", "D", "C", "I", "S", "ln[TWI]", "PLA", "TLP") #only if year is variable
 colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "ln[TWI]", "PLA")
 
 coeff_new <- setDT(coeff_new, keep.rownames = TRUE)[]
@@ -1668,7 +1667,7 @@ for(i in seq(along=patterns)){
   coeff_new$rank <- gsub(patterns[[i]], "", coeff_new$rank)
 }
 
-write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeffs0209.csv", row.names=FALSE)
+write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeffs.csv", row.names=FALSE)
 
 ##6c. standalone code to get coefficients and r2 #### 
 ##(for paper, should do ONLY w/REML=TRUE) 
