@@ -253,19 +253,6 @@ plot(topo, axes=FALSE, box=FALSE,
 plot(cored_points, pch=20, col = species_colors[species$sp_fact], add=TRUE)
 dev.off()
 
-##density graph of resistance values ####
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv")
-trees_all_sub$year <- as.character(trees_all_sub$year)
-
-jpeg("manuscript/tables_figures/Figure1a.jpg", res=300, width=150, height=75, units="mm")
-ggplot(trees_all_sub) +
-   aes(x = resist.value, fill = year) +
-   geom_density(adjust = 1L, alpha=.5) +
-   geom_vline(xintercept=1) +
-   scale_fill_hue(labels=c("1964-1966", "1977", "1999")) +
-   labs(x="resistance value") +
-   theme_minimal()
-dev.off()
 
 #######################################################################################
 #4 Export the graphs ####
@@ -353,4 +340,32 @@ heights_other <- ggarrange(plots_bw$heights, plots_bw$plot_pla_ht, plots_bw$plot
 ###put plots together
 png("manuscript/tables_figures/Figure2.png", width=11, height=11, units="in", res=300)
 ggarrange(NEON, heights_other, nrow=2, ncol=1)
+dev.off()
+
+################################################################################
+#5 Distribution of resistance values and time series (Figure 1)
+library(ggplot2)
+library(png)
+library(gridExtra)
+library(cowplot)
+
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv")
+trees_all_sub$year <- as.character(trees_all_sub$year)
+
+#save as png so that way you're arranging only png
+png("manuscript/tables_figures/density_plot.png", res = 300, width = 150, height = 50, units = "mm", pointsize = 10)
+ggplot(trees_all_sub) +
+   aes(x = resist.value, fill = year) +
+   geom_density(adjust = 1L, alpha=.5) +
+   geom_vline(xintercept=1) +
+   scale_fill_hue(labels=c("1966", "1977", "1999")) +
+   labs(x="resistance value") +
+   theme_minimal()
+dev.off()
+
+plot1 <- readPNG("manuscript/tables_figures/Time_series_for_each_species.png")
+plot2 <- readPNG("manuscript/tables_figures/density_plot.png")
+
+png("manuscript/tables_figures/Figure1.png", res=300, height=200, width=150, units="mm", pointsize=10)
+plot_grid(rasterGrob(plot1), rasterGrob(plot2), align = "v", nrow = 2, rel_heights = c(3/4, 1/4), axis = "b")
 dev.off()
