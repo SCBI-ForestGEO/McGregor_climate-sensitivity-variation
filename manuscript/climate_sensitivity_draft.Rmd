@@ -58,7 +58,7 @@ Canopy trees have lower drought resistance because they are exposed to higher so
 *Second, how do species' traits - alone and in interaction with tree size - influence drought response?* 
 Analyzing drought responses on the species level does not fully explain mechanisms and is not feasible in diverse forests. The solution is a trait-based approach. Leaf hydraulic traits hold more promise than more commonly/traditionally-measured traits such as wood density and specific leaf area (SLA) ([Medeiros et al. 2019](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2435.13229)). 
 
-Commonly measured traits including wood density (REFS), leaf mass per area [@abrams_adaptations_1990] [@guerfel_impacts_2009], and ring porosity (Elliot et al. 2015, Friedrichs et al. 2009) have been linked to drought responses and likely correlated with drought resistance in this forest. However, we hypothesize that leaf hydraulic traits such as leaf area shrinkage upon dessication (PLA) and turgor loss point (TLP), which are emerging as potentially more informative traits but whose effect on drought resistance has never been tested (CONFIRM), will prove better predictors.
+Commonly measured traits including wood density (REFS), leaf mass per area [@abrams_adaptations_1990] [@guerfel_impacts_2009], and ring porosity (Elliot et al. 2015, Friedrichs et al. 2009) have been linked to drought responses and likely correlated with drought resistance in this forest. However, we hypothesize that leaf hydraulic traits such as leaf area shrinkage upon dessication (PLA; REF) and turgor loss point (TLP; REF), which are emerging as potentially more informative traits but whose effect on drought resistance has never been tested, will prove better predictors.
 
 Moreover, there may be an interaction between traits and tree size. It is possible that the pattern observed by @bennett_larger_2015 could be caused by smaller trees being more drought resistant. Alternatively, larger trees may have more drought-resistant traits as adpatations to greater biophysical challenges.
 
@@ -66,7 +66,7 @@ Moreover, there may be an interaction between traits and tree size. It is possib
 *Third, are responses similar or variable across individual drought years?*
 Droughts are rarely explicitly defined in ecological studies [@slette_how_2019], yet no two droughts are the same.
 
-We need to understand the the factors confirming drought vulnerability or resistance not only for extreme droughts with dramatic impacts on tree growth and mortality, which tend to dominate the literature [@bennett_larger_2015] (REFS), but also for more modest but frequent droughts--e.g., those with historical return intervals on the order of a decade.
+We need to understand the the factors confirming drought vulnerability or resistance not only for extreme droughts with dramatic impacts on tree growth and mortality, which tend to dominate the literature [@bennett_larger_2015] (*Stovall_new*; REFS), but also for more modest but frequent droughts--e.g., those with historical return intervals on the order of a decade.
 
 
 Here, we combine tree-ring records covering three droughts (1966, 1977, 1999), species functional and hydraulic trait measurments, and forest census data from a 25.6-ha ForestGEO plot in Virginia (USA) to test a series of hypotheses and associated specific predictions (Table 1) designed to yield functional understanding of how tree size, microenrivonment, and species' traits collectively shape drought responses. 
