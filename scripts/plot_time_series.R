@@ -57,6 +57,7 @@ if(save.plots)  {
   png(paste0("manuscript/tables_figures/Time_series_for_each_species.png"), res = 300, width = 150, height = 150, units = "mm", pointsize = 10)
 }
 
+# plot parameters ####
 par(mfrow = c(length(SPECIES_IN_ORDER) + 3, 1), mar = c(0,0,0,0), oma = c(4, 6, 0, 0))
 
 # pet_sum ####
@@ -67,7 +68,7 @@ plot(NULL,
 
 
 rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
-     xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#FF9999", "#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
+     xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
 # abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1950, 2000, by = 20)
 abline(v = drought_years, col = "grey50", lty = 2) # seq(1950, 2000, by = 20)
 
@@ -85,7 +86,7 @@ plot(NULL,
 
 
 rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
-     xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#FF9999", "#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
+     xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
 # abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1950, 2000, by = 20)
 abline(v = drought_years, col = "grey50", lty = 2) # seq(1950, 2000, by = 20)
 
@@ -106,7 +107,7 @@ plot(NULL,
 
 
 rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
-     xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#FF9999", "#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
+     xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999","#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
 # abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1950, 2000, by = 20)
 abline(v = drought_years, col = "grey50", lty = 2) # seq(1950, 2000, by = 20)
 
@@ -142,7 +143,7 @@ for(f in SPECIES_IN_ORDER) {
        xlim = c(1950,2015), ylim = c(0.5, 1.5))
   
   rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
-       xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#FF9999", "#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
+       xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
   # abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1959, 2000, by = 20)
   abline(v = drought_years, col = "grey50", lty = 2) # seq(1959, 2000, by = 20)
   

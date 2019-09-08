@@ -346,6 +346,7 @@ dev.off()
 #5 Distribution of resistance values and time series (Figure 1)
 library(ggplot2)
 library(png)
+library(grid)
 library(gridExtra)
 library(cowplot)
 
