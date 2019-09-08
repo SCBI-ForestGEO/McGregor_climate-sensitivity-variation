@@ -1430,7 +1430,7 @@ cand_full <- NULL
 for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
   column <- colnames(sum_mod_traits[,c(8,11,14,17)])[[i]]
   
-  cand <- sum_mod_traits[sum_mod_traits[,column] > 2 & 
+  cand <- sum_mod_traits[sum_mod_traits[,column] > 1 & 
                             !sum_mod_traits$variable %in% c("dbh.ln.cm"), c(1:3)]
   cand$top_model <- c("all", "1966", "1977", "1999")[[i]]
   
