@@ -1638,13 +1638,18 @@ write.csv(top_models, "manuscript/tables_figures/top_models_dAIC.csv", row.names
 #reorder the list 
 # coeff_list <- coeff_list[c(3,2,1,4,6,5,7:9,16:17,13,15,11,14,12,18,10)] #18 models
 # coeff_list <- coeff_list[c(2,1,4,5,3,6:7,9,8,11,12,10)] #12 models
-coeff_list <- coeff_list[c(2,3,1,4,6,5,7,8:10,15,13,12,14,11)] #15 models
+# coeff_list <- coeff_list[c(2,3,1,4,6,5,7,8:10,15,13,12,14,11)] #15 models
+coeff_list <- coeff_list[c(4,2,6,3,1,5, #trees_all_sub
+                           9,8,10,7,11, #x1966
+                           13,12,14,15, #x1977
+                           22,23,19,17,21,20,18,24,16)] #x1999
 
-coeff_table <- 
-  coeff_list %>%
-  reduce(left_join, by = "model_var")
+merge.all <- function(x, y) {
+  merge(x, y, all=TRUE, by="model_var")
+}
 
-coeff_table <- coeff_table[,c(2,1,3:ncol(coeff_table))]
+coeff_table <- Reduce(merge.all, coeff_list)
+
 coeff_table[,2:ncol(coeff_table)] <- round(coeff_table[,2:ncol(coeff_table)], 3)
 
 coeff_new <- as.data.frame(t(coeff_table[,-1]))
@@ -1652,12 +1657,13 @@ colnames(coeff_new) <- coeff_table$model_var
 
 # coeff_new$year1966 <- ifelse(!is.na(coeff_new$year1977), 0, NA) #only applicable if "year" is a significant variable
 coeff_new$codominant <- ifelse(!is.na(coeff_new$position_alldominant), 0, NA)
+coeff_new$rpdiffuse <- ifelse(!is.na(coeff_new$rpring), 0, NA)
 
 coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m", 
                            "position_alldominant", "codominant", "position_allintermediate","position_allsuppressed", 
-                           "TWI.ln", "PLA_dry_percent")]
+                          "rpdiffuse", "rpring", "rpsemi-ring", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")]
 # colnames(coeff_new) <- c("dAICc", "r^2", "Intercept", "1966", "1977", "1999", "ln[H]", "D", "C", "I", "S", "ln[TWI]", "PLA", "TLP") #only if year is variable
-colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "ln[TWI]", "PLA")
+colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "diffuse", "ring", "semi-ring", "ln[TWI]", "PLA", "TLP")
 
 coeff_new <- setDT(coeff_new, keep.rownames = TRUE)[]
 setnames(coeff_new, old="rn", new="rank")
@@ -1667,7 +1673,7 @@ for(i in seq(along=patterns)){
   coeff_new$rank <- gsub(patterns[[i]], "", coeff_new$rank)
 }
 
-write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeffs.csv", row.names=FALSE)
+write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff.csv", row.names=FALSE)
 
 ##6c. standalone code to get coefficients and r2 #### 
 ##(for paper, should do ONLY w/REML=TRUE) 
