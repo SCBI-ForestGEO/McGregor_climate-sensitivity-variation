@@ -17,7 +17,7 @@ library(grid) #2
 library(gridExtra) #2
 
 ##2a. heights for all cored trees ####
-trees_all <- read.csv("manuscript/tables_figures/trees_all.csv", stringsAsFactors = FALSE)
+trees_all <- read.csv("manuscript/tables_figures/trees_all.csv", stringsAsFactors = FALSE) #these graphs are meant to be for all cored trees, not just the ones being used in analysis
 
 scbi.stem3 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
 
@@ -114,7 +114,7 @@ scbi.stem3$dbh <- ifelse(is.na(scbi.stem3$dbh), 0, scbi.stem3$dbh)
 scbi.stem3 <- scbi.stem3[scbi.stem3$dbh >= 100, ] #>10cm dbh
 
 #get utm coords
-source('D:/Dropbox (Smithsonian)/Github_Ian/SCBI-ForestGEO-Data/R_scripts/SIGEO_plot_grid_UTMcoord.R', echo=TRUE)
+source('E:/Github_SCBI/SCBI-ForestGEO-Data/R_scripts/SIGEO_plot_grid_UTMcoord.R', echo=TRUE)
 
 plot_to_UTM(scbi.stem3)
 scbi18 <- sigeo_coords
@@ -126,7 +126,7 @@ scbi18$TWI <- twi
 scbi18$TWI.ln <- log(scbi18$TWI)
 
 #add in leaf traits (no rp because it's categorical)
-leaf_traits <- trees_all[, c(2,7:10)]
+leaf_traits <- trees_all[, c(4,6:8)]
 
 for (i in seq(along=2:ncol(leaf_traits))){
    trait <- colnames(leaf_traits[2:ncol(leaf_traits)])
@@ -148,8 +148,6 @@ breaks_pla = c(8,12,16,20,24)
 
 limits_tlp = c(-2.8,-1.8)
 limits_pla = c(8,26)
-
-graph_names <- paste0(main$type, "_plot")
 
 for (i in seq(along=1:4)){
    if(!grepl("twi", type[[i]])){
@@ -232,7 +230,13 @@ for (i in seq(along=1:4)){
    assign(paste0("plot_", type[i]), q)
 }
 
-##3c. Make map of plot using TWI and cored tree locations ####
+
+#######################################################################################
+#4 Export the graphs ####
+library(ggpubr)
+library(extrafont)
+
+##4a. Export map of plot using TWI and cored tree locations ####
 species <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
 species <- species[!species$sp %in% c("frni", "pist"), ]
 species$sp_fact <- as.factor(species$sp)
@@ -253,11 +257,7 @@ plot(topo, axes=FALSE, box=FALSE,
 plot(cored_points, pch=20, col = species_colors[species$sp_fact], add=TRUE)
 dev.off()
 
-
-#######################################################################################
-#4 Export the graphs ####
-library(ggpubr)
-library(extrafont)
+##4b. Export other graphs all together ####
 
 loadfonts(device="win") #to get TNR
 
@@ -265,7 +265,7 @@ quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 35.002m
 quant <- data.frame(yintercept = 35.0022, Lines = "95th percentile")
 
 #add this part to each graph:
-geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+# geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
 
 ##4a. Figure S1 (TLP and PLA with height and TWI) ####
 plot_pla_twi
@@ -303,6 +303,14 @@ for (i in seq(along=1:4)){
      NEON_list[[i]] <-
         NEON_list[[i]] +
         theme(legend.position = "none")
+  }
+  
+  if(!i==1){
+     NEON_list[[i]] <- 
+        NEON_list[[i]] +
+        theme(axis.title.y = element_blank(),
+              axis.text.y=element_blank(),
+              axis.ticks.y=element_blank())
   }
 }
 
@@ -343,7 +351,7 @@ ggarrange(NEON, heights_other, nrow=2, ncol=1)
 dev.off()
 
 ################################################################################
-#5 Distribution of resistance values and time series (Figure 1)
+#5 Distribution of resistance values and time series (Figure 1) ####
 library(ggplot2)
 library(png)
 library(grid)
