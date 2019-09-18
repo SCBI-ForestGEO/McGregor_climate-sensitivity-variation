@@ -1,6 +1,6 @@
 ---
 title: "Tree size, microhabitat, and hydraulic traits shape drought responses in a temperate broadleaf forest"
-author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Valentine Herrmann, Joseph Zailaa, Atticus Stovall, Norman Bourg?, William McShea?, Neil Pederson, Lawren Sack, Kristina Anderson-Teixeira"
+author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Valentine Herrmann, Erika Gonzalez-Akre, Joseph Zailaa, Atticus Stovall, Norman Bourg?, William McShea?, Neil Pederson, Lawren Sack, Kristina Anderson-Teixeira"
 output:
   pdf_document:
     citation_package: natbib
@@ -47,7 +47,8 @@ We conclude that when droughts occur, large dominant trees, drought-sensitive sp
 *The Summary for research papers, which must be usable as a stand- alone document, must not exceed 200 words and should be organized using four bullet points to indicate: (1) the research conducted, including the rationale, (2) methods, (3) key results, and (4) the main conclusion, including the key points of discussion. It should not contain citations of other papers.* 
 
 ### Introduction
-Understanding how and why trees respond to drought is critical to predicting forest drought responses and climate change feedbacks. (1 paragraph on this- I have lots of content on this and will add later.)
+Forests globally play a critical role in climate regulation ([Bonan 2008](https://science.sciencemag.org/content/320/5882/1444)), yet there remains enormous uncertainty as to how the terrestrial carbon (C) sink, which is dominated by forests, will respond to climate change ([Friedlingstein et al. 2006](https://journals.ametsoc.org/doi/full/10.1175/JCLI3800.1)). An important aspect of this uncertainty lies in responses to drought (**REF**). In many forested regions around the world, the risk of severe drought is increasing ([Trenbert et al. 2014](https://www.nature.com/articles/nclimate2067)), even in conjunction with increasing precipitation ([IPCC 2014](https://www.cambridge.org/core/books/climate-change-2014-impacts-adaptation-and-vulnerability-part-b-regional-aspects/036A899BD52861D61B0D519C5F2B9334)). Global change-type drought has been affecting forests worldwide ([Allen et al. 2015](https://doi.org/10.1016/j.foreco.2009.09.001)), and it is expected that future climate change-driven droughts will severely impact forests around the world ([Allen et al. 2015](https://doi.org/10.1016/j.foreco.2009.09.001); **REFS**). Larger trees tend to suffer more (e.g., [@bennett_larger_2015]; Stovall et al. 2019), resulting in disproportionate impacts on forest C storage ([Meakem et al. 2018](https://nph.onlinelibrary.wiley.com/doi/10.1111/nph.14633)). [Yet, modeling forest responses to drought remains challenging-- in part because some of the mechanisms underlying drought responses remain unclear.]
+
 
 [Understanding forest responses to drought requires increased functional understanding of the factors that confer individual-level vulnerability or resistance.] Forests are diverse in terms of tree sizes and functional traits, and it is known that trees varying in size and functional traits respond differently to drought (e.g., [@bennett_larger_2015]; REFS). Therefore, in order to understand whole-forest response to drought, we need a functional understanding of how responses vary by tree size, microhabitat, and species. There are 3 fundamental questions that must be addressed:
 
