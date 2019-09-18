@@ -1,0 +1,22 @@
+variable,symbol,category,description,units,n,median,min,max,ln-transformed?
+drought resistance,R,-,ratio of growth during drought year to mean growth of the 5 years prior. ,-,1596,0.87,0,1.99,no
+drought year ,Y,1966,,-,478,-,-,-,-
+,,1977,,-,547,-,-,-,-
+,,1999,,-,571,-,-,-,-
+tree size:,,,,,,,,,
+    diameter breast height,DBH,-,DBH at time of drought,cm,all,31.92,3.92,134.19,yes
+    height,H,-,tree height at time of drought,m,all,20.21,4.76,43.87,yes
+microhabitat:,,,,,,,,,
+    crown position,CP,dominant (D),,-,31,-,-,-,-
+,,co-dominant (C),,-,231,-,-,-,-
+,,intermediate (I),,-,224,-,-,-,-
+,,suppressed (S),,-,101,-,-,-,-
+    topographic wetness index,TWI,-,,-,all,5.66,0,16,yes
+species' traits:,,,,,,,,,
+    wood density,WD,-,dry mass of a unit volume of fresh wood,g cm-3,all,0.62,0.4,1.09,no
+    leaf mass per area,LMA,-,ratio of leaf dry mass to fresh leaf area,kg m-2,all,48.69,30.68,75.8,no
+    ring porosity,RP,ring,,-,408,-,,,-
+,,semi-ring,,-,31,-,,,-
+,,diffuse,,-,178,-,,,-
+    turgor loss point,TLP,-,,MPa,all,-2.39,-2.76,-1.92,no
+    percent loss area,PLA,-,percent loss of leaf area upon dessication,%,all,13.06,8.52,24.64,no
