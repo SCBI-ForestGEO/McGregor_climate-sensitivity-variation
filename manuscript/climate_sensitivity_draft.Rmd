@@ -32,7 +32,7 @@ knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown', 'lme4', 'AICcmodavg', 'car', 'piecewiseSEM', 'MuMIn', 'stringr', 'dplyr', 'ggplot2', 'devtools', 'rgdal', 'broom', 'sf', 'ggthemes', 'rgeos', 'RCurl', 'readxl', 'pointRes', 'dplR', 'data.table', 'tools', 'reshape2', 'kableExtra', 'raster', 'elevatr', 'dynatopmodel', 'grid', 'gridExtra', 'ggstance', 'Hmisc', 'magrittr', 'ggpubr'
 ), 'packages.bib')
 ```
-
+\raggedright
 
 ### Summary
 Predicting forest responses to drought is an increasingly critical task under climate change effects.
@@ -75,7 +75,7 @@ Finally, we focused on variability among droughts, asking how  community resista
 
 ![**Table 1. Summary of hypotheses, predictions and results**](tables_figures/Table1.png){width=500px}
 
-
+\raggedright
 We count predictions as fully supported (or rejected) when the direction of response matches (or contradicts) the prediction. 
 H2.3-H3.2 are based on if models containing species traits in H2.1 had dAIC>=2 relative to the appropriate null model or to any alternative multivariate model within 2 dAIC. 
 Parentheses indicate that predictions were partially supported (or rejected). In other words, parentheses indicate when the direction of response matched (or contradicted) the prediction in some but not all models with dAIC<2 relative to the appropriate null model. With categorical variables such as crown position,  a "(yes)" notation describes when the trend matched the prediction, but it wasn't significant 
