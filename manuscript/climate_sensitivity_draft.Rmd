@@ -106,7 +106,7 @@ kable(hypothesis_table, booktabs = TRUE, caption = "**Table 2. Summary of variab
   add_header_above(c(" "," "," "," "," "," ", "observed values" = 3, " ")) %>%
   column_spec(4, width = "7cm") %>%
   pack_rows("Dependent variable", 1, 1, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("Independent variables", 2, 18, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("Independent variables", 2, 18, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("tree size", 5, 6, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   pack_rows("microhabitat", 7, 11, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   pack_rows("species' traits", 12, 18, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
