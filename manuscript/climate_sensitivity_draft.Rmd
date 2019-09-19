@@ -78,8 +78,8 @@ kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypoth
   pack_rows("H2.2. Taller trees have more drought-resistant traits.", 11, 15, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("H2.3. Size-dependent drought resistance is not driven by functional traits.", 16, 16, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("H3.1. Overall community drought resistance differed across droughts.", 17, 17, latex_gap_space = "1em", colnum = 1, hline_before = TRUE) %>%
-  pack_rows("H3.2. The direction of responses to predictor variables was consistent across droughts.", 18, 19, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H3.3. The strength of responses to predictor variables varied across droughts.", 18, 19, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("H3.2. The direction of responses to predictor variables differ across droughts.", 18, 18, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("H3.3. The strength of responses to predictor variables varied across droughts.", 19, 19, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   add_header_above(c(" ", "Prediction supported?" = 4, " ")) %>%
   column_spec(1, width = "12cm") %>%
   column_spec(2:5, width = "1cm") %>%
@@ -204,10 +204,11 @@ We support the hypothesis (*H2.3*) that the observed tendency for larger trees t
 
 *Responses across droughts*
 
-We reject *H3.1*. Within the context of mixed effects models, there were no significant differences in $R$ across drought years (Table 4). This is consistent with the observation that the distribution of $R$ values was similar across droughts (Fig. 1b).
+We reject the hypothesis (*H3.1*) that overall community responses varied across droughts. Within the context of mixed effects models, there were no significant differences in $R$ across drought years (Table 4). This is consistent with the observation that the distribution of $R$ values was similar across droughts (Fig. 1b).
 
-We support Despite the broad similarity in the extent to which the three droughts affected the community as a whole, there was variation as to which variables best predicted drought responses (*H3.2b*), and occasionally in the direction of these responses (*H3.2b*). 
+We mostly reject the hyopthesis (*H3.2*) that directions of responses varied across droughts. In the majority of cases, response directions were consistent across droughts in both univariate and multivariate models (Tables 1,4,5). However, there were a few exceptions--most commonly in the categorical variables ($CP$ and $XP$) but also for $\pi_{tlp}$ in the multivariate model for the 1966 drought; Tables 4, 5). These differences may very well be random, as opposed to statistically meaningful. Among the univariate models, there was no instance predictor variables signficantly improved the models of two different droughts (dAIC $\ge$ 2), but with contrasting coefficients (Table 4). Among the multivariate models, $CP$ was not consistently in the top models for any drought (Table 5), and $\pi_{tlp}$ only appeared with a positive coefficient in two of five models for the 1966 drought (contrasting with a negative coefficient in the univariate model; Table 4). The difference most likely to be real is that ring and semi-ring porous species had lower resistance than diffuse porous species in the 1977 drought, contrasting with higher resistance in 1966 and 1999 (Tables 4,5), but note that $XP$ was not a signficant predictor on its own for the 1977 drought.
 
+We support the hypothesis (*H3.3*) that the strength of predictor variables was different across the droughts (Tables 1,4,5). For instance, $ln[H]$ and $PLA_{dry}$ had much stronger negative effects in 1966 than in the other two years, $ln[TWI]$ had the strongest negative effect in 1977, and $CP$ (lowest $R$ among supressed trees) and $XP$ (lowest $R$ among diffuse-porous trees) were strongest in 1999 (Tables 4,5). 
 
 \newpage
 ### Discussion
