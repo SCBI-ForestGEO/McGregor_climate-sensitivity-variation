@@ -173,21 +173,27 @@ Climatically, these droughts included three of the five years between 1950 and 2
 Community-level tree growth responses to these droughts were modest, with modal resistance values of #, #, and # for 1966, 1977, and 1999, respectively (Fig. 1b). In each drought, roughly 30% of the cored trees suffered $\ge$ 30% growth reductions ($R$ $\le$ 0.7): #% in 1966, #2% un 1977, and #% in 1999. *Some* trees exhibited increased growth: ($R$ > 1.0): #% in 1966, #% un 1977, and #% in 1999. Within the context of mixed effects models, there were no significant differences in resistance across drought years (Table 4).
 
 
+*Tree size and drought resistance*
+
+Overall, our analysis confirmed the tendency for larger-diameter trees to show greater reductions in growth during drought [@bennett_larger_2015] (*H1.0*), although there was no signficant effect for 1977 or 1999 individually (Tables 1, 4). The same held true for $ln[H]$ as a univariate predictor (*H1.1*; Tables 1, 4). When combined with other predictor variariables in our multivariate models, the top models usually included an effect of $ln[H]$, and its coefficient was consistently negative, as predicted (Tables 1, 5). We note that a non-signficant positive correlation between $ln[H]$ and $R$ for 1999 became negative in the context of the multivariate models, again supporting *H1.1* (Table 1). 
+
+In the non-drought years for which we have vertical profiles in climate data (**YEARS**), taller trees--or those in dominant crown positions-- were generally exposed to higher evaporative demand during the peak growing season months (May-August; Fig. 2). Specifically, [**add content on vertical profiles of climate variables**]
 
 ![Table 4 - individual variable tests](tables_figures/Table4.png) #this is tested_traits_all
 
 ![Table 5 - best full models ](tables_figures/Table5.png) 
 
-*Tree size and drought resistance*
+Crown position was generally correlated with $H$, but with substantial variation (Fig. 2e). Crown position was a much poorer predictor of $R$ than was $H$ (Table 4), lending little overall support to *H1.2* (Table 1). When considered alone, $CP$ had a significant influence only in the 1977 drought, during which trees with dominant $CP$ had the lowest $R$. When considered in conjunction with $H$, $CP$ came out as a significant predictor only for the 1999 drought, during which suppressed trees had the lowest $R$. Crown position was included in **roughly half** of the top models, with mixed results as to how $R$ varied with $CP$ (Table 5). Most commonly in these multivariate models, as in the univariate models (Table 4), the resistance of dominant trees was less than that of co-dominant trees but higher that of suppressed trees. Thus, $CP$ was sometimes a useful predictor of $R$, but overall had a weak effect relative to that of $H$.
 
-Overall, our analysis confirmed the tendency for larger-diameter trees to show greater reductions in growth during drought [@bennett_larger_2015] (*H1.0*), although there was no signficant effect for 1977 or 1999 individually (Tables 1, 4). The same held true for height as a univariate predictor (*H1.1*; Tables 1, 4). When combined with other predictor variariables in our multivariate models, the top models usually included an effect of height, and its coefficient was consistently negative, as predicted (Tables 1, 5). We note that a non-signficant positive correlation between $H$ and $R$ for 1999 became negative in the context of the multivariate models, again supporting *H1.1* (Table 1).
-H1.0, H1.1, H1.2, H1.3
-DBH, height, crown position, and TWI
+Resistance was negatively correlated with $ln[TWI]$ (Tables 4-5), negating the idea that trees in moist microsites would suffer less during drought. Nevertheless, we tested for a negative $ln[H] *ln[TWI]$ interaction (*H1.3*), which could indicate that smaller trees (with smaller rooting volume) have a greater tendency to suffer more in drier microenvironments with greater depth to the water table. *H1.3* was rejected; the $ln[H] *ln[TWI]$ interaction was never signficant and had a consistently positive coefficient (Table 4). 
 
 ![**Figure 2. Height profiles in growing season climatic conditions, tree heights by crown position, and leaf hydraulic traits** The top row shows averages ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity (RH), (c) air temperature, and (d) biological temperature averaged over each month of the peak growing season (May-August) from YEAR-YEAR. In these plots, heights are slightly offset for visualization purposes. Also shown are (e) 2018 tree heights by canopy position (see Table 2 for codes) and vertical profiles in (f) $PLA_{dry}$ and (g) $\pi_{tlp}$. In (f-g), values are community-wide averages across height bins (plotted at upper end of height bin), with grey indicating bins for which species-level trait measurements are available for <75% of individuals. In all plots, the dahsed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.](tables_figures/Figure2.png){width=500px}
 
 
-**Results for second main question: how do species' traits - alone and in interaction with tree size - influence drought response? **
+
+
+
+*Species' traits and drought resistance*
 H2.1, H2.2, H2.3
 Hydraulic traits alone, traits with height
 
