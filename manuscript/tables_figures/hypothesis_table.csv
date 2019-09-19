@@ -1,7 +1,6 @@
 Hypotheses & Specific Predictions,Overall,1966,1977,1999,Results
 1.0- Drought resistance decreases with DBH.,yes,yes,(yes),(no),Table 4
-1.1a - Drought resistance decreases with height.,yes,yes,(yes),(no/yes),"Tables 4, 5"
-1.1b - Height is a better predictor of drought resistance than DBH.,(yes),(no),(no),-,Table 4
+1.1 - Drought resistance decreases with height.,yes,yes,(yes),(no/yes),"Tables 4, 5"
 "1.2a - When CP is considered alone, dominant trees have lowest R.",(yes),yes,(yes),(no),Table 4
 "1.2b - In models with CP and H, dominant trees have lowest R.",(no),(no),(yes),(no),"Tables 4, 5"
 1.3 - There is a negative interactive effect between H and TWI.,(no),(no),(no),(no),Table 4
