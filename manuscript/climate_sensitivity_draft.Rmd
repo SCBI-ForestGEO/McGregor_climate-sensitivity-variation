@@ -179,7 +179,17 @@ Community-level tree growth responses to these droughts were modest, with modal 
 
 Overall, our analysis confirmed the tendency for larger-diameter trees to show greater reductions in growth during drought [@bennett_larger_2015] (*H1.0*), although there was no signficant effect for 1977 or 1999 individually (Tables 1, 4). The same held true for $ln[H]$ as a univariate predictor (*H1.1*; Tables 1, 4). When combined with other predictor variariables in our multivariate models, the top models usually included an effect of $ln[H]$, and its coefficient was consistently negative, as predicted (Tables 1, 5). We note that a non-signficant positive correlation between $ln[H]$ and $R$ for 1999 became negative in the context of the multivariate models, again supporting *H1.1* (Table 1). 
 
-![Table 4 - individual variable tests](tables_figures/Table4.png) #this is tested_traits_all
+
+```{r eval = TRUE, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+hypothesis_table <- read.csv("tables_figures/univariate_models_table.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
+kable(hypothesis_table, booktabs = TRUE, caption = "**Table 4. Univariate models**", format = 'latex', escape = TRUE) %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
+  add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
+  kable_styling()
+```
+
 
 ```{r eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
