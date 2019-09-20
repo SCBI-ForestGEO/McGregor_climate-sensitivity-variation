@@ -187,6 +187,7 @@ hypothesis_table <- read.csv("tables_figures/univariate_models_table.csv", strin
 kable(hypothesis_table, booktabs = TRUE, caption = "**Table 4. Univariate models**", format = 'latex', escape = TRUE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
+  #mutate(dAICc = cell_spec(dAICc, "html", bold = ifelse(dAICc > 1.999, TRUE, FALSE))) %>%  #trying to put sig values in bold, but this doen't work
   kable_styling()
 ```
 
