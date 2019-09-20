@@ -77,9 +77,9 @@ kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypoth
   pack_rows("H2.1. Species traits predict drought resistance.", 6, 10, latex_gap_space = "1em", colnum = 1, hline_before = TRUE) %>%
   pack_rows("H2.2. Taller trees have more drought-resistant traits.", 11, 15, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("H2.3. Size-dependent drought resistance is not driven by functional traits.", 16, 16, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H3.1. Overall community drought resistance differed across droughts.", 17, 17, latex_gap_space = "1em", colnum = 1, hline_before = TRUE) %>%
-  pack_rows("H3.2. The direction of responses to predictor variables differ across droughts.", 18, 18, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H3.3. The strength of responses to predictor variables varied across droughts.", 19, 19, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("H3.1. Community drought resistance differs across droughts.", 17, 17, latex_gap_space = "1em", colnum = 1, hline_before = TRUE) %>%
+  pack_rows("H3.2. The direction of responses to predictor variables differs across droughts.", 18, 18, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("H3.3. The strength of responses to predictor variables vary across droughts.", 19, 19, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   add_header_above(c(" ", "Prediction supported?" = 4, " ")) %>%
   column_spec(1, width = "12cm") %>%
   column_spec(2:5, width = "1cm") %>%
@@ -181,7 +181,20 @@ Overall, our analysis confirmed the tendency for larger-diameter trees to show g
 
 ![Table 4 - individual variable tests](tables_figures/Table4.png) #this is tested_traits_all
 
-![Table 5 - best full models ](tables_figures/Table5.png) 
+```{r eval = TRUE, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+hypothesis_table <- read.csv("tables_figures/multivariate_models_table.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
+kable(hypothesis_table, booktabs = TRUE, caption = "**Table 5. Multivariate models**", format = 'latex', escape = TRUE) %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
+  add_header_above(c(" "," "," "," "," ", "crown position" = 4, " ","xylem architecture" = 3," ", " ")) %>%
+  pack_rows("", 1, 6, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 7, 11, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
+  pack_rows("", 12, 15, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
+  pack_rows("", 16, 24, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
+  kable_styling()
+```
+
 
 Crown position was generally correlated with $H$, but with substantial variation (Fig. 2**e**). Crown position was a much poorer predictor of $R$ than was $H$ (Table 4), lending little overall support to *H1.2* (Table 1). When considered alone, $CP$ had a significant influence only in the 1977 drought, during which trees with dominant $CP$ had the lowest $R$. When considered in conjunction with $H$, $CP$ came out as a significant predictor only for the 1999 drought, during which suppressed trees had the lowest $R$. Crown position was included in **roughly half** of the top models, with mixed results as to how $R$ varied with $CP$ (Table 5). Most commonly in these multivariate models, as in the univariate models (Table 4), the resistance of dominant trees was less than that of co-dominant trees but higher that of suppressed trees. Thus, $CP$ was sometimes a useful predictor of $R$, but overall had a weak effect relative to that of $H$.
 
