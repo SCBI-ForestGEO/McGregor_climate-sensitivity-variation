@@ -235,7 +235,7 @@ We support the hypothesis (*H3.3*) that the strength of predictor variables was 
 
 ### Discussion
 
-Our results reveal how tree size, microhabitat, and hydraulic traits shape tree growth responses across three droughts in a temperate deciduous forest. The tendencey for larger trees to suffer more was driven primarily by their height, with a marginal effect of crown exposure.  
+Our results reveal how tree size, microhabitat, and hydraulic traits shape tree growth responses across three droughts in a temperate deciduous forest. The tendencey for larger trees to suffer more, which has been observed in forests around the world (**REFS**), was driven primarily by their height, with a marginal effect of crown exposure. We find on evidence that root water access increased drougth resistance; in contrast, trees in wetter topographic positions suffered more, and larger rooting volume provided no advange in the drier microenvironments. Together, these findings demonstrate that the height is the primary mechanism through which tree size mediates drought response. 
 
 \newpage
 Discussion outline
