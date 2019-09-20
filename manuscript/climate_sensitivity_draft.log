@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  20 SEP 2019 06:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  20 SEP 2019 06:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -788,82 +788,81 @@ e
 ))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-[1
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 129.
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) [1
 
 {/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 248.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 256.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 248.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 256.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 248
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 256
 .
 (/usr/local/texlive/2019/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 248
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 256
 .
 (/usr/local/texlive/2019/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 248.
+(Font)              <10> on input line 256.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 248.
+(Font)              <7> on input line 256.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 248.
-LaTeX Font Info:    Try loading font information for U+msa on input line 248.
+(Font)              <5> on input line 256.
+LaTeX Font Info:    Try loading font information for U+msa on input line 256.
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/local/texlive/2019/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 248.
+LaTeX Font Info:    Try loading font information for U+msb on input line 256.
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/local/texlive/2019/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) [2] [3]
-LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 392.
+LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 400.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8.5> on input line 392.
+(Font)              <8.5> on input line 400.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5.94997> on input line 392.
+(Font)              <5.94997> on input line 400.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <4.25> on input line 392.
+(Font)              <4.25> on input line 400.
 
-Overfull \hbox (3.63115pt too wide) in paragraph at lines 392--392
+Overfull \hbox (3.63115pt too wide) in paragraph at lines 400--400
 []|\T1/lmr/m/n/8.5 (no/yes)|  
  []
 
 
-Overfull \hbox (3.63115pt too wide) in paragraph at lines 392--392
+Overfull \hbox (3.63115pt too wide) in paragraph at lines 400--400
 []|\T1/lmr/m/n/8.5 (yes/no)|  
  []
 
 
-LaTeX Warning: Float too large for page by 41.64273pt on input line 393.
+LaTeX Warning: Float too large for page by 41.64273pt on input line 401.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [4]
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 404.
-
-(/usr/local/texlive/2019/texmf-dist/tex/latex/lm/ts1lmr.fd
-File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 471.
+(Font)              <12> on input line 479.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 471.
+(Font)              <8> on input line 479.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 471.
+(Font)              <6> on input line 479.
 [5
 
 
@@ -871,58 +870,51 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 ]
 
 Package natbib Warning: Citation `R-dynatopmodel' on page 6 undefined on input 
-line 532.
+line 540.
 
 
 Package natbib Warning: Citation `R-pointRes' on page 6 undefined on input line
- 600.
+ 608.
 
 [6]
 
 Package natbib Warning: Citation `R-pointRes' on page 7 undefined on input line
- 626.
+ 634.
 
 
-Package natbib Warning: Citation `R-lme4' on page 7 undefined on input line 631
+Package natbib Warning: Citation `R-lme4' on page 7 undefined on input line 639
 .
 
 
 Package natbib Warning: Citation `R-AICcmodavg' on page 7 undefined on input li
-ne 631.
+ne 639.
 
-[7]
-<tables_figures/Figure1.png, id=189, 426.6339pt x 569.0058pt>
+<tables_figures/Figure1.png, id=183, 426.6339pt x 569.0058pt>
 File: tables_figures/Figure1.png Graphic file (type png)
 <use tables_figures/Figure1.png>
-Package pdftex.def Info: tables_figures/Figure1.png  used on input line 652.
+Package pdftex.def Info: tables_figures/Figure1.png  used on input line 656.
 (pdftex.def)             Requested size: 376.40895pt x 502.02031pt.
+[7] [8 <./tables_figures/Figure1.png (PNG copy)>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<tables_figures/Figure2.png, id=198, 794.97pt x 794.97pt>
+[9]
+<tables_figures/Figure2.png, id=208, 794.97pt x 794.97pt>
 File: tables_figures/Figure2.png Graphic file (type png)
 <use tables_figures/Figure2.png>
-Package pdftex.def Info: tables_figures/Figure2.png  used on input line 832.
+Package pdftex.def Info: tables_figures/Figure2.png  used on input line 836.
 (pdftex.def)             Requested size: 376.41377pt x 376.41377pt.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 847.
-[8] [9 <./tables_figures/Figure1.png (PNG copy)>] [10 <./tables_figures/Figure2
-.png (PNG copy)>]
-
-LaTeX Warning: Text page 11 contains only floats.
-
-[11] [12] [13] [14]
+(Font)              <9> on input line 851.
+[10] [11 <./tables_figures/Figure2.png (PNG copy)>] [12] [13] [14]
 <tables_figures/ForestGEO_plot.jpg, id=249, 312.2064pt x 389.0535pt>
 File: tables_figures/ForestGEO_plot.jpg Graphic file (type jpg)
 <use tables_figures/ForestGEO_plot.jpg>
 Package pdftex.def Info: tables_figures/ForestGEO_plot.jpg  used on input line 
-1142.
+1152.
 (pdftex.def)             Requested size: 312.21992pt x 389.07034pt.
 
-Overfull \hbox (151.9129pt too wide) in paragraph at lines 1153--1187
+Overfull \hbox (151.9129pt too wide) in paragraph at lines 1163--1197
  [][] 
  []
 
@@ -932,12 +924,12 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <tables_figures/FigureS3.png, id=250, 361.35pt x 505.89pt>
 File: tables_figures/FigureS3.png Graphic file (type png)
 <use tables_figures/FigureS3.png>
-Package pdftex.def Info: tables_figures/FigureS3.png  used on input line 1191.
+Package pdftex.def Info: tables_figures/FigureS3.png  used on input line 1201.
 (pdftex.def)             Requested size: 361.35463pt x 505.89645pt.
 <tables_figures/FigureS1.png, id=251, 361.35pt x 505.89pt>
 File: tables_figures/FigureS1.png Graphic file (type png)
 <use tables_figures/FigureS1.png>
-Package pdftex.def Info: tables_figures/FigureS1.png  used on input line 1195.
+Package pdftex.def Info: tables_figures/FigureS1.png  used on input line 1205.
 (pdftex.def)             Requested size: 361.34912pt x 505.88875pt.
 (./climate_sensitivity_draft.bbl [15]
 Overfull \vbox (281.52908pt too high) has occurred while \output is active []
@@ -947,22 +939,22 @@ Overfull \vbox (281.52908pt too high) has occurred while \output is active []
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1200.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1210.
 [19]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1200.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1210.
 (./climate_sensitivity_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1200.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1200.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1210.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1210.
 
 Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
 ed.
-(rerunfilecheck)             Checksum: 47FC7B646B9661BE4C593E6BD6DA06B8;953.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1200.
+(rerunfilecheck)             Checksum: FCDECFC109B192820A03507642D872EA;1030.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1210.
  ) 
 Here is how much of TeX's memory you used:
  15977 strings out of 492616
- 236299 string characters out of 6129482
- 408799 words of memory out of 5000000
+ 236310 string characters out of 6129482
+ 403253 words of memory out of 5000000
  19457 multiletter control sequences out of 15000+600000
  92647 words of font info for 142 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -988,7 +980,7 @@ ic/lm/lmri10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri
 12.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></u
 sr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/te
 xlive/2019/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on climate_sensitivity_draft.pdf (19 pages, 1258972 bytes).
+Output written on climate_sensitivity_draft.pdf (19 pages, 1260019 bytes).
 PDF statistics:
  362 PDF objects out of 1000 (max. 8388607)
  311 compressed objects within 4 object streams
