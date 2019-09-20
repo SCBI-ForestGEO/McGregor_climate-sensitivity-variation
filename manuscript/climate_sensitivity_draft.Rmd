@@ -194,7 +194,7 @@ kable(hypothesis_table, booktabs = TRUE, caption = "**Table 4. Univariate models
 library(knitr)
 library(kableExtra)
 hypothesis_table <- read.csv("tables_figures/multivariate_models_table.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
-kable(hypothesis_table, booktabs = TRUE, caption = "**Table 5. Multivariate models**", format = 'latex', escape = TRUE) %>%
+kable(hypothesis_table, booktabs = TRUE, caption = "**Table 5. Summary of R^2 and coefficients of the best multivariate models for each drought instance.** Models are ranked by AIC, and we show all models whose AIC value falls within 2.0 of the best model (dAICc<2).", format = 'latex', escape = TRUE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," "," "," ", "crown position" = 4, " ","xylem architecture" = 3," ", " ")) %>%
   pack_rows("", 1, 6, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
@@ -203,6 +203,8 @@ kable(hypothesis_table, booktabs = TRUE, caption = "**Table 5. Multivariate mode
   pack_rows("", 16, 24, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
   kable_styling()
 ```
+
+\raggedright
 
 
 Crown position was generally correlated with $H$, but with substantial variation (Fig. 2**e**). Crown position was a much poorer predictor of $R$ than was $H$ (Table 4), lending little overall support to *H1.2* (Table 1). When considered alone, $CP$ had a significant influence only in the 1977 drought, during which trees with dominant $CP$ had the lowest $R$. When considered in conjunction with $H$, $CP$ came out as a significant predictor only for the 1999 drought, during which suppressed trees had the lowest $R$. Crown position was included in **roughly half** of the top models, with mixed results as to how $R$ varied with $CP$ (Table 5). Most commonly in these multivariate models, as in the univariate models (Table 4), the resistance of dominant trees was less than that of co-dominant trees but higher that of suppressed trees. Thus, $CP$ was sometimes a useful predictor of $R$, but overall had a weak effect relative to that of $H$.
@@ -235,50 +237,59 @@ We support the hypothesis (*H3.3*) that the strength of predictor variables was 
 
 ### Discussion
 
-Our results reveal how tree size, microhabitat, and hydraulic traits shaped tree growth responses across three droughts in a temperate deciduous forest (Table 1). The tendencey for larger trees to suffer more, observed here as in forests around the world (**REFS**), was driven primarily by their height. There was a marginal additional effect of crown exposure, with the most exposed and the most suppressed trees suffering most--consistent with observations of both greater drought sensitivity of exposed trees (e.g., [@suarez_factors_2004]; [@scharnweber_confessions_2019]; MORE??) and greater sensitivity of suppressed and crowded individuals (**REFS- **). There was no evidence that root water access increased drougth resistance; in contrast, trees in wetter topographic positions suffered more (consistent with [Zuleta et al.](https://repository.si.edu/bitstream/handle/10088/32814/Zuleta-et-al_2017_Ecology.pdf?sequence=1&isAllowed=y)), and larger rooting volume provided no advantage in the drier microenvironments. The lower drought resistance of larger trees was not driven by any tendency for the canopy to be dominated by more drought-sensitive species.
+Our results reveal how tree size, microhabitat, and hydraulic traits shaped tree growth responses across three droughts in a temperate deciduous forest (Table 1). The tendencey for larger trees to suffer more, observed here as in forests around the world (**REFS**), was driven primarily by their height. There was a marginal additional effect of crown exposure, with the most exposed and the most suppressed trees suffering most--consistent with observations of both greater drought sensitivity of exposed trees (e.g., [@suarez_factors_2004]; [@scharnweber_confessions_2019]; MORE??) and greater sensitivity of suppressed and crowded individuals (**REFS- **). There was no evidence that root water access increased drougth resistance; in contrast, trees in wetter topographic positions suffered more (consistent with [Zuleta et al.](https://repository.si.edu/bitstream/handle/10088/32814/Zuleta-et-al_2017_Ecology.pdf?sequence=1&isAllowed=y)), and larger rooting volume provided no advantage in the drier microenvironments. The lower drought resistance of larger trees was not driven by any tendency for the canopy to be dominated by more drought-sensitive species. Drought-sensitive species were not linked to $LMA$ and $WD$ but were predicted by hydraulic traits ($PLA_{dry}$, $\pi_{tlp}$, and $XP$), which is physiologically logical (**REFS**) but scientifically novel in that $PLA_{dry}$ and $\pi_{tlp}$ have not previously been linked to drought growth responses. The direction of these responses was mostly consistent across droughts, indicating that they were driven by fundamental physiological mechanisms; however, the strengths of each predictor varied across droughts, indicating that specific drought characteristics interact with tree size, microenvironment, and traits to shape which individuals suffer most. These findings significantly advance our knowledge as to the factors that confer vulnerability or resilience on trees during drought...
 
-Together, these findings demonstrate that the height is the primary mechanism through which tree size mediates drought response. 
+The droughts considered here were of similar severity (Fig. 1b) and fairly moderate; droughts of this magnitude have occurred with an average frequency of approximately one per 10-15 years (Fig. 1a, @helcoski_growing_2019). Therefore, we excpect that most species are adapted, and individual trees acclimatized, to survive droughts of this nature. While the majority of trees experienced reduced growth, a substantial portion had increased growth (Fig. 1b), underlining the fact that these droughts did not induce extreme stress on the entire forest. It is likely for this reason, combined with the fact that many factors other than climate affect tree growth in closed-canopy forests, that our best models characterize only a modest amount of variation: 10-12% for all droughts combined, and 21-27% for each individual drought (Table 5). Methodologically, the moderate nature of these drougths is an advantage because our analysis considers only trees that survived all of these droughts, and we lack information on the trees that were killed. These are likely to be relatively modest in number, and local forest monitoring data stretching back to the late 1980s confirms that the 1999 drought did not trigger major declines in tree abundance or biomass (*Anderson-Teixeira et al., in review*). Thus, the droughts considered here are substantially weaker than those that have triggered massive tree die-off (e.g., [Allen et al. 2015](https://doi.org/10.1016/j.foreco.2009.09.001)), many of which have shaped our understanding about the role of tree size (Bennett et al. 2015; Stovall et al. 2019) and--to some extent-- traits (**REFS**). Nevertheless, our results are consistent with findings from more extreme droughts.
 
-This study
+Our analysis indicates that height is the primary factor through which tree size mediates drought response; however, specific identification of the primary physiological mechanism(s) is complicated by the fact that multiple drought-relevant environmental parameters and tree characteristics covary with tree height. To begin with, taller trees face inherent biophysical challenges in lifting water a greater distance against the effects of gravity and friction (**REFS**). They also face different microenvironments, which are partially related to canopy position. Even under non-drought conditions, evaporative demand increases with tree height (Fig. 1a-b; see also **REFS**. **The vegetation reaches higher temperatures[??](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/58)**, which would occur more during a drought when solar radiation tends to be higher and less water is available for evaporative cooling of the leaves. Furthermore, daytime $CO_2$ concentrations tend to be lower in the canopy than in the understory **(Fig. 2[??](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/58)** ([Koike et al. 2001](https://watermark.silverchair.com/21-12-13-951.pdf); MORE REFS), implying greater water costs of $CO_2$ uptake. **[McDowell-vertical profiles in isotopes?*]**. Taller trees are more likely to be in co-dominant or domiant canopy positions, although signficant decoupling can be introduced by the configuration of neighboring trees (Fig. 2**e?**) ([Mueller-Landau et al. 2016](https://www.ncbi.nlm.nih.gov/pubmed/16643303)). **[discuss $CP$] **
+
+
+
 
 \newpage
-Discussion outline
 
-- first paragraph is summary of main findings, not re-presenting the results
-  - "we supported this hypothesis, but not this one" (following same order as Table 1 still)
-  - direction of responses seems to be relatively consistent but the individual responses vary
-- tie things in (see here
-  - main thing is that we're now better understanding what confers vulnerability or resilience on trees during drought - how forests respond to future droughts/climate change
-  - "we filled the gap" = 1-2 sentences
+### new discussion outline
 
-- limitations at our site:
-  - aren't able to analyze historical forest community, nor trees that were killed by these droughts [aka we don't have data for individuals that were most severely affected] (though we found that there's little variation in climate sensitivity for trees that were cored dead vs cored alive).
-  - we characterize hydraulic traits at the species level, missing known variation with height ([Couvreur et al. 2018](https://onlinelibrary-wiley-com.smithsonian.idm.oclc.org/doi/full/10.1111/pce.13322?casa_token=92wZmmL9EhQAAAAA%3A2cq5yAR0_pyM9TVBa5o_DKkhDuHwIUFryxZ43zsdTgQyEa8f0ZfiEHZ5SHV7fFB49UkzXNvL7nMwabU); [Koike et al. 2001](https://watermark.silverchair.com/21-12-13-951.pdf)). thus, *H2.2* is not a great test, and there may be interactions between height and traits that we're not capturing. What we show is that the canopy isn't dominated by more dorught sensitive species. 
-  - We used crown position despite its uncertainty. However, height and crown position change relatively slowly so it shouldn't be that far off.
-  - We did not use crowding index because it has much more uncertainty
+1. summary of main findings
 
-- limitations for extrapolating other sites:
-  - forests are different from place to place, but we've seen how in forests around the world, forests tend to suffer more. We've identified some facets for why this happens. (cite other studies)
-  - has been observed elsewhere that individuals in more moist habitats are more susceptible to drought (cite other studies)
-  - the species may be different from other sites but the hydraulic traits are general across species;
+2. droughts were fairly week
 
-- next paragraph saying that our study advances understanding of droughts, e.g. bennett et al 2015 doesn't go into mechanisms but we do
+
+3. height & canopy position - biophysical factors
   - and we show that height is more important than exposure, but doesn't eliminate the effect of it
+  - We used crown position despite its uncertainty. However, height and crown position change relatively slowly so it shouldn't be that far off.
+  - We did not use crowding index because it has more uncertainty
   - we see no indication that rooting volume gives a relative advantage to large trees. Root systems are important, but [Bretfeld et al](https://nph-onlinelibrary-wiley-com.smithsonian.idm.oclc.org/doi/full/10.1111/nph.15071) show that "the limiting physiological processes for transpiration shifted from operating at the plant–soil interface to the plant–atmosphere interface with progressing forest succession.""
-  - further contribution is we show that two leaf hydraulic traits - relatively easy to measure - are good predictors of drought response, can be helpful for scaling up (e.g. from our site to eastern deciduous biome)
-  - biophysical mechanisms are things that should be seen as universal but relative importance of each can vary within each drought
-  - first study to show how these traits affect woody growth response to drought **confirmed by Lawren**
-  
-- science is better now. by advancing our understanding of the mechanisms for individual-level responses to drought, this opens door for better predictions (elaborate from above). "This is absolutely critical to predicting forest responses to future droughts, which we're likely to see more of in the future as a result to climate change. Forecasting forest responses to these droughts is a huge and important challenge", science is better.
 
--vertical profile in CO2!!  [Koike et al. 2001](https://watermark.silverchair.com/21-12-13-951.pdf); MORE REFS
+  
+4. tree size - biological factors
+- Beyond microenvironment, multiple tree characteristics and scale with tree size (e.g., [Anderson-Teixeira et al. 2015_scaling](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2435.12470)) and vary with vertical position in a tree (**REFS**)...
+ - we characterize hydraulic traits at the species level, missing known variation with height ([Couvreur et al. 2018](https://onlinelibrary-wiley-com.smithsonian.idm.oclc.org/doi/full/10.1111/pce.13322?casa_token=92wZmmL9EhQAAAAA%3A2cq5yAR0_pyM9TVBa5o_DKkhDuHwIUFryxZ43zsdTgQyEa8f0ZfiEHZ5SHV7fFB49UkzXNvL7nMwabU); [Koike et al. 2001](https://watermark.silverchair.com/21-12-13-951.pdf)). thus, *H2.2* is not a great test, and there may be interactions between height and traits that we're not capturing. What we show is that the canopy isn't dominated by more dorught sensitive species.
+ - "Together, these findings demonstrate that the height is the primary mechanism through which tree size mediates drought response."" 
+
+
+
+5. we advance knowledge regarding hydraulic traits
+- the fact that  $PLA_{dry}$ and $\pi_{tlp}$ predict drought response is physiologically logical (**REFS**) but scientifically novel in that this is the first study to demonstrate that $PLA_{dry}$ and $\pi_{tlp}$ are useful for predicting drought response.   (*confirmed by Lawren*)
+   - further contribution is we show that two leaf hydraulic traits - relatively easy to measure - are good predictors of drought response, can be helpful for scaling up (e.g. from our site to eastern deciduous biome)
+  - tree species are variable around the world and very diverse in the tropics, and hydraulic traits give us the opportunity the generalize this response;
+  
+6. we advance knowledge regarding differences across droughts
+  - biophysical mechanisms are things that should be seen as universal but relative importance of each can vary within each drought (or across sites)
+  
+7. science is better
+- by advancing our understanding of the mechanisms for individual-level responses to drought, this opens door for better predictions (elaborate from above). "This is absolutely critical to predicting forest responses to future droughts, which we're likely to see more of in the future as a result to climate change. Forecasting forest responses to these droughts is a huge and important challenge",
+- furthermore, we have deepened understading of which trees will suffer , and there are implications.
+- big trees
+
+
+
+
 
 *1. paragraph summarizing main results--> primary conclusions*
-When including only biophysical traits, trees' resistance value (on a per-species basis) is explained best by crown position and height, with codominant trees being the most resistant to drought. This follows on work done by [@bennett_larger_2015] [and others?] which show that larger trees suffer more during drought, and confirms that this susceptibility can be seen in tree ring analyses. Adding in crown position with the leaf hydraulic traits yields a slightly worse predictive model for drought tolerance, with height remaining as the only significant biophysical variable.
 
 We partially supported the hypothesis that crown exposure makes trees more vulnerable to drought. Co-dominant trees had the highest drought resistance. Dominant trees had lower resistance, likely because they are the most exposed. Other studies have found clear evidence of greater drought sensitivity in trees with exposed crowns (e.g., [@suarez_factors_2004]; [@scharnweber_confessions_2019]). At the same time, intermediate and suppressed trees had even lower resistance. This indicates that other mechanisms such as competition or rooting depth were important. (Also note that our study design was not ideal for testing the role of canopy position. Current canopy position is a conservative separator of canopy position: trees may currently be in more dominant positions than they were at the time, but backwards movement is unlikely. This would bias against finding a signficant effect for H1.2. Height may be a more reliable predictor of past canopy position than is current canopy position, and explains a portion of variation in canopy position.)
 
-Proximity to stream--either vertical (elev) or horizontal (distance)-- did not increase drought resistance; rather, it tended to decrease resistance (H1.3a). This may be because individuals growing further from water are acclimatized to drier conditions. However, the increase in drought resistance with distance from stream was less for small than large trees (H1.3b), indicating a potential importance of root depth/volume in conferring drought resistance.
 
 
 
