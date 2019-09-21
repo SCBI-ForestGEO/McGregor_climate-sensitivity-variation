@@ -266,7 +266,7 @@ Our finding that $PLA_{dry}$ and $\pi_{tlp}$ are useful for predicting drought r
 
 Although the physiological mechanisms discussed above lead to generally consistent directions of growth responses to tree height and hydaulic traits across droughts, indicating the universality of the underlying mechanisms, the relative importantance of the drivers varied widely across droughts, indicating an interaction with drought characteristics (Tables 4-5). [**DISCUSS DIFFERENCES ACROSS DROUGHTS-- e.g., 1966 was preceded by two dry years, and height mattered most in this drought. ...**] Further research will be required to understand how drought characteristics interact with driver variables to shape tree growth responses.
 
-Our study reveals that tree height, microhabitat, and species' hydraulic traits interactively shape tree growth responses to drought.
+As climate change drives increasing drought in many of the world's forests (*REFS*), the fate of forests and their climate feedbacks will be shaped by the biophysical and physiological drivers observed here. Tall trees with exposed crowns are suffering disroportionately, 
 
 \newpage
 
@@ -288,7 +288,7 @@ Our study reveals that tree height, microhabitat, and species' hydraulic traits 
 - by advancing our understanding of the mechanisms for individual-level responses to drought, this opens door for better predictions (elaborate from above). "This is absolutely critical to predicting forest responses to future droughts, which we're likely to see more of in the future as a result to climate change. Forecasting forest responses to these droughts is a huge and important challenge",
 - furthermore, we have deepened understading of which trees will suffer , and there are implications.
 - big trees
-
+- traits/ successional status?
 
 
 

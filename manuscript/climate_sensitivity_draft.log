@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  21 SEP 2019 14:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  21 SEP 2019 16:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -908,10 +908,10 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 File: tables_figures/ForestGEO_plot.jpg Graphic file (type jpg)
 <use tables_figures/ForestGEO_plot.jpg>
 Package pdftex.def Info: tables_figures/ForestGEO_plot.jpg  used on input line 
-1353.
+1357.
 (pdftex.def)             Requested size: 312.21992pt x 389.07034pt.
 
-Overfull \hbox (151.9129pt too wide) in paragraph at lines 1364--1398
+Overfull \hbox (151.9129pt too wide) in paragraph at lines 1368--1402
  [][] 
  []
 
@@ -921,12 +921,12 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <tables_figures/FigureS3.png, id=288, 361.35pt x 505.89pt>
 File: tables_figures/FigureS3.png Graphic file (type png)
 <use tables_figures/FigureS3.png>
-Package pdftex.def Info: tables_figures/FigureS3.png  used on input line 1402.
+Package pdftex.def Info: tables_figures/FigureS3.png  used on input line 1406.
 (pdftex.def)             Requested size: 361.35463pt x 505.89645pt.
 <tables_figures/FigureS1.png, id=289, 361.35pt x 505.89pt>
 File: tables_figures/FigureS1.png Graphic file (type png)
 <use tables_figures/FigureS1.png>
-Package pdftex.def Info: tables_figures/FigureS1.png  used on input line 1406.
+Package pdftex.def Info: tables_figures/FigureS1.png  used on input line 1410.
 (pdftex.def)             Requested size: 361.34912pt x 505.88875pt.
 (./climate_sensitivity_draft.bbl [17]
 Overfull \vbox (281.52908pt too high) has occurred while \output is active []
@@ -936,17 +936,17 @@ Overfull \vbox (281.52908pt too high) has occurred while \output is active []
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1411.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1415.
 [21]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1411.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1415.
 (./climate_sensitivity_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1411.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1411.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1415.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1415.
 
 Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
 ed.
 (rerunfilecheck)             Checksum: 60B6DA6D96942CA92A5E0E620872BEC4;1289.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1411.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1415.
  ) 
 Here is how much of TeX's memory you used:
  16000 strings out of 492616
@@ -978,7 +978,7 @@ i10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri12.pfb></
 usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/
 texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/201
 9/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on climate_sensitivity_draft.pdf (21 pages, 1285758 bytes).
+Output written on climate_sensitivity_draft.pdf (21 pages, 1285914 bytes).
 PDF statistics:
  404 PDF objects out of 1000 (max. 8388607)
  350 compressed objects within 4 object streams
