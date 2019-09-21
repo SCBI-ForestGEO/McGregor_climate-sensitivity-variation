@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  20 SEP 2019 15:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  20 SEP 2019 21:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -903,29 +903,29 @@ Package pdftex.def Info: tables_figures/Figure2.png  used on input line 840.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <9> on input line 855.
 [10] [11 <./tables_figures/Figure2.png (PNG copy)>] [12] [13] [14] [15]
-<tables_figures/ForestGEO_plot.jpg, id=273, 312.2064pt x 389.0535pt>
+<tables_figures/ForestGEO_plot.jpg, id=278, 312.2064pt x 389.0535pt>
 File: tables_figures/ForestGEO_plot.jpg Graphic file (type jpg)
 <use tables_figures/ForestGEO_plot.jpg>
 Package pdftex.def Info: tables_figures/ForestGEO_plot.jpg  used on input line 
-1262.
+1259.
 (pdftex.def)             Requested size: 312.21992pt x 389.07034pt.
 
-Overfull \hbox (151.9129pt too wide) in paragraph at lines 1273--1307
+Overfull \hbox (151.9129pt too wide) in paragraph at lines 1270--1304
  [][] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<tables_figures/FigureS3.png, id=274, 361.35pt x 505.89pt>
+<tables_figures/FigureS3.png, id=279, 361.35pt x 505.89pt>
 File: tables_figures/FigureS3.png Graphic file (type png)
 <use tables_figures/FigureS3.png>
-Package pdftex.def Info: tables_figures/FigureS3.png  used on input line 1311.
+Package pdftex.def Info: tables_figures/FigureS3.png  used on input line 1308.
 (pdftex.def)             Requested size: 361.35463pt x 505.89645pt.
-<tables_figures/FigureS1.png, id=275, 361.35pt x 505.89pt>
+<tables_figures/FigureS1.png, id=280, 361.35pt x 505.89pt>
 File: tables_figures/FigureS1.png Graphic file (type png)
 <use tables_figures/FigureS1.png>
-Package pdftex.def Info: tables_figures/FigureS1.png  used on input line 1315.
+Package pdftex.def Info: tables_figures/FigureS1.png  used on input line 1312.
 (pdftex.def)             Requested size: 361.34912pt x 505.88875pt.
 (./climate_sensitivity_draft.bbl [16]
 Overfull \vbox (281.52908pt too high) has occurred while \output is active []
@@ -935,17 +935,17 @@ Overfull \vbox (281.52908pt too high) has occurred while \output is active []
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1320.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1317.
 [20]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1320.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1317.
 (./climate_sensitivity_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1320.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1320.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1317.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1317.
 
 Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
 ed.
 (rerunfilecheck)             Checksum: C0949F690BA9FAF979F61CD48EBEE494;1191.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1320.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1317.
  ) 
 Here is how much of TeX's memory you used:
  15988 strings out of 492616
@@ -976,10 +976,10 @@ ic/lm/lmri10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri
 12.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></u
 sr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/te
 xlive/2019/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on climate_sensitivity_draft.pdf (20 pages, 1265994 bytes).
+Output written on climate_sensitivity_draft.pdf (20 pages, 1266670 bytes).
 PDF statistics:
- 388 PDF objects out of 1000 (max. 8388607)
- 336 compressed objects within 4 object streams
+ 392 PDF objects out of 1000 (max. 8388607)
+ 340 compressed objects within 4 object streams
  67 named destinations out of 1000 (max. 500000)
  18530 words of extra memory for PDF output out of 20736 (max. 10000000)
 
