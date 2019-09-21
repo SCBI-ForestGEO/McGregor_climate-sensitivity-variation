@@ -1,5 +1,5 @@
 ---
-title: "Tree size, microhabitat, and hydraulic traits shape drought responses in a temperate broadleaf forest"
+title: "Tree height, microhabitat, and hydraulic traits shape drought responses in a temperate broadleaf forest"
 author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Erika Gonzalez-Akre, Valentine Herrmann, Joseph Zailaa, Atticus Stovall, Norman Bourg?, William McShea?, Neil Pederson, Lawren Sack, Kristina Anderson-Teixeira"
 output:
   pdf_document:
@@ -62,7 +62,7 @@ Acknowledgements | 	~75 unwritten	||
 
 *The Summary for research papers, which must be usable as a stand- alone document, must not exceed 200 words and should be organized using four bullet points to indicate: (1) the research conducted, including the rationale, (2) methods, (3) key results, and (4) the main conclusion, including the key points of discussion. It should not contain citations of other papers.* 
 
-*Key words*: [5-8] *Five to eight key words (in alphabetical order) . Words that are in the title can, and should, be among these. Very short phrases and scientific names with their common equivalents (e.g. Nicotiana tabacum (tobacco)) are acceptable.*
+*Key words*:  canopy position; drought; hydraulic traits; microhabitat; temperate broadleaf deciduous forest;  tree growth; tree height; tree-ring [5-8] *Five to eight key words (in alphabetical order) . Words that are in the title can, and should, be among these. Very short phrases and scientific names with their common equivalents (e.g. Nicotiana tabacum (tobacco)) are acceptable.*
 
 \newpage
 ### Introduction
