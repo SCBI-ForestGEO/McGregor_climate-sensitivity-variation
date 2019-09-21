@@ -264,8 +264,9 @@ Beyond microenvironment, multiple tree characteristics covary with height. To be
 
 Our finding that $PLA_{dry}$ and $\pi_{tlp}$ are useful for predicting drought responses is consistent with studies demonstrating that these are physiolgoically meaningful traits linked to species distribution along moisture gradients (**REFS--KAT/NOBBY/LAWREN**), **MORE--KAT/NOBBY/LAWREN**... (**REFS**). It is scientifically exciting in that it indicates that these traits, which can be measured relatively easily $PLA_{dry}$ and $\pi_{tlp}$ (**REFS--KAT/NOBBY/LAWREN**), hold promise for predicting drought growth responses across species. The importance of linking species' traits to drought responses increases with tree species diversity; whereas it is feasible to study drought responses for all dominant species in most boreal and temperate forests (e.g., this study; **REFS**), this becomes difficult to impossible for diverse tropical forests, where linking hydraulic traits to drought responses would be invaluable for forecasting how little-known species and whole forests will respond to future droughts (**REFS--KAT/NOBBY/LAWREN**). 
 
+Although the physiological mechanisms discussed above lead to generally consistent directions of growth responses to tree height and hydaulic traits across droughts, indicating the universality of the underlying mechanisms, the relative importantance of the drivers varied widely across droughts, indicating an interaction with drought characteristics (Tables 4-5). [**DISCUSS DIFFERENCES ACROSS DROUGHTS-- e.g., 1966 was preceded by two dry years, and height mattered most in this drought. ...**] Further research will be required to understand how drought characteristics interact with driver variables to shape tree growth responses.
 
-
+Our study reveals that tree height, microhabitat, and species' hydraulic traits interactively shape tree growth responses to drought.
 
 \newpage
 
@@ -281,8 +282,7 @@ Our finding that $PLA_{dry}$ and $\pi_{tlp}$ are useful for predicting drought r
 
 5. we advance knowledge regarding hydraulic traits
 
-6. we advance knowledge regarding differences across droughts ??
-  - biophysical mechanisms are things that should be seen as universal but relative importance of each can vary within each drought (or across sites)
+6. we advance knowledge regarding differences across droughts 
   
 7. science is better
 - by advancing our understanding of the mechanisms for individual-level responses to drought, this opens door for better predictions (elaborate from above). "This is absolutely critical to predicting forest responses to future droughts, which we're likely to see more of in the future as a result to climate change. Forecasting forest responses to these droughts is a huge and important challenge",
