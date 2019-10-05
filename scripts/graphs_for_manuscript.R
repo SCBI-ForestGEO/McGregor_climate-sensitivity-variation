@@ -235,6 +235,7 @@ for (i in seq(along=1:4)){
 #4 Export the graphs ####
 library(ggpubr)
 library(extrafont)
+library(rasterVis)
 
 ##4a. Export map of plot using TWI and cored tree locations ####
 species <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
@@ -242,7 +243,7 @@ species <- species[!species$sp %in% c("frni", "pist"), ]
 species$sp_fact <- as.factor(species$sp)
 
 color_pallete_function <- colorRampPalette(
-   colors = c("red", "blue", "brown", "purple", "dark green", "light blue"),
+   colors = c("pink","lightskyblue", "turquoise", "springgreen", "white", "khaki", "gold", "brown"),
    space = "Lab" # Option used when colors do not represent a quantitative scale
 )
 species_colors <- color_pallete_function(nlevels(species$sp_fact))
@@ -252,9 +253,12 @@ cored_points <- SpatialPointsDataFrame(data.frame(species$NAD83_X, species$NAD83
 plot.new()
 
 png("manuscript/tables_figures/FigureS3.png", width=5, height=7, units="in", res=300)
-plot(topo, axes=FALSE, box=FALSE, 
-     legend.args = list(text="Topographic Wetness Index", side=4, font=2, line=2.5, cex=0.8))
-plot(cored_points, pch=20, col = species_colors[species$sp_fact], add=TRUE)
+levelplot(topo, margin=FALSE, scales=list(draw=FALSE), 
+          key=list(space="right",
+                   text=list(lab=levels(cored_points@data$sp_fact)),
+                   points=list(pch=20, fill=species_colors, col=species_colors)),
+          colorkey=list(space="left", width=0.75, height=0.75)) +
+   layer(sp.points(cored_points, pch=20, col = species_colors[species$sp_fact]))
 dev.off()
 
 ##4b. Export other graphs all together ####
@@ -267,14 +271,14 @@ quant <- data.frame(yintercept = 35.0022, Lines = "95th percentile")
 #add this part to each graph:
 # geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
 
-##4a. Figure S1 (TLP and PLA with height and TWI) ####
+##4c. Figure S1 (TLP and PLA with height and TWI) ####
 plot_pla_twi
 plot_tlp_twi
 
 traits <- ggarrange(plot_tlp_twi, plot_pla_twi, nrow=1, ncol=2)
 ggsave("manuscript/tables_figures/FigureS1.png", width=5, height=7, units="in", traits)
 
-##4b. height profiles ####
+##4d. height profiles ####
 NEON_order <- c("(a)", "(b)", "(c)", "(d)")
 NEON_order_x <- c(0.5, 35, 7.5, 7.5)
 NEON_order_y <- c(57.5, 52.5, 57.5, 57.5)
