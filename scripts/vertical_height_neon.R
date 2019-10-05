@@ -124,8 +124,10 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
     summarize(mmax = mean(test_max, na.rm=TRUE),
               mmin = mean(test_min, na.rm=TRUE),
               sd_max = sd(test_max, na.rm=TRUE),
-              sd_min = sd(test_min, na.rm=TRUE))
-
+              sd_min = sd(test_min, na.rm=TRUE),
+              quant_95 = quantile(test_max, c(0.95), na.rm=TRUE),
+              quant_05 = quantile(test_min, c(0.05), na.rm=TRUE))
+  
   #base ggplot, all months on same graph
   data_analy$month_f <- factor(data_analy$month, levels=c("May", "June", "July", "August"))
   
@@ -157,18 +159,20 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
                                   data_analy$verticalPosition - 0.05)))))))
   }
   
-  
   graph <-
     data_analy %>%
       arrange(verticalPosition) %>%
       ggplot() +
-      scale_color_manual(values = c("dark orange", "red", "dark green", "blue"), name = "Month") +
-      geom_point(aes(x = mmax, y = vertPos_jitter, color = month_f), shape=19, position = "jitter") +
-      geom_point(aes(x = mmin, y = vertPos_jitter, color = month_f), shape=17, position = "jitter") +
-      geom_path(aes(x = mmax, y = vertPos_jitter, color = month_f, linetype = "Max"), size = 1) +
-      geom_path(aes(x = mmin, y = vertPos_jitter, color = month_f, linetype = "Min"), size = 1) +
-      ggplot2::geom_errorbarh(aes(xmin=mmax-sd_min, xmax=mmax+sd_max, y=vertPos_jitter, color = month_f, linetype = "Max", height=0.8)) +
-      ggplot2::geom_errorbarh(aes(xmin=mmin-sd_min, xmax=mmin+sd_max, y=vertPos_jitter, color = month_f, linetype = "Min", height=0.8)) +
+      scale_color_manual(values = c("dark orange", "red", "dark green", "blue"), 
+                         name = "Month") +
+      geom_point(aes(x = quant_95, y = vertPos_jitter, color = month_f), shape=19, position = "jitter") +
+      geom_point(aes(x = quant_05, y = vertPos_jitter, color = month_f), shape=17, position = "jitter") +
+      geom_path(aes(x = quant_95, y = vertPos_jitter, color = month_f, 
+                    linetype = "95th percentile"), size = 1) +
+      geom_path(aes(x = quant_05, y = vertPos_jitter, color = month_f, 
+                    linetype = "5th percentile"), size = 1) +
+      ggplot2::geom_errorbarh(aes(xmin=quant_95-sd_min, xmax=quant_95+sd_max, y=vertPos_jitter, color = month_f, linetype = "95th percentile", height=0.8)) +
+      ggplot2::geom_errorbarh(aes(xmin=quant_05-sd_min, xmax=quant_05+sd_max, y=vertPos_jitter, color = month_f, linetype = "5th percentile", height=0.8)) +
       labs(x = dp$xlabs[[i]], y = "Height [m]") +
       scale_y_continuous(breaks = scales::pretty_breaks(n = 6), limits=c(0,60)) +
       theme_bw() +
@@ -179,7 +183,7 @@ for (i in seq(along=dp$value)){ #make 1:5 if using radiation (cloud vs sun thres
   }
   
   if(i == 2){
-    graph <- graph + scale_x_continuous(breaks=c(40,60,80,100))
+    graph <- graph + scale_x_continuous(breaks=c(20,40,60,80,100))
   }
   
   if(i == 3){

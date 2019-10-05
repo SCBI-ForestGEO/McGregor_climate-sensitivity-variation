@@ -237,7 +237,22 @@ library(ggpubr)
 library(extrafont)
 library(rasterVis)
 
-##4a. Export map of plot using TWI and cored tree locations ####
+loadfonts(device="win") #to get TNR
+
+quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 35.002m
+quant <- data.frame(yintercept = 35.0022, Lines = "95th percentile")
+
+#add this part to each graph:
+# geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
+
+##4a. Figure S1 (TLP and PLA with height and TWI) ####
+plot_pla_twi
+plot_tlp_twi
+
+traits <- ggarrange(plot_tlp_twi, plot_pla_twi, nrow=1, ncol=2)
+ggsave("manuscript/tables_figures/FigureS1.png", width=5, height=7, units="in", traits)
+
+##4b. Export map of plot using TWI and cored tree locations ####
 species <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
 species <- species[!species$sp %in% c("frni", "pist"), ]
 species$sp_fact <- as.factor(species$sp)
@@ -261,24 +276,7 @@ levelplot(topo, margin=FALSE, scales=list(draw=FALSE),
    layer(sp.points(cored_points, pch=20, col = species_colors[species$sp_fact]))
 dev.off()
 
-##4b. Export other graphs all together ####
-
-loadfonts(device="win") #to get TNR
-
-quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 35.002m
-quant <- data.frame(yintercept = 35.0022, Lines = "95th percentile")
-
-#add this part to each graph:
-# geom_hline(aes(yintercept = yintercept), linetype = "dashed", quant)
-
-##4c. Figure S1 (TLP and PLA with height and TWI) ####
-plot_pla_twi
-plot_tlp_twi
-
-traits <- ggarrange(plot_tlp_twi, plot_pla_twi, nrow=1, ncol=2)
-ggsave("manuscript/tables_figures/FigureS1.png", width=5, height=7, units="in", traits)
-
-##4d. height profiles ####
+##4c. height profiles ####
 NEON_order <- c("(a)", "(b)", "(c)", "(d)")
 NEON_order_x <- c(0.5, 35, 7.5, 7.5)
 NEON_order_y <- c(57.5, 52.5, 57.5, 57.5)
@@ -350,7 +348,7 @@ for (i in seq(along=1:3)){
 heights_other <- ggarrange(plots_bw$heights, plots_bw$plot_pla_ht, plots_bw$plot_tlp_ht, nrow=1, ncol=3)
 
 ###put plots together
-png("manuscript/tables_figures/Figure2.png", width=11, height=11, units="in", res=300)
+png("manuscript/tables_figures/Figure2_test.png", width=11, height=11, units="in", res=300)
 ggarrange(NEON, heights_other, nrow=2, ncol=1)
 dev.off()
 
