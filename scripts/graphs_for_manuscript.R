@@ -7,8 +7,8 @@ library(ggplot2)
 
 #1. NEON vertical height profiles
 source('scripts/vertical_height_neon.R', echo=TRUE)
-NEON_list <- list(wind_plot, RH_plot, SAAT_plot, biotemp_plot)
-names(NEON_list) <- c("wind_plot", "RH_plot", "SAAT_plot", "biotemp_plot")
+NEON_list <- list(wind_plot, RH_plot, SAAT_plot) #,"biotemp_plot")
+names(NEON_list) <- c("wind_plot", "RH_plot", "SAAT_plot") #,"biotemp_plot
 #########################################################################
 #2 height by crown position in 2018 ####
 library(RCurl) #2
@@ -277,10 +277,10 @@ levelplot(topo, margin=FALSE, scales=list(draw=FALSE),
 dev.off()
 
 ##4c. height profiles ####
-NEON_order <- c("(a)", "(b)", "(c)", "(d)")
-NEON_order_x <- c(0.5, 35, 7.5, 7.5)
-NEON_order_y <- c(57.5, 52.5, 57.5, 57.5)
-for (i in seq(along=1:4)){
+NEON_order <- c("(a)", "(b)", "(c)")
+NEON_order_x <- c(0.5, 35, 7.5)
+NEON_order_y <- c(57.5, 52.5, 57.5)
+for (i in seq(along=1:3)){
   NEON_list[[i]] <-
      NEON_list[[i]] +
          theme_bw(base_size = 16) + 
@@ -288,12 +288,12 @@ for (i in seq(along=1:4)){
          geom_hline(aes(yintercept = yintercept), linetype = "longdash", quant) +
          annotate(geom="text", x=NEON_order_x[[i]], y=NEON_order_y[[i]], 
                   label = NEON_order[[i]], fontface="bold", size=7)
-  if(i==4){
-     NEON_list[[i]] <- 
+  if(i==1){
+     NEON_list[[i]] <-
         NEON_list[[i]] +
         theme(legend.title = element_blank(),
               legend.box = "vertical",
-              legend.position = c(0.75, 0.85),
+              legend.position = c(0.8, 0.35),
               legend.background = element_rect(fill=alpha("white", 0.01)),
               legend.text=element_text(size=12),
               legend.key.size=unit(4,"mm"),
@@ -301,7 +301,7 @@ for (i in seq(along=1:4)){
               )
   }
   
-  if(!i==4){
+  if(!i==1){
      NEON_list[[i]] <-
         NEON_list[[i]] +
         theme(legend.position = "none")
@@ -316,13 +316,13 @@ for (i in seq(along=1:4)){
   }
 }
 
-NEON <- ggarrange(NEON_list$wind_plot, NEON_list$RH_plot, NEON_list$SAAT_plot, NEON_list$biotemp_plot,  nrow=1, ncol=4, align="h")
+NEON <- ggarrange(NEON_list$wind_plot, NEON_list$RH_plot, NEON_list$SAAT_plot,  nrow=1, ncol=3, align="h")
 
 ###format the other height graphs
 plots_bw <- list(heights, plot_pla_ht, plot_tlp_ht)
 names(plots_bw) <- c("heights", "plot_pla_ht", "plot_tlp_ht")
-plots_bw_order <- c("(e)", "(f)", "(g)")
-plots_bw_order_x <- c(0.7, 9, -2.75)
+plots_bw_order <- c("(d)", "(e)", "(f)")
+plots_bw_order_x <- c(0.8, 9, -2.75)
 plots_bw_order_y <- c(57.5, 57.5, 57.5)
 
 for (i in seq(along=1:3)){
@@ -348,7 +348,7 @@ for (i in seq(along=1:3)){
 heights_other <- ggarrange(plots_bw$heights, plots_bw$plot_pla_ht, plots_bw$plot_tlp_ht, nrow=1, ncol=3)
 
 ###put plots together
-png("manuscript/tables_figures/Figure2_test.png", width=11, height=11, units="in", res=300)
+png("manuscript/tables_figures/Figure2.png", width=11, height=11, units="in", res=300)
 ggarrange(NEON, heights_other, nrow=2, ncol=1)
 dev.off()
 
