@@ -121,6 +121,9 @@ Within or just outside the ForestGEO plot, we collected data on a suite of varia
 library(knitr)
 library(kableExtra)
 hypothesis_table <- read.csv("tables_figures/variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
+hypothesis_table$symbol[14] <- "X"
+hypothesis_table$symbol[17] <- "T"
+
 kable(hypothesis_table, booktabs = TRUE, caption = "**Table 2. Summary of variables**", format = 'latex', escape = TRUE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," "," "," "," ", "observed values" = 3, " ")) %>%
@@ -132,6 +135,7 @@ kable(hypothesis_table, booktabs = TRUE, caption = "**Table 2. Summary of variab
   pack_rows("species' traits", 12, 18, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   kable_styling()
 ```
+Caption: T = $\pi_{tlp}$, X = ${XP}$
 
 We analyzed tree-ring data from 571 trees representing the twelve species contributing most to woody aboveground net primary productivity (ANPP), which together comprised 97% of study plot ANPP between 2008 and 2013 [@helcoski_growing_2019]. Cores were obtained in 2010-2011 or 2016-2017 from a breast height of 1.3m using a 5mm increment borer. In 2010-2011, cores were collected from randomly selected live trees of species with at least 30 individuals of DBH $\ge$ 10cm [@bourg_initial_2013]. In 2016-2017, cores were collected from all trees found dead in the annual mortality census [@gonzalezakre_patterns_2016]. Cores were sanded, measured, and cross-dated using standard procedures, as detailed in [@helcoski_growing_2019]. The resulting chronologies have been published in association with @helcoski_growing_2019: (ITRDB; GitHub/Zenodo).  *Ryan submitted the data to ITRDB but I don't think its posted yet. We should also cite GitHub/Zenodo here. I'll come back to that.* 
 
