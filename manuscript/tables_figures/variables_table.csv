@@ -12,8 +12,8 @@ crown position,CP,-,2018 crown position,dominant (D),31,-,-,-,-
 topographic wetness index,TWI,-,steady-state wetness index based on slope and upstream contributing area,-,all,5.66,0,16,yes
 wood density,WD,g cm-3,dry mass of a unit volume of fresh wood,-,all,0.62,0.4,1.09,no
 leaf mass per area,LMA,kg m-2,ratio of leaf dry mass to fresh leaf area,-,all,48.69,30.68,75.8,no
-xylem porosity,$XP$,-,vessel arrangement in xylem,ring,408,-,,,-
+xylem porosity,XP,-,vessel arrangement in xylem,ring,408,-,,,-
 ,,,,semi-ring,31,-,,,-
 ,,,,diffuse,178,-,,,-
-turgor loss point,$\pi_{tlp}$,MPa,water potential at which leaves wilt,-,all,-2.39,-2.76,-1.92,no
+turgor loss point,TLP,MPa,water potential at which leaves wilt,-,all,-2.39,-2.76,-1.92,no
 percent loss area,PLA,%,percent loss of leaf area upon dessication,-,all,13.06,8.52,24.64,no
