@@ -1,0 +1,16 @@
+---
+title: "Test"
+output: pdf_document
+---
+
+``` {r} 
+dat <- data.frame(variable = c(rep("turgor loss point", 10), rep("volume", 10)),
+                    unit = c(rep("$\\pi_{tlp}$", 10), rep("$cm^3$", 10)),
+                    value = c(round(runif(10), 2), round(runif(10,20,30),2)))
+
+kableExtra::kable(dat, booktabs = TRUE, format = 'latex', escape=FALSE)
+```
+Printing in the table leaves the raw symbology, but if I want to discuss the use of the volume ($cm^3$) and the turgor loss point ($\pi_{tlp}$) in the text itself, the symbols render without a problem.
+
+
+                  
