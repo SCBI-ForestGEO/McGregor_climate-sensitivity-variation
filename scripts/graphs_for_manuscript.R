@@ -279,7 +279,7 @@ dev.off()
 ##4c. height profiles ####
 NEON_order <- c("(a)", "(b)", "(c)")
 NEON_order_x <- c(0.5, 35, 7.5)
-NEON_order_y <- c(57.5, 52.5, 57.5)
+NEON_order_y <- c(57.5, 57.5, 57.5)
 for (i in seq(along=1:3)){
   NEON_list[[i]] <-
      NEON_list[[i]] +
@@ -288,12 +288,12 @@ for (i in seq(along=1:3)){
          geom_hline(aes(yintercept = yintercept), linetype = "longdash", quant) +
          annotate(geom="text", x=NEON_order_x[[i]], y=NEON_order_y[[i]], 
                   label = NEON_order[[i]], fontface="bold", size=7)
-  if(i==1){
+  if(i==3){
      NEON_list[[i]] <-
         NEON_list[[i]] +
         theme(legend.title = element_blank(),
               legend.box = "vertical",
-              legend.position = c(0.8, 0.35),
+              legend.position = c(0.8, 0.85),
               legend.background = element_rect(fill=alpha("white", 0.01)),
               legend.text=element_text(size=12),
               legend.key.size=unit(4,"mm"),
@@ -301,13 +301,13 @@ for (i in seq(along=1:3)){
               )
   }
   
-  if(!i==1){
+  if(!i==3){
      NEON_list[[i]] <-
         NEON_list[[i]] +
         theme(legend.position = "none")
   }
   
-  if(!i==1){
+  if(!i==3){
      NEON_list[[i]] <- 
         NEON_list[[i]] +
         theme(axis.title.y = element_blank(),

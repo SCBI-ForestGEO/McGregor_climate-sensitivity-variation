@@ -130,6 +130,16 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
   #base ggplot, all months on same graph
   data_analy$month_f <- factor(data_analy$month, levels=c("May", "June", "July", "August"))
   
+  #CORRECT HEIGHTS (according to tower dimensions, not downloaded data)
+  data_analy$verticalPosition <-
+    ifelse(data_analy$verticalPosition == 10, 5.8,
+    ifelse(data_analy$verticalPosition == 20, 19.2,
+    ifelse(data_analy$verticalPosition == 30, 26,
+    ifelse(data_analy$verticalPosition == 40, 32.9,
+    ifelse(data_analy$verticalPosition == 50, 38,
+    ifelse(data_analy$verticalPosition == 60, 51.8,
+           data_analy$verticalPosition))))))
+  
   data_analy$vertPos_jitter <- NA
   
   if(!i == 2){
