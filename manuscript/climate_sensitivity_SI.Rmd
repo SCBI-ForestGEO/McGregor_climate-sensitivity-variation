@@ -1,0 +1,49 @@
+---
+title: "Supplementary Information: \nTree height, microhabitat, and hydraulic traits shape drought responses in a temperate broadleaf forest"
+author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Erika Gonzalez-Akre, Valentine Herrmann, Joseph Zailaa, Atticus Stovall, Norman Bourg?, William McShea?, Neil Pederson, Lawren Sack, Kristina Anderson-Teixeira"
+output:
+  pdf_document:
+    fig_caption: yes
+biblio-style: apalike
+csl: apa.csl
+header-includes:
+- \usepackage{booktabs}
+- \usepackage{dcolumn} #for sidewaystable
+---
+
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
+### Supplementary Information
+```{r, Table S1, eval=TRUE, echo=FALSE, message=FALSE}
+library(knitr)
+library(kableExtra)
+
+heights <- read.csv("tables_figures/height_regression.csv", stringsAsFactors = FALSE)
+kable(heights, booktabs=TRUE, format = "latex", caption = "Species-specific height regression equations") %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
+```
+
+```{r, Table S2, eval=TRUE, echo=FALSE, message=FALSE}
+tableS2 <- read.csv("tables_figures/candidate_traits.csv", stringsAsFactors = FALSE)
+kable(tableS2, booktabs=TRUE, format = "latex", caption = "Candidate variables for best model") %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
+```
+
+```{r, Plot, echo=FALSE, out.width='100%', fig.cap = "Map of ForestGEO plot", fig.pos='ht'}
+  knitr::include_graphics("tables_figures/ForestGEO_plot.jpg")
+```
+
+*how do we want to present Table S3? Would it be better as an image of an excel file, since it's so large? Did we want to keep all coefficients here?*
+```{r, Table S3, eval=TRUE, echo=FALSE, message=FALSE}
+tableS3 <- read.csv("tables_figures/top_models_dAIC.csv", stringsAsFactors = FALSE)
+kable(tableS3, booktabs=TRUE, format = "latex", caption = "Top model variations for each drought scenario, with dAICc values <= 2") %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
+```
+
+![Location of cored trees](tables_figures/FigureS3.png){width=500px}
+
+
+![Figure S1](tables_figures/FigureS1.png)
+(see Issue #32)
