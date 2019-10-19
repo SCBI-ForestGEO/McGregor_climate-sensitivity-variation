@@ -674,7 +674,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEN4O7QACR7L5X4AHK25OZHZM"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEPDTUEGGQUCPMMGPQ25WRPM4"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
@@ -1120,20 +1120,29 @@ trees_all$sap_ratio <- dbh$sap_ratio[match(trees_all$tree, dbh$tree) & match(tre
 ##5g. add in tree heights ####
 ## taken from the canopy_heights script
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
-trees_all$height.ln.m <- ifelse(trees_all$sp == "caco", (0.348+0.808*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "cagl", (0.681+0.704*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "caovl", (0.621+0.722*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "cato", (0.776+0.701*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "fagr", (0.708+0.662*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "fram", (0.715+0.619*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "juni", (1.22+0.49*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "litu", (1.32+0.524*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "qual", (1.14+0.548*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "qupr", (0.44+0.751*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "quru", (1.17+0.533*trees_all$dbh.ln.cm),
-                      ifelse(trees_all$sp == "quve", (0.864+0.585*trees_all$dbh.ln.cm),
-                             (0.791+0.645*trees_all$dbh.ln.cm)))))))))))))
-                             #0.849+0.659*trees_all$dbh_ln.cm -> original equation that was yielding predicted heights for some trees of about 54m.
+height_regr <- read.csv("manuscript/tables_figures/height_regression.csv", stringsAsFactors = FALSE)
+
+trees_all$height.ln.m <- NA
+for(w in seq(along=height_regr$sp)){
+  sp_foc <- height_regr$sp[[w]]
+  ht_eq <- height_regr[height_regr$sp == sp_foc, ]
+  num <- gsub("\\*x", "", ht_eq$Equations)
+  num1 <- as.numeric(gsub(".[[:digit:]].[[:digit:]]*$", "", num))
+  num2 <- as.numeric(gsub("^[[:digit:]].[[:digit:]]*.", "", num))
+  
+  if(sp_foc %in% trees_all[,"sp"]){
+    trees_all$height.ln.m <- 
+      ifelse(trees_all$sp == sp_foc,
+             num1 + num2*trees_all$dbh.ln.cm,
+             trees_all$height.ln.m)
+  } else {
+    trees_all$height.ln.m <- 
+      ifelse(trees_all$sp != sp_foc,
+             num1 + num2*trees_all$dbh.ln.cm,
+             trees_all$height.ln.m)
+  }
+  
+}
 
 trees_all$height.m <- exp(trees_all$height.ln.m) #m, because these equations come from a plotting of log(DBH in cm) against log(height in m).
 
