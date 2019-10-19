@@ -20,18 +20,6 @@ dbh_2013$dbh.cm <- dbh_2013$dbh/10 #cm
 
 dbh_2018 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
 
-# #get stemIDs for each stem (leaving this here if need be)
-# heights$stemID <- ifelse(is.na(heights$stemID), dbh_2013$stemID[match(paste(heights$tag, heights$stemtag), paste(dbh_2013$tag, dbh_2013$StemTag))], heights$stemID)
-# 
-# heights$tag <- ifelse(is.na(heights$tag), dbh_2013$tag[match(heights$stemID, dbh_2013$stemID)], heights$tag)
-
-#separate stemID in 2018 data
-dbh_2018$tag <- gsub("_.*$", "", dbh_2018$Tree_ID_Num)
-dbh_2018$stemtag <- gsub("[[:digit:]]*_", "", dbh_2018$Tree_ID_Num)
-dbh_2018$tag <- as.numeric(as.character(dbh_2018$tag))
-dbh_2018$stemtag <- as.numeric(as.character(dbh_2018$stemtag))
-
-
 heights$dbh_regr.cm <- paste0(heights$DBH.2008.cm, heights$DBH.2013.cm, heights$DBH.TLS.2015.cm, heights$DBH.2018.cm)
 heights$dbh_regr.cm <- gsub("NA", "", heights$dbh_regr.cm)
 heights$dbh_regr.cm <- as.numeric(heights$dbh_regr.cm)
@@ -49,7 +37,7 @@ heights_nodup <- heights[!heights$stemID %in% dup, ]
 
 heights_recent <- NULL
 for (i in seq(along=unique(heights_dup$stemID))){
-  sub <- heights_dup[heights_dup$stemID == unique(heights_dup$stemID)[[i]], ]
+  sub <- heights_dup[heights_dup$stemID %in% unique(heights_dup$stemID)[[i]], ]
   
   sub <- sub[sub$height.year == max(sub$height.year), ]
   
@@ -57,7 +45,7 @@ for (i in seq(along=unique(heights_dup$stemID))){
 }
 
 heights_all <- rbind(heights_nodup, heights_recent)
-heights_all <- heights_all[c(1:4,6,8,15:17,24:25)]
+heights_all <- heights_all[c(1:5,7,9,16:17,26:27)]
 
 
 ## sine bias ####
@@ -185,13 +173,73 @@ ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label 
   theme_minimal()
 
 regr <- data.frame("Species" = c("Carya cordiformis", "Carya glabra", "Carya ovalis", "Carya tomentosa", "Fagus grandifolia", "Liriodendron tulipifera", "Quercus alba", "Quercus prinus", "Quercus rubra", "all"),
-                   "Equations" = c("0.348+0.808*x", "0.681+0.704*x", "0.621+0.722*x", "0.776+0.701*x", "0.708+0.662*x", "1.32+0.524*x", "1.14+0.548*x", "0.44+0.751*x", "1.17+0.533*x", "0.879+0.634*x"),
-                   "r^2" = c(0.879, 0.855, 0.916, 0.894, 0.857, 0.761, 0.647, 0.869, 0.773, 0.857))
+                   "Equations" = c("0.391+0.805*x", 
+                                   "0.654+0.728*x", 
+                                   "0.939+0.641*x", 
+                                   "0.851+0.682*x", 
+                                   "0.574+0.713*x", 
+                                   "1.21+0.559*x", 
+                                   "2.07+0.318*x", "0.594+0.713*x", "1.42+0.473*x", "0.946+0.621*x"),
+                   "r^2" = c(0.899, 0.89, 0.922, 0.89, 0.887, 0.76, 0.523, 0.799, 0.832, 0.868))
 
 write.csv(regr, "manuscript/tables_figures/height_regression.csv", row.names=FALSE)
 
+#########################################################################
+#create plots showing height diff by year (stand-alone) ####
+##this code compares measured heights from 2012-2019 with regressed heights from trees_all
+
+library(data.table)
+library(ggplot2)
+trees <- read.csv("manuscript/tables_figures/trees_all.csv", stringsAsFactors = FALSE)
+heights <- read.csv("E:/Github_SCBI/SCBI-ForestGEO-Data/tree_dimensions/tree_heights/SCBI_tree_heights.csv", stringsAsFactors = FALSE)
+
+h <- heights[,c("tag", "sp", "height.year", "height.m")]
+ht_trees <- trees[,c("year", "tree", "sp", "height.m", "position_all")]
+
+h$position_all <- ht$position_all[match(h$tag, ht_trees$tree)]
+
+library(data.table)
+setnames(h, old=c("tag", "height.year"), new=c("tree", "year"))
+
+test <- rbind(ht_trees, h)
+test$year <- round(test$year)
+test$year <- ifelse(test$year >=2012 & test$year<=2019, 2018, test$year)
+test$year <- as.character(test$year)
+
+test_sub <- test[complete.cases(test), ]
+test_sub$position_all <- factor(test_sub$position_all, c("dominant", "co-dominant", "intermediate", "suppressed"))
+
+comp <- as.data.table(test)
+comp[, mean(height.m), by=.(year)] #bringing in NEON heights to compare with all the regressed heights show a 5m decrease in height from 1999 to 2018.
+
+comp_sub <- as.data.table(test_sub)
+comp[, mean(height.m), by=.(year)] #however, when comparing heights only with our tagged trees, we see a 6m jump in height from 1999 to 2018. Unsure what this means for how the data was collected
+ggplot(comp_sub, aes(x=position_all, y=height.m)) +
+  geom_boxplot(aes(fill=year)) +
+  ylab("Height [m]") +
+  xlab("Canopy position")
+
+ggplot(test, aes(x=position_all, y=height.m)) +
+  geom_boxplot(aes(fill=year)) +
+  ylab("Height [m]") +
+  xlab("Canopy position")
+
+png("manuscript/tables_figures/height_comparison.png")
+ggplot(comp_sub, aes(x=position_all, y=height.m)) +
+  geom_boxplot(aes(fill=year)) +
+  ylab("Height [m]") +
+  xlab("Canopy position")
+dev.off()
+
+bysp <- comp[, mean(height.m), by=.(year, sp)]
+ggplot(test, aes(x=position_all, y=height.m)) +
+  geom_boxplot(aes(fill=year)) +
+  ylab("Height [m]") +
+  xlab("Canopy position") +
+  facet_wrap(vars(sp))
+
 #########################################################################################
-#get quadrat and coordinates for field data ####
+#get quadrat and coordinates for field checking ####
 heights_all$quadrat <- dbh_2013$quadrat[match(heights_all$stemID, dbh_2013$stemID)]
 heights_all <- heights_all[order(heights_all$quadrat, heights_all$tag), ]
 dbh_2013$lx <- dbh_2013$gx - 20*((dbh_2013$quadrat %/% 100) - 1)
