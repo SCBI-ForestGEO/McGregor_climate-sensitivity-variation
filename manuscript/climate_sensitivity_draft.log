@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.9.14)  12 OCT 2019 13:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.9.14)  19 OCT 2019 08:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -888,43 +888,35 @@ Package caption Info: End \AtBeginDocument code.
 
 {c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updm
 ap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 214.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 216.
 
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.
 fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [2]
-
-Package natbib Warning: Citation `bennett_larger_2015' on page 3 undefined on i
-nput line 278.
-
-
-Package natbib Warning: Citation `bennett_larger_2015' on page 3 undefined on i
-nput line 294.
-
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 320.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 305.
 
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.
 fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 320.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 305.
 
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.
 fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 320
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 305
 .
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy
 .fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 320
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 305
 .
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex
@@ -932,123 +924,128 @@ LaTeX Font Info:    Try loading font information for OMX+lmex on input line 320
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 320.
+(Font)              <10> on input line 305.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 320.
+(Font)              <7> on input line 305.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 320.
-LaTeX Font Info:    Try loading font information for U+msa on input line 320.
+(Font)              <5> on input line 305.
+LaTeX Font Info:    Try loading font information for U+msa on input line 305.
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/u
 msa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 320.
+LaTeX Font Info:    Try loading font information for U+msb on input line 305.
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/u
 msb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-
-Package natbib Warning: Citation `bennett_larger_2015' on page 3 undefined on i
-nput line 327.
-
-
-Package natbib Warning: Citation `bennett_larger_2015' on page 3 undefined on i
-nput line 332.
-
-
-Package natbib Warning: Citation `abrams_adaptations_1990' on page 3 undefined 
-on input line 355.
-
-
-Package natbib Warning: Citation `guerfel_impacts_2009' on page 3 undefined on 
-input line 355.
-
-
-Package natbib Warning: Citation `kannenberg_linking_2019' on page 3 undefined 
-on input line 356.
-
-[3]
-
-Package natbib Warning: Citation `lloret_components_2011' on page 4 undefined o
-n input line 391.
-
-
-Package natbib Warning: Citation `bennett_larger_2015' on page 4 undefined on i
-nput line 401.
-
-
-Package natbib Warning: Citation `bennett_larger_2015' on page 4 undefined on i
-nput line 405.
-
-
-Package natbib Warning: Citation `bennett_larger_2015' on page 4 undefined on i
-nput line 408.
-
-
-Package natbib Warning: Citation `bennett_larger_2015' on page 4 undefined on i
-nput line 425.
-
-[4]
-LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 497.
+) [3] [4]
+LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 473.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8.5> on input line 497.
+(Font)              <8.5> on input line 473.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5.94997> on input line 497.
+(Font)              <5.94997> on input line 473.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <4.25> on input line 497.
+(Font)              <4.25> on input line 473.
 
-Overfull \hbox (3.63115pt too wide) in paragraph at lines 497--497
+Overfull \hbox (3.63115pt too wide) in paragraph at lines 473--473
 []|\T1/lmr/m/n/8.5 (no/yes)|  
  []
 
 
-Overfull \hbox (3.63115pt too wide) in paragraph at lines 497--497
+Overfull \hbox (3.63115pt too wide) in paragraph at lines 473--473
 []|\T1/lmr/m/n/8.5 (yes/no)|  
  []
 
 
-LaTeX Warning: Float too large for page by 41.64273pt on input line 498.
+LaTeX Warning: Float too large for page by 41.64273pt on input line 474.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[5]
-
-Package natbib Warning: Citation `andersonteixeira_ctfs-forestgeo:_2015' on pag
-e 6 undefined on input line 512.
+[5] [6
 
 
-Package natbib Warning: Citation `gonzalezakre_patterns_2016' on page 6 undefin
-ed on input line 515.
 
-
-Package natbib Warning: Citation `bourg_initial_2013' on page 6 undefined on in
-put line 516.
-
-
-Package natbib Warning: Citation `condit_tropical_1998' on page 6 undefined on 
-input line 527.
-
+] [7]
+<tables_figures/Figure1.png, id=262, 426.6339pt x 569.0058pt>
+File: tables_figures/Figure1.png Graphic file (type png)
+<use tables_figures/Figure1.png>
+Package pdftex.def Info: tables_figures/Figure1.png  used on input line 687.
+(pdftex.def)             Requested size: 376.40895pt x 502.02031pt.
+[8] [9 <./tables_figures/Figure1.png (PNG copy)>]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 577.
+(Font)              <12> on input line 783.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 577.
+(Font)              <8> on input line 783.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 577.
-! Misplaced \noalign.
-<recently read> \noalign 
-                         
-l.577 \end{tabular}}
-                     
+(Font)              <6> on input line 783.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<tables_figures/Figure2.png, id=285, 794.97pt x 794.97pt>
+File: tables_figures/Figure2.png Graphic file (type png)
+<use tables_figures/Figure2.png>
+Package pdftex.def Info: tables_figures/Figure2.png  used on input line 869.
+(pdftex.def)             Requested size: 376.41377pt x 376.41377pt.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 884.
+[10] [11 <./tables_figures/Figure2.png>] [12] [13] [14] [15] [16] (./climate_se
+nsitivity_draft.bbl [17] [18])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1211.
+[19]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1211.
+(./climate_sensitivity_draft.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1211.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1211.
+
+Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
+ed.
+(rerunfilecheck)             Checksum: C31792DD3D9A5F561E45480112DB3335;954.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1211.
+ ) 
 Here is how much of TeX's memory you used:
- 13548 strings out of 494553
- 198709 string characters out of 6175425
- 305682 words of memory out of 5000000
- 16982 multiletter control sequences out of 15000+600000
- 73699 words of font info for 73 fonts, out of 8000000 for 9000
+ 13781 strings out of 494553
+ 204626 string characters out of 6175425
+ 323407 words of memory out of 5000000
+ 17138 multiletter control sequences out of 15000+600000
+ 90977 words of font info for 82 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 36i,12n,39p,597b,394s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,12n,43p,1150b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
+{c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm
+/lm-ec.enc}{c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc
+/dvips/lm/lm-mathit.enc}{c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-d
+ist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/Albus Severus/AppData/Roaming/Ti
+nyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/Users/Albus Severus/AppDa
+ta/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/Users/Albus Seve
+rus/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}<c:/Users/
+Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.p
+fb><c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/publi
+c/lm/lmbx12.pfb><c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/font
+s/type1/public/lm/lmbx9.pfb><c:/Users/Albus Severus/AppData/Roaming/TinyTeX/tex
+mf-dist/fonts/type1/public/lm/lmbxi10.pfb><c:/Users/Albus Severus/AppData/Roami
+ng/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/Albus Severus/
+AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/A
+lbus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi6.pfb
+><c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/
+lm/lmmi7.pfb><c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/t
+ype1/public/lm/lmmi9.pfb><c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-
+dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/Albus Severus/AppData/Roaming/Ti
+nyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/Albus Severus/AppDat
+a/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/Albus Se
+verus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Use
+rs/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.
+pfb><c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/publ
+ic/lm/lmri10.pfb><c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fon
+ts/type1/public/lm/lmri12.pfb><c:/Users/Albus Severus/AppData/Roaming/TinyTeX/t
+exmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/Albus Severus/AppData/Roam
+ing/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/Albus Severus/
+AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
+Output written on climate_sensitivity_draft.pdf (19 pages, 778140 bytes).
+PDF statistics:
+ 465 PDF objects out of 1000 (max. 8388607)
+ 415 compressed objects within 5 object streams
+ 85 named destinations out of 1000 (max. 500000)
+ 75 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-!  ==> Fatal error occurred, no output PDF file produced!
