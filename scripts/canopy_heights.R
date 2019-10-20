@@ -173,6 +173,7 @@ ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label 
   theme_minimal()
 
 regr <- data.frame("Species" = c("Carya cordiformis", "Carya glabra", "Carya ovalis", "Carya tomentosa", "Fagus grandifolia", "Liriodendron tulipifera", "Quercus alba", "Quercus prinus", "Quercus rubra", "all"),
+                   "sp" = c("caco", "cagl", "caovl", "cato", "fagr", "litu", "qual", "qupr", "quru", "all"),
                    "Equations" = c("0.391+0.805*x", 
                                    "0.654+0.728*x", 
                                    "0.939+0.641*x", 

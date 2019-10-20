@@ -21,6 +21,7 @@ library(knitr)
 library(kableExtra)
 
 heights <- read.csv("tables_figures/height_regression.csv", stringsAsFactors = FALSE)
+heights[,2] <- NULL
 kable(heights, booktabs=TRUE, format = "latex", caption = "Species-specific height regression equations") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
