@@ -1,0 +1,12 @@
+Species,sp,Equations,r.2
+Carya cordiformis,caco,-1.56+0.416*x,0.226
+Carya glabra,cagl,-0.393+0.268*x,0.04
+Carya ovalis,caovl,-2.18+0.651*x,0.389
+Carya tomentosa,cato,-0.477+0.301*x,0.297
+Fagus grandifolia,fagr,1*x,NA
+Fraxinus americana,fram,0.418+0.268*x,0.256
+Juglans nigra,juni,0.346+0.279*x,0.246
+Liriodendron tulipifera,litu,-1.14+0.463*x,0.545
+Quercus alba,qual,-2.09+0.637*x,0.603
+Quercus prinus,qupr,-1.31+0.528*x,0.577
+Quercus rubra,quru,-0.593+0.292*x,0.087

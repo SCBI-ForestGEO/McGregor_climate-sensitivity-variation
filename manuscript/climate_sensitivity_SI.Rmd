@@ -20,31 +20,41 @@ options(tinytex.verbose = TRUE)
 library(knitr)
 library(kableExtra)
 
-heights <- read.csv("tables_figures/height_regression.csv", stringsAsFactors = FALSE)
+bark <- read.csv("tables_figures/tableS1_bark_regression.csv", stringsAsFactors = FALSE)
+bark[,2] <- NULL
+kable(bark, booktabs=TRUE, format = "latex", caption = "Species-specific bark thickness regression equations") %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
+```
+
+```{r, Table S2, eval=TRUE, echo=FALSE, message=FALSE}
+library(knitr)
+library(kableExtra)
+
+heights <- read.csv("tables_figures/tableS2_height_regression.csv", stringsAsFactors = FALSE)
 heights[,2] <- NULL
 kable(heights, booktabs=TRUE, format = "latex", caption = "Species-specific height regression equations") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
-```{r, Table S2, eval=TRUE, echo=FALSE, message=FALSE}
-tableS2 <- read.csv("tables_figures/candidate_traits.csv", stringsAsFactors = FALSE)
+```{r, Table S3, eval=TRUE, echo=FALSE, message=FALSE}
+tableS2 <- read.csv("tables_figures/tableS3_candidate_traits.csv", stringsAsFactors = FALSE)
 kable(tableS2, booktabs=TRUE, format = "latex", caption = "Candidate variables for best model") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
-```{r, Plot, echo=FALSE, out.width='100%', fig.cap = "Map of ForestGEO plot", fig.pos='ht'}
-  knitr::include_graphics("tables_figures/ForestGEO_plot.jpg")
+```{r Figure S1, echo=FALSE, out.width='100%', fig.cap = "Map of ForestGEO plot", fig.pos='ht'}
+  knitr::include_graphics("tables_figures/figureS1_ForestGEO_plot.jpg")
 ```
 
 *how do we want to present Table S3? Would it be better as an image of an excel file, since it's so large? Did we want to keep all coefficients here?*
 ```{r, Table S3, eval=TRUE, echo=FALSE, message=FALSE}
-tableS3 <- read.csv("tables_figures/top_models_dAIC.csv", stringsAsFactors = FALSE)
+tableS3 <- read.csv("tables_figures/tableS3_top_models_dAIC.csv", stringsAsFactors = FALSE)
 kable(tableS3, booktabs=TRUE, format = "latex", caption = "Top model variations for each drought scenario, with dAICc values <= 2") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
-![Location of cored trees](tables_figures/FigureS3.png){width=500px}
+![Location of cored trees](tables_figures/figureS2_location_cored_trees.png){width=500px}
 
 
-![Figure S1](tables_figures/FigureS1.png)
+![Figure S3](tables_figures/figureS3_traits_with_twi.png)
 (see Issue #32)
