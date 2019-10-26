@@ -725,7 +725,7 @@ elev <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/S
 
 trees_all$elev.m <- elev$dem_sigeo[match(trees_all$tree, elev$tag)]
 
-# ##5d. add in distance to water (here for reference) ####
+##5d. add in distance to water (here for reference) ####
 # ## mapping code here is taken from survey_maps.R in Dendrobands Rscripts folder.
 # 
 # ## I have not found a way to make this not involve personal directories without moving all the data to my folder, which I'm hesitant about doing due to data redundancy.
@@ -868,7 +868,7 @@ bark$diam_nobark_2008.mm <- bark$DBH.mm.2008 - 2*bark$bark.depth.mm
 #3. Fit a linear model, and use model to predict log(bark.depth.mm)
 source_gist("524eade46135f6348140")
 ggplot(data = bark, aes(x = log(diam_nobark_2008.mm), y = log(bark.depth.mm))) +
-  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-0.5,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal() +
@@ -882,19 +882,20 @@ ggplot(data = bark, aes(x = log(diam_nobark_2008.mm), y = log(bark.depth.mm))) +
   theme_minimal()
 
 #no total regression equation at bottom because all species are accounted for in dataset.
+##these equations are also found in tableS1_bark_regression.csv
 bark$predict_barkthick.ln.mm <- NA
 bark$predict_barkthick.ln.mm <- 
-                  ifelse(bark$species == "caco", -1.56+0.416*log(bark$diam_nobark_2008.mm),
-                  ifelse(bark$species == "cagl", -0.393+0.268*log(bark$diam_nobark_2008.mm),
-                  ifelse(bark$species == "caovl", -2.18+0.651*log(bark$diam_nobark_2008.mm),
-                  ifelse(bark$species == "cato", -0.477+0.301*log(bark$diam_nobark_2008.mm),
-                  ifelse(bark$species == "fram", 0.418+0.268*log(bark$diam_nobark_2008.mm),
-                  ifelse(bark$species == "juni", 0.346+0.279*log(bark$diam_nobark_2008.mm),
-                  ifelse(bark$species == "litu", -1.14+0.463*log(bark$diam_nobark_2008.mm),
-                  ifelse(bark$species == "qual", -2.09+0.637*log(bark$diam_nobark_2008.mm),
-                  ifelse(bark$species == "qupr", -1.31+0.528*log(bark$diam_nobark_2008.mm),
-                  ifelse(bark$species == "quru", -0.593+0.292*log(bark$diam_nobark_2008.mm),
-                  ifelse(bark$species == "quve", 0.245+0.219*log(bark$diam_nobark_2008.mm),
+      ifelse(bark$species == "caco", -1.56+0.416*log(bark$diam_nobark_2008.mm),
+      ifelse(bark$species == "cagl", -0.393+0.268*log(bark$diam_nobark_2008.mm),
+      ifelse(bark$species == "caovl", -2.18+0.651*log(bark$diam_nobark_2008.mm),
+      ifelse(bark$species == "cato", -0.477+0.301*log(bark$diam_nobark_2008.mm),
+      ifelse(bark$species == "fram", 0.418+0.268*log(bark$diam_nobark_2008.mm),
+      ifelse(bark$species == "juni", 0.346+0.279*log(bark$diam_nobark_2008.mm),
+      ifelse(bark$species == "litu", -1.14+0.463*log(bark$diam_nobark_2008.mm),
+      ifelse(bark$species == "qual", -2.09+0.637*log(bark$diam_nobark_2008.mm),
+      ifelse(bark$species == "qupr", -1.31+0.528*log(bark$diam_nobark_2008.mm),
+      ifelse(bark$species == "quru", -0.593+0.292*log(bark$diam_nobark_2008.mm),
+      ifelse(bark$species == "quve", 0.245+0.219*log(bark$diam_nobark_2008.mm),
                            bark$predict_barkthick.ln)))))))))))
 
 #4. Take exponent of bark.depth.mm and make sure predicted values look good.
@@ -993,19 +994,19 @@ for (j in seq(along=cols)){
 #the full equation at the bottom is the regression equation for all these species put together. "fagr" is given a bark thickness of 0 because it is negligble
 #these equations are the same as above in #3 of this code section
 dbh$bark_thick_old.ln.mm <- NA
-dbh$bark_thick_old.ln.mm <- ifelse(dbh$sp == "caco", -1.56+0.416*log(dbh$diam_nobark_old.mm),
-                      ifelse(dbh$sp == "cagl", -0.393+0.268*log(dbh$diam_nobark_old.mm),
-                      ifelse(dbh$sp == "caovl", -2.18+0.651*log(dbh$diam_nobark_old.mm),
-                      ifelse(dbh$sp == "cato", -0.477+0.301*log(dbh$diam_nobark_old.mm),
-                      ifelse(dbh$sp == "fram", 0.418+0.268*log(dbh$diam_nobark_old.mm),
-                      ifelse(dbh$sp == "juni", 0.346+0.279*log(dbh$diam_nobark_old.mm),
-                      ifelse(dbh$sp == "litu", -1.14+0.463*log(dbh$diam_nobark_old.mm),
-                      ifelse(dbh$sp == "qual", -2.09+0.637*log(dbh$diam_nobark_old.mm),
-                      ifelse(dbh$sp == "qupr", -1.31+0.528*log(dbh$diam_nobark_old.mm),
-                      ifelse(dbh$sp == "quru", -0.593+0.292*log(dbh$diam_nobark_old.mm),
-                      ifelse(dbh$sp == "quve", 0.245+0.219*log(dbh$diam_nobark_old.mm),
-                      ifelse(dbh$sp == "fagr", 0,
-                                          -1.01+0.213*log(dbh$diam_nobark_old.mm)))))))))))))
+dbh$bark_thick_old.ln.mm <- 
+  ifelse(dbh$sp == "caco", -1.56+0.416*log(dbh$diam_nobark_old.mm),
+  ifelse(dbh$sp == "cagl", -0.393+0.268*log(dbh$diam_nobark_old.mm),
+  ifelse(dbh$sp == "caovl", -2.18+0.651*log(dbh$diam_nobark_old.mm),
+  ifelse(dbh$sp == "cato", -0.477+0.301*log(dbh$diam_nobark_old.mm),
+  ifelse(dbh$sp == "fram", 0.418+0.268*log(dbh$diam_nobark_old.mm),
+  ifelse(dbh$sp == "juni", 0.346+0.279*log(dbh$diam_nobark_old.mm),
+  ifelse(dbh$sp == "litu", -1.14+0.463*log(dbh$diam_nobark_old.mm),
+  ifelse(dbh$sp == "qual", -2.09+0.637*log(dbh$diam_nobark_old.mm),
+  ifelse(dbh$sp == "qupr", -1.31+0.528*log(dbh$diam_nobark_old.mm),
+  ifelse(dbh$sp == "quru", -0.593+0.292*log(dbh$diam_nobark_old.mm),
+  ifelse(dbh$sp == "quve", 0.245+0.219*log(dbh$diam_nobark_old.mm),
+                      0)))))))))))
 
 dbh$bark_thick_old.mm <- ifelse(dbh$sp == "fagr", 0, exp(dbh$bark_thick_old.ln.mm))
 
@@ -1120,7 +1121,7 @@ trees_all$sap_ratio <- dbh$sap_ratio[match(trees_all$tree, dbh$tree) & match(tre
 ##5g. add in tree heights ####
 ## taken from the canopy_heights script
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
-height_regr <- read.csv("manuscript/tables_figures/height_regression.csv", stringsAsFactors = FALSE)
+height_regr <- read.csv("manuscript/tables_figures/tableS2_height_regression.csv", stringsAsFactors = FALSE)
 
 trees_all$height.ln.m <- NA
 for(w in seq(along=height_regr$sp)){
@@ -1448,7 +1449,7 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 }
 
 write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/candidate_traits.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/tableS3_candidate_traits.csv", row.names=FALSE)
 
 ##6b. determine the best full model ####
 best_mod_traits <- data.frame("best_model" = NA,
@@ -1641,7 +1642,7 @@ for (i in seq(along=c(1:4))){
 }
 
 write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/top_models_dAIC.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/tableS4_top_models_dAIC.csv", row.names=FALSE)
 
 ##make table of coefficients and r2, then reorder table
 #reorder the list 

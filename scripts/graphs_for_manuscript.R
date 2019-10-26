@@ -250,7 +250,7 @@ plot_pla_twi
 plot_tlp_twi
 
 traits <- ggarrange(plot_tlp_twi, plot_pla_twi, nrow=1, ncol=2)
-ggsave("manuscript/tables_figures/FigureS1.png", width=5, height=7, units="in", traits)
+ggsave("manuscript/tables_figures/figureS3_traits_with_twi.png", width=5, height=7, units="in", traits)
 
 ##4b. Export map of plot using TWI and cored tree locations ####
 species <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
@@ -267,7 +267,7 @@ cored_points <- SpatialPointsDataFrame(data.frame(species$NAD83_X, species$NAD83
 
 plot.new()
 
-png("manuscript/tables_figures/FigureS3.png", width=5, height=7, units="in", res=300)
+png("manuscript/tables_figures/figureS2_location_cored_trees.png", width=5, height=7, units="in", res=300)
 levelplot(topo, margin=FALSE, scales=list(draw=FALSE), 
           key=list(space="right",
                    text=list(lab=levels(cored_points@data$sp_fact)),
