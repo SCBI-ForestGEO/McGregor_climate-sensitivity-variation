@@ -1,0 +1,20 @@
+Hypotheses & Specific Predictions,Overall,1966,1977,1999,Results
+1.0- Drought resistance decreases with DBH.,yes,yes,(yes),(no),Table 4
+1.1 - Drought resistance decreases with height.,yes,yes,(yes),(no/yes),"Tables 4, 5"
+"1.2a - When CP is considered alone, dominant trees have lowest R.",(yes),yes,(yes),(no),Table 4
+"1.2b - In models with CP and H, dominant trees have lowest R.",(no),(no),(yes),(no),"Tables 4, 5"
+1.3 - There is a negative interactive effect between H and TWI.,(no),(no),(no),(no),Table 4
+2.1a - WD correlates positively to drought resistant.,(no),(no),(no),(yes),Table 4
+2.1b - LMA correlates positively to drought resistance.,(yes),(yes),(no),(yes),Table 4
+2.1c - Diffuse porous species have lower drought resistance.,(yes),(yes),(no),yes,"Tables 4, 5"
+2.1d  - PLA correlates negatively with drought resistance.,yes,yes,(yes),(yes),"Tables 4, 5"
+2.1e - TLP correlates negatively with drought resistance.,(yes),(yes/no),(yes),(yes),"Tables 4, 5"
+2.2a - Community mean WD correlates positively to H.,no,-,-,-,Table S#
+2.2b - Community mean LMA correlates positively to H.,yes,-,-,-,Table S#
+2.2c - Community fraction of diffuse porous species decreases with H. ,no,-,-,-,Table S#
+2.2d - Community mean PLA correlates negatively to H.,no,-,-,-,Table S#
+2.2e - Community mean TLP correlates negatively to H.,no,-,-,-,Table S#
+2.3 - Effect of H is negative when traits are included in the statistical model.,yes,yes,(yes),(yes),Table 5
+3.1 - Drought year explains variation in drought resistance.,no,-,-,-,Table 4
+3.2 - Directions of responses to best predictor variables differ across droughts.,rarely,-,-,-,"Tables 4,5"
+3.3 - Best predictor variables differ across droughts.,yes,-,-,-,Table 5
