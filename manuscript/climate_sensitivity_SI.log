@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.9.14)  15 OCT 2019 20:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.9.14)  27 OCT 2019 11:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -733,38 +733,63 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
-(c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/dcol
-umn.sty
-Package: dcolumn 2014/10/28 v1.06 decimal alignment package (DPC)
+(c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/ca
+ption.sty
+Package: caption 2019/09/01 v3.3d Customizing captions (AR)
+
+(c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/ca
+ption3.sty
+Package: caption3 2019/09/01 v1.8d caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 64.
+\captionmargin=\dimen160
+\captionmargin@=\dimen161
+\captionwidth=\dimen162
+\caption@tempdima=\dimen163
+\caption@indent=\dimen164
+\caption@parindent=\dimen165
+\caption@hangindent=\dimen166
+)
+\c@caption@flags=\count134
+\c@ContinuedFloat=\count135
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: longtable package is loaded.
+
+(c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/lt
+caption.sty
+Package: ltcaption 2018/08/26 v1.4a longtable captions (AR)
+)
+Package caption Info: threeparttable package is loaded.
+Package caption Info: wrapfig package is loaded.
 ) (./climate_sensitivity_SI.aux)
 \openout1 = `climate_sensitivity_SI.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 108.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 108.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 109.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 109.
 
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ts1cm
 r.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 108.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 109.
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmr.f
 d
@@ -805,7 +830,7 @@ File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box47
-Package hyperref Info: Link coloring OFF on input line 108.
+Package hyperref Info: Link coloring OFF on input line 109.
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/n
 ameref.sty
@@ -815,11 +840,11 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 /gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count134
+\c@section@level=\count136
 )
-LaTeX Info: Redefining \ref on input line 108.
-LaTeX Info: Redefining \pageref on input line 108.
-LaTeX Info: Redefining \nameref on input line 108.
+LaTeX Info: Redefining \ref on input line 109.
+LaTeX Info: Redefining \pageref on input line 109.
+LaTeX Info: Redefining \nameref on input line 109.
 (./climate_sensitivity_SI.out) (./climate_sensitivity_SI.out)
 \@outlinefile=\write3
 \openout3 = `climate_sensitivity_SI.out'.
@@ -845,28 +870,30 @@ g/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 119.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 120.
 
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.
 fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 119.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 120.
 
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.
 fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 119
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 120
 .
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy
 .fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 119
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 120
 .
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex
@@ -874,104 +901,76 @@ LaTeX Font Info:    Try loading font information for OMX+lmex on input line 119
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 119.
+(Font)              <10> on input line 120.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 119.
+(Font)              <7> on input line 120.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 119.
-LaTeX Font Info:    Try loading font information for U+msa on input line 119.
+(Font)              <5> on input line 120.
+LaTeX Font Info:    Try loading font information for U+msa on input line 120.
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/u
 msa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 119.
+LaTeX Font Info:    Try loading font information for U+msb on input line 120.
 
 (c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/u
 msb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<tables_figures/ForestGEO_plot.jpg, id=8, 312.2064pt x 389.0535pt>
-File: tables_figures/ForestGEO_plot.jpg Graphic file (type jpg)
-<use tables_figures/ForestGEO_plot.jpg>
-Package pdftex.def Info: tables_figures/ForestGEO_plot.jpg  used on input line 
-166.
-(pdftex.def)             Requested size: 312.21992pt x 389.07034pt.
-
-Overfull \hbox (151.9129pt too wide) in paragraph at lines 177--211
- [][] 
- []
-
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<tables_figures/FigureS3.png, id=9, 361.35pt x 505.89pt>
-File: tables_figures/FigureS3.png Graphic file (type png)
-<use tables_figures/FigureS3.png>
-Package pdftex.def Info: tables_figures/FigureS3.png  used on input line 215.
-(pdftex.def)             Requested size: 376.40717pt x 526.97002pt.
-<tables_figures/FigureS1.png, id=10, 361.35pt x 505.89pt>
-File: tables_figures/FigureS1.png Graphic file (type png)
-<use tables_figures/FigureS1.png>
-Package pdftex.def Info: tables_figures/FigureS1.png  used on input line 219.
-(pdftex.def)             Requested size: 361.34912pt x 505.88875pt.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 222.
+<tables_figures/figureS1_ForestGEO_plot.jpg, id=8, 312.2064pt x 389.0535pt>
+File: tables_figures/figureS1_ForestGEO_plot.jpg Graphic file (type jpg)
+<use tables_figures/figureS1_ForestGEO_plot.jpg>
+Package pdftex.def Info: tables_figures/figureS1_ForestGEO_plot.jpg  used on in
+put line 191.
+(pdftex.def)             Requested size: 312.21992pt x 389.07034pt.
 [1
 
 {c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updm
-ap/pdftex.map}pdfTeX warning (ext4): destination with the same identifier (name
-{table.1}) has been already used, duplicate ignored
+ap/pdftex.map}]
+Overfull \hbox (151.9129pt too wide) in paragraph at lines 204--239
+ [][] 
+ []
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.222 \end{document}
-                    pdfTeX warning (ext4): destination with the same identifier
- (name{table.2}) has been already used, duplicate ignored
+<tables_figures/figureS2_location_cored_trees.png, id=21, 361.35pt x 505.89pt>
+File: tables_figures/figureS2_location_cored_trees.png Graphic file (type png)
+<use tables_figures/figureS2_location_cored_trees.png>
+Package pdftex.def Info: tables_figures/figureS2_location_cored_trees.png  used
+ on input line 243.
+(pdftex.def)             Requested size: 376.40717pt x 526.97002pt.
+[2]
+<tables_figures/figureS3_traits_with_twi.png, id=29, 361.35pt x 505.89pt>
+File: tables_figures/figureS3_traits_with_twi.png Graphic file (type png)
+<use tables_figures/figureS3_traits_with_twi.png>
+Package pdftex.def Info: tables_figures/figureS3_traits_with_twi.png  used on i
+nput line 249.
+(pdftex.def)             Requested size: 361.34912pt x 505.88875pt.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 253.
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.222 \end{document}
-                    ]
-Overfull \vbox (284.47351pt too high) has occurred while \output is active []
+Overfull \vbox (282.52908pt too high) has occurred while \output is active []
 
-[2pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) 
-has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.222 \end{document}
-                     <./tables_figures/ForestGEO_plot.jpg> <./tables_figures/Fi
-gureS1.png>] [3pdfTeX warning (ext4): destination with the same identifier (nam
-e{figure.2}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.222 \end{document}
-                     <./tables_figures/FigureS3.png>] [4pdfTeX warning (ext4): 
-destination with the same identifier (name{table.3}) has been already used, dup
-licate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.222 \end{document}
-                    ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 222.
+[3 <./tables_figures/figureS1_ForestGEO_plot.jpg> <./tables_figures/figureS3_tr
+aits_with_twi.png>] [4 <./tables_figures/figureS2_location_cored_trees.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 253.
 (./climate_sensitivity_SI.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 222.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 222.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 253.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 253.
 Package rerunfilecheck Info: File `climate_sensitivity_SI.out' has not changed.
 
 (rerunfilecheck)             Checksum: EC7A1F3F69FF530D430D9BFF9D214784;172.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 222.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 253.
  ) 
 Here is how much of TeX's memory you used:
- 12062 strings out of 494553
- 173498 string characters out of 6175425
- 260600 words of memory out of 5000000
- 15528 multiletter control sequences out of 15000+600000
+ 13137 strings out of 494553
+ 193630 string characters out of 6175425
+ 280104 words of memory out of 5000000
+ 16596 multiletter control sequences out of 15000+600000
  37288 words of font info for 38 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 28i,9n,35p,271b,335s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,9n,39p,271b,335s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm
 /lm-ec.enc}<c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/typ
 e1/public/lm/lmbx10.pfb><c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-d
@@ -979,10 +978,10 @@ ist/fonts/type1/public/lm/lmr10.pfb><c:/Users/Albus Severus/AppData/Roaming/Tin
 yTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/Albus Severus/AppData
 /Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/Albus Se
 verus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb>
-Output written on climate_sensitivity_SI.pdf (4 pages, 504050 bytes).
+Output written on climate_sensitivity_SI.pdf (4 pages, 505025 bytes).
 PDF statistics:
- 64 PDF objects out of 1000 (max. 8388607)
- 47 compressed objects within 1 object stream
- 12 named destinations out of 1000 (max. 500000)
+ 66 PDF objects out of 1000 (max. 8388607)
+ 49 compressed objects within 1 object stream
+ 13 named destinations out of 1000 (max. 500000)
  24 words of extra memory for PDF output out of 10000 (max. 10000000)
 

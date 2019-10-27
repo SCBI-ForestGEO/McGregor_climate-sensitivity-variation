@@ -8,7 +8,8 @@ biblio-style: apalike
 csl: apa.csl
 header-includes:
 - \usepackage{booktabs}
-- \usepackage{dcolumn} #for sidewaystable
+- \usepackage{caption}
+- \captionsetup[figure]{labelformat=empty}
 ---
 
 ```{r, include=FALSE}
@@ -16,45 +17,46 @@ options(tinytex.verbose = TRUE)
 ```
 
 ### Supplementary Information
-```{r, Table S1, eval=TRUE, echo=FALSE, message=FALSE}
+```{r Table S1, eval=TRUE, echo=FALSE, message=FALSE}
 library(knitr)
 library(kableExtra)
 
 bark <- read.csv("tables_figures/tableS1_bark_regression.csv", stringsAsFactors = FALSE)
 bark[,2] <- NULL
-kable(bark, booktabs=TRUE, format = "latex", caption = "Species-specific bark thickness regression equations") %>%
+kable(bark, booktabs=TRUE, format = "latex", caption = "Table S1: Species-specific bark thickness regression equations") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
-```{r, Table S2, eval=TRUE, echo=FALSE, message=FALSE}
+```{r Table S2, eval=TRUE, echo=FALSE, message=FALSE}
 library(knitr)
 library(kableExtra)
 
 heights <- read.csv("tables_figures/tableS2_height_regression.csv", stringsAsFactors = FALSE)
 heights[,2] <- NULL
-kable(heights, booktabs=TRUE, format = "latex", caption = "Species-specific height regression equations") %>%
+kable(heights, booktabs=TRUE, format = "latex", caption = "Table S2: Species-specific height regression equations") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
 ```{r, Table S3, eval=TRUE, echo=FALSE, message=FALSE}
-tableS2 <- read.csv("tables_figures/tableS3_candidate_traits.csv", stringsAsFactors = FALSE)
-kable(tableS2, booktabs=TRUE, format = "latex", caption = "Candidate variables for best model") %>%
+tableS3 <- read.csv("tables_figures/tableS3_candidate_traits.csv", stringsAsFactors = FALSE)
+kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Candidate variables for best model") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
-```{r Figure S1, echo=FALSE, out.width='100%', fig.cap = "Map of ForestGEO plot", fig.pos='ht'}
+```{r Figure S1, echo=FALSE, out.width='100%', fig.cap = "Figure S1: Map of ForestGEO plot", fig.pos='ht'}
   knitr::include_graphics("tables_figures/figureS1_ForestGEO_plot.jpg")
 ```
 
-*how do we want to present Table S3? Would it be better as an image of an excel file, since it's so large? Did we want to keep all coefficients here?*
-```{r, Table S3, eval=TRUE, echo=FALSE, message=FALSE}
-tableS3 <- read.csv("tables_figures/tableS3_top_models_dAIC.csv", stringsAsFactors = FALSE)
-kable(tableS3, booktabs=TRUE, format = "latex", caption = "Top model variations for each drought scenario, with dAICc values <= 2") %>%
+\newpage
+*how do we want to present Table S4? Would it be better as an image of an excel file, since it's so large? Did we want to keep all coefficients here?*
+```{r, Table S4, eval=TRUE, echo=FALSE, message=FALSE}
+tableS4 <- read.csv("tables_figures/tableS4_top_models_dAIC.csv", stringsAsFactors = FALSE)
+kable(tableS4, booktabs=TRUE, format = "latex", caption = "Table S4: Top model variations for each drought scenario, with dAICc values <= 2") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
-![Location of cored trees](tables_figures/figureS2_location_cored_trees.png){width=500px}
+![Figure S2: Location of cored trees](tables_figures/figureS2_location_cored_trees.png){width=500px}
 
-
-![Figure S3](tables_figures/figureS3_traits_with_twi.png)
+\newpage
+![Figure S3: Traits with TWI](tables_figures/figureS3_traits_with_twi.png)
 (see Issue #32)
