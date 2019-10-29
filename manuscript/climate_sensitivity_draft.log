@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  29 OCT 2019 09:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  29 OCT 2019 11:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -862,7 +862,7 @@ Overfull \hbox (3.63115pt too wide) in paragraph at lines 476--476
  []
 
 
-LaTeX Warning: Float too large for page by 41.64273pt on input line 477.
+LaTeX Warning: Float too large for page by 22.86644pt on input line 477.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -885,67 +885,63 @@ Package natbib Warning: Citation `noauthor_national_nodate' on page 7 undefined
 
 
 Package natbib Warning: Citation `R-pointRes' on page 7 undefined on input line
- 680.
+ 683.
 
 [7]
 
-Package natbib Warning: Citation `R-pointRes' on page 8 undefined on input line
- 707.
-
-
-Package natbib Warning: Citation `R-lme4' on page 8 undefined on input line 712
+Package natbib Warning: Citation `R-lme4' on page 8 undefined on input line 705
 .
 
 
 Package natbib Warning: Citation `R-AICcmodavg' on page 8 undefined on input li
-ne 712.
+ne 709.
 
-<tables_figures/Figure1.png, id=255, 426.6339pt x 569.0058pt>
+<tables_figures/Figure1.png, id=257, 426.6339pt x 569.0058pt>
 File: tables_figures/Figure1.png Graphic file (type png)
 <use tables_figures/Figure1.png>
-Package pdftex.def Info: tables_figures/Figure1.png  used on input line 728.
+Package pdftex.def Info: tables_figures/Figure1.png  used on input line 736.
 (pdftex.def)             Requested size: 376.40895pt x 502.02031pt.
 [8] [9 <./tables_figures/Figure1.png (PNG copy)>]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 824.
+(Font)              <12> on input line 832.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 824.
+(Font)              <8> on input line 832.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 824.
+(Font)              <6> on input line 832.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [10]
-<tables_figures/Figure2.png, id=281, 794.97pt x 794.97pt>
+<tables_figures/Figure2.png, id=283, 794.97pt x 794.97pt>
 File: tables_figures/Figure2.png Graphic file (type png)
 <use tables_figures/Figure2.png>
-Package pdftex.def Info: tables_figures/Figure2.png  used on input line 909.
+Package pdftex.def Info: tables_figures/Figure2.png  used on input line 917.
 (pdftex.def)             Requested size: 376.41377pt x 376.41377pt.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 923.
+(Font)              <9> on input line 931.
 [11] [12 <./tables_figures/Figure2.png>] [13] [14] [15] [16] (./climate_sensiti
 vity_draft.bbl [17] [18] [19])
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1237.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1245.
 [20]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1237.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1245.
 (./climate_sensitivity_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1237.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1237.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1245.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1245.
 
 Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
 ed.
 (rerunfilecheck)             Checksum: C31792DD3D9A5F561E45480112DB3335;954.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1237.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1245.
  ) 
 Here is how much of TeX's memory you used:
- 16070 strings out of 492616
- 239048 string characters out of 6129482
+ 16072 strings out of 492616
+ 239072 string characters out of 6129482
  404022 words of memory out of 5000000
  19525 multiletter control sequences out of 15000+600000
- 97045 words of font info for 143 fonts, out of 8000000 for 9000
+ 97175 words of font info for 144 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  39i,12n,43p,1102b,520s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
@@ -970,10 +966,10 @@ i10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri12.pfb></
 usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/
 texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/201
 9/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on climate_sensitivity_draft.pdf (20 pages, 787687 bytes).
+Output written on climate_sensitivity_draft.pdf (20 pages, 788382 bytes).
 PDF statistics:
- 476 PDF objects out of 1000 (max. 8388607)
- 425 compressed objects within 5 object streams
+ 478 PDF objects out of 1000 (max. 8388607)
+ 427 compressed objects within 5 object streams
  82 named destinations out of 1000 (max. 500000)
  18507 words of extra memory for PDF output out of 20736 (max. 10000000)
 
