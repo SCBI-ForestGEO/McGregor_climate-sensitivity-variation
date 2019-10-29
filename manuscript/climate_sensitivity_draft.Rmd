@@ -1,5 +1,5 @@
 ---
-title: "Tree height, microhabitat, and hydraulic traits shape drought responses in a temperate broadleaf forest"
+title: "Tree height and hydraulic traits shape growth responses across droughts in a temperate broadleaf forest"
 author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Erika Gonzalez-Akre, Valentine Herrmann, Joseph Zailaa, Atticus Stovall, Norman Bourg?, William McShea?, Neil Pederson, Lawren Sack, Kristina Anderson-Teixeira"
 output:
   pdf_document:
@@ -54,9 +54,9 @@ Acknowledgements | 	~75 unwritten	||
 
 - In this study, we analyze tree-ring records for 12 species representing 97% of woody productivity in the 25.6-ha ForestGEO plot in Virginia (USA) to determine how tree size, microhabitat, and species' traits interactively shape drought responses across the three strongest droughts over the 60 year period from 1950 and 2009. 
 
-- Individual-level growth responses to the three individual droughts  were stronger in three cases: taller trees in dominant canopy positions, trees in wetter microsites, and more drought-sensitive species as assessed by leaf traits (turgor loss at less negative leaf water potential, greater shrinkage with leaf dehydration). However, there was substantial variation in the best predictor variables across given droughts.
+- Individual-level growth responses to the three individual droughts were stronger in three cases: taller trees, trees in wetter microsites, and more drought-sensitive species as assessed by leaf traits (turgor loss at less negative leaf water potential, greater shrinkage with leaf dehydration). However, there was substantial variation in the best predictor variables across given droughts.
 
-- We conclude that when droughts occur, large dominant trees, drought-sensitive species, and individuals in wetter microhabitats tend to be most strongly affected.
+- We conclude that when droughts occur, tall trees, drought-sensitive species, and individuals in wetter microhabitats tend to be most strongly affected.
 
 
 *The Summary for research papers, which must be usable as a stand- alone document, must not exceed 200 words and should be organized using four bullet points to indicate: (1) the research conducted, including the rationale, (2) methods, (3) key results, and (4) the main conclusion, including the key points of discussion. It should not contain citations of other papers.* 
@@ -90,7 +90,7 @@ hypothesis_table <- read.csv("tables_figures/table1_hypothesis_table.csv", strin
 kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypotheses, corresponding specific predictions, and results.** We count predictions as fully supported / rejected when the response matches/contradicts the prediction in both univariate and multivariate models (when applicable). Parentheses indicate that predictions were partially supported/ rejected--i.e., that the direction of response matched/contradicted the prediction in some but not all models.") %>%
   pack_rows("H1.0. Larger-diameter trees have lower drought resistance.", 1, 1, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("H1.1. Tall trees have lower drought resistance.", 2, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H1.2. Trees with more exposed crowns have lower drought resistance .", 3, 4, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("H1.2. Trees with more exposed crowns have lower drought resistance.", 3, 4, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("H1.3. Small trees (lower root volume) suffer more in drier microhabitats.", 5, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("H2.1. Species traits predict drought resistance.", 6, 10, latex_gap_space = "1em", colnum = 1, hline_before = TRUE) %>%
   pack_rows("H2.2. Taller trees have more drought-resistant traits.", 11, 15, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
@@ -115,10 +115,10 @@ Research was conducted at the 25.6 ha ForestGEO (Forest Global Earth Observatory
 
 *Data collection and preparation*
 
-Within or just outside the ForestGEO plot, we collected data on a suite of variables including tree size, microenvironemnt, and species traits (Table 2). The SCBI ForestGEO plot was censused in 2008, 2013, and 2018 following standard ForestGEO protocols, whereby all free-standing woody stems $\ge$ 1cm diameter at breast height (DBH) were mapped, tagged, measured at DBH, and identified to species [@condit_tropical_1998]. From this census data, we used measurements of DBH from 2008 to calculate historical DBH, tree location in the plot to determine the topographic wetness index, and data for all stems $\ge$ 10cm to analyze functional trait composition relative to tree height (all analyses described below). Census data, which were last updated in 2018 (**confirm**), are available through the [ForestGEO data portal](www.forestgeo.si.edu).
+Within or just outside the ForestGEO plot, we collected data on a suite of variables including tree size, microenvironemnt, and species traits (Table 2). The SCBI ForestGEO plot was censused in 2008, 2013, and 2018 following standard ForestGEO protocols, whereby all free-standing woody stems $\ge$ 1cm diameter at breast height (DBH) were mapped, tagged, measured at DBH, and identified to species [@condit_tropical_1998]. From this census data, we used measurements of DBH from 2008 to calculate historical DBH, tree location in the plot to determine the topographic wetness index, and data for all stems $\ge$ 10cm to analyze functional trait composition relative to tree height (all analyses described below). Census data, which were last updated in 2018 (**confirm**), are available through the ForestGEO data portal(www.forestgeo.si.edu).
 
 \noindent\hrulefill 
-```{r Table 2, eval = TRUE, echo=FALSE, warning=FALSE}
+# ```{r Table 2, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
 table2 <- read.csv("tables_figures/table2_variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
@@ -217,8 +217,8 @@ kable(multivar_table, booktabs = TRUE, caption = "**Table 5. Summary of R\\^2 an
   add_header_above(c(" "," "," "," "," ", "crown position" = 4, " ","xylem architecture" = 3," ", " ")) %>%
   pack_rows("", 1, 6, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 7, 11, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
-  pack_rows("", 12, 15, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
-  pack_rows("", 16, 24, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
+  pack_rows("", 12, 14, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
+  pack_rows("", 15, 24, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
   kable_styling()
 ```
 
