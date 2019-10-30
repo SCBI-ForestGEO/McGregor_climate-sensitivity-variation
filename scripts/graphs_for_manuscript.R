@@ -363,6 +363,22 @@ library(cowplot)
 trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv")
 trees_all_sub$year <- as.character(trees_all_sub$year)
 
+#In each drought, roughly 30% of the cored trees
+#Find n trees that have resistance <= 0.7 per year: #% in 1966, #2% in 1977, and #% in 1999. #Do same thing for those that have resistance >1 for each year
+library(data.table)
+test <- as.data.table(trees_all_sub)
+
+test_reduct <- test[resist.value<=0.7,.(reduct = length(resist.value)), by=.(year)]
+by_year <- test[, .(total=length(resist.value)), by=.(year)]
+test_reduct$total_re <- by_year$total
+test_reduct$perc_re <- test_reduct$reduct/test_reduct$total_re
+
+test_growth <- test[resist.value>1,.(growth = length(resist.value)), by=.(year)]
+test_growth$total_gr <- by_year$total
+test_growth$perc_gr <- test_growth$growth/test_growth$total_gr
+
+test_full <- merge(test_reduct, test_growth)
+
 #save as png so that way you're arranging only png
 png("manuscript/tables_figures/density_plot.png", res = 300, width = 150, height = 50, units = "mm", pointsize = 10)
 ggplot(trees_all_sub) +
