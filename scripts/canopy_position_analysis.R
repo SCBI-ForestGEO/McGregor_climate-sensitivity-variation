@@ -1761,7 +1761,7 @@ for(i in seq(along=trait)){
   trait_ht[,5][[i]] <- lm_anova$`Pr(>F)`[1]
 }
 
-write.csv(trait_ht, "manuscript/tables_figures/tested_traits_height.csv", row.names=FALSE)
+write.csv(trait_ht, "manuscript/tables_figures/tableS5_tested_traits_height.csv", row.names=FALSE)
 
 ##6d. original table with models based on github issue predictions ####
 summary_models <- data.frame(

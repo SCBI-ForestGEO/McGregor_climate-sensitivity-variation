@@ -49,14 +49,28 @@ kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Candidate v
 
 \newpage
 *how do we want to present Table S4? Would it be better as an image of an excel file, since it's so large? Did we want to keep all coefficients here?*
-```{r, Table S4, eval=TRUE, echo=FALSE, message=FALSE}
+```{r Table S4, eval=TRUE, echo=FALSE, message=FALSE}
 tableS4 <- read.csv("tables_figures/tableS4_top_models_dAIC.csv", stringsAsFactors = FALSE)
 kable(tableS4, booktabs=TRUE, format = "latex", caption = "Table S4: Top model variations for each drought scenario, with dAICc values <= 2") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
-![Figure S2: Location of cored trees](tables_figures/figureS2_location_cored_trees.png){width=500px}
+```{r Table S5, eval=TRUE, echo=FALSE, message=FALSE}
+tableS5 <- read.csv("tables_figures/tableS5_tested_traits_height.csv", stringsAsFactors = FALSE)
+
+tableS5 <- tableS5[,-1]
+names(tableS5) <- c("variable", "model", "coefficient", "p-value")
+tableS5[,c(3)] <- round(tableS5[,c(3)], 2)
+
+tableS5$variable <- c("WD", "LMA", "ring porosity", "PLA", "TLP")
+tableS5$model <- c("WD~ln[H]","LMA~ln[H]","ring porosity~ln[H]", "PLA~ln[H]", "PLA~ln[H]")
+
+kable(tableS5, booktabs=TRUE, format = "latex", caption = "Importance of height compared to each trait") %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
+```
 
 \newpage
+![Figure S2: Location of cored trees](tables_figures/figureS2_location_cored_trees.png){width=500px}
+
+
 ![Figure S3: Traits with TWI](tables_figures/figureS3_traits_with_twi.png)
-(see Issue #32)

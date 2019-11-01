@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.9.14)  27 OCT 2019 11:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.9.14)  31 OCT 2019 21:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -935,42 +935,43 @@ Overfull \hbox (151.9129pt too wide) in paragraph at lines 204--239
  [][] 
  []
 
-<tables_figures/figureS2_location_cored_trees.png, id=21, 361.35pt x 505.89pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[2]
+<tables_figures/figureS2_location_cored_trees.png, id=28, 361.35pt x 505.89pt>
 File: tables_figures/figureS2_location_cored_trees.png Graphic file (type png)
 <use tables_figures/figureS2_location_cored_trees.png>
 Package pdftex.def Info: tables_figures/figureS2_location_cored_trees.png  used
- on input line 243.
+ on input line 262.
 (pdftex.def)             Requested size: 376.40717pt x 526.97002pt.
-[2]
 <tables_figures/figureS3_traits_with_twi.png, id=29, 361.35pt x 505.89pt>
 File: tables_figures/figureS3_traits_with_twi.png Graphic file (type png)
 <use tables_figures/figureS3_traits_with_twi.png>
 Package pdftex.def Info: tables_figures/figureS3_traits_with_twi.png  used on i
-nput line 249.
+nput line 268.
 (pdftex.def)             Requested size: 361.34912pt x 505.88875pt.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 253.
-
-Overfull \vbox (282.52908pt too high) has occurred while \output is active []
-
-[3 <./tables_figures/figureS1_ForestGEO_plot.jpg> <./tables_figures/figureS3_tr
-aits_with_twi.png>] [4 <./tables_figures/figureS2_location_cored_trees.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 253.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 273.
+[3 <./tables_figures/figureS1_ForestGEO_plot.jpg>] [4 <./tables_figures/figureS
+2_location_cored_trees.png>] [5 <./tables_figures/figureS3_traits_with_twi.png>
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 273.
 (./climate_sensitivity_SI.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 253.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 253.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 273.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 273.
 Package rerunfilecheck Info: File `climate_sensitivity_SI.out' has not changed.
 
 (rerunfilecheck)             Checksum: EC7A1F3F69FF530D430D9BFF9D214784;172.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 253.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 273.
  ) 
 Here is how much of TeX's memory you used:
- 13137 strings out of 494553
- 193630 string characters out of 6175425
- 280104 words of memory out of 5000000
- 16596 multiletter control sequences out of 15000+600000
+ 13141 strings out of 494553
+ 193681 string characters out of 6175425
+ 281104 words of memory out of 5000000
+ 16597 multiletter control sequences out of 15000+600000
  37288 words of font info for 38 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 36i,9n,39p,271b,335s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,9n,39p,271b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm
 /lm-ec.enc}<c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-dist/fonts/typ
 e1/public/lm/lmbx10.pfb><c:/Users/Albus Severus/AppData/Roaming/TinyTeX/texmf-d
@@ -978,10 +979,10 @@ ist/fonts/type1/public/lm/lmr10.pfb><c:/Users/Albus Severus/AppData/Roaming/Tin
 yTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/Albus Severus/AppData
 /Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/Albus Se
 verus/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb>
-Output written on climate_sensitivity_SI.pdf (4 pages, 505025 bytes).
+Output written on climate_sensitivity_SI.pdf (5 pages, 505627 bytes).
 PDF statistics:
- 66 PDF objects out of 1000 (max. 8388607)
- 49 compressed objects within 1 object stream
- 13 named destinations out of 1000 (max. 500000)
+ 72 PDF objects out of 1000 (max. 8388607)
+ 54 compressed objects within 1 object stream
+ 16 named destinations out of 1000 (max. 500000)
  24 words of extra memory for PDF output out of 10000 (max. 10000000)
 
