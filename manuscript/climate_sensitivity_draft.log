@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.9.14)  29 OCT 2019 21:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.9.14)  31 OCT 2019 21:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -975,7 +975,7 @@ LaTeX Warning: Float too large for page by 22.86644pt on input line 480.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [5]
-Overfull \hbox (417.91068pt too wide) in paragraph at lines 519--546
+Overfull \hbox (417.91068pt too wide) in paragraph at lines 520--547
 [][]  
  []
 
@@ -983,13 +983,8 @@ Overfull \hbox (417.91068pt too wide) in paragraph at lines 519--546
 
 
 
-] [7]
-
-Package natbib Warning: Citation `noauthor_national_nodate' on page 8 undefined
- on input line 698.
-
-[8]
-<tables_figures/Figure1.png, id=280, 426.6339pt x 569.0058pt>
+] [7] [8]
+<tables_figures/Figure1.png, id=283, 426.6339pt x 569.0058pt>
 File: tables_figures/Figure1.png Graphic file (type png)
 <use tables_figures/Figure1.png>
 Package pdftex.def Info: tables_figures/Figure1.png  used on input line 767.
@@ -1011,7 +1006,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 LaTeX Warning: Text page 11 contains only floats.
 
 [11]
-<tables_figures/Figure2.png, id=310, 794.97pt x 794.97pt>
+<tables_figures/Figure2.png, id=312, 794.97pt x 794.97pt>
 File: tables_figures/Figure2.png Graphic file (type png)
 <use tables_figures/Figure2.png>
 Package pdftex.def Info: tables_figures/Figure2.png  used on input line 948.
@@ -1020,9 +1015,6 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <9> on input line 962.
 [12] [13 <./tables_figures/Figure2.png>] [14] [15] [16] (./climate_sensitivity_
 draft.bbl [17] [18] [19])
-
-Package natbib Warning: There were undefined citations.
-
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1279.
 [20]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 1279.
@@ -1036,10 +1028,10 @@ ed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1279.
  ) 
 Here is how much of TeX's memory you used:
- 13814 strings out of 494553
- 205517 string characters out of 6175425
- 329640 words of memory out of 5000000
- 17162 multiletter control sequences out of 15000+600000
+ 13818 strings out of 494553
+ 205634 string characters out of 6175425
+ 329663 words of memory out of 5000000
+ 17165 multiletter control sequences out of 15000+600000
  90977 words of font info for 82 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  36i,12n,43p,1102b,516s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1072,10 +1064,10 @@ ts/type1/public/lm/lmri12.pfb><c:/Users/Albus Severus/AppData/Roaming/TinyTeX/t
 exmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/Albus Severus/AppData/Roam
 ing/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/Albus Severus/
 AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on climate_sensitivity_draft.pdf (20 pages, 786095 bytes).
+Output written on climate_sensitivity_draft.pdf (20 pages, 786737 bytes).
 PDF statistics:
- 504 PDF objects out of 1000 (max. 8388607)
- 453 compressed objects within 5 object streams
- 94 named destinations out of 1000 (max. 500000)
+ 506 PDF objects out of 1000 (max. 8388607)
+ 455 compressed objects within 5 object streams
+ 95 named destinations out of 1000 (max. 500000)
  75 words of extra memory for PDF output out of 10000 (max. 10000000)
 
