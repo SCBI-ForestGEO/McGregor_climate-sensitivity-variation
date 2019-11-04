@@ -81,4 +81,5 @@ kable(tableS5, booktabs=TRUE, format = "latex", caption = "Table S5. Correlation
 \newpage
 ![Figure S1: Map of ForestGEO plot showing TWI and location of cored trees](tables_figures/figureS2_location_cored_trees.png){width=500px}
 
-
+\newpage
+![Figure S2: Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought](tables_figures/drought_plot.jpg){width=600px}

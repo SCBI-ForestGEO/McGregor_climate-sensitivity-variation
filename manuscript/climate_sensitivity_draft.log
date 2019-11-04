@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  4 NOV 2019 12:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  4 NOV 2019 16:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -948,7 +948,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1268.
 Here is how much of TeX's memory you used:
  16082 strings out of 492616
  239660 string characters out of 6129482
- 409437 words of memory out of 5000000
+ 409441 words of memory out of 5000000
  19543 multiletter control sequences out of 15000+600000
  96306 words of font info for 137 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -975,7 +975,7 @@ i10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri12.pfb></
 usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/
 texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/201
 9/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on climate_sensitivity_draft.pdf (20 pages, 791079 bytes).
+Output written on climate_sensitivity_draft.pdf (20 pages, 791114 bytes).
 PDF statistics:
  539 PDF objects out of 1000 (max. 8388607)
  488 compressed objects within 5 object streams
