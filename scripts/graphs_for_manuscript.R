@@ -83,7 +83,6 @@ scbi18_ht$dbh_old.cm <- scbi18_ht$dbh/10
 scbi18_ht$dbh.ln.cm <- log(scbi18_ht$dbh_old.cm)
 
 #linear log-log regression
-#the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
 scbi18_ht$height.ln.m <- 
    ifelse(scbi18_ht$sp == "caco", (0.348+0.808*scbi18_ht$dbh.ln.cm),
    ifelse(scbi18_ht$sp == "cagl", (0.681+0.704*scbi18_ht$dbh.ln.cm),
@@ -101,6 +100,59 @@ scbi18_ht$height.ln.m <-
 
 scbi18_ht$height.m <- exp(scbi18_ht$height.ln.m) #used below in #4
 
+##2c. combine heights to make plot with all years ####
+
+#these are the crown positions with height for the trees in the analysis
+current_ht_sub <- current_ht[,c("year", "position_all_abb", "height.m")]
+
+#these are the crown positions with height for all other trees from 2018
+dend_core_full <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_crowns/cored_dendroband_crown_position_data/dendro_cored_full.csv"))
+
+scbi18_ht$position_all_abb <- dend_core_full$crown.position[match(scbi18_ht$stemID, dend_core_full$stemID)]
+
+scbi18_ht_sub <- scbi18_ht[!is.na(scbi18_ht$position_all_abb), ]
+scbi18_ht_sub$year <- "2018"
+scbi18_ht_sub <- scbi18_ht_sub[,c("year", "position_all_abb", "height.m")]
+
+heights_all <- rbind(current_ht_sub)
+
+
+trees_all$position_all_abb <- ifelse(trees_all$position_all == "dominant", "D",
+                              ifelse(trees_all$position_all == "co-dominant", "C",
+                              ifelse(trees_all$position_all == "suppressed", "S", "I")))
+
+
+trees_all_plot <- trees_all[,c("year", "position_all_abb", "height.m")]
+
+png("manuscript/tables_figures/height_plot_analysis.png")
+#NOTE notice diff when using current_ht_sub versus...
+##current_ht_sub = log-derived 2018 heights of only trees in trees_all
+heights_allplot <- rbind(trees_all_plot, current_ht_sub)
+heights_allplot$position_all_abb <- factor(heights_allplot$position_all_abb, levels=c("D","C","I","S"))
+heights_allplot$year <- as.character(heights_allplot$year)
+
+ggplot(na.omit(heights_allplot), aes(position_all_abb, height.m)) +
+   geom_boxplot(aes(fill=year)) +
+   xlab("Crown position") +
+   ylab("Height [m]") +
+   ggtitle("Height comparison with only trees in analysis")
+dev.off()
+
+png("manuscript/tables_figures/height_plot_all.png")
+#NOTE ...using scbi18_ht_sub
+##scbi18_ht_sub = log-derived 2018 heights of all trees in census (but ofc, only those we have crown position data for)
+heights_allplot <- rbind(trees_all_plot, scbi18_ht_sub)
+heights_allplot$position_all_abb <- factor(heights_allplot$position_all_abb, levels=c("D","C","I","S"))
+heights_allplot$year <- as.character(heights_allplot$year)
+
+ggplot(na.omit(heights_allplot), aes(position_all_abb, height.m)) +
+   geom_boxplot(aes(fill=year)) +
+   xlab("Crown position") +
+   ylab("Height [m]") +
+   ggtitle("Height comparison with all trees we have crown position data for")
+
+dev.off()
+layout(matrix(1:1, nrow=1))
 #######################################################################################
 #3 Get PLA and TLP as function of TWI and height ####
 library(ggstance)
