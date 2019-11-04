@@ -1,11 +1,11 @@
-"Species","sp","Equations","r.2"
-"Carya cordiformis","caco","0.391+0.805*x",0.899
-"Carya glabra","cagl","0.654+0.728*x",0.89
-"Carya ovalis","caovl","0.939+0.641*x",0.922
-"Carya tomentosa","cato","0.851+0.682*x",0.89
-"Fagus grandifolia","fagr","0.574+0.713*x",0.887
-"Liriodendron tulipifera","litu","1.21+0.559*x",0.76
-"Quercus alba","qual","2.07+0.318*x",0.523
-"Quercus prinus","qupr","0.594+0.713*x",0.799
-"Quercus rubra","quru","1.42+0.473*x",0.832
-"all","all","0.946+0.621*x",0.868
+Species,sp,Equations,r.2
+Carya cordiformis,caco,ln[H]=0.391+0.805*ln[DBH],0.899
+Carya glabra,cagl,ln[H]=0.654+0.728*ln[DBH],0.89
+Carya ovalis,caovl,ln[H]=0.939+0.641*ln[DBH],0.922
+Carya tomentosa,cato,ln[H]=0.851+0.682*ln[DBH],0.89
+Fagus grandifolia,fagr,ln[H]=0.574+0.713*ln[DBH],0.887
+Liriodendron tulipifera,litu,ln[H]=1.21+0.559*ln[DBH],0.76
+Quercus alba,qual,ln[H]=2.07+0.318*ln[DBH],0.523
+Quercus prinus,qupr,ln[H]=0.594+0.713*ln[DBH],0.799
+Quercus rubra,quru,ln[H]=1.42+0.473*ln[DBH],0.832
+all,all,ln[H]=0.946+0.621*ln[DBH],0.868
