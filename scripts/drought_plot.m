@@ -8,7 +8,7 @@ NOAA_table = readtable('Formated_NOAA_PDSI_Northern_Virginia_1895_2017.csv');
 NOAA_table2 = readmatrix('Formated_NOAA_PDSI_Northern_Virginia_1895_2017.csv');
 year=NOAA_table2(:,1);
 month=NOAA_table2(:,2);
-date=datenum([year month 1+0*month]);
+date=datenum([year month 15+0*month]);
 PDSI=NOAA_table2(:,5);
 
 dr=[1966 1977 1999];
