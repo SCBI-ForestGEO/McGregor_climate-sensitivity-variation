@@ -84,31 +84,6 @@ Second, we focus on the role of species' functional and hydraulic traits and the
 We then test whether these traits correlate with tree height (*H2.2*), potentially driving the observed tendency for taller trees to suffer more during drought (*H2.3*). 
 Finally, we focused on variability among droughts, asking how community resistance varied across droughts (*H3.1*) and whether the factors confirming vulnerability or resistance varied across droughts (*H3.2*).
 
-```{r Table 1, eval = TRUE, echo=FALSE, warning=FALSE}
-library(knitr)
-library(kableExtra)
-hypothesis_table <- read.csv("tables_figures/table1_hypothesis_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypotheses, corresponding specific predictions, and results.** We count predictions as fully supported / rejected when the response matches/contradicts the prediction in both univariate and all top multivariate models (when applicable). Parentheses indicate that predictions were partially supported/ rejected--i.e., that the direction of response matched/contradicted the prediction but that the effect was not significant in all models.") %>%
-  pack_rows("H1.0. Larger-diameter trees have lower drought resistance (R).", 1, 1, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H1.1. Tall trees have lower drought resistance.", 2, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H1.2. Trees with more exposed crowns have lower drought resistance.", 3, 4, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H1.3. Small trees (lower root volume) suffer more in drier microhabitats.", 5, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H2.1. Species traits predict drought resistance.", 6, 10, latex_gap_space = "1em", colnum = 1, hline_before = TRUE) %>%
-  pack_rows("H2.2. At the community level, taller trees have more drought-resistant traits.", 11, 15, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H2.3. When traits are accounted for, taller trees still have lower drought resistance.", 16, 16, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H3.1. Resistance differs across the droughts considered here.", 17, 17, latex_gap_space = "1em", colnum = 1, hline_before = TRUE) %>%
-  pack_rows("H3.2. The direction of responses to predictor variables differs across droughts.", 18, 18, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H3.3. The strength of responses to predictor variables vary across droughts.", 19, 19, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  add_header_above(c(" ", "Prediction supported?" = 4, " ")) %>%
-  column_spec(1, width = "12cm") %>%
-  column_spec(2:5, width = "1cm") %>%
-  column_spec(6, width = "2.4cm") %>%
-  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5) %>%
-  kableExtra::landscape()
-```
-
-\clearpage
-
 ### Materials and Methods
 *Study site*
 
@@ -117,24 +92,6 @@ Research was conducted at the 25.6 ha ForestGEO (Forest Global Earth Observatory
 *Data collection and preparation*
 
 Within or just outside the ForestGEO plot, we collected data on a suite of variables including tree size, microenvironemnt, and species traits (Table 2). The SCBI ForestGEO plot was censused in 2008, 2013, and 2018 following standard ForestGEO protocols, whereby all free-standing woody stems $\ge$ 1cm diameter at breast height (DBH) were mapped, tagged, measured at DBH, and identified to species [@condit_tropical_1998]. From this census data, we used measurements of DBH from 2008 to calculate historical DBH, tree location in the plot to determine the topographic wetness index, and data for all stems $\ge$ 10cm to analyze functional trait composition relative to tree height (all analyses described below). Census data, which were last updated in 2019, are available through the ForestGEO data portal (www.forestgeo.si.edu).
-
-
- ```{r Table 2, eval = TRUE, echo=FALSE, warning=FALSE}
-  library(knitr)
-  library(kableExtra)
-  table2 <- read.csv("tables_figures/table2_variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-  kable(table2, booktabs = TRUE, caption = "**Table 2x. Summary of variables**") %>%
-  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 10, protect_latex = TRUE) %>%
-  add_header_above(c(" "," "," "," "," "," ", "observed values" = 3, " ")) %>%
-  column_spec(4, width = "7cm") %>%
-  pack_rows("Dependent variable", 1, 1, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("Independent variables", 2, 18, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("tree size", 5, 6, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
-  pack_rows("microhabitat", 7, 11, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
-  pack_rows("species' traits", 12, 18, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
-  kable_styling()
-```
-
 
 We analyzed tree-ring data from 571 trees representing the twelve species contributing most to woody aboveground net primary productivity ($ANPP_{stem}$), which together comprised 97% of study plot $ANPP_{stem}$ between 2008 and 2013 [@helcoski_growing_2019] (Figure S1). Cores were obtained in 2010-2011 or 2016-2017 from a breast height of 1.3m using a 5mm increment borer. In 2010-2011, cores were collected from randomly selected live trees of species with at least 30 individuals of DBH $\ge$ 10cm [@bourg_initial_2013]. In 2016-2017, cores were collected from all trees found dead in the annual mortality census [@gonzalezakre_patterns_2016]. Cores were sanded, measured, and cross-dated using standard procedures, as detailed in [@helcoski_growing_2019]. The resulting chronologies have been published in association with @helcoski_growing_2019: (ITRDB; GitHub/Zenodo).  *Ryan submitted the data to ITRDB but I don't think its posted yet. We should also cite GitHub/Zenodo here. I'll come back to that.* 
 
@@ -155,16 +112,6 @@ Topographic wetness index (TWI) was calculated using the dynatopmodel package in
 
 Hydraulic traits were collected at SCBI (Table 3). In August 2018, we sampled small sun-exposed branches from three individuals of each species in and around the ForestGEO plot. These were covered with opaque plastic bags, re-cut under water, and re-hydrated overnight before further analysis. Rehydrated leaves (n=3 per indivdiual) were scanned, weighed, dried at 60$^\circ$ C for $\ge$ 48 hours, and then re-scanned and weighed. Leaf area was calculated from scanned images using an R script (**details - Valentine? Nobby?**). $LMA$ was calculated as the ratio of leaf dry mass to fresh area. $PLA$ was calculated as the percent loss of area between fresh and dry leaves. $WD$ was calculated for ~1cm diameter stem samples (bark and pith removed) as the ratio of dry weight to volume. We used the rapid determination method of @bartlett_rapid_2012 to estimate the turgor loss point ($\pi_{tlp}$). Briefly, two 4mm diameter leaf discs were cut from each leaf, tightly wrapped in foil, submerged in liquid nitrogen, perforated 10-15 times with a dissection needle, and then measured using a vapour pressure osmometer (VAPRO 5520, Wescor, Logan, UT, USA). Osmotic potential ($\pi_{osm}$) given by the osmometer was used to estimate ($\pi_{tlp}$) using the equation $\pi_{tlp}=0.832 \pi_{osm} ^{-0.631}$ [@bartlett_rapid_2012]. We also characterized hydraulic vulnerability curves for the # most productive species, but because the water potentials at which 50% and 80% of conductivity is lost, $P50$ and $P80$, did not come out as top predictors in preliminary analyses and their inclusion limited the set of species that could be included in the full analysis, these traits were dropped from further consideration. Data and R scripts for hydraulic traits are available at [**create new public GitHub repo for hydraulic traits, archive in Zenodo, give DOI**].
 
-```{r, Table3, eval=TRUE, echo=FALSE, message=FALSE}
-library(knitr)
-library(kableExtra)
-table3 <- read.csv("tables_figures/table3_species_table.csv")
-
-kable(table3, booktabs=TRUE, caption = "**Table 3. Overview of analyzed species, their productivity in the plot, numbers and sizes sampled, and traits.**  Given are DBH mean and range of cored trees, the number of cores represented by each crown position of each species, and mean hydraulic trait measurements.") %>%
-  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5) %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE)
-```
-
 To characterize how environmental conditions vary with height, data were obtained from the a National Ecological Observation Network (NEON) tower located <1km from the study area. We used data on wind speed, relative humidity, and air temperature, all measured over a vertical profile, for the years 2016-2018 [@noauthor_national_2018]. After filtering for missing and outlier values, the data was consolidated to represent the mean values per sensor height per day. 
 
 *Identification of drought years*
@@ -183,8 +130,6 @@ Second, for each drought year and for all years combined, we determined the best
 
 *Focal droughts and their characteristics*
 
-![**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide responses** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species. Focal droughts are indicated by dashed lines, and shading indicates the pre-drought period used in calculations of the resistance metric. Figure modified from [@helcoski_growing_2019]. Density plots (b) show community- wide resistance values for each drought.](tables_figures/Figure1.png){width=500px}
-
 In the 60-year period between 1950 and 2009, there were three droughts that met our criteria of anomalously dry climatic conditions coupled with substantial reductions in tree growth for at least some portions of the community: 1966, 1977, and 1999 (Figs. 1, S2). 
 We excluded one year (1991) meeting the growth reduction criteria (26.5% of trees experienced >30% growth reduction, mean resistance= -13.8%) because this year was not among the driest in terms of May-August [PET-PRE] or PDSI (Table S3). Rather, the severity of growth reduction may be explained by defoliation by gypsy moths (*Lymantria dispar* L.) from approximately 1988-1995, which most stronly impacted *Quercus* spp. (*Cite Shenandoah paper, if accepted*). 
 Climatically, these droughts included three of the five years between 1950 and 2009 with greatest moisture deficit (PET-PRE) during the peak growing season months of May-August, which are the months to which annual tree growth at this site is most sensitive [@helcoski_growing_2019]. Specifically, 1966, 1977, and 1999 had mean MJJA PET-PRE of 83.37, 86.97, and 80 mm mo<sup>-1</sup>, respectively. The years 1964 and 2007 also ranked in the top five driest (PET-PRE =83.87 and 82.13 mm mo<sup>-1</sup>), but were not among the lowest in terms of PDSI and were not identified as a pointer yeasr (Table S3) 
@@ -198,41 +143,9 @@ Community-level tree growth responses to these droughts were modest, with modal 
 
 Overall, our analysis confirmed the tendency for larger-diameter trees to show greater reductions in growth during drought [@bennett_larger_2015] (*H1.0*), although there was no signficant effect for 1977 or 1999 individually (Tables 1, 4). The same held true for $ln[H]$ as a univariate predictor (*H1.1*; Tables 1, 4). When combined with other predictor variariables in our multivariate models, the top models usually included an effect of $ln[H]$, and its coefficient was consistently negative, as predicted (Tables 1, 5). We note that a non-signficant positive correlation between $ln[H]$ and $R$ for 1999 became negative in the context of the multivariate models, again supporting *H1.1* (Table 1). 
 
-
-```{r table 4, eval = TRUE, echo=FALSE, warning=FALSE}
-library(knitr)
-library(kableExtra)
-univar_table <- read.csv("tables_figures/table4_univariate_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
-kable(univar_table, booktabs = TRUE, caption = "**Table 4. Univariate models**", format = 'latex', escape = TRUE) %>%
-  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
-  add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
-  #mutate(dAICc = cell_spec(dAICc, "html", bold = ifelse(dAICc > 1.999, TRUE, FALSE))) %>%  #trying to put sig values in bold, but this doen't work
-  kable_styling()
-```
-
-
-```{r table 5, eval = TRUE, echo=FALSE, warning=FALSE}
-library(knitr)
-library(kableExtra)
-multivar_table <- read.csv("tables_figures/table5_multivariate_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
-kable(multivar_table, booktabs = TRUE, caption = "**Table 5. Summary of R\\^2 and coefficients of the best multivariate models for each drought instance.** Models are ranked by AIC, and we show all models whose AIC value falls within 2.0 of the best model (dAICc<2).", format = 'latex', escape = TRUE) %>%
-  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
-  add_header_above(c(" "," "," "," "," ", "crown position" = 4, " ","xylem architecture" = 3," ", " ")) %>%
-  pack_rows("", 1, 6, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("", 7, 11, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
-  pack_rows("", 12, 14, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
-  pack_rows("", 15, 24, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
-  kable_styling()
-```
-
-\raggedright
-
-
 Crown position was generally correlated with $H$, but with substantial variation (Fig. 2d). Crown position was a much poorer predictor of $R$ than was $H$ (Table 4), lending little overall support to *H1.2* (Table 1). When considered alone, $CP$ had a significant influence only in the 1966 drought, during which trees with dominant $CP$ had the lowest $R$. When considered in conjunction with $H$, $CP$ came out as a significant predictor only for the 1999 drought, during which suppressed and then intermediate trees had the lowest $R$. Crown position was included in almost half of the top models, with mixed results as to how $R$ varied with $CP$ (Table 5). Most commonly in these multivariate models, as in the univariate models (Table 4), the resistance of dominant trees was less than that of co-dominant trees but higher that of suppressed trees. Thus, $CP$ was sometimes a useful predictor of $R$, but overall had a weak effect relative to that of $H$.
 
 In the non-drought years for which we have vertical profiles in climate data (2016-2018), taller trees--or those in dominant crown positions-- were generally exposed to higher evaporative demand during the peak growing season months (May-August; Fig. 2). Specifically, maximum daily wind speeds were signficantly higher above the top of the canopy (40-50m) than within and below (10-30m) (Fig. 2a). Relative humidity was also somewhat lower during June-August, ranging from ~50-80 above the canopy and ~60-90% in the understory (Fig. 2b). Air temperature did not vary across the vertical profile (Fig. 2c).
-
-![**Figure 2. Height profiles in growing season climatic conditions, tree heights by crown position, and leaf hydraulic traits** The top row shows averages ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Also shown are (d) 2018 tree heights by canopy position (see Table 2 for codes) and vertical profiles in (e) $PLA_{dry}$ and (f) $\pi_{tlp}$. In (e-f), values are community-wide averages across height bins (plotted at upper end of height bin), with grey indicating bins for which species-level trait measurements are available for <75% of individuals. In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.](tables_figures/Figure2.png){width=500px}
 
 Resistance was negatively correlated with $ln[TWI]$ (Tables 4-5), negating the idea that trees in moist microsites would suffer less during drought. Nevertheless, we tested for a negative $ln[H] *ln[TWI]$ interaction (*H1.3*), which could indicate that smaller trees (with smaller rooting volume) have a greater tendency to suffer more in drier microenvironments with greater depth to the water table. *H1.3* was rejected; the $ln[H] *ln[TWI]$ interaction was never signficant and had a consistently positive coefficient (Table 4). 
 
@@ -278,6 +191,5 @@ funding: ForestGEO,
 words
 
 \newpage
-
 
 
