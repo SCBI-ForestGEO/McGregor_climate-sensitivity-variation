@@ -70,7 +70,7 @@ kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypoth
   pack_rows("Independent variables", 2, 18, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("tree size", 5, 6, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   pack_rows("microhabitat", 7, 11, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
-  pack_rows("species' traits", 12, 18, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
+  pack_rows("species' traits", 12, 17, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   kable_styling()
 ```
 \clearpage
@@ -84,6 +84,7 @@ kable(table3, booktabs=TRUE, caption = "**Table 3. Overview of analyzed species,
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5) %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE)
 ```
+*Semi-ring porosity is intermediate between ring and diffuse. We group it with diffuse-porous species for more even division of species between categories.
 
 \clearpage
 ```{r table 4, eval = TRUE, echo=FALSE, warning=FALSE}
