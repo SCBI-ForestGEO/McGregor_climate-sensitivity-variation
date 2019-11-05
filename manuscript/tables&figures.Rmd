@@ -105,11 +105,11 @@ library(kableExtra)
 multivar_table <- read.csv("tables_figures/table5_multivariate_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
 kable(multivar_table, booktabs = TRUE, caption = "**Table 5. Summary of R\\^2 and coefficients of the best multivariate models for each drought instance.** Models are ranked by AIC, and we show all models whose AIC value falls within 2.0 of the best model (dAICc<2).", format = 'latex', escape = TRUE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
-  add_header_above(c(" "," "," "," "," ", "crown position" = 4, " ","xylem architecture" = 3," ", " ")) %>%
+  add_header_above(c(" "," "," "," "," ", "crown position" = 4, " ","xylem architecture" = 2," ", " ")) %>%
   pack_rows("", 1, 6, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("", 7, 11, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
-  pack_rows("", 12, 14, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
-  pack_rows("", 15, 24, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
+  pack_rows("", 7, 9, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
+  pack_rows("", 10, 15, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
+  pack_rows("", 16, 21, latex_gap_space = ".4em", colnum = 1, hline_before = TRUE) %>%
   kable_styling()
 ```
 
