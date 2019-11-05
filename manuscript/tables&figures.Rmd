@@ -1,6 +1,6 @@
 ---
-title: "Tree height and hydraulic traits shape growth responses across droughts in a temperate broadleaf forest"
-author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Erika Gonzalez-Akre, Valentine Herrmann, Joseph Zailaa, Atticus Stovall, Norman Bourg?, William McShea?, Neil Pederson, Lawren Sack, Kristina Anderson-Teixeira"
+title: ""
+author: ""
 output:
   pdf_document:
     citation_package: natbib
@@ -62,7 +62,7 @@ kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypoth
   library(knitr)
   library(kableExtra)
   table2 <- read.csv("tables_figures/table2_variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-  kable(table2, booktabs = TRUE, caption = "**Table 2x. Summary of variables**") %>%
+  kable(table2, booktabs = TRUE, caption = "**Table 2. Summary of variables**") %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 10, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," "," "," "," ", "observed values" = 3, " ")) %>%
   column_spec(4, width = "7cm") %>%

@@ -1,6 +1,6 @@
 ---
-title: "Supplementary Information: \nTree height, microhabitat, and hydraulic traits shape drought responses in a temperate broadleaf forest"
-author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Erika Gonzalez-Akre, Valentine Herrmann, Joseph Zailaa, Atticus Stovall, Norman Bourg?, William McShea?, Neil Pederson, Lawren Sack, Kristina Anderson-Teixeira"
+title: ""
+author: ""
 output:
   pdf_document:
     fig_caption: yes
@@ -56,6 +56,7 @@ kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drou
 
 
 \newpage
+\clearpage
 
 ```{r Table S5, eval=TRUE, echo=FALSE, message=FALSE}
 tableS5 <- read.csv("tables_figures/tableS5_tested_traits_height.csv", stringsAsFactors = FALSE)
