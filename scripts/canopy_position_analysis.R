@@ -657,7 +657,7 @@ library(dynatopmodel) #for TWI
 library(stringi) #for heights
 
 ##5a. add in ring porosity qualifications ####
-ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "juni",  "litu",  "pist",  "qual",  "qupr",  "quru",  "quve", "caco", "frni"), "rp" = c("ring", "ring", "ring", "diffuse", "ring", "semi-ring", "diffuse", NA, "ring", "ring", "ring", "ring", "ring", "ring"))
+ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "juni",  "litu",  "pist",  "qual",  "qupr",  "quru",  "quve", "caco", "frni"), "rp" = c("ring", "ring", "ring", "diffuse", "ring", "diffuse", "diffuse", NA, "ring", "ring", "ring", "ring", "ring", "ring"))
 
 trees_all$rp <- ring_porosity$rp[match(trees_all$sp, ring_porosity$sp)]
 
@@ -1647,19 +1647,33 @@ write.csv(top_models, "manuscript/tables_figures/tableS4_top_models_dAIC.csv", r
 
 ##make table of coefficients and r2, then reorder table
 #reorder the list 
-# coeff_list <- coeff_list[c(3,2,1,4,6,5,7:9,16:17,13,15,11,14,12,18,10)] #18 models
-# coeff_list <- coeff_list[c(2,1,4,5,3,6:7,9,8,11,12,10)] #12 models
-# coeff_list <- coeff_list[c(2,3,1,4,6,5,7,8:10,15,13,12,14,11)] #15 models
-coeff_list <- coeff_list[c(4,2,6,3,1,5, #trees_all_sub
-                           9,8,10,7,11, #x1966
-                           13,12,14,15, #x1977
-                           22,23,19,17,21,20,18,24,16)] #x1999
+# coeff_list <- coeff_list[c(4,2,6,3,1,5, #trees_all_sub
+#                            9,8,10,7,11, #x1966
+#                            13,12,14,15, #x1977
+#                            22,23,19,17,21,20,18,24,16)] #x1999
+
+ord_lab <- c("trees_all", "x1966", "x1977", "x1999")
+
+coeff_list1 <- list()
+for(q in seq(along=ord_lab)){
+  
+  coeff_list_temp <- coeff_list[grepl(ord_lab[[q]], names(coeff_list))]
+  coeff_list_temp <- 
+    coeff_list_temp[
+      order(
+        match(
+          as.numeric(
+            str_extract(names(coeff_list_temp)[grepl(ord_lab[[q]], names(coeff_list_temp))], "[[:digit:]]$")), 
+          ord))]
+  
+  coeff_list1 <- c(coeff_list1, coeff_list_temp)
+}
 
 merge.all <- function(x, y) {
   merge(x, y, all=TRUE, by="model_var")
 }
 
-coeff_table <- Reduce(merge.all, coeff_list)
+coeff_table <- Reduce(merge.all, coeff_list1)
 
 coeff_table[,2:ncol(coeff_table)] <- round(coeff_table[,2:ncol(coeff_table)], 3)
 
@@ -1670,11 +1684,15 @@ colnames(coeff_new) <- coeff_table$model_var
 coeff_new$codominant <- ifelse(!is.na(coeff_new$position_alldominant), 0, NA)
 coeff_new$rpdiffuse <- ifelse(!is.na(coeff_new$rpring), 0, NA)
 
+# coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
+#                            "position_alldominant", "codominant", "position_allintermediate","position_allsuppressed", 
+#                           "rpdiffuse", "rpring", "rpsemi-ring", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")]
 coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m", 
                            "position_alldominant", "codominant", "position_allintermediate","position_allsuppressed", 
-                          "rpdiffuse", "rpring", "rpsemi-ring", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")]
-# colnames(coeff_new) <- c("dAICc", "r^2", "Intercept", "1966", "1977", "1999", "ln[H]", "D", "C", "I", "S", "ln[TWI]", "PLA", "TLP") #only if year is variable
-colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "diffuse", "ring", "semi-ring", "ln[TWI]", "PLA", "TLP")
+                           "rpdiffuse", "rpring", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")]
+
+# colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "diffuse", "ring", "semi-ring", "ln[TWI]", "PLA", "TLP")
+colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "diffuse", "ring", "ln[TWI]", "PLA", "TLP")
 
 coeff_new <- setDT(coeff_new, keep.rownames = TRUE)[]
 setnames(coeff_new, old="rn", new="rank")
