@@ -110,7 +110,7 @@ Finally, we focused on variability among droughts, asking how community resistan
 ### Materials and Methods
 *Study site*
 
-Research was conducted at the 25.6 ha ForestGEO (Forest Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38\°53'36.6"N, 78\°08'43.4"W) [@bourg_initial_2013; @andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park.  Elevations range from 273-338m above sea level [@gonzalezakre_patterns_2016] with a topographic relief of 65m [@bourg_initial_2013]. Dominant tree taxa include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.).
+Research was conducted at the 25.6 ha ForestGEO (Forest Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38\°53'36.6"N, 78\°08'43.4"W) [@bourg_initial_2013; @andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park.  Elevations range from 273-338m above sea level [@gonzalezakre_patterns_2016] with a topographic relief of 65m [@bourg_initial_2013]. Climate is humid temperate, with mean annual temperature of # $\circ$ and precipitaiton of ~1000 mm **calculate these for our study period** distributed relatively evenly over the course of the year. Dominant tree taxa include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.).
 
 *Data collection and preparation*
 
