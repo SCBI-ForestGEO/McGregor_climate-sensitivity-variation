@@ -9,6 +9,7 @@ bibliography: ["book.bib",  "packages.bib"]
 biblio-style: "apalike"
 csl: apa.csl
 header-includes:
+- \usepackage{setspace}\onehalfspacing
 - \usepackage{float}
 - \usepackage{booktabs}
 - \usepackage{pdflscape}
