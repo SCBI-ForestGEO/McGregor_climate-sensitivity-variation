@@ -54,13 +54,6 @@ kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drou
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
-\newpage
-
-```{r, Table S4, eval=TRUE, echo=FALSE, message=FALSE}
-tableS4 <- read.csv("tables_figures/tableS3_candidate_traits.csv", stringsAsFactors = FALSE)
-kable(tableS4, booktabs=TRUE, format = "latex", caption = "Table S4: Candidate variables for best model") %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
-```
 
 \newpage
 
@@ -74,7 +67,7 @@ tableS5[,c(3)] <- round(tableS5[,c(3)], 2)
 tableS5$variable <- c("WD", "LMA", "ring porosity", "PLA", "TLP")
 tableS5$model <- c("WD~ln[H]","LMA~ln[H]","ring porosity~ln[H]", "PLA~ln[H]", "PLA~ln[H]")
 
-kable(tableS5, booktabs=TRUE, format = "latex", caption = "Table S5. Correlation of species' traits with tree height across all individuals in the ForestGEO plot") %>%
+kable(tableS5, booktabs=TRUE, format = "latex", caption = "Table S4. Correlation of species' traits with tree height across all individuals in the ForestGEO plot") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
