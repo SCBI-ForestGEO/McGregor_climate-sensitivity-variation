@@ -15,5 +15,5 @@ leaf mass per area,LMA,kg m-2,ratio of leaf dry mass to fresh leaf area,-,all,48
 xylem porosity,XP,-,vessel arrangement in xylem,ring,408,-,,,-
 ,,,,semi-ring,31,-,,,-
 ,,,,diffuse,178,-,,,-
-turgor loss point,$\pi_{tlp}$,MPa,water potential at which leaves wilt,-,all,-2.39,-2.76,-1.92,no
+turgor loss point,TLP,MPa,water potential at which leaves wilt,-,all,-2.39,-2.76,-1.92,no
 percent loss area,PLA,%,percent loss of leaf area upon dessication,-,all,13.06,8.52,24.64,no
