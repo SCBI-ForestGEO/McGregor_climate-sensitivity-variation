@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  5 NOV 2019 14:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  5 NOV 2019 14:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -832,6 +832,26 @@ Overfull \hbox (10.42546pt too wide) in paragraph at lines 168--168
  []
 
 
+Overfull \hbox (1.15274pt too wide) in paragraph at lines 168--168
+[]|\T1/lmr/m/n/8.5 no/(no)|  
+ []
+
+
+Overfull \hbox (6.10956pt too wide) in paragraph at lines 168--168
+[]|\T1/lmr/m/n/8.5 yes/(yes)|  
+ []
+
+
+Overfull \hbox (1.15274pt too wide) in paragraph at lines 168--168
+[]|\T1/lmr/m/n/8.5 (no)/no|  
+ []
+
+
+Overfull \hbox (6.10956pt too wide) in paragraph at lines 168--168
+[]|\T1/lmr/m/n/8.5 (yes)/yes|  
+ []
+
+
 Overfull \hbox (10.42546pt too wide) in paragraph at lines 168--168
 []|\T1/lmr/m/n/8.5 (yes)/(no)|  
  []
@@ -917,7 +937,7 @@ e/2019/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2019/texmf
 -dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2019/texmf-dist/font
 s/type1/public/lm/lmri9.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/pub
 lic/lm/lmsy9.pfb>
-Output written on tables-figures.pdf (7 pages, 575385 bytes).
+Output written on tables-figures.pdf (7 pages, 575411 bytes).
 PDF statistics:
  95 PDF objects out of 1000 (max. 8388607)
  72 compressed objects within 1 object stream
