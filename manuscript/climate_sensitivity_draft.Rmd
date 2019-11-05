@@ -1,6 +1,6 @@
 ---
-title: "Tree height and hydraulic traits shape growth responses across droughts in a temperate broadleaf forest"
-author: "Ian McGregor, Ryan Helcoski, Norbert Kunert, Alan Tepley, Erika Gonzalez-Akre, Valentine Herrmann, Joseph Zailaa, Atticus Stovall, Norman Bourg?, William McShea?, Neil Pederson, Lawren Sack, Kristina Anderson-Teixeira"
+title: ""
+author: ""
 output:
   pdf_document:
     citation_package: natbib
@@ -35,11 +35,33 @@ knitr::write_bib(c(
 ```
 \raggedright
 
-### Title page
-
-**Title:** 
+**Title:** Tree height and hydraulic traits shape growth responses across droughts in a temperate broadleaf forest
 
 **Authors:** 
+Ian McGregor^1,2^
+Ryan Helcoski^1^
+Norbert Kunert^1,3^
+Alan Tepley^1,4^
+Erika Gonzalez-Akre^1^
+Valentine Herrmann^1^
+Joseph Zailaa^1,5^
+Atticus Stovall^1,6^
+Norman Bourg^1^?
+William McShea^1^?
+Neil Pederson^7^
+Lawren Sack^8^
+Kristina J. Anderson-Teixeira^1,3^
+
+**Author Affiliations:**
+
+1. Conservation Ecology Center; Smithsonian Conservation Biology Institute; National Zoological Park, Front Royal, VA, USA
+2.
+3. Center for Tropical Forest Science-Forest Global Earth Observatory; Smithsonian Tropical Research Institute; Panama, Republic of Panama
+4.
+5.
+6.
+7.
+8.
 
 text | word count | other | n
 ---------------------------------------------|---------------------|-----------------------------|--------------------
@@ -49,7 +71,7 @@ Introduction|	currently ~1339 |	No of Supporting Information files | 	###.
 Materials and Methods |	currently ~1604	||	 
 Results |	currently ~1558	 ||
 Discussion |	currently ~1866 (limit 30% of total (not strict), or 1950 if manuscript reaches word limit)	||
-Acknowledgements | 	~75 unwritten	||	
+Acknowledgements | currently ~73	||	
 
 \newpage
 
@@ -186,10 +208,10 @@ As climate change drives increasing drought in many of the world's forests (*REF
 
 
 ### Acknowledgements
-funding: ForestGEO,
+Thanks to all researchers who helped to collect the data used here, in particular Jennifer C. McGarvey, Jonathan R. Thomspon, and Victoria Meakem for original collection and processing of cores. ** others??** This study was funded by the Smithsonian's Forest Global Earth Observatory (ForestGEO), a Virginia Native Plant Society grant to KAT and AJT, *and support from the Harvard Forest and National Science Foundation which supports the PalEON project (NSF EF-1241930) for NP.* (**Neil, this is copied from Ryan's paper. accurate here?** **coauthors, other funding?**)
 
 ### Author Contribution 
-words
+KAT and IM designed the research. Tree-ring chronologies were developed by RH under guidance of AT and NP. Trait data was collected by IM, JZ under guidance of NK and LS. Other plot data were collected by IM, AS, EGA, and NB under guidance of EGA and WM. Data analyses were performed by IM under guidance of KAT and VH. KAT and IM interpreted the results. IM and KAT wrote the first draft of manuscript, and all authors (RH, KAT, AT, NP, JM, VM, JRT and VH) contributed to revisions.
 
 \newpage
 
