@@ -1656,7 +1656,6 @@ ord_lab <- c("trees_all", "x1966", "x1977", "x1999")
 
 coeff_list1 <- list()
 for(q in seq(along=ord_lab)){
-  
   coeff_list_temp <- coeff_list[grepl(ord_lab[[q]], names(coeff_list))]
   coeff_list_temp <- 
     coeff_list_temp[
