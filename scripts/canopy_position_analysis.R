@@ -195,7 +195,7 @@ library(reshape2)
 
 ##4a. determine pointer years 
 
-###all cores together ####
+##all cores together ONLY NEED DO THIS ####
 #this is a combination of the two canopy and subcanopy groupings below
 
 rings <- read.rwl("data/core_files/all_species_except_FRNI_PIST.rwl") #read in rwl file
@@ -654,6 +654,7 @@ library(readxl)
 library(raster) #for TWI
 library(elevatr) #for TWI
 library(dynatopmodel) #for TWI
+library(stringi) #for heights
 
 ##5a. add in ring porosity qualifications ####
 ring_porosity <- data.frame("sp" = c("cagl",  "caovl", "cato", "fagr", "fram", "juni",  "litu",  "pist",  "qual",  "qupr",  "quru",  "quve", "caco", "frni"), "rp" = c("ring", "ring", "ring", "diffuse", "ring", "semi-ring", "diffuse", NA, "ring", "ring", "ring", "ring", "ring", "ring"))
@@ -674,7 +675,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEPDTUEGGQUCPMMGPQ25WRPM4"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEMLSA45Z6X45SIMTNK5ZLAYC"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
@@ -1128,8 +1129,8 @@ for(w in seq(along=height_regr$sp)){
   sp_foc <- height_regr$sp[[w]]
   ht_eq <- height_regr[height_regr$sp == sp_foc, ]
   num <- gsub("\\*x", "", ht_eq$Equations)
-  num1 <- as.numeric(gsub(".[[:digit:]].[[:digit:]]*$", "", num))
-  num2 <- as.numeric(gsub("^[[:digit:]].[[:digit:]]*.", "", num))
+  num1 <- as.numeric(stri_extract_first_regex(num, "[[:digit:]].[[:digit:]]+"))
+  num2 <- as.numeric(stri_extract_last_regex(num, "[[:digit:]].[[:digit:]]+"))
   
   if(sp_foc %in% trees_all[,"sp"]){
     trees_all$height.ln.m <- 
