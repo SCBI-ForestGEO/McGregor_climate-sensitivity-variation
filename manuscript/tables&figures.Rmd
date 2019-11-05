@@ -75,7 +75,7 @@ kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypoth
 ```
 \clearpage
 
-```{r, Table3, eval=TRUE, echo=FALSE, message=FALSE}
+```{r, Table 3, eval=TRUE, echo=FALSE, message=FALSE}
 library(knitr)
 library(kableExtra)
 table3 <- read.csv("tables_figures/table3_species_table.csv")
