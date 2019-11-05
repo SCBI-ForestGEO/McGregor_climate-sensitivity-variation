@@ -66,7 +66,7 @@ Kristina J. Anderson-Teixeira^1,3^
 text | word count | other | n
 ---------------------------------------------|---------------------|-----------------------------|--------------------
 Total word count (excluding summary, references and legends) |  currently ~6442 (strict limit 6,500)	 |	No. of figures | 	2 (both colour)
-Summary|  	## (limit 200) | 	No. of Tables | 	5  
+Summary|  	currently 198 (limit 200) | 	No. of Tables | 	5  
 Introduction|	currently ~1339 |	No of Supporting Information files | 	###.
 Materials and Methods |	currently ~1604	||	 
 Results |	currently ~1558	 ||
@@ -75,14 +75,14 @@ Acknowledgements | currently ~73	||
 
 \newpage
 
-### Summary (**needs work**)
+### Summary
 - As the climate changes, driving increased drought in many forested regions around the world, mechanistic understanding of factors conferring drought vulnerability and resistance in trees is increasingly important. Yet it remains unclear how tree size and species' traits interactively shape tree growth responses across droughts. 
 
-- In this study, we analyze tree-ring records for 12 species representing 97% of woody productivity in the 25.6-ha ForestGEO plot in Virginia (USA) to determine how tree size, microhabitat, and species' traits interactively shape drought responses across the three strongest droughts over the 60 year period from 1950 and 2009. 
+- In this study, we analyze tree-ring records for 12 species representing 97% of woody productivity in the 25.6-ha ForestGEO plot in Virginia (USA) to determine how tree size, microhabitat, and species' traits interactively shape drought responses across the three strongest droughts over the 60-year period from 1950 and 2009. 
 
-- Individual-level growth responses to the three individual droughts were stronger in three cases: taller trees, trees in wetter microsites, and more drought-sensitive species as assessed by leaf traits (turgor loss at less negative leaf water potential, greater shrinkage with leaf dehydration). However, there was substantial variation in the best predictor variables across given droughts.
+- Individual-level drought resistance decreased with tree height, whereas crown position explained little additional variation and root water access did not confer additional resistance. *Resistance was lower among diffuse-porous species and those whose leaves shrunk more upon dehydration and lost turgor at less negative leaf water potential.* However, there was substantial variation in the best predictor variables across given droughts.
 
-- We conclude that when droughts occur, tall trees, drought-sensitive species, and individuals in wetter microhabitats tend to be most strongly affected.
+- We conclude that height--as opposed to canopy position or root water access--is the primary factor through which tree size mediates drought response, that leaf hydraulic traits are useful indicators of drought sensitivity, and that directions but not strengths of responses are consistent across droughts.
 
 
 *The Summary for research papers, which must be usable as a stand- alone document, must not exceed 200 words and should be organized using four bullet points to indicate: (1) the research conducted, including the rationale, (2) methods, (3) key results, and (4) the main conclusion, including the key points of discussion. It should not contain citations of other papers.* 
