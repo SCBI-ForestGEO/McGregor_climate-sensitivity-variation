@@ -89,7 +89,7 @@ library(knitr)
 library(kableExtra)
 hypothesis_table <- read.csv("tables_figures/table1_hypothesis_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
 kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypotheses, corresponding specific predictions, and results.** We count predictions as fully supported / rejected when the response matches/contradicts the prediction in both univariate and all top multivariate models (when applicable). Parentheses indicate that predictions were partially supported/ rejected--i.e., that the direction of response matched/contradicted the prediction but that the effect was not significant in all models.") %>%
-  pack_rows("H1.0. Larger-diameter trees have lower drought resistance.", 1, 1, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("H1.0. Larger-diameter trees have lower drought resistance (R).", 1, 1, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("H1.1. Tall trees have lower drought resistance.", 2, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("H1.2. Trees with more exposed crowns have lower drought resistance.", 3, 4, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("H1.3. Small trees (lower root volume) suffer more in drier microhabitats.", 5, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
@@ -102,7 +102,7 @@ kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypoth
   add_header_above(c(" ", "Prediction supported?" = 4, " ")) %>%
   column_spec(1, width = "12cm") %>%
   column_spec(2:5, width = "1cm") %>%
-  column_spec(6, width = "2cm") %>%
+  column_spec(6, width = "2.4cm") %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5) %>%
   kableExtra::landscape()
 ```
