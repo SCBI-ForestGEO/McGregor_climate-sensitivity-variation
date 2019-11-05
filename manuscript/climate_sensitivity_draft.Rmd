@@ -43,12 +43,12 @@ knitr::write_bib(c(
 
 text | word count | other | n
 ---------------------------------------------|---------------------|-----------------------------|--------------------
-Total word count (excluding summary, references and legends) |  currently ~6000 (strict limit 6,500)	 |	No. of figures | 	2 (both colour)
+Total word count (excluding summary, references and legends) |  currently ~6442 (strict limit 6,500)	 |	No. of figures | 	2 (both colour)
 Summary|  	## (limit 200) | 	No. of Tables | 	5  
-Introduction|	currently ~1536 |	No of Supporting Information files | 	###.
-Materials and Methods |	currently ~1442	||	 
-Results |	currently ~1437	 ||
-Discussion |	currently ~1881 (limit 30% of total (not strict), or 1950 if manuscript reaches word limit)	||
+Introduction|	currently ~1339 |	No of Supporting Information files | 	###.
+Materials and Methods |	currently ~1604	||	 
+Results |	currently ~1558	 ||
+Discussion |	currently ~1866 (limit 30% of total (not strict), or 1950 if manuscript reaches word limit)	||
 Acknowledgements | 	~75 unwritten	||	
 
 \newpage
