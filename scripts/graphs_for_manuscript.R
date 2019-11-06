@@ -26,10 +26,24 @@ scbi.stem3$dbh <- as.numeric(scbi.stem3$dbh)
 
 current_ht <- trees_all[!duplicated(trees_all$tree), ]
 current_ht$year <- 2018
-current_ht <- current_ht[,c(1:4,13:15,17:19)]
+current_ht <- current_ht[,c(1:4,17:19)]
 
 current_ht$dbh_old.mm <- scbi.stem3$dbh[match(current_ht$tree, scbi.stem3$tag)]
 current_ht$dbh_old.cm <- current_ht$dbh_old.mm/10
+current_ht$year_dbh <- ifelse(!is.na(current_ht$dbh_old.cm), 2018, NA)
+
+#get original dbh if they died before 2018 (only need 2013)
+scbi.stem2 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem2.csv"), stringsAsFactors = FALSE)
+
+current_ht$dbh_old.mm <- ifelse(is.na(current_ht$dbh_old.mm),
+                                scbi.stem2$dbh[match(current_ht$tree, scbi.stem2$tag)],
+                                current_ht$dbh_old.mm)
+current_ht$dbh_old.cm <- ifelse(is.na(current_ht$dbh_old.cm),
+                                current_ht$dbh_old.mm/10,
+                                current_ht$dbh_old.cm)
+current_ht$year_dbh <- ifelse(is.na(current_ht$year_dbh), 2013, current_ht$year_dbh)
+
+#get the log dbh and get heights
 current_ht$dbh.ln.cm <- log(current_ht$dbh_old.cm)
 
 #linear log-log regression
@@ -103,27 +117,15 @@ scbi18_ht$height.m <- exp(scbi18_ht$height.ln.m) #used below in #4
 
 ##2c. combine heights to make plot with all years ####
 
-#these are the crown positions with height for the trees in the analysis
-current_ht_sub <- current_ht[,c("tree", "year", "position_all_abb", "height.m")]
-
-#these are the crown positions with height for all other trees from 2018
-dend_core_full <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_crowns/cored_dendroband_crown_position_data/dendro_cored_full.csv"))
-
-scbi18_ht$position_all_abb <- dend_core_full$crown.position[match(scbi18_ht$stemID, dend_core_full$stemID)]
-
-scbi18_ht_sub <- scbi18_ht[!is.na(scbi18_ht$position_all_abb), ]
-scbi18_ht_sub$year <- "2018"
-scbi18_ht_sub <- scbi18_ht_sub[,c("tag", "year", "position_all_abb", "height.m")]
-
-setnames(scbi18_ht_sub, old="tag", new="tree")
-
 trees_all$position_all_abb <- ifelse(trees_all$position_all == "dominant", "D",
-                              ifelse(trees_all$position_all == "co-dominant", "C",
-                              ifelse(trees_all$position_all == "suppressed", "S", "I")))
-
-
+                                     ifelse(trees_all$position_all == "co-dominant", "C",
+                                            ifelse(trees_all$position_all == "suppressed", "S", "I")))
 trees_all_plot <- trees_all[,c("tree", "year", "position_all_abb", "height.m")]
 
+current_ht$position_all_abb <- ifelse(current_ht$position_all == "dominant", "D",
+                                     ifelse(current_ht$position_all == "co-dominant", "C",
+                                            ifelse(current_ht$position_all == "suppressed", "S", "I")))
+current_ht_sub <- current_ht[,c("tree", "year", "position_all_abb", "height.m")]
 
 png("manuscript/tables_figures/height_plot_analysis.png")
 #NOTE notice diff when using current_ht_sub versus...
@@ -138,6 +140,27 @@ ggplot(na.omit(heights_allplot), aes(position_all_abb, height.m)) +
    ylab("Height [m]") +
    ggtitle("Height comparison with only trees in analysis")
 dev.off()
+
+
+
+
+
+
+#these are the crown positions with height for the trees in the analysis
+current_ht_sub <- current_ht[,c("tree", "year", "position_all_abb", "height.m")]
+
+#these are the crown positions with height for all other trees from 2018
+dend_core_full <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_crowns/cored_dendroband_crown_position_data/dendro_cored_full.csv"))
+
+scbi18_ht$position_all_abb <- dend_core_full$crown.position[match(scbi18_ht$stemID, dend_core_full$stemID)]
+
+scbi18_ht_sub <- scbi18_ht[!is.na(scbi18_ht$position_all_abb), ]
+scbi18_ht_sub$year <- "2018"
+scbi18_ht_sub <- scbi18_ht_sub[,c("tag", "year", "position_all_abb", "height.m")]
+
+setnames(scbi18_ht_sub, old="tag", new="tree")
+
+
 
 png("manuscript/tables_figures/height_plot_all.png")
 #NOTE ...using scbi18_ht_sub
