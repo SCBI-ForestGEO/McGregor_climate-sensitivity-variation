@@ -141,43 +141,6 @@ ggplot(na.omit(heights_allplot), aes(position_all_abb, height.m)) +
    ggtitle("Height comparison with only trees in analysis")
 dev.off()
 
-
-
-
-
-
-#these are the crown positions with height for the trees in the analysis
-current_ht_sub <- current_ht[,c("tree", "year", "position_all_abb", "height.m")]
-
-#these are the crown positions with height for all other trees from 2018
-dend_core_full <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_dimensions/tree_crowns/cored_dendroband_crown_position_data/dendro_cored_full.csv"))
-
-scbi18_ht$position_all_abb <- dend_core_full$crown.position[match(scbi18_ht$stemID, dend_core_full$stemID)]
-
-scbi18_ht_sub <- scbi18_ht[!is.na(scbi18_ht$position_all_abb), ]
-scbi18_ht_sub$year <- "2018"
-scbi18_ht_sub <- scbi18_ht_sub[,c("tag", "year", "position_all_abb", "height.m")]
-
-setnames(scbi18_ht_sub, old="tag", new="tree")
-
-
-
-png("manuscript/tables_figures/height_plot_all.png")
-#NOTE ...using scbi18_ht_sub
-##scbi18_ht_sub = log-derived 2018 heights of all trees in census (but ofc, only those we have crown position data for)
-heights_allplot1 <- rbind(trees_all_plot, scbi18_ht_sub)
-heights_allplot1$position_all_abb <- factor(heights_allplot1$position_all_abb, levels=c("D","C","I","S"))
-heights_allplot1$year <- as.character(heights_allplot1$year)
-
-ggplot(na.omit(heights_allplot), aes(position_all_abb, height.m)) +
-   geom_boxplot(aes(fill=year)) +
-   xlab("Crown position") +
-   ylab("Height [m]") +
-   ggtitle("Height comparison with all trees we have crown position data for")
-
-dev.off()
-layout(matrix(1:1, nrow=1))
-
 #######################################################################################
 #3 Get PLA and TLP as function of TWI and height ####
 library(ggstance)
