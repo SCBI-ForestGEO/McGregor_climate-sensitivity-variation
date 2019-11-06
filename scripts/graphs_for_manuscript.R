@@ -16,6 +16,8 @@ library(tidyr) #2
 library(grid) #2
 library(gridExtra) #2
 library(data.table)
+library(stringi)
+library(ggplot2)
 
 ##2a. heights for all cored trees ####
 trees_all <- read.csv("manuscript/tables_figures/trees_all.csv", stringsAsFactors = FALSE) #these graphs are meant to be for all cored trees, not just the ones being used in analysis
@@ -48,20 +50,28 @@ current_ht$dbh.ln.cm <- log(current_ht$dbh_old.cm)
 
 #linear log-log regression
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
-current_ht$height.ln.m <- 
-  ifelse(current_ht$sp == "caco", (0.348+0.808*current_ht$dbh.ln.cm),
-   ifelse(current_ht$sp == "cagl", (0.681+0.704*current_ht$dbh.ln.cm),
-   ifelse(current_ht$sp == "caovl", (0.621+0.722*current_ht$dbh.ln.cm),
-   ifelse(current_ht$sp == "cato", (0.776+0.701*current_ht$dbh.ln.cm),
-   ifelse(current_ht$sp == "fagr", (0.708+0.662*current_ht$dbh.ln.cm),
-   ifelse(current_ht$sp == "fram", (0.715+0.619*current_ht$dbh.ln.cm),
-   ifelse(current_ht$sp == "juni", (1.22+0.49*current_ht$dbh.ln.cm),
-   ifelse(current_ht$sp == "litu", (1.32+0.524*current_ht$dbh.ln.cm),
-   ifelse(current_ht$sp == "qual", (1.14+0.548*current_ht$dbh.ln.cm),
-   ifelse(current_ht$sp == "qupr", (0.44+0.751*current_ht$dbh.ln.cm),
-   ifelse(current_ht$sp == "quru", (1.17+0.533*current_ht$dbh.ln.cm),
-   ifelse(current_ht$sp == "quve", (0.864+0.585*current_ht$dbh.ln.cm),
-                                  (0.791+0.645*current_ht$dbh.ln.cm)))))))))))))
+height_regr <- read.csv("manuscript/tables_figures/tableS2_height_regression.csv", stringsAsFactors = FALSE)
+
+current_ht$height.ln.m <- NA
+for(w in seq(along=height_regr$sp)){
+   sp_foc <- height_regr$sp[[w]]
+   ht_eq <- height_regr[height_regr$sp == sp_foc, ]
+   num <- gsub("\\*x", "", ht_eq$Equations)
+   num1 <- as.numeric(stri_extract_first_regex(num, "[[:digit:]].[[:digit:]]+"))
+   num2 <- as.numeric(stri_extract_last_regex(num, "[[:digit:]].[[:digit:]]+"))
+   
+   if(sp_foc %in% current_ht[,"sp"]){
+      current_ht$height.ln.m <- 
+         ifelse(current_ht$sp == sp_foc,
+                num1 + num2*current_ht$dbh.ln.cm,
+                current_ht$height.ln.m)
+   } else {
+      current_ht$height.ln.m <- 
+         ifelse(current_ht$sp != sp_foc,
+                num1 + num2*current_ht$dbh.ln.cm,
+                current_ht$height.ln.m)
+   }
+}
 
 current_ht$height.m <- exp(current_ht$height.ln.m)
 current_ht <- current_ht[order(current_ht$tree, current_ht$year), ]
@@ -98,20 +108,28 @@ scbi18_ht$dbh_old.cm <- scbi18_ht$dbh/10
 scbi18_ht$dbh.ln.cm <- log(scbi18_ht$dbh_old.cm)
 
 #linear log-log regression
-scbi18_ht$height.ln.m <- 
-   ifelse(scbi18_ht$sp == "caco", (0.348+0.808*scbi18_ht$dbh.ln.cm),
-   ifelse(scbi18_ht$sp == "cagl", (0.681+0.704*scbi18_ht$dbh.ln.cm),
-   ifelse(scbi18_ht$sp == "caovl", (0.621+0.722*scbi18_ht$dbh.ln.cm),
-   ifelse(scbi18_ht$sp == "cato", (0.776+0.701*scbi18_ht$dbh.ln.cm),
-   ifelse(scbi18_ht$sp == "fagr", (0.708+0.662*scbi18_ht$dbh.ln.cm),
-    ifelse(scbi18_ht$sp == "fram", (0.715+0.619*scbi18_ht$dbh.ln.cm),
-    ifelse(scbi18_ht$sp == "juni", (1.22+0.49*scbi18_ht$dbh.ln.cm),
-    ifelse(scbi18_ht$sp == "litu", (1.32+0.524*scbi18_ht$dbh.ln.cm),
-    ifelse(scbi18_ht$sp == "qual", (1.14+0.548*scbi18_ht$dbh.ln.cm),
-    ifelse(scbi18_ht$sp == "qupr", (0.44+0.751*scbi18_ht$dbh.ln.cm),
-    ifelse(scbi18_ht$sp == "quru", (1.17+0.533*scbi18_ht$dbh.ln.cm),
-    ifelse(scbi18_ht$sp == "quve", (0.864+0.585*scbi18_ht$dbh.ln.cm),
-                                  (0.791+0.645*scbi18_ht$dbh.ln.cm)))))))))))))
+#use height_regr from above
+
+scbi18_ht$height.ln.m <- NA
+for(w in seq(along=height_regr$sp)){
+   sp_foc <- height_regr$sp[[w]]
+   ht_eq <- height_regr[height_regr$sp == sp_foc, ]
+   num <- gsub("\\*x", "", ht_eq$Equations)
+   num1 <- as.numeric(stri_extract_first_regex(num, "[[:digit:]].[[:digit:]]+"))
+   num2 <- as.numeric(stri_extract_last_regex(num, "[[:digit:]].[[:digit:]]+"))
+   
+   if(sp_foc %in% scbi18_ht[,"sp"]){
+      scbi18_ht$height.ln.m <- 
+         ifelse(scbi18_ht$sp == sp_foc,
+                num1 + num2*scbi18_ht$dbh.ln.cm,
+                scbi18_ht$height.ln.m)
+   } else {
+      scbi18_ht$height.ln.m <- 
+         ifelse(scbi18_ht$sp != sp_foc,
+                num1 + num2*scbi18_ht$dbh.ln.cm,
+                scbi18_ht$height.ln.m)
+   }
+}
 
 scbi18_ht$height.m <- exp(scbi18_ht$height.ln.m) #used below in #4
 
@@ -120,20 +138,21 @@ scbi18_ht$height.m <- exp(scbi18_ht$height.ln.m) #used below in #4
 trees_all$position_all_abb <- ifelse(trees_all$position_all == "dominant", "D",
                                      ifelse(trees_all$position_all == "co-dominant", "C",
                                             ifelse(trees_all$position_all == "suppressed", "S", "I")))
-trees_all_plot <- trees_all[,c("tree", "year", "position_all_abb", "height.m")]
+trees_all_plot <- trees_all[,c("tree", "year", "position_all_abb", "height.m", "dbh_old.cm")]
 
 current_ht$position_all_abb <- ifelse(current_ht$position_all == "dominant", "D",
                                      ifelse(current_ht$position_all == "co-dominant", "C",
                                             ifelse(current_ht$position_all == "suppressed", "S", "I")))
-current_ht_sub <- current_ht[,c("tree", "year", "position_all_abb", "height.m")]
+current_ht_sub <- current_ht[,c("tree", "year", "position_all_abb", "height.m", "dbh_old.cm")]
 
-png("manuscript/tables_figures/height_plot_analysis.png")
-#NOTE notice diff when using current_ht_sub versus...
-##current_ht_sub = log-derived 2018 heights of only trees in trees_all
+
+#make plot
 heights_allplot <- rbind(trees_all_plot, current_ht_sub)
 heights_allplot$position_all_abb <- factor(heights_allplot$position_all_abb, levels=c("D","C","I","S"))
 heights_allplot$year <- as.character(heights_allplot$year)
+heights_allplot <- heights_allplot[order(heights_allplot$tree, heights_allplot$year), ]
 
+png("manuscript/tables_figures/height_plot_analysis.png")
 ggplot(na.omit(heights_allplot), aes(position_all_abb, height.m)) +
    geom_boxplot(aes(fill=year)) +
    xlab("Crown position") +
@@ -141,6 +160,27 @@ ggplot(na.omit(heights_allplot), aes(position_all_abb, height.m)) +
    ggtitle("Height comparison with only trees in analysis")
 dev.off()
 
+
+heights_allplot$tree <- as.character(heights_allplot$tree)
+heights_allplot$position_all_abb <- as.character(heights_allplot$position_all_abb)
+
+
+meh <- as.data.table(heights_allplot)
+#height growth showing massive negative growth from 1999 to 2018
+test <- meh[year %in% c("1999", "2018"), .(shrunk = height.m[1] - height.m[2]), 
+            by=.(tree, position_all_abb)
+            ][, .(perc= sum(shrunk >0, na.rm=TRUE)/sum(shrunk>0 | shrunk <=0, na.rm=TRUE)), 
+                  by=.(position_all_abb)]
+
+#dbh growth showing almost no negative growth from 1999 to 2018 (this means height equations are wrong)
+test <- meh[year %in% c("1999", "2018"), .(shrunk = dbh_old.cm[1] - dbh_old.cm[2]), 
+            by=.(tree, position_all_abb)
+            ][, .(perc= sum(shrunk >0, na.rm=TRUE)/sum(shrunk>0 | shrunk <=0, na.rm=TRUE)), 
+              by=.(position_all_abb)]
+
+test <- meh[year %in% c("1999", "2018"), .(shrunk = dbh_old.cm[1] - dbh_old.cm[2]), 
+            by=.(tree, position_all_abb)
+            ][shrunk>0]
 #######################################################################################
 #3 Get PLA and TLP as function of TWI and height ####
 library(ggstance)
@@ -154,7 +194,7 @@ scbi.stem3$dbh <- ifelse(is.na(scbi.stem3$dbh), 0, scbi.stem3$dbh)
 scbi.stem3 <- scbi.stem3[scbi.stem3$dbh >= 100, ] #>10cm dbh
 
 #get utm coords
-source('E:/Github_SCBI/SCBI-ForestGEO-Data/R_scripts/SIGEO_plot_grid_UTMcoord.R', echo=TRUE)
+source("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/R_scripts/SIGEO_plot_grid_UTMcoord.R", echo=TRUE)
 
 plot_to_UTM(scbi.stem3)
 scbi18 <- sigeo_coords
