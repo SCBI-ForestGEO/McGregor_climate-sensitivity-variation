@@ -195,7 +195,7 @@ library(reshape2)
 
 ##4a. determine pointer years 
 
-##all cores together ONLY NEED DO THIS ####
+## ONLY DO THIS all cores together ####
 #this is a combination of the two canopy and subcanopy groupings below
 
 rings <- read.rwl("data/core_files/all_species_except_FRNI_PIST.rwl") #read in rwl file
