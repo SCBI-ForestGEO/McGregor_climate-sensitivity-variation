@@ -77,3 +77,8 @@ kable(tableS5, booktabs=TRUE, format = "latex", caption = "Table S4. Correlation
 
 \newpage
 ![Figure S2: Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought](tables_figures/drought_plot.jpg){width=600px}
+
+WI and location of cored trees](tables_figures/figureS2_location_cored_trees.png){width=500px}
+
+\newpage
+![Figure S3: Changes in height by canopy position](tables_figures/height_plot_analysis.png){width=600px}
