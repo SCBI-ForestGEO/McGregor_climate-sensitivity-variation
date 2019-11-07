@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  5 NOV 2019 15:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  7 NOV 2019 09:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -907,8 +907,8 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <9> on input line 376.
 No file tables-figures.bbl.
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 382.
-[6 <./tables_figures/Figure1.png (PNG copy)>] [7 <./tables_figures/Figure2.png>
-]
+[6 <./tables_figures/Figure1.png (PNG copy)>] [7 <./tables_figures/Figure2.png 
+(PNG copy)>]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 382.
 (./tables-figures.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 382.
@@ -938,9 +938,9 @@ mf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2019/texmf-dist/font
 s/type1/public/lm/lmri10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/pu
 blic/lm/lmri9.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lms
 y9.pfb>
-Output written on tables-figures.pdf (7 pages, 597198 bytes).
+Output written on tables-figures.pdf (7 pages, 628684 bytes).
 PDF statistics:
- 99 PDF objects out of 1000 (max. 8388607)
+ 98 PDF objects out of 1000 (max. 8388607)
  75 compressed objects within 1 object stream
  15 named destinations out of 1000 (max. 500000)
  18443 words of extra memory for PDF output out of 20736 (max. 10000000)
