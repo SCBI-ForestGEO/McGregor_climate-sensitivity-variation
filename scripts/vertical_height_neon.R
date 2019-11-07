@@ -11,6 +11,7 @@ library(stringr)
 library(data.table)
 library(grid)
 library(gridExtra)
+library(ggplot2)
 
 #traits from NEON
 ##1. single aspirated air temp: DP1.00002.001, avg = 1min or 30min
@@ -187,7 +188,7 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
       theme_bw() +
       guides(linetype = guide_legend("Line type"))
   
-  if(!i == 1){
+  if(i != 1){
     graph <- graph + theme(axis.title.y = element_blank(), axis.text.y=element_blank(), axis.ticks.y = element_blank())
   }
   

@@ -387,7 +387,7 @@ for (i in seq(along=1:3)){
         theme(legend.position = "none")
   }
   
-  if(!i==3){
+  if(!i==1){
      NEON_list[[i]] <- 
         NEON_list[[i]] +
         theme(axis.title.y = element_blank(),
