@@ -424,7 +424,6 @@ for (i in seq(along=1:3)){
    }
 }
 
-
 heights_other <- ggarrange(plots_bw$heights, plots_bw$plot_pla_ht, plots_bw$plot_tlp_ht, nrow=1, ncol=3)
 
 ###put plots together
@@ -458,6 +457,17 @@ test_growth$total_gr <- by_year$total
 test_growth$perc_gr <- test_growth$growth/test_growth$total_gr
 
 test_full <- merge(test_reduct, test_growth)
+
+test[,.(ran = range(resist.value, na.rm=TRUE)), by=.(year)]
+test[,.(mean = mean(resist.value, na.rm=TRUE)), by=.(year)]
+
+Mode <- function(x) {
+   ux <- unique(x)
+   ux[which.max(tabulate(match(x, ux)))]
+}
+
+apply(d, 2, Mode)
+test[,.(mode = Mode(resist.value)), by=.(year)]
 
 #save as png so that way you're arranging only png
 png("manuscript/tables_figures/density_plot.png", res = 300, width = 150, height = 50, units = "mm", pointsize = 10)
