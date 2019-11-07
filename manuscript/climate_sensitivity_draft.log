@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  5 NOV 2019 16:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  7 NOV 2019 10:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -764,17 +764,17 @@ See the caption package documentation for explanation.
 Package caption Warning: Unused \captionsetup[figure] on input line 94.
 See the caption package documentation for explanation.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1051.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1050.
 [18]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1051.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1050.
 (./climate_sensitivity_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1051.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1051.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1050.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1050.
 
 Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
 ed.
 (rerunfilecheck)             Checksum: 87B9F8F004D6B0B66EE8C5AD0F44C7A1;777.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1051.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1050.
  ) 
 Here is how much of TeX's memory you used:
  14316 strings out of 492616
@@ -799,10 +799,10 @@ blic/lm/lmr10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmr
 7.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri10.pfb></us
 r/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/te
 xlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
-Output written on climate_sensitivity_draft.pdf (18 pages, 254542 bytes).
+Output written on climate_sensitivity_draft.pdf (18 pages, 254390 bytes).
 PDF statistics:
- 509 PDF objects out of 1000 (max. 8388607)
- 473 compressed objects within 5 object streams
+ 507 PDF objects out of 1000 (max. 8388607)
+ 471 compressed objects within 5 object streams
  87 named destinations out of 1000 (max. 500000)
  6201 words of extra memory for PDF output out of 10000 (max. 10000000)
 
