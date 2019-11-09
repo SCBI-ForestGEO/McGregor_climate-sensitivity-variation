@@ -172,15 +172,18 @@ test <- meh[year %in% c("1999", "2018"), .(shrunk = height.m[1] - height.m[2]),
             ][, .(perc= sum(shrunk >0, na.rm=TRUE)/sum(shrunk>0 | shrunk <=0, na.rm=TRUE)), 
                   by=.(position_all_abb)]
 
-#dbh growth showing almost no negative growth from 1999 to 2018 (this means height equations are wrong)
-test <- meh[year %in% c("1999", "2018"), .(shrunk = dbh_old.cm[1] - dbh_old.cm[2]), 
-            by=.(tree, position_all_abb)
-            ][, .(perc= sum(shrunk >0, na.rm=TRUE)/sum(shrunk>0 | shrunk <=0, na.rm=TRUE)), 
-              by=.(position_all_abb)]
+#avg growth between each of the scenario years
+meh$group <- cut(meh$year, breaks=3)
+test66 <- meh[year %in% c("1966", "1977"), .(gro = height.m[2] - height.m[1]), by=tree
+            ][, .(avg_gro = mean(gro, na.rm=TRUE))]
+test77 <- meh[year %in% c("1977", "1999"), .(gro = height.m[2] - height.m[1]), by=tree
+              ][, .(avg_gro = mean(gro, na.rm=TRUE))]
+test99 <- meh[year %in% c("1999", "2018"), .(gro = height.m[2] - height.m[1]), by=tree
+              ][, .(avg_gro = mean(gro, na.rm=TRUE))]
+avg_growth <- data.frame(g66_77 = test66$avg_gro,
+                         g77_99 = test77$avg_gro,
+                         g99_18 = test99$avg_gro)
 
-test <- meh[year %in% c("1999", "2018"), .(shrunk = dbh_old.cm[1] - dbh_old.cm[2]), 
-            by=.(tree, position_all_abb)
-            ][shrunk>0]
 #######################################################################################
 #3 Get PLA and TLP as function of TWI and height ####
 library(ggstance)
@@ -356,6 +359,25 @@ levelplot(topo, margin=FALSE, scales=list(draw=FALSE),
    layer(sp.points(cored_points, pch=20, col = species_colors[species$sp_fact]))
 dev.off()
 
+#export TWI plot for SCBI plot book
+contour <- read.csv("E:/Github_SCBI/SCBI-ForestGEO-Data/spatial_data/elevation/contour10m_SIGEO_coords.csv", stringsAsFactors=FALSE)
+
+coordinates(contour) <- ~x+y
+
+x <- lapply(split(contour, contour$elev), function(x) Lines(list(Line(coordinates(x))), x$elev[1L]))
+
+# the corrected part goes here:
+lines <- SpatialLines(x)
+data <- data.frame(id = unique(contour$elev))
+rownames(data) <- data$id
+l <- SpatialLinesDataFrame(lines, data)
+
+png("E:/Github_SCBI/SCBI-Plot-Book/maps_figures_tables/ch_2_maps/TWI_map.png", width=5, height=7, units="in", res=300)
+levelplot(topo, margin=FALSE, scales=list(draw=FALSE),
+          colorkey=list(space="left", width=0.75, height=0.75)) +
+   layer(sp.lines(l, col="white"))
+dev.off()
+
 ##4c. height profiles ####
 NEON_order <- c("(a)", "(b)", "(c)")
 NEON_order_x <- c(0.5, 35, 7.5)
@@ -397,6 +419,11 @@ for (i in seq(along=1:3)){
 }
 
 NEON <- ggarrange(NEON_list$wind_plot, NEON_list$RH_plot, NEON_list$SAAT_plot,  nrow=1, ncol=3, align="h")
+
+#export NEON graphs alone for use in SCBI plot book
+# png("E:/Github_SCBI/SCBI-Plot-Book/maps_figures_tables/ch_2_maps/NEON_climate.png", width=11, height=7, units="in", res=300)
+# NEON
+# dev.off()
 
 ###format the other height graphs
 plots_bw <- list(heights, plot_pla_ht, plot_tlp_ht)
