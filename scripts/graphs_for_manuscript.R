@@ -131,7 +131,7 @@ for(w in seq(along=height_regr$sp)){
    }
 }
 
-scbi18_ht$height.m <- exp(scbi18_ht$height.ln.m) #used below in #4
+scbi18_ht$height.m <- exp(scbi18_ht$height.ln.m) #used below in #3
 
 ##2c. combine heights to make plot with all years ####
 
