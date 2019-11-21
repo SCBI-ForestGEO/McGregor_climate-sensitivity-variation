@@ -45,11 +45,11 @@ Alan J. Tepley^1,4^,
 Erika B. Gonzalez-Akre^1^,
 Valentine Herrmann^1^,
 Joseph Zailaa^1,5^,
-Atticus Stovall^1,6^,
+Atticus Stovall^1,6,7^,
 Norman A. Bourg^1^,
 William J. McShea^1^,
-Neil Pederson^7^,
-Lawren Sack^8^,
+Neil Pederson^8^,
+Lawren Sack^9^,
 Kristina J. Anderson-Teixeira^1,3^*
 
 **Author Affiliations:**
@@ -59,9 +59,10 @@ Kristina J. Anderson-Teixeira^1,3^*
 3. Center for Tropical Forest Science-Forest Global Earth Observatory; Smithsonian Tropical Research Institute; Panama, Republic of Panama
 4. Canadian Forest Service, Northern Forestry Centre, Edmonton, Alberta, Canada
 5. Biological Sciences Department; California State University; Los Angeles, CA, USA
-6.
-7. 
-8.
+6. Department of Environmental Sciences, University of Virginia, Charlottesville, VA 22903, USA
+7. NASA Goddard Space Flight Center, 8800 Greenbelt Rd., Greenbelt, MD, USA
+8. 
+9.
 
 *corresponding author: teixeirak@si.edu; +1 540 635 6546
 
@@ -137,13 +138,14 @@ While some canopy positions undoubtedly shifted in the # years between the 1966 
 
 Topographic wetness index (TWI) was calculated using the dynatopmodel package in R (Figure S1) [@R-dynatopmodel]. Originally developed by @beven_physically_1979, TWI was part of a hydrological run-off model and has since been used for a number of purposes in hydrology and ecology [@sorensen_calculation_2006]. TWI calculation depends on an input of a digital elevation model (DEM), and from this yields a quantitative assessment defined by how "wet" an area is, based on areas where run-off is more likely. From our observations in the plot, the calculation of TWI performed comparatively better at categorizing wet areas than the calculation of a distance matrix from a stream shapefile.
 
-Hydraulic traits were collected at SCBI (Table 3) in August 2018. We sampled small sun-exposed branches **see comment 20** from three individuals of each species in and around the ForestGEO plot. Sampled branches were re-cut under water at least two nodes above the original cut and re-hydrated overnight in covered buckets (opaque plastic bags) before measurements were taken. Rehydrated leaves (n=3 per indivdiual) were scanned, weighed, dried at 60$^\circ$ C for $\ge$ 48 hours, and then re-scanned and weighed. Leaf area was calculated from scanned images using the LeafArea R package [@R-LeafArea]. $LMA$ was calculated as the ratio of leaf dry mass to fresh area. $PLA$ was calculated as the percent loss of area between fresh and dry leaves. $WD$ was calculated for ~1cm diameter stem samples (bark and pith removed) as the ratio of dry weight to volume, which was estimated using Archimedes’ displacement. We used the rapid determination method of @bartlett_rapid_2012 to estimate water potential at turgor loss point ($\pi_{tlp}$). Briefly, two 4mm diameter leaf discs were cut from each leaf, tightly wrapped in foil, submerged in liquid nitrogen, perforated 10-15 times with a dissection needle, and then measured using a vapour pressure osmometer (VAPRO 5520, Wescor, Logan, UT, USA). Osmotic potential ($\pi_{osm}$) given by the osmometer was used to estimate ($\pi_{tlp}$) using the equation $\pi_{tlp}=0.832 \pi_{osm} ^{-0.631}$ [@bartlett_rapid_2012]. Data for hydraulic traits are available at [**create new public GitHub repo for hydraulic traits, archive in Zenodo, give DOI**]. 
+Hydraulic traits were collected at SCBI (Table 3) in August 2018. We sampled small sun-exposed branches within eight meters of the ground from three individuals of each species in and around the ForestGEO plot. Sampled branches were re-cut under water at least two nodes above the original cut and re-hydrated overnight in covered buckets (opaque plastic bags) before measurements were taken. Rehydrated leaves taken towards the apical end of the branch (n=3 per indivdiual: small, medium, and large) were scanned, weighed, dried at 60$^\circ$ C for $\ge$ 48 hours, and then re-scanned and weighed. Leaf area was calculated from scanned images using the LeafArea R package [@R-LeafArea]. $LMA$ was calculated as the ratio of leaf dry mass to fresh area. $PLA$ was calculated as the percent loss of area between fresh and dry leaves. $WD$ was calculated for ~1cm diameter stem samples (bark and pith removed) as the ratio of dry weight to volume, which was estimated using Archimedes’ displacement. We used the rapid determination method of @bartlett_rapid_2012 to estimate water potential at turgor loss point ($\pi_{tlp}$). Briefly, two 4mm diameter leaf discs were cut from each leaf, tightly wrapped in foil, submerged in liquid nitrogen, perforated 10-15 times with a dissection needle, and then measured using a vapour pressure osmometer (VAPRO 5520, Wescor, Logan, UT, USA). Osmotic potential ($\pi_{osm}$) given by the osmometer was used to estimate ($\pi_{tlp}$) using the equation $\pi_{tlp}=0.832 \pi_{osm} ^{-0.631}$ [@bartlett_rapid_2012]. Data for hydraulic traits are available at [**create new public GitHub repo for hydraulic traits, archive in Zenodo, give DOI**]. 
 
-To characterize how environmental conditions vary with height, data were obtained from the National Ecological Observation Network (NEON) tower located <1km from the study area. We used data on wind speed, relative humidity, and air temperature, all measured over a vertical profile **see comment 23**, for the years 2016-2018 [@noauthor_national_2018]. After filtering for missing and outlier values, the data were consolidated to represent the mean values per sensor height per day. The range of these means were then aggregated at a month scale.
+To characterize how environmental conditions vary with height, data were obtained from the National Ecological Observation Network (NEON) tower located <1km from the study area. We used data on wind speed, relative humidity, and air temperature, all measured over a vertical profile spanning from 7.2 m height to above the top of the tree canopy (31.0 or 51.8m, depending on censor), for the years 2016-2018 [@noauthor_national_2018]. After filtering for missing and outlier values, the data were consolidated to represent the mean values per sensor height per day. The range of these means were then aggregated at a month scale.
 
 *Identification of drought years*
 
-We identified droughts within the time period 1950-2009, defining drought [@slette_how_2019] as events with widespread reductions in tree growth and anomalously dry peak growing season climatic conditions. Specifically, candidate drought years were defined as those where >25% of the cored trees experienced >30% reduction in basal area increment (BAI) relative to the previous 5 years, following the drought resistance ($Rt$) metric of [@lloret_components_2011], and identified using the pointRes package [@R-pointRes] in R. Specifically, $Rt$ values $\le$ 0.7 indicated growth reductions, whereas values $\ge$ 1.0 indicated increased growth. **see comment 24**
+We identified droughts within the time period 1950-2009, defining drought [@slette_how_2019] as events with widespread reductions in tree growth and anomalously dry peak growing season climatic conditions. Simultaneous consideration of both meteorological conditions and tree growth ensured that drought was the primary driver of observed growth declines and that our focus remained on droughts that substantially impacted the forest community. 
+Candidate drought years were defined as those where >25% of the cored trees experienced >30% reduction in basal area increment (BAI) relative to the previous 5 years, following the drought resistance ($Rt$) metric of [@lloret_components_2011], and identified using the pointRes package [@R-pointRes] in R. Specifically, $Rt$ values $\le$ 0.7 indicated growth reductions, whereas values $\ge$ 1.0 indicated increased growth. 
 Separately, we identified the years with driest conditions during May-August, which stood out in the analysis of [@helcoski_growing_2019] as the current-year months to which annual growth was most sensitive for trees at this site. We considered two metrics of moisture deficit: NOAA Divisional Data’s Palmer Drought Severity Index (PDSI) and the difference between monthly potential evapotranspiration (PET) and precipitation (PRE). These data were obtained from the ForestGEO Climate Data Portal (https://github.com/forestgeo/Climate) in August 2018, with monthly PET and PRE sourced from Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; @harris_updated_2014). The driest years were identified through ranking mean May-August PDSI or [PET-PRE] for the time period from driest to wettest. **see comment 25**
 
 
