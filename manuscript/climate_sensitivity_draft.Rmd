@@ -223,10 +223,10 @@ As climate change drives increasing drought in many of the world's forests [@tre
 
 
 ### Acknowledgements **see comment 51**
-Thanks to all researchers who helped to collect the data used here, in particular Jennifer C. McGarvey, Jonathan R. Thomspon, and Victoria Meakem for original collection and processing of cores. Thanks also to Camila Medeiros for guidance on hydraulic and functional trait measurements, Edward Brzostek's lab for collaboration on leaf sampling, and Maya Prestipino for data collection. This study was funded by the Smithsonian's Forest Global Earth Observatory (ForestGEO), a Virginia Native Plant Society grant to KAT and AJT, *and support from the Harvard Forest and National Science Foundation which supports the PalEON project (NSF EF-1241930) for NP.* (**Neil, this is copied from Ryan's paper. accurate here?** **coauthors, other funding?**)
+Thanks to all researchers who helped to collect the data used here, in particular Jennifer C. McGarvey, Jonathan R. Thomspon, and Victoria Meakem for original collection and processing of cores. Thanks also to Camila Medeiros for guidance on hydraulic and functional trait measurements, Edward Brzostek's lab for collaboration on leaf sampling, and Maya Prestipino for data collection. This study was funded by the Smithsonian's Forest Global Earth Observatory (ForestGEO), a Virginia Native Plant Society grant to KAT and AJT, and support from the Harvard Forest and National Science Foundation which supports the PalEON project (NSF EF-1241930) for NP.
 
 ### Author Contribution 
-KAT, IM, and AT designed the research. Tree-ring chronologies were developed by RH under guidance of AT and NP. Trait data was collected by IM, JZ under guidance of NK and LS. Other plot data were collected by IM, AS, EGA, and NB under guidance of EGA and WM. Data analyses were performed by IM under guidance of KAT and VH. KAT and IM interpreted the results. IM and KAT wrote the first draft of manuscript, and all authors contributed to revisions. **coauthors, please check/edit**
+KAT, IM, and AT designed the research. Tree-ring chronologies were developed by RH under guidance of AT and NP. Trait data was collected by IM, JZ under guidance of NK and LS. Other plot data were collected by IM, AS, EGA, and NB under guidance of EGA and WM. Data analyses were performed by IM under guidance of KAT and VH. KAT and IM interpreted the results. IM and KAT wrote the first draft of manuscript, and all authors contributed to revisions. 
 
 
 
