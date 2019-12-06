@@ -49,20 +49,21 @@ Atticus Stovall^1,6,7^,
 Norman A. Bourg^1^,
 William J. McShea^1^,
 Neil Pederson^8^,
-Lawren Sack^9^,
+Lawren Sack^9,10^,
 Kristina J. Anderson-Teixeira^1,3^*
 
 **Author Affiliations:**
 
-1. Conservation Ecology Center; Smithsonian Conservation Biology Institute; National Zoological Park, Front Royal, VA, USA
-2.
+1. Conservation Ecology Center; Smithsonian Conservation Biology Institute; National Zoological Park, Front Royal, VA 22630, USA
+2. **IAN- current affliliation**
 3. Center for Tropical Forest Science-Forest Global Earth Observatory; Smithsonian Tropical Research Institute; Panama, Republic of Panama
 4. Canadian Forest Service, Northern Forestry Centre, Edmonton, Alberta, Canada
-5. Biological Sciences Department; California State University; Los Angeles, CA, USA
+5. Biological Sciences Department; California State University; Los Angeles, CA 90032, USA
 6. Department of Environmental Sciences, University of Virginia, Charlottesville, VA 22903, USA
-7. NASA Goddard Space Flight Center, 8800 Greenbelt Rd., Greenbelt, MD, USA
-8. 
-9.
+7. NASA Goddard Space Flight Center; Greenbelt, MD 20771, USA
+8. Harvard Forest, Petersham, MA 01366, USA
+9. Department of Ecology and Evolutionary Biology; University of California, Los Angeles; Los Angeles, CA 90095, USA
+10. Institute of the Environment and Sustainability; University of California, Los Angeles; Los Angeles, CA 90095, USA
 
 *corresponding author: teixeirak@si.edu; +1 540 635 6546
 
