@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  9 DEC 2019 13:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  14 DEC 2019 10:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -732,28 +732,28 @@ File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [2] [3] [4] [5]
 
 Package natbib Warning: Citation `R-dynatopmodel' on page 6 undefined on input 
-line 550.
+line 552.
 
 [6]
 
 Package natbib Warning: Citation `R-LeafArea' on page 7 undefined on input line
- 570.
+ 572.
 
 
 Package natbib Warning: Citation `noauthor_national_2018' on page 7 undefined o
-n input line 593.
+n input line 595.
 
 
 Package natbib Warning: Citation `R-pointRes' on page 7 undefined on input line
- 611.
+ 613.
 
 
-Package natbib Warning: Citation `R-lme4' on page 7 undefined on input line 636
+Package natbib Warning: Citation `R-lme4' on page 7 undefined on input line 638
 .
 
 
 Package natbib Warning: Citation `R-AICcmodavg' on page 7 undefined on input li
-ne 639.
+ne 641.
 
 [7] [8] [9] [10] [11] [12] [13] (./climate_sensitivity_draft.bbl [14] [15] [16]
 [17] [18] [19] [20])
@@ -768,17 +768,17 @@ See the caption package documentation for explanation.
 Package caption Warning: Unused \captionsetup[figure] on input line 94.
 See the caption package documentation for explanation.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1099.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1101.
 [21]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1099.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1101.
 (./climate_sensitivity_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1099.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1099.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1101.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1101.
 
 Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
 ed.
 (rerunfilecheck)             Checksum: 793287676368E603D91E9D75B0ED0AD9;861.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1099.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1101.
  ) 
 Here is how much of TeX's memory you used:
  14437 strings out of 492616
@@ -803,10 +803,10 @@ blic/lm/lmr10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmr
 7.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri10.pfb></us
 r/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/te
 xlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
-Output written on climate_sensitivity_draft.pdf (21 pages, 273533 bytes).
+Output written on climate_sensitivity_draft.pdf (21 pages, 273709 bytes).
 PDF statistics:
- 601 PDF objects out of 1000 (max. 8388607)
- 561 compressed objects within 6 object streams
+ 602 PDF objects out of 1000 (max. 8388607)
+ 562 compressed objects within 6 object streams
  119 named destinations out of 1000 (max. 500000)
  6201 words of extra memory for PDF output out of 10000 (max. 10000000)
 
