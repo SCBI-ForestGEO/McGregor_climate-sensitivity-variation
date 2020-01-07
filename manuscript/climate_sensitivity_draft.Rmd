@@ -81,9 +81,9 @@ Acknowledgements | currently ~73	||
 \newpage
 
 ### Summary
-- As climate change is driving increased drought in many forested regions around the world, mechanistic understanding of factors conferring drought resistance in trees is increasingly important. The dendrochronological record provides a window through which we can understand how tree size and species’ traits interactively shape tree growth responses during droughts.
+- As climate change is driving increased drought in many forested regions around the world, mechanistic understanding of factors conferring drought resistance in trees is increasingly important. The dendrochronological record provides a window through which we can understand how tree size and species’ traits shape tree growth responses during droughts.
 
-- We analyzed tree-ring records for twelve species of an oak-hickory forest - representing 97% of woody productivity - in the 25.6-ha ForestGEO plot in Virginia (USA) to determine how tree size, microenvironment characteristics, and species' traits interactively shape drought responses across the three strongest regional droughts over a 60-year period (1950 - 2009). 
+- We analyzed tree-ring records for twelve species of an oak-hickory forest - representing 97% of woody productivity - in the 25.6-ha ForestGEO plot in Virginia (USA) to determine how tree size, microenvironment characteristics, and species' traits shaped drought responses across the three strongest regional droughts over a 60-year period (1950 - 2009). 
 
 - Individual-level drought resistance decreased with tree height, which was the dominant size-related variable affecting drought response. Resistance was greater  among species whose leaves lost turgor (wilted) at more negative water potentials, and whose leaves experienced less shrinkage upon dessication. However, there was substantial variation in the best predictor variables across the three drought periods.
 
