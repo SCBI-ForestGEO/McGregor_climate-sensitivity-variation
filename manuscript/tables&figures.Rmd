@@ -44,11 +44,6 @@ kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypoth
   pack_rows("H1.2. Trees with more exposed crowns have lower drought resistance.", 3, 4, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("H1.3. Small trees (lower root volume) suffer more in drier microhabitats.", 5, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("H2.1. Species traits predict drought resistance.", 6, 10, latex_gap_space = "1em", colnum = 1, hline_before = TRUE) %>%
-  pack_rows("H2.2. At the community level, taller trees have more drought-resistant traits.", 11, 15, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H2.3. When traits are accounted for, taller trees still have lower drought resistance.", 16, 16, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H3.1. Resistance differs across the droughts considered here.", 17, 17, latex_gap_space = "1em", colnum = 1, hline_before = TRUE) %>%
-  pack_rows("H3.2. The direction of responses to predictor variables differs across droughts.", 18, 18, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("H3.3. The strength of responses to predictor variables vary across droughts.", 19, 19, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   add_header_above(c(" ", "Prediction supported?" = 4, " ")) %>%
   column_spec(1, width = "12cm") %>%
   column_spec(2:5, width = "1cm") %>%
