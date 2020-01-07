@@ -1,11 +1,11 @@
 Hypotheses & Specific Predictions,Overall,1966,1977,1999,Results
-1.0 - Rt decreases with stem diameter.,yes,yes,(yes),(no),Table 4
-1.1 - Rt decreases with height (H).,yes,yes,(yes),(no)/(yes),"Tables 4, 5"
-1.2a - Dominant trees have lowest Rt.,(yes),yes,(yes),(no),"Tables 4, 5"
-"1.2b -  Correcting for H, dominant trees have lowest Rt.",(no),(no),(yes),no/(no),"Tables 4, 5"
-1.3 - There is a negative interactive effect between height and TWI.,(no),(no),(no),(no),Table 4
-2.1a - Wood density correlates negatively to Rt.,(yes),(yes),(yes),(no),Table 4
-2.1b - Leaf mass per area correlates positively to Rt.,(yes),(yes),(no),(yes),Table 4
-2.1c - Ring-porous species have higher Rt than diffuse- or semi-ring- porous.,(yes),yes/(yes),(no)/no,yes,"Tables 4, 5"
-2.1d  - Percent loss leaf area upon desiccation (PLA) correlates negatively with Rt.,yes,yes,(yes)/yes,(yes)/(no),"Tables 4, 5"
-2.1e - Turgor loss point correlates negatively with Rt.,(yes),(yes)/-,(yes),(yes)/yes,"Tables 4, 5"
+Rt decreases with stem diameter.,yes,yes,(yes),(no),Table 4
+Rt decreases with height (H).,yes,yes,(yes),(no)/(yes),"Tables 4, 5"
+Dominant trees have lowest Rt.,(yes),yes,(yes),(no),"Tables 4, 5"
+"Correcting for H, dominant trees have lowest Rt.",(no),(no),(yes),no/(no),"Tables 4, 5"
+There is a negative interactive effect between height and TWI.,(no),(no),(no),(no),Table 4
+2a - Wood density correlates negatively to Rt.,(yes),(yes),(yes),(no),Table 4
+2b - Leaf mass per area correlates positively to Rt.,(yes),(yes),(no),(yes),Table 4
+2c - Ring-porous species have higher Rt than diffuse- or semi-ring- porous.,(yes),yes/(yes),(no)/no,yes,"Tables 4, 5"
+2d  - Percent loss leaf area upon desiccation (PLA) correlates negatively with Rt.,yes,yes,(yes)/yes,(yes)/(no),"Tables 4, 5"
+2e - Turgor loss point correlates negatively with Rt.,(yes),(yes)/-,(yes),(yes)/yes,"Tables 4, 5"
