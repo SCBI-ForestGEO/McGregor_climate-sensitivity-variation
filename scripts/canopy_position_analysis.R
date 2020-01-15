@@ -193,8 +193,7 @@ library(reshape2)
 #Note about PIST
 ##we originally included pist but ultimately we have no leaf trait data for this species, so we excluded it
 
-##4a. determine pointer years 
-
+##4a. determine pointer years all cores grouped together ####
 ## ONLY DO THIS all cores together ####
 #this is a combination of the two canopy and subcanopy groupings below
 
@@ -245,7 +244,10 @@ change$tree <- gsub("^0", "", change$tree)
 trees_all <- change[complete.cases(change), ]
 
 #
-###canopy ####
+
+##4ai. determine pointer years by canopy/subcanopy groupings ####
+### this (4ai and 4b) was the original method for this research. We have since decided to not have these groupings, thus the code is here for reference
+### canopy ####
 dirs_can <- dir("data/core_files/canopy_cores", pattern = "_canopy.rwl")
 dirs_can <- dirs_can[!dirs_can %in% c("pist_drop_canopy.rwl", "frni_drop_canopy.rwl")]
 
@@ -1781,7 +1783,7 @@ for(i in seq(along=trait)){
 
 write.csv(trait_ht, "manuscript/tables_figures/tableS5_tested_traits_height.csv", row.names=FALSE)
 
-##6d. original table with models based on github issue predictions ####
+##6e. original table with models based on github issue predictions ####
 summary_models <- data.frame(
   "prediction" = c("1.0", "1.1", "1.2a", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.3a2", "1.3b2", "2.1", "2.2", "4"), 
   "model_vars_all_years" = 
@@ -2149,7 +2151,7 @@ for (i in seq_along(model_df)){
 write.csv(summary_models, "tables_figures/results_individual_years1.csv", row.names=FALSE)
 write.csv(full_mod_all, "tables_figures/full_models_dAIC1.csv", row.names=FALSE)
 
-##6di. table looking at only full model over all years ####
+##6ei. table looking at only full model over all years ####
 ##we ran all variables (aka a full model) against all years combined and found that position, height*elev, tlp, and rp were the variables in the best model. Using this knowledge, here we created a dfferent version of the original table.
 summary_models <- data.frame(
   "prediction" = c("1.1", "1.2b", "1.2c1, 1.3a1", "1.2c2", "1.3b1", "1.2c2,1.3b1", "2.1", "2.2"), 
@@ -2318,7 +2320,7 @@ for (i in seq_along(model_df)){
 #csv has a 1 in the title to make sure any notes in current file are not overwritten
 write.csv(summary_models, "tables_figures/results_full_models_combined_years.csv", row.names=FALSE)
 
-##6dii. base code for running multiple models through AICc eval ####
+##6eii. base code for running multiple models through AICc eval ####
 #define response and effects
 response <- "resist.value"
 
@@ -2360,14 +2362,14 @@ r <- rsquared(lmm_all) #gives R^2 values for models. "Marginal" is the R^2 for j
 aic_top <- var_aic %>%
   filter(AICc == min(AICc))
 
-##6diii. coefficients ####
+##6eiii. coefficients ####
 best <- lmm_all[[150]]
 coef(summary(best))[ , "Estimate"]
 cof <- data.frame("value" = coef(summary(best))[ , "Estimate"])
 
 lm_new <- lm(resist.value ~ dbh_ln*distance_ln.m, data=trees_all, REML=FALSE)
 
-##6e. determine the best model from anova (using the model candidates above) ####
+##6f. determine the best model from anova (using the model candidates above) ####
 #interestingly, this gives a similar result to running AICc, with Pr(>Chisq) acting as a kind of p-value for showing which model is best to use.
 anova(lmm.nullsp, lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full)
       #lmm.nullyear, lmm.random, lmm.positionsp, lmm.positionyear, lmm.full) 
