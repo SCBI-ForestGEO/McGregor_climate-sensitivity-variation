@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  31 JAN 2020 07:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  31 JAN 2020 11:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -732,31 +732,32 @@ File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [2] [3] [4] [5]
 
 Package natbib Warning: Citation `R-dynatopmodel' on page 6 undefined on input 
-line 553.
+line 557.
 
 [6]
 
 Package natbib Warning: Citation `R-LeafArea' on page 7 undefined on input line
- 573.
+ 577.
 
 
 Package natbib Warning: Citation `noauthor_national_2018' on page 7 undefined o
-n input line 596.
+n input line 600.
 
 
 Package natbib Warning: Citation `R-pointRes' on page 7 undefined on input line
- 614.
+ 618.
 
+[7]
 
-Package natbib Warning: Citation `R-lme4' on page 7 undefined on input line 639
+Package natbib Warning: Citation `R-lme4' on page 8 undefined on input line 643
 .
 
 
-Package natbib Warning: Citation `R-AICcmodavg' on page 7 undefined on input li
-ne 642.
+Package natbib Warning: Citation `R-AICcmodavg' on page 8 undefined on input li
+ne 646.
 
-[7] [8] [9] [10] [11] [12] [13] (./climate_sensitivity_draft.bbl [14] [15] [16]
-[17] [18] [19] [20])
+[8] [9] [10] [11] [12] [13] (./climate_sensitivity_draft.bbl [14] [15] [16] [17
+] [18] [19] [20])
 
 Package natbib Warning: There were undefined citations.
 
@@ -768,24 +769,24 @@ See the caption package documentation for explanation.
 Package caption Warning: Unused \captionsetup[figure] on input line 94.
 See the caption package documentation for explanation.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1100.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1104.
 [21]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1100.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1104.
 (./climate_sensitivity_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1100.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1100.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1104.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1104.
 
 Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
 ed.
 (rerunfilecheck)             Checksum: 793287676368E603D91E9D75B0ED0AD9;861.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1100.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1104.
  ) 
 Here is how much of TeX's memory you used:
- 14433 strings out of 492616
- 218576 string characters out of 6129482
+ 14430 strings out of 492616
+ 218527 string characters out of 6129482
  329002 words of memory out of 5000000
- 17954 multiletter control sequences out of 15000+600000
- 44722 words of font info for 81 fonts, out of 8000000 for 9000
+ 17952 multiletter control sequences out of 15000+600000
+ 40451 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  36i,6n,38p,988b,585s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
@@ -795,18 +796,17 @@ fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2019/texmf-dist/fonts/enc/
 dvips/lm/lm-mathit.enc}{/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/lm/l
 m-ts1.enc}</usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmbx10.pfb>
 </usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/loca
-l/texlive/2019/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/local/texlive
-/2019/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2019/texm
-f-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2019/texmf-dist/fon
-ts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/pu
-blic/lm/lmr10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmr
-7.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri10.pfb></us
-r/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/te
-xlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
-Output written on climate_sensitivity_draft.pdf (21 pages, 273614 bytes).
+l/texlive/2019/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/
+2019/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2019/texmf
+-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2019/texmf-dist/fonts
+/type1/public/lm/lmr10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/publ
+ic/lm/lmr7.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri10
+.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr
+/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
+Output written on climate_sensitivity_draft.pdf (21 pages, 253835 bytes).
 PDF statistics:
- 603 PDF objects out of 1000 (max. 8388607)
- 563 compressed objects within 6 object streams
+ 600 PDF objects out of 1000 (max. 8388607)
+ 561 compressed objects within 6 object streams
  119 named destinations out of 1000 (max. 500000)
  6201 words of extra memory for PDF output out of 10000 (max. 10000000)
 
