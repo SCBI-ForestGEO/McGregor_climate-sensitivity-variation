@@ -40,11 +40,11 @@ library(kableExtra)
 hypothesis_table <- read.csv("tables_figures/table1_hypothesis_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
 kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypotheses, corresponding specific predictions, and results.** We count predictions as fully supported ('yes') when the response is signficant in univariate models and included in all top multivariate models and as partially supported ('yes') when the direction of response consistently matched the prediction but  the effect was not significant in all models.") %>%
   pack_rows("Tree size and microenvironment", 1, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("1a. Larger, taller trees have lower Rt.", 1, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
-  pack_rows("1b. Trees with more exposed crowns have lower Rt.", 3, 4, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
-  pack_rows("1c. Small trees (lower root volume) in drier microhabitats have lower Rt.", 5, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
+  pack_rows("Larger, taller trees have lower Rt.", 1, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
+  pack_rows("Trees with more exposed crowns have lower Rt.", 3, 4, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
+  pack_rows("Small trees (lower root volume) in drier microhabitats have lower Rt.", 5, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   pack_rows("Species traits", 6, 10, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("2. Species' traits--particularly leaf hydraulic traits--predict Rt.", 6, 10, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
+  pack_rows("Species' traits--particularly leaf hydraulic traits--predict Rt.", 6, 10, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   add_header_above(c(" ", "Prediction supported?" = 4, " ")) %>%
   column_spec(1, width = "12cm") %>%
   column_spec(2:5, width = "1.2cm") %>%
