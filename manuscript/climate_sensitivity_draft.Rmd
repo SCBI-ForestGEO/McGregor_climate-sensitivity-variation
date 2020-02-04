@@ -167,7 +167,7 @@ All data, code, and results are available through the SCBI-ForestGEO organizatio
 
 *Community-level drought responses* 
 
-Community-level tree growth responses to these droughts were modest, with mean resistance values of 0.86, 0.84, and 0.86 for 1966, 1977, and 1999, respectively (Fig. 1b). All droughts yielded *about 5% more trees experiencing negative growth ($Rt$ $\le$ 0.7) as defined by our drought threshold*, specifically, 29% in 1966, 32% in 1977, and 27% in 1999. However, some individuals exhibited increased growth: ($Rt$ > 1.0): 26% in 1966, 22% in 1977, and 26% in 1999. 
+Community-level tree growth responses to all three droughts were modest, with mean resistance values of 0.86, 0.84, and 0.86 for 1966, 1977, and 1999 droughts, respectively (Fig. 1b). In each drought, roughly 30% of the cored trees suffered $\ge$ 30% growth reductions ($Rt \le 0.7$): 29% in 1966, 32% in 1977, and 27% in 1999. However, some individuals exhibited increased growth: ($Rt > 1.0$): 26% in 1966, 22% in 1977, and 26% in 1999. 
 
 
 *Tree size, microenvironment, and drought resistance*
