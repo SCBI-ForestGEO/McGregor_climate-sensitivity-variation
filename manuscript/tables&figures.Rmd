@@ -87,9 +87,11 @@ kable(table3, booktabs=TRUE, caption = "**Table 3. Overview of analyzed species,
 library(knitr)
 library(kableExtra)
 univar_table <- read.csv("tables_figures/table4_univariate_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
-kable(univar_table, booktabs = TRUE, caption = "**Table 4. Univariate models**", format = 'latex', escape = TRUE) %>%
+kable(univar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests of hypothesized drivers of drought resistance. Models including each variable were compared to corresponding null models. dAIC is the AICc of the null model minus that of the model including the variable (thus, dAICc>2 indicates that the variable significantly improves the model", format = 'latex', escape = TRUE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
+  pack_rows("Tree size and microenvironment", 1, 12, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("Species traits", 13, 18, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   #mutate(dAICc = cell_spec(dAICc, "html", bold = ifelse(dAICc > 1.999, TRUE, FALSE))) %>%  #trying to put sig values in bold, but this doen't work
   kable_styling()
 ```

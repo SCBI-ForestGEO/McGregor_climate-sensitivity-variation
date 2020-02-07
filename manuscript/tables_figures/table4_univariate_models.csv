@@ -1,7 +1,4 @@
 ﻿variable,category,null variables,dAICc,coefficients,dAICc,coefficients,dAICc,coefficients,dAICc,coefficients
-drought year ,1966,,-2.42,0,-,-,-,-,-,-
-,1977,,-,-0.0209,-,-,-,-,-,-
-,1999,,-,-0.0105,-,-,-,-,-,-
 ln[DBH],,Y,8.17,-0.0385,15.32,-0.0888,-0.87,-0.0214,-1.93,0.0057
 ln[height],,Y,8.17,-0.062,15.32,-0.143,-0.87,-0.0345,-1.93,0.0092
 crown position,D,Y,-2.96,-0.0461,3.25,-0.0509,0.66,-0.0759,0.38,-0.0103
