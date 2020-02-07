@@ -38,7 +38,7 @@ knitr::write_bib(c(
 library(knitr)
 library(kableExtra)
 hypothesis_table <- read.csv("tables_figures/table1_hypothesis_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypotheses, corresponding specific predictions, and results.** We count predictions as fully supported ('yes') when the response is signficant in univariate models and included in all top multivariate models and as partially supported ('yes') or rejected ('no') when the direction of response consistently matched the prediction but  the effect was not significant in all models.") %>%
+kable(hypothesis_table, booktabs = TRUE, caption = "Table 1. Summary of hypotheses, corresponding specific predictions, and results. We count predictions as fully supported ('yes') when the response is signficant in univariate models and included in all top multivariate models and as partially supported ('(yes)') or rejected ('(no)') when the direction of response consistently matched the prediction but  the effect was not significant in all models.") %>%
   pack_rows("Tree size and microenvironment", 1, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("Larger, taller trees have lower Rt.", 1, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   pack_rows("Trees with more exposed crowns have lower Rt.", 3, 4, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
@@ -58,7 +58,7 @@ kable(hypothesis_table, booktabs = TRUE, caption = "**Table 1. Summary of hypoth
   library(knitr)
   library(kableExtra)
   table2 <- read.csv("tables_figures/table2_variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-  kable(table2, booktabs = TRUE, caption = "**Table 2. Summary of variables**") %>%
+  kable(table2, booktabs = TRUE, caption = "Table 2. Summary of variables.") %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 10, protect_latex = TRUE) %>%
   column_spec(2, italic = T) %>% 
   column_spec(4, width = "7cm") %>%
@@ -76,7 +76,7 @@ library(knitr)
 library(kableExtra)
 table3 <- read.csv("tables_figures/table3_species_table.csv")
 
-kable(table3, booktabs=TRUE, caption = "**Table 3. Overview of analyzed species, their productivity in the plot, numbers and sizes sampled, and traits.**  Given are DBH mean and range of cored trees, the number of cores represented by each crown position of each species, and mean hydraulic trait measurements.") %>%
+kable(table3, booktabs=TRUE, caption = "Table 3. Overview of analyzed species, their productivity in the plot, numbers and sizes sampled, and traits.  Given are DBH mean and range of cored trees, the number of cores represented by each crown position of each species, and mean hydraulic trait measurements.") %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5) %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE)
 ```
