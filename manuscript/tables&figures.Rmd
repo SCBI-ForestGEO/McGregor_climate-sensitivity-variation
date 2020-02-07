@@ -52,6 +52,9 @@ kable(hypothesis_table, booktabs = TRUE, caption = "Table 1. Summary of hypothes
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5) %>%
   kableExtra::landscape()
 ```
+
+
+
 \clearpage
 
  ```{r Table 2, eval = TRUE, echo=FALSE, warning=FALSE}
@@ -95,6 +98,9 @@ kable(univar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests o
   #mutate(dAICc = cell_spec(dAICc, "html", bold = ifelse(dAICc > 1.999, TRUE, FALSE))) %>%  #trying to put sig values in bold, but this doen't work
   kable_styling()
 ```
+*dAICc > 1: variable qualified for inclusion in full model
+
+**dAICc > 2: statistically signficant, variable qualified for inclusion in full model
 
 \clearpage
 ```{r table 5, eval = TRUE, echo=FALSE, warning=FALSE}
