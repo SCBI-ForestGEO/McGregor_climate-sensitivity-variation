@@ -1327,7 +1327,7 @@ for (i in seq_along(1:12)){
               return(fit1)
             })
             names(lmm_all) <- models
-            var_aic1 <- aictab(lmm_all, second.ord=TRUE, sort=FALSE) #rank based on AICc
+            var_aic <- aictab(lmm_all, second.ord=TRUE, sort=FALSE) #rank based on AICc
             
             #put AIC value in table (#null - test)
             sum_mod_traits[,column][[i]] <- var_aic$AICc[[1]] - var_aic$AICc[[2]] 
