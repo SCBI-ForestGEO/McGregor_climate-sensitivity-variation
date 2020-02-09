@@ -670,14 +670,14 @@ ggplot(data = rp_test) +
   aes(x = rp) +
   geom_bar(fill = "#0c4c8a") +
   theme_minimal() +
-  facet_wrap(vars(position))
+  facet_wrap(vars(year))
 
 
 ##5b. add in leaf traits ####
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEMLSA45Z6X45SIMTNK5ZLAYC"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBELFK5HVYK4YORLGBZC6JGGDG"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
@@ -959,36 +959,7 @@ for (j in seq(along=cols)){
 }
 
 
-##code for original canopy/subcanopy groupings using list made in #4a.
-# dbh$diam_nobark_old.mm <- 0
-# for (i in seq(along=widths)){
-#   df <- widths[[i]] #the list "widths" comes from #4a-4b
-#   colnames(df) <- gsub("A", "", colnames(df)) #remove "A"
-#   colnames(df) <- gsub("^0", "", colnames(df)) #remove leading 0
-#   
-#   cols <- colnames(df) #define cols for below
-#   colnames(df) <- gsub("^", "x", colnames(df)) #add "x" to make calling colnames below feasible
-#   
-#   for (j in seq(along=cols)){
-#     for (k in seq(along=colnames(df))){
-#       ring_ind <- cols[[j]]
-#       ring_col <- colnames(df)[[k]]
-#       
-#       if(j==k){
-#         #the output of this loop is 3 separate columns for each year's old dbh, hence why it is set to q as a dataframe before being combined below. Pointer_years_simple comes from #4d.
-#         q <- data.frame(sapply(pointer_years_simple, function(x){
-#           rw <- df[rownames(df)>=x, ]
-#           ifelse(dbh$year == x & dbh$tree == ring_ind, 
-#                  dbh$dbh2008.mm - 2*(dbh$mean_bark_2008.mm) - sum(rw[rownames(rw) %in% c(x:2008), ring_col], na.rm=TRUE), 0)
-#         }))
-#         
-#         q$diam_nobark_old.mm <- q[,1] +q[,2] + q[,3] #add columns together
-#         # q$dbh_old.mm <- q[,1] +q[,2] + q[,3] + q[,4]
-#         dbh$diam_nobark_old.mm <- dbh$diam_nobark_old.mm + q$diam_nobark_old.mm #combine with dbh (it's the same order of rows) #mm
-#       }
-#     }
-#   }
-# }
+
     
 #7. Calculate bark thickness using regression equation per appropriate sp
 ## log(bark.depth.1999) = intercept + log(diam_nobark)*constant
@@ -1336,7 +1307,7 @@ for (i in seq_along(1:12)){
   null_mod_yr <- sum_mod_traits$null_model_year[[i]] #individual years
   
   models <- c(null_mod, test_mod) #all years
-  models_yr <- c(null_mod_yr, test_mod_yr) #ndividual years
+  models_yr <- c(null_mod_yr, test_mod_yr) #individual years
   
   for (j in seq(along=model_df)){
     for (h in seq(along=sum_mod_traits[,c(8,11,14,17)])){ #dAIC
@@ -1356,7 +1327,7 @@ for (i in seq_along(1:12)){
               return(fit1)
             })
             names(lmm_all) <- models
-            var_aic <- aictab(lmm_all, second.ord=TRUE, sort=FALSE) #rank based on AICc
+            var_aic1 <- aictab(lmm_all, second.ord=TRUE, sort=FALSE) #rank based on AICc
             
             #put AIC value in table (#null - test)
             sum_mod_traits[,column][[i]] <- var_aic$AICc[[1]] - var_aic$AICc[[2]] 

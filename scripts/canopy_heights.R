@@ -19,8 +19,9 @@ dbh_2013 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestG
 dbh_2013$dbh.cm <- dbh_2013$dbh/10 #cm
 
 dbh_2018 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
+dbh_2018$dbh.cm <- as.numeric(dbh_2018$dbh)/10 #cm
 
-heights$dbh_regr.cm <- paste0(heights$DBH.2008.cm, heights$DBH.2013.cm, heights$DBH.TLS.2015.cm, heights$DBH.2018.cm)
+heights$dbh_regr.cm <- paste0(heights$DBH.2008.cm, heights$DBH.2013.cm, heights$DBH.TLS.2015.cm, heights$DBH.2018.cm, heights$DBH.NEON.cm)
 heights$dbh_regr.cm <- gsub("NA", "", heights$dbh_regr.cm)
 heights$dbh_regr.cm <- as.numeric(heights$dbh_regr.cm)
 
@@ -30,6 +31,8 @@ heights$dbh_year <- ifelse(heights$dbh_regr.cm %in% heights$DBH.2008.cm, 2008,
                       ifelse(heights$dbh_regr.cm %in% heights$DBH.TLS.2015.cm, 2015,
                       ifelse(heights$dbh_regr.cm %in% heights$DBH.2018.cm, 2018,
                                  heights$dbh_year))))
+heights$height.year <- as.character(heights$height.year)
+heights$dbh_year <- as.numeric(stringr::str_extract(heights$height.year, "^\\d{4}"))
 
 dup <- heights$stemID[duplicated(heights$stemID)]
 heights_dup <- heights[heights$stemID %in% dup, ]
@@ -126,10 +129,13 @@ neon_new <- neon_new[!neon_new$individualID %in% c("NEON.PLA.D02.SCBI.03428", "N
 
 #remove individualID so can rbind below
 neon_new <- neon_new[-c(2)]
+neon_new$dbh_year <- as.numeric(stringr::str_extract(neon_new$dbh_year, "^\\d{4}"))
 
 
 #3. rbind with general height data and determine equations ####
 heights_sub <- heights[c(5,9,26,27)]
+
+
 heights_all <- rbind(heights_sub, neon_new)
 
 
@@ -158,7 +164,7 @@ paper_heights <- paper_heights[!paper_heights$sp %in% c("fram", "juni", "quve"),
 
 source_gist("524eade46135f6348140")
 ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label = log(height.m))) +
-  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1,parse=TRUE) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=0,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal() +
@@ -167,23 +173,29 @@ ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label 
 
 #equations for all species together
 ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label = log(height.m))) +
-  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.5,parse=TRUE) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-1.7,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal()
 
 regr <- data.frame("Species" = c("Carya cordiformis", "Carya glabra", "Carya ovalis", "Carya tomentosa", "Fagus grandifolia", "Liriodendron tulipifera", "Quercus alba", "Quercus prinus", "Quercus rubra", "all"),
                    "sp" = c("caco", "cagl", "caovl", "cato", "fagr", "litu", "qual", "qupr", "quru", "all"),
-                   "Equations" = c("0.391+0.805*x", 
-                                   "0.654+0.728*x", 
-                                   "0.939+0.641*x", 
-                                   "0.851+0.682*x", 
-                                   "0.574+0.713*x", 
-                                   "1.21+0.559*x", 
-                                   "2.07+0.318*x", "0.594+0.713*x", "1.42+0.473*x", "0.946+0.621*x"),
-                   "r^2" = c(0.899, 0.89, 0.922, 0.89, 0.887, 0.76, 0.523, 0.799, 0.832, 0.868))
+                   "Equations" = c("0.332+0.808*x", #caco
+                                   "0.685+0.691*x", #cagl
+                                   "0.533+0.741*x", #caovl
+                                   "0.726+0.713*x", #cato
+                                   "0.708+0.662*x", #fagr
+                                   "1.33+0.52*x", #litu
+                                   "0.74+0.645*x", #qual
+                                   "0.41+0.757*x", #qupr
+                                   "1.00+0.574*x", #quru
+                                   "0.839+0.642*x"), #all
+                   "r^2" = c(0.874, 0.841, 0.924,
+                             0.897, 0.857, 0.771,
+                             0.719,0.886, 0.755, 
+                             0.857))
 
-write.csv(regr, "manuscript/tables_figures/height_regression.csv", row.names=FALSE)
+write.csv(regr, "manuscript/tables_figures/tableS2_height_regression.csv", row.names=FALSE)
 
 #########################################################################
 #create plots showing height diff by year (stand-alone) ####
