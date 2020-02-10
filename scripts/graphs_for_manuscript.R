@@ -10,7 +10,8 @@ source('scripts/vertical_height_neon.R', echo=TRUE)
 NEON_list <- list(wind_plot, RH_plot, SAAT_plot) #,"biotemp_plot")
 names(NEON_list) <- c("wind_plot", "RH_plot", "SAAT_plot") #,"biotemp_plot
 #########################################################################
-#2 height by crown position in 2018 ####
+#2 height by crown position in 2018
+## necessary packages ####
 library(RCurl) #2
 library(tidyr) #2
 library(grid) #2
@@ -185,7 +186,8 @@ avg_growth <- data.frame(g66_77 = test66$avg_gro,
                          g99_18 = test99$avg_gro)
 
 #######################################################################################
-#3 Get PLA and TLP as function of TWI and height ####
+#3 Get PLA and TLP as function of TWI and height
+## necessary packages ####
 library(ggstance)
 library(raster)
 library(dplyr)
@@ -316,6 +318,7 @@ for (i in seq(along=1:4)){
 
 #######################################################################################
 #4 Export the graphs ####
+## necessary pacakages and set-up ####
 library(ggpubr)
 library(extrafont)
 library(rasterVis)
@@ -513,3 +516,240 @@ plot2 <- readPNG("manuscript/tables_figures/density_plot.png")
 png("manuscript/tables_figures/Figure1.png", res=300, height=200, width=150, units="mm", pointsize=10)
 plot_grid(rasterGrob(plot1), rasterGrob(plot2), align = "v", nrow = 2, rel_heights = c(3/4, 1/4), axis = "b")
 dev.off()
+
+###############################################################################
+#6. Original plots from canopy_position_analysis
+## these plots are no longer being used but still keeping the code
+## necessary packages ####
+library(ggplot2)
+library(RCurl)
+library(tidyr)
+library(grid)
+library(gridExtra)
+library(ggpubr)
+
+##6a. CRU variables plotted against sp, boxplot t-test btwn canopy/subcanopy groupings ####
+## load in data
+cru1901 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/climate_sensitivity_cores/master/results/canopy_vs_subcanopy/1901_2009/tables/monthly_correlation/correlation_with_CRU_SCBI_1901_2016_climate_data.csv"), stringsAsFactors = FALSE)
+
+#subset out caco, cato, and frni because they don't have pair of canopy and subcanopy
+cru1901 <- cru1901[!(cru1901$Species %in% c("CACO_subcanopy", "CATO_subcanopy", "FRNI_subcanopy")), ]
+
+cru1901_loop <- cru1901
+
+#create separate identifier
+cru1901_loop$position <- ifelse(grepl("subcanopy", cru1901$Species), "subcanopy", "canopy")
+cru1901_loop$Species <- gsub("_[[:alpha:]]+$", "", cru1901$Species)
+
+#2. box plots
+cru1901_loop$variable <- as.character(cru1901_loop$variable)
+clim <- unique(cru1901_loop$variable)
+species <- unique(cru1901_loop$Species)
+months <- c("curr.may", "curr.jun", "curr.jul", "curr.aug")
+
+#creates a lattice graph showing box plot of variables grouped by species
+ggplot(data = cru1901) +
+   aes(x = Species, y = coef, fill = variable) +
+   geom_boxplot() +
+   labs(title = "Correlation by species and variable",
+        y = "Correlation") +
+   facet_wrap( ~ Species, scales="free", nrow=4) +
+   theme_minimal()
+
+#creates lattice graph comparing canopy and subcanopy across species
+
+pdf("graphs_plots/canopy_subcanopy_correlation.pdf", width=10)
+cru1901_loop$Species <- as.factor(cru1901_loop$Species)
+
+#this piece of code puts the graphs in date order
+cru1901_loop <- within(cru1901_loop, month <- factor(month, levels=cru1901_loop$month[1:17]))
+with(cru1901_loop, levels(month))
+
+for (j in seq(along=clim)){
+   cru1901_sub <- cru1901_loop[cru1901_loop$variable %in% clim[[j]], ]
+   cru1901_sub <- group_by(cru1901_sub, month)
+   
+   q <- ggplot(data = cru1901_sub) +
+      geom_boxplot(aes(x = position, y = coef, fill = position)) +
+      labs(title = paste0("Canopy vs subcanopy: ", clim[[j]]),
+           y = "Correlation") +
+      stat_compare_means(aes(x=position, y=coef), method="t.test", label.x.npc = 0, label.y.npc = 0.97) +
+      facet_wrap(~ month, scales="free", nrow=4) +
+      theme_minimal()
+   print(q)
+}
+
+dev.off()
+##6b. hydraulic traits plotted against height ####
+trees_all_full <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
+
+graph_traits <- colnames(trees_all_full[, 5:9])
+color <- c("dark green", "blue", "gold", "purple", "magenta")
+
+for(i in seq(along=graph_traits)){
+   trait <- graph_traits[[i]]
+   trees_all_full$trait <- trees_all_full[, trait]
+   
+   p <- ggplot(trees_all_full) +
+      geom_point(aes(x = trait, y = height.ln.m), color = color[[i]]) +
+      xlab(print(trait)) +
+      theme_minimal()
+   
+   assign(paste0(trait, "_plot"), p)
+}
+
+#arrange all graphs together and save image
+png("manuscript/tables_figures/traits_vs_traits.png", width = 1000, height = 1000, pointsize = 18)
+graph <- grid.arrange(PLA_dry_percent_plot, LMA_g_per_m2_plot, Chl_m2_per_g_plot, mean_TLP_Mpa_plot, WD_g_per_cm3_plot, nrow=2, top = textGrob(expression(bold("Hydraulic Traits by Height"))))
+
+dev.off()
+
+graph_traits <- graph_traits %>%
+   gather("PLA_dry_percent", "LMA_g_per_m2", "Chl_m2_per_g", "mean_TLP_Mpa", "WD_g_per_cm3", key = "trait", value = measure)
+
+ggplot(graph_traits) +
+   geom_point(aes(x=measure, y=height.ln.m)) +
+   facet_wrap(~trait) +
+   theme_minimal()
+##6c. height and canopy position by size class NEEDS EDITS if going to use ####
+scbi.stem3 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
+
+scbi.stem3$dbh <- as.numeric(scbi.stem3$dbh)
+
+current_ht <- trees_all[!duplicated(trees_all$tree), ]
+current_ht$year <- 2018
+current_ht <- current_ht[,c(1:4,15:17,19:21)]
+
+current_ht$dbh_old.mm <- scbi.stem3$dbh[match(current_ht$tree, scbi.stem3$tag)]
+current_ht$dbh_old.cm <- current_ht$dbh_old.mm/10
+current_ht$dbh.ln.cm <- log(current_ht$dbh_old.cm)
+
+#linear log-log regression
+#the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
+current_ht$height.ln.m <- 
+   ifelse(current_ht$sp == "caco", (0.348+0.808*current_ht$dbh.ln.cm),
+          ifelse(current_ht$sp == "cagl", (0.681+0.704*current_ht$dbh.ln.cm),
+                 ifelse(current_ht$sp == "caovl", (0.621+0.722*current_ht$dbh.ln.cm),
+                        ifelse(current_ht$sp == "cato", (0.776+0.701*current_ht$dbh.ln.cm),
+                               ifelse(current_ht$sp == "fagr", (0.708+0.662*current_ht$dbh.ln.cm),
+                                      ifelse(current_ht$sp == "fram", (0.715+0.619*current_ht$dbh.ln.cm),
+                                             ifelse(current_ht$sp == "juni", (1.22+0.49*current_ht$dbh.ln.cm),
+                                                    ifelse(current_ht$sp == "litu", (1.32+0.524*current_ht$dbh.ln.cm),
+                                                           ifelse(current_ht$sp == "qual", (1.14+0.548*current_ht$dbh.ln.cm),
+                                                                  ifelse(current_ht$sp == "qupr", (0.44+0.751*current_ht$dbh.ln.cm),
+                                                                         ifelse(current_ht$sp == "quru", (1.17+0.533*current_ht$dbh.ln.cm),
+                                                                                ifelse(current_ht$sp == "quve", (0.864+0.585*current_ht$dbh.ln.cm),
+                                                                                       (0.791+0.645*current_ht$dbh.ln.cm)))))))))))))
+current_ht$height.m <- exp(current_ht$height.ln.m)
+
+# power function Height = intercept*(diameter^slope) #for reference
+
+current_ht <- rbind(current_ht, trees_all) #run this line to get full picture going back in time
+current_ht <- current_ht[order(current_ht$tree, current_ht$year), ]
+
+#graphing height by crown position (for paper)
+current_ht <- current_ht[!is.na(current_ht$position_all), ]
+current_ht$position_all <- factor(current_ht$position_all, levels = c("dominant", "co-dominant", "intermediate", "suppressed"))
+
+ggplot(data = current_ht) +
+   aes(x = position_all, y = height.m, fill = position_all, group = position_all) +
+   # aes(x=position_all, y=height.m, fill=year) +
+   geom_boxplot() +
+   ggtitle("Current height vs crown position")+
+   xlab("year") +
+   ylab("height(m)") +
+   theme_minimal()
+
+
+# pdf of multiple graphs
+pdf("graphs_plots/current_dbh_height_all_years.pdf", width=12)
+#with dbh
+ggplot(data = current_ht) +
+   aes(x = year, y = dbh_old.cm, fill = position_all) +
+   # aes(x=position_all, y=dbh_old.cm, fill=year) +
+   geom_boxplot() +
+   ggtitle("DBH vs crown position")+
+   xlab("year") +
+   ylab("DBH(cm)") +
+   theme_minimal()
+
+#with height
+ggplot(data = current_ht) +
+   aes(x = year, y = height.m, fill = position_all) +
+   # aes(x=position_all, y=height.m, fill=year) +
+   geom_boxplot() +
+   ggtitle("Height vs crown position")+
+   xlab("year") +
+   ylab("height(m)") +
+   theme_minimal()
+dev.off()
+
+##6d. other graphs ####
+
+trees_all <- group_by(trees_all, year, position)
+
+#density graph of resistance value distribution by year by canopy position
+ggplot(trees_all, aes(x=resist.value)) +
+   geom_density() +
+   facet_wrap(year ~ position, ncol=2)
+
+#graph showing resistance value by species by year by canopy position
+ggplot(data = trees_all) +
+   aes(x = year, y = resist.value, color = sp) +
+   geom_point() +
+   scale_color_brewer(palette="Paired") +
+   theme_minimal() +
+   facet_wrap(vars(position))
+
+ggplot(data = census3_sub) +
+   aes(x = DBH, fill = position.crown) +
+   geom_histogram(bins = 30) +
+   theme_minimal() +
+   facet_wrap(vars(position.crown), ncol=1)
+
+ggplot(data = census3_sub) +
+   aes(x = DBH, fill = position.crown) +
+   geom_histogram(bins = 30) +
+   theme_minimal()
+
+#graphs looking at results from "best" AICc model (residuals, norm line, etc)
+plot(lmm_all[[31]])
+resid(lmm_all[[31]])
+plot(density(resid(lmm_all[[31]]))) #A density plot
+qqnorm(resid(lmm_all[[31]])) # A quantile normal plot - good for checking normality
+qqline(resid(lmm_all[[31]]))
+
+
+#this plot shows regression line for certain variables against resistance values, separated by year and species
+ggplot(trees_all, aes(x = tlp, y = resist.value, color=year)) +
+   geom_point() +
+   #scale_color_manual(values=c("skyblue", "blue", "navy")) + 
+   scale_color_distiller(palette = "Spectral") +
+   theme_classic() +
+   #geom_line(data = cbind(trees_all, pred = predict(lmm_all[[32]])), aes(y = pred)) +
+   geom_smooth(method="lm") +
+   ylab("(growth during drought) / (growth prior to drought)") +
+   xlab("DBH (log-transformed)") +
+   facet_wrap(~sp, nrow=4)
+
+#regression line with all data values together
+ggplot(trees_all, aes(x = tlp, y = resist.value)) +
+   geom_point() +
+   theme_classic() +
+   geom_smooth(method="lm") +
+   ylab("(growth during drought) / (growth prior to drought)") +
+   xlab("TLP")
+
+
+#What this plot does is create a dashed horizontal line representing zero: an average of zero deviation from the best-fit line. It also creates a solid line that represents the residual deviation from the best-fit line.
+# If the solid line doesn't cover the dashed line, that would mean the best-fit line does not fit particularly well.
+plot(fitted(lmm_all[[32]]), residuals(lmm_all[[32]]), xlab = "Fitted Values", ylab = "Residuals")
+abline(h=0, lty=2)
+lines(smooth.spline(fitted(lmm_all[[32]]), residuals(lmm_all[[32]])))
+
+#
+boxplot(resist.value ~ sp, data=trees_all)
+
+library(plotly)
+p <- qqp(residuals(lmm_all[[13]]), "norm")
+ggplotly(p)
