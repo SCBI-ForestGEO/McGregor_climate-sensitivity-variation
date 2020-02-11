@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  11 FEB 2020 06:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  11 FEB 2020 10:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -732,36 +732,37 @@ File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [2] [3] [4]
 
 Package natbib Warning: Citation `andersonteixeira_ctfs-forestgeo_2015' on page
- 5 undefined on input line 467.
+ 5 undefined on input line 444.
 
-[5] [6]
+[5]
 
-Package natbib Warning: Citation `R-dynatopmodel' on page 7 undefined on input 
-line 570.
+Package natbib Warning: Citation `R-dynatopmodel' on page 6 undefined on input 
+line 547.
 
 
-Package natbib Warning: Citation `R-LeafArea' on page 7 undefined on input line
- 590.
+Package natbib Warning: Citation `R-LeafArea' on page 6 undefined on input line
+ 567.
 
+[6]
 
 Package natbib Warning: Citation `noauthor_national_2018' on page 7 undefined o
-n input line 613.
+n input line 590.
+
+
+Package natbib Warning: Citation `R-pointRes' on page 7 undefined on input line
+ 635.
 
 [7]
 
-Package natbib Warning: Citation `R-pointRes' on page 8 undefined on input line
- 658.
-
-
-Package natbib Warning: Citation `R-lme4' on page 8 undefined on input line 692
+Package natbib Warning: Citation `R-lme4' on page 8 undefined on input line 669
 .
 
 
 Package natbib Warning: Citation `R-AICcmodavg' on page 8 undefined on input li
-ne 695.
+ne 672.
 
-[8] [9] [10] [11] [12] (./climate_sensitivity_draft.bbl [13] [14] [15] [16] [17
-] [18])
+[8] [9] [10] [11] (./climate_sensitivity_draft.bbl [12] [13] [14] [15] [16] [17
+])
 
 Package natbib Warning: There were undefined citations.
 
@@ -773,26 +774,25 @@ See the caption package documentation for explanation.
 Package caption Warning: Unused \captionsetup[figure] on input line 94.
 See the caption package documentation for explanation.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1008.
-[19]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1008.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 985.
+[18]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 985.
 (./climate_sensitivity_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1008.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1008.
-
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 985.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 985.
 Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
 ed.
 (rerunfilecheck)             Checksum: CD13025AF0A8D649B7A04654D11E23D9;1331.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1008.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 985.
  ) 
 Here is how much of TeX's memory you used:
- 14412 strings out of 492616
- 218208 string characters out of 6129482
- 329085 words of memory out of 5000000
- 17946 multiletter control sequences out of 15000+600000
- 40025 words of font info for 76 fonts, out of 8000000 for 9000
+ 14399 strings out of 492616
+ 217905 string characters out of 6129482
+ 329020 words of memory out of 5000000
+ 17940 multiletter control sequences out of 15000+600000
+ 39812 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,6n,38p,988b,575s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,6n,38p,988b,555s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
 texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/20
 19/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2019/texmf-dist/
@@ -807,10 +807,10 @@ l/texlive/2019/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/
 ic/lm/lmr7.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri10
 .pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr
 /local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
-Output written on climate_sensitivity_draft.pdf (19 pages, 244194 bytes).
+Output written on climate_sensitivity_draft.pdf (18 pages, 240667 bytes).
 PDF statistics:
- 582 PDF objects out of 1000 (max. 8388607)
- 545 compressed objects within 6 object streams
- 115 named destinations out of 1000 (max. 500000)
+ 560 PDF objects out of 1000 (max. 8388607)
+ 524 compressed objects within 6 object streams
+ 112 named destinations out of 1000 (max. 500000)
  6201 words of extra memory for PDF output out of 10000 (max. 10000000)
 
