@@ -89,8 +89,8 @@ kable(table3, booktabs=TRUE, caption = "Table 3. Overview of analyzed species, t
 ```{r table 4, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-univar_table <- read.csv("tables_figures/table4_univariate_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
-kable(univar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests of hypothesized drivers of drought resistance. Models including each variable were compared to corresponding null models. dAIC is the AICc of the null model minus that of the model including the variable (thus, dAICc>2 indicates that the variable significantly improves the model", format = 'latex', escape = TRUE) %>%
+singlevar_table <- read.csv("tables_figures/table4_singlevariable_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
+kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests of hypothesized drivers of drought resistance. Models including each variable were compared to corresponding null models. dAIC is the AICc of the null model minus that of the model including the variable (thus, dAICc>2 indicates that the variable significantly improves the model", format = 'latex', escape = TRUE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
   pack_rows("Tree size and microenvironment", 1, 12, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
@@ -106,7 +106,7 @@ kable(univar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests o
 ```{r table 5, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-multivar_table <- read.csv("tables_figures/table5_multivariate_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
+multivar_table <- read.csv("tables_figures/table5_multivariable_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
 kable(multivar_table, booktabs = TRUE, caption = "Table 5. Summary of top full models for each drought instance. Models are ranked by AICc, and we show all models whose AICc value falls within 1.0 (dAICc<1) of the best model (bold).", format = 'latex', escape = TRUE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," "," "," ", "crown position" = 4, " ","xylem architecture" = 2," ", " ")) %>%
