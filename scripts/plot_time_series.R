@@ -54,7 +54,7 @@ pre_drought_years <- drought_years - 5
 
 # create plot ####
 if(save.plots)  {
-  png(paste0("manuscript/tables_figures/Time_series_for_each_species.png"), res = 300, width = 150, height = 150, units = "mm", pointsize = 10)
+  png(paste0("manuscript/tables_figures/Figure1a_Time_series_for_each_species.png"), res = 300, width = 150, height = 150, units = "mm", pointsize = 10)
 }
 
 # plot parameters ####
