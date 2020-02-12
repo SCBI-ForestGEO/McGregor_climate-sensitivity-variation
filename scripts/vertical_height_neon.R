@@ -26,7 +26,7 @@ library(ggplot2)
 dp <- data.frame("data" = c("SAAT", "wind", "biotemp", "RH", "SR"),
                  "id" = c("DP1.00002.001", "DP1.00001.001", "DP1.00005.001", "DP1.00098.001", "DP1.00014.001"),
                  "value" = c("tempSingleMean", "windSpeedMean", "bioTempMean", "RHMean", "difRadMean"),
-                 "xlabs" = c("Mean Air Temperature [°C]", "Wind [m/s]", "Mean Infrared Biological Temperature [°C]", "RH [%]", "Mean shortwave downward radiation [W/m^2]"))
+                 "xlabs" = c("Mean Air Temperature [°C]", "Wind speed [m/s]", "Mean Infrared Biological Temperature [°C]", "RH [%]", "Mean shortwave downward radiation [W/m^2]"))
 
 dp <- dp[c(2,4,1,3,5), ]
 
