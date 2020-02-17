@@ -24,6 +24,7 @@ header-includes:
 
 ```{r, include=FALSE}
 options(tinytex.verbose = TRUE)
+options(knitr.table.format = "latex")
 ```
 
 ```{r include=FALSE}
