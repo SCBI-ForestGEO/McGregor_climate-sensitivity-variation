@@ -40,6 +40,7 @@ library(knitr)
 library(kableExtra)
 hypothesis_table <- read.csv("tables_figures/table1_hypothesis_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
 kable(hypothesis_table, booktabs = TRUE, caption = "Table 1. Summary of hypotheses, corresponding specific predictions, and results. We count predictions as fully supported ('yes') when the response is signficant in single-variable tests (Table 4) and included in all top full models and as partially supported ('(yes)') or rejected ('(no)') when the direction of response consistently matched the prediction but the effect was not significant in all models.") %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
   pack_rows("Tree size and microenvironment", 1, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("Larger, taller trees have lower Rt.", 1, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   pack_rows("Trees with more exposed crowns have lower Rt.", 3, 4, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
@@ -50,7 +51,6 @@ kable(hypothesis_table, booktabs = TRUE, caption = "Table 1. Summary of hypothes
   column_spec(1, width = "12cm") %>%
   column_spec(2:5, width = "1.2cm") %>%
   column_spec(6, width = "2.4cm") %>%
-  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5) %>%
   kableExtra::landscape()
 ```
 
