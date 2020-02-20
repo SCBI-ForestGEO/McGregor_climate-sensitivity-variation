@@ -33,6 +33,7 @@ kable(bark, booktabs=TRUE, format = "latex", caption = "Table S1: Species-specif
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
+\newpage
 ```{r Table S2, eval=TRUE, echo=FALSE, message=FALSE}
 library(knitr)
 library(kableExtra)
@@ -43,9 +44,10 @@ kable(heights, booktabs=TRUE, format = "latex", caption = "Table S2: Species-spe
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
+\newpage
 ```{r, Table S3, eval=TRUE, echo=FALSE, message=FALSE}
 tableS3 <- read.csv("tables_figures/drought_stats.csv", stringsAsFactors = FALSE)
-kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drought severity index (PDSI) by month for focal droughts and other years referenced in the manuscript") %>%
+kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drought severity index (PDSI) by month for focal droughts and other candidate drought years") %>%
   pack_rows("focal droughts", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 5, 8, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 9, 12, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
@@ -55,23 +57,6 @@ kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drou
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
-
-\newpage
-\clearpage
-
-```{r Table S5, eval=TRUE, echo=FALSE, message=FALSE}
-tableS5 <- read.csv("tables_figures/tableS5_tested_traits_height.csv", stringsAsFactors = FALSE)
-
-tableS5 <- tableS5[,-1]
-names(tableS5) <- c("variable", "model", "coefficient", "p-value")
-tableS5[,c(3)] <- round(tableS5[,c(3)], 2)
-
-tableS5$variable <- c("WD", "LMA", "ring porosity", "PLA", "TLP")
-tableS5$model <- c("WD~ln[H]","LMA~ln[H]","ring porosity~ln[H]", "PLA~ln[H]", "PLA~ln[H]")
-
-kable(tableS5, booktabs=TRUE, format = "latex", caption = "Table S4. Correlation of species' traits with tree height across all individuals in the ForestGEO plot") %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
-```
 
 \newpage
 ![Figure S1: Map of ForestGEO plot showing TWI and location of cored trees](tables_figures/figureS1_location_cored_trees.png){width=500px}
