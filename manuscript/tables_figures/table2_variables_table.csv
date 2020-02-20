@@ -16,4 +16,4 @@ xylem porosity,XP,-,vessel arrangement in xylem,ring (R) ,408
 ,,,,semi-ring (SR),31
 ,,,,diffuse (D),178
 turgor loss point,$\psi_{tlp}$,MPa,water potential at which leaves wilt,-,all
-percent loss area,PLA,%,percent loss of leaf area upon dessication,-,all
+percent loss area,$PLA$,\%,percent loss of leaf area upon dessication,-,all
