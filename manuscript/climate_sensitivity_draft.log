@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  20 FEB 2020 11:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  20 FEB 2020 12:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -781,17 +781,17 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 966.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 966.
 Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
 ed.
-(rerunfilecheck)             Checksum: CD13025AF0A8D649B7A04654D11E23D9;1331.
+(rerunfilecheck)             Checksum: 87B9F8F004D6B0B66EE8C5AD0F44C7A1;777.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 966.
  ) 
 Here is how much of TeX's memory you used:
  14368 strings out of 492616
- 216881 string characters out of 6129482
- 328717 words of memory out of 5000000
+ 216783 string characters out of 6129482
+ 328492 words of memory out of 5000000
  17913 multiletter control sequences out of 15000+600000
  40108 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,6n,38p,988b,539s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,6n,38p,988b,537s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
 texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/20
 19/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2019/texmf-dist/
@@ -806,10 +806,10 @@ l/texlive/2019/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/
 ic/lm/lmr7.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri10
 .pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr
 /local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
-Output written on climate_sensitivity_draft.pdf (17 pages, 233370 bytes).
+Output written on climate_sensitivity_draft.pdf (17 pages, 231848 bytes).
 PDF statistics:
- 524 PDF objects out of 1000 (max. 8388607)
- 490 compressed objects within 5 object streams
+ 522 PDF objects out of 1000 (max. 8388607)
+ 488 compressed objects within 5 object streams
  102 named destinations out of 1000 (max. 500000)
  6201 words of extra memory for PDF output out of 10000 (max. 10000000)
 
