@@ -23,7 +23,7 @@ library(ggplot2)
 #the function "loadByProduct" will load the data into R and collapse into one df (within a list).
 #it will not download/store anything on the computer, but working with large dfs will run slowly. Hence, it is a good idea to look at the 30min avg first.
 
-dp <- data.frame("data" = c("SAAT", "wind", "biotemp", "RH", "SR"),
+dp <- data.frame("data" = c("SAAT", "2DWSD", "biotemp", "RH", "SR"),
                  "id" = c("DP1.00002.001", "DP1.00001.001", "DP1.00005.001", "DP1.00098.001", "DP1.00014.001"),
                  "value" = c("tempSingleMean", "windSpeedMean", "bioTempMean", "RHMean", "difRadMean"),
                  "xlabs" = c("Mean Air Temperature [°C]", "Wind speed [m/s]", "Mean Infrared Biological Temperature [°C]", "RH [%]", "Mean shortwave downward radiation [W/m^2]"))
@@ -46,15 +46,36 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
   
   for (j in seq(along=years)){
     if (value != "RHMean" | j != 1){
-      neon_tower <- loadByProduct(dpID=dp$id[[i]], 
-                                  site=c("SCBI"),
-                                  package="basic", avg=30, 
-                                  check.size = FALSE, 
-                                  #(use TRUE outside loop to see how big the dowloads are)
-                                  startdate=paste0(years[[j]], "-05"),
-                                  enddate=paste0(years[[j]], "-08"))
       
-      neon_data <- neon_tower[[1]]
+      #this first if...else statement is due to an error with API. I've been told by 
+      #NEON (Claire Lunch) that it has been fixed and will be updated with the CRAN
+      #update by end March 2020.
+      #To change this back with that new update, simply have the "else" condition be the 
+      #code for everything.
+      if((j==2) | (i==3 & j==1)){ 
+        neon_tower <- loadByProduct(dpID=dp$id[[i]], 
+                                    site=c("SCBI"),
+                                    package="basic", 
+                                    check.size = FALSE, 
+                                    #(use TRUE outside loop to see how big the dowloads are)
+                                    startdate=paste0(years[[j]], "-05"),
+                                    enddate=paste0(years[[j]], "-08"))
+        neon_data <- neon_tower[grepl(dp[,"data"][i], names(neon_tower))]
+        neon_data <- as.data.frame(neon_data[[1]])
+      } else {
+        neon_tower <- loadByProduct(dpID=dp$id[[i]], 
+                                    site=c("SCBI"),
+                                    package="basic", avg=30, 
+                                    check.size = FALSE, 
+                                    #(use TRUE outside loop to see how big the dowloads are)
+                                    startdate=paste0(years[[j]], "-05"),
+                                    enddate=paste0(years[[j]], "-08"))
+        
+        neon_data <- neon_tower[grepl(dp[,"data"][i], names(neon_tower))]
+        neon_data <- as.data.frame(neon_data[[1]])
+      }
+      
+      neon_data$verticalPosition <- as.numeric(neon_data$verticalPosition)
       neon_data_sub <- neon_data[colnames(neon_data) %in% c("verticalPosition", "startDateTime", value, "dirRadMean", "sunPres")]
       
       #reformat dates
@@ -66,7 +87,11 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
       neon_data_sub <- neon_data_sub[!grepl("04-30", neon_data_sub$startDateTime), ]
       
       ## make consolidated graph over different months for each variable ####
-      neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, nchar(neon_data_sub$startDateTime)-0)
+      neon_data_sub$day <- substr(neon_data_sub$startDateTime, 1, 10)
+      
+      test <- as.POSIXct(as.character("2016-07-31 17:20:00"), format= "%Y-%m-%d %H:%M:%OS")
+      substr(test, 1, 10)
+      
       
       #want to preserve the dfs, so put them in a list
       # neon_vars[[i]] <- neon_data_sub
@@ -173,10 +198,12 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
     data_analy %>%
       arrange(verticalPosition) %>%
       ggplot() +
-      scale_color_manual(values = c("dark orange", "red", "dark green", "blue"), 
+      scale_color_manual(values = c("darkorange", "red", "darkgreen", "blue"), 
                          name = "Month") +
-      geom_point(aes(x = mmax, y = vertPos_jitter, color = month_f), shape=19, position = "jitter") +
-      geom_point(aes(x = mmin, y = vertPos_jitter, color = month_f), shape=17, position = "jitter") +
+      geom_point(aes(x = mmax, y = vertPos_jitter, color = month_f), 
+                 shape=19, position = "jitter") +
+      geom_point(aes(x = mmin, y = vertPos_jitter, color = month_f), 
+                 shape=17, position = "jitter") +
       geom_path(aes(x = mmax, y = vertPos_jitter, color = month_f, 
                     linetype = "Max"), size = 1) +
       geom_path(aes(x = mmin, y = vertPos_jitter, color = month_f, 
@@ -210,7 +237,11 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
   #     scale_x_continuous(breaks=c(10,20,30), limits=c(5,35))
   # }
   
-  assign(paste0(dp$data[[i]], "_plot"), graph)
+  if(i==1){
+    assign(paste0("wind", "_plot"), graph)
+  } else {
+    assign(paste0(dp$data[[i]], "_plot"), graph)
+  }
 }
 
 

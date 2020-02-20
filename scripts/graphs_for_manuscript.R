@@ -68,11 +68,13 @@ dev.off()
 library(ggpubr)
 library(extrafont)
 library(rasterVis)
+library(RCurl)
+library(stringi)
 
 loadfonts(device="win") #to get TNR
 
-quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 35.002m
-quant <- data.frame(yintercept = 35.0022, Lines = "95th percentile")
+quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 38.34479m
+quant <- data.frame(yintercept = 38.34479, Lines = "95th percentile")
 
 ##2a. Get NEON plots ####
 source('scripts/vertical_height_neon.R', echo=TRUE)
@@ -91,12 +93,12 @@ for (i in seq(along=1:3)){
       geom_hline(aes(yintercept = yintercept), linetype = "longdash", quant) +
       annotate(geom="text", x=NEON_order_x[[i]], y=NEON_order_y[[i]], 
                label = NEON_order[[i]], fontface="bold", size=7)
-   if(i==3){
+   if(i==1){
       NEON_list[[i]] <-
          NEON_list[[i]] +
          theme(legend.title = element_blank(),
                legend.box = "vertical",
-               legend.position = c(0.8, 0.85),
+               legend.position = c(0.8, 0.25),
                legend.background = element_rect(fill=alpha("white", 0.01)),
                legend.text=element_text(size=12),
                legend.key.size=unit(4,"mm"),
@@ -104,13 +106,13 @@ for (i in seq(along=1:3)){
          )
    }
    
-   if(!i==3){
+   if(!i==1){
       NEON_list[[i]] <-
          NEON_list[[i]] +
          theme(legend.position = "none")
    }
    
-   if(!i==1){
+   if(i==2){
       NEON_list[[i]] <- 
          NEON_list[[i]] +
          theme(axis.title.y = element_blank(),
@@ -119,7 +121,7 @@ for (i in seq(along=1:3)){
    }
 }
 
-NEON <- ggarrange(NEON_list$wind_plot, NEON_list$RH_plot, NEON_list$SAAT_plot,  nrow=1, ncol=3, align="h")
+NEON <- ggarrange(NEON_list$wind_plot, NEON_list$RH_plot, NEON_list$SAAT_plot,  nrow=2, ncol=2, align="h")
 
 ##2c. Get the boxplots for 2018 heights (this is also prep for #3) ####
 trees_all <- read.csv("manuscript/tables_figures/trees_all.csv", stringsAsFactors = FALSE) #these graphs are meant to be for all cored trees, not just the ones being used in analysis
@@ -130,7 +132,7 @@ scbi.stem3$dbh <- as.numeric(scbi.stem3$dbh)
 
 current_ht <- trees_all[!duplicated(trees_all$tree), ]
 current_ht$year <- 2018
-current_ht <- current_ht[,c(1:4,17:19)]
+current_ht <- current_ht[,c(1:4,16:18)]
 
 current_ht$dbh_old.mm <- scbi.stem3$dbh[match(current_ht$tree, scbi.stem3$tag)]
 current_ht$dbh_old.cm <- current_ht$dbh_old.mm/10
@@ -197,17 +199,21 @@ heights_box <-
    theme(axis.text = element_text(size=12)) +
    theme(axis.title = element_text(size=14))
 ##2d. Format the height boxplot and add to NEON, export ####
-heights_box <- #all graphs
+heights_box <-
    heights_box + 
    theme_bw(base_size = 16) + 
    # theme_bw(base_family = "serif") + #for TNR font
    geom_hline(aes(yintercept = yintercept), linetype = "longdash", quant) +
    annotate(geom="text", x=0.8, y=57.5, 
-            label = "d", fontface="bold", size=7)
+            label = "d", fontface="bold", size=7) +
+   theme(axis.title.y = element_blank(),
+         axis.text.y=element_blank(),
+         axis.ticks.y=element_blank())
 
 ###put plots together
 png("manuscript/tables_figures/Figure2.png", width=11, height=11, units="in", res=300)
-ggarrange(NEON, heights_box, nrow=2, ncol=2)
+ggarrange(NEON_list$wind_plot, NEON_list$RH_plot, NEON_list$SAAT_plot, heights_box,
+          nrow=2, ncol=2, align="h")
 dev.off()
 
 #########################################################################
