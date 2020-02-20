@@ -63,7 +63,6 @@ table2 <- read.csv("tables_figures/table2_variables_table.csv", stringsAsFactors
 kable(table2, booktabs = TRUE, caption = "Table 2. Summary of variables.", 
         escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 10, protect_latex = TRUE) %>%
-  #column_spec(2, italic = T) %>% 
   column_spec(4, width = "7cm") %>%
   pack_rows("Dependent variable", 1, 1, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("Independent variables", 2, 18, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
