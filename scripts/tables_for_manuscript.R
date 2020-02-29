@@ -73,14 +73,29 @@ table2$percent.ANPP <- c(2, 3.7, 1.1,
                          2.1, 47.1, 10.7,
                          4.8, 10.1, 7.8)
 
+
+
+#get standard deviation
+org_traits <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEKK2MN6MSMV5QFIKS26MQDCM", stringsAsFactors = FALSE)
+
+table2$`$PLA$ (\\%)_sd` <- org_traits$PLA_dry_percent_sd[match(table2$sp, org_traits$sp)]
+table2$`$LMA$ ($\frac{g}{cm^2}$)_sd` <- org_traits$LMA_g_per_m2_sd[match(table2$sp, org_traits$sp)]
+table2$`$\\pi_{tlp}$ (Mpa)_sd` <- org_traits$mean_TLP_Mpa_sd[match(table2$sp, org_traits$sp)]
+table2$`$WD$ ($\frac{g}{cm^3}$)_sd` <- org_traits$WD_g_per_cm3_sd[match(table2$sp, org_traits$sp)]
+
+
 table2$sp <- c("Carya cordiformis (CACO)", "Carya glabra (CAGL)", "Carya ovalis (CAOVL)",
                "Carya tomentosa (CATO)", "Fagus grandifolia (FAGR)", "Fraxinus americana (FRAM)	",
                "Juglans nigra (JUNI)", "Liriodendron tulipifera (LITU)", "Quercus alba (QUAL)", 
                "Quercus montana (QUPR)", "Quercus rubra (QURU)", "Quercus velutina (QUVE)")
 
-table2 <- table2[,c(1,10,4,2:3,5:9)]
+
+table2 <- table2[,c(1,10,4,2:3,5,6,11,7,12,8,13,9,14)]
 table2 <- table2[base::order(table2$percent.ANPP, decreasing=TRUE), ]
 table2[8,6] <- "semi-ring*" #change juni ring porosity
+
+
+
 
 
 write.csv(table2, "manuscript/tables_figures/table3_species_table.csv", row.names=FALSE)
