@@ -38,7 +38,7 @@ knitr::write_bib(c(
 ```{r Table 1, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-hypothesis_table <- read.csv("tables_figures/table1_hypothesis_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
+hypothesis_table <- read.csv("tables_figures/table1_hypothesis_table_latex.csv", stringsAsFactors = FALSE, check.names = FALSE)
 kable(hypothesis_table, booktabs = TRUE, caption = "Table 1. Summary of hypotheses, corresponding specific predictions, and results. We count predictions as fully supported ('yes') when the response is signficant in single-variable tests (Table 4) and included in all top full models and as partially supported ('(yes)') or rejected ('(no)') when the direction of response consistently matched the prediction but the effect was not significant in all models.") %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
   pack_rows("Tree size and microenvironment", 1, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
