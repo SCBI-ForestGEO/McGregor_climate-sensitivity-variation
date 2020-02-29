@@ -434,8 +434,9 @@ trees_all_sub$dbh.cm <- exp(trees_all_sub$dbh.ln.cm)
 trees_all_sub$height.m <- exp(trees_all_sub$height.ln.m)
 
 stats <- NULL
-for(i in seq(along=trees_all_sub[,c(5,7:10,16,18,19)])){
-  name_trait <- trees_all_sub[,c(5,7:10,16,18,19)][i]
+for(i in seq(along=trees_all_sub[,c(5:9,16)])){
+  for(j in seq)
+  name_trait <- trees_all_sub[,c(5:9,16)][i]
   tree_stats <- 
     trees_all_sub %>%
     summarize(median = median(trees_all_sub[, which(colnames(trees_all_sub) == colnames(name_trait))]),

@@ -109,7 +109,7 @@ Second, we focus on the role of species' functional and hydraulic traits, testin
 ### Materials and Methods
 *Study site*
 
-Research was conducted at the 25.6 ha ForestGEO (Forest Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38\°53'36.6"N, 78\°08'43.4"W) [@bourg_initial_2013; @andersonteixeira_ctfs-forestgeo_2015]. SCBI is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park.  Elevations range from 273-338m above sea level with a topographic relief of 65m [@bourg_initial_2013]. Climate is humid temperate, with mean annual temperature of 12.7^$\circ$^C and precipitation of 1005 mm during our study period (1960-2009; source: CRU TS v.4.01; @harris_updated_2014). Dominant tree taxa within this secondary forest include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.). 
+Research was conducted at the 25.6 ha ForestGEO (Forest Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38\°53'36.6"N, 78\°08'43.4"W) [@bourg_initial_2013; @andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains at the northern edge of Shenandoah National Park.  Elevations range from 273-338m above sea level with a topographic relief of 65m [@bourg_initial_2013]. Climate is humid temperate, with mean annual temperature of 12.7^$\circ$^C and precipitation of 1005 mm during our study period (1960-2009; source: CRU TS v.4.01; @harris_updated_2014). Dominant tree taxa within this secondary forest include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.). 
 
 *Data collection and preparation*
 
