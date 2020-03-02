@@ -77,10 +77,10 @@ kable(table2, format = "latex", booktabs = TRUE, caption = "Table 2. Summary of 
 library(knitr)
 library(kableExtra)
 table3 <- read.csv("tables_figures/table3_species_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-table3[8,6] <- paste0(table3[8,6], footnote_marker_symbol(1))
+table3[8,8] <- paste0(table3[8,8], footnote_marker_symbol(1))
 kable(table3, format = "latex", booktabs=TRUE, caption = "Table 3. Overview of analyzed species, their productivity in the plot, numbers and sizes sampled, and traits.  Given are DBH mean and range of cored trees, the number of cores represented by each crown position of each species, and mean hydraulic trait measurements.", escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
-  add_header_above(c(" "," "," ", "DBH (cm)" = 2, " ")) %>%
+  add_header_above(c(" "," "," ", "DBH (cm)" = 2, "species traits (mean +/- sd)" = 5)) %>%
   #kable_styling(bootstrap_options = "striped", full_width = FALSE)
 kableExtra::footnote(symbol = c("Semi-ring porosity is intermediate between ring and diffuse. We group it with diffuse-porous species for more even division of species between categories."), footnote_as_chunk = FALSE)
 ```
