@@ -38,8 +38,8 @@ knitr::write_bib(c(
 ```{r Table 1, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-hypothesis_table <- read.csv("tables_figures/table1_hypothesis_table_latex.csv", stringsAsFactors = FALSE, check.names = FALSE)
-kable(hypothesis_table, booktabs = TRUE, caption = "Table 1. Summary of hypotheses, corresponding specific predictions, and results. We count predictions as fully supported ('yes') when the response is signficant in single-variable tests (Table 4) and included in all top full models and as partially supported ('(yes)') or rejected ('(no)') when the direction of response consistently matched the prediction but the effect was not significant in all models.") %>%
+hypothesis_table <- read.csv("tables_figures/table1_hypothesis_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
+kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. Summary of hypotheses, corresponding specific predictions, and results. We count predictions as fully supported ('yes') when the response is signficant in single-variable tests (Table 4) and included in all top full models and as partially supported ('(yes)') or rejected ('(no)') when the direction of response consistently matched the prediction but the effect was not significant in all models.") %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
   pack_rows("Tree size and microenvironment", 1, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("Larger, taller trees have lower Rt.", 1, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
@@ -60,7 +60,7 @@ kable(hypothesis_table, booktabs = TRUE, caption = "Table 1. Summary of hypothes
 library(knitr)
 library(kableExtra)
 table2 <- read.csv("tables_figures/table2_variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-kable(table2, booktabs = TRUE, caption = "Table 2. Summary of variables.", 
+kable(table2, format = "latex", booktabs = TRUE, caption = "Table 2. Summary of variables.", 
         escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 10, protect_latex = TRUE) %>%
   column_spec(4, width = "7cm") %>%
@@ -78,7 +78,7 @@ library(knitr)
 library(kableExtra)
 table3 <- read.csv("tables_figures/table3_species_table.csv")
 
-kable(table3, booktabs=TRUE, caption = "Table 3. Overview of analyzed species, their productivity in the plot, numbers and sizes sampled, and traits.  Given are DBH mean and range of cored trees, the number of cores represented by each crown position of each species, and mean hydraulic trait measurements.") %>%
+kable(table3, format = "latex", booktabs=TRUE, caption = "Table 3. Overview of analyzed species, their productivity in the plot, numbers and sizes sampled, and traits.  Given are DBH mean and range of cored trees, the number of cores represented by each crown position of each species, and mean hydraulic trait measurements.") %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5) %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE)
 ```
@@ -89,7 +89,7 @@ kable(table3, booktabs=TRUE, caption = "Table 3. Overview of analyzed species, t
 library(knitr)
 library(kableExtra)
 singlevar_table <- read.csv("tables_figures/table4_singlevariable_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
-kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests of hypothesized drivers of drought resistance. Models including each variable were compared to corresponding null models. dAIC is the AICc of the null model minus that of the model including the variable (thus, dAICc>2 indicates that the variable significantly improves the model", format = 'latex', escape = TRUE) %>%
+kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests of hypothesized drivers of drought resistance. Models including each variable were compared to corresponding null models. dAIC is the AICc of the null model minus that of the model including the variable (thus, dAICc>2 indicates that the variable significantly improves the model", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
   pack_rows("Tree size and microenvironment", 1, 12, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
