@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  3 MAR 2020 07:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  3 MAR 2020 07:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -769,25 +769,25 @@ See the caption package documentation for explanation.
 Package caption Warning: Unused \captionsetup[figure] on input line 94.
 See the caption package documentation for explanation.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 976.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 994.
 [18]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 976.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 994.
 (./climate_sensitivity_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 976.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 976.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 994.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 994.
 Package rerunfilecheck Info: File `climate_sensitivity_draft.out' has not chang
 ed.
-(rerunfilecheck)             Checksum: 87B9F8F004D6B0B66EE8C5AD0F44C7A1;777.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 976.
+(rerunfilecheck)             Checksum: CA8086B41A31E0F6C120103EF060280A;949.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 994.
  ) 
 Here is how much of TeX's memory you used:
- 14367 strings out of 492616
- 216976 string characters out of 6129482
- 328572 words of memory out of 5000000
- 17919 multiletter control sequences out of 15000+600000
+ 14370 strings out of 492616
+ 217025 string characters out of 6129482
+ 328621 words of memory out of 5000000
+ 17921 multiletter control sequences out of 15000+600000
  39599 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,6n,38p,988b,549s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,6n,38p,988b,545s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
 texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/20
 19/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2019/texmf-dist/
@@ -802,10 +802,10 @@ l/texlive/2019/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/
 ic/lm/lmr7.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri10
 .pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr
 /local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
-Output written on climate_sensitivity_draft.pdf (18 pages, 236150 bytes).
+Output written on climate_sensitivity_draft.pdf (18 pages, 236777 bytes).
 PDF statistics:
- 541 PDF objects out of 1000 (max. 8388607)
- 505 compressed objects within 6 object streams
- 105 named destinations out of 1000 (max. 500000)
- 6201 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 545 PDF objects out of 1000 (max. 8388607)
+ 509 compressed objects within 6 object streams
+ 106 named destinations out of 1000 (max. 500000)
+ 6209 words of extra memory for PDF output out of 10000 (max. 10000000)
 

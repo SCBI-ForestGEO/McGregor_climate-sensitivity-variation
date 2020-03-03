@@ -201,5 +201,19 @@ We especially thank the numerous researchers who helped to collect the data used
 ### Author Contribution 
 KAT, IM, and AJT designed the research. Tree-ring chronologies were developed by RH under guidance of AJT and NP. Trait data was collected by IM, JZ under guidance of NK and LS. Other plot data were collected by IM, AS, EGA, and NB under guidance of EGA and WM. Data analyses were performed by IM under guidance of KAT and VH. KAT and IM interpreted the results. IM and KAT wrote the first draft of manuscript, and all authors contributed to revisions. 
 
+### Supplementary Information
+Table S1: Species-specific bark thickness regression equations
 
+Table S2: Species-specific height regression equations
+
+Table S3: Palmer drought severity index (PDSI) by month for focal droughts and other
+candidate drought years
+
+Figure S1: Map of ForestGEO plot showing TWI and location of cored trees
+
+Figure S2: Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to
+each focal drought 
+
+Figure S3: Height by canopy position across the three focal droughts and in the year of
+measurement (2018)
 

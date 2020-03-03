@@ -20,9 +20,30 @@ header-includes:
 ```{r, include=FALSE}
 options(tinytex.verbose = TRUE)
 options(knitr.table.format = "latex")
+options(knitr.kable.NA = '')
 ```
 
 ### Supplementary Information
+## Tree height and hydraulic traits shape growth responses across droughts in a temperate broadleaf forest 
+
+Ian R. McGregor,
+Ryan Helcoski,
+Norbert Kunert,
+Alan J. Tepley,
+Erika B. Gonzalez-Akre,
+Valentine Herrmann,
+Joseph Zailaa,
+Atticus E.L. Stovall,
+Norman A. Bourg,
+William J. McShea,
+Neil Pederson,
+Lawren Sack,
+Kristina J. Anderson-Teixeira
+
+\listoftables
+\listoffigures
+
+\newpage
 ```{r Table S1, eval=TRUE, echo=FALSE, message=FALSE}
 library(knitr)
 library(kableExtra)
@@ -48,10 +69,10 @@ kable(heights, booktabs=TRUE, format = "latex", caption = "Table S2: Species-spe
 ```{r, Table S3, eval=TRUE, echo=FALSE, message=FALSE}
 tableS3 <- read.csv("tables_figures/drought_stats.csv", stringsAsFactors = FALSE)
 kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drought severity index (PDSI) by month for focal droughts and other candidate drought years") %>%
-  pack_rows("focal droughts", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("focal droughts", 1, 4, latex_gap_space = ".4em", colnum = 3, hline_before = FALSE) %>%
   pack_rows("", 5, 8, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 9, 12, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("others", 13, 16, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("others", 13, 16, latex_gap_space = ".4em", colnum = 3, hline_before = FALSE) %>%
   pack_rows("", 17, 20, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 21, 24, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
@@ -65,4 +86,4 @@ kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drou
 ![Figure S2: Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought](tables_figures/figureS2_drought_plot.jpg){width=600px}
 
 \newpage
-![Figure S3: Changes in height by canopy position](tables_figures/figureS3_height_plot_analysis.png){width=600px}
+![Figure S3: Height by canopy position across the three focal droughts and in the year of measurement (2018)](tables_figures/figureS3_height_plot_analysis.png){width=600px}
