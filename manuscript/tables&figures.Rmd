@@ -78,7 +78,7 @@ library(knitr)
 library(kableExtra)
 table3 <- read.csv("tables_figures/table3_species_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
 table3[8,8] <- paste0(table3[8,8], footnote_marker_symbol(1))
-kable(table3, format = "latex", booktabs=TRUE, caption = "Table 3. Overview of analyzed species, listed in order of their relative contributions to woody stem productivity ($ANPP_{stem}$) in the plot, along with numbers and sizes sampled, and species traits.", escape=FALSE) %>%
+kable(table3, format = "latex", booktabs=TRUE, caption = "Table 3. Overview of analyzed species, listed in order of their relative contributions to woody stem productivity ($ANPP_{stem}$) in the plot, along with numbers and sizes sampled, and species traits. Variable abbreviations are as in Table 2.", escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ", "DBH (cm)" = 2, "species traits (mean +/- sd)" = 5)) %>%
   #kable_styling(bootstrap_options = "striped", full_width = FALSE)
@@ -92,7 +92,7 @@ kableExtra::footnote(symbol = c("Semi-ring porosity is intermediate between ring
 library(knitr)
 library(kableExtra)
 singlevar_table <- read.csv("tables_figures/table4_singlevariable_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
-kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests of hypothesized drivers of drought resistance. Models including each variable were compared to corresponding null models. dAIC is the AICc of the null model minus that of the model including the variable (thus, dAICc>2 indicates that the variable significantly improves the model", format = 'latex', escape = FALSE) %>%
+kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests of hypothesized drivers of drought resistance. Models including each variable were compared to corresponding null models. dAIC is the AICc of the null model minus that of the model including the variable (thus, dAICc>2 indicates that the variable significantly improves the model). Variable abbreviations are as in Table 2.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
   pack_rows("Tree size and microenvironment", 1, 12, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
