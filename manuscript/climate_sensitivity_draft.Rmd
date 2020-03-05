@@ -136,13 +136,11 @@ To characterize how environmental conditions vary with height, data were obtaine
 
 *Identifying drought years*
 
-We identified droughts within the time period 1950-2009, defining drought [@slette_how_2019] as events with both anomalously dry peak growing season climatic conditions and widespread reductions in tree growth. Simultaneous consideration of both meteorological conditions and tree growth ensured that drought was the primary driver of the observed growth declines and that our focus remained on droughts that substantially impacted the forest community. 
-
-We identified the years with driest conditions during May-August (MJJA), which stood out in the analysis of @helcoski_growing_2019 as the months of the current year to which annual tree growth was most sensitive at this site. We considered two metrics of moisture deficit: NOAA Divisional Data’s Palmer Drought Severity Index (PDSI) and the difference between monthly potential evapotranspiration ($PET$) and precipitation ($PRE$). These data were obtained from the ForestGEO Climate Data Portal (https://github.com/forestgeo/Climate) in August 2018, with monthly PET and PRE sourced from Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; @harris_updated_2014). The driest years were identified through by ranking mean MJJA PET-PRE or PDSI for the time period from driest to wettest. Three of the five years with greatest MJJA moisture deficit (PET-PRE) between 1950 and 2009 with greatest moisture deficit ($PET-PRE$) during MJJA consistently ranked as the three driest in terms of $PDSI$: 1966, 1977, and 1999, which had mean MJJA $PET-PRE$ of 83, 87, and 80 mm mo<sup>-1</sup>, respectively (Table S3). The years 1964 and 2007 also ranked among the top five in terms of moisture deficit lowest ($PET-PRE$ of 84 and 82 mm mo<sup>-1</sup>, respectively), but were not among the lowest in terms of PDSI and were thus not identified as candidate years for inclusion as top drought years (Table S3). 
+We identified droughts within the time period 1950-2009, defining drought [@slette_how_2019] as events with both anomalously dry peak growing season climatic conditions and widespread reductions in tree growth, *i.e.*, droughts that substantially impacted the forest community. We identified three drought years: 1966, 1977, and 1999 (Figs. 1, S2, Table S3). These were the years with the lowest Palmer Drought Severity Index (PDSI) during May-August (MJJA; Table S3), which were identified by @helcoski_growing_2019 as the months of the current year to which annual tree growth was most sensitive at this site. PDSI divisional data for Northern Virginia were obtained from NOAA (https://www7.ncdc.noaa.gov/CDO/CDODivisionalSelect.jsp) in December 2017. 
 
 We defined years with widespread growth reduction ("pointer years") as those where >25% of the cored trees experienced >30% reduction in basal area increment ($BAI$) relative to the previous 5 years, following the drought resistance ($Rt$) metric of [@lloret_components_2011]. $Rt$ values <1 indicate growth reductions, whereas values >1.0 indicate above-average growth. Pointer years were identified using the pointRes package [@R-pointRes] in R. Four years met our criteria: 1966, 1977, 1991, and 1999. We excluded 1991 (26.5% of trees experienced >30% growth reduction, mean resistance= -13.8%) because this year was not identified as among the driest of the time period (Table S3). Rather, the severity of growth reduction could probably be explained in part by defoliation by the gypsy moth (*Lymantria dispar* L.), which was documented to have strongly impacted *Quercus* spp. in the area from approximately 1988 through 1995 [@twery_effects_1991]. 
 
-Together, these criteria identified three drought years: 1966, 1977, and 1999 (Figs. 1, S2, Table S3). The droughts differed in intensity and antecedent moisture conditions (Fig. S2, Table S3). 
+The droughts differed in intensity and antecedent moisture conditions (Fig. S2, Table S3). 
 The 1966 drought was preceded by two years of moderate drought during the growing season and severe to extreme drought starting the previous fall and in August reached the lowest growing season $PDSI$ (-4.82) of the three droughts. 
 The 1977 drought was the least intense throughout the growing season, and it was preceded by 2.5 years of near-normal conditions, making it the mildest of the three droughts. 
 The 1999 drought was preceded by wetter than average conditions until the previous June, but reached the lowest PDSI during May-July (-4.53). 
@@ -204,8 +202,7 @@ Table S1: Species-specific bark thickness regression equations
 
 Table S2: Species-specific height regression equations
 
-Table S3: Palmer drought severity index (PDSI) by month for focal droughts and other
-candidate drought years
+Table S3: Palmer drought severity index (PDSI) by month for years with widespread growth reduction
 
 Figure S1: Map of ForestGEO plot showing TWI and location of cored trees
 
