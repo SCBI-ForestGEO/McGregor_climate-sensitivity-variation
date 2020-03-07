@@ -180,16 +180,16 @@ ggplot(data = paper_heights, aes(x = log(dbh_regr.cm), y = log(height.m), label 
 
 regr <- data.frame("Species" = c("Carya cordiformis", "Carya glabra", "Carya ovalis", "Carya tomentosa", "Fagus grandifolia", "Liriodendron tulipifera", "Quercus alba", "Quercus prinus", "Quercus rubra", "all"),
                    "sp" = c("caco", "cagl", "caovl", "cato", "fagr", "litu", "qual", "qupr", "quru", "all"),
-                   "Equations" = c("0.332+0.808*x", #caco
-                                   "0.685+0.691*x", #cagl
-                                   "0.533+0.741*x", #caovl
-                                   "0.726+0.713*x", #cato
-                                   "0.708+0.662*x", #fagr
-                                   "1.33+0.52*x", #litu
-                                   "0.74+0.645*x", #qual
-                                   "0.41+0.757*x", #qupr
-                                   "1.00+0.574*x", #quru
-                                   "0.839+0.642*x"), #all
+                   "Equations" = c("ln[H] = 0.332+0.808*ln[DBH]", #caco
+                                   "ln[H] = 0.685+0.691*ln[DBH]", #cagl
+                                   "ln[H] = 0.533+0.741*ln[DBH]", #caovl
+                                   "ln[H] = 0.726+0.713*ln[DBH]", #cato
+                                   "ln[H] = 0.708+0.662*ln[DBH]", #fagr
+                                   "ln[H] = 1.33+0.52*ln[DBH]", #litu
+                                   "ln[H] = 0.74+0.645*ln[DBH]", #qual
+                                   "ln[H] = 0.41+0.757*ln[DBH]", #qupr
+                                   "ln[H] = 1.00+0.574*ln[DBH]", #quru
+                                   "ln[H] = 0.839+0.642*ln[DBH]"), #all
                    "r^2" = c(0.874, 0.841, 0.924,
                              0.897, 0.857, 0.771,
                              0.719,0.886, 0.755, 

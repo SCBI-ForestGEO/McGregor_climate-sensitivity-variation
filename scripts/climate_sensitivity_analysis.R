@@ -320,6 +320,9 @@ trees_all$dbh.ln.cm <- log(trees_all$dbh_old.cm)
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
 height_regr <- read.csv("manuscript/tables_figures/tableS2_height_regression.csv", stringsAsFactors = FALSE)
 
+height_regr$Equations <- gsub("^.*= ", "", height_regr$Equations)
+height_regr$Equations <- gsub("[[:alpha:]].*$", "x", height_regr$Equations)
+
 trees_all$height.ln.m <- NA
 for(w in seq(along=height_regr$sp)){
   sp_foc <- height_regr$sp[[w]]
