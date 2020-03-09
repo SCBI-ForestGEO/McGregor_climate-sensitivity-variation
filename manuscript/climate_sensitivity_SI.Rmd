@@ -9,6 +9,7 @@ csl: apa.csl
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{caption}
+- \usepackage{setspace}\onehalfspacing
 - \captionsetup[figure]{labelformat=empty}
 - \usepackage{caption}
 - \captionsetup[table]{font=small}
