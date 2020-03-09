@@ -73,13 +73,13 @@ Kristina J. Anderson-Teixeira^1,3^*
 
 Text | word count | other | n
 ---------------------------------------------|---------------------|-----------------------------|--------------------
-Total word count (excluding summary, references and legends) |  currently ~5855 (strict limit 6,500)	 |	No. of figures | 	2 (both colour)
-Summary|  	currently 194 (limit 200) | 	No. of Tables | 	5  
-Introduction|	currently ~1468 |	No of Supporting Information files | 	6
-Materials and Methods |	currently ~2162	||	 
-Results |	currently ~674	 ||
-Discussion |	currently ~1551 (limit 30% of total (not strict), or 1950 if manuscript reaches word limit)	||
-Acknowledgements | currently ~124	||	
+Total word count (excluding summary, references and legends) |  5,365	 |	No. of figures | 	2 (both colour)
+Summary|  	198 | 	No. of Tables | 	5  
+Introduction|	1,034 |	No of Supporting Information files | 	6
+Materials and Methods |	1,945	||	 
+Results |	697	 ||
+Discussion |	1467	||
+Acknowledgements | 125	||	
 
 \newpage
 
