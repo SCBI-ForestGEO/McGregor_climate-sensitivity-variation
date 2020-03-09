@@ -36,7 +36,7 @@ knitr::write_bib(c(
 ```
 \raggedright
 
-**Title:** Tree height and hydraulic traits shape growth responses across droughts in a temperate broadleaf forest (**[issue #84](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/84))
+**Title:** Tree height and hydraulic traits shape growth responses across droughts in a temperate broadleaf forest 
 
 **Authors:** 
 Ian R. McGregor^1,2^,
@@ -88,7 +88,7 @@ Acknowledgements | currently ~124	||
 
 - Individual-level drought resistance decreased with tree height, which was the dominant size-related variable affecting drought response. Resistance was greater  among species whose leaves lost turgor (wilted) at more negative water potentials, and whose leaves experienced less shrinkage upon desiccation. However, there was substantial variation in the best predictor variables across the three drought periods.
 
-- We conclude that hydraulic traits and tree height influence growth responses during drought, and can explain variation in the tree-ring record spanning historical droughts. Thus, these factors can be useful for predicting future drought responses under climate change. (**LS suggests take out "influence growth responses during drought, and". I agree this conclusion is a bit repetitive/could be shortened, but would target the "explain variation..." for removal** - *I agree with this*)
+- We conclude that hydraulic traits and tree height influence growth responses during drought, as recorded in the tree-ring record spanning historical droughts. Thus, these factors can be useful for predicting future drought responses under climate change. 
 
 *Key words*: annual growth; canopy position; drought; Forest Global Earth Observatory (ForestGEO); leaf hydraulic traits; temperate broadleaf deciduous forest; tree height; tree-ring  
 
@@ -152,7 +152,7 @@ Models were run for all drought years combined (with year as a fixed effect) and
 
 We then determined the best full models for predicting $Rt$ for each individual drought year and for all years combined. Candidate variables were selected, based on the single-variable tests, as those whose addition to a corresponding null model improved fit (at dAICc $\ge$ 1.0) in at least one drought year (Table 4). We compared models with all possible combinations of candidate variables and identified the full set of models within dAICc=1 of the very top model (that with lowest AICc), henceforth referred to as "full models". When a variable appeared in all top models and the sign of the coefficient was consistent across models, we viewed this as support for the acceptance/rejection of the associated prediction by the full models. If the variable appeared in only some of the models, we considered this partial support/rejection. 
 
-All analysis beyond basic data collection was performed using R version 3.5.3 [@R-base]. All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and [TBD], respectively **krista just to remind you this TBD is here**).
+All analysis beyond basic data collection was performed using R version 3.5.3 [@R-base]. All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and [TBD], respectively.
 
 ### Results
 
@@ -201,7 +201,7 @@ Table S1: Species-specific bark thickness regression equations
 
 Table S2: Species-specific height regression equations
 
-Table S3: Palmer drought severity index (PDSI) by month for years with widespread growth reduction
+Table S3: Palmer drought severity index (PDSI) by month for focal droughts
 
 Figure S1: Map of ForestGEO plot showing TWI and location of cored trees
 

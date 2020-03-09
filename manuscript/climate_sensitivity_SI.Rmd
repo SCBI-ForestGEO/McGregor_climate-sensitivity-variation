@@ -68,7 +68,7 @@ kable(heights, booktabs=TRUE, format = "latex", caption = "Table S2: Species-spe
 \newpage
 ```{r, Table S3, eval=TRUE, echo=FALSE, message=FALSE}
 tableS3 <- read.csv("tables_figures/drought_stats.csv", stringsAsFactors = FALSE)
-kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drought severity index (PDSI) by month for years with widespread growth reduction") %>%
+kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drought severity index (PDSI) by month for focal droughts") %>%
   pack_rows("focal droughts", 1, 4, latex_gap_space = ".4em", colnum = 3, hline_before = FALSE) %>%
   pack_rows("", 5, 8, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 9, 12, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
