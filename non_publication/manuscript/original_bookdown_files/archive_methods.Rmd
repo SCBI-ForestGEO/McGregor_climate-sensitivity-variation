@@ -1,0 +1,14 @@
+---
+title: "archive_methods"
+output: html_document
+---
+This document is meant to keep track of methods, even though we're not necessarily putting them in the paper.
+
+## Sapwood ratio
+Sapwood ratio also used the bark thickness data, and was also calculated for 2008, where
+```
+sapwood_area = total wood area (without bark) - heartwood area, and
+sapwood_Ratio = sapwood area / total wood area (without bark)
+```
+Once sapwood area for each tree was calculated, log-log regression equations were determined on a per-species basis, which were then used 
+

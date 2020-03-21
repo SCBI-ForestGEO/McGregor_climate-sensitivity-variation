@@ -1,0 +1,478 @@
+###########################################################
+# Purpose: Archive figure and table script from "graphs_for_manuscript.R"
+# Developed by: Ian McGregor, contact Anderson-Teixeira (teixeirak@si.edu)
+# First written: July 2019
+###########################################################
+#5. Archive: Original Figure 2 with PLA and TLP plotted against height
+# These PLA and TLP plots were originally plots e and f of Figure 2. We have chosen
+# to not include these.
+
+## necessary packages ####
+library(ggstance)
+library(raster)
+library(dplyr)
+library(Hmisc)
+library(magrittr)
+
+
+##5a. get height data for all trees >10cm dbh in census ####
+scbi.stem3 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
+
+scbi.stem3$dbh <- as.numeric(scbi.stem3$dbh)
+scbi.stem3$dbh <- ifelse(is.na(scbi.stem3$dbh), 0, scbi.stem3$dbh)
+
+scbi18_ht <- scbi.stem3
+scbi18_ht <- scbi18_ht[scbi18_ht$dbh>=100, ]
+scbi18_ht <- scbi18_ht[,c(2:5,11,14:15)]
+
+scbi18_ht$dbh_old.cm <- scbi18_ht$dbh/10
+scbi18_ht$dbh.ln.cm <- log(scbi18_ht$dbh_old.cm)
+
+#linear log-log regression
+#use height_regr from above
+
+scbi18_ht$height.ln.m <- NA
+for(w in seq(along=height_regr$sp)){
+  sp_foc <- height_regr$sp[[w]]
+  ht_eq <- height_regr[height_regr$sp == sp_foc, ]
+  num <- gsub("\\*x", "", ht_eq$Equations)
+  num1 <- as.numeric(stri_extract_first_regex(num, "[[:digit:]].[[:digit:]]+"))
+  num2 <- as.numeric(stri_extract_last_regex(num, "[[:digit:]].[[:digit:]]+"))
+  
+  if(sp_foc %in% scbi18_ht[,"sp"]){
+    scbi18_ht$height.ln.m <- 
+      ifelse(scbi18_ht$sp == sp_foc,
+             num1 + num2*scbi18_ht$dbh.ln.cm,
+             scbi18_ht$height.ln.m)
+  } else {
+    scbi18_ht$height.ln.m <- 
+      ifelse(scbi18_ht$sp != sp_foc,
+             num1 + num2*scbi18_ht$dbh.ln.cm,
+             scbi18_ht$height.ln.m)
+  }
+}
+
+scbi18_ht$height.m <- exp(scbi18_ht$height.ln.m) #used below in #3
+
+
+##5b. get TWI values for all trees in census, add trait values ####
+scbi.stem3$dbh <- ifelse(is.na(scbi.stem3$dbh), 0, scbi.stem3$dbh)
+scbi.stem3 <- scbi.stem3[scbi.stem3$dbh >= 100, ] #>10cm dbh
+
+#get utm coords
+source("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/R_scripts/SIGEO_plot_grid_UTMcoord.R", echo=TRUE)
+
+plot_to_UTM(scbi.stem3)
+scbi18 <- sigeo_coords
+scbi18 <- scbi18[, c(2:5,20:21)]
+scbi18_x <- scbi18[, c(5:6)]
+topo <- raster("data/physical/plot_TWI.tif")
+twi <- raster::extract(topo, scbi18_x, method="simple")
+scbi18$TWI <- twi
+scbi18$TWI.ln <- log(scbi18$TWI)
+
+#add in leaf traits (no rp because it's categorical)
+leaf_traits <- trees_all[, c(4,6:8)]
+
+for (i in seq(along=2:ncol(leaf_traits))){
+  trait <- colnames(leaf_traits[2:ncol(leaf_traits)])
+  scbi18[, trait[[i]]] <- leaf_traits[, trait[[i]]][match(scbi18$sp, leaf_traits$sp)]
+}
+
+##5c. create height groupings and graphs ####
+scbi18$height.m <- scbi18_ht$height.m[match(scbi18$stemID, scbi18_ht$stemID)]
+
+scbi18$bins <- cut2(scbi18$height.m, g=19)
+scbi18$bins_TWI <- cut2(scbi18$TWI, g=20)
+
+type = c("tlp_ht", "pla_ht", "tlp_twi", "pla_twi")
+var = c("mean_TLP_Mpa", "PLA_dry_percent", "mean_TLP_Mpa", "PLA_dry_percent")
+
+breaks_tlp = c(-2.8,-2.6,-2.4,-2.2,-2.0,-1.8)
+breaks_pla = c(8,12,16,20,24)
+
+limits_tlp = c(-2.8,-1.8)
+limits_pla = c(8,26)
+
+for (i in seq(along=1:4)){
+  if(!grepl("twi", type[[i]])){
+    df <- scbi18 %>%
+      group_by(bins) %>%
+      dplyr::summarize(avg = mean(eval(parse(text = var[i])), na.rm=TRUE),
+                       dev = sd(eval(parse(text = var[i])), na.rm=TRUE),
+                       no_data = (sum(is.na(eval(parse(text = var[i]))))/length(eval(parse(text = var[i])))))
+    
+    df$sdmin <- df$avg - df$dev
+    df$sdmax <- df$avg + df$dev
+    df$col <- ifelse(df$no_data > 0.25, "grey", "black")
+    df$lab <- seq(5,95,by=5) #percentiles
+    df$num <- gsub("^.*,", "", df$bins) #upper bound of bin
+    df$num <- gsub("[[:punct:]]$", "", df$num)
+    df$num <- as.numeric(df$num)
+    
+  } else if (grepl("twi", type[[i]])){
+    df <- scbi18 %>%
+      group_by(bins_TWI) %>%
+      dplyr::summarize(avg = mean(eval(parse(text = var[i])), na.rm=TRUE),
+                       dev = sd(eval(parse(text = var[i])), na.rm=TRUE),
+                       no_data = (sum(is.na(eval(parse(text = var[i]))))/length(eval(parse(text = var[i])))))
+    
+    df$sdmin <- df$avg - df$dev
+    df$sdmax <- df$avg + df$dev
+    df$col <- ifelse(df$no_data > 0.25, "grey", "black")
+    df$num <- gsub("^.*,", "", df$bins_TWI) #upper bound of bin
+    df$num <- gsub("[[:punct:]]$", "", df$num)
+    df$num <- as.numeric(df$num)
+  }
+  
+  #create plots
+  if(!grepl("twi", type[[i]])){
+    q <- ggplot(df, aes(x = avg, y = num)) +
+      geom_point(aes(color=col)) +
+      scale_color_manual(values=c("black", "grey")) +
+      ggplot2::geom_errorbarh(aes(y = num, xmin = sdmin, xmax = sdmax, height=0.5, color=col)) +
+      scale_y_continuous(breaks=c(0,10,20,30,40,50,60), limits=c(0,60)) +
+      geom_path(aes(x=avg, y=num, color=col, group=1)) +
+      ylab("Height [m]") +
+      theme_minimal() +
+      theme(legend.position = "none",
+            axis.text = element_text(size=12),
+            axis.title = element_text(size=14))
+    
+    if(i==1){
+      q <- q + 
+        xlab("TLP [MPa]") +
+        scale_x_continuous(breaks=breaks_tlp, limits=limits_tlp)
+    } else if(i==2){
+      q <- q + 
+        xlab("PLA [%]") +
+        scale_x_continuous(breaks=breaks_pla, limits=limits_pla)
+    }
+  } else if(grepl("twi", type[[i]])){
+    q <- 
+      ggplot(df[!is.na(df$bins_TWI), ], aes(y = avg, x = num)) +
+      geom_point(aes(color=col)) +
+      scale_color_manual(values=c("black", "grey")) +
+      ggplot2::geom_errorbar(aes(x = num, ymin = sdmin, ymax = sdmax, width=0.25, color=col)) +
+      geom_path(aes(x=num, y=avg, color=col, group=1)) +
+      scale_x_continuous(breaks=c(2,6,10,14), limits=c(0,16)) +
+      xlab("Topographic wetness index") +
+      theme_minimal() +
+      theme(legend.position = "none",
+            axis.text = element_text(size=12),
+            axis.title = element_text(size=14))
+    
+    if(i==3){
+      q <- q + 
+        ylab("Mean turgor loss point [MPa]") +
+        scale_y_continuous(breaks=breaks_tlp, limits=limits_tlp)
+    } else if(i==4){
+      q <- q + 
+        ylab("Percent leaf area [%]") +
+        scale_y_continuous(breaks=breaks_pla, limits=limits_pla)
+    }
+  }
+  assign(paste0("plot_", type[i]), q)
+}
+
+
+
+##5d. original formatting for manuscript plot (original ##2d. above) ####
+# this was the original formatting code used when combining these plots with
+# the NEON plots. We've decided we were going to nix plots e and f, so the code is
+# now here for archive
+##2d. Format the height boxplot and add to NEON
+plots_bw <- list(heights, plot_pla_ht, plot_tlp_ht)
+names(plots_bw) <- c("heights", "plot_pla_ht", "plot_tlp_ht")
+plots_bw_order <- c("(d)", "(e)", "(f)")
+plots_bw_order_x <- c(0.8, 9, -2.75)
+plots_bw_order_y <- c(57.5, 57.5, 57.5)
+
+for (i in seq(along=1:3)){
+  plots_bw[[i]] <- #all graphs
+    plots_bw[[i]] + 
+    theme_bw(base_size = 16) + 
+    # theme_bw(base_family = "serif") + #for TNR font
+    geom_hline(aes(yintercept = yintercept), linetype = "longdash", quant) +
+    annotate(geom="text", x=plots_bw_order_x[[i]], y=plots_bw_order_y[[i]], 
+             label = plots_bw_order[[i]], fontface="bold", size=7)
+  
+  if(!i == 1){ #only trait graphs
+    plots_bw[[i]] <- 
+      plots_bw[[i]] + 
+      theme(axis.text.y=element_blank(), 
+            axis.title.y=element_blank(),
+            axis.ticks = element_blank(),
+            legend.position = "none")
+  }
+}
+
+heights_other <- ggarrange(plots_bw$heights, plots_bw$plot_pla_ht, plots_bw$plot_tlp_ht, nrow=1, ncol=3)
+
+###put plots together
+png("manuscript/tables_figures/publication/Figure2.png", width=11, height=11, units="in", res=300)
+ggarrange(NEON, heights_other, nrow=2, ncol=1)
+dev.off()
+##5e. extra figure: TLP and PLA with height and TWI  ####
+plot_pla_twi
+plot_tlp_twi
+
+traits <- ggarrange(plot_tlp_twi, plot_pla_twi, nrow=1, ncol=2)
+ggsave("manuscript/tables_figures/traits_with_twi.png", width=5, height=7, units="in", traits)
+#######################################################################################
+#6. Extra plots
+#export TWI plot for SCBI plot book ####
+contour <- read.csv("E:/Github_SCBI/SCBI-ForestGEO-Data/spatial_data/elevation/contour10m_SIGEO_coords.csv", stringsAsFactors=FALSE)
+
+coordinates(contour) <- ~x+y
+
+x <- lapply(split(contour, contour$elev), function(x) Lines(list(Line(coordinates(x))), x$elev[1L]))
+
+# the corrected part goes here:
+lines <- SpatialLines(x)
+data <- data.frame(id = unique(contour$elev))
+rownames(data) <- data$id
+l <- SpatialLinesDataFrame(lines, data)
+
+png("E:/Github_SCBI/SCBI-Plot-Book/maps_figures_tables/ch_2_maps/TWI_map.png", width=5, height=7, units="in", res=300)
+levelplot(topo, margin=FALSE, scales=list(draw=FALSE),
+          colorkey=list(space="left", width=0.75, height=0.75)) +
+  layer(sp.lines(l, col="white"))
+dev.off()
+
+###############################################################################
+#6. Original plots from canopy_position_analysis
+## these plots are no longer being used but still keeping the code
+## necessary packages ####
+library(ggplot2)
+library(RCurl)
+library(tidyr)
+library(grid)
+library(gridExtra)
+library(ggpubr)
+
+##6a. CRU variables plotted against sp, boxplot t-test btwn canopy/subcanopy groupings ####
+## load in data
+cru1901 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/climate_sensitivity_cores/master/results/canopy_vs_subcanopy/1901_2009/tables/monthly_correlation/correlation_with_CRU_SCBI_1901_2016_climate_data.csv"), stringsAsFactors = FALSE)
+
+#subset out caco, cato, and frni because they don't have pair of canopy and subcanopy
+cru1901 <- cru1901[!(cru1901$Species %in% c("CACO_subcanopy", "CATO_subcanopy", "FRNI_subcanopy")), ]
+
+cru1901_loop <- cru1901
+
+#create separate identifier
+cru1901_loop$position <- ifelse(grepl("subcanopy", cru1901$Species), "subcanopy", "canopy")
+cru1901_loop$Species <- gsub("_[[:alpha:]]+$", "", cru1901$Species)
+
+#2. box plots
+cru1901_loop$variable <- as.character(cru1901_loop$variable)
+clim <- unique(cru1901_loop$variable)
+species <- unique(cru1901_loop$Species)
+months <- c("curr.may", "curr.jun", "curr.jul", "curr.aug")
+
+#creates a lattice graph showing box plot of variables grouped by species
+ggplot(data = cru1901) +
+  aes(x = Species, y = coef, fill = variable) +
+  geom_boxplot() +
+  labs(title = "Correlation by species and variable",
+       y = "Correlation") +
+  facet_wrap( ~ Species, scales="free", nrow=4) +
+  theme_minimal()
+
+#creates lattice graph comparing canopy and subcanopy across species
+
+# pdf("graphs_plots/canopy_subcanopy_correlation.pdf", width=10)
+cru1901_loop$Species <- as.factor(cru1901_loop$Species)
+
+#this piece of code puts the graphs in date order
+cru1901_loop <- within(cru1901_loop, month <- factor(month, levels=cru1901_loop$month[1:17]))
+with(cru1901_loop, levels(month))
+
+for (j in seq(along=clim)){
+  cru1901_sub <- cru1901_loop[cru1901_loop$variable %in% clim[[j]], ]
+  cru1901_sub <- group_by(cru1901_sub, month)
+  
+  q <- ggplot(data = cru1901_sub) +
+    geom_boxplot(aes(x = position, y = coef, fill = position)) +
+    labs(title = paste0("Canopy vs subcanopy: ", clim[[j]]),
+         y = "Correlation") +
+    stat_compare_means(aes(x=position, y=coef), method="t.test", label.x.npc = 0, label.y.npc = 0.97) +
+    facet_wrap(~ month, scales="free", nrow=4) +
+    theme_minimal()
+  print(q)
+}
+
+dev.off()
+##6b. hydraulic traits plotted against height ####
+trees_all_full <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
+
+graph_traits <- colnames(trees_all_full[, 5:9])
+color <- c("dark green", "blue", "gold", "purple", "magenta")
+
+for(i in seq(along=graph_traits)){
+  trait <- graph_traits[[i]]
+  trees_all_full$trait <- trees_all_full[, trait]
+  
+  p <- ggplot(trees_all_full) +
+    geom_point(aes(x = trait, y = height.ln.m), color = color[[i]]) +
+    xlab(print(trait)) +
+    theme_minimal()
+  
+  assign(paste0(trait, "_plot"), p)
+}
+
+#arrange all graphs together and save image
+png("manuscript/tables_figures/traits_vs_traits.png", width = 1000, height = 1000, pointsize = 18)
+graph <- grid.arrange(PLA_dry_percent_plot, LMA_g_per_m2_plot, Chl_m2_per_g_plot, mean_TLP_Mpa_plot, WD_g_per_cm3_plot, nrow=2, top = textGrob(expression(bold("Hydraulic Traits by Height"))))
+
+dev.off()
+
+graph_traits <- graph_traits %>%
+  gather("PLA_dry_percent", "LMA_g_per_m2", "Chl_m2_per_g", "mean_TLP_Mpa", "WD_g_per_cm3", key = "trait", value = measure)
+
+ggplot(graph_traits) +
+  geom_point(aes(x=measure, y=height.ln.m)) +
+  facet_wrap(~trait) +
+  theme_minimal()
+##6c. height and canopy position by size class NEEDS EDITS if going to use ####
+scbi.stem3 <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/tree_main_census/data/census-csv-files/scbi.stem3.csv"), stringsAsFactors = FALSE)
+
+scbi.stem3$dbh <- as.numeric(scbi.stem3$dbh)
+
+current_ht <- trees_all[!duplicated(trees_all$tree), ]
+current_ht$year <- 2018
+current_ht <- current_ht[,c(1:4,15:17,19:21)]
+
+current_ht$dbh_old.mm <- scbi.stem3$dbh[match(current_ht$tree, scbi.stem3$tag)]
+current_ht$dbh_old.cm <- current_ht$dbh_old.mm/10
+current_ht$dbh.ln.cm <- log(current_ht$dbh_old.cm)
+
+#linear log-log regression
+#the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
+current_ht$height.ln.m <- 
+  ifelse(current_ht$sp == "caco", (0.348+0.808*current_ht$dbh.ln.cm),
+         ifelse(current_ht$sp == "cagl", (0.681+0.704*current_ht$dbh.ln.cm),
+                ifelse(current_ht$sp == "caovl", (0.621+0.722*current_ht$dbh.ln.cm),
+                       ifelse(current_ht$sp == "cato", (0.776+0.701*current_ht$dbh.ln.cm),
+                              ifelse(current_ht$sp == "fagr", (0.708+0.662*current_ht$dbh.ln.cm),
+                                     ifelse(current_ht$sp == "fram", (0.715+0.619*current_ht$dbh.ln.cm),
+                                            ifelse(current_ht$sp == "juni", (1.22+0.49*current_ht$dbh.ln.cm),
+                                                   ifelse(current_ht$sp == "litu", (1.32+0.524*current_ht$dbh.ln.cm),
+                                                          ifelse(current_ht$sp == "qual", (1.14+0.548*current_ht$dbh.ln.cm),
+                                                                 ifelse(current_ht$sp == "qupr", (0.44+0.751*current_ht$dbh.ln.cm),
+                                                                        ifelse(current_ht$sp == "quru", (1.17+0.533*current_ht$dbh.ln.cm),
+                                                                               ifelse(current_ht$sp == "quve", (0.864+0.585*current_ht$dbh.ln.cm),
+                                                                                      (0.791+0.645*current_ht$dbh.ln.cm)))))))))))))
+current_ht$height.m <- exp(current_ht$height.ln.m)
+
+# power function Height = intercept*(diameter^slope) #for reference
+
+current_ht <- rbind(current_ht, trees_all) #run this line to get full picture going back in time
+current_ht <- current_ht[order(current_ht$tree, current_ht$year), ]
+
+#graphing height by crown position (for paper)
+current_ht <- current_ht[!is.na(current_ht$position_all), ]
+current_ht$position_all <- factor(current_ht$position_all, levels = c("dominant", "co-dominant", "intermediate", "suppressed"))
+
+ggplot(data = current_ht) +
+  aes(x = position_all, y = height.m, fill = position_all, group = position_all) +
+  # aes(x=position_all, y=height.m, fill=year) +
+  geom_boxplot() +
+  ggtitle("Current height vs crown position")+
+  xlab("year") +
+  ylab("height(m)") +
+  theme_minimal()
+
+
+# pdf of multiple graphs
+pdf("graphs_plots/current_dbh_height_all_years.pdf", width=12)
+#with dbh
+ggplot(data = current_ht) +
+  aes(x = year, y = dbh_old.cm, fill = position_all) +
+  # aes(x=position_all, y=dbh_old.cm, fill=year) +
+  geom_boxplot() +
+  ggtitle("DBH vs crown position")+
+  xlab("year") +
+  ylab("DBH(cm)") +
+  theme_minimal()
+
+#with height
+ggplot(data = current_ht) +
+  aes(x = year, y = height.m, fill = position_all) +
+  # aes(x=position_all, y=height.m, fill=year) +
+  geom_boxplot() +
+  ggtitle("Height vs crown position")+
+  xlab("year") +
+  ylab("height(m)") +
+  theme_minimal()
+dev.off()
+
+##6d. other graphs ####
+
+trees_all <- group_by(trees_all, year, position)
+
+#density graph of resistance value distribution by year by canopy position
+ggplot(trees_all, aes(x=resist.value)) +
+  geom_density() +
+  facet_wrap(year ~ position, ncol=2)
+
+#graph showing resistance value by species by year by canopy position
+ggplot(data = trees_all) +
+  aes(x = year, y = resist.value, color = sp) +
+  geom_point() +
+  scale_color_brewer(palette="Paired") +
+  theme_minimal() +
+  facet_wrap(vars(position))
+
+ggplot(data = census3_sub) +
+  aes(x = DBH, fill = position.crown) +
+  geom_histogram(bins = 30) +
+  theme_minimal() +
+  facet_wrap(vars(position.crown), ncol=1)
+
+ggplot(data = census3_sub) +
+  aes(x = DBH, fill = position.crown) +
+  geom_histogram(bins = 30) +
+  theme_minimal()
+
+#graphs looking at results from "best" AICc model (residuals, norm line, etc)
+plot(lmm_all[[31]])
+resid(lmm_all[[31]])
+plot(density(resid(lmm_all[[31]]))) #A density plot
+qqnorm(resid(lmm_all[[31]])) # A quantile normal plot - good for checking normality
+qqline(resid(lmm_all[[31]]))
+
+
+#this plot shows regression line for certain variables against resistance values, separated by year and species
+ggplot(trees_all, aes(x = tlp, y = resist.value, color=year)) +
+  geom_point() +
+  #scale_color_manual(values=c("skyblue", "blue", "navy")) + 
+  scale_color_distiller(palette = "Spectral") +
+  theme_classic() +
+  #geom_line(data = cbind(trees_all, pred = predict(lmm_all[[32]])), aes(y = pred)) +
+  geom_smooth(method="lm") +
+  ylab("(growth during drought) / (growth prior to drought)") +
+  xlab("DBH (log-transformed)") +
+  facet_wrap(~sp, nrow=4)
+
+#regression line with all data values together
+ggplot(trees_all, aes(x = tlp, y = resist.value)) +
+  geom_point() +
+  theme_classic() +
+  geom_smooth(method="lm") +
+  ylab("(growth during drought) / (growth prior to drought)") +
+  xlab("TLP")
+
+
+#What this plot does is create a dashed horizontal line representing zero: an average of zero deviation from the best-fit line. It also creates a solid line that represents the residual deviation from the best-fit line.
+# If the solid line doesn't cover the dashed line, that would mean the best-fit line does not fit particularly well.
+plot(fitted(lmm_all[[32]]), residuals(lmm_all[[32]]), xlab = "Fitted Values", ylab = "Residuals")
+abline(h=0, lty=2)
+lines(smooth.spline(fitted(lmm_all[[32]]), residuals(lmm_all[[32]])))
+
+#
+boxplot(resist.value ~ sp, data=trees_all)
+
+library(plotly)
+p <- qqp(residuals(lmm_all[[13]]), "norm")
+ggplotly(p)
