@@ -1,12 +1,17 @@
-#tables for manuscript
-
+###############################################################
+# Purpose: Other tables for McGregor et al 2020
+# Developed by Ian McGregor, contact Anderson-Teixeira (teixeirak@si.edu)
+# First created November 2019
+################################################################
 #Table 3 ####
+
+# necessary packages
 library(RCurl)
 library(tidyr)
 library(data.table)
 library(dplyr)
 
-species <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
+species <- read.csv("data/core_files/core_list.csv", stringsAsFactors = FALSE)
 
 table <- species[, c(1:3,6,17)]
 
@@ -98,7 +103,7 @@ table2[8,6] <- "semi-ring*" #change juni ring porosity
 
 
 
-write.csv(table2, "manuscript/tables_figures/table3_species_table.csv", row.names=FALSE)
-write.csv(table2_SI, "manuscript/tables_figures/TableS2.csv", row.names=FALSE)
+write.csv(table2, "manuscript/tables_figures/publication/table3_species_table.csv", row.names=FALSE)
+write.csv(table2_SI, "manuscript/tables_figures/publication/TableS2.csv", row.names=FALSE)
 
 

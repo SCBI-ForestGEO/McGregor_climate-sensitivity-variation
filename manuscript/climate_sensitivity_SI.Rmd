@@ -49,7 +49,7 @@ Kristina J. Anderson-Teixeira
 library(knitr)
 library(kableExtra)
 
-bark <- read.csv("tables_figures/tableS1_bark_regression.csv", stringsAsFactors = FALSE)
+bark <- read.csv("tables_figures/publication/tableS1_bark_regression.csv", stringsAsFactors = FALSE)
 bark[,2] <- NULL
 kable(bark, booktabs=TRUE, format = "latex", caption = "Table S1: Species-specific bark thickness regression equations") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
@@ -60,7 +60,7 @@ kable(bark, booktabs=TRUE, format = "latex", caption = "Table S1: Species-specif
 library(knitr)
 library(kableExtra)
 
-heights <- read.csv("tables_figures/tableS2_height_regression.csv", stringsAsFactors = FALSE)
+heights <- read.csv("tables_figures/publication/tableS2_height_regression.csv", stringsAsFactors = FALSE)
 heights[,2] <- NULL
 kable(heights, booktabs=TRUE, format = "latex", caption = "Table S2: Species-specific height regression equations") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
@@ -68,7 +68,7 @@ kable(heights, booktabs=TRUE, format = "latex", caption = "Table S2: Species-spe
 
 \newpage
 ```{r, Table S3, eval=TRUE, echo=FALSE, message=FALSE}
-tableS3 <- read.csv("tables_figures/drought_stats.csv", stringsAsFactors = FALSE)
+tableS3 <- read.csv("tables_figures/publication/tables3_drought_stats.csv", stringsAsFactors = FALSE)
 kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drought severity index (PDSI) by month for focal droughts") %>%
   pack_rows("focal droughts", 1, 4, latex_gap_space = ".4em", colnum = 3, hline_before = FALSE) %>%
   pack_rows("", 5, 8, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
@@ -79,10 +79,10 @@ kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drou
 
 
 \newpage
-![Figure S1: Map of ForestGEO plot showing TWI and location of cored trees](tables_figures/figureS1_location_cored_trees.png){width=500px}
+![Figure S1: Map of ForestGEO plot showing TWI and location of cored trees](tables_figures/publication/figureS1_location_cored_trees.png){width=500px}
 
 \newpage
-![Figure S2: Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought](tables_figures/figureS2_drought_plot.jpg){width=600px}
+![Figure S2: Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought](tables_figures/publication/figureS2_drought_plot.jpg){width=600px}
 
 \newpage
-![Figure S3: Height by canopy position across the three focal droughts and in the year of measurement (2018)](tables_figures/figureS3_height_plot_analysis.png){width=600px}
+![Figure S3: Height by canopy position across the three focal droughts and in the year of measurement (2018)](tables_figures/publication/figureS3_height_plot_analysis.png){width=600px}

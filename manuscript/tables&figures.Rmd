@@ -39,7 +39,7 @@ knitr::write_bib(c(
 ```{r Table 1, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-hypothesis_table <- read.csv("tables_figures/table1_hypothesis_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
+hypothesis_table <- read.csv("tables_figures/publication/table1_hypothesis_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
 kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. Summary of hypotheses, corresponding specific predictions, and results. We count predictions as fully supported ('yes') when the response is signficant in single-variable tests (Table 4) and included in all top full models and as partially supported ('(yes)') or rejected ('(no)') when the direction of response consistently matched the prediction but the effect was not significant in all models.") %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
   pack_rows("Tree size and microenvironment", 1, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
@@ -60,7 +60,7 @@ kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. S
 ```{r Table 2, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-table2 <- read.csv("tables_figures/table2_variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
+table2 <- read.csv("tables_figures/publication/table2_variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
 kable(table2, format = "latex", booktabs = TRUE, caption = "Table 2. Summary of variables.", 
         escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 10, protect_latex = TRUE) %>%
@@ -77,7 +77,7 @@ kable(table2, format = "latex", booktabs = TRUE, caption = "Table 2. Summary of 
 ```{r, Table 3, eval=TRUE, echo=FALSE, message=FALSE}
 library(knitr)
 library(kableExtra)
-table3 <- read.csv("tables_figures/table3_species_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
+table3 <- read.csv("tables_figures/publication/table3_species_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
 table3[8,8] <- paste0(table3[8,8], footnote_marker_symbol(1))
 kable(table3, format = "latex", booktabs=TRUE, caption = "Table 3. Overview of analyzed species, listed in order of their relative contributions to woody stem productivity ($ANPP_{stem}$) in the plot, along with numbers and sizes sampled, and species traits. Variable abbreviations are as in Table 2.", escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
@@ -92,7 +92,7 @@ kableExtra::footnote(symbol = c("Semi-ring porosity is intermediate between ring
 ```{r table 4, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-singlevar_table <- read.csv("tables_figures/table4_singlevariable_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
+singlevar_table <- read.csv("tables_figures/publication/table4_singlevariable_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
 kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests of hypothesized drivers of drought resistance. Models including each variable were compared to corresponding null models. dAIC is the AICc of the null model minus that of the model including the variable (thus, dAICc>2 indicates that the variable significantly improves the model). Variable abbreviations are as in Table 2.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
@@ -109,7 +109,7 @@ kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable test
 ```{r table 5, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-multivar_table <- read.csv("tables_figures/table5_multivariable_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
+multivar_table <- read.csv("tables_figures/publication/table5_multivariable_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
 kable(multivar_table, booktabs = TRUE, caption = "Table 5. Summary of top full models for each drought instance. Models are ranked by AICc, and we show all models whose AICc value falls within 1.0 (dAICc<1) of the best model (bold).", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," "," "," ", "crown position" = 4, " ","xylem porosity" = 2," ", " ")) %>%
@@ -134,7 +134,7 @@ kable(multivar_table, booktabs = TRUE, caption = "Table 5. Summary of top full m
 
 \newpage
 
-![**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide responses** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species. PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre-drought period used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (b) show the distribution of resistance values for each drought.](tables_figures/Figure1.png){width=500px}
+![**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide responses** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species. PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre-drought period used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (b) show the distribution of resistance values for each drought.](tables_figures/publication/Figure1.png){width=500px}
 
 
-![**Figure 2. Height profiles in growing season climatic conditions, tree heights by crown position, and leaf hydraulic traits** The top row shows averages ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Also shown is (d) 2018 tree heights by canopy position (see Table 2 for codes). In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.](tables_figures/Figure2.png){width=500px}
+![**Figure 2. Height profiles in growing season climatic conditions, tree heights by crown position, and leaf hydraulic traits** The top row shows averages ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Also shown is (d) 2018 tree heights by canopy position (see Table 2 for codes). In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.](tables_figures/publication/Figure2.png){width=500px}

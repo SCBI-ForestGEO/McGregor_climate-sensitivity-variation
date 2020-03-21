@@ -1,6 +1,6 @@
 ######################################################
 # Purpose: Create vertical profiles of climate variables for ForestGEO plot using NEON tower data
-# Developed by: Ian McGregor - mcgregori@si.edu
+# Developed by: Ian McGregor, contact Anderson-Teixeira (teixeirak@si.edu)
 # R version 3.5.3 - First created May 2019
 ######################################################
 library(neonUtilities)

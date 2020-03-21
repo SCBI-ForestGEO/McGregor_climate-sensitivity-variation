@@ -1,6 +1,6 @@
 ######################################################
 # Purpose: Calculate past heights of different species in ForestGEO from regression equations
-# Developed by: Ian McGregor - mcgregori@si.edu
+# Developed by: Ian McGregor, contact Anderson-Teixeira (teixeirak@si.edu)
 # R version 3.5.3 - First created April 2019
 ######################################################
 library(data.table)
@@ -150,7 +150,7 @@ check <- heights_all[is.na(heights_all$dbh) | heights_all$dbh ==0, ]
 
 #4. make regression equations ####
 #bring in list of cored species we're using
-neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
+neil_list <- read.csv("data/core_files/core_list.csv", stringsAsFactors = FALSE)
 neil_sp <- unique(neil_list$sp)
 
 paper_heights <- heights_all[heights_all$sp %in% neil_sp, ]
@@ -195,7 +195,7 @@ regr <- data.frame("Species" = c("Carya cordiformis", "Carya glabra", "Carya ova
                              0.719,0.886, 0.755, 
                              0.857))
 
-write.csv(regr, "manuscript/tables_figures/tableS2_height_regression.csv", row.names=FALSE)
+write.csv(regr, "manuscript/tables_figures/publication/tableS2_height_regression.csv", row.names=FALSE)
 
 #########################################################################
 #create plots showing height diff by year (stand-alone) ####

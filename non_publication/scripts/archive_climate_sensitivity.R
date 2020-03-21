@@ -1,6 +1,6 @@
 ######################################################
 # Purpose: Original code for McGregor et al, kept here for reference
-# Created by: Ian McGregor - (mcgregorian93@gmail.com)
+# Created by: Ian McGregor, contact Anderson-Teixeira (teixeirak@si.edu)
 # R version 3.5.2 - First created February 2020
 ######################################################
 
@@ -230,7 +230,7 @@ years_bysp <- years_bysp[order(years_bysp$year, years_bysp$sp), ]
 #write.csv(pointers, "data/occurrence_of_pointer_yrs.csv", row.names=FALSE)
 
 ##4b. resistance metrics for all trees ####
-neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
+neil_list <- read.csv("data/core_files/core_list.csv", stringsAsFactors = FALSE)
 neil_sp <- unique(neil_list$sp)
 
 neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below

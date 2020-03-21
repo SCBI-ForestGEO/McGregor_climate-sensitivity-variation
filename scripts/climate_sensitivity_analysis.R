@@ -1,6 +1,6 @@
 ######################################################
 # Purpose: Analysis of tree cores with relation to tree characteristics, in order to determine causes of drought susceptibility (using ForestGEO cores)
-# Developed by: Ian McGregor - mcgregori@si.edu
+# Developed by: Ian McGregor, contact Anderson-Teixeira (teixeirak@si.edu)
 # R version 3.5.2 - First created February 2019, streamlined Feb. 2020
 ######################################################
 
@@ -45,7 +45,7 @@ pointers <- pointers[order(pointers$nb.series, decreasing=TRUE), ]
 rownames(pointers) <- 1:nrow(pointers)
 
 #get specific resist values for all trees
-neil_list <- read.csv("data/core_list_for_neil.csv", stringsAsFactors = FALSE)
+neil_list <- read.csv("data/core_files/core_list.csv", stringsAsFactors = FALSE)
 neil_sp <- unique(neil_list$sp)
 
 neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
@@ -318,7 +318,7 @@ trees_all$dbh.ln.cm <- log(trees_all$dbh_old.cm)
 ##2e. add in tree heights ####
 ## taken from the canopy_heights script
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
-height_regr <- read.csv("manuscript/tables_figures/tableS2_height_regression.csv", stringsAsFactors = FALSE)
+height_regr <- read.csv("manuscript/tables_figures/publication/tableS2_height_regression.csv", stringsAsFactors = FALSE)
 
 height_regr$Equations <- gsub("^.*= ", "", height_regr$Equations)
 height_regr$Equations <- gsub("[[:alpha:]].*$", "x", height_regr$Equations)
@@ -375,7 +375,7 @@ trees_all$position_all <- gsub("S", "suppressed", trees_all$position_all)
 # trees_all$illum <- as.character(trees_all$illum)
 
 #this csv has avg/min/max dbh for each canopy position by sp
-# positionsp <- read.csv("data/core_chronologies_by_crownposition.csv")
+# positionsp <- read.csv("data/core_files/core_chronologies_by_crownposition.csv")
 
 ##2g. add in topographic wetness index ####
 ### this code comes from topo_wetness_index in ForestGEO-Data
@@ -400,7 +400,7 @@ layers <- build_layers(q)
 sp::plot(layers, main=c("Elevation AMSL (m)", "Upslope area (log(m^2/m))", "TWI ((log(m^2/m))"))
 
 #5 get TWI values for trees
-twi_trees <- read.csv("data/core_list_for_neil.csv")
+twi_trees <- read.csv("data/core_files/core_list.csv")
 twi_trees <- twi_trees[, c(1,23:24)]
 twi_trees1 <- twi_trees[, c(2:3)]
 twi <- extract(layers[[3]], twi_trees1, method="simple")
@@ -641,7 +641,7 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 }
 
 write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/tableS3_candidate_traits.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/publication/S3_candidate_traits.csv", row.names=FALSE)
 
 ##3b. determine the best full model (expand for fuller explanation) ####
 # this code chunk uses the candidate variables (cand_full) from ##6a to determine
@@ -841,7 +841,7 @@ for (i in seq(along=c(1:4))){
 }
 
 write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/tableS4_top_models_dAIC.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_dAIC.csv", row.names=FALSE)
 
 ##3c. Make table of coefficients plus r^2 from top models from ##6b. ####
 
@@ -977,5 +977,5 @@ for(i in seq(along=trait)){
   trait_ht[,5][[i]] <- lm_anova$`Pr(>F)`[1]
 }
 
-write.csv(trait_ht, "manuscript/tables_figures/tableS5_tested_traits_height.csv", row.names=FALSE)
+write.csv(trait_ht, "manuscript/tables_figures/publication/tableS5_tested_traits_height.csv", row.names=FALSE)
 
