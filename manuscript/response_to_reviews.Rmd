@@ -7,6 +7,10 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+*italics - temporary comments for points that remain to be addressed*
+
+**bold - response**
+
 ## Referee: 1
 
 Comments to the Author
@@ -15,17 +19,37 @@ The study addresses the relationship between drought resistance (Rt) calculated 
 
 - It is important to better discuss the proper use of Rt, particularly when comparing single drought years, to assess tree resistance to drought. This metric has been much used lately as one of the so-called resilience indices (I wonder why other Rs indices where not included in the manuscript). In the paper, the authors use Rt similarly to most studies in the literature, which is fine. Yet, Rt (and particularly the other resilience indices based on radial growth) does not only depend on the individual response to drought events, but also on stand dynamics around target trees. For this reason, if stands around trees are not comparable or show changes after some disturbance (e.g. the drought events analysed) differently, this may bias comparisons of Resilience indices (although it is true that Rt should be less influenced than the other indices). The problem is that there is not such stand competition data for old droughts. This does not invalidate the study but I think the authors should discuss the issue, particularly for the analysis and comparisons of single droughts. I would suggest including also other Resilience indices, not only Rt, to enrich the discussion.
 
+[*issue #92*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/92)
+
+[*issue #93*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/93)
+
 - Statistical analysis: the analysis would be more precise if the authors used Generalized linear mixed models to avoid data transformation and take into account (with random effects, as they do for the linear mixed model, LMM, presented now) the influence of species in the analysis. Then I missed a further discussion on the role of individual species (e.g. see my comment below on Rt>1).
+
+[*issue #94*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/94)
 
 I suggest to show some relationship, e.g. between Rt and traits in figures. The study only presents two figures and there is plenty of room to present results more clearly with extra figures.
 
+[*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
+
 Only assessing models with AIC is not enough to prove sound relationships in multidimensional and complex data-models. LL ratio tests or deviance-anova tests can be used in the case of nested models with LMM or GLMM respectively. Along the text: dAIC is generally referred as $\Delta$AIC, please change accordingly.
+
+[*issue #94*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/94)
+
+*dAIC: minor fix*
 
 Following the two previous comments, I suggest to leave in Table 5 just the best model (rather that a multimodel inference as is presented now) to discuss more clearly the covariates included. And I suggest discussing only the model with all years together. This would be more robust and avoid ramble differences between years that mostly look spurious and with a difficult physiological explanation. This would help to ensure a better use of the Resilience indices.
 
+*This is an interesting suggestion. Depending on where we end up going with some other issues, it may make sense to de-emphasize the individual models--perhaps move Table 5 to SI and replace with figure ([issue #71](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71))? However, I think we could also just make an argument for leaving this as is.*
+
+related to [*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
+
 The authors might like to consider including Table 4 as a supplement, because as it stands it looks like an exploratory analysis. If the ‘single-variable approach’ is not just exploratory, state it clearly and why it is needed besides the full models with several parameters.
 
+[*issue #74*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/74)
+
 - Importantly, the drought selection would be biased if years were selected as from line 202, which is a common mistake in similar studies (the original of Lloret et al. included). Droughts must be selected based only on some climatic/drought index (PDSI, SPEI,…) and independently of growth. Otherwise the analysis is biased towards years with low growth, and different questions would arise with a difficult answer. If the authors select only those droughts where there is a growth decrease: is that decrease evident in all species and similar across species? What happens with more intense droughts that those selected (if any), why they do not force a decrease in growth if drought is a main forcing agent? I see that 1966 and 1999 are the driest (as in PDSI) in Figure 1, but there is at least one year around 1955 that it is as dry or drier than 1977. In line 204 it is stated that they are the driest. If this is the case, the analysis should be sound but it should be deleted what is stated in lines 202-203 where authors say that they selected years also based on low growth. In fact, that should be a result after having selected the drought years only based on dryness (as in lines 208-209). Line 211 then they search for pointer years… a little bit messy. Please, explain better, and it should follow: 1) selection of dry years without regarding growth data; 2) characterise growth those dry years; 3) If the authors want to compare with other pointer years, fine, but that should be a third independent step properly justified and explained. Following this rationale, then in line 221 it should be difficult that Rt>1, had we selected those years with a negative growth anomaly. Please, explain clearly and consistently.
+
+*Ugghh, this doesn't even change anything--we'd still be analyzing the same 3 droughts! The question is whether to remove the growth reduction criteria. I personally think that analyzing 2 criteria is a strength, as our goal was to identify droughts that were both climatologically and biologically signficant. In any case, this is just an issue of changing the wording.*
 
 Other minor comments:
 
@@ -52,11 +76,15 @@ should be rather straightforward and the authors would increase accuracy across 
 
 - Line 266-267: why only in 1966? I think this shows that this variable is not properly assessed. The older the date, the more accurate the estimation of crown position and height were.
 
+*this is true of crown position, not height*
+
 - Line 275-280: those profiles were assumed a priori in the introduction and are common to any forest. They are indeed interesting to characterise the forest, but they do not add to individual tree variability. You could think to send Figure 2 to an appendix, in consequence, and use figures to show more specific results related to your individual tree analyses.
+
+[*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
 
 - Line 330-331: any evidence to support this? It looks rather speculative. As suggested above, does any species particularly show positive Rt or positive Rt are randomly distributed in your trees?
 
--Line 331-333: not so sure about this. It can also mean that there is no causal relationship between Rt and covariates, mostly because radial growth Rt should not be used as an integral proxy of tree resistance to drought, such as it is often used now in the literature.
+- Line 331-333: not so sure about this. It can also mean that there is no causal relationship between Rt and covariates, mostly because radial growth Rt should not be used as an integral proxy of tree resistance to drought, such as it is often used now in the literature.
 
 - Line 334-339: indeed, assessment of these two variables is not conclusive, as suggested above (just data from 2018, from the past estimated and correlated).
 
@@ -89,6 +117,8 @@ The issue of the preferential death of large trees is not only important because
 
 I found this paper not only to address a very important point but also to be exceptionally well structured and written. My main suggestion is that it could use a bit more emphasis on its importance, and I would be interested in hearing a bit more about what the authors feel their results imply regarding the cause of the preferential vulnerability of large individuals. I give line-by-line suggestions (and sometimes just reactions):
 
+*What a nice review! We can easily add some language on the importance.*
+
 first paragraph—this setup is very compelling, and the point is urgently true.
 
 66- “in their basal portions” seems fine for this level of intro, but note that in angiosperms, taller trees also have wider vessels at the stem tip (and thus throughout the conductive system) (Zach et al., 2010; Olson et al., 2014, 2018). This seems plausibly the result of selection keeping conduit carbon costs down with height growth. As a tree grows taller, if terminal twig vessel diameters become wider, then given a constant rate of tip-to-base vessel widening, vessel diameters will be wider along the entire stem. Vessels that are wider throughout would have lower per-conduit resistance than those that, all else being equal, are narrower. So, conceivably as a tree gets taller, if vessels widen at the twig tip, then lower per-conduit resistance could mean that the same leaf area is supplied by fewer vessels. This could potentially contribute to keeping per-leaf area carbon costs constant with height growth. This prediction seems confirmed by the experiment of (Echeverría et al., 2019), who found that as Moringa trees grew taller, there were wider vessels at the stem tip and fewer vessels per unit leaf area, but that conductance per unit leaf area should remain the same. Terminal twig tracheids don’t seem to widen in gymnosperms, e.g. (Williams et al., 2019). (Sack et al., 2012) have shown very clearly that petiole base vessel diameter scales predictably with leaf size, as would be expected; it is not clear how leaf size variation is involved in terminal twig vessel diameter scaling with height, though in wide samplings leaf size doesn’t seem to scale with height (Jensen & Zwieniecki, 2013).
@@ -111,9 +141,13 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 112 wasn’t clear where the “ring porous more drought resistant” hypothesis came from. Global data show that ring porous species are almost entirely restricted to the north temperate zone, especially deciduous broadleaf forests (Wheeler et al., 2007). They are virtually absent in drylands, especially warm tropical drylands. Species in drylands are almost overwhelmingly diffuse porous; the high wood density species in chaparrals and in some desert plants can be semi ring porous (Olson et al., in press).
 
+*good point. hypothesis refers to temperate deciduous biome.*
+
 113 These correlations seem reasonable, e.g. see (Méndez-Alonzo et al., 2012)
 
 124 and Table 3. This seems like a good palette of species because they are very different in their hydraulic construction. In addition to libriform fibers, oaks have very abundant vasicentric tracheids, especially in latewood. This means that the oaks will likely maintain some conductance even under highly negative tensions. This is not by virtue of their ring porosity (note that most oaks globally aren’t ring porous!), but because of the high proportion of vasicentric tracheids in their latewood. Liriodendron (diffuse porous, scalariform perforation plates) and Carya (likely ring porous at your locality; simple perforation plates) both have libriform fibers and lack vasicentric tracheids. See the data in (Olson et al., in press). There is relatively low family-level diversity represented here; our phylogenetic analyses (Olson et al., in press) suggest that there is very little phylogenetic signal in the conduit diameter-stem length relationship, so this could help justify if necessary not including phylogeny in the analyses.
+
+*this is new terminology to me. Look into Olson et al. in press. Would these wood traits be worth including as covariates?*
 
 127 “tree size”= height?
 
@@ -127,17 +161,25 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 260 amazing
 
+**Thank you.**
+
 275—some people think that the increase in terminal twig vessels with height growth keeps pace with the changes in VPD from understory to canopy
 
 281 nice
 
+**Thank you.**
+
 301 this intro paragraph to the discussion ranks very well the results from most significant to least
+
+**Thank you.**
 
 327 I agree that this is the point that most deserves discussion in paragraph 2
 
 334 You might go into detail regarding what you think this says about the causal hypothesis behind the global decline of large individuals. To me it helps reject notions that somehow larger trees are more exposed to wind throw or other damaging agents. It is consistent with the hypothesis that larger individuals have wider conduits, and (assuming that wider conduits are more vulnerable to drought induced embolism) thus larger individuals are (all else being equal…) more vulnerable to embolism than smaller conspecifics.
 
 336 beautifully said “impossible for trees to e ciently transport water to great heights and simultaneously maintain strong resistance and resilience to drought-induced embolism”
+
+**Thank you.**
 
 349 fascinating; it seems plausible that current climate changed induced large-individual mortality involves trees growing to conduit diameters, and thus heights, permitted under previously more even and moister climates, and now finding themselves in more extreme climates that make their heights and conduits excessively wide given current conditions.
 
@@ -147,7 +189,11 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 385 very nice paragraph
 
+**Thank you.**
+
 In conclusion, this ms addresses a very important issue with a well-designed study and appropriate analyses. It is well written and interesting and I hope my comments are useful.
+
+**Thank you.**
 
 Mark Olson molson@ib.unam.mx
 
@@ -209,6 +255,8 @@ L165-167: I think this needs to be explained more clearly. Why are type I errors
 
 L217-226: this is problematic because drought resistance (Rt) as defined by Lloret et al. (2011) assumes that tree growth (BAI in this case) fluctuates around a long term mean that is stable through time. But this is rarely/never the case with tree growth, which shows clear temporal trends related to tree size/ontogeny. If you don’t account for these directional trends then your estimates of Rt will be biased. For instance, if a tree is on a long-term trajectory of decreasing BAI over time, when you calculate Rt you will overestimate the impact of the drought (and vice versa for trees on an upward growth trajectory). So you need to first detrend the tree ring series to remove long-term growth trends (unless you can show that your trees exhibited no long-term temporal trends in BAI). The fact that pre-drought conditions were different for the three droughts is also a problem, but not much you can do about this except acknowledge as you have done.
 
+[*issue #92*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/92)
+
 L260-261: This is rather strange. So for the same individual tree, size was important in determining response to drought in one year but not in the others? And that’s for the years further back in time when the tree would have been smallest? Couldn’t that be interpreted as trees becoming less susceptible to drought as they grow larger/older? It’s also a little concerning that results are very different across the three droughts. Of these, the 1999 drought is the one I would tend to trust most as stand structure and composition would have been most similar to today.
 
 Other comments
@@ -237,6 +285,8 @@ L287: specify how they were related to drought. Positive? Negative?
 
 Tables and Figures: there are a large number of tables. I wonder if Table 2 and 3 would best fit in supporting information (with key information integrated directly into the text). I also feel that it would be nice to represent some of the key results (e.g., Rt and its relationship to height and leaf hydraulic traits) in a figure.
 
+[*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
+
 ## Referee: 4
 
 Comments to the Author
@@ -244,6 +294,10 @@ Comments to the Author
 In this paper, McGregor et al. study the effect of tree height, crown position, ring-porosity, wood density, LMA and two leaf water relations traits (percent loss of leaf area upon desiccation, PLA; and the turgor loss point, TLP) on the drought resistance of 12 temperate species from an oak-hickory forest of northern Virginia (USA). Drought resistance is assessed using series of radial growth data and for the three most severe droughts in the period 1950 - 2009 in the study area. The authors find consistent negative effects of tree height on drought resistance; effects of crown position, ring-porosity and water relation traits for some droughts; and no effect of wood density and LMA. The paper is well written and nicely organized around clear hypotheses. The results are intriguing but, in my opinion, the experimental design is not strong enough to clearly advance our understanding of the determinants of tree drought responses.
 
 Firstly, the way drought resistance (Rt) is estimated, as the ratio of BAI during drought to the mean BAI over the five years preceding the drought can be problematic, as growth dynamics during this pre-drought period were quite variable across species (Figure 1; incidentally, why do you show ring width indices in this figure if you then use BAI?). This approach has also advantages, particularly when applied in a resilience framework (as in the original Lloret et al. (2011)). However, if you focus specificaly on resistance it seems that directly modelling the growth reduction caused by the drought (e.g., using intervention time series analysis or other methods) would be a more robust approach. At the very least, if you continue using your simpler approach I would strongly suggest including some measure of pre-drought growth in the models to account for differences in growth dynamics among species. It would also nice to clarify why you do not assess recovery and resilience, unlike Lloret et al. (2011).
+
+[*issue #92*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/92)
+
+[*issue #93*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/93)
 
 Secondly, the choice of traits does not appear well justified, as it seems to be driven more by easiness of measurement than by relevance, and it mixes different types of hypotheses operating at different levels. On one hand there is tree height and crown position, which are measured at the level of individual trees and correspond to closely related hypotheses. On the other hand there are ring-porosity, wood density, LMA and water relations traits, which are measured at the species level and seem to be totally disconnected from the hypotheses regarding tree height. In addition, it is very hard to compare the explanatory power of these variables, as done in the paper, as they are based on very different sample sizes (571 trees vs 12 species) and respond to different sources of variability. In fact the way height effects are analyzed mixes the within- and between-species levels, which makes it difficult to interpret the results. Finally, I think it would be more correct to refer to PLA and TLP as water relations traits rather than hydraulic traits.
 
@@ -278,6 +332,8 @@ L228-234: please clarify model structure. I understand you included tree as a ra
 L238, 242, 244: it is unclear to me why in some cases you use a dAICc of 1 and sometimes of 2.
 
 L287-299: it would be very useful to use scatterplots to show the effects of traits on Rt in a figure.
+
+[*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
 
 L291-294: but this is problematic considering that you only had two diffuse-porous species.
 
