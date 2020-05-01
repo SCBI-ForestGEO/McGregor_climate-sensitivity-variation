@@ -1,4 +1,4 @@
-External Email - Exercise Caution
+# New Phytologist Decision letter, 4/30/2020
 
 NPH-MS-2020-32742 Tree height and hydraulic traits shape growth responses across droughts in a temperate broadleaf forest
 by McGregor, Ian; Helcoski, Ryan; Kunert, Norbert; Tepley, Alan; Gonzalez-Akre, Erika; Herrmann, Valentine; Zailaa, Joseph; Stovall, Atticus; Bourg, Norman; McShea, William; Pederson, Neil; Sack, Lawren; Anderson-Teixeira, Kristina
@@ -34,7 +34,7 @@ In any correspondence regarding this manuscript, please include the manuscript r
 
 Decision: Reject, resubmission encouraged
 
-Referee: 1
+## Referee: 1
 
 Comments to the Author
 The study addresses the relationship between drought resistance (Rt) calculated from radial growth, and different traits and microenvironmental characteristics on 12 tree species from one forest in the Eastern US. Both the dataset and the study are meaningful, and the relationship found between Rt and height of biological importance. However, I think there are a number of issues that need to be worked out.
@@ -74,7 +74,7 @@ Table S3: please, explain what ‘rank’ means.
 Figure S3: I understand that authors only have height data from 2018 and height for the other dates looks trivial: indeed there will be an increase in height with an increase in DBH in time. The question is whether there was any stand dynamics involved in those height series that had to be included in the models.
 
 
-Referee: 2
+## Referee: 2
 
 Comments to the Author
 This manuscript examines a truly urgent and important issue. The general issue is the clear vulnerability of forests to ongoing climate change induced drought worldwide. The issue is particularly vexing because, while it seems clear that plant hydraulics is involved in vulnerability to drought, the exact mechanisms connecting hydraulics to vulnerability are not clear, and just what indices biologists should use to gauge vulnerability is as a result unclear. Within the broad pattern of global forest decline with climate change induced drought is the particularly mystifying and horrific preferential loss of the largest individuals all over the world. In addition to their esthetic appeal, large individuals make disproportionate contributions to forest function, making the issue examined in this ms extremely timely and important.
@@ -170,7 +170,7 @@ Zach A, Schuldt B, Brix S, Culmsee H, Culmsee H. 2010. Vessel diameter and xylem
 
 
 
-Referee: 3
+# Referee: 3
 
 Comments to the Author
 McGregor and colleagues use a combination of long-term tree records and functional trait data to explore the key drivers that shape the growth resistance of different temperate tree species to extreme drought. They find that that leaf hydraulic traits and tree size are strong predictors of growth responses to drought – with taller trees most affected.
@@ -211,7 +211,7 @@ L287: specify how they were related to drought. Positive? Negative?
 
 Tables and Figures: there are a large number of tables. I wonder if Table 2 and 3 would best fit in supporting information (with key information integrated directly into the text). I also feel that it would be nice to represent some of the key results (e.g., Rt and its relationship to height and leaf hydraulic traits) in a figure.
 
-Referee: 4
+# Referee: 4
 
 Comments to the Author
 In this paper, McGregor et al. study the effect of tree height, crown position, ring-porosity, wood density, LMA and two leaf water relations traits (percent loss of leaf area upon desiccation, PLA; and the turgor loss point, TLP) on the drought resistance of 12 temperate species from an oak-hickory forest of northern Virginia (USA). Drought resistance is assessed using series of radial growth data and for the three most severe droughts in the period 1950 - 2009 in the study area. The authors find consistent negative effects of tree height on drought resistance; effects of crown position, ring-porosity and water relation traits for some droughts; and no effect of wood density and LMA. The paper is well written and nicely organized around clear hypotheses. The results are intriguing but, in my opinion, the experimental design is not strong enough to clearly advance our understanding of the determinants of tree drought responses.
