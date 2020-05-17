@@ -51,6 +51,8 @@ The authors might like to consider including Table 4 as a supplement, because as
 
 *Ugghh, this doesn't even change anything--we'd still be analyzing the same 3 droughts! The question is whether to remove the growth reduction criteria. I personally think that analyzing 2 criteria is a strength, as our goal was to identify droughts that were both climatologically and biologically signficant. In any case, this is just an issue of changing the wording.*
 
+**IM - I kind of understand what they meant, but more in terms of a logic flow position. I agree that this can pretty much be fixed**
+
 Other minor comments:
 
 - Line 113: correct ‘positively’.
@@ -302,6 +304,8 @@ Firstly, the way drought resistance (Rt) is estimated, as the ratio of BAI durin
 Secondly, the choice of traits does not appear well justified, as it seems to be driven more by easiness of measurement than by relevance, and it mixes different types of hypotheses operating at different levels. On one hand there is tree height and crown position, which are measured at the level of individual trees and correspond to closely related hypotheses. On the other hand there are ring-porosity, wood density, LMA and water relations traits, which are measured at the species level and seem to be totally disconnected from the hypotheses regarding tree height. In addition, it is very hard to compare the explanatory power of these variables, as done in the paper, as they are based on very different sample sizes (571 trees vs 12 species) and respond to different sources of variability. In fact the way height effects are analyzed mixes the within- and between-species levels, which makes it difficult to interpret the results. Finally, I think it would be more correct to refer to PLA and TLP as water relations traits rather than hydraulic traits.
 
 Thirdly, a more thorough analysis of the distribution of the study species in the sample plot would be required. The paper assumes that all species were subjected to the same drought levels. However, this is unlikely to be true, as different species are likely to occupy different microhabitats in the plot, and hence be subjected to different drought conditions. The authors account for this, to some extent, by including individual-level TWI in some models, but a more thorough analysis of the distribution of the study species as a function of TWI and other relevant micro-environmental variables would be needed to fully interpret the results.
+
+**It seems from these comments they think this shouldn't be published at all due to its limited scope and not enough explanatory power. The resulting study that they suggest, if completely thorough, would take a long time to create. I'm not sure how to address this comment, other than to make a note in the manuscript acknowledging that a more thorough study would be great but this is what we found with what we had.**
 
 Minor or more technical suggestions:
 
