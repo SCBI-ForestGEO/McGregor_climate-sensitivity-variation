@@ -136,7 +136,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBELFK5HVYK4YORLGBZC6JGGDG"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEMFJAXQ2L647HMKUTC6ZRPXA"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
@@ -415,14 +415,14 @@ trees_all$TWI.ln <- log(trees_all$TWI)
 trees_all <- trees_all[!trees_all$tree == 140939, ]
 trees_all <- trees_all[trees_all$resist.value <=2,]
 
-write.csv(trees_all, "manuscript/tables_figures/trees_all.csv", row.names=FALSE)
+# write.csv(trees_all, "manuscript/tables_figures/trees_all.csv", row.names=FALSE)
 ##2i. prepare dataset for running regression models ####
 ##take out columns that are unnecessary for model runs
 trees_all_sub <- trees_all[, !colnames(trees_all) %in% c("p50.MPa", "p80.MPa", "dbh_old.mm",  "dbh_old.cm", "sap_ratio", "height.m")]
 
 ##get rid of missing data and write to csv
 trees_all_sub <- trees_all_sub[complete.cases(trees_all_sub), ]
-write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub.csv", row.names=FALSE)
+# write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub.csv", row.names=FALSE)
 
 ##2j. make subsets for individual years, combine all to list ####
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
@@ -431,6 +431,16 @@ x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
 
 model_df <- list(trees_all_sub, x1966, x1977, x1999)
 names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
+
+meh <- model_df[[1]]
+meh$rp <- ifelse(meh$rp == "ring", 1, 2)
+meh$position_all <- ifelse(meh$position_all == "dominant", 4,
+                           ifelse(meh$position_all == "co-dominant", 3,
+                                  ifelse(meh$position_all == "intermediate", 2, 1)))
+meh[,c("year", "rp", "position_all")] <- sapply(meh[,c("year", "rp", "position_all")], 
+                                                as.numeric)
+correw <- cor(meh[,-c(2,4,14)])
+corrplot(correw, method="number", type="lower")
 
 ##2k. get base stats for everything from trees_all_sub ####
 trees_all_sub$dbh.cm <- exp(trees_all_sub$dbh.ln.cm)
@@ -540,7 +550,7 @@ for (i in seq_along(1:12)){
           #ALL YEARS
           if(j == 1 & h == 1 & k == 1 & l == 1){
             lmm_all <- lapply(models, function(x){
-              fit1 <- lmer(x, data = model_df[[j]], REML=FALSE, 
+              fit1 <- glmer(x, data = model_df[[j]], #REML=FALSE, 
                            control = lmerControl(optimizer ="Nelder_Mead"))
               return(fit1)
             })
@@ -585,7 +595,7 @@ for (i in seq_along(1:12)){
             }
             
             lmm_all <- lapply(models_yr, function(x){
-              fit1 <- lmer(x, data = model_df[[j]], REML=FALSE, 
+              fit1 <- glmer(x, data = model_df[[j]], REML=FALSE, 
                            control = lmerControl(optimizer ="Nelder_Mead"))
               return(fit1)
             })
@@ -702,7 +712,7 @@ for (i in seq(along=c(1:4))){
       
       
       lmm_all <- lapply(formula_vec, function(x){
-        fit1 <- lmer(x, data = model_df[[j]], REML=FALSE, 
+        fit1 <- glmer(x, data = model_df[[j]], REML=FALSE, 
                      control = lmerControl(optimizer ="Nelder_Mead"))
         return(fit1)
       })
@@ -725,7 +735,7 @@ for (i in seq(along=c(1:4))){
           if (names(lmm_all[z]) == var_aic$Modnames[[w]]){
             
             #run the best model alone with REML=TRUE
-            fit1 <- lmer(formula_vec[[z]], data = model_df[[j]], REML=TRUE, 
+            fit1 <- glmer(formula_vec[[z]], data = model_df[[j]], REML=TRUE, 
                          control = lmerControl(optimizer ="Nelder_Mead"))
             
             #get coefficients and put in table
@@ -786,7 +796,7 @@ for (i in seq(along=c(1:4))){
       formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
       
       lmm_all <- lapply(formula_vec, function(x){
-        fit1 <- lmer(x, data = model_df[[j]], REML=FALSE, 
+        fit1 <- glmer(x, data = model_df[[j]], REML=FALSE, 
                      control = lmerControl(optimizer ="Nelder_Mead"))
         return(fit1)
       })
@@ -809,7 +819,7 @@ for (i in seq(along=c(1:4))){
           if (names(lmm_all[z]) == var_aic$Modnames[[w]]){
             
             #run the best model alone with REML=TRUE
-            fit1 <- lmer(formula_vec[[z]], data = model_df[[j]], REML=TRUE, 
+            fit1 <- glmer(formula_vec[[z]], data = model_df[[j]], #REML=TRUE,
                          control = lmerControl(optimizer ="Nelder_Mead"))
             
             #get coefficients and put in table
@@ -842,6 +852,19 @@ for (i in seq(along=c(1:4))){
 
 write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", row.names=FALSE)
 write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_dAIC.csv", row.names=FALSE)
+
+hazel_vif <- NULL
+for(i in 1:nrow(best_mod_traits)){
+  mod <- glmer(best_mod_traits$best_model[i], 
+                       data = model_df[[i]],
+                       control = 
+                 lmerControl(optimizer ="Nelder_Mead"))
+  hazel <- as.data.frame(car::vif(mod))
+  hazel$scen <- best_mod_traits$scenario[i]
+  hazel_vif <- rbind(hazel_vif, hazel)
+}
+
+write.csv(hazel_vif, "manuscript/tables_figures/top_models_dAIC_VIF.csv", row.names=FALSE)
 
 ##3c. Make table of coefficients plus r^2 from top models from ##6b. ####
 
