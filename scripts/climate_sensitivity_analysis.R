@@ -432,17 +432,20 @@ x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
 model_df <- list(trees_all_sub, x1966, x1977, x1999)
 names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
 
-meh <- model_df[[1]]
-meh$rp <- ifelse(meh$rp == "ring", 1, 2)
-meh$position_all <- ifelse(meh$position_all == "dominant", 4,
-                           ifelse(meh$position_all == "co-dominant", 3,
-                                  ifelse(meh$position_all == "intermediate", 2, 1)))
-meh[,c("year", "rp", "position_all")] <- sapply(meh[,c("year", "rp", "position_all")], 
+
+##2k. correlation plot ####
+library(corrplot)
+cr <- model_df[[1]]
+cr$rp <- ifelse(cr$rp == "ring", 1, 2)
+cr$position_all <- ifelse(cr$position_all == "dominant", 4,
+                          ifelse(cr$position_all == "co-dominant", 3,
+                                 ifelse(cr$position_all == "intermediate", 2, 1)))
+cr[,c("year", "rp", "position_all")] <- sapply(cr[,c("year", "rp", "position_all")], 
                                                 as.numeric)
 correw <- cor(meh[,-c(2,4,14)])
 corrplot(correw, method="number", type="lower")
 
-##2k. get base stats for everything from trees_all_sub ####
+##2l. get base stats for everything from trees_all_sub ####
 trees_all_sub$dbh.cm <- exp(trees_all_sub$dbh.ln.cm)
 trees_all_sub$height.m <- exp(trees_all_sub$height.ln.m)
 
@@ -462,6 +465,17 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 
 #########################################################################################
 #3. mixed effects model for output of #2.
+
+##start here if just re-running model runs ####
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", 
+                          stringsAsFactors = FALSE)
+x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
+x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
+x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
+
+model_df <- list(trees_all_sub, x1966, x1977, x1999)
+names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
+
 ## necessary packages ####
 library(lme4)
 library(AICcmodavg) #aictab function
@@ -722,8 +736,8 @@ for (i in seq(along=c(1:4))){
       var_aic$Modnames <- as.character(var_aic$Modnames)
       best_mod_traits$best_model[[i]] <- var_aic$Modnames[[1]]
       
-      #get all mods <2 dAIC
-      var_aic <- var_aic[var_aic$Delta_AICc <= 2, ]
+      #get all mods <1 dAIC
+      var_aic <- var_aic[var_aic$Delta_AICc <= 1, ]
       var_aic$mod_no <- rownames(var_aic)
       top <- var_aic[,c(1,4)]
       top$Delta_AICc <- round(top$Delta_AICc, 2)
@@ -807,8 +821,8 @@ for (i in seq(along=c(1:4))){
       var_aic$Modnames <- as.character(var_aic$Modnames)
       best_mod_traits$best_model[[i]] <- var_aic$Modnames[[1]]
       
-      #get all mods <2 dAIC
-      var_aic <- var_aic[var_aic$Delta_AICc <= 2, ]
+      #get all mods <1 dAIC
+      var_aic <- var_aic[var_aic$Delta_AICc <= 1, ]
       top <- var_aic[,c(1,4)]
       top$Delta_AICc <- round(top$Delta_AICc, 2)
       top$scenario <- mods[[i]]
@@ -859,14 +873,61 @@ for(i in 1:nrow(best_mod_traits)){
                        data = model_df[[i]],
                        control = 
                  lmerControl(optimizer ="Nelder_Mead"))
+  
   hazel <- as.data.frame(car::vif(mod))
   hazel$scen <- best_mod_traits$scenario[i]
   hazel_vif <- rbind(hazel_vif, hazel)
 }
 
+
+vars <- insight::get_variance(mod)
+r2_marginal <- vars$var.fixed / (vars$var.fixed + vars$var.random + vars$var.residual)
+r2_conditional <- (vars$var.fixed + vars$var.random) / (vars$var.fixed + vars$var.random + vars$var.residual)
+
+
+avfull <- NULL
+for(i in 1:nrow(top_models)){
+  mod <- glmer(top_models$Modnames[i], 
+               data = model_df[[top_models$scenario[i]]],
+               control = 
+                 lmerControl(optimizer ="Nelder_Mead"))
+  
+  vars <- insight::get_variance(mod)
+  r2cond <- (vars$var.fixed + vars$var.random) / 
+  (vars$var.fixed + vars$var.random + vars$var.residual)
+  
+  top_models$r2cond[i] <- ifelse(length(r2cond)>0, r2cond, NA)
+  
+  av <- anova(mod, test="Chisq")
+  av <- cbind(av, top_models[i,-4])
+  avfull <- rbind(avfull, av)
+}
+
+output_list <- list()
+for(i in 1:nrow(top_models)){
+  mod <- glmer(top_models$Modnames[i], 
+               data = model_df[[top_models$scenario[i]]],
+               control = 
+                 lmerControl(optimizer ="Nelder_Mead"))
+  
+  output_list[[i]] <- mod
+}
+names(output_list) <- paste0(top_models$scenario, "_", top_models$Delta_AICc)
+
+rpoall <- anova(output_list[[1]], output_list[[2]], output_list[[3]], output_list[[4]]) #all
+rpo77 <- anova(output_list[[6]], output_list[[7]], output_list[[8]], output_list[[9]]) #1977
+rpo99 <- anova(output_list[[10]], output_list[[11]]) #1999
+
+top_models$order_original <- 1:11
+top_models$order_anova <- 
+  c(as.numeric(str_extract(rownames(rpoall), "[[:digit:]]")),
+    5,
+    as.numeric(str_extract(rownames(rpo77), "[[:digit:]]+")),
+    as.numeric(str_extract(rownames(rpo99), "[[:digit:]]+")))
+
 write.csv(hazel_vif, "manuscript/tables_figures/top_models_dAIC_VIF.csv", row.names=FALSE)
 
-##3c. Make table of coefficients plus r^2 from top models from ##6b. ####
+##3c. Make table of coefficients plus r^2 from top models from ##3b. ####
 
 # this loop takes the top models from coeff_list and reorders them by how well they
 # did (i.e. reorders by the number in their individual names)
