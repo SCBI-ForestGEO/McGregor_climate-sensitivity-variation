@@ -61,10 +61,9 @@ ind <- resist
 ind_neil <- neil_list[neil_list$tag %in% tree_series, ]
 ind$year <- years
 ind$year <- as.numeric(ind$year)
-ind <- ind[ind$year %in% c(1966,1977,1999), ]
 
 ind$year <- as.character(ind$year) #to melt
-change <- melt(ind)
+change <- reshape2::melt(ind)
 setnames(change, old=c("variable", "value"), new=c("tree", "resist.value"))
 
 
@@ -74,12 +73,105 @@ change$sp <- ind_neil$sp[match(change$tree, ind_neil$tag)]
 change$tree <- gsub("X", "", change$tree)
 change$tree <- gsub("^0", "", change$tree)
 
+inter <- change[as.numeric(change$year)>=1950,] #for intervention analysis
+change <- change[change$year %in% c("1966","1977","1999"), ] #for models
+
+
 #this is trees_all
 trees_all <- change[complete.cases(change), ]
 
 #
 
+## intervention analysis
+inter <- as.data.table(inter)
+intersp <- inter[,.(rt_mean=mean(resist.value, na.rm=TRUE)), by=.(year, sp)]
+intersp <- inter[complete.cases(inter), ]
 
+
+
+juni <- as.data.frame(inter[sp=="juni", ])
+juni$year <- lubridate::year(as.Date(juni$year, format="%Y"))
+juni <- juni[complete.cases(juni), ]
+juni_ts <- ts(juni$rt_mean, frequency=1, start=juni$year[1])
+plot.ts(juni_ts)
+
+
+par(mfrow=c(1,2))
+acf(juni_ts)
+pacf(juni_ts)
+
+summary(lm(juni_ts ~ 1)) #intercept is significant
+(break_point <- strucchange::breakpoints(juni_ts ~ 1))
+
+par(mfrow=c(1,1))
+plot(break_point)
+summary(break_point)
+
+plot(juni_ts)
+lines(fitted(break_point, breaks = 1), col = 4)
+lines(fitted(break_point, breaks = 2), col = 4)
+lines(confint(break_point, breaks = 1))
+
+intervention = data.frame(sp = "juni", brkpt = break_point$breakpoints)
+
+all_breakpoints <- list()
+intervention <- NULL
+for(i in seq(along=unique(inter$sp))){
+  spec <- unique(inter$sp)[[i]]
+  
+  tab <- as.data.frame(intersp[sp==spec, ])
+  tab$year <- lubridate::year(as.Date(tab$year, format="%Y"))
+  tab <- tab[complete.cases(tab), ]
+  tab_ts <- ts(tab$rt_mean, frequency=1, start=tab$year[1])
+  
+  break_point <- strucchange::breakpoints(tab_ts ~ 1)
+  z <- summary(break_point)
+  zz <- as.data.frame(z$breakdates)
+  
+  all_breakpoints[[i]] <- break_point
+  interv <- data.frame(sp = spec, year=ifelse(is.na(break_point$breakpoints), NA,
+                                              tab$year[break_point$breakpoints]),
+                       break66=ifelse(length(rownames(zz)[grepl(1966, zz[])])==0, NA,
+                                      rownames(zz)[grepl(1966, zz[])]),
+                       break77=ifelse(length(rownames(zz)[grepl(1977, zz[])])==0, NA,
+                                      rownames(zz)[grepl(1977, zz[])]),
+                       break99=ifelse(length(rownames(zz)[grepl(1999, zz[])])==0, NA,
+                                      rownames(zz)[grepl(1999, zz[])]),
+                       breaksall= paste(sapply(zz, unique), collapse=","))
+  intervention <- rbind(intervention, interv)
+}
+names(all_breakpoints) <- unique(inter$sp)
+
+##all species together
+inter <- as.data.table(inter)
+inter <- inter[,.(rt_mean=mean(resist.value, na.rm=TRUE)), by=.(year)]
+inter <- inter[complete.cases(inter), ]
+
+
+  tab <- as.data.frame(inter)
+  tab$year <- lubridate::year(as.Date(tab$year, format="%Y"))
+  tab <- tab[complete.cases(tab), ]
+  tab_ts <- ts(tab$rt_mean, frequency=1, start=tab$year[1])
+  
+  break_point <- strucchange::breakpoints(tab_ts ~ 1)
+  z <- summary(break_point)
+  zz <- as.data.frame(z$breakdates)
+  
+  all_breakpoints[[i]] <- break_point
+  interv <- data.frame(sp = spec, year=ifelse(is.na(break_point$breakpoints), NA,
+                                              tab$year[break_point$breakpoints]),
+                       break66=ifelse(length(rownames(zz)[grepl(1966, zz[])])==0, NA,
+                                      rownames(zz)[grepl(1966, zz[])]),
+                       break77=ifelse(length(rownames(zz)[grepl(1977, zz[])])==0, NA,
+                                      rownames(zz)[grepl(1977, zz[])]),
+                       break99=ifelse(length(rownames(zz)[grepl(1999, zz[])])==0, NA,
+                                      rownames(zz)[grepl(1999, zz[])]),
+                       breaksall= paste(sapply(zz, unique), collapse=","))
+  intervention <- rbind(intervention, interv)
+}
+
+
+#
 ##1b. summary stat: determine proportion of resistance values per sp ####
 prop <- data.frame("sp" = unique(trees_all$sp))
 prop$value.over1 <- NA
