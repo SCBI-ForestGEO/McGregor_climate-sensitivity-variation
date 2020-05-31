@@ -82,92 +82,76 @@ trees_all <- change[complete.cases(change), ]
 
 #
 
-## intervention analysis
-inter <- as.data.table(inter)
-intersp <- inter[,.(rt_mean=mean(resist.value, na.rm=TRUE)), by=.(year, sp)]
-intersp <- inter[complete.cases(inter), ]
+## intervention analysis ####
+# There are 4 main steps here. See the following two sites for guidance.
+## https://online.stat.psu.edu/stat510/lesson/9/9.2
+## https://datascienceplus.com/time-series-analysis-using-arima-model-in-r/
 
+#Step 0 is preparing the data. We are working with mean BAI across all species.
+library(forecast)
+area$year <- rownames(area)
+area1 <- reshape2::melt(area)
 
+area1 <- as.data.table(area1)
+area2 <- area1[,.(val = mean(value, na.rm=TRUE)), by=.(year)
+               ][, year := as.numeric(year)]
 
-juni <- as.data.frame(inter[sp=="juni", ])
-juni$year <- lubridate::year(as.Date(juni$year, format="%Y"))
-juni <- juni[complete.cases(juni), ]
-juni_ts <- ts(juni$rt_mean, frequency=1, start=juni$year[1])
-plot.ts(juni_ts)
+area2 <- area2[year > 1950 & year < 2010, ]
+plot(area2$year, area2$val, main="Full time series")
+lines(area2$year, area2$val) #this data is not seasonal, 
+                            #so no need to remove non-stationarity
 
-
-par(mfrow=c(1,2))
-acf(juni_ts)
-pacf(juni_ts)
-
-summary(lm(juni_ts ~ 1)) #intercept is significant
-(break_point <- strucchange::breakpoints(juni_ts ~ 1))
-
-par(mfrow=c(1,1))
-plot(break_point)
-summary(break_point)
-
-plot(juni_ts)
-lines(fitted(break_point, breaks = 1), col = 4)
-lines(fitted(break_point, breaks = 2), col = 4)
-lines(confint(break_point, breaks = 1))
-
-intervention = data.frame(sp = "juni", brkpt = break_point$breakpoints)
-
-all_breakpoints <- list()
-intervention <- NULL
-for(i in seq(along=unique(inter$sp))){
-  spec <- unique(inter$sp)[[i]]
+droughts <- c(1966, 1977, 1999)
+for(i in seq(along=droughts)){
   
-  tab <- as.data.frame(intersp[sp==spec, ])
-  tab$year <- lubridate::year(as.Date(tab$year, format="%Y"))
-  tab <- tab[complete.cases(tab), ]
-  tab_ts <- ts(tab$rt_mean, frequency=1, start=tab$year[1])
+  ## get subset of data to include 10 years before and after intervention
+  area_dt <- area2[year >= droughts[i]-10 & year <= droughts[i]+10, ]
   
-  break_point <- strucchange::breakpoints(tab_ts ~ 1)
-  z <- summary(break_point)
-  zz <- as.data.frame(z$breakdates)
+  ts_dt <- ts(area_dt$val, frequency=1, start=area_dt$year[1]) ##overall ts
   
-  all_breakpoints[[i]] <- break_point
-  interv <- data.frame(sp = spec, year=ifelse(is.na(break_point$breakpoints), NA,
-                                              tab$year[break_point$breakpoints]),
-                       break66=ifelse(length(rownames(zz)[grepl(1966, zz[])])==0, NA,
-                                      rownames(zz)[grepl(1966, zz[])]),
-                       break77=ifelse(length(rownames(zz)[grepl(1977, zz[])])==0, NA,
-                                      rownames(zz)[grepl(1977, zz[])]),
-                       break99=ifelse(length(rownames(zz)[grepl(1999, zz[])])==0, NA,
-                                      rownames(zz)[grepl(1999, zz[])]),
-                       breaksall= paste(sapply(zz, unique), collapse=","))
-  intervention <- rbind(intervention, interv)
-}
-names(all_breakpoints) <- unique(inter$sp)
-
-##all species together
-inter <- as.data.table(inter)
-inter <- inter[,.(rt_mean=mean(resist.value, na.rm=TRUE)), by=.(year)]
-inter <- inter[complete.cases(inter), ]
-
-
-  tab <- as.data.frame(inter)
-  tab$year <- lubridate::year(as.Date(tab$year, format="%Y"))
-  tab <- tab[complete.cases(tab), ]
-  tab_ts <- ts(tab$rt_mean, frequency=1, start=tab$year[1])
+  #Step 1. Make time series, and do ARIMA model on data BEFORE the intervention
+  arima_dt <- auto.arima(
+    ts(area_dt$val[area_dt$year < droughts[i]], frequency=1, start=area_dt$year[1]), trace=TRUE)
   
-  break_point <- strucchange::breakpoints(tab_ts ~ 1)
-  z <- summary(break_point)
-  zz <- as.data.frame(z$breakdates)
+  #Step 2. Use this model to forecast the values AFTER the intervention
+  future <- forecast(arima_dt, h=11, level=c(99.5))
+  # plot(future)
   
-  all_breakpoints[[i]] <- break_point
-  interv <- data.frame(sp = spec, year=ifelse(is.na(break_point$breakpoints), NA,
-                                              tab$year[break_point$breakpoints]),
-                       break66=ifelse(length(rownames(zz)[grepl(1966, zz[])])==0, NA,
-                                      rownames(zz)[grepl(1966, zz[])]),
-                       break77=ifelse(length(rownames(zz)[grepl(1977, zz[])])==0, NA,
-                                      rownames(zz)[grepl(1977, zz[])]),
-                       break99=ifelse(length(rownames(zz)[grepl(1999, zz[])])==0, NA,
-                                      rownames(zz)[grepl(1999, zz[])]),
-                       breaksall= paste(sapply(zz, unique), collapse=","))
-  intervention <- rbind(intervention, interv)
+  pred <- data.frame(year = seq(droughts[i], droughts[i]+10, by=1),
+                     val = future$mean)
+  
+  #3. Get the difference between the observed and predicted
+  areaobs <- area_dt[area_dt$year >= droughts[i] & area66$year <= droughts[i]+10, ]
+  pred$diff <- areaobs$val - pred$val
+  
+  #3.1. Prepare data for plotting
+  orig <- data.frame(year = seq(droughts[i]-10, droughts[i]-1, by=1),
+                     val = NA,
+                     diff=NA)
+  areaobs <- rbind(orig[,1:2], areaobs)
+  pred <- rbind(orig, pred)
+  
+  #4. Plot / characterize change
+  plot(area_dt$year, area_dt$val, ylim=c(min(pred$diff, na.rm=TRUE), 
+                                       max(area_dt$val, na.rm=TRUE)),
+       xlab="", ylab="")
+  lines(area_dt$year, area_dt$val)
+  points(areaobs$year, areaobs$val, col="blue") #observed
+  lines(areaobs$year, areaobs$val, col="blue")
+  points(pred$year, pred$val, col="red")        #predicted
+  lines(pred$year, pred$val, col="red")
+  points(pred$year, pred$diff, col="orange")    #difference
+  lines(pred$year, pred$diff, col="orange")
+  abline(v=droughts[i], lty=2)
+  
+  legend("bottomleft", 
+         legend=c("ARIMA data", "observed", "predicted", "difference"),
+         col=c("black", "blue", "red", "orange"),
+         pch=1,
+         cex=0.55, pt.cex=1, bty="n")
+  title(main=paste0(droughts[i], " drought \nMagnitude mean BAI change = ", 
+                    round(mean(pred$diff, na.rm=TRUE),2)),
+        xlab="Year", ylab="BAI")
 }
 
 
