@@ -1,0 +1,22 @@
+"Modnames","Delta_AICc","scenario","coef"
+"resist.value ~ position_all+height.ln.m+year+rp+PLA_dry_percent+mean_TLP_Mpa+(1|sp/tree)",0,"trees_all_sub",NA
+"resist.value ~ position_all+height.ln.m+year+rp+mean_TLP_Mpa+WD_g_per_cm3+(1|sp/tree)",0.22,"trees_all_sub",NA
+"resist.value ~ position_all+height.ln.m+year+rp+mean_TLP_Mpa+(1|sp/tree)",0.87,"trees_all_sub",NA
+"resist.value ~ position_all+height.ln.m+year+rp+PLA_dry_percent+LMA_g_per_m2+mean_TLP_Mpa+(1|sp/tree)",0.99,"trees_all_sub",NA
+"resist.value ~ height.ln.m+rp+(1|sp)",0,"x1966",NA
+"resist.value ~ height.ln.m+rp+PLA_dry_percent+mean_TLP_Mpa+(1|sp)",0,"x1977",NA
+"resist.value ~ position_all+height.ln.m+mean_TLP_Mpa+(1|sp)",0.33,"x1977",NA
+"resist.value ~ position_all+height.ln.m+rp+PLA_dry_percent+mean_TLP_Mpa+(1|sp)",0.51,"x1977",NA
+"resist.value ~ height.ln.m+TWI.ln+rp+PLA_dry_percent+mean_TLP_Mpa+(1|sp)",0.67,"x1977",NA
+"resist.value ~ height.ln.m+rp+PLA_dry_percent+mean_TLP_Mpa+WD_g_per_cm3+(1|sp)",0.7,"x1977",NA
+"resist.value ~ height.ln.m+rp+mean_TLP_Mpa+(1|sp)",0.78,"x1977",NA
+"resist.value ~ position_all+height.ln.m+rp+mean_TLP_Mpa+(1|sp)",0.81,"x1977",NA
+"resist.value ~ height.ln.m+mean_TLP_Mpa+(1|sp)",0.99,"x1977",NA
+"resist.value ~ height.ln.m+TWI.ln+rp+mean_TLP_Mpa+(1|sp)",0,"x1999",NA
+"resist.value ~ height.ln.m+TWI.ln+rp+LMA_g_per_m2+mean_TLP_Mpa+WD_g_per_cm3+(1|sp)",0.2,"x1999",NA
+"resist.value ~ height.ln.m+TWI.ln+rp+LMA_g_per_m2+mean_TLP_Mpa+(1|sp)",0.44,"x1999",NA
+"resist.value ~ height.ln.m+rp+mean_TLP_Mpa+(1|sp)",0.47,"x1999",NA
+"resist.value ~ height.ln.m+TWI.ln+rp+mean_TLP_Mpa+WD_g_per_cm3+(1|sp)",0.48,"x1999",NA
+"resist.value ~ height.ln.m+TWI.ln+rp+PLA_dry_percent+LMA_g_per_m2+mean_TLP_Mpa+(1|sp)",0.6,"x1999",NA
+"resist.value ~ height.ln.m+rp+mean_TLP_Mpa+WD_g_per_cm3+(1|sp)",0.6,"x1999",NA
+"resist.value ~ height.ln.m+rp+LMA_g_per_m2+mean_TLP_Mpa+WD_g_per_cm3+(1|sp)",0.64,"x1999",NA

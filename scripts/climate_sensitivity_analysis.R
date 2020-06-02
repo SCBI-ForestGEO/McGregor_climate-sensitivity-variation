@@ -34,7 +34,7 @@ library(reshape2)
 rings <- read.rwl("data/core_files/all_species_except_FRNI_PIST.rwl") #read in rwl file
 widths <- rings #for consistency with original code
 area <- bai.in(rings) #convert to bai.in
-resil_metrics <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 25) #get resilience metrics
+resil_metrics <- res.comp(area, nb.yrs=10, res.thresh.neg = 30, series.thresh = 25) #get resilience metrics
 
 resil_pointers <- data.frame(resil_metrics$out)
 resil_pointers <- resil_pointers[resil_pointers$nb.series >=4, ]
@@ -73,7 +73,6 @@ change$sp <- ind_neil$sp[match(change$tree, ind_neil$tag)]
 change$tree <- gsub("X", "", change$tree)
 change$tree <- gsub("^0", "", change$tree)
 
-inter <- change[as.numeric(change$year)>=1950,] #for intervention analysis
 change <- change[change$year %in% c("1966","1977","1999"), ] #for models
 
 
@@ -93,67 +92,101 @@ area$year <- rownames(area)
 area1 <- reshape2::melt(area)
 
 area1 <- as.data.table(area1)
+area1[, variable := as.character(variable)
+      ][, year := as.numeric(year)]
 area2 <- area1[,.(val = mean(value, na.rm=TRUE)), by=.(year)
                ][, year := as.numeric(year)]
 
-area2 <- area2[year > 1950 & year < 2010, ]
+
 plot(area2$year, area2$val, main="Full time series")
 lines(area2$year, area2$val) #this data is not seasonal, 
                             #so no need to remove non-stationarity
 
 droughts <- c(1966, 1977, 1999)
-for(i in seq(along=droughts)){
-  
-  ## get subset of data to include 10 years before and after intervention
-  area_dt <- area2[year >= droughts[i]-10 & year <= droughts[i]+10, ]
-  
-  ts_dt <- ts(area_dt$val, frequency=1, start=area_dt$year[1]) ##overall ts
-  
-  #Step 1. Make time series, and do ARIMA model on data BEFORE the intervention
-  arima_dt <- auto.arima(
-    ts(area_dt$val[area_dt$year < droughts[i]], frequency=1, start=area_dt$year[1]), trace=TRUE)
-  
-  #Step 2. Use this model to forecast the values AFTER the intervention
-  future <- forecast(arima_dt, h=11, level=c(99.5))
-  # plot(future)
-  
-  pred <- data.frame(year = seq(droughts[i], droughts[i]+10, by=1),
-                     val = future$mean)
-  
-  #3. Get the difference between the observed and predicted
-  areaobs <- area_dt[area_dt$year >= droughts[i] & area66$year <= droughts[i]+10, ]
-  pred$diff <- areaobs$val - pred$val
-  
-  #3.1. Prepare data for plotting
-  orig <- data.frame(year = seq(droughts[i]-10, droughts[i]-1, by=1),
-                     val = NA,
-                     diff=NA)
-  areaobs <- rbind(orig[,1:2], areaobs)
-  pred <- rbind(orig, pred)
-  
-  #4. Plot / characterize change
-  plot(area_dt$year, area_dt$val, ylim=c(min(pred$diff, na.rm=TRUE), 
-                                       max(area_dt$val, na.rm=TRUE)),
-       xlab="", ylab="")
-  lines(area_dt$year, area_dt$val)
-  points(areaobs$year, areaobs$val, col="blue") #observed
-  lines(areaobs$year, areaobs$val, col="blue")
-  points(pred$year, pred$val, col="red")        #predicted
-  lines(pred$year, pred$val, col="red")
-  points(pred$year, pred$diff, col="orange")    #difference
-  lines(pred$year, pred$diff, col="orange")
-  abline(v=droughts[i], lty=2)
-  
-  legend("bottomleft", 
-         legend=c("ARIMA data", "observed", "predicted", "difference"),
-         col=c("black", "blue", "red", "orange"),
-         pch=1,
-         cex=0.55, pt.cex=1, bty="n")
-  title(main=paste0(droughts[i], " drought \nMagnitude mean BAI change = ", 
-                    round(mean(pred$diff, na.rm=TRUE),2)),
-        xlab="Year", ylab="BAI")
+trees <- unique(area1$variable)
+
+indtree <- NULL
+for(j in seq(along=trees)){
+  area_sub <- area1[variable == trees[j], ]
+  for(i in seq(along=droughts)){
+    ## get subset of data to include 10 years before and after intervention
+    area_dt <- area_sub[year <= droughts[i] & year >= droughts[i]-10, ]
+    
+    ts_dt <- ts(area_dt$value, frequency=1, start=area_dt$year[1]) ##overall ts
+    
+    #Step 1. Make time series, and do ARIMA model on data 
+    #BEFORE the intervention
+    if(!all(is.na(ts_dt)) & length(ts_dt[!is.na(ts_dt)]) > 1){
+      arima_dt <- auto.arima(
+        ts(area_dt$value[area_dt$year < droughts[i]], 
+           frequency=1, start=area_dt$year[1]), trace=FALSE)
+      
+      #make trace true if want to see exact arima model chosen
+      
+      #Step 2. Use this model to forecast the values AFTER the intervention
+      future <- forecast(arima_dt, h=1, level=c(99.5))
+      # plot(future)
+      
+      #3. Get the difference between the observed and predicted
+      areaobs <- area_dt[area_dt$year == droughts[i], ]
+      diff <- round(areaobs$val - as.numeric(future$mean),2)
+    } else {diff <- NA}
+    
+    inddrt <- data.frame(year = droughts[i],
+                       tree = trees[j],
+                       diff = diff)
+    indtree <- rbind(indtree, inddrt)
+    
+    # Plotting arima results ####
+    # #3.1. Prepare data for plotting
+    # orig <- data.frame(year = seq(droughts[i]-10, droughts[i]-1, by=1),
+    #                    val = NA,
+    #                    diff=NA)
+    # areaobs <- rbind(orig[,1:2], areaobs)
+    # pred <- rbind(orig, pred)
+    
+    # #4. Plot / characterize change
+    # plot(area_dt$year, area_dt$val, ylim=c(min(pred$diff, na.rm=TRUE), 
+    #                                        max(area_dt$val, na.rm=TRUE)),
+    #      xlab="", ylab="")
+    # lines(area_dt$year, area_dt$val)
+    # points(areaobs$year, areaobs$val, col="blue") #observed
+    # lines(areaobs$year, areaobs$val, col="blue")
+    # points(pred$year, pred$val, col="red")        #predicted
+    # lines(pred$year, pred$val, col="red")
+    # points(pred$year, pred$diff, col="orange")    #difference
+    # lines(pred$year, pred$diff, col="orange")
+    # abline(v=droughts[i], lty=2)
+    # abline(h=mean(area_dt$val[area_dt$year<droughts[i]], na.rm=TRUE), 
+    #        lty=3, col="brown")
+    # 
+    # legend("bottomleft", 
+    #        legend=c("ARIMA data", "observed", "predicted", "difference"),
+    #        col=c("black", "blue", "red", "orange"),
+    #        pch=1,
+    #        cex=0.55, pt.cex=1, bty="n")
+    # title(main=paste0(droughts[i], " drought \nMagnitude mean BAI change = ", 
+    #                   round(mean(pred$diff, na.rm=TRUE),2)),
+    #       xlab="Year", ylab="BAI")
+  }
 }
 
+##same code as above for resist df but now for indtree
+indtree$tree <- gsub("A", "", indtree$tree)
+
+ind <- as.data.frame(indtree)
+neil_list <- read.csv("data/core_files/core_list.csv", stringsAsFactors = FALSE)
+neil_sp <- unique(neil_list$sp)
+ind_neil <- neil_list[neil_list$tag %in% ind$tree, ]
+
+ind$year <- as.character(ind$year)
+setnames(ind, old=c("diff"), new=c("resist.value"))
+
+#bring in species from neil_list
+ind$sp <- ind_neil$sp[match(ind$tree, ind_neil$tag)]
+
+#this is trees_all
+trees_all <- ind[complete.cases(ind), ]
 
 #
 ##1b. summary stat: determine proportion of resistance values per sp ####
@@ -212,7 +245,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEMFJAXQ2L647HMKUTC6ZRPXA"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEIHDW3CYLFAH64YSVC633UQU"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
@@ -305,6 +338,8 @@ colnames(df) <- gsub("^0", "", colnames(df)) #remove leading 0
 cols <- colnames(df) #define cols for below
 colnames(df) <- gsub("^", "x", colnames(df)) #add "x" to make calling colnames below feasible
 
+pointer_years_simple <- c(1966,1977,1999)
+
 for (j in seq(along=cols)){
   for (k in seq(along=colnames(df))){
     ring_ind <- cols[[j]]
@@ -312,6 +347,7 @@ for (j in seq(along=cols)){
     
     if(j==k){
       #the output of this loop is 3 separate columns for each year's old dbh, hence why it is set to q as a dataframe before being combined below. Pointer_years_simple comes from #4d.
+      pointer
       q <- data.frame(sapply(pointer_years_simple, function(x){
         rw <- df[rownames(df)>=x, ]
         ifelse(dbh$year == x & dbh$tree == ring_ind, 
@@ -489,6 +525,8 @@ trees_all$TWI.ln <- log(trees_all$TWI)
 ##2h. remove one bad tree + resistance values >2, then write to csv ####
 ##fram 140939 has been mislabeled. It is recorded as having a small dbh when that is the second stem. In terms of canopy position, though, it fell between time of coring and when positions were recorded, thus we do not know its position.
 trees_all <- trees_all[!trees_all$tree == 140939, ]
+
+##2i. if using resistance value, constrain values to be <=2
 trees_all <- trees_all[trees_all$resist.value <=2,]
 
 # write.csv(trees_all, "manuscript/tables_figures/trees_all.csv", row.names=FALSE)
@@ -732,8 +770,14 @@ cand_full <- NULL
 for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
   column <- colnames(sum_mod_traits[,c(8,11,14,17)])[[i]]
   
+  
   cand <- sum_mod_traits[sum_mod_traits[,column] > 1 & 
                            !sum_mod_traits$variable %in% c("dbh.ln.cm"), c(1:3)]
+  
+  if(nrow(cand)<1){
+    cand <- data.frame(prediction = NA, variable = NA, 
+                       variable_description = NA)
+  }
   cand$top_model <- c("all", "1966", "1977", "1999")[[i]]
   
   cand_full <- rbind(cand_full, cand)
