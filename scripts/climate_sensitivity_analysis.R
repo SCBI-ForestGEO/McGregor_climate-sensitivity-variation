@@ -34,7 +34,7 @@ library(reshape2)
 rings <- read.rwl("data/core_files/all_species_except_FRNI_PIST.rwl") #read in rwl file
 widths <- rings #for consistency with original code
 area <- bai.in(rings) #convert to bai.in
-resil_metrics <- res.comp(area, nb.yrs=10, res.thresh.neg = 30, series.thresh = 25) #get resilience metrics
+resil_metrics <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 25) #get resilience metrics
 
 resil_pointers <- data.frame(resil_metrics$out)
 resil_pointers <- resil_pointers[resil_pointers$nb.series >=4, ]
@@ -96,11 +96,6 @@ area1[, variable := as.character(variable)
       ][, year := as.numeric(year)]
 area2 <- area1[,.(val = mean(value, na.rm=TRUE)), by=.(year)
                ][, year := as.numeric(year)]
-
-
-plot(area2$year, area2$val, main="Full time series")
-lines(area2$year, area2$val) #this data is not seasonal, 
-                            #so no need to remove non-stationarity
 
 droughts <- c(1966, 1977, 1999)
 trees <- unique(area1$variable)
@@ -537,6 +532,7 @@ trees_all_sub <- trees_all[, !colnames(trees_all) %in% c("p50.MPa", "p80.MPa", "
 ##get rid of missing data and write to csv
 trees_all_sub <- trees_all_sub[complete.cases(trees_all_sub), ]
 # write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub.csv", row.names=FALSE)
+# write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub_arima.csv", row.names=FALSE)
 
 ##2j. make subsets for individual years, combine all to list ####
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
@@ -556,7 +552,7 @@ cr$position_all <- ifelse(cr$position_all == "dominant", 4,
                                  ifelse(cr$position_all == "intermediate", 2, 1)))
 cr[,c("year", "rp", "position_all")] <- sapply(cr[,c("year", "rp", "position_all")], 
                                                 as.numeric)
-correw <- cor(meh[,-c(2,4,14)])
+correw <- cor(cr[,-c(2,4,14)])
 corrplot(correw, method="number", type="lower")
 
 ##2l. get base stats for everything from trees_all_sub ####
@@ -581,7 +577,9 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #3. mixed effects model for output of #2.
 
 ##start here if just re-running model runs ####
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", 
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arima.csv", 
+                          stringsAsFactors = FALSE)
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", 
                           stringsAsFactors = FALSE)
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
@@ -987,6 +985,7 @@ for (i in seq(along=c(1:4))){
 write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", row.names=FALSE)
 write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_dAIC.csv", row.names=FALSE)
 
+#this is for when we fully decide what our best model is!!! ####
 hazel_vif <- NULL
 for(i in 1:nrow(best_mod_traits)){
   mod <- glmer(best_mod_traits$best_model[i], 
@@ -997,30 +996,6 @@ for(i in 1:nrow(best_mod_traits)){
   hazel <- as.data.frame(car::vif(mod))
   hazel$scen <- best_mod_traits$scenario[i]
   hazel_vif <- rbind(hazel_vif, hazel)
-}
-
-
-vars <- insight::get_variance(mod)
-r2_marginal <- vars$var.fixed / (vars$var.fixed + vars$var.random + vars$var.residual)
-r2_conditional <- (vars$var.fixed + vars$var.random) / (vars$var.fixed + vars$var.random + vars$var.residual)
-
-
-avfull <- NULL
-for(i in 1:nrow(top_models)){
-  mod <- glmer(top_models$Modnames[i], 
-               data = model_df[[top_models$scenario[i]]],
-               control = 
-                 lmerControl(optimizer ="Nelder_Mead"))
-  
-  vars <- insight::get_variance(mod)
-  r2cond <- (vars$var.fixed + vars$var.random) / 
-  (vars$var.fixed + vars$var.random + vars$var.residual)
-  
-  top_models$r2cond[i] <- ifelse(length(r2cond)>0, r2cond, NA)
-  
-  av <- anova(mod, test="Chisq")
-  av <- cbind(av, top_models[i,-4])
-  avfull <- rbind(avfull, av)
 }
 
 output_list <- list()
@@ -1035,10 +1010,10 @@ for(i in 1:nrow(top_models)){
 names(output_list) <- paste0(top_models$scenario, "_", top_models$Delta_AICc)
 
 rpoall <- anova(output_list[[1]], output_list[[2]], output_list[[3]], output_list[[4]]) #all
-rpo77 <- anova(output_list[[6]], output_list[[7]], output_list[[8]], output_list[[9]]) #1977
-rpo99 <- anova(output_list[[10]], output_list[[11]]) #1999
+rpo77 <- anova(output_list[[6]], output_list[[7]], output_list[[8]], output_list[[9]], output_list[[10]],output_list[[11]],output_list[[12]],output_list[[13]]) #1977
+rpo99 <- anova(output_list[[14]], output_list[[15]],output_list[[16]],output_list[[17]],output_list[[18]],output_list[[19]],output_list[[20]],output_list[[21]]) #1999
 
-top_models$order_original <- 1:11
+top_models$order_original <- 1:21
 top_models$order_anova <- 
   c(as.numeric(str_extract(rownames(rpoall), "[[:digit:]]")),
     5,
