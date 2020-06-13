@@ -34,6 +34,9 @@ library(reshape2)
 rings <- read.rwl("data/core_files/all_species_except_FRNI_PIST.rwl") #read in rwl file
 widths <- rings #for consistency with original code
 area <- bai.in(rings) #convert to bai.in
+
+## IF DO ARIMA SKIP DOWN NOW.
+
 resil_metrics <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 25) #get resilience metrics
 
 resil_pointers <- data.frame(resil_metrics$out)
@@ -78,6 +81,7 @@ change <- change[change$year %in% c("1966","1977","1999"), ] #for models
 
 #this is trees_all
 trees_all <- change[complete.cases(change), ]
+trees_all <- trees_all[trees_all$resist.value <=2,] #constrain resistance values
 
 #
 
@@ -122,9 +126,10 @@ for(j in seq(along=trees)){
       future <- forecast(arima_dt, h=1, level=c(99.5))
       # plot(future)
       
-      #3. Get the difference between the observed and predicted
+      #3. Get the ratio between the observed and predicted
       areaobs <- area_dt[area_dt$year == droughts[i], ]
-      diff <- round(areaobs$val - as.numeric(future$mean),2)
+      diff <- round(areaobs$val / as.numeric(future$mean),2) #ratio
+      # diff <- round(areaobs$val / as.numeric(future$mean),2) #difference
     } else {diff <- NA}
     
     inddrt <- data.frame(year = droughts[i],
@@ -182,6 +187,9 @@ ind$sp <- ind_neil$sp[match(ind$tree, ind_neil$tag)]
 
 #this is trees_all
 trees_all <- ind[complete.cases(ind), ]
+trees_all <- trees_all[trees_all$resist.value != Inf &
+                         trees_all$resist.value < 4 &
+                         trees_all$resist.value >=0, ]
 
 #
 ##1b. summary stat: determine proportion of resistance values per sp ####
@@ -240,7 +248,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEIHDW3CYLFAH64YSVC633UQU"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBELC6ZFIUD2XTF4Z7W265Y6NK"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
@@ -522,7 +530,7 @@ trees_all$TWI.ln <- log(trees_all$TWI)
 trees_all <- trees_all[!trees_all$tree == 140939, ]
 
 ##2i. if using resistance value, constrain values to be <=2
-trees_all <- trees_all[trees_all$resist.value <=2,]
+# trees_all <- trees_all[trees_all$resist.value <=2]
 
 # write.csv(trees_all, "manuscript/tables_figures/trees_all.csv", row.names=FALSE)
 ##2i. prepare dataset for running regression models ####
@@ -533,6 +541,7 @@ trees_all_sub <- trees_all[, !colnames(trees_all) %in% c("p50.MPa", "p80.MPa", "
 trees_all_sub <- trees_all_sub[complete.cases(trees_all_sub), ]
 # write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub.csv", row.names=FALSE)
 # write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub_arima.csv", row.names=FALSE)
+# write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub_arimaratio.csv", row.names=FALSE)
 
 ##2j. make subsets for individual years, combine all to list ####
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
@@ -542,7 +551,7 @@ x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
 model_df <- list(trees_all_sub, x1966, x1977, x1999)
 names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
 
-
+#
 ##2k. correlation plot ####
 library(corrplot)
 cr <- model_df[[1]]
@@ -577,10 +586,10 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #3. mixed effects model for output of #2.
 
 ##start here if just re-running model runs ####
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arima.csv", 
-                          stringsAsFactors = FALSE)
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arima.csv", stringsAsFactors = FALSE)
 # trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", 
-                          stringsAsFactors = FALSE)
+#                           stringsAsFactors = FALSE)
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
 x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
@@ -596,6 +605,7 @@ library(piecewiseSEM) #for R^2 values for all model outputs in a list
 library(MuMIn) #for R^2 values of one model output
 library(stringr)
 library(purrr)
+library(dplyr)
 
 ##3a. test each variable individually (expand for fuller explanation) ####
 # this code chunk tests each variable individually for each drought scenario,
@@ -781,6 +791,8 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
   cand_full <- rbind(cand_full, cand)
   cand_full <- cand_full[order(cand_full$prediction), ]
 }
+
+cand_full <- cand_full[complete.cases(cand_full), ]
 
 write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all.csv", row.names=FALSE)
 write.csv(cand_full, "manuscript/tables_figures/publication/S3_candidate_traits.csv", row.names=FALSE)
@@ -1060,12 +1072,19 @@ coeff_new$rpdiffuse <- ifelse(!is.na(coeff_new$rpring), 0, NA)
 # coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
 #                            "position_alldominant", "codominant", "position_allintermediate","position_allsuppressed", 
 #                           "rpdiffuse", "rpring", "rpsemi-ring", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")]
-coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m", 
-                           "position_alldominant", "codominant", "position_allintermediate","position_allsuppressed", 
-                           "rpdiffuse", "rpring", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")]
-
 # colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "diffuse", "ring", "semi-ring", "ln[TWI]", "PLA", "TLP")
-colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "diffuse", "ring", "ln[TWI]", "PLA", "TLP")
+
+##arima model
+# coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
+#                            "position_alldominant", "codominant", "position_allintermediate","position_allsuppressed",
+#                            "rpdiffuse", "rpring", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa", "LMA_g_per_m2", "WD_g_per_cm3")]
+# colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "diffuse", "ring", "ln[TWI]", "PLA", "TLP", "LMA", "WD")
+
+## arima ratio model
+coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
+                           "rpdiffuse", "rpring", "TWI.ln", "height.ln.m:TWI.ln", "PLA_dry_percent", "WD_g_per_cm3")]
+colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "diffuse", "ring", "ln[TWI]", "ln[H]:ln[TWI]", "PLA", "WD")
+
 
 coeff_new <- setDT(coeff_new, keep.rownames = TRUE)[]
 setnames(coeff_new, old="rn", new="rank")
