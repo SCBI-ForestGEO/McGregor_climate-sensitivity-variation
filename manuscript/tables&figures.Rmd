@@ -92,12 +92,12 @@ kableExtra::footnote(symbol = c("Semi-ring porosity is intermediate between ring
 ```{r table 4, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-singlevar_table <- read.csv("tables_figures/publication/table4_singlevariable_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
+singlevar_table <- read.csv("tables_figures/publication/table4_singlevariable_models_reform.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
 kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests of hypothesized drivers of drought resistance. Models including each variable were compared to corresponding null models. dAIC is the AICc of the null model minus that of the model including the variable (thus, dAICc>2 indicates that the variable significantly improves the model). Variable abbreviations are as in Table 2.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
-  pack_rows("Tree size and microenvironment", 1, 12, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
-  pack_rows("Species traits", 13, 18, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
+  # pack_rows("Tree size and microenvironment", 1, 12, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
+  pack_rows("Species traits", 1, 6, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
   #mutate(dAICc = cell_spec(dAICc, "html", bold = ifelse(dAICc > 1.999, TRUE, FALSE))) %>%  #trying to put sig values in bold, but this doen't work
   kable_styling()
 ```
@@ -110,18 +110,19 @@ kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable test
 ```{r table 5, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-multivar_table <- read.csv("tables_figures/publication/table5_multivariable_models.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
+multivar_table <- read.csv("tables_figures/publication/table5_multivariable_models_reform.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
 kable(multivar_table, booktabs = TRUE, caption = "Table 5. Summary of top full models for each drought instance. Models are ranked by AICc, and we show all models whose AICc value falls within 1.0 (dAICc<1) of the best model (bold).", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
-  add_header_above(c(" "," "," "," "," ", "crown position" = 4, " ","xylem porosity" = 2," ", " ")) %>%
-  pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("", 5, 5, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("", 6, 9, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("", 10, 11, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  add_header_above(c(" "," "," "," "," ", " ", " ", "crown position" = 4, 
+                     "xylem porosity" = 2," ")) %>%
+  pack_rows("", 1, 1, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 2, 2, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 3, 3, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 4, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   row_spec(1, bold = T) %>%
-  row_spec(5, bold = T) %>%
-  row_spec(6, bold = T) %>%
-  row_spec(10, bold = T) %>%
+  row_spec(2, bold = T) %>%
+  row_spec(3, bold = T) %>%
+  row_spec(4, bold = T) %>%
   kable_styling()
 ```
 

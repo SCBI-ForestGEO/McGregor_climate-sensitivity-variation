@@ -586,7 +586,7 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #3. mixed effects model for output of #2.
 
 ##start here if just re-running model runs ####
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
 # trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arima.csv", stringsAsFactors = FALSE)
 trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv",
                           stringsAsFactors = FALSE)
@@ -606,8 +606,9 @@ library(MuMIn) #for R^2 values of one model output
 library(stringr)
 library(purrr)
 library(dplyr)
+library(data.table)
 
-##3a. test each variable individually (expand for fuller explanation) ####
+##3a reform. test each variable individually (expand for fuller explanation) ####
 # this code chunk tests each variable individually for each drought scenario,
 # using a predefined null model and test model (i.e. all test models have height).
 # After these are tested from a defined data frame (sum_mod_traits), the "candidate"
@@ -615,22 +616,15 @@ library(dplyr)
 # top models. These candidates are then used in ##6b.
 
 sum_mod_traits <- data.frame(
-  "prediction" = c(3.1, 2.1, 2.2, 2.3, 1.2, 1.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5),
-  "variable" = c("year", "dbh.ln.cm", "height.ln.m", "position_all", "position_all", "height.ln.m*TWI.ln", "TWI.ln", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
-  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "crown.position alone", "crown.position w/height", "ln[height]*ln[topographic.wetness.index]", "ln[topographic.wetness.index]", "ring.porosity", "percent.loss.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
+  "prediction" = c(3.1, 3.2, 3.3, 3.4, 3.5),
+  "variable" = c("rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
+  "variable_description" = c("ring.porosity", "percent.loss.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
   "null_model" = 
-    c("resist.value ~ (1|sp/tree)",
-      "resist.value ~ year+(1|sp/tree)",
-      "resist.value ~ year+(1|sp/tree)",
-      "resist.value ~ year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)"),
+    c("resist.value ~ height.ln.m*TWI.ln+position_all+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m*TWI.ln+position_all+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m*TWI.ln+position_all+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m*TWI.ln+position_all+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m*TWI.ln+position_all+year+(1|sp/tree)"),
   "tested_model" = NA)
 
 sum_mod_traits[, c("null_model_year", "tested_model_year", "dAIC_all", "coef_all", "coef_var_all", "dAIC_1964.1966", "coef_1964.1966", "coef_var_1964.1966", "dAIC_1977", "coef_1977", "coef_var_1977", "dAIC_1999", "coef_1999", "coef_var_1999")] <- NA
@@ -642,7 +636,7 @@ sum_mod_traits <- sum_mod_traits %>% mutate_if(is.factor, as.character)
 ##For each variable, it compares the variable's effects in the null model and the tested model. The loop defines these models, then has two parts. If the full data (all years) model is being run [j,h,k,l == 1], it calculates the dAIC for null minus tested and the coefficient of the variable, either a "+" or a "-". If the individual year models are being run, it does the same thing but using different models from before [e.g. models_yr], to specifically exclude the "year" and "1/tree" effects.
 
 coeff_all <- NULL
-for (i in seq_along(1:12)){
+for (i in seq_along(1:5)){
   null_mod <- sum_mod_traits$null_model[[i]] #all years
   var <- sum_mod_traits$variable[[i]]
   
@@ -658,14 +652,6 @@ for (i in seq_along(1:12)){
     gsub("year\\+|/tree", "", sum_mod_traits$tested_model[[i]])
   
   #obviously, the tested model of the "year" effect doesn't work over the individual years
-  if (i == 1){
-    sum_mod_traits$tested_model_year[[i]] <- sum_mod_traits$null_model_year[[i]]
-  }
-  if (i == 6){
-    sum_mod_traits$tested_model[[i]] <- "resist.value~height.ln.m*TWI.ln+year+(1|sp/tree)"
-    sum_mod_traits$tested_model_year[[i]] <- "resist.value~height.ln.m*TWI.ln+(1|sp)"
-  }
-  
   test_mod <- sum_mod_traits$tested_model[[i]] #all years
   test_mod_yr <- sum_mod_traits$tested_model_year[[i]] #individual years
   null_mod_yr <- sum_mod_traits$null_model_year[[i]] #individual years
@@ -794,10 +780,10 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 
 cand_full <- cand_full[complete.cases(cand_full), ]
 
-write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/publication/S3_candidate_traits.csv", row.names=FALSE)
+write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_reform.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/publication/S3_candidate_traits_reform.csv", row.names=FALSE)
 
-##3b. determine the best full model (expand for fuller explanation) ####
+##3b reform. determine the best full model (expand for fuller explanation) ####
 # this code chunk uses the candidate variables (cand_full) from ##6a to determine
 # the best full model. In other words, we have seen which variables across all
 # scenarios have the most influence. Now, we test only those variables against
@@ -808,9 +794,14 @@ write.csv(cand_full, "manuscript/tables_figures/publication/S3_candidate_traits.
 best_mod_traits <- data.frame("best_model" = NA,
                               "scenario" = c("all droughts", "1966", "1977", "1999")
 )
-best_mod_full <- c(unique(cand_full$variable), "(1|sp/tree)")
+top_vars <- c(unique(cand_full$variable), 
+              paste0(unique(cand_full$variable)[1], "+",
+                     unique(cand_full$variable)[2]))
+best_mod_full <- c(paste0("height.ln.m*TWI.ln+position_all+",
+                          top_vars,
+                          "+year+(1|sp/tree)"))
 best_mod_full_year <- gsub("/tree", "", best_mod_full)
-best_mod_full_year <- best_mod_full_year[!best_mod_full_year %in% c("year")]
+best_mod_full_year <- gsub("year\\+", "", best_mod_full_year)
 
 #beginning of loop
 mods <- names(model_df)
@@ -821,34 +812,9 @@ for (i in seq(along=c(1:4))){
   for (j in seq(along=model_df)){
     #ALL YEARS
     if(j == 1 & i == 1){
-      response <- "resist.value"
-      effects <- best_mod_full
-      
-      #create all combinations of random / fixed effects
-      effects_comb <- 
-        unlist(sapply(seq_len(length(effects)), function(i) {
-          apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
-        }))
-      
-      #pair response with effect and sub out combinations that don't include random effects
-      #in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
-      var_comb <- expand.grid(response, effects_comb) 
-      var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+      var_comb <- data.frame(Var1 = "resist.value",
+                             Var2 = best_mod_full)
       var_comb$Var2 <- as.character(var_comb$Var2)
-      
-      #can't have height and TWI separately when the interaction is in
-      for (q in seq(along=var_comb$Var2)){
-        cell <- var_comb$Var2[[q]]
-        if(grepl("\\*", cell)){
-          if(grepl("\\+TWI.ln", cell)){
-            var_comb$Var2[[q]] <- gsub("\\+TWI.ln", "", var_comb$Var2[[q]])
-          }
-          if(grepl("\\+height.ln.m", cell)){
-            var_comb$Var2[[q]] <- gsub("\\+height.ln.m\\+", "\\+", var_comb$Var2[[q]])
-          }
-        }
-      }
-      var_comb <- unique(var_comb[,1:2])
       
       # formulas for all combinations. $Var1 is the response, and $Var2 is the effect
       # for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
@@ -908,34 +874,9 @@ for (i in seq(along=c(1:4))){
       
       #INDIVIDUAL YEARS
     } else if (j == i){ 
-      response <- "resist.value"
-      effects <- best_mod_full_year
-      
-      #create all combinations of random / fixed effects
-      effects_comb <- 
-        unlist( sapply( seq_len(length(effects)), 
-                        function(i) {
-                          apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
-                        }))
-      
-      var_comb <- expand.grid(response, effects_comb) 
-      var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
-      
+      var_comb <- data.frame(Var1 = "resist.value",
+                             Var2 = best_mod_full_year)
       var_comb$Var2 <- as.character(var_comb$Var2)
-      
-      #can't have height and TWI separately when the interaction is in
-      for (q in seq(along=var_comb$Var2)){
-        cell <- var_comb$Var2[[q]]
-        if(grepl("\\*", cell)){
-          if(grepl("\\+TWI.ln", cell)){
-            var_comb$Var2[[q]] <- gsub("\\+TWI.ln", "", var_comb$Var2[[q]])
-          }
-          if(grepl("\\+height.ln.m", cell)){
-            var_comb$Var2[[q]] <- gsub("\\+height.ln.m\\+", "\\+", var_comb$Var2[[q]])
-          }
-        }
-      }
-      var_comb <- unique(var_comb[,1:2])
       
       formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
       
@@ -994,8 +935,8 @@ for (i in seq(along=c(1:4))){
   top_models <- rbind(top_models, top)
 }
 
-write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_dAIC.csv", row.names=FALSE)
+write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_dAIC_reform.csv", row.names=FALSE)
 
 #this is for when we fully decide what our best model is!!! ####
 hazel_vif <- NULL
@@ -1074,16 +1015,15 @@ coeff_new$rpdiffuse <- ifelse(!is.na(coeff_new$rpring), 0, NA)
 #                           "rpdiffuse", "rpring", "rpsemi-ring", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")]
 # colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "diffuse", "ring", "semi-ring", "ln[TWI]", "PLA", "TLP")
 
-##arima model
-# coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
-#                            "position_alldominant", "codominant", "position_allintermediate","position_allsuppressed",
-#                            "rpdiffuse", "rpring", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa", "LMA_g_per_m2", "WD_g_per_cm3")]
-# colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "diffuse", "ring", "ln[TWI]", "PLA", "TLP", "LMA", "WD")
-
 ## arima ratio model
 coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
-                           "rpdiffuse", "rpring", "TWI.ln", "height.ln.m:TWI.ln", "PLA_dry_percent", "WD_g_per_cm3")]
-colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "diffuse", "ring", "ln[TWI]", "ln[H]:ln[TWI]", "PLA", "WD")
+                          "TWI.ln", "height.ln.m:TWI.ln", 
+                          "position_alldominant", "codominant", 
+                          "position_allintermediate","position_allsuppressed",
+                          "rpdiffuse", "rpring", "PLA_dry_percent")]
+colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]",
+                        "ln[H]*ln[TWI]", "D", "C", "I", "S", "diffuse", 
+                        "ring", "PLA")
 
 
 coeff_new <- setDT(coeff_new, keep.rownames = TRUE)[]
@@ -1094,7 +1034,7 @@ for(i in seq(along=patterns)){
   coeff_new$rank <- gsub(patterns[[i]], "", coeff_new$rank)
 }
 
-write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff.csv", row.names=FALSE)
+write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_reform.csv", row.names=FALSE)
 
 
 # ##3d. compare Rt values with arima_ratio ####
@@ -1139,6 +1079,396 @@ write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff.csv", r
 # plot(compare99$resist.value, compare99$arimart, main="1999",
 #      xlab="rt", ylab="ARIMA")
 # abline(coef=c(0,1), col="red")
+
+##3a original. test each variable individually (expand for fuller explanation) ####
+# this code chunk tests each variable individually for each drought scenario,
+# using a predefined null model and test model (i.e. all test models have height).
+# After these are tested from a defined data frame (sum_mod_traits), the "candidate"
+# variables (cand_full) are those variables that appear in one of the 4 scenarios'
+# top models. These candidates are then used in ##6b.
+
+sum_mod_traits <- data.frame(
+  "prediction" = c(3.1, 2.1, 2.2, 2.3, 1.2, 1.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5),
+  "variable" = c("year", "dbh.ln.cm", "height.ln.m", "position_all", "position_all", "height.ln.m*TWI.ln", "TWI.ln", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
+  "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "crown.position alone", "crown.position w/height", "ln[height]*ln[topographic.wetness.index]", "ln[topographic.wetness.index]", "ring.porosity", "percent.loss.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
+  "null_model" = 
+    c("resist.value ~ (1|sp/tree)",
+      "resist.value ~ year+(1|sp/tree)",
+      "resist.value ~ year+(1|sp/tree)",
+      "resist.value ~ year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+year+(1|sp/tree)"),
+  "tested_model" = NA)
+
+sum_mod_traits[, c("null_model_year", "tested_model_year", "dAIC_all", "coef_all", "coef_var_all", "dAIC_1964.1966", "coef_1964.1966", "coef_var_1964.1966", "dAIC_1977", "coef_1977", "coef_var_1977", "dAIC_1999", "coef_1999", "coef_var_1999")] <- NA
+
+# change factor columns to character
+sum_mod_traits <- sum_mod_traits %>% mutate_if(is.factor, as.character) 
+
+##loop to create table of individually-tested traits
+##For each variable, it compares the variable's effects in the null model and the tested model. The loop defines these models, then has two parts. If the full data (all years) model is being run [j,h,k,l == 1], it calculates the dAIC for null minus tested and the coefficient of the variable, either a "+" or a "-". If the individual year models are being run, it does the same thing but using different models from before [e.g. models_yr], to specifically exclude the "year" and "1/tree" effects.
+
+coeff_all <- NULL
+for (i in seq_along(1:12)){
+  null_mod <- sum_mod_traits$null_model[[i]] #all years
+  var <- sum_mod_traits$variable[[i]]
+  
+  #if the variable is in the null model, then take it out, otherwise add it in
+  sum_mod_traits$tested_model[[i]] <- 
+    ifelse(grepl(var, null_mod),
+           gsub(paste0(var, "[[:punct:]]"), "", sum_mod_traits$null_model[[i]]),
+           paste0(null_mod, "+", var))
+  
+  sum_mod_traits$null_model_year[[i]] <- 
+    gsub("year\\+|/tree", "", sum_mod_traits$null_model[[i]])
+  sum_mod_traits$tested_model_year[[i]] <- 
+    gsub("year\\+|/tree", "", sum_mod_traits$tested_model[[i]])
+  
+  #obviously, the tested model of the "year" effect doesn't work over the individual years
+  if (i == 1){
+    sum_mod_traits$tested_model_year[[i]] <- sum_mod_traits$null_model_year[[i]]
+  }
+  if (i == 6){
+    sum_mod_traits$tested_model[[i]] <- "resist.value~height.ln.m*TWI.ln+year+(1|sp/tree)"
+    sum_mod_traits$tested_model_year[[i]] <- "resist.value~height.ln.m*TWI.ln+(1|sp)"
+  }
+  
+  test_mod <- sum_mod_traits$tested_model[[i]] #all years
+  test_mod_yr <- sum_mod_traits$tested_model_year[[i]] #individual years
+  null_mod_yr <- sum_mod_traits$null_model_year[[i]] #individual years
+  
+  models <- c(null_mod, test_mod) #all years
+  models_yr <- c(null_mod_yr, test_mod_yr) #individual years
+  
+  for (j in seq(along=model_df)){
+    for (h in seq(along=sum_mod_traits[,c(8,11,14,17)])){ #dAIC
+      column <- colnames(sum_mod_traits[,c(8,11,14,17)][h])
+      
+      for (k in seq(along=sum_mod_traits[,c(9,12,15,18)])){ #coefficients direction
+        column_cof <- colnames(sum_mod_traits[,c(9,12,15,18)][k])
+        
+        for (l in seq(along=sum_mod_traits[,c(10,13,16,19)])){ #coefficient values
+          column_cof_val <- colnames(sum_mod_traits[,c(10,13,16,19)][l])
+          
+          #ALL YEARS
+          if(j == 1 & h == 1 & k == 1 & l == 1){
+            lmm_all <- lapply(models, function(x){
+              fit1 <- glmer(x, data = model_df[[j]], #REML=FALSE, 
+                            control = lmerControl(optimizer ="Nelder_Mead"))
+              return(fit1)
+            })
+            names(lmm_all) <- models
+            var_aic <- aictab(lmm_all, second.ord=TRUE, sort=FALSE) #rank based on AICc
+            
+            #put AIC value in table (#null - test)
+            sum_mod_traits[,column][[i]] <- var_aic$AICc[[1]] - var_aic$AICc[[2]] 
+            sum_mod_traits[,column][[i]] <- round(sum_mod_traits[,column][[i]], 3)
+            
+            for (z in seq(along = lmm_all)){
+              if (names(lmm_all[z]) == test_mod){
+                coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
+                coeff[,2] <- rownames(coeff)
+                colnames(coeff) <- c("value", "model_var")
+                coeff$value <- round(coeff$value, 4)
+                coeff$combo <- paste0(coeff$model_var, " (", coeff$value, ")")
+                coeff$mod <- gsub("coef_", "", column_cof)
+                
+                if(i == 6){
+                  coeff <- coeff[grepl("height.ln.m:", coeff$combo), ]
+                } else {
+                  coeff <- coeff[grepl(sum_mod_traits$variable[[i]], coeff$combo), ]
+                }
+                coeff_vec <- coeff$combo
+                
+                #this rbind is to get a full df showing all coefficient values from the entire for-loop
+                coeff_all <- rbind(coeff_all, coeff)
+                
+                #put coefficients in table
+                sum_mod_traits[,column_cof][[i]] <- ifelse(any(coeff$value < 0), "-", "+")
+                sum_mod_traits[,column_cof_val][[i]] <- paste(coeff_vec, collapse = ", ")
+              }
+            }
+            
+            #INDIVIDUAL YEARS
+          } else if (j == h & h == k & k == l){ 
+            if(i == 1){
+              sum_mod_traits[,column][[i]] <- NA
+              sum_mod_traits[,column_cof][[i]] <- NA
+              sum_mod_traits[,column_cof_val][[i]] <- NA
+            }
+            
+            lmm_all <- lapply(models_yr, function(x){
+              fit1 <- glmer(x, data = model_df[[j]], REML=FALSE, 
+                            control = lmerControl(optimizer ="Nelder_Mead"))
+              return(fit1)
+            })
+            
+            names(lmm_all) <- models_yr
+            var_aic <- aictab(lmm_all, second.ord=TRUE, sort=FALSE) #rank based on AICc
+            
+            #put AIC value in table (null - tested)
+            sum_mod_traits[,column][[i]] <- var_aic$AICc[[1]] - var_aic$AICc[[2]]
+            sum_mod_traits[,column][[i]] <- round(sum_mod_traits[,column][[i]], 3)
+            
+            for (z in seq(along = lmm_all)){
+              if (names(lmm_all[z]) == test_mod_yr){
+                coeff <- data.frame(coef(summary(lmm_all[[z]]))[ , "Estimate"]) ##2
+                coeff[,2] <- rownames(coeff)
+                colnames(coeff) <- c("value", "model_var")
+                coeff$value <- round(coeff$value, 4)
+                coeff$combo <- paste0(coeff$model_var, " (", coeff$value, ")")
+                coeff$mod <- gsub("coef_", "", column_cof)
+                
+                if(i == 6){
+                  coeff <- coeff[grepl("height.ln.m:", coeff$combo), ]
+                } else {
+                  coeff <- coeff[grepl(sum_mod_traits$variable[[i]], coeff$combo), ]
+                }
+                coeff_vec <- coeff$combo
+                
+                #this rbind is to get a full df showing all coefficient values from the entire for-loop
+                coeff_all <- rbind(coeff_all, coeff)
+                
+                #put coefficients in table
+                sum_mod_traits[,column_cof][[i]] <- ifelse(any(coeff$value < 0), "-", "+")
+                sum_mod_traits[,column_cof_val][[i]] <- paste(coeff_vec, collapse = ", ")
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+cand_full <- NULL
+for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
+  column <- colnames(sum_mod_traits[,c(8,11,14,17)])[[i]]
+  
+  
+  cand <- sum_mod_traits[sum_mod_traits[,column] > 1 & 
+                           !sum_mod_traits$variable %in% c("dbh.ln.cm"), c(1:3)]
+  
+  if(nrow(cand)<1){
+    cand <- data.frame(prediction = NA, variable = NA, 
+                       variable_description = NA)
+  }
+  cand$top_model <- c("all", "1966", "1977", "1999")[[i]]
+  
+  cand_full <- rbind(cand_full, cand)
+  cand_full <- cand_full[order(cand_full$prediction), ]
+}
+
+cand_full <- cand_full[complete.cases(cand_full), ]
+
+write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/publication/S3_candidate_traits.csv", row.names=FALSE)
+
+##3b original. determine the best full model (expand for fuller explanation) ####
+# this code chunk uses the candidate variables (cand_full) from ##6a to determine
+# the best full model. In other words, we have seen which variables across all
+# scenarios have the most influence. Now, we test only those variables against
+# each other, again across all scenarios. The loop populates the table (best_mod_traits)
+# with the results AND identifies the top models for each scenario that are <=2 dAIC 
+# (top_models) from the best (best_mod_traits).
+
+best_mod_traits <- data.frame("best_model" = NA,
+                              "scenario" = c("all droughts", "1966", "1977", "1999")
+)
+best_mod_full <- c(unique(cand_full$variable), "(1|sp/tree)")
+best_mod_full_year <- gsub("/tree", "", best_mod_full)
+best_mod_full_year <- best_mod_full_year[!best_mod_full_year %in% c("year")]
+
+#beginning of loop
+mods <- names(model_df)
+
+top_models <- NULL
+coeff_list <- list()
+for (i in seq(along=c(1:4))){
+  for (j in seq(along=model_df)){
+    #ALL YEARS
+    if(j == 1 & i == 1){
+      response <- "resist.value"
+      effects <- best_mod_full
+      
+      #create all combinations of random / fixed effects
+      effects_comb <- 
+        unlist(sapply(seq_len(length(effects)), function(i) {
+          apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
+        }))
+      
+      #pair response with effect and sub out combinations that don't include random effects
+      #in general, if two variables are >70% correlated, you can toss one of them without significantly affecting the results
+      var_comb <- expand.grid(response, effects_comb) 
+      var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+      var_comb$Var2 <- as.character(var_comb$Var2)
+      
+      #can't have height and TWI separately when the interaction is in
+      for (q in seq(along=var_comb$Var2)){
+        cell <- var_comb$Var2[[q]]
+        if(grepl("\\*", cell)){
+          if(grepl("\\+TWI.ln", cell)){
+            var_comb$Var2[[q]] <- gsub("\\+TWI.ln", "", var_comb$Var2[[q]])
+          }
+          if(grepl("\\+height.ln.m", cell)){
+            var_comb$Var2[[q]] <- gsub("\\+height.ln.m\\+", "\\+", var_comb$Var2[[q]])
+          }
+        }
+      }
+      var_comb <- unique(var_comb[,1:2])
+      
+      # formulas for all combinations. $Var1 is the response, and $Var2 is the effect
+      # for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
+      formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
+      
+      
+      lmm_all <- lapply(formula_vec, function(x){
+        fit1 <- glmer(x, data = model_df[[j]], REML=FALSE, 
+                      control = lmerControl(optimizer ="Nelder_Mead"))
+        return(fit1)
+      })
+      names(lmm_all) <- formula_vec
+      var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+      
+      var_aic$Modnames <- as.character(var_aic$Modnames)
+      best_mod_traits$best_model[[i]] <- var_aic$Modnames[[1]]
+      
+      #get all mods <1 dAIC
+      var_aic <- var_aic[var_aic$Delta_AICc <= 1, ]
+      var_aic$mod_no <- rownames(var_aic)
+      top <- var_aic[,c(1,4)]
+      top$Delta_AICc <- round(top$Delta_AICc, 2)
+      top$scenario <- mods[[i]]
+      top$coef <- NA
+      
+      for (z in seq(along = lmm_all)){
+        for (w in seq(along=1:nrow(var_aic))){
+          if (names(lmm_all[z]) == var_aic$Modnames[[w]]){
+            
+            #run the best model alone with REML=TRUE
+            fit1 <- glmer(formula_vec[[z]], data = model_df[[j]], REML=TRUE, 
+                          control = lmerControl(optimizer ="Nelder_Mead"))
+            
+            #get coefficients and put in table
+            coeff <- data.frame(coef(summary(fit1))[ , "Estimate"]) ##2
+            coeff[,2] <- rownames(coeff)
+            coeff[,1] <- round(coeff[,1], 3)
+            colnames(coeff) <- c(paste0("[All years] ","Model #", w), "model_var")
+            
+            #put r2 in table
+            delta <- data.frame(var_aic$Delta_AICc[[w]])
+            colnames(delta) <- paste0("[All years] ","Model #", w)
+            delta$model_var <- "dAICc"
+            
+            r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+            r <- data.frame(r[,6])
+            colnames(r) <- paste0("[All years] ","Model #", w)
+            r$model_var <- "r^2"
+            r[,1] <- round(r[,1], 2)
+            
+            coeff <- rbind(delta, r, coeff)
+            
+            coeff_list[[paste0("coeff_", names(model_df[j]), "_", w)]] <- coeff
+          }
+        }
+      }
+      
+      #INDIVIDUAL YEARS
+    } else if (j == i){ 
+      response <- "resist.value"
+      effects <- best_mod_full_year
+      
+      #create all combinations of random / fixed effects
+      effects_comb <- 
+        unlist( sapply( seq_len(length(effects)), 
+                        function(i) {
+                          apply( combn(effects,i), 2, function(x) paste(x, collapse = "+"))
+                        }))
+      
+      var_comb <- expand.grid(response, effects_comb) 
+      var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+      
+      var_comb$Var2 <- as.character(var_comb$Var2)
+      
+      #can't have height and TWI separately when the interaction is in
+      for (q in seq(along=var_comb$Var2)){
+        cell <- var_comb$Var2[[q]]
+        if(grepl("\\*", cell)){
+          if(grepl("\\+TWI.ln", cell)){
+            var_comb$Var2[[q]] <- gsub("\\+TWI.ln", "", var_comb$Var2[[q]])
+          }
+          if(grepl("\\+height.ln.m", cell)){
+            var_comb$Var2[[q]] <- gsub("\\+height.ln.m\\+", "\\+", var_comb$Var2[[q]])
+          }
+        }
+      }
+      var_comb <- unique(var_comb[,1:2])
+      
+      formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
+      
+      lmm_all <- lapply(formula_vec, function(x){
+        fit1 <- glmer(x, data = model_df[[j]], REML=FALSE, 
+                      control = lmerControl(optimizer ="Nelder_Mead"))
+        return(fit1)
+      })
+      
+      names(lmm_all) <- formula_vec
+      var_aic <- aictab(lmm_all, second.ord=TRUE, sort=TRUE) #rank based on AICc
+      
+      var_aic$Modnames <- as.character(var_aic$Modnames)
+      best_mod_traits$best_model[[i]] <- var_aic$Modnames[[1]]
+      
+      #get all mods <1 dAIC
+      var_aic <- var_aic[var_aic$Delta_AICc <= 1, ]
+      top <- var_aic[,c(1,4)]
+      top$Delta_AICc <- round(top$Delta_AICc, 2)
+      top$scenario <- mods[[i]]
+      top$coef <- NA
+      
+      for (z in seq(along = lmm_all)){
+        for (w in seq(along=1:nrow(var_aic))){
+          if (names(lmm_all[z]) == var_aic$Modnames[[w]]){
+            
+            #run the best model alone with REML=TRUE
+            fit1 <- glmer(formula_vec[[z]], data = model_df[[j]], #REML=TRUE,
+                          control = lmerControl(optimizer ="Nelder_Mead"))
+            
+            #get coefficients and put in table
+            coeff <- data.frame(coef(summary(fit1))[ , "Estimate"]) ##2
+            coeff[,2] <- rownames(coeff)
+            coeff[,1] <- round(coeff[,1], 3)
+            colnames(coeff) <- c(paste0("[", names(model_df[j]), "] ","Model #", w), "model_var")
+            
+            #put r2 in table
+            delta <- data.frame(var_aic$Delta_AICc[[w]])
+            colnames(delta) <- paste0("[", names(model_df[j]), "] ","Model #", w)
+            delta$model_var <- "dAICc"
+            
+            r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+            r <- data.frame(r[,6])
+            colnames(r) <- paste0("[", names(model_df[j]), "] ","Model #", w)
+            r$model_var <- "r^2"
+            r[,1] <- round(r[,1], 2)
+            
+            coeff <- rbind(delta, r, coeff)
+            
+            coeff_list[[paste0("coeff_", names(model_df[j]), "_", w)]] <- coeff
+          }
+        }
+      }
+    }
+  }
+  top_models <- rbind(top_models, top)
+}
+
+write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_dAIC.csv", row.names=FALSE)
 
 ##################
 #3 Appendix
