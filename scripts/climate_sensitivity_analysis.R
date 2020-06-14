@@ -588,8 +588,8 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 ##start here if just re-running model runs ####
 trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
 # trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arima.csv", stringsAsFactors = FALSE)
-# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", 
-#                           stringsAsFactors = FALSE)
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv",
+                          stringsAsFactors = FALSE)
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
 x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
@@ -1096,6 +1096,49 @@ for(i in seq(along=patterns)){
 
 write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff.csv", row.names=FALSE)
 
+
+# ##3d. compare Rt values with arima_ratio ####
+# arima_ratio <- read.csv("trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
+# 
+# rt <- read.csv("trees_all_sub.csv", stringsAsFactors = FALSE)
+# 
+# x1966 <- rt[rt$year == 1966, ]
+# x1977 <- rt[rt$year == 1977, ]
+# x1999 <- rt[rt$year == 1999, ]
+# 
+# arima1966 <- arima_ratio[arima_ratio$year == 1966, ]
+# arima1977 <- arima_ratio[arima_ratio$year == 1977, ]
+# arima1999 <- arima_ratio[arima_ratio$year == 1999, ]
+# 
+# layout(matrix(1:4, nrow=2, byrow=TRUE))
+# compare <- rt[,c("year", "tree", "resist.value")]
+# compare$arimart <- arima_ratio$resist.value[
+#   match(paste0(compare$year, compare$tree), 
+#         paste0(arima_ratio$year, arima_ratio$tree))]
+# plot(compare$resist.value, compare$arimart, main="All years",
+#      xlab="rt", ylab="ARIMA")
+# abline(coef=c(0,1), col="red")
+# 
+# compare66 <- x1966[,c("tree", "resist.value")]
+# compare66$arimart <- arima1966$resist.value[
+#   match(compare66$tree, arima1966$tree)]
+# plot(compare66$resist.value, compare66$arimart, main="1966",
+#      xlab="rt", ylab="ARIMA")
+# abline(coef=c(0,1), col="red")
+# 
+# compare77 <- x1977[,c("tree", "resist.value")]
+# compare77$arimart <- arima1977$resist.value[
+#   match(compare77$tree, arima1977$tree)]
+# plot(compare77$resist.value, compare77$arimart, main="1977",
+#      xlab="rt", ylab="ARIMA")
+# abline(coef=c(0,1), col="red")
+# 
+# compare99 <- x1999[,c("tree", "resist.value")]
+# compare99$arimart <- arima1999$resist.value[
+#   match(compare99$tree, arima1999$tree)]
+# plot(compare99$resist.value, compare99$arimart, main="1999",
+#      xlab="rt", ylab="ARIMA")
+# abline(coef=c(0,1), col="red")
 
 ##################
 #3 Appendix
