@@ -21,10 +21,14 @@ It is important to better discuss the proper use of Rt, particularly when compar
 
 [*issue #92*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/92)
 
+**To account for potential trends in individual tree growth prior to the drought, which could be influenced by stand dynamics, we tried an intervention time series analysis (ARIMA). Details on the comparison between $Rt$ and $Rt_{ARIMA}$ are presented in the responses to reviewer 4. In short, the ARIMA method yielded broadly similar results, but tended to produce less reasonable estimates when the difference between the two metrics was large, so we decided to retain $Rt$ as the focal metric. We now include the following content on ARIMA in the manuscript:**
+
+(*insert text*)
+
 
 **Regarding the resilience indices, we considered analyzing these and decided it would be best to stick with just resistance for three reasons: (1) Most importantly, we would expect resilience to be governed by fundamentally different mechanisms than resistance. While it would be interesting to examine resilience, this would be beyond the scope of the current paper. (2) [DeSoto et al. (2020, Nature)](https://www.nature.com/articles/s41467-020-14300-5) used an extensive dataset of trees sampled after severe droughts and compared the responses to previous, less-severe droughts between trees that survived and trees that were killed by the severe drought. In angiosperms, trees that died from a severe drought had lower resistance to previous droughts, compared to trees that survived the severe drought. In gymnosperms, trees that died during severe droughts had lower recovery following previous droughts, compared to trees that survived the severe drought. These findings would argue that resistance is a more important variable for angiosperms. (3) As the reviewer notes, resilience indices would probably tend to be more sensitive to a tree's neighborhood and prior conditions. We now state the logic for focusing on $Rt$ in the methods section:** 
 
-**"We focus exclusively on Rt, and not on the resilience metrics described in Lloret et al. (2011), because (1) we would expect resilience to be controlled by a different set of mechanisms, and (2) the findings of DeSoto et al. (2020) suggest that Rt is a more important drought response metric for angiosperms."**
+**"We focus exclusively on drought resistance ($Rt$ or $Rt_{ARIMA}$), and not on the resilience metrics described in @lloret_components_2011, because (1) we would expect resilience to be controlled by a different set of mechanisms, and (2) the findings of *[DeSoto et al. (2020)](https://www.nature.com/articles/s41467-020-14300-5)* suggest that $Rt$ is a more important drought response metric for angiosperms. "**
 
 Statistical analysis: the analysis would be more precise if the authors used Generalized linear mixed models to avoid data transformation and take into account (with random effects, as they do for the linear mixed model, LMM, presented now) the influence of species in the analysis. Then I missed a further discussion on the role of individual species (e.g. see my comment below on Rt>1).
 
@@ -262,6 +266,11 @@ L217-226: this is problematic because drought resistance (Rt) as defined by Llor
 
 [*issue #92*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/92)
 
+**We do not agree that the $Rt$ metric "assumes that tree growth (BAI in this case) fluctuates around a long term mean that is stable through time." If this was true, $Rt$ would be calculated by dividing growth (BAI) in the drought year by the long-term mean growth increment. Instead, $Rt$ is calculated by dividing growth in the focal year by the mean growth over a narrow window of preceding years (5 years in this study). Even though there may be a long-term directional trend in BAI, if you were to calculate the trend in BAI over each 5-year increment, the trend could go in any direction. To account for such trends, we tried an intervention time series analysis (ARIMA). Details on the comparison between $Rt$ and $Rt_{ARIMA}$ are presented in the responses to reviewer 4. In short, the ARIMA method yielded broadly similar results, but tended to produce less reasonable estimates when the difference between the two metrics was large, so we decided to retain $Rt$ as the focal metric. We now include the following content on ARIMA in the manuscript:**
+
+(*insert text*)
+
+
 L260-261: This is rather strange. So for the same individual tree, size was important in determining response to drought in one year but not in the others? And that’s for the years further back in time when the tree would have been smallest? Couldn’t that be interpreted as trees becoming less susceptible to drought as they grow larger/older? It’s also a little concerning that results are very different across the three droughts. Of these, the 1999 drought is the one I would tend to trust most as stand structure and composition would have been most similar to today.
 
 Other comments
@@ -302,11 +311,16 @@ Firstly, the way drought resistance (Rt) is estimated, as the ratio of BAI durin
 
 [*issue #92*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/92)
 
+*add specifics (changes to text; SI table/fig #s) to text below*
 
+**We tried an intervention time series analysis (ARIMA). This yielded similar results, which we now present in the Supplementary Info. The original $Rt$ and $Rt_{ARIMA}$ were fairly well correlated, but with some scatter (see figs below). To get a sense of which metric was performing better, we visually reviewed the records of the 18 trees with largest differences between $Rt$ and $Rt_{ARIMA}$. $Rt$ estimates were better for the majority of these, and generally were not hugely unrealistic, whereas $Rt_{ARIMA}$ could be way off (e.g., for several trees that were undergoing growth declines prior to drought and hit a minima at or near the drought, $Rt_{ARIMA}$ was much greater than 1, suggesting a substantial growth increase during the drought.). Thus, we decided to stick with $Rt$ as the primary metric.**
+
+![](tables_figures/Rt_arima_comparison_all_1966.png)
+![](tables_figures/Rt_arima_comparison_1977_1999.png)
 
 **Regarding the resilience indices, we considered analyzing these and decided it would be best to stick with just resistance for three reasons: (1) Most importantly, we would expect resilience to be governed by fundamentally different mechanisms than resistance. While it would be interesting to examine resilience, this would be beyond the scope of the current paper. (2) [DeSoto et al. (2020, Nature)](https://www.nature.com/articles/s41467-020-14300-5) used an extensive dataset of trees sampled after severe droughts and compared the responses to previous, less-severe droughts between trees that survived and trees that were killed by the severe drought. In angiosperms, trees that died from a severe drought had lower resistance to previous droughts, compared to trees that survived the severe drought. In gymnosperms, trees that died during severe droughts had lower recovery following previous droughts, compared to trees that survived the severe drought. These findings would argue that resistance is a more important variable for angiosperms. We now state the logic for focusing on $Rt$ in the methods section:** 
 
-**"We focus exclusively on Rt, and not on the resilience metrics described in Lloret et al. (2011), because (1) we would expect resilience to be controlled by a different set of mechanisms, and (2) the findings of DeSoto et al. (2020) suggest that Rt is a more important drought response metric for angiosperms."**
+**"We focus exclusively on drought resistance ($Rt$ or $Rt_{ARIMA}$), and not on the resilience metrics described in @lloret_components_2011, because (1) we would expect resilience to be controlled by a different set of mechanisms, and (2) the findings of *[DeSoto et al. (2020)](https://www.nature.com/articles/s41467-020-14300-5)* suggest that $Rt$ is a more important drought response metric for angiosperms. "**
 
 Secondly, the choice of traits does not appear well justified, as it seems to be driven more by easiness of measurement than by relevance, and it mixes different types of hypotheses operating at different levels. On one hand there is tree height and crown position, which are measured at the level of individual trees and correspond to closely related hypotheses. On the other hand there are ring-porosity, wood density, LMA and water relations traits, which are measured at the species level and seem to be totally disconnected from the hypotheses regarding tree height. In addition, it is very hard to compare the explanatory power of these variables, as done in the paper, as they are based on very different sample sizes (571 trees vs 12 species) and respond to different sources of variability. In fact the way height effects are analyzed mixes the within- and between-species levels, which makes it difficult to interpret the results. Finally, I think it would be more correct to refer to PLA and TLP as water relations traits rather than hydraulic traits.
 
