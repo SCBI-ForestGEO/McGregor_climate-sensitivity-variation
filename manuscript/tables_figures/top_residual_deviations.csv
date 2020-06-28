@@ -1,25 +1,25 @@
-"year","tree","resist.value","arimart","resid_val"
-"all",202029,1.92,0.95,-0.97
-"all",80746,1.86,0.91,-0.95
-"all",141255,1.97,1.04,-0.93
-"all",111227,0.56,1.52,0.96
-"all",111166,0.51,1.54,1.03
-"all",101075,0.51,2.32,1.81
-"1966",202029,1.92,0.95,-0.97
-"1966",80746,1.86,0.91,-0.95
-"1966",141255,1.97,1.04,-0.93
-"1966",30174,0.93,1.56,0.63
-"1966",190735,0.69,1.34,0.65
-"1966",111166,0.51,1.54,1.03
-"1977",20847,1.69,0.82,-0.87
-"1977",200389,1.86,1.03,-0.83
-"1977",20820,1.67,0.9,-0.77
-"1977",60339,1.45,2.06,0.61
-"1977",160665,0.52,1.23,0.71
-"1977",111227,0.56,1.52,0.96
-"1999",111195,1.41,0.59,-0.82
-"1999",151123,1.39,0.7,-0.69
-"1999",192029,1.21,0.83,-0.38
-"1999",182060,0.86,1.36,0.5
-"1999",10296,0.89,1.8,0.91
-"1999",101075,0.51,2.32,1.81
+year,tree,resist.value,arimart,resid_val,comparison,notes
+all,202029,1.92,0.95,-0.97,,
+all,80746,1.86,0.91,-0.95,,
+all,141255,1.97,1.04,-0.93,,
+all,111227,0.56,1.52,0.96,,
+all,111166,0.51,1.54,1.03,,
+all,101075,0.51,2.32,1.81,,
+1966,202029,1.92,0.95,-0.97,arima better,short record prior to drought
+1966,80746,1.86,0.91,-0.95,resist better,short record prior to drought
+1966,141255,1.97,1.04,-0.93,arima better,short record prior to drought
+1966,30174,0.93,1.56,0.63,resist better,this one's tricky
+1966,190735,0.69,1.34,0.65,resist better ,this one's a bit tricky
+1966,111166,0.51,1.54,1.03,resist much better,growth declining prior to drought
+1977,20847,1.69,0.82,-0.87,arima better,quite variable/ growth phase at tome of drought
+1977,200389,1.86,1.03,-0.83,arima better,tree in rapid growth phase
+1977,20820,1.67,0.9,-0.77,arima better?,SOMETHING SEEMS WRONG HERE. I DON'T SEE HOW RESIST VALUE COULD BE SO HIGH
+1977,60339,1.45,2.06,0.61,resist better,variable but increasing grwoth trend
+1977,160665,0.52,1.23,0.71,resist better,growth declining prior to drought
+1977,111227,0.56,1.52,0.96,resist much better,growth declining prior to drought
+1999,111195,1.41,0.59,-0.82,resist better,
+1999,151123,1.39,0.7,-0.69,arima better,
+1999,192029,1.21,0.83,-0.38,about equal,
+1999,182060,0.86,1.36,0.5,resist better,growth decline prior to drought
+1999,10296,0.89,1.8,0.91,resist better,
+1999,101075,0.51,2.32,1.81,resist much better,growth declining prior to drought
