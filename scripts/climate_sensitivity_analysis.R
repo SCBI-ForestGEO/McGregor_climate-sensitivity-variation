@@ -129,7 +129,7 @@ for(j in seq(along=trees)){
       #3. Get the ratio between the observed and predicted
       areaobs <- area_dt[area_dt$year == droughts[i], ]
       diff <- round(areaobs$val / as.numeric(future$mean),2) #ratio
-      # diff <- round(areaobs$val / as.numeric(future$mean),2) #difference
+      # diff <- round(areaobs$val - as.numeric(future$mean),2) #difference
     } else {diff <- NA}
     
     inddrt <- data.frame(year = droughts[i],
@@ -137,37 +137,37 @@ for(j in seq(along=trees)){
                        diff = diff)
     indtree <- rbind(indtree, inddrt)
     
-    # Plotting arima results ####
-    # #3.1. Prepare data for plotting
-    # orig <- data.frame(year = seq(droughts[i]-10, droughts[i]-1, by=1),
-    #                    val = NA,
-    #                    diff=NA)
-    # areaobs <- rbind(orig[,1:2], areaobs)
-    # pred <- rbind(orig, pred)
-    
-    # #4. Plot / characterize change
-    # plot(area_dt$year, area_dt$val, ylim=c(min(pred$diff, na.rm=TRUE), 
-    #                                        max(area_dt$val, na.rm=TRUE)),
-    #      xlab="", ylab="")
-    # lines(area_dt$year, area_dt$val)
-    # points(areaobs$year, areaobs$val, col="blue") #observed
-    # lines(areaobs$year, areaobs$val, col="blue")
-    # points(pred$year, pred$val, col="red")        #predicted
-    # lines(pred$year, pred$val, col="red")
-    # points(pred$year, pred$diff, col="orange")    #difference
-    # lines(pred$year, pred$diff, col="orange")
-    # abline(v=droughts[i], lty=2)
-    # abline(h=mean(area_dt$val[area_dt$year<droughts[i]], na.rm=TRUE), 
-    #        lty=3, col="brown")
-    # 
-    # legend("bottomleft", 
-    #        legend=c("ARIMA data", "observed", "predicted", "difference"),
-    #        col=c("black", "blue", "red", "orange"),
-    #        pch=1,
-    #        cex=0.55, pt.cex=1, bty="n")
-    # title(main=paste0(droughts[i], " drought \nMagnitude mean BAI change = ", 
-    #                   round(mean(pred$diff, na.rm=TRUE),2)),
-    #       xlab="Year", ylab="BAI")
+    #Plotting arima results ####
+    #3.1. Prepare data for plotting
+    orig <- data.frame(year = seq(droughts[i]-10, droughts[i]-1, by=1),
+                       val = NA,
+                       diff=NA)
+    areaobs <- rbind(orig[,1:2], areaobs)
+    pred <- rbind(orig, pred)
+
+    #4. Plot / characterize change
+    plot(area_dt$year, area_dt$val, ylim=c(min(pred$diff, na.rm=TRUE),
+                                           max(area_dt$val, na.rm=TRUE)),
+         xlab="", ylab="")
+    lines(area_dt$year, area_dt$val)
+    points(areaobs$year, areaobs$val, col="blue") #observed
+    lines(areaobs$year, areaobs$val, col="blue")
+    points(pred$year, pred$val, col="red")        #predicted
+    lines(pred$year, pred$val, col="red")
+    points(pred$year, pred$diff, col="orange")    #difference
+    lines(pred$year, pred$diff, col="orange")
+    abline(v=droughts[i], lty=2)
+    abline(h=mean(area_dt$val[area_dt$year<droughts[i]], na.rm=TRUE),
+           lty=3, col="brown")
+  
+    legend("bottomleft",
+           legend=c("ARIMA data", "observed", "predicted", "difference"),
+           col=c("black", "blue", "red", "orange"),
+           pch=1,
+           cex=0.55, pt.cex=1, bty="n")
+    title(main=paste0(droughts[i], " drought \nMagnitude mean BAI change = ",
+                      round(mean(pred$diff, na.rm=TRUE),2)),
+          xlab="Year", ylab="BAI")
   }
 }
 
@@ -1038,21 +1038,14 @@ write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_reform.
 
 
 ##3d. compare Rt values with arima_ratio ####
+library(data.table)
 arima_ratio <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
 
 rt <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
 
-x1966 <- 
-x1977 <- rt[rt$year == 1977, ]
-x1999 <- rt[rt$year == 1999, ]
-
-arima1966 <- arima_ratio[arima_ratio$year == 1966, ]
-arima1977 <- arima_ratio[arima_ratio$year == 1977, ]
-arima1999 <- arima_ratio[arima_ratio$year == 1999, ]
-
 years <- c(1966, 1977, 1999)
 
-layout(matrix(1:4, nrow=2, byrow=TRUE))
+layout(matrix(1:8, nrow=2, byrow=TRUE))
 res_full <- NULL
 for(i in 1:4){
   cols <- c("tree", "resist.value")
@@ -1075,8 +1068,15 @@ for(i in 1:4){
   
   plot(compare$resist.value, compare$arimart, 
        main=if(i==1){"All years"} else {as.character(years[i-1])},
-       xlab="rt", ylab="ARIMA")
+       xlab="Rt", ylab="ARIMA")
   abline(coef=c(0,1), col="red")
+  
+  #put together all direct comparisons
+  if(i==1){
+    tabs4 <- compare
+    setnames(tabs6, old=c("year", "tree", "resist.value", "arimart"),
+             new=c("Year", "Tree", "$Rt$", "$Rt_{ARIMA}$"))
+  }
   
   #calculate top 3 +- deviations from 1:1 line
   y <- compare$arimart
@@ -1091,8 +1091,8 @@ for(i in 1:4){
   
   res_full <- rbind(res_full, resids)
 }
-write.csv(res_full, "manuscript/tables_figures/top_residual_deviations.csv",
-          row.names=FALSE)
+write.csv(tabs4, "manuscript/tables_figures/publication/tableS4_Rt_arima.csv", row.names=FALSE)
+write.csv(res_full, "manuscript/tables_figures/publication/tableS7_top_residual_deviations.csv", row.names=FALSE)
 
 
 #
