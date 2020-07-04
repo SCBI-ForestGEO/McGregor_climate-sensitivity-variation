@@ -788,7 +788,7 @@ write.csv(cand_full, "manuscript/tables_figures/publication/S3_candidate_traits_
 # the best full model. In other words, we have seen which variables across all
 # scenarios have the most influence. Now, we test only those variables against
 # each other, again across all scenarios. The loop populates the table (best_mod_traits)
-# with the results AND identifies the top models for each scenario that are <=2 dAIC 
+# with the results AND identifies the top models for each scenario that are <=1 dAIC 
 # (top_models) from the best (best_mod_traits).
 
 best_mod_traits <- data.frame("best_model" = NA,
@@ -1096,6 +1096,14 @@ write.csv(res_full, "manuscript/tables_figures/publication/tableS7_top_residual_
 
 
 #
+##3e. Compare Rt values across species ####
+library(ggplot2)
+png("manuscript/tables_figures/rt_across_species.png", width=960)
+ggplot(trees_all_subar) +
+  aes(x = sp, y = resist.value) +
+  geom_boxplot(fill = "#0c4c8a") +
+  theme_minimal()
+dev.off()
 ##3a original. test each variable individually (expand for fuller explanation) ####
 # this code chunk tests each variable individually for each drought scenario,
 # using a predefined null model and test model (i.e. all test models have height).

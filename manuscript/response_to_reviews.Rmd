@@ -44,7 +44,7 @@ Only assessing models with AIC is not enough to prove sound relationships in mul
 
 [*issue #94*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/94)
 
-*dAIC: minor fix*
+**I have gone through the manuscript / tables and figures and updated where it said "dAICc" to be $\Delta$AICc. **
 
 Following the two previous comments, I suggest to leave in Table 5 just the best model (rather that a multimodel inference as is presented now) to discuss more clearly the covariates included. And I suggest discussing only the model with all years together. This would be more robust and avoid ramble differences between years that mostly look spurious and with a difficult physiological explanation. This would help to ensure a better use of the Resilience indices.
 
@@ -60,23 +60,25 @@ Importantly, the drought selection would be biased if years were selected as fro
 
 *Ugghh, this doesn't even change anything--we'd still be analyzing the same 3 droughts! The question is whether to remove the growth reduction criteria. I personally think that analyzing 2 criteria is a strength, as our goal was to identify droughts that were both climatologically and biologically signficant. In any case, this is just an issue of changing the wording.*
 
-*IM - I kind of understand what they meant, but more in terms of a logic flow position. I agree that this can pretty much be fixed*
+*IM - I've updated the language in the manuscript, I think it's better.*
 
 Other minor comments:
 
-- Line 113: correct ‘positively’.
+- Line 113: correct ‘positively’. **done**
 
-- Line 134: cambial growth also includes that of phloem; so better refer to ‘xylem growth’.
+- Line 134: cambial growth also includes that of phloem; so better refer to ‘xylem growth’. **done**
 
 - Line 161: how many species were estimated for height like this? Wouldn’t it be possible for authors to go to the field and perform some height estimations? This 
 should be rather straightforward and the authors would increase accuracy across species in height estimation.
+  - *IM I'm confused about how to answer this. There's no direct response to the first question, as the measurements I got (along with Atticus and previous measurements) were all lumped into the pot to make the regression equations, which we explain. Otherwise, I did go out and confirm measurements. I guess my only response (and question to you @teixeirak) is it worth explaining how disparate our data was and that's why we have different methods? Along with me going and getting new ones?*
 
-- Lines 166-167: please explain further the hypothesis and why.
+- Lines 166-167: please explain further the hypothesis and why. *IM this is now line 170. I'm a little confused myself.*
 
-- Line 222: what about climate in years before 1991?
+- Line 222: what about climate in years before 1991? *IM I don't get this. At the beginning of the paragraph we say we looked at droughts 1950-2009...*
 
-- Line 231: define AICc.
+- Line 231: define AICc. **This is done (with added reference)**
 
+- *IM I'm a bit confused by the next three comments.*
 - Line 234-247: it is not clear what the authors did, please explain clearer this paragraph and the next and why you did two different (yet similar) analyses (single-variable and full model).
 
 - Line 241-242: enough to say once that models were selected based on AIC (line 237-238) and then one criterion, why dAIC<1 here and dAIC<2 before? The classic assumption is 2 (e.g. Burnham & Anderson 2004). See also my other comment above.
@@ -88,6 +90,7 @@ should be rather straightforward and the authors would increase accuracy across 
 - Line 266-267: why only in 1966? I think this shows that this variable is not properly assessed. The older the date, the more accurate the estimation of crown position and height were.
 
 *this is true of crown position, not height*
+- *IM how do we want to officially respond to this?*
 
 - Line 275-280: those profiles were assumed a priori in the introduction and are common to any forest. They are indeed interesting to characterise the forest, but they do not add to individual tree variability. You could think to send Figure 2 to an appendix, in consequence, and use figures to show more specific results related to your individual tree analyses.
 
@@ -95,27 +98,38 @@ should be rather straightforward and the authors would increase accuracy across 
 
 - Line 330-331: any evidence to support this? It looks rather speculative. As suggested above, does any species particularly show positive Rt or positive Rt are randomly distributed in your trees?
 
+**IM I have done this (with arima ratio), see below. Assuming this should be SI plot?**
+![Rt (Arima ratio) across species](tables_figures/rt_across_species.png)
+
 - Line 331-333: not so sure about this. It can also mean that there is no causal relationship between Rt and covariates, mostly because radial growth Rt should not be used as an integral proxy of tree resistance to drought, such as it is often used now in the literature.
+  - *IM Krista do you know more about this?*
 
-- Line 334-339: indeed, assessment of these two variables is not conclusive, as suggested above (just data from 2018, from the past estimated and correlated).
+- Line 334-339: indeed, assessment of these two variables is not conclusive, as suggested above (just data from 2018, from the past estimated and correlated). *IM does this need a response?*
 
-- Line 348: non-drought.
+- Line 348: non-drought. *IM do we have the original submitted draft? I'm not sure what this is referring to*
 
 - Line 349: do authors really think that lower radial growth as from Rt on a specific year means that the tree is more vulnerable? I think this is over conclusive.
+  - *IM well, in our original course of thinking about it as based on Lloret, yes, Rt is a measure of a tree's particular resistance, and it fluctuates from year to year. Maybe the reviewer would have preferred if we had said that lower radial growth shows the tree was more vulnerable *in that year*? And then we reiterate that the focal drought years all had low Rt?*
+  - *That being said, we're now using arima ratio and all values of Rt are positive. Regardless, I don't see where we make the full claim the reviewer is referring to.*
 
 - Line 400: I do not agree we can directly link Rt with tree vulnerability to drought; we might be currently overinterpreting these resilience indices extrapolating to physiological conclusions that do not necessary need to hold.
+  - *this explains the previous comment*
 
 Table 1: do ‘-‘ signs in the table correspond to ‘no’ (non-significant)? Please explain.
+- *IM I added in a thing to the caption*
 
 Table 3: please, add also the number of trees, it is more informative than the number of cores to check sample size in your study.
+- *IM Krista, isn't the number of cores synonymous for us with the sample size for each species?*
 
 Table 3: the authors could show some test to see if the traits presented are different among species.
+- *IM Krista, do you think this is necessary? This would require extra stats to say something like "x traits did not differ significantly across species." I'm not sure how that result would affect our conclusions/writing.*
 
-Table S1 and S2: correct R2.
+Table S1 and S2: correct R2. *IM I added the correct Latex notation but it's not rendering it when I knit the file...*
 
-Table S3: please, explain what ‘rank’ means.
+Table S3: please, explain what ‘rank’ means. *IM Krista, do you remember? Is this from the pointer year exercise? Or was this ranking the months in the context of each year's PDSI?*
 
 Figure S3: I understand that authors only have height data from 2018 and height for the other dates looks trivial: indeed there will be an increase in height with an increase in DBH in time. The question is whether there was any stand dynamics involved in those height series that had to be included in the models.
+- *IM seems like this comment is meant for the paper than for Figure S3. What do you think?*
 
 
 ## Referee: 2

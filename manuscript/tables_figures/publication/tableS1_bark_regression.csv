@@ -1,4 +1,4 @@
-Species,sp,Equations,r.2
+Species,sp,Equations,$R^2$
 Carya cordiformis,caco,ln[B]=-1.56+0.416*ln[DBH],0.226
 Carya glabra,cagl,ln[B]=-0.393+0.268*ln[DBH],0.04
 Carya ovalis,caovl,ln[B]=-2.18+0.651*ln[DBH],0.389

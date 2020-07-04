@@ -40,7 +40,7 @@ knitr::write_bib(c(
 library(knitr)
 library(kableExtra)
 hypothesis_table <- read.csv("tables_figures/publication/table1_hypothesis_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. Summary of hypotheses, corresponding specific predictions, and results. We count predictions as fully supported ('yes') when the response is signficant in single-variable tests (Table 4) and included in all top full models and as partially supported ('(yes)') or rejected ('(no)') when the direction of response consistently matched the prediction but the effect was not significant in all models.") %>%
+kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. Summary of hypotheses, corresponding specific predictions, and results. We count predictions as fully supported ('yes') when the response is signficant in single-variable tests (Table 4) and included in all top full models and as partially supported ('(yes)') or rejected ('(no)') when the direction of response consistently matched the prediction but the effect was not significant in all models. A dash symbol indicates that the response was not significant in any of the top full models.") %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
   pack_rows("Tree size and microenvironment", 1, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("Larger, taller trees have lower Rt.", 1, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
@@ -93,7 +93,7 @@ kableExtra::footnote(symbol = c("Semi-ring porosity is intermediate between ring
 library(knitr)
 library(kableExtra)
 singlevar_table <- read.csv("tables_figures/publication/table4_singlevariable_models_reform.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
-kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests of hypothesized drivers of drought resistance. Models including each variable were compared to corresponding null models. dAIC is the AICc of the null model minus that of the model including the variable (thus, dAICc>2 indicates that the variable significantly improves the model). Variable abbreviations are as in Table 2.", format = 'latex', escape = FALSE) %>%
+kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests of hypothesized drivers of drought resistance. Models including each variable were compared to corresponding null models. Delta AICc is the AICc of the null model minus that of the model including the variable (thus, Delta AICc > 1 indicates that the variable significantly improves the model). Variable abbreviations are as in Table 2.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
   # pack_rows("Tree size and microenvironment", 1, 12, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
@@ -101,9 +101,7 @@ kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable test
   #mutate(dAICc = cell_spec(dAICc, "html", bold = ifelse(dAICc > 1.999, TRUE, FALSE))) %>%  #trying to put sig values in bold, but this doen't work
   kable_styling()
 ```
-*dAICc > 1: variable qualified for inclusion in full model
-
-**dAICc > 2: statistically signficant, variable qualified for inclusion in full model
+*$\Delta$AICc > 1: variable qualified for inclusion in full model
 
 
 \clearpage
@@ -111,7 +109,7 @@ kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable test
 library(knitr)
 library(kableExtra)
 multivar_table <- read.csv("tables_figures/publication/table5_multivariable_models_reform.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
-kable(multivar_table, booktabs = TRUE, caption = "Table 5. Summary of top full models for each drought instance. Models are ranked by AICc, and we show all models whose AICc value falls within 1.0 (dAICc<1) of the best model (bold).", format = 'latex', escape = FALSE) %>%
+kable(multivar_table, booktabs = TRUE, caption = "Table 5. Summary of top full models for each drought instance. Models are ranked by AICc, and we show all models whose AICc value falls within 1.0 (Delta AICc<1) of the best model (bold).", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," "," "," ", " ", " ", "crown position" = 4, 
                      "xylem porosity" = 2," ")) %>%
