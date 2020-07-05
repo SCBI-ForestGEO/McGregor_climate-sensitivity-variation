@@ -30,7 +30,7 @@ colors.species <- colorRampPalette(c("purple", "cadetblue", "darkorange", "red",
 
 clim <- read.csv("https://raw.githubusercontent.com/SCBI-ForestGEO/climate_sensitivity_cores/master/data/climate/Formated_CRU_SCBI_1901_2016.csv")
 
-clim_PDSI <- read.csv("data/pdsi/pdsi_timeseries_winchester_1949-2012.csv", stringsAsFactors = F)
+clim_PDSI <- read.csv("data/climate/pdsi_timeseries_winchester_1949-2012.csv", stringsAsFactors = F)
 clim_PDSI$year <- sapply(strsplit(clim_PDSI$Date, "/"), "[[", 3)
 clim_PDSI$month <- sapply(strsplit(clim_PDSI$Date, "/"), "[[", 1)
 names(clim_PDSI) <- c("Date", "pdsi", "year", "month")
