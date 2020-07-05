@@ -586,8 +586,7 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #3. mixed effects model for output of #2.
 
 ##start here if just re-running model runs ####
-# trees_all_subar <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
-# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arima.csv", stringsAsFactors = FALSE)
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
 trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv",
                           stringsAsFactors = FALSE)
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
@@ -613,7 +612,11 @@ library(data.table)
 # using a predefined null model and test model (i.e. all test models have height).
 # After these are tested from a defined data frame (sum_mod_traits), the "candidate"
 # variables (cand_full) are those variables that appear in one of the 4 scenarios'
-# top models. These candidates are then used in ##6b.
+# top models. These candidates are then used in ##3b.
+
+# The "reform" is from Issue #95 in Github, where we decide to include the TWI*height 
+# interaction plus crown position in the base model that we compare against the other 
+# traits. Prior to this, the base model only had height.
 
 sum_mod_traits <- data.frame(
   "prediction" = c(3.1, 3.2, 3.3, 3.4, 3.5),
@@ -791,12 +794,15 @@ write.csv(cand_full, "manuscript/tables_figures/publication/S3_candidate_traits_
 # with the results AND identifies the top models for each scenario that are <=1 dAIC 
 # (top_models) from the best (best_mod_traits).
 
+# For an explanation on what "reform" means, see the description under ##3a. 
+
 best_mod_traits <- data.frame("best_model" = NA,
                               "scenario" = c("all droughts", "1966", "1977", "1999")
 )
-top_vars <- c(unique(cand_full$variable), 
-              paste0(unique(cand_full$variable)[1], "+",
-                     unique(cand_full$variable)[2]))
+
+## ONLY KEEP PLA and TLP as top variables! See Issue #95 on github.
+top_vars <- c(unique(cand_full$variable))
+top_vars <- top_vars[2:3] #this should be PLA and TLP
 best_mod_full <- c(paste0("height.ln.m*TWI.ln+position_all+",
                           top_vars,
                           "+year+(1|sp/tree)"))
@@ -938,7 +944,17 @@ for (i in seq(along=c(1:4))){
 write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform.csv", row.names=FALSE)
 write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_dAIC_reform.csv", row.names=FALSE)
 
-#this is for when we fully decide what our best model is!!! ####
+#VIF; this is for when we fully decide what our best model is!!! ####
+# VIF (variance inflation factors) are used to test multicollinearity. The end result
+# of this code chunk is a csv of the VIF values per variable. 
+# Values that are "good" VIF values are around 1. Anything above 10 is bad.
+# In a way, this is a companion to a correlation plot.
+# https://www.statisticshowto.com/variance-inflation-factor/
+
+meh <- best_mod_traits$best_model
+best_mod_traits$best_model <- gsub("position_all\\+", "", meh)
+best_mod_traits$best_model <- gsub("\\*", "\\+", meh)
+
 hazel_vif <- NULL
 for(i in 1:nrow(best_mod_traits)){
   mod <- glmer(best_mod_traits$best_model[i], 
@@ -962,16 +978,13 @@ for(i in 1:nrow(top_models)){
 }
 names(output_list) <- paste0(top_models$scenario, "_", top_models$Delta_AICc)
 
-rpoall <- anova(output_list[[1]], output_list[[2]], output_list[[3]], output_list[[4]]) #all
-rpo77 <- anova(output_list[[6]], output_list[[7]], output_list[[8]], output_list[[9]], output_list[[10]],output_list[[11]],output_list[[12]],output_list[[13]]) #1977
-rpo99 <- anova(output_list[[14]], output_list[[15]],output_list[[16]],output_list[[17]],output_list[[18]],output_list[[19]],output_list[[20]],output_list[[21]]) #1999
+#we take anova of top models for each scenario. Since only one of those has >1 top model,
+#that's all we do
+rpo <- anova(output_list[[4]], output_list[[5]])
 
-top_models$order_original <- 1:21
+top_models$order_original <- 1:5
 top_models$order_anova <- 
-  c(as.numeric(str_extract(rownames(rpoall), "[[:digit:]]")),
-    5,
-    as.numeric(str_extract(rownames(rpo77), "[[:digit:]]+")),
-    as.numeric(str_extract(rownames(rpo99), "[[:digit:]]+")))
+  c(1:3, as.numeric(str_extract(rownames(rpo), "[[:digit:]]")))
 
 write.csv(hazel_vif, "manuscript/tables_figures/top_models_dAIC_VIF.csv", row.names=FALSE)
 
@@ -1005,25 +1018,41 @@ coeff_table[,2:ncol(coeff_table)] <- round(coeff_table[,2:ncol(coeff_table)], 3)
 
 coeff_new <- as.data.frame(t(coeff_table[,-1]))
 colnames(coeff_new) <- coeff_table$model_var
+coeff_new$year <- NULL #we ignore year because we assume it's significant
 
-# coeff_new$year1966 <- ifelse(!is.na(coeff_new$year1977), 0, NA) #only applicable if "year" is a significant variable
+# add in 0 values for multi-option variables
 coeff_new$codominant <- ifelse(!is.na(coeff_new$position_alldominant), 0, NA)
 coeff_new$rpdiffuse <- ifelse(!is.na(coeff_new$rpring), 0, NA)
 
-# coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
-#                            "position_alldominant", "codominant", "position_allintermediate","position_allsuppressed", 
-#                           "rpdiffuse", "rpring", "rpsemi-ring", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")]
-# colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "D", "C", "I", "S", "diffuse", "ring", "semi-ring", "ln[TWI]", "PLA", "TLP")
-
-## arima ratio model
 coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
-                          "TWI.ln", "height.ln.m:TWI.ln", 
-                          "position_alldominant", "codominant", 
+                           "TWI.ln", "height.ln.m:TWI.ln",
+                           "position_alldominant", "codominant",
                           "position_allintermediate","position_allsuppressed",
-                          "rpdiffuse", "rpring", "PLA_dry_percent")]
-colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]",
-                        "ln[H]*ln[TWI]", "D", "C", "I", "S", "diffuse", 
-                        "ring", "PLA")
+                          "rpdiffuse", "rpring",
+                          "PLA_dry_percent", "mean_TLP_Mpa")]
+colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", "ln[H]*ln[TWI]",
+                         "D", "C", "I", "S",
+                         "diffuse", "ring",
+                         "PLA", "TLP")
+
+# coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
+#                            "TWI.ln", "height.ln.m:TWI.ln", 
+#                            "position_alldominant", "codominant",
+#                            "position_allintermediate","position_allsuppressed",
+#                            "PLA_dry_percent", "mean_TLP_Mpa")]
+# colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", "ln[H]*ln[TWI]",
+#                          "D", "C", "I", "S", 
+#                          "PLA", "TLP")
+
+# ## arima ratio model
+# coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
+#                           "TWI.ln", "height.ln.m:TWI.ln", 
+#                           "position_alldominant", "codominant", 
+#                           "position_allintermediate","position_allsuppressed",
+#                           "rpdiffuse", "rpring", "PLA_dry_percent")]
+# colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]",
+#                         "ln[H]*ln[TWI]", "D", "C", "I", "S", "diffuse", 
+#                         "ring", "PLA")
 
 
 coeff_new <- setDT(coeff_new, keep.rownames = TRUE)[]
