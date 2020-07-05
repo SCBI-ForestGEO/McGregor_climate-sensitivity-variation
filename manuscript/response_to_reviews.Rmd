@@ -44,7 +44,7 @@ Only assessing models with AIC is not enough to prove sound relationships in mul
 
 [*issue #94*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/94)
 
-**I have gone through the manuscript / tables and figures and updated where it said "dAICc" to be $\Delta$AICc. **
+**We have gone through the manuscript / tables and figures and updated where it said "dAICc" to be $\Delta$AICc. **
 
 Following the two previous comments, I suggest to leave in Table 5 just the best model (rather that a multimodel inference as is presented now) to discuss more clearly the covariates included. And I suggest discussing only the model with all years together. This would be more robust and avoid ramble differences between years that mostly look spurious and with a difficult physiological explanation. This would help to ensure a better use of the Resilience indices.
 
@@ -82,6 +82,10 @@ should be rather straightforward and the authors would increase accuracy across 
 - Line 234-247: it is not clear what the authors did, please explain clearer this paragraph and the next and why you did two different (yet similar) analyses (single-variable and full model).
 
 - Line 241-242: enough to say once that models were selected based on AIC (line 237-238) and then one criterion, why dAIC<1 here and dAIC<2 before? The classic assumption is 2 (e.g. Burnham & Anderson 2004). See also my other comment above.
+
+**We have modified the text here to read:
+"Candidate variables were selected, based on the single-variable tests, as those that had a consistent direction of response across all droughts and whose addition to a corresponding null model improved fit (at $\Delta$AICc $\ge$ 1.0) in at least one drought year (Table 4). We note that the $\Delta$AICc $\ge$ 1.0 criterion is not a test of signficance, but of whether the variable has enough influence to be considered as a *candidate* variable in full models."**
+
 
 - Line 255-256: but this was already an assumption in M-M (line 202-203). Please, see my comment below and be consistent along the text.
 
