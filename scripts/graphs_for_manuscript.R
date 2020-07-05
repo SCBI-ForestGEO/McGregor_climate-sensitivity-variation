@@ -41,8 +41,8 @@ Mode <- function(x) {
    ux[which.max(tabulate(match(x, ux)))]
 }
 
-apply(d, 2, Mode)
-test[,.(mode = Mode(resist.value)), by=.(year)]
+# apply(d, 2, Mode)
+# test[,.(mode = Mode(resist.value)), by=.(year)]
 
 #save as png so that way you're arranging only png
 png("manuscript/tables_figures/publication/Figure1b_density_plot.png", res = 300, width = 150, height = 50, units = "mm", pointsize = 10)
@@ -52,14 +52,20 @@ ggplot(trees_all_sub) +
    geom_vline(xintercept=1) +
    scale_fill_hue(labels=c("1966", "1977", "1999")) +
    labs(x="resistance value") +
-   theme_minimal()
+   theme_minimal() +
+   annotate(geom="text", x=0.1, y=1.5, 
+            label = "(b)", fontface="bold", size=7)
 dev.off()
 
 plot1 <- readPNG("manuscript/tables_figures/publication/Figure1a_Time_series_for_each_species.png")
 plot2 <- readPNG("manuscript/tables_figures/publication/Figure1b_density_plot.png")
 
 png("manuscript/tables_figures/publication/Figure1.png", res=300, height=200, width=150, units="mm", pointsize=10)
-plot_grid(rasterGrob(plot1), rasterGrob(plot2), align = "v", nrow = 2, rel_heights = c(3/4, 1/4), axis = "b")
+g <- plot_grid(rasterGrob(plot1), rasterGrob(plot2), align = "v", nrow = 2, rel_heights = c(3/4, 1/4), axis = "b")
+g + annotate(geom="text", x=0.25, y=0.99, 
+             label = "(a)", fontface="bold", size=3) +
+   annotate(geom="text", x=0.25, y=0.23, 
+             label = "(b)", fontface="bold", size=3)
 dev.off()
 
 #########################################################################
