@@ -98,8 +98,8 @@ should be rather straightforward and the authors would increase accuracy across 
 
 - Line 330-331: any evidence to support this? It looks rather speculative. As suggested above, does any species particularly show positive Rt or positive Rt are randomly distributed in your trees?
 
-**IM I have done this (with arima ratio), see below. Assuming this should be SI plot?**
-![Rt (Arima ratio) across species](tables_figures/rt_across_species.png)
+**IM I have done this for Rt, see below. I notice we don't have negative at all, just above or below 0. I'm assuming this is what the reviewer is referring to? Assuming this should be SI plot? Please let me know if you think this figure should be altered at all. **
+![Rt across species](tables_figures/rt_across_species.png)
 
 - Line 331-333: not so sure about this. It can also mean that there is no causal relationship between Rt and covariates, mostly because radial growth Rt should not be used as an integral proxy of tree resistance to drought, such as it is often used now in the literature.
   - *IM Krista do you know more about this?*

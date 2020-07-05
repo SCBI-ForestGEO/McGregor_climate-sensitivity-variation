@@ -586,7 +586,7 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #3. mixed effects model for output of #2.
 
 ##start here if just re-running model runs ####
-trees_all_subar <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
+# trees_all_subar <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
 # trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arima.csv", stringsAsFactors = FALSE)
 trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv",
                           stringsAsFactors = FALSE)
@@ -1099,7 +1099,7 @@ write.csv(res_full, "manuscript/tables_figures/publication/tableS7_top_residual_
 ##3e. Compare Rt values across species ####
 library(ggplot2)
 png("manuscript/tables_figures/rt_across_species.png", width=960)
-ggplot(trees_all_subar) +
+ggplot(trees_all_sub) +
   aes(x = sp, y = resist.value) +
   geom_boxplot(fill = "#0c4c8a") +
   theme_minimal()
