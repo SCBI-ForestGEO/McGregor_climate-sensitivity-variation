@@ -62,9 +62,9 @@ plot2 <- readPNG("manuscript/tables_figures/publication/Figure1b_density_plot.pn
 
 png("manuscript/tables_figures/publication/Figure1.png", res=300, height=200, width=150, units="mm", pointsize=10)
 g <- plot_grid(rasterGrob(plot1), rasterGrob(plot2), align = "v", nrow = 2, rel_heights = c(3/4, 1/4), axis = "b")
-g + annotate(geom="text", x=0.25, y=0.99, 
+g + annotate(geom="text", x=0.13, y=0.99, 
              label = "(a)", fontface="bold", size=3) +
-   annotate(geom="text", x=0.25, y=0.23, 
+   annotate(geom="text", x=0.13, y=0.23, 
              label = "(b)", fontface="bold", size=3)
 dev.off()
 
