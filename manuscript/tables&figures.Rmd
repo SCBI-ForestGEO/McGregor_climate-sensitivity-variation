@@ -112,11 +112,11 @@ multivar_table <- read.csv("tables_figures/publication/table5_multivariable_mode
 kable(multivar_table, booktabs = TRUE, caption = "Table 5. Summary of top full models for each drought instance. Models are ranked by AICc, and we show all models whose AICc value falls within 1.0 (Delta AICc<1) of the best model (bold).", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," "," "," ", " ", " ", "crown position" = 4, 
-                     "xylem porosity" = 2," ")) %>%
+                     " "," ")) %>%
   pack_rows("", 1, 1, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 2, 2, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 3, 3, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("", 4, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 4, 5, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   row_spec(1, bold = T) %>%
   row_spec(2, bold = T) %>%
   row_spec(3, bold = T) %>%
