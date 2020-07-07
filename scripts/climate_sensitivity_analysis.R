@@ -529,8 +529,8 @@ trees_all$TWI.ln <- log(trees_all$TWI)
 ##fram 140939 has been mislabeled. It is recorded as having a small dbh when that is the second stem. In terms of canopy position, though, it fell between time of coring and when positions were recorded, thus we do not know its position.
 trees_all <- trees_all[!trees_all$tree == 140939, ]
 
-##2i. if using resistance value, constrain values to be <=2
-# trees_all <- trees_all[trees_all$resist.value <=2]
+##2i. if using resistance value, constrain values to be <=2 ####
+trees_all <- trees_all[trees_all$resist.value <=2]
 
 # write.csv(trees_all, "manuscript/tables_figures/trees_all.csv", row.names=FALSE)
 ##2i. prepare dataset for running regression models ####
@@ -586,9 +586,9 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #3. mixed effects model for output of #2.
 
 ##start here if just re-running model runs ####
-# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv",
-                          stringsAsFactors = FALSE)
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
+
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
 x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
@@ -783,8 +783,8 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 
 cand_full <- cand_full[complete.cases(cand_full), ]
 
-write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_reform.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/publication/S3_candidate_traits_reform.csv", row.names=FALSE)
+write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_reform_arimaratio.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/publication/S3_candidate_traits_reform_arimaratio.csv", row.names=FALSE)
 
 ##3b reform. determine the best full model (expand for fuller explanation) ####
 # this code chunk uses the candidate variables (cand_full) from ##6a to determine
@@ -941,8 +941,8 @@ for (i in seq(along=c(1:4))){
   top_models <- rbind(top_models, top)
 }
 
-write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_dAIC_reform.csv", row.names=FALSE)
+write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform_arimaratio.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_dAIC_reform_arimaratio.csv", row.names=FALSE)
 
 #VIF; this is for when we fully decide what our best model is!!! ####
 # VIF (variance inflation factors) are used to test multicollinearity. The end result
@@ -952,7 +952,6 @@ write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_
 # https://www.statisticshowto.com/variance-inflation-factor/
 
 meh <- best_mod_traits$best_model
-best_mod_traits$best_model <- gsub("position_all\\+", "", meh)
 best_mod_traits$best_model <- gsub("\\*", "\\+", meh)
 
 hazel_vif <- NULL
@@ -986,7 +985,7 @@ top_models$order_original <- 1:5
 top_models$order_anova <- 
   c(1:3, as.numeric(str_extract(rownames(rpo), "[[:digit:]]")))
 
-write.csv(hazel_vif, "manuscript/tables_figures/top_models_dAIC_VIF.csv", row.names=FALSE)
+write.csv(hazel_vif, "manuscript/tables_figures/top_models_dAIC_VIF_reform_arimaratio.csv", row.names=FALSE)
 
 ##3c. Make table of coefficients plus r^2 from top models from ##3b. ####
 
@@ -1022,37 +1021,29 @@ coeff_new$year <- NULL #we ignore year because we assume it's significant
 
 # add in 0 values for multi-option variables
 coeff_new$codominant <- ifelse(!is.na(coeff_new$position_alldominant), 0, NA)
-coeff_new$rpdiffuse <- ifelse(!is.na(coeff_new$rpring), 0, NA)
+# coeff_new$rpdiffuse <- ifelse(!is.na(coeff_new$rpring), 0, NA)
+
+#if include RP then do this instead of below
+# coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
+#                            "TWI.ln", "height.ln.m:TWI.ln",
+#                            "position_alldominant", "codominant",
+#                           "position_allintermediate","position_allsuppressed",
+#                           "rpdiffuse", "rpring",
+#                           "PLA_dry_percent", "mean_TLP_Mpa")]
+# colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", 
+#                         "ln[H]*ln[TWI]",
+#                          "D", "C", "I", "S",
+#                          "diffuse", "ring",
+#                          "PLA", "TLP")
 
 coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
                            "TWI.ln", "height.ln.m:TWI.ln",
                            "position_alldominant", "codominant",
-                          "position_allintermediate","position_allsuppressed",
-                          "rpdiffuse", "rpring",
-                          "PLA_dry_percent", "mean_TLP_Mpa")]
+                           "position_allintermediate","position_allsuppressed",
+                           "PLA_dry_percent", "mean_TLP_Mpa")]
 colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", "ln[H]*ln[TWI]",
                          "D", "C", "I", "S",
-                         "diffuse", "ring",
                          "PLA", "TLP")
-
-# coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
-#                            "TWI.ln", "height.ln.m:TWI.ln", 
-#                            "position_alldominant", "codominant",
-#                            "position_allintermediate","position_allsuppressed",
-#                            "PLA_dry_percent", "mean_TLP_Mpa")]
-# colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", "ln[H]*ln[TWI]",
-#                          "D", "C", "I", "S", 
-#                          "PLA", "TLP")
-
-# ## arima ratio model
-# coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
-#                           "TWI.ln", "height.ln.m:TWI.ln", 
-#                           "position_alldominant", "codominant", 
-#                           "position_allintermediate","position_allsuppressed",
-#                           "rpdiffuse", "rpring", "PLA_dry_percent")]
-# colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]",
-#                         "ln[H]*ln[TWI]", "D", "C", "I", "S", "diffuse", 
-#                         "ring", "PLA")
 
 
 coeff_new <- setDT(coeff_new, keep.rownames = TRUE)[]
@@ -1063,8 +1054,9 @@ for(i in seq(along=patterns)){
   coeff_new$rank <- gsub(patterns[[i]], "", coeff_new$rank)
 }
 
-write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_reform.csv", row.names=FALSE)
+write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_reform_arimaratio.csv", row.names=FALSE)
 
+## END OF NORMAL ANALYSIS. 3d and 3e are extra
 
 ##3d. compare Rt values with arima_ratio ####
 library(data.table)
@@ -1524,7 +1516,7 @@ write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", r
 write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_dAIC.csv", row.names=FALSE)
 
 ##################
-#3 Appendix
+#3 Appendix for code
 ##################
 ##3d. standalone code to get coefficients and r2 #### 
 ##(for paper, should do ONLY w/REML=TRUE) 
