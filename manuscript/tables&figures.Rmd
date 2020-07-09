@@ -61,7 +61,7 @@ kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. S
 library(knitr)
 library(kableExtra)
 table2 <- read.csv("tables_figures/publication/table2_variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-kable(table2, format = "latex", booktabs = TRUE, caption = "Table 2. Summary of variables.", 
+kable(table2, format = "latex", booktabs = TRUE, caption = "Table 2. Summary of dependent and independent variables examined here, along with units, definitions, and sample sizes.", 
         escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 10, protect_latex = TRUE) %>%
   column_spec(4, width = "7cm") %>%
