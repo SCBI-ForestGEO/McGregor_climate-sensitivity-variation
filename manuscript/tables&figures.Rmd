@@ -65,11 +65,11 @@ kable(table2, format = "latex", booktabs = TRUE, caption = "Table 2. Summary of 
         escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 10, protect_latex = TRUE) %>%
   column_spec(4, width = "7cm") %>%
-  pack_rows("Dependent variable", 1, 1, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("Independent variables", 2, 18, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("tree size", 5, 6, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
-  pack_rows("microhabitat", 7, 11, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
-  pack_rows("species' traits", 12, 18, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
+  pack_rows("Dependent variables", 1, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("Independent variables", 3, 19, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("tree size", 6, 7, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
+  pack_rows("microhabitat", 8, 12, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
+  pack_rows("species' traits", 13, 19, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   kable_styling()
 ```
 \clearpage
