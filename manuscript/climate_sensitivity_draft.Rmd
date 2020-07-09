@@ -165,9 +165,9 @@ To do so, we compared models with all possible combinations of candidate variabl
 When a variable appeared in all top models and the sign of the coefficient was consistent across models, we viewed this as support for the acceptance/rejection of the associated prediction by the full models. 
 If the variable appeared in only some of the models, we considered this partial support/rejection. 
 
-All analysis beyond basic data collection was performed using R version 3.5.3 [@R-base]. All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and [TBD], respectively.
-
-Other R-packages aside from those already listed were very helpful in conducting analyses. These are listed in the Supplementary Information.
+All analysis beyond basic data collection was performed using R version 3.5.3 [@R-base]. 
+Other R-packages aside from those already listed were very helpful in conducting analyses. These are listed in the Supplementary Information. 
+All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and [TBD], respectively.
 
 ### Results
 
