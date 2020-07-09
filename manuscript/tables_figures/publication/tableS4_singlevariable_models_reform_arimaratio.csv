@@ -1,7 +1,7 @@
-﻿variable,category,null model variables,dAICc,coefficients,dAICc,coefficients,dAICc,coefficients,dAICc,coefficients
-xylem porosity,R,ln[H]*ln[TWI]+crown position (+year),-5.29,0.043,0.81,0.15,2.77**,-0.177,2.51**,0.159
-,D/SR,,,0,,0,,0,,0
-$PLA$,,ln[H]*ln[TWI]+crown position (+year),-5.06,-0.012,10.34**,-0.024,-0.91,-0.009,-1.69,-0.005
-$LMA$,,ln[H]*ln[TWI]+crown position (+year),-12.72,0.0003,-2.05,-0.0005,-0.57,-0.003,-1.9,0.001
-$\pi_{tlp}$ ,,ln[H]*ln[TWI]+crown position (+year),-2.54,-0.153,-1.92,-0.065,-0.28,-0.201,-0.16,-0.19
-$WD$,,ln[H]*ln[TWI]+crown position (+year),-3.94,-0.039,-0.2,-0.297,-1.69,-0.133,0.74,0.313
+﻿variable,category,dAICc,coefficients,dAICc,coefficients,dAICc,coefficients,dAICc,coefficients
+xylem porosity,R,-5.29,0.043,0.81,0.15,2.77**,-0.177,2.51**,0.159
+,D/SR,,0,,0,,0,,0
+$PLA$,,-5.06,-0.012,10.34**,-0.024,-0.91,-0.009,-1.69,-0.005
+$LMA$,,-12.72,0.0003,-2.05,-0.0005,-0.57,-0.003,-1.9,0.001
+$\pi_{tlp}$ ,,-2.54,-0.153,-1.92,-0.065,-0.28,-0.201,-0.16,-0.19
+$WD$,,-3.94,-0.039,-0.2,-0.297,-1.69,-0.133,0.74,0.313
