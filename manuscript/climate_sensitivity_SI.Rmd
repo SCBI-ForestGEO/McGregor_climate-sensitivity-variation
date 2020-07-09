@@ -86,21 +86,6 @@ kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drou
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
-\newpage
-```{r, Table S4, eval=TRUE, echo=FALSE, message=FALSE}
-tableS4 <- read.csv("tables_figures/publication/tableS4_Rt_arima.csv", stringsAsFactors = FALSE)
-tableS4 <- tableS4[1:21, ]
-colnames(tableS4) <- c("Year", "Tree", "Rt", "Rt_ARIMA")
-kable(tableS4, booktabs=TRUE, format = "latex", caption = "Table S4: Comparison of Rt and ARIMA Rt results, showing a sample of 7 trees. Full table can be found at THIS WEBSITE.") %>%
-  # pack_rows("", 1, 3, latex_gap_space = ".4em", colnum = 4, hline_before = FALSE) %>%
-  pack_rows("", 4, 6, latex_gap_space = ".4em", colnum = 4, hline_before = FALSE) %>%
-  pack_rows("", 7, 9, latex_gap_space = ".4em", colnum = 4, hline_before = FALSE) %>%
-  pack_rows("", 10, 12, latex_gap_space = ".4em", colnum = 4, hline_before = FALSE) %>%
-  pack_rows("", 13, 15, latex_gap_space = ".4em", colnum = 4, hline_before = FALSE) %>%
-  pack_rows("", 16, 18, latex_gap_space = ".4em", colnum = 4, hline_before = FALSE) %>%
-  pack_rows("", 19, 21, latex_gap_space = ".4em", colnum = 4, hline_before = FALSE) %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
-```
 
 
 \newpage
