@@ -93,7 +93,7 @@ kableExtra::footnote(symbol = c("Semi-ring porosity is intermediate between ring
 library(knitr)
 library(kableExtra)
 singlevar_table <- read.csv("tables_figures/publication/table4_singlevariable_models_reform.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
-kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable tests of hypothesized drivers of drought resistance. Models including each variable were compared to corresponding null models. Delta AICc is the AICc of the null model minus that of the model including the variable (thus, Delta AICc > 1 indicates that the variable significantly improves the model). Variable abbreviations are as in Table 2.", format = 'latex', escape = FALSE) %>%
+kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Individual trait tests of hypothesized drivers of drought resistance ($Rt$ metric). Models including each variable were compared to corresponding null models. Delta AICc is the AICc of the null model minus that of the model including the variable (thus, Delta AICc > 1 indicates that the variable significantly improves the model). Variable abbreviations are as in Table 2.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
   # pack_rows("Tree size and microenvironment", 1, 12, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
@@ -102,7 +102,7 @@ kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Single-variable test
   kable_styling()
 ```
 *$\Delta$AICc > 1: variable qualified for inclusion in full model
-
+**$\Delta$AICc > 2: variable qualified for inclusion in full model and considered significant as an individual predictor
 
 \clearpage
 ```{r table 5, eval = TRUE, echo=FALSE, warning=FALSE}

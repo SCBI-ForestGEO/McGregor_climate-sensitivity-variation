@@ -91,7 +91,7 @@ kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drou
 library(knitr)
 library(kableExtra)
 singlevar_table <- read.csv("tables_figures/publication/tableS4_singlevariable_models_reform_arimaratio.csv", stringsAsFactors = FALSE, check.names = FALSE) 
-kable(singlevar_table, booktabs = TRUE, caption = "Table S4. Single-variable tests of hypothesized drivers of drought resistance, where $Rt_{ARIMA}$ is used as the response variable. Models including each variable were compared to corresponding null models. Delta AICc is the AICc of the null model minus that of the model including the variable (thus, Delta AICc > 1 indicates that the variable significantly improves the model). Variable abbreviations are as in Table 2.", format = 'latex', escape = FALSE) %>%
+kable(singlevar_table, booktabs = TRUE, caption = "Table S4. Individual trait tests of hypothesized drivers of drought resistance, where $Rt_{ARIMA}$ is used as the response variable. Models including each variable were compared to corresponding null models. Delta AICc is the AICc of the null model minus that of the model including the variable (thus, Delta AICc > 1 indicates that the variable significantly improves the model). Variable abbreviations are as in Table 2.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
   # pack_rows("Tree size and microenvironment", 1, 12, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
@@ -99,7 +99,7 @@ kable(singlevar_table, booktabs = TRUE, caption = "Table S4. Single-variable tes
   #mutate(dAICc = cell_spec(dAICc, "html", bold = ifelse(dAICc > 1.999, TRUE, FALSE))) %>%  #trying to put sig values in bold, but this doen't work
   kable_styling()
 ```
-*$\Delta$AICc > 1: variable qualified for inclusion in full model
+**$\Delta$AICc > 2: variable considered significant as an individual predictor
 
 \newpage
 ```{r table S5, eval = TRUE, echo=FALSE, warning=FALSE}
