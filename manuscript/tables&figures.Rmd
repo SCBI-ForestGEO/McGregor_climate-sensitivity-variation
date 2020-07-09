@@ -35,12 +35,12 @@ knitr::write_bib(c(
 ), 'packages.bib')
 ```
 
-
+\blandscape
 ```{r Table 1, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
 hypothesis_table <- read.csv("tables_figures/publication/table1_hypothesis_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. Summary of hypotheses, corresponding specific predictions, and results. We count predictions as fully supported ('yes') when the response is signficant in single-variable tests (Table 4) and included in all top full models and as partially supported ('(yes)') or rejected ('(no)') when the direction of response consistently matched the prediction but the effect was not significant in all models. A dash symbol indicates that the response was not significant in any of the top full models.") %>%
+kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. Summary of hypotheses, corresponding specific predictions, and results.") %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
   pack_rows("Tree size and microenvironment", 1, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("Larger, taller trees have lower Rt.", 1, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
@@ -51,9 +51,18 @@ kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. S
   add_header_above(c(" ", "Prediction supported?" = 4, " ")) %>%
   column_spec(1, width = "12cm") %>%
   column_spec(2:5, width = "1.2cm") %>%
-  column_spec(6, width = "2.4cm") %>%
-  kableExtra::landscape()
+  column_spec(6, width = "2.4cm") 
+ # kableExtra::landscape()
 ```
+
+Parentheses indicate that the prediction was supported by one but not all of the top full models (Table **5**). Dash symbols indicate that the response was not significant, or not represented in any of the top full models.
+Asterisks indicate that the $Rt_{ARIMA}$ model yielded a different result: 
+*different significance in $Rt_{ARIMA}$ model
+**$Rt_{ARIMA}$ model had a significant trend in the opposite direction of the $Rt$ model (if significant) or the prediction (if no signficant trend in $Rt$ model).  
+
+**TILDAS (~) indicate that we don't currently have a (full) test of this prediction ([issue 99](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/99)**)
+
+\elandscape
 
 \clearpage
 
