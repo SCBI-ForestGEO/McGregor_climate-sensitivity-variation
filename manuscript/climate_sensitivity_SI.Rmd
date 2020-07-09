@@ -86,6 +86,40 @@ kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drou
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
+\newpage
+```{r table S4, eval = TRUE, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+singlevar_table <- read.csv("tables_figures/publication/tableS4_singlevariable_models_reform_arimaratio.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+kable(singlevar_table, booktabs = TRUE, caption = "Table S4. Single-variable tests of hypothesized drivers of drought resistance, where $Rt_{ARIMA}$ is used as the response variable. Models including each variable were compared to corresponding null models. Delta AICc is the AICc of the null model minus that of the model including the variable (thus, Delta AICc > 1 indicates that the variable significantly improves the model). Variable abbreviations are as in Table 2.", format = 'latex', escape = FALSE) %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
+  add_header_above(c(" "," "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
+  # pack_rows("Tree size and microenvironment", 1, 12, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
+  pack_rows("Species traits", 1, 6, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
+  #mutate(dAICc = cell_spec(dAICc, "html", bold = ifelse(dAICc > 1.999, TRUE, FALSE))) %>%  #trying to put sig values in bold, but this doen't work
+  kable_styling()
+```
+*$\Delta$AICc > 1: variable qualified for inclusion in full model
+
+\newpage
+```{r table S5, eval = TRUE, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+multivar_table <- read.csv("tables_figures/publication/tableS5_multivariable_models_reform_arimaratio.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+kable(multivar_table, booktabs = TRUE, caption = "Table S5. Summary of top full models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable. Models are ranked by AICc, and we show all models whose AICc value falls within 1.0 (Delta AICc<1) of the best model (bold).", format = 'latex', escape = FALSE) %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
+  add_header_above(c(" "," "," "," "," ", " ", " ", "crown position" = 4, 
+                     " "," ")) %>%
+  pack_rows("", 1, 1, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 2, 2, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 3, 3, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 4, 5, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  row_spec(1, bold = T) %>%
+  row_spec(2, bold = T) %>%
+  row_spec(3, bold = T) %>%
+  row_spec(4, bold = T) %>%
+  kable_styling()
+```
 
 
 \newpage
