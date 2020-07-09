@@ -93,13 +93,16 @@ kableExtra::footnote(symbol = c("Semi-ring porosity is intermediate between ring
 library(knitr)
 library(kableExtra)
 singlevar_table <- read.csv("tables_figures/publication/table4_singlevariable_models_reform.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
-kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Individual tests of species traits as drivers of drought resistance ($Rt$ metric). Delta AICc is the AICc of a model excluding the trait minus that of the model including it. Variable abbreviations are as in Table 2.", format = 'latex', escape = FALSE) %>%
+kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Individual tests of species traits as drivers of drought resistance ($Rt$ metric).", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
   pack_rows("Species traits", 1, 6, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
   #mutate(dAICc = cell_spec(dAICc, "html", bold = ifelse(dAICc > 1.999, TRUE, FALSE))) %>%  #trying to put sig values in bold, but this doesn't work
   kable_styling()
 ```
+Variable abbreviations are as in Table 2. 
+$\Delta$AICc is the AICc of a model excluding the trait minus that of the model including it. 
+
 *$\Delta$AICc > 1: variable meets $\Delta$AICc criterion for inclusion in full model
 
 **$\Delta$AICc > 2: variable is considered significant as an individual predictor (and meets $\Delta$AICc criterion for inclusion in full model)
@@ -109,7 +112,7 @@ kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Individual tests of 
 library(knitr)
 library(kableExtra)
 multivar_table <- read.csv("tables_figures/publication/table5_multivariable_models_reform.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`.
-kable(multivar_table, booktabs = TRUE, caption = "Table 5. Summary of top full models for each drought instance. Models are ranked by AICc, and we show all models whose AICc value falls within 1.0 (Delta AICc<1) of the best model (bold).", format = 'latex', escape = FALSE) %>%
+kable(multivar_table, booktabs = TRUE, caption = "Table 5. Summary of top full models for each drought instance. ", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," "," "," ", " ", " ", "crown position" = 4, 
                      " "," ")) %>%
@@ -123,26 +126,7 @@ kable(multivar_table, booktabs = TRUE, caption = "Table 5. Summary of top full m
   row_spec(4, bold = T) %>%
   kable_styling()
 ```
-
-<!-- \clearpage -->
-<!-- ```{r table 5, eval = TRUE, echo=FALSE, warning=FALSE} -->
-<!-- # *****this is for if doing arimaratio!!!!***** -->
-<!-- library(knitr) -->
-<!-- library(kableExtra) -->
-<!-- multivar_table <- read.csv("tables_figures/publication/table5_multivariable_models_arimaratio.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_best_coeff.csv`. -->
-<!-- kable(multivar_table, booktabs = TRUE, caption = "Table 5. Summary of top full models for each drought instance. Models are ranked by AICc, and we show all models whose AICc value falls within 1.0 (dAICc<1) of the best model (bold).", format = 'latex', escape = FALSE) %>% -->
-<!--   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>% -->
-<!--   add_header_above(c(" "," "," "," "," ", " ", " ", "xylem porosity" = 2," ", " ")) %>% -->
-<!--   pack_rows("", 1, 2, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>% -->
-<!--   pack_rows("", 3, 5, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>% -->
-<!--   pack_rows("", 6, 7, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>% -->
-<!--   pack_rows("", 8, 11, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>% -->
-<!--   row_spec(1, bold = T) %>% -->
-<!--   row_spec(3, bold = T) %>% -->
-<!--   row_spec(6, bold = T) %>% -->
-<!--   row_spec(8, bold = T) %>% -->
-<!--   kable_styling() -->
-<!-- ``` -->
+Models are ranked by AICc. Shown are all models whose AICc value falls within 1.0 ($\Delta$AICc<1) of the best model (bold).
 
 \newpage
 ### Figure Legends
