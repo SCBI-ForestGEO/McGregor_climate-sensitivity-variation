@@ -58,34 +58,31 @@ library(kableExtra)
 
 bark <- read.csv("tables_figures/publication/tableS1_bark_regression.csv", stringsAsFactors = FALSE)
 bark[,2] <- NULL
-colnames(bark) <- c("Species", "Equations", "$R^{2}$")
+colnames(bark) <- c("Species", "Equations", "$R^2$")
 kable(bark, booktabs=TRUE, format = "latex", caption = "Table S1: Species-specific bark thickness regression equations") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
 \newpage
-```{r Table S2, eval=TRUE, echo=FALSE, message=FALSE}
+```{r Table S2, eval=TRUE, echo=FALSE,  warning=FALSE}
 library(knitr)
 library(kableExtra)
 
 heights <- read.csv("tables_figures/publication/tableS2_height_regression.csv", stringsAsFactors = FALSE)
-heights[,2] <- NULL
-colnames(heights) <- c("Species", "Equations", "$R^{2}$")
-kable(heights, booktabs=TRUE, format = "latex", caption = "Table S2: Species-specific height regression equations") %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
+kable(heights, booktabs=TRUE, format = 'latex', caption = "Table S2: Species-specific height regression equations", escape = FALSE) %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position", protect_latex = TRUE)
 ```
 
 \newpage
 ```{r, Table S3, eval=TRUE, echo=FALSE, message=FALSE}
 tableS3 <- read.csv("tables_figures/publication/tables3_drought_stats.csv", stringsAsFactors = FALSE)
-kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Palmer drought severity index (PDSI) by month for focal droughts. ") %>%
-  pack_rows("focal droughts", 1, 4, latex_gap_space = ".4em", colnum = 3, hline_before = FALSE) %>%
+kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Monthly Palmer Drought Severity Index (PDSI), and its rank among all years between 1950 and 2009 (driest=1), for focal droughts. ") %>%
+  pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 3, hline_before = FALSE) %>%
   pack_rows("", 5, 8, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 9, 12, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("other", 13, 16, latex_gap_space = ".4em", colnum = 3, hline_before = FALSE) %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
+  kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position", protect_latex = TRUE)
 ```
-Rank refers to ...**XX**
+
 
 \newpage
 ```{r table S4, eval = TRUE, echo=FALSE, warning=FALSE}

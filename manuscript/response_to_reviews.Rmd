@@ -31,7 +31,7 @@ It is important to better discuss the proper use of Rt, particularly when compar
 
 Statistical analysis: the analysis would be more precise if the authors used Generalized linear mixed models to avoid data transformation and take into account (with random effects, as they do for the linear mixed model, LMM, presented now) the influence of species in the analysis. Then I missed a further discussion on the role of individual species (e.g. see my comment below on Rt>1).
 
-**We switched to use of Generalized linear mixed models. This did not change the outcome of any analyses.**
+**We switched to use of generalized linear mixed models. This did not change the outcome of any analyses.**
 
 [*issue #94*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/94)
 
@@ -39,6 +39,8 @@ Statistical analysis: the analysis would be more precise if the authors used Gen
 I suggest to show some relationship, e.g. between Rt and traits in figures. The study only presents two figures and there is plenty of room to present results more clearly with extra figures.
 
 [*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
+
+[*issue #100*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
 
 Only assessing models with AIC is not enough to prove sound relationships in multidimensional and complex data-models. LL ratio tests or deviance-anova tests can be used in the case of nested models with LMM or GLMM respectively. Along the text: dAIC is generally referred as $\Delta$AIC, please change accordingly.
 
@@ -48,92 +50,137 @@ Only assessing models with AIC is not enough to prove sound relationships in mul
 
 Following the two previous comments, I suggest to leave in Table 5 just the best model (rather that a multimodel inference as is presented now) to discuss more clearly the covariates included. And I suggest discussing only the model with all years together. This would be more robust and avoid ramble differences between years that mostly look spurious and with a difficult physiological explanation. This would help to ensure a better use of the Resilience indices.
 
-*This is an interesting suggestion. Depending on where we end up going with some other issues, it may make sense to de-emphasize the individual models--perhaps move Table 5 to SI and replace with figure ([issue #71](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71))? However, I think we could also just make an argument for leaving this as is.*
+*How about this: *
+
+*(1) keep a version of table 5 in the main text, showing just the top model for Rt, and maybe also that of $Rt_{ARIMA}$.  *
+
+*(2) put full versions of table 2 (for Rt and $Rt_{ARIMA}$), including all models within the top dAICc=2, in the appendix*
+
 
 related to [*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
 
+related to [*issue #99*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/99)
+
+**We do want to show the three separate drought periods, as we feel that this makes the analysis richer and helps to separate real drivers from spurious correlations. However, in order to make models more consistent across years and reduce spurious correlations, we now include the criteria that for a trait to be included as a candidate variable in the full model, the sign of coefficients must be consistent across all droughts (in addition to meeting the AIC criteria, as before). This resulted in only two candidate variables for the main model ($PLA_{dry}$ and $\pi_{tlp}$). (Removed was ring porosity, which had opposite effects in different droughts.)**
+
 The authors might like to consider including Table 4 as a supplement, because as it stands it looks like an exploratory analysis. If the ‘single-variable approach’ is not just exploratory, state it clearly and why it is needed besides the full models with several parameters.
+
+*This table is definitely not just exploratory, and is the source for supporting/ rejecting predictions in Table 1. Thus, keeping it in the main text could be justified. That said, it presents mainly negative results, and I'd like to reduce the number of tables, so moving it to the appedix would be fine.*
 
 [*issue #95*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/95)
 
+related to [*issue #99*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/99)
+
 Importantly, the drought selection would be biased if years were selected as from line 202, which is a common mistake in similar studies (the original of Lloret et al. included). Droughts must be selected based only on some climatic/drought index (PDSI, SPEI,…) and independently of growth. Otherwise the analysis is biased towards years with low growth, and different questions would arise with a difficult answer. If the authors select only those droughts where there is a growth decrease: is that decrease evident in all species and similar across species? What happens with more intense droughts that those selected (if any), why they do not force a decrease in growth if drought is a main forcing agent? I see that 1966 and 1999 are the driest (as in PDSI) in Figure 1, but there is at least one year around 1955 that it is as dry or drier than 1977. In line 204 it is stated that they are the driest. If this is the case, the analysis should be sound but it should be deleted what is stated in lines 202-203 where authors say that they selected years also based on low growth. In fact, that should be a result after having selected the drought years only based on dryness (as in lines 208-209). Line 211 then they search for pointer years… a little bit messy. Please, explain better, and it should follow: 1) selection of dry years without regarding growth data; 2) characterise growth those dry years; 3) If the authors want to compare with other pointer years, fine, but that should be a third independent step properly justified and explained. Following this rationale, then in line 221 it should be difficult that Rt>1, had we selected those years with a negative growth anomaly. Please, explain clearly and consistently.
 
-*Ugghh, this doesn't even change anything--we'd still be analyzing the same 3 droughts! The question is whether to remove the growth reduction criteria. I personally think that analyzing 2 criteria is a strength, as our goal was to identify droughts that were both climatologically and biologically signficant. In any case, this is just an issue of changing the wording.*
-
-*IM - I've updated the language in the manuscript, I think it's better.*
+**We have made the suggested change: we now present only the PDSI criteria in the methods, and mention the fact that the selected years were also the ones with largest growth reductions during the study period in the results section. Using just the PDSI criterion does not change the years analyzed.**  
 
 Other minor comments:
 
-- Line 113: correct ‘positively’. **done**
+- Line 113: correct ‘positively’. 
 
-- Line 134: cambial growth also includes that of phloem; so better refer to ‘xylem growth’. **done**
+**done**
+
+- Line 134: cambial growth also includes that of phloem; so better refer to ‘xylem growth’. 
+
+**done**
 
 - Line 161: how many species were estimated for height like this? Wouldn’t it be possible for authors to go to the field and perform some height estimations? This 
 should be rather straightforward and the authors would increase accuracy across species in height estimation.
-  - *IM I'm confused about how to answer this. There's no direct response to the first question, as the measurements I got (along with Atticus and previous measurements) were all lumped into the pot to make the regression equations, which we explain. Otherwise, I did go out and confirm measurements. I guess my only response (and question to you @teixeirak) is it worth explaining how disparate our data was and that's why we have different methods? Along with me going and getting new ones?*
 
-- Lines 166-167: please explain further the hypothesis and why. *IM this is now line 170. I'm a little confused myself.*
+**We have specified how many species used the interspecific allometry (n=2, JUNI and FRAM). Because of COVID-19, it would not be possible to go collect more data for these species.** 
 
-- Line 222: what about climate in years before 1991? *IM I don't get this. At the beginning of the paragraph we say we looked at droughts 1950-2009...*
+- Lines 166-167: please explain further the hypothesis and why. 
 
-- Line 231: define AICc. **This is done (with added reference)**
+**We have reworded this sentence to read, "While some tree crowns undoubtedly changed position over the past several decades, in this case the bias would be unlikely to result in false acceptance of the prediction that dominant trees have the lowest $Rt$ (*i.e.*, type I error unlikely, type II error possible), making our hypothesis test conservative."** 
 
-- *IM I'm a bit confused by the next three comments.*
+- Line 222: what about climate in years before 1991? 
+
+**We no longer mention 1991, as it does not meet the PDSI criteria.** 
+
+- Line 231: define AICc. 
+
+**This is done (with added reference)**
+
 - Line 234-247: it is not clear what the authors did, please explain clearer this paragraph and the next and why you did two different (yet similar) analyses (single-variable and full model).
+
+**This section has been re-written.**
 
 - Line 241-242: enough to say once that models were selected based on AIC (line 237-238) and then one criterion, why dAIC<1 here and dAIC<2 before? The classic assumption is 2 (e.g. Burnham & Anderson 2004). See also my other comment above.
 
-**We have modified the text here to read:
-"Candidate variables were selected, based on the single-variable tests, as those that had a consistent direction of response across all droughts and whose addition to a corresponding null model improved fit (at $\Delta$AICc $\ge$ 1.0) in at least one drought year (Table 4). We note that the $\Delta$AICc $\ge$ 1.0 criterion is not a test of signficance, but of whether the variable has enough influence to be considered as a *candidate* variable in full models."**
+**We have modified this text to read as follows:**
 
+**"Trait variables were considered appropriate for inclusion in the main model if they had a consistent direction of response across all droughts and if their addition to a corresponding null model lacking the trait improved fit (at $\Delta$AICc $\ge$ 1.0) in at least one drought year (Table 4). We note that the $\Delta$AICc $\ge$ 1.0 criterion is not a test of significance, but of whether the variable has enough influence to be considered as a *candidate* variable in full models."**
 
 - Line 255-256: but this was already an assumption in M-M (line 202-203). Please, see my comment below and be consistent along the text.
 
+**As stated above, we have removed the $Rt$ criterion from the drought identification process, and now present this information for the first time in this section, adding the following statement: "Across the entire study period (1950-2009), the focal drought years were the three years with the largest fraction of trees exhibiting $Rt \le 0.7$."**
+
 - Line 258: so this means that they are no sensitive to the drought? Which trees, any species in particular? Is this a consequence of stand dynamics shadowing the impact of drought events?
+
+**It's not unprecedented to see some trees exhibit increased growth during drought, and not surprising. Stand dynamics and other factors result in a lot of scatter in the relationship between tree growth and climate, so while the distribution of $Rt$ in Fig. 1b was shifted left (normal year should be normally distributed around 1), there still are some trees with increased growth. Our analysis helps to work out which trees these were (often shorter trees).**
+
+**We address this question in the discussion, where we have added a statement about how this is not unprecedented: "Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion had increased growth (Fig. 1b), potentially due to decreased leaf area of competitors during the drought, and consistent with prior observations that smaller trees can exhibit increased growth rates during drought (Bennett et al. 2015). It is likely because of the moderate impact of these droughts, along with other factors influencing tree growth (e.g., stand dynamics), that our best models characterize only a modest amount of variation"**
 
 - Line 266-267: why only in 1966? I think this shows that this variable is not properly assessed. The older the date, the more accurate the estimation of crown position and height were.
 
-*this is true of crown position, not height*
-- *IM how do we want to officially respond to this?*
+**It is true that crown position estimates become more accurate in later dates, but height should be equally reliable across years, having been estimated based on reconstructed DBH. This was not previously clearly specified in the methods. To clarify, we have added the following statement: "We then used these allometries to estimate $H$ for each drought year, $Y$, based on reconstructed $DBH_Y$."**
+
+**We agree that the assessment of crown position is somewhat problematic, both because of its increasing inaccuracy going back through time, and because of collinearity with $H$. However, given that it is both biologically interesting and comes out in our top models, we have chosen to include it. We note that this makes the test of our hypothesis conservative. We are transparent about this issue, to which we devote a paragraph in the discussion (par. 3).**
 
 - Line 275-280: those profiles were assumed a priori in the introduction and are common to any forest. They are indeed interesting to characterise the forest, but they do not add to individual tree variability. You could think to send Figure 2 to an appendix, in consequence, and use figures to show more specific results related to your individual tree analyses.
+
+*Regarding Fig. 2, my current inclination is to keep it While I think its true that such profiles are common, I'm not currently aware of a lot of studies showing such profiles. I just prepared a grant proposal related to this, and current intern Nidhi Vinod is working on a review on vertical profiles in temperature, so I'd hope I'd be relatively up to speed... I'll check into this more and come back to it.*
 
 [*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
 
 - Line 330-331: any evidence to support this? It looks rather speculative. As suggested above, does any species particularly show positive Rt or positive Rt are randomly distributed in your trees?
 
-**IM I have done this for Rt, see below. I notice we don't have negative at all, just above or below 0. I'm assuming this is what the reviewer is referring to? Assuming this should be SI plot? Please let me know if you think this figure should be altered at all. **
-![Rt across species](tables_figures/rt_across_species.png)
+*Current text, with phrase of concern in bold: "Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion had increased growth (Fig. 1b), potentially due to decreased leaf area of competitors during the drought (**REF--if we can find one**), and consistent with prior observations that smaller trees can exhibit increased growth rates during drought [@bennett_larger_2015]." *
 
 - Line 331-333: not so sure about this. It can also mean that there is no causal relationship between Rt and covariates, mostly because radial growth Rt should not be used as an integral proxy of tree resistance to drought, such as it is often used now in the literature.
-  - *IM Krista do you know more about this?*
 
-- Line 334-339: indeed, assessment of these two variables is not conclusive, as suggested above (just data from 2018, from the past estimated and correlated). *IM does this need a response?*
+*Tree-ring data inherently have a lot of variation. Neil could probably write a better response here, with refs.*
 
-- Line 348: non-drought. *IM do we have the original submitted draft? I'm not sure what this is referring to*
+- Line 334-339: indeed, assessment of these two variables is not conclusive, as suggested above (just data from 2018, from the past estimated and correlated). 
+
+**Please see response above.** 
+
+- Line 348: non-drought. 
+
+**Fixed.** 
 
 - Line 349: do authors really think that lower radial growth as from Rt on a specific year means that the tree is more vulnerable? I think this is over conclusive.
-  - *IM well, in our original course of thinking about it as based on Lloret, yes, Rt is a measure of a tree's particular resistance, and it fluctuates from year to year. Maybe the reviewer would have preferred if we had said that lower radial growth shows the tree was more vulnerable *in that year*? And then we reiterate that the focal drought years all had low Rt?*
-  - *That being said, we're now using arima ratio and all values of Rt are positive. Regardless, I don't see where we make the full claim the reviewer is referring to.*
+
+**We did not intend the meaning here as vulnerability *to mortality* (assuming that's the objection here). We have reworded this sentence to read, "Belowground, taller trees would tend to have larger root systems, but the potentially greater access to water did not override the disadvantage conferred by height--and, in fact, greater moisture access in non-drought years (here, higher TWI) appears to make trees more sensitive to drought [@zuleta_drought-induced_2017; @stovall_tree_2019]."**
 
 - Line 400: I do not agree we can directly link Rt with tree vulnerability to drought; we might be currently overinterpreting these resilience indices extrapolating to physiological conclusions that do not necessary need to hold.
-  - *this explains the previous comment*
+
+**See above comment. We have reworded this sentence to read, "In the meantime, the results of this study advance our knowledge of the factors conferring drought resistance in a mature forest, opening the door for more accurate forecasting of forest responses to future drought."** 
 
 Table 1: do ‘-‘ signs in the table correspond to ‘no’ (non-significant)? Please explain.
-- *IM I added in a thing to the caption*
+
+**This is now clarified in the table footnote.** 
 
 Table 3: please, add also the number of trees, it is more informative than the number of cores to check sample size in your study.
-- *IM Krista, isn't the number of cores synonymous for us with the sample size for each species?*
+
+**In this study, we have one core per tree, now specified in the methods. We have changed the table header to "n trees".** 
 
 Table 3: the authors could show some test to see if the traits presented are different among species.
-- *IM Krista, do you think this is necessary? This would require extra stats to say something like "x traits did not differ significantly across species." I'm not sure how that result would affect our conclusions/writing.*
 
-Table S1 and S2: correct R2. *IM I added the correct Latex notation but it's not rendering it when I knit the file...*
+**maybe include these in fig with $Rt$ across species? [*issue #100*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)*
 
-Table S3: please, explain what ‘rank’ means. *IM Krista, do you remember? Is this from the pointer year exercise? Or was this ranking the months in the context of each year's PDSI?*
+Table S1 and S2: correct R2. 
+
+*IM I added the correct Latex notation but it's not rendering it when I knit the file... (KAT: I just tried and wasn't able to get it working.*
+
+Table S3: please, explain what ‘rank’ means. 
+
+**Done.**
 
 Figure S3: I understand that authors only have height data from 2018 and height for the other dates looks trivial: indeed there will be an increase in height with an increase in DBH in time. The question is whether there was any stand dynamics involved in those height series that had to be included in the models.
-- *IM seems like this comment is meant for the paper than for Figure S3. What do you think?*
+
+**We recognize the importance of stand dynamics, and have added specific mention to the discussion: "It is likely because of the moderate impact of these droughts, along with other factors influencing tree growth (e.g., stand dynamics), that our best models characterize only a modest amount of variation,... "**
 
 
 ## Referee: 2
@@ -166,6 +213,8 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 102 great questions, though within-species comparisons are likely to be most informative here, and your mixed model design is in accord with this; just being cautious because sometimes it’s seductive to regard selection acting between rather than within species
 
+**Thank you.**
+
 105 this sounds great, but was a little unclear. When you say “first, we test…” I thought that you would examine a relationship between microsite and some tree characteristic, e.g. that the largest trees are in moist microsites. But the next sentence didn’t refer to a tree-microsite correlation but vulnerability-size. It would be good to clarify the prose here because these are very important passages.  The third sentence did seem to be about tree-microsite correlations.
 
 112 wasn’t clear where the “ring porous more drought resistant” hypothesis came from. Global data show that ring porous species are almost entirely restricted to the north temperate zone, especially deciduous broadleaf forests (Wheeler et al., 2007). They are virtually absent in drylands, especially warm tropical drylands. Species in drylands are almost overwhelmingly diffuse porous; the high wood density species in chaparrals and in some desert plants can be semi ring porous (Olson et al., in press).
@@ -183,6 +232,8 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 138 you might discuss the adequacy of the height range studied. If it is true that conduit diameter predicts vulnerability, then the greatest differences in vulnerability should be over the height range over which conduit diameter changes most rapidly. The relationship between conduit diameter and plant height turns out to follow a power-law like distribution, see for example the SI in (Olson et al., 2018). This means that differences in vulnerability should be very marked across smaller size classes (say below 7 m or so and very marked below 3 m) and be less and less visible across larger plants. So, studies of changes in conduit diameter/ vulnerability with height would ideally include plants smaller than those included here, so maybe comment on how the height range might affect the ability to detect the patterns of interest. It strikes me that it is appropriate because it is the height range over which the putative preferential susceptibility of large trees to drought is being observed.
 
 173 TWI seems like an appropriate index for characterizing microsite, with the expectation that individuals in moister areas should be more buffered from drought.
+
+**Thank you.**
 
 209 It couldn’t hurt to define basal area increment
 

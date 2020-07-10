@@ -102,11 +102,9 @@ kableExtra::footnote(symbol = c("Semi-ring porosity is intermediate between ring
 library(knitr)
 library(kableExtra)
 singlevar_table <- read.csv("tables_figures/publication/table4_singlevariable_models_reform.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
-kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Individual tests of species traits as drivers of drought resistance ($Rt$ metric).", format = 'latex', escape = FALSE) %>%
+kable(singlevar_table, booktabs = TRUE, caption = "Table 4. Individual tests of species traits as drivers of drought resistance ($Rt$).", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
-  pack_rows("Species traits", 1, 6, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
-  #mutate(dAICc = cell_spec(dAICc, "html", bold = ifelse(dAICc > 1.999, TRUE, FALSE))) %>%  #trying to put sig values in bold, but this doesn't work
   kable_styling()
 ```
 Variable abbreviations are as in Table 2. 
