@@ -1,6 +1,9 @@
 ---
 title: "Response to reviews"
 output: pdf_document
+
+bibliography: ["book.bib",  "packages.bib"]
+biblio-style: "apalike"
 ---
 
 ```{r setup, include=FALSE}
@@ -457,3 +460,6 @@ Table S3: what does ‘rank’ refer to?
 Figure S1: please add spatial scale to the figure.
 
 Figure S3: please specify that height values are estimated from reconstructed DBH.
+
+
+## Citations
