@@ -586,8 +586,8 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #3. mixed effects model for output of #2.
 
 ##start here if just re-running model runs ####
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
-# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
@@ -783,6 +783,7 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 
 cand_full <- cand_full[complete.cases(cand_full), ]
 
+#The info in this table is used to update table 4 (Rt) or S4 (arimaratio)
 write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_reform_arimaratio.csv", row.names=FALSE)
 write.csv(cand_full, "manuscript/tables_figures/candidate_traits_reform_arimaratio.csv", row.names=FALSE)
 
@@ -941,10 +942,11 @@ for (i in seq(along=c(1:4))){
   top_models <- rbind(top_models, top)
 }
 
+#this table is used to fill in Table 5 (Rt) or S5 (arimaratio)
 write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform_arimaratio.csv", row.names=FALSE)
 write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_reform_arimaratio.csv", row.names=FALSE)
 
-#VIF; this is for when we fully decide what our best model is!!! ####
+#3bi. VIF; this is for when we fully decide what our best model is!!! ####
 # VIF (variance inflation factors) are used to test multicollinearity. The end result
 # of this code chunk is a csv of the VIF values per variable. 
 # Values that are "good" VIF values are around 1. Anything above 10 is bad.
@@ -1112,8 +1114,8 @@ for(i in 1:4){
   
   res_full <- rbind(res_full, resids)
 }
-write.csv(tabs4, "manuscript/tables_figures/publication/tableS4_Rt_arima.csv", row.names=FALSE)
-write.csv(res_full, "manuscript/tables_figures/publication/tableS7_top_residual_deviations.csv", row.names=FALSE)
+write.csv(tabs4, "manuscript/tables_figures/Rt_arimaratio_comparison.csv", row.names=FALSE)
+write.csv(res_full, "manuscript/tables_figures/top_residual_deviations.csv", row.names=FALSE)
 
 
 #
@@ -1585,5 +1587,5 @@ for(i in seq(along=trait)){
   trait_ht[,5][[i]] <- lm_anova$`Pr(>F)`[1]
 }
 
-write.csv(trait_ht, "manuscript/tables_figures/publication/tableS5_tested_traits_height.csv", row.names=FALSE)
+write.csv(trait_ht, "manuscript/tables_figures/tested_traits_height.csv", row.names=FALSE)
 
