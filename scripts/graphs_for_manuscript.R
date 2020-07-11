@@ -310,6 +310,54 @@ dev.off()
 heights_allplot$tree <- as.character(heights_allplot$tree)
 heights_allplot$position_all_abb <- as.character(heights_allplot$position_all_abb)
 
+########################################################################
+#5. Visualizing regression output
+library(visreg)
+library(lme4)
+
+## https://pbreheny.github.io/visreg/cross.html
+
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
+top_models <- read.csv("manuscript/tables_figures/top_models_dAIC_reform.csv", stringsAsFactors = FALSE)
+top_models <- top_models[top_models$Delta_AICc==0, ]
+
+x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
+x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
+x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
+
+model_df <- list(trees_all_sub, x1966, x1977, x1999)
+names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
+
+test <- c(1:4)
+glmm_all <- lapply(test, function(x){
+   fit1 <- glmer(top_models[,"Modnames"][x], 
+                 data = model_df[[x]], REML=FALSE, 
+                 control = lmerControl(optimizer ="Nelder_Mead"))
+   return(fit1)
+})
+names(glmm_all) <- c("trees_all_sub", "x1966", "x1977", "x1999")
+
+mod <- top_models[,"Modnames"][1]
+fit1 <- glmer(mod, 
+              data = trees_all_sub, REML=FALSE, 
+              control = lmerControl(optimizer ="Nelder_Mead"))
+
+fit1@call$data <- model_df[[1]]
+visreg(fit1, xvar="PLA_dry_percent", by="year", ylab="Rt")
+visreg(fit1, xvar="mean_TLP_Mpa", by="year", ylab="Rt")
+
+#
+
+
+
+
+
+
+
+
+
+########################################################################
 # appendix ####
 allhei <- as.data.table(heights_allplot)
 #height growth showing massive negative growth from 1999 to 2018
@@ -329,3 +377,16 @@ test99 <- allhei[year %in% c("1999", "2018"), .(gro = height.m[2] - height.m[1])
 avg_growth <- data.frame(g66_77 = test66$avg_gro,
                          g77_99 = test77$avg_gro,
                          g99_18 = test99$avg_gro)
+
+
+
+
+
+
+
+
+
+
+
+
+
