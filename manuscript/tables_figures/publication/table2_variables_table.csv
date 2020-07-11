@@ -1,9 +1,9 @@
 variable,symbol,units,description,category,n
-drought resistance,$Rt$,-,ratio of growth during drought year to mean growth of the 5 years prior. ,-,1596
-,$Rt_{ARIMA}$,-,ratio of growth during drought year to growth predicted by ARIMA model. ,-,1596
-drought year ,$Y$,-,year of drought,1966,478
-,,,,1977,547
-,,,,1999,571
+drought resistance,$Rt$,-,ratio of growth during drought year to mean growth of the 5 years prior. ,-,1623
+,$Rt_{ARIMA}$,-,ratio of growth during drought year to growth predicted by ARIMA model. ,-,1654
+drought year ,$Y$,-,year of drought,1966,513
+,,,,1977,543
+,,,,1999,567
 diameter breast height,$DBH$,cm,DBH in drought year,-,all
 height,$H$,m,estimated H in drought year,-,all
 crown position,,-,2018 crown position,dominant (D),31
