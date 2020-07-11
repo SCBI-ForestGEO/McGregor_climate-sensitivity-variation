@@ -83,7 +83,7 @@ ggplot(rt) +
    theme_minimal()
 dev.off()
 #########################################################################
-#2. Figure 2 (or 3?): NEON vertical height profiles with 
+#2. Figure 3: NEON vertical height profiles with 
 ## necessary packages and define 95% quantile height ####
 library(ggpubr)
 library(extrafont)
@@ -231,7 +231,7 @@ heights_box <-
          axis.ticks.y=element_blank())
 
 ###put plots together
-png("manuscript/tables_figures/publication/Figure2.png", width=11, height=11, units="in", res=300)
+png("manuscript/tables_figures/publication/Figure3_NEON_vars_height_profile.png", width=11, height=11, units="in", res=300)
 ggarrange(NEON_list$wind_plot, NEON_list$RH_plot, NEON_list$SAAT_plot, heights_box,
           nrow=2, ncol=2, align="h")
 dev.off()
