@@ -585,8 +585,8 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #3. mixed effects model for output of #2.
 
 ##start here if just re-running model runs ####
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
-# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
@@ -816,6 +816,8 @@ best_mod_full_year <- gsub("year\\+", "", best_mod_full_year)
 #beginning of loop
 mods <- names(model_df)
 
+if(arima_vals)cutoff=2 else cutoff=1
+
 top_models <- NULL
 coeff_list <- list()
 for (i in seq(along=c(1:4))){
@@ -843,7 +845,7 @@ for (i in seq(along=c(1:4))){
       best_mod_traits$best_model[[i]] <- var_aic$Modnames[[1]]
       
       #get all mods <1 dAIC
-      var_aic <- var_aic[var_aic$Delta_AICc <= 1, ]
+      var_aic <- var_aic[var_aic$Delta_AICc <= cutoff, ]
       var_aic$mod_no <- rownames(var_aic)
       top <- var_aic[,c(1,4)]
       top$Delta_AICc <- round(top$Delta_AICc, 2)
@@ -903,7 +905,7 @@ for (i in seq(along=c(1:4))){
       best_mod_traits$best_model[[i]] <- var_aic$Modnames[[1]]
       
       #get all mods <1 dAIC
-      var_aic <- var_aic[var_aic$Delta_AICc <= 1, ]
+      var_aic <- var_aic[var_aic$Delta_AICc <= cutoff, ]
       top <- var_aic[,c(1,4)]
       top$Delta_AICc <- round(top$Delta_AICc, 2)
       top$scenario <- mods[[i]]
@@ -945,9 +947,8 @@ for (i in seq(along=c(1:4))){
   top_models <- rbind(top_models, top)
 }
 
-#this table is used to fill in Table 5 (Rt) or S5 (arimaratio)
-write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_reform.csv", row.names=FALSE)
+write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform_arimaratio.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_reform_arimaratio.csv", row.names=FALSE)
 
 #3bi. VIF; this is for when we fully decide what our best model is!!! ####
 # VIF (variance inflation factors) are used to test multicollinearity. The end result
@@ -1059,7 +1060,8 @@ for(i in seq(along=patterns)){
   coeff_new$rank <- gsub(patterns[[i]], "", coeff_new$rank)
 }
 
-write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_reform.csv", row.names=FALSE)
+#this table is used to fill in Table 5 (Rt) or S5 (arimaratio)
+write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_reform_arimaratio.csv", row.names=FALSE)
 
 ## END OF NORMAL ANALYSIS. 3d and 3e are extra
 
