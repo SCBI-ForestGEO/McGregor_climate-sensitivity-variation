@@ -129,7 +129,6 @@ for(j in seq(along=trees)){
       #3. Get the ratio between the observed and predicted
       areaobs <- area_dt[area_dt$year == droughts[i], ]
       diff <- round(areaobs$val / as.numeric(future$mean),2) #ratio
-      # diff <- round(areaobs$val - as.numeric(future$mean),2) #difference
     } else {diff <- NA}
     
     inddrt <- data.frame(year = droughts[i],
@@ -139,35 +138,35 @@ for(j in seq(along=trees)){
     
     #Plotting arima results ####
     #3.1. Prepare data for plotting
-    orig <- data.frame(year = seq(droughts[i]-10, droughts[i]-1, by=1),
-                       val = NA,
-                       diff=NA)
-    areaobs <- rbind(orig[,1:2], areaobs)
-    pred <- rbind(orig, pred)
+    # orig <- data.frame(year = seq(droughts[i]-10, droughts[i]-1, by=1),
+    #                    val = NA,
+    #                    diff=NA)
+    # areaobs <- rbind(orig[,1:2], areaobs)
+    # pred <- rbind(orig, pred)
 
     #4. Plot / characterize change
-    plot(area_dt$year, area_dt$val, ylim=c(min(pred$diff, na.rm=TRUE),
-                                           max(area_dt$val, na.rm=TRUE)),
-         xlab="", ylab="")
-    lines(area_dt$year, area_dt$val)
-    points(areaobs$year, areaobs$val, col="blue") #observed
-    lines(areaobs$year, areaobs$val, col="blue")
-    points(pred$year, pred$val, col="red")        #predicted
-    lines(pred$year, pred$val, col="red")
-    points(pred$year, pred$diff, col="orange")    #difference
-    lines(pred$year, pred$diff, col="orange")
-    abline(v=droughts[i], lty=2)
-    abline(h=mean(area_dt$val[area_dt$year<droughts[i]], na.rm=TRUE),
-           lty=3, col="brown")
-  
-    legend("bottomleft",
-           legend=c("ARIMA data", "observed", "predicted", "difference"),
-           col=c("black", "blue", "red", "orange"),
-           pch=1,
-           cex=0.55, pt.cex=1, bty="n")
-    title(main=paste0(droughts[i], " drought \nMagnitude mean BAI change = ",
-                      round(mean(pred$diff, na.rm=TRUE),2)),
-          xlab="Year", ylab="BAI")
+    # plot(area_dt$year, area_dt$val, ylim=c(min(pred$diff, na.rm=TRUE),
+    #                                        max(area_dt$val, na.rm=TRUE)),
+    #      xlab="", ylab="")
+    # lines(area_dt$year, area_dt$val)
+    # points(areaobs$year, areaobs$val, col="blue") #observed
+    # lines(areaobs$year, areaobs$val, col="blue")
+    # points(pred$year, pred$val, col="red")        #predicted
+    # lines(pred$year, pred$val, col="red")
+    # points(pred$year, pred$diff, col="orange")    #difference
+    # lines(pred$year, pred$diff, col="orange")
+    # abline(v=droughts[i], lty=2)
+    # abline(h=mean(area_dt$val[area_dt$year<droughts[i]], na.rm=TRUE),
+    #        lty=3, col="brown")
+    # 
+    # legend("bottomleft",
+    #        legend=c("ARIMA data", "observed", "predicted", "difference"),
+    #        col=c("black", "blue", "red", "orange"),
+    #        pch=1,
+    #        cex=0.55, pt.cex=1, bty="n")
+    # title(main=paste0(droughts[i], " drought \nMagnitude mean BAI change = ",
+    #                   round(mean(pred$diff, na.rm=TRUE),2)),
+    #       xlab="Year", ylab="BAI")
   }
 }
 
@@ -525,7 +524,7 @@ twi_trees$TWI <- twi
 trees_all$TWI <- twi_trees$TWI[match(trees_all$tree, twi_trees$tag)]
 trees_all$TWI.ln <- log(trees_all$TWI)
 
-##2h. remove one bad tree + resistance values >2, then write to csv ####
+##2h. remove one bad tree ####
 ##fram 140939 has been mislabeled. It is recorded as having a small dbh when that is the second stem. In terms of canopy position, though, it fell between time of coring and when positions were recorded, thus we do not know its position.
 trees_all <- trees_all[!trees_all$tree == 140939, ]
 
@@ -802,11 +801,15 @@ best_mod_traits <- data.frame("best_model" = NA,
 )
 
 ## ONLY KEEP PLA and TLP as top variables! See Issue #95 on github.
+## best_mod_full should have 4 versions then - 1 with no traits, 2 with one trait
+## each, and 1 with both traits.
 top_vars <- c(unique(cand_full$variable))
-top_vars <- top_vars[2:3] #this should be PLA and TLP
+top_vars <- c("placeholder", "PLA_dry_percent", "mean_TLP_Mpa",
+              "PLA_dry_percent+mean_TLP_Mpa") #this should be PLA and TLP
 best_mod_full <- c(paste0("height.ln.m*TWI.ln+position_all+",
                           top_vars,
                           "+year+(1|sp/tree)"))
+best_mod_full <- gsub("placeholder\\+", "", best_mod_full)
 best_mod_full_year <- gsub("/tree", "", best_mod_full)
 best_mod_full_year <- gsub("year\\+", "", best_mod_full_year)
 
@@ -943,8 +946,8 @@ for (i in seq(along=c(1:4))){
 }
 
 #this table is used to fill in Table 5 (Rt) or S5 (arimaratio)
-write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform_arimaratio.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_reform_arimaratio.csv", row.names=FALSE)
+write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_reform.csv", row.names=FALSE)
 
 #3bi. VIF; this is for when we fully decide what our best model is!!! ####
 # VIF (variance inflation factors) are used to test multicollinearity. The end result
@@ -953,8 +956,8 @@ write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_reform_arimarat
 # In a way, this is a companion to a correlation plot.
 # https://www.statisticshowto.com/variance-inflation-factor/
 
-meh <- best_mod_traits$best_model
-best_mod_traits$best_model <- gsub("\\*", "\\+", meh)
+input <- best_mod_traits$best_model
+best_mod_traits$best_model <- gsub("\\*", "\\+", input)
 
 hazel_vif <- NULL
 for(i in 1:nrow(best_mod_traits)){
@@ -1056,7 +1059,7 @@ for(i in seq(along=patterns)){
   coeff_new$rank <- gsub(patterns[[i]], "", coeff_new$rank)
 }
 
-write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_reform_arimaratio.csv", row.names=FALSE)
+write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_reform.csv", row.names=FALSE)
 
 ## END OF NORMAL ANALYSIS. 3d and 3e are extra
 

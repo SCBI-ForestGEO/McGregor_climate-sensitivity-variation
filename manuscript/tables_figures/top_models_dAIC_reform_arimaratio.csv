@@ -1,6 +1,9 @@
 "Modnames","Delta_AICc","scenario","coef"
 "resist.value ~ height.ln.m*TWI.ln+position_all+PLA_dry_percent+year+(1|sp/tree)",0,"trees_all_sub",NA
+"resist.value ~ height.ln.m*TWI.ln+position_all+PLA_dry_percent+mean_TLP_Mpa+year+(1|sp/tree)",0.37,"trees_all_sub",NA
 "resist.value ~ height.ln.m*TWI.ln+position_all+PLA_dry_percent+(1|sp)",0,"x1966",NA
-"resist.value ~ height.ln.m*TWI.ln+position_all+mean_TLP_Mpa+(1|sp)",0,"x1977",NA
-"resist.value ~ height.ln.m*TWI.ln+position_all+PLA_dry_percent+(1|sp)",0.63,"x1977",NA
-"resist.value ~ height.ln.m*TWI.ln+position_all+mean_TLP_Mpa+(1|sp)",0,"x1999",NA
+"resist.value ~ height.ln.m*TWI.ln+position_all+(1|sp)",0,"x1977",NA
+"resist.value ~ height.ln.m*TWI.ln+position_all+mean_TLP_Mpa+(1|sp)",0.28,"x1977",NA
+"resist.value ~ height.ln.m*TWI.ln+position_all+PLA_dry_percent+(1|sp)",0.91,"x1977",NA
+"resist.value ~ height.ln.m*TWI.ln+position_all+(1|sp)",0,"x1999",NA
+"resist.value ~ height.ln.m*TWI.ln+position_all+mean_TLP_Mpa+(1|sp)",0.16,"x1999",NA
