@@ -68,7 +68,7 @@ g + annotate(geom="text", x=0.13, y=0.99,
              label = "(b)", fontface="bold", size=3)
 dev.off()
 
-##1b Distribution by species ####
+##1b Figure 2: Distribution by species ####
 rt <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
 rt$year <- as.character(rt$year)
 
@@ -78,12 +78,12 @@ ggplot(rt) +
    aes(x = sp, y = resist.value) +
    geom_boxplot(aes(fill = year), alpha=0.5) +
    scale_color_discrete() +
-   ylab("Species") +
-   xlab("Rt") +
+   ylab("Rt") +
+   xlab("Species") +
    theme_minimal()
 dev.off()
 #########################################################################
-#2. Figure 2: NEON vertical height profiles with 
+#2. Figure 2 (or 3?): NEON vertical height profiles with 
 ## necessary packages and define 95% quantile height ####
 library(ggpubr)
 library(extrafont)
