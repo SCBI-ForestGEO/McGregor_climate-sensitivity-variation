@@ -784,7 +784,7 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 cand_full <- cand_full[complete.cases(cand_full), ]
 
 write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_reform_arimaratio.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/publication/S3_candidate_traits_reform_arimaratio.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/candidate_traits_reform_arimaratio.csv", row.names=FALSE)
 
 ##3b reform. determine the best full model (expand for fuller explanation) ####
 # this code chunk uses the candidate variables (cand_full) from ##6a to determine
@@ -942,7 +942,7 @@ for (i in seq(along=c(1:4))){
 }
 
 write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform_arimaratio.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_dAIC_reform_arimaratio.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_reform_arimaratio.csv", row.names=FALSE)
 
 #VIF; this is for when we fully decide what our best model is!!! ####
 # VIF (variance inflation factors) are used to test multicollinearity. The end result
@@ -1117,14 +1117,6 @@ write.csv(res_full, "manuscript/tables_figures/publication/tableS7_top_residual_
 
 
 #
-##3e. Compare Rt values across species ####
-library(ggplot2)
-png("manuscript/tables_figures/rt_across_species.png", width=960)
-ggplot(trees_all_sub) +
-  aes(x = sp, y = resist.value) +
-  geom_boxplot(fill = "#0c4c8a") +
-  theme_minimal()
-dev.off()
 ##3a original. test each variable individually (expand for fuller explanation) ####
 # this code chunk tests each variable individually for each drought scenario,
 # using a predefined null model and test model (i.e. all test models have height).
@@ -1313,7 +1305,7 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 cand_full <- cand_full[complete.cases(cand_full), ]
 
 write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/publication/S3_candidate_traits.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/candidate_traits.csv", row.names=FALSE)
 
 ##3b original. determine the best full model (expand for fuller explanation) ####
 # this code chunk uses the candidate variables (cand_full) from ##6a to determine
@@ -1513,7 +1505,7 @@ for (i in seq(along=c(1:4))){
 }
 
 write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/publication/tableS4_top_models_dAIC.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/top_models_dAIC.csv", row.names=FALSE)
 
 ##################
 #3 Appendix for code
