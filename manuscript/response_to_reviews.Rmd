@@ -43,7 +43,7 @@ I suggest to show some relationship, e.g. between Rt and traits in figures. The 
 
 [*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
 
-[*issue #100*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
+**We have *also* added a new figure (*Fig. 2*) showing how $Rt$ varied across species in each of the three droughts.**
 
 Only assessing models with AIC is not enough to prove sound relationships in multidimensional and complex data-models. LL ratio tests or deviance-anova tests can be used in the case of nested models with LMM or GLMM respectively. Along the text: dAIC is generally referred as $\Delta$AIC, please change accordingly.
 
@@ -125,6 +125,8 @@ should be rather straightforward and the authors would increase accuracy across 
 
 **We address this question in the discussion, where we have added a statement about how this is not unprecedented: "Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion had increased growth (Fig. 1b), potentially due to decreased leaf area of competitors during the drought, and consistent with prior observations that smaller trees can exhibit increased growth rates during drought (Bennett et al. 2015). It is likely because of the moderate impact of these droughts, along with other factors influencing tree growth (e.g., stand dynamics), that our best models characterize only a modest amount of variation"**
 
+**We have also added a new figure (*Fig. 2*) showing how $Rt$ varied across species in each of the three droughts.**
+
 - Line 266-267: why only in 1966? I think this shows that this variable is not properly assessed. The older the date, the more accurate the estimation of crown position and height were.
 
 **It is true that crown position estimates become more accurate in later dates, but height should be equally reliable across years, having been estimated based on reconstructed DBH. This was not previously clearly specified in the methods. To clarify, we have added the following statement: "We then used these allometries to estimate $H$ for each drought year, $Y$, based on reconstructed $DBH_Y$."**
@@ -140,6 +142,8 @@ should be rather straightforward and the authors would increase accuracy across 
 - Line 330-331: any evidence to support this? It looks rather speculative. As suggested above, does any species particularly show positive Rt or positive Rt are randomly distributed in your trees?
 
 *Current text, with phrase of concern in bold: "Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion had increased growth (Fig. 1b), potentially due to decreased leaf area of competitors during the drought (**REF--if we can find one**), and consistent with prior observations that smaller trees can exhibit increased growth rates during drought [@bennett_larger_2015]." *
+
+**To address the question about species, we have added a new figure (*Fig. 2*) showing how $Rt$ varied across species in each of the three droughts.**
 
 - Line 331-333: not so sure about this. It can also mean that there is no causal relationship between Rt and covariates, mostly because radial growth Rt should not be used as an integral proxy of tree resistance to drought, such as it is often used now in the literature.
 
