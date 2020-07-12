@@ -180,7 +180,7 @@ All data, code, and results are available through the SCBI-ForestGEO organizatio
 At the community level, cored trees showed substantial growth reductions in all three droughts, with a mean $Rt$ of 0.86 in 1966 and 1999, and 0.84 in 1977  (Fig. **1b**). Across the entire study period (1950-2009), the focal drought years were the three years with the largest fraction of trees exhibiting $Rt \le 0.7$. Specifically, in each drought, roughly 30% of the cored trees had growth reductions of $\ge$ 30% ($Rt \le 0.7$): 29% in 1966, 32% in 1977, and 27% in 1999. However, some individuals exhibited increased growth, *i.e.*, $Rt > 1.0$: 26% of trees in 1966, 22% in 1977, and 26% in 1999. 
 
 Responses varied across species and by drought (Fig. **2**). 
-Averaged across all droughts, $Rt$ was lowest in *Liriodendron tulipifera* (mean $Rt$ = **~0.6**) and highest in *Fagus grandifolia* (mean $Rt$ = **~0.9**).
+Averaged across all droughts, $Rt$ was lowest in *Liriodendron tulipifera* (mean $Rt$ = **0.66**) and highest in *Fagus grandifolia* (mean $Rt$ = **0.99**).
 
 *Tree size, microenvironment, and drought resistance*
 
