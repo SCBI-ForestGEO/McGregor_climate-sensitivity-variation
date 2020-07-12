@@ -585,8 +585,8 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #3. mixed effects model for output of #2.
 
 ##start here if just re-running model runs ####
-# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
@@ -804,19 +804,19 @@ best_mod_traits <- data.frame("best_model" = NA,
 ## best_mod_full should have 4 versions then - 1 with no traits, 2 with one trait
 ## each, and 1 with both traits.
 top_vars <- c(unique(cand_full$variable))
-top_vars <- c("placeholder", "PLA_dry_percent", "mean_TLP_Mpa",
-              "PLA_dry_percent+mean_TLP_Mpa") #this should be PLA and TLP
-best_mod_full <- c(paste0("height.ln.m*TWI.ln+position_all+",
-                          top_vars,
+top_vars <- c("PLA_dry_percent+mean_TLP_Mpa") #this should be PLA and TLP
+best_mod_full <- c(paste0("resist.value ~ height.ln.m*TWI.ln+position_all+",
+                          "height.ln.m+TWI.ln+", top_vars,
                           "+year+(1|sp/tree)"))
-best_mod_full <- gsub("placeholder\\+", "", best_mod_full)
 best_mod_full_year <- gsub("/tree", "", best_mod_full)
 best_mod_full_year <- gsub("year\\+", "", best_mod_full_year)
+
+
 
 #beginning of loop
 mods <- names(model_df)
 
-if(arima_vals)cutoff=2 else cutoff=1
+if(arima_vals)cutoff=2 else cutoff=2
 
 top_models <- NULL
 coeff_list <- list()
@@ -824,9 +824,23 @@ for (i in seq(along=c(1:4))){
   for (j in seq(along=model_df)){
     #ALL YEARS
     if(j == 1 & i == 1){
-      var_comb <- data.frame(Var1 = "resist.value",
-                             Var2 = best_mod_full)
-      var_comb$Var2 <- as.character(var_comb$Var2)
+      response <- gsub(" ~.*", "", best_mod_full)
+      effects <- unlist(strsplit(best_mod_full, "\\+|~ "))[-1]
+      
+      #create all combinations of random / fixed effects
+      effects_comb <- 
+        unlist(sapply(seq_len(length(effects)), 
+                        function(i) {
+                          apply( combn(effects,i), 2, function(x) 
+                            paste(x, collapse = "+"))
+                        }))
+      #make table
+      var_comb <- expand.grid(response, effects_comb)
+      var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed/random combos
+      var_comb <- var_comb[grepl("year", var_comb$Var2), ] #keep year in for drought sake
+      var_comb <- var_comb[!(str_count(var_comb$Var2, "height.ln.m") == 2) &
+                             !(str_count(var_comb$Var2, "TWI.ln") == 2), ]
+      #remove double instances of height or TWI (the interaction includes both)
       
       # formulas for all combinations. $Var1 is the response, and $Var2 is the effect
       # for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
@@ -886,9 +900,24 @@ for (i in seq(along=c(1:4))){
       
       #INDIVIDUAL YEARS
     } else if (j == i){ 
-      var_comb <- data.frame(Var1 = "resist.value",
-                             Var2 = best_mod_full_year)
-      var_comb$Var2 <- as.character(var_comb$Var2)
+      #define response and effects
+      response <- gsub(" ~.*", "", best_mod_full_year)
+      effects <- unlist(strsplit(best_mod_full_year, "\\+|~ "))[-1]
+      
+      #create all combinations of random / fixed effects
+      effects_comb <- 
+        unlist( sapply( seq_len(length(effects)), 
+                        function(i) {
+                          apply( combn(effects,i), 2, function(x) 
+                            paste(x, collapse = "+"))
+                        }))
+      #=make table
+      var_comb <- expand.grid(response, effects_comb) 
+      var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed+random combos
+      var_comb <- var_comb[!(str_count(var_comb$Var2, "height.ln.m") == 2) &
+                             !(str_count(var_comb$Var2, "TWI.ln") == 2), ]
+      #remove double instances of height or TWI (the interaction includes both)
+      
       
       formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
       
@@ -950,6 +979,7 @@ for (i in seq(along=c(1:4))){
 write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform_arimaratio.csv", row.names=FALSE)
 write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_reform_arimaratio.csv", row.names=FALSE)
 
+#
 #3bi. VIF; this is for when we fully decide what our best model is!!! ####
 # VIF (variance inflation factors) are used to test multicollinearity. The end result
 # of this code chunk is a csv of the VIF values per variable. 
@@ -1007,7 +1037,7 @@ for(q in seq(along=ord_lab)){
       order((as.numeric(
         str_extract(names(coeff_list_temp)
                     [grepl(ord_lab[[q]], names(coeff_list_temp))], 
-                    "[[:digit:]]$")
+                    "[[:digit:]]*$")
       )))]
   
   coeff_list1 <- c(coeff_list1, coeff_list_temp)
