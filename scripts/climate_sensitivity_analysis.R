@@ -585,8 +585,8 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #3. mixed effects model for output of #2.
 
 ##start here if just re-running model runs ####
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
-# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
@@ -622,11 +622,11 @@ sum_mod_traits <- data.frame(
   "variable" = c("rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
   "variable_description" = c("ring.porosity", "percent.loss.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
   "null_model" = 
-    c("resist.value ~ height.ln.m*TWI.ln+position_all+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m*TWI.ln+position_all+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m*TWI.ln+position_all+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m*TWI.ln+position_all+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m*TWI.ln+position_all+year+(1|sp/tree)"),
+    c("resist.value ~ height.ln.m+TWI.ln+position_all+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+TWI.ln+position_all+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+TWI.ln+position_all+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+TWI.ln+position_all+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+TWI.ln+position_all+year+(1|sp/tree)"),
   "tested_model" = NA)
 
 sum_mod_traits[, c("null_model_year", "tested_model_year", "dAIC_all", "coef_all", "coef_var_all", "dAIC_1964.1966", "coef_1964.1966", "coef_var_1964.1966", "dAIC_1977", "coef_1977", "coef_var_1977", "dAIC_1999", "coef_1999", "coef_var_1999")] <- NA
@@ -810,8 +810,6 @@ best_mod_full <- c(paste0("resist.value ~ height.ln.m*TWI.ln+position_all+",
                           "+year+(1|sp/tree)"))
 best_mod_full_year <- gsub("/tree", "", best_mod_full)
 best_mod_full_year <- gsub("year\\+", "", best_mod_full_year)
-
-
 
 #beginning of loop
 mods <- names(model_df)
