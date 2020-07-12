@@ -1,7 +1,5 @@
 Hypotheses & Specific Predictions,Overall,1966,1977,1999,Results
-Rt decreases with stem diameter (DBH).,~,~,~,~,
 Rt decreases with height (H).,~yes,~yes,~yes,~yes,"Tables 5, S5"
-Dominant trees have lowest Rt.,~,~,~,~,
 "Correcting for H, dominant trees have lowest Rt.",~no**,~no,~yes,~no,"Tables 5, S5"
 There is a negative interactive effect between H and topographic wetness index.,~no,~no,~no,~no,"Tables 5, S5"
 Wood density correlates (positively or negatively) to Rt.,-,-,-,-,"Tables 4, S4"
