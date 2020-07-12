@@ -236,7 +236,7 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 112 wasn’t clear where the “ring porous more drought resistant” hypothesis came from. Global data show that ring porous species are almost entirely restricted to the north temperate zone, especially deciduous broadleaf forests (Wheeler et al., 2007). They are virtually absent in drylands, especially warm tropical drylands. Species in drylands are almost overwhelmingly diffuse porous; the high wood density species in chaparrals and in some desert plants can be semi ring porous (Olson et al., in press).
 
-*good point. hypothesis refers to temperate deciduous biome.*
+*good point. hypothesis refers to temperate deciduous biome, and turns out to be wrong.*
 
 113 These correlations seem reasonable, e.g. see (Méndez-Alonzo et al., 2012)
 
