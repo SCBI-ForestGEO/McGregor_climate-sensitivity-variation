@@ -110,14 +110,14 @@ kable(multivar_table, booktabs = TRUE, caption = "Table S5. Summary of top full 
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," "," "," ", " ", " ", "crown position" = 4, 
                      " "," ")) %>%
-  pack_rows("", 1, 1, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("", 2, 2, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 1, 2, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 3, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("", 5, 5, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 5, 8, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 9, 11, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   row_spec(1, bold = T) %>%
-  row_spec(2, bold = T) %>%
   row_spec(3, bold = T) %>%
   row_spec(5, bold = T) %>%
+  row_spec(9, bold = T) %>%
   kable_styling()
 ```
 Models are ranked by AICc. Shown are all models whose AICc value falls within 1.0 ($\Delta$AICc<1) of the best model (bold).
