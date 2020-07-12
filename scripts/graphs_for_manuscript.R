@@ -69,6 +69,7 @@ g + annotate(geom="text", x=0.13, y=0.99,
 dev.off()
 
 ##1b Figure 2: Distribution by species ####
+library(data.table)
 rt <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
 rt$year <- as.character(rt$year)
 
@@ -80,8 +81,82 @@ ggplot(rt) +
    scale_color_discrete() +
    ylab("Rt") +
    xlab("Species") +
-   theme_minimal()
+   theme_minimal() +
+   theme(axis.text = element_text(size=12),
+         axis.title=element_text(size=14,face="bold"),
+         legend.text=element_text(size=12),
+         legend.title=element_text(size=12))
 dev.off()
+
+rt <- as.data.table(rt)
+avg_rt <- rt[, .(avg_rt = round(mean(resist.value),2)), by=.(sp,year)]
+setnames(avg_rt, old=c("sp", "avg_rt"), new=c("Species", "Mean Rt"))
+write.csv(avg_rt ,"manuscript/tables_figures/publication/mean_rt_by_sp.csv", 
+          row.names = FALSE)
+
+##########################################################################
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=TRUE
+
+x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
+x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
+x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
+
+model_df <- list(trees_all_sub, x1966, x1977, x1999)
+names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
+
+bleh <- lapply(model_df, function(x) aov(resist.value ~ sp, data=x))
+
+
+anova_out <- lapply(c(1:4), function(x){
+   output <- TukeyHSD(bleh[[x]])
+   ne <- as.data.frame(output$sp)
+   out <- data.frame(occ = rownames(ne),
+                     txt = ne$`p adj`)
+   colnames(out) <- c("occ", names(model_df)[x])
+   out$occ <- as.character(out$occ)
+                     
+   
+   return(out)
+})
+
+full <- Reduce(function(...) merge(...,by="occ"), anova_out)
+
+ggplot(full) +
+   aes(x=occ, y=trees_all_sub) +
+   geom_point(aes(color="all")) +
+   geom_point(aes(y=x1966, color="1966")) +
+   geom_point(aes(y=x1977, color="1977")) +
+   geom_point(aes(y=x1999, color="1999")) +
+   geom_jitter() +
+   scale_colour_manual(breaks = c("all", "1966", "1977", "1999"),
+                       values = c("black", "red", "green", "blue")) +
+   ylab("P value") +
+   xlab("") +
+   geom_abline(slope=0, intercept=0.05) +
+   theme(axis.text.x = element_text(angle = 90))
+
+
+
+
+anova_out <- NULL
+for(i in 1:4){
+   output <- TukeyHSD(bleh[[2]])
+   ne <- as.data.frame(output$sp)
+   out <- data.frame(drought = names(model_df[2]),
+                     occ = rownames(ne),
+                     pval = ne$`p adj`)
+}
+
+summary(bleh[[1]]) #all years
+summary(bleh[[2]]) #1966
+summary(bleh[[3]]) #1977
+summary(bleh[[4]]) #1999
+
+
+
+
+
+
 #########################################################################
 #2. Figure 3: NEON vertical height profiles with 
 ## necessary packages and define 95% quantile height ####
