@@ -83,13 +83,30 @@ kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Monthly Pal
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position", protect_latex = TRUE)
 ```
 
-
-\newpage
+\clearpage
 ```{r table S4, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
+singlevar_table <- read.csv("tables_figures/publication/table4_singlevariable_models_reform.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
+kable(singlevar_table, booktabs = TRUE, caption = "Table S4. Individual tests of species traits as drivers of drought resistance ($Rt$).", format = 'latex', escape = FALSE) %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
+  add_header_above(c(" "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
+  kable_styling()
+```
+Variable abbreviations are as in Table 2. 
+$\Delta$AICc is the AICc of a model excluding the trait minus that of the model including it. 
+
+*$\Delta$AICc > 1: variable meets $\Delta$AICc criterion for inclusion in full model
+
+**$\Delta$AICc > 2: variable is considered significant as an individual predictor (and meets $\Delta$AICc criterion for inclusion in full model)
+
+
+\newpage
+```{r table S5, eval = TRUE, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
 singlevar_table <- read.csv("tables_figures/publication/tableS4_singlevariable_models_reform_arimaratio.csv", stringsAsFactors = FALSE, check.names = FALSE) 
-kable(singlevar_table, booktabs = TRUE, caption = "Table S4. Individual tests of species traits as drivers of drought resistance, where $Rt_{ARIMA}$ is used as the response variable. ", format = 'latex', escape = FALSE) %>%
+kable(singlevar_table, booktabs = TRUE, caption = "Table S5. Individual tests of species traits as drivers of drought resistance, where $Rt_{ARIMA}$ is used as the response variable. ", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
   pack_rows("Species traits", 1, 6, latex_gap_space = "1em", colnum = 3, hline_before = FALSE) %>%
@@ -101,26 +118,48 @@ $\Delta$AICc is the AICc of a model excluding the trait minus that of the model 
 
 **$\Delta$AICc > 2: variable considered significant as an individual predictor
 
+
 \newpage
-```{r table S5, eval = TRUE, echo=FALSE, warning=FALSE}
+```{r table S6, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-multivar_table <- read.csv("tables_figures/publication/tableS5_multivariable_models_reform_arimaratio.csv", stringsAsFactors = FALSE, check.names = FALSE) 
-kable(multivar_table, booktabs = TRUE, caption = "Table S5. Summary of top full models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable. ", format = 'latex', escape = FALSE) %>%
+multivar_table <- read.csv("tables_figures/publication/table5_multivariable_models_reform.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+kable(multivar_table, booktabs = TRUE, caption = "Table S6. Summary of top full models for each drought instance, where $Rt$ is used as the response variable. ", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," "," "," ", " ", " ", "crown position" = 4, 
                      " "," ")) %>%
-  pack_rows("", 1, 2, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("", 3, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("", 5, 8, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("", 9, 11, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 1, 8, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 9, 10, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 11, 19, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 21, 33, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   row_spec(1, bold = T) %>%
-  row_spec(3, bold = T) %>%
-  row_spec(5, bold = T) %>%
   row_spec(9, bold = T) %>%
+  row_spec(11, bold = T) %>%
+  row_spec(21, bold = T) %>%
   kable_styling()
 ```
-Models are ranked by AICc. Shown are all models whose AICc value falls within 1.0 ($\Delta$AICc<1) of the best model (bold).
+Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold).
+
+\newpage
+```{r table S7, eval = TRUE, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+multivar_table <- read.csv("tables_figures/publication/tableS5_multivariable_models_reform_arimaratio.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+kable(multivar_table, booktabs = TRUE, caption = "Table S7. Summary of top full models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable. ", format = 'latex', escape = FALSE) %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
+  add_header_above(c(" "," "," "," "," ", " ", " ", "crown position" = 4, 
+                     " "," ")) %>%
+  pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 5, 7, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 8, 19, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 20, 30, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  row_spec(1, bold = T) %>%
+  row_spec(5, bold = T) %>%
+  row_spec(8, bold = T) %>%
+  row_spec(20, bold = T) %>%
+  kable_styling()
+```
+Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold).
 
 \newpage
 ![Figure S1: Map of ForestGEO plot showing TWI and location of cored trees](tables_figures/publication/figureS1_location_cored_trees.png){width=500px}
