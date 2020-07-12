@@ -95,6 +95,7 @@ write.csv(avg_rt ,"manuscript/tables_figures/publication/mean_rt_by_sp.csv",
           row.names = FALSE)
 
 ##########################################################################
+## Figure ??? anova results ####
 trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=TRUE
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
@@ -389,6 +390,7 @@ heights_allplot$position_all_abb <- as.character(heights_allplot$position_all_ab
 #5. Visualizing regression output
 library(visreg)
 library(lme4)
+library(ggpubr)
 
 ## https://pbreheny.github.io/visreg/cross.html
 
@@ -413,19 +415,198 @@ glmm_all <- lapply(test, function(x){
 })
 names(glmm_all) <- c("trees_all_sub", "x1966", "x1977", "x1999")
 
+
+for(i in 1:4){
+   glmm_all[[i]]@call$data <- model_df[[i]]
+   visreg(fit1, xvar="PLA_dry_percent", by="year", ylab="Rt", overlay=TRUE)
+}
+
+
+# main top model only (all droughts combined)
 mod <- top_models[,"Modnames"][1]
 fit1 <- glmer(mod, 
               data = trees_all_sub, REML=FALSE, 
               control = lmerControl(optimizer ="Nelder_Mead"))
 
 fit1@call$data <- model_df[[1]]
-visreg(fit1, xvar="PLA_dry_percent", by="year", ylab="Rt")
-visreg(fit1, xvar="mean_TLP_Mpa", by="year", ylab="Rt")
+
+vars <- c("height.ln.m", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")
+lab <- c("ln[H]", "ln[TWI]", "PLA", "TLP")
+gglist <- list()
+for(i in 1:4){
+   q <- visreg(fit1, xvar=vars[i], by="year", line=list(col="black"),
+               ylab="Rt", xlab=lab[i], 
+               overlay=TRUE, gg=TRUE)
+   
+   if(i %in% c(1,3)){
+      q <- q + theme(legend.position="none")
+   } else if(i %in% c(2,4)){
+      q <- q + 
+         ylab("") +
+         theme(axis.text.y = element_blank())
+   }
+   
+   gglist[[i]] <- q
+}
+
+png("manuscript/tables_figures/publication/top_model_visual.png", width=960, height=960)
+
+ggarrange(gglist[[1]], gglist[[2]], gglist[[3]], gglist[[4]], 
+          labels = c("A", "B", "C", "D"),
+          ncol = 2, nrow = 2)
+library(cowplot)
+ggdraw() +
+   draw_plot(gglist[[1]], x = 0, y = .5, width = .5, height = .5) +
+   draw_plot(gglist[[2]], x = .4, y = .5, width = .5, height = .5) +
+   draw_plot(gglist[[3]], x = 0, y = 0, width = .5, height = 0.5) +
+   draw_plot(gglist[[4]], x = .4, y = 0, width = .5, height = 0.5) +
+   draw_plot_label(label = c("(a)", "(b)", "(c)", "(d)"), 
+                   size = 12,
+                   x = c(0, 0.4, 0, 0.4), 
+                   y = c(0.95, 0.95, 0.45, 0.45))
+
+library(ggplot2)
+library(ggpubr)
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
+top_models <- read.csv("manuscript/tables_figures/top_models_dAIC_reform.csv", stringsAsFactors = FALSE)
+top_models <- top_models[top_models$Delta_AICc==0, ]
+
+trees_all_sub$position_num <- 
+   ifelse(trees_all_sub$position_all=="dominant", 1,
+   ifelse(trees_all_sub$position_all=="co-dominant", 2,
+   ifelse(trees_all_sub$position_all=="intermediate", 3,4)))
+
+x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
+x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
+x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
+
+model_df <- list(trees_all_sub, x1966, x1977, x1999)
+names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
+
+vars <- c("height.ln.m", "position_num", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")
+lab <- c("ln[H]", "CP", "ln[TWI]", "PLA", "TLP")
+gglist <- list()
+colors <- c("All" = "black", 
+            "1966" = "red", 
+            "1977" = "green", "1999" = "blue")
+for(i in 1:5){
+   gglist[[i]] <- local({
+      i <- i
+      q <- 
+         ggplot(trees_all_sub) +
+         aes(x=get(vars[i]), y=resist.value) +
+         ylab("Rt") +
+         xlab(lab[i]) +
+         coord_cartesian(ylim=c(0.5,1.15))
+      
+      if(i==2){
+         q <- q + scale_x_continuous(breaks=c(1,2,3,4),
+            labels=c("D", "C", "I", "S"))
+      }
+      
+      if(i %in% c(1:3)){ #1999
+         q <- 
+            q + 
+            geom_smooth(data=x1999, 
+                            aes(get(vars[i]), resist.value, color="blue"),
+                            method=lm , color=NA, fill="blue", 
+                            alpha=0.2, se=TRUE) +
+            geom_line(data=x1999, 
+                      aes(get(vars[i]), resist.value, color="blue"),
+                      stat = "smooth", method = lm,
+                      color = "blue", size = 1.5, alpha = 0.2)
+      } 
+      
+      if(i %in% c(2,3,5)){#1977
+         q <- 
+            q +
+            geom_smooth(data=x1977, 
+                        aes(get(vars[i]), resist.value, color="green"),
+                        method=lm , color=NA, fill="green", alpha=0.2,
+                        se=TRUE) +
+            geom_line(data=x1977, 
+                      aes(get(vars[i]), resist.value, color="green"),
+                      stat = "smooth", method = lm,
+                      color = "green", size = 1.5, alpha = 0.2)
+      }
+      
+      if(i %in% c(1,4)){#1966
+         q <- 
+            q +
+            geom_smooth(data=x1966, 
+                        aes(get(vars[i]), resist.value, color="red"),
+                        method=lm , color=NA, fill="red", alpha=0.2,
+                        se=TRUE) +
+            geom_line(data=x1966, 
+                      aes(get(vars[i]), resist.value, color="red"),
+                      stat = "smooth", method = lm,
+                      color = "red", size = 1.5, alpha = 0.2)
+      }
+      
+      if(i %in% c(1,3,4,5)){#all
+         q <- q +
+            geom_smooth(method=lm, color="black", fill="black", alpha=0.2,
+                        se=TRUE, aes(color="black")) +
+            scale_color_identity(
+               name = "Droughts",
+               breaks = c("black", "red", "green", "blue"),
+               labels = c("All", "1966", "1977", "1999"),
+               guide = "legend")
+         # geom_line(stat = "smooth", method = lm,
+         #           color = "black", size = 1.5, alpha = 0.2)
+      }
+      
+      q <- q  
+      
+      print(q)
+   })
+}
+
+png("manuscript/tables_figures/publication/test_fig.png", width=480, height=960)
+ggarrange(gglist[[1]], gglist[[2]], gglist[[3]], 
+          gglist[[4]], gglist[[5]], 
+          labels = c("(a)", "(b)", "(c)", "(d)", "(e)"),
+          ncol = 2, nrow = 3,
+          common.legend=TRUE)
+dev.off()
+
+
+trees_all_sub$year <- "all"
+full <- rbind(trees_all_sub, x1966, x1977, x1999)
+full$color <- 
+   ifelse(full$year=="all", "black",
+   ifelse(full$year=="1966", "red",
+   ifelse(full$year=="1977", "green","blue")))
+
+ggplot(full) +
+   aes(height.ln.m, resist.value) +
+   geom_line(aes(color=year), size=1.2, alpha=0.4) +
+   facet_wrap(~year) +
+   scale_color_manual(name="Droughts",
+      labels=c("All", "1966", "1977", "1999"),
+      values = c("black", "red", "green", "blue"))
 
 #
+library(png)
+library(grid)
+library(gridExtra)
+fullplot <- readPNG("manuscript/tables_figures/publication/test_fig.png")
+legend <- readPNG("manuscript/tables_figures/legend.png")
+
+fullplot <- rasterGrob(fullplot)
+legend <- rasterGrob(legend)
+
+library(cowplot)
+png("manuscript/tables_figures/publication/regr_visuals.png",
+    width=600, height=960)
+ggdraw() +
+   draw_plot(fullplot, x = 0, y = 0, width = 1, height = 1) +
+   draw_plot(legend, x = .5, y = .15, width = .5, height = .15)
+dev.off()
 
 
-
+#
 
 
 
