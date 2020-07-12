@@ -437,7 +437,11 @@ L181: N=3 individuals per species is really quite low. In addition, by sampling 
 
 L188: ‘Wood’.
 
+**Fixed.**
+
 L189: fresh volume?
+
+**Yes, now specified.**
 
 L223: clarify that the -4.53 value corresponds to July.
 
@@ -451,6 +455,8 @@ L287-299: it would be very useful to use scatterplots to show the effects of tra
 
 L291-294: but this is problematic considering that you only had two diffuse-porous species.
 
+**We have made changes to the analysis that resulted in dropping ring porosity from the full models. While we agree that it is problematic that we only have two ring-porous species, we believe that it's worth including because this engages with, and rejects, the existing understanding that in this biome, ring-porous species are more drought tolerant.**
+
 L297: TLP was significant for 1966 according to Table 4.
 
 L301-302: I would tone down this, as your models explained a rather low % of the variation in Rt.
@@ -461,19 +467,35 @@ L314-316: or simply that your sample size was rather low. See also main comments
 
 L329-331: do you have any information on the demographic effects (e.g., mortality) of the three droughts studied?
 
+**Unfortunately, no. All we could say is that the 1999 drought didn't result in a big loss of live biomass.**
+
 Table 3: are DBH units correct? I suspect they should be mm instead of cm.
+
+*These are incorrect. Ian, please convert to cm.*
 
 Figure 1: please explain all acronyms.
 
+**We now specify that these codes are given in Table 3.**
+
 Figure 2: where are the leaf hydraulic traits shown (cf. caption)?
+
+**It was an error that this was mentioned in the caption; now removed.**
 
 Table S1: why only 11 species? Some of the fits are really low…
 
+**Bark thickness measurements were drawn from an existing data set, and we did not make additional measurements because the trait is unlikely to have meaningful influence on results. This study already goes above and beyond the existing norm for accounting for bark thickness in DBH reconstructions; typically there is no correction for changes in bark thickness as the tree ages.**
+
 Table S3: what does ‘rank’ refer to?
+
+**This has been clarified.**
 
 Figure S1: please add spatial scale to the figure.
 
+*IAN, please do this*
+
 Figure S3: please specify that height values are estimated from reconstructed DBH.
+
+**Done.**
 
 
 ## Citations
