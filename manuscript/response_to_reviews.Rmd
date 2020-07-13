@@ -123,7 +123,7 @@ should be rather straightforward and the authors would increase accuracy across 
 
 - Line 275-280: those profiles were assumed a priori in the introduction and are common to any forest. They are indeed interesting to characterise the forest, but they do not add to individual tree variability. You could think to send Figure 2 to an appendix, in consequence, and use figures to show more specific results related to your individual tree analyses.
 
-[*issue #102*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/10)
+**Our preference is to keep this figure in the main manuscript. We agree that similar patterns are common to any forest, and are not trying to claim this as any kind of novel result, but we're not aware of studies showing similar height profiles for a temperate forest. Such patterns are not shown some relevant textbooks: Gordan Bonan's 2016 *Ecological Climatology* and Norman & Campbell's *Environmental Biophysics*. If we're missing studies that show such vertical profiles, we'd appreciate the references.**
 
 **We did create two new figures showing the results of the tree-ring analysis (and moved two tables to the SI).**
 
