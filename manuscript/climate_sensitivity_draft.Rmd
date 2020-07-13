@@ -7,7 +7,7 @@ output:
     fig_caption: yes
 bibliography: ["book.bib",  "packages.bib"]
 biblio-style: "apalike"
-csl: apa.csl
+csl: new-phytologist.csl
 header-includes:
 - \usepackage{setspace}\onehalfspacing
 - \usepackage{lineno}
@@ -152,7 +152,7 @@ The 1999 drought was preceded by wetter than average conditions until the previo
 
 *Statistical Analysis* 
 
-For each drought year, we calculated drought resistance ($Rt$) as the ratio of basal area increment ($BAI$) during drought to the mean $BAI$ over the five years preceding the drought [@lloret_components_2011]. Thus, $Rt$ values <1 and >1 indicate growth reductions and increases, respectively. Because the $Rt$ metric could be biased by directional pre-drought growth trends, we also tried an intervention time series analysis (ARIMA, [@R-forecast]) that predicted mean drought-year growth based on trends over the past **10** years and used this value in place of the five-year mean in calculations of resistance ($Rt_{ARIMA}$= observed $BAI$/ predicted $BAI$). Because $Rt$ tended to produce more reasonable estimates than $Rt_{ARIMA}$ when there was a large difference between these metrics, we selected $Rt$ as our focal metric, presenting parallel results for $Rt_{ARIMA}$ in the Supplementary Info. We focus exclusively on drought resistance ($Rt$ or $Rt_{ARIMA}$), and not on the resilience metrics described in @lloret_components_2011, because (1) we would expect resilience to be controlled by a different set of mechanisms, and (2) the findings of *[DeSoto et al. (2020)](https://www.nature.com/articles/s41467-020-14300-5)* suggest that $Rt$ is a more important drought response metric for angiosperms. 
+For each drought year, we calculated drought resistance ($Rt$) as the ratio of basal area increment ($BAI$) during drought to the mean $BAI$ over the five years preceding the drought [@lloret_components_2011]. Thus, $Rt$ values <1 and >1 indicate growth reductions and increases, respectively. Because the $Rt$ metric could be biased by directional pre-drought growth trends, we also tried an intervention time series analysis (ARIMA, [@R-forecast]) that predicted mean drought-year growth based on trends over the past ten years and used this value in place of the five-year mean in calculations of resistance ($Rt_{ARIMA}$= observed $BAI$/ predicted $BAI$). Because $Rt$ tended to produce more reasonable estimates than $Rt_{ARIMA}$ when there was a large difference between these metrics, we selected $Rt$ as our focal metric, presenting parallel results for $Rt_{ARIMA}$ in the Supplementary Info. We focus exclusively on drought resistance ($Rt$ or $Rt_{ARIMA}$), and not on the resilience metrics described in @lloret_components_2011, because (1) we would expect resilience to be controlled by a different set of mechanisms, and (2) the findings of *[DeSoto et al. (2020)](https://www.nature.com/articles/s41467-020-14300-5)* suggest that $Rt$ is a more important drought response metric for angiosperms. 
 
 Analyses focused on testing the predictions presented in Table 1, with $Rt$ (or $Rt_{ARIMA}$) as the response variable. 
 Models were run for all drought years combined and for each drought year individually. 

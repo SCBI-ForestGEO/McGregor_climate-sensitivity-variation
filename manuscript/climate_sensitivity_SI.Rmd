@@ -6,6 +6,7 @@ output:
     fig_caption: yes
 bibliography: ["packages.bib"]
 biblio-style: apalike
+csl: new-phytologist.csl
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{caption}
