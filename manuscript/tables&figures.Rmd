@@ -57,10 +57,8 @@ kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. S
 
 Parentheses indicate that the prediction was supported by one but not all of the top full models (Table **5**). Dash symbols indicate that the response was not significant/ not represented in any of the top full models.
 Asterisks indicate that the $Rt_{ARIMA}$ model yielded a different result: 
-*different significance in $Rt_{ARIMA}$ model
-**$Rt_{ARIMA}$ model had a significant trend in the opposite direction of the $Rt$ model (if significant) or the prediction (if no signficant trend in $Rt$ model).  
-
-**TILDAS (~) indicate that we don't currently have a (full) test of this prediction ([issue 99](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/99)**)
+*$Rt_{ARIMA}$ had a difference in significance/ inclusion in top full models.
+**$Rt_{ARIMA}$ model had a significant trend in the opposite direction of the $Rt$ model (if significant) or the prediction (if no significant trend in $Rt$ model).  
 
 \elandscape
 
