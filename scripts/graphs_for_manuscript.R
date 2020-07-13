@@ -65,7 +65,7 @@ g <- plot_grid(rasterGrob(plot1), rasterGrob(plot2), align = "v", nrow = 2, rel_
 g + annotate(geom="text", x=0.13, y=0.99, 
              label = "(a)", fontface="bold", size=3) +
    annotate(geom="text", x=0.13, y=0.23, 
-             label = "(b)", fontface="bold", size=3)
+            label = "(b)", fontface="bold", size=3)
 dev.off()
 
 ##1b Figure 2: Distribution by species ####
@@ -115,7 +115,7 @@ anova_out <- lapply(c(1:4), function(x){
                      txt = ne$`p adj`)
    colnames(out) <- c("occ", names(model_df)[x])
    out$occ <- as.character(out$occ)
-                     
+   
    
    return(out)
 })
@@ -363,8 +363,8 @@ trees_all$position_all_abb <- ifelse(trees_all$position_all == "dominant", "D",
 trees_all_plot <- trees_all[,c("tree", "year", "position_all_abb", "height.m", "dbh_old.cm")]
 
 current_ht$position_all_abb <- ifelse(current_ht$position_all == "dominant", "D",
-                                     ifelse(current_ht$position_all == "co-dominant", "C",
-                                            ifelse(current_ht$position_all == "suppressed", "S", "I")))
+                                      ifelse(current_ht$position_all == "co-dominant", "C",
+                                             ifelse(current_ht$position_all == "suppressed", "S", "I")))
 current_ht_sub <- current_ht[,c("tree", "year", "position_all_abb", "height.m", "dbh_old.cm")]
 
 
@@ -388,7 +388,7 @@ heights_allplot$position_all_abb <- as.character(heights_allplot$position_all_ab
 
 ########################################################################
 #5. Visualizing regression output
-library(visreg)
+# library(visreg)
 library(lme4)
 library(ggpubr)
 
@@ -411,59 +411,25 @@ glmm_all <- lapply(test, function(x){
    fit1 <- glmer(top_models[,"Modnames"][x], 
                  data = model_df[[x]], REML=FALSE, 
                  control = lmerControl(optimizer ="Nelder_Mead"))
-   return(fit1)
+   y <- predict(fit1)
+   model_df[[x]][,"fit"] <- y
+   return(model_df[[x]])
 })
 names(glmm_all) <- c("trees_all_sub", "x1966", "x1977", "x1999")
 
 
-for(i in 1:4){
-   glmm_all[[i]]@call$data <- model_df[[i]]
-   visreg(fit1, xvar="PLA_dry_percent", by="year", ylab="Rt", overlay=TRUE)
-}
-
-
-# main top model only (all droughts combined)
-mod <- top_models[,"Modnames"][1]
-fit1 <- glmer(mod, 
-              data = trees_all_sub, REML=FALSE, 
+#individual test
+fit1 <- glmer(top_models[,"Modnames"][4], 
+              data = model_df[[4]], REML=FALSE, 
               control = lmerControl(optimizer ="Nelder_Mead"))
+y <- predict(fit1)
+x1999$fit <- y
 
-fit1@call$data <- model_df[[1]]
+library(visreg)
+visreg(fit1, "height.ln.m", 
+       ylab="Rt", points=list(col="#55555540", cex=0.25))
 
-vars <- c("height.ln.m", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")
-lab <- c("ln[H]", "ln[TWI]", "PLA", "TLP")
-gglist <- list()
-for(i in 1:4){
-   q <- visreg(fit1, xvar=vars[i], by="year", line=list(col="black"),
-               ylab="Rt", xlab=lab[i], 
-               overlay=TRUE, gg=TRUE)
-   
-   if(i %in% c(1,3)){
-      q <- q + theme(legend.position="none")
-   } else if(i %in% c(2,4)){
-      q <- q + 
-         ylab("") +
-         theme(axis.text.y = element_blank())
-   }
-   
-   gglist[[i]] <- q
-}
 
-png("manuscript/tables_figures/publication/top_model_visual.png", width=960, height=960)
-
-ggarrange(gglist[[1]], gglist[[2]], gglist[[3]], gglist[[4]], 
-          labels = c("A", "B", "C", "D"),
-          ncol = 2, nrow = 2)
-library(cowplot)
-ggdraw() +
-   draw_plot(gglist[[1]], x = 0, y = .5, width = .5, height = .5) +
-   draw_plot(gglist[[2]], x = .4, y = .5, width = .5, height = .5) +
-   draw_plot(gglist[[3]], x = 0, y = 0, width = .5, height = 0.5) +
-   draw_plot(gglist[[4]], x = .4, y = 0, width = .5, height = 0.5) +
-   draw_plot_label(label = c("(a)", "(b)", "(c)", "(d)"), 
-                   size = 12,
-                   x = c(0, 0.4, 0, 0.4), 
-                   y = c(0.95, 0.95, 0.45, 0.45))
 
 library(ggplot2)
 library(ggpubr)
@@ -474,8 +440,8 @@ top_models <- top_models[top_models$Delta_AICc==0, ]
 
 trees_all_sub$position_num <- 
    ifelse(trees_all_sub$position_all=="dominant", 1,
-   ifelse(trees_all_sub$position_all=="co-dominant", 2,
-   ifelse(trees_all_sub$position_all=="intermediate", 3,4)))
+          ifelse(trees_all_sub$position_all=="co-dominant", 2,
+                 ifelse(trees_all_sub$position_all=="intermediate", 3,4)))
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
@@ -484,7 +450,7 @@ x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
 model_df <- list(trees_all_sub, x1966, x1977, x1999)
 names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
 
-vars <- c("height.ln.m", "position_num", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")
+vars <- c("height.ln.m", "position_all", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")
 lab <- c("ln[H]", "CP", "ln[TWI]", "PLA", "TLP")
 gglist <- list()
 colors <- c("All" = "black", 
@@ -494,52 +460,85 @@ for(i in 1:5){
    gglist[[i]] <- local({
       i <- i
       q <- 
-         ggplot(trees_all_sub) +
-         aes(x=get(vars[i]), y=resist.value) +
+         ggplot(glmm_all[["trees_all_sub"]]) +
+         aes(x=get(vars[i]), y=fit) +
          ylab("Rt") +
          xlab(lab[i]) +
          coord_cartesian(ylim=c(0.5,1.15))
       
-      if(i==2){
-         q <- q + scale_x_continuous(breaks=c(1,2,3,4),
-            labels=c("D", "C", "I", "S"))
-      }
-      
       if(i %in% c(1:3)){ #1999
-         q <- 
-            q + 
-            geom_smooth(data=x1999, 
-                            aes(get(vars[i]), resist.value, color="blue"),
-                            method=lm , color=NA, fill="blue", 
-                            alpha=0.2, se=TRUE) +
-            geom_line(data=x1999, 
-                      aes(get(vars[i]), resist.value, color="blue"),
-                      stat = "smooth", method = lm,
-                      color = "blue", size = 1.5, alpha = 0.2)
+         if(i %in% c(1,3)){
+            q <- 
+               q + 
+               geom_smooth(data=glmm_all[["x1999"]], 
+                           aes(get(vars[i]), fit, color="blue"),
+                           method=lm , color=NA, fill="blue", 
+                           alpha=0.2, se=TRUE) +
+               geom_line(data=glmm_all[["x1999"]], 
+                         aes(get(vars[i]), fit, color="blue"),
+                         stat = "smooth", method = lm,
+                         color = "blue", size = 1.5, alpha = 0.2)
+         } else if(i==2){
+            short <- as.data.table(glmm_all[["x1999"]])
+            short <- short[,.(avg=mean(fit)), by=.(position_all)]
+            
+            q <- q +
+               geom_segment(aes(x=0.6,xend=1.4,
+                                y=short$avg[1],yend=short$avg[1]),
+                                color="blue", size=1.3) +
+               geom_segment(aes(x=1.6,xend=2.4,
+                                y=short$avg[2],yend=short$avg[2]),
+                            color="blue", size=1.3) +
+               geom_segment(aes(x=2.6,xend=3.4,
+                                y=short$avg[3],yend=short$avg[3]),
+                            color="blue", size=1.3) +
+               geom_segment(aes(x=3.6,xend=4.4,
+                                y=short$avg[4],yend=short$avg[4]),
+                            color="blue", size=1.3)
+         }
       } 
       
       if(i %in% c(2,3,5)){#1977
-         q <- 
-            q +
-            geom_smooth(data=x1977, 
-                        aes(get(vars[i]), resist.value, color="green"),
-                        method=lm , color=NA, fill="green", alpha=0.2,
-                        se=TRUE) +
-            geom_line(data=x1977, 
-                      aes(get(vars[i]), resist.value, color="green"),
-                      stat = "smooth", method = lm,
-                      color = "green", size = 1.5, alpha = 0.2)
+         if(i %in% c(3,5)){
+            q <- 
+               q +
+               geom_smooth(data=glmm_all[["x1977"]], 
+                           aes(get(vars[i]), fit, color="green"),
+                           method=lm , color=NA, fill="green", alpha=0.2,
+                           se=TRUE) +
+               geom_line(data=glmm_all[["x1977"]], 
+                         aes(get(vars[i]), fit, color="green"),
+                         stat = "smooth", method = lm,
+                         color = "green", size = 1.5, alpha = 0.2)
+         } else if(i==2){
+            short1 <- as.data.table(glmm_all[["x1977"]])
+            short1<- short1[,.(avg=mean(fit)), by=.(position_all)]
+            
+            q <- q +
+               geom_segment(aes(x=0.6,xend=1.4,
+                                y=short1$avg[1],yend=short1$avg[1]),
+                            color="green", size=1.3) +
+               geom_segment(aes(x=1.6,xend=2.4,
+                                y=short1$avg[2],yend=short1$avg[2]),
+                            color="green", size=1.3) +
+               geom_segment(aes(x=2.6,xend=3.4,
+                                y=short1$avg[3],yend=short1$avg[3]),
+                            color="green", size=1.3) +
+               geom_segment(aes(x=3.6,xend=4.4,
+                                y=short1$avg[4],yend=short1$avg[4]),
+                            color="green", size=1.3)
+         }
       }
       
       if(i %in% c(1,4)){#1966
          q <- 
             q +
-            geom_smooth(data=x1966, 
-                        aes(get(vars[i]), resist.value, color="red"),
+            geom_smooth(data=glmm_all[["x1966"]], 
+                        aes(get(vars[i]), fit, color="red"),
                         method=lm , color=NA, fill="red", alpha=0.2,
                         se=TRUE) +
-            geom_line(data=x1966, 
-                      aes(get(vars[i]), resist.value, color="red"),
+            geom_line(data=glmm_all[["x1966"]], 
+                      aes(get(vars[i]), fit, color="red"),
                       stat = "smooth", method = lm,
                       color = "red", size = 1.5, alpha = 0.2)
       }
@@ -557,35 +556,46 @@ for(i in 1:5){
          #           color = "black", size = 1.5, alpha = 0.2)
       }
       
+      if(i==2){
+         q <- q + scale_x_discrete(breaks=c("1","2","3", "4"),
+                                   labels=c("C", "D", "I", "S"))
+      }
+      
       q <- q  
       
       print(q)
    })
 }
 
-png("manuscript/tables_figures/publication/test_fig.png", width=480, height=960)
-ggarrange(gglist[[1]], gglist[[2]], gglist[[3]], 
+png("manuscript/tables_figures/publication/test_fig.png", width=960)
+ggarrange(gglist[[1]], gglist[[3]], gglist[[2]], 
           gglist[[4]], gglist[[5]], 
           labels = c("(a)", "(b)", "(c)", "(d)", "(e)"),
-          ncol = 2, nrow = 3,
+          ncol = 3, nrow = 2,
           common.legend=TRUE)
 dev.off()
 
+#make legend
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
+
+x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
+x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
+x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
 
 trees_all_sub$year <- "all"
 full <- rbind(trees_all_sub, x1966, x1977, x1999)
 full$color <- 
    ifelse(full$year=="all", "black",
-   ifelse(full$year=="1966", "red",
-   ifelse(full$year=="1977", "green","blue")))
+          ifelse(full$year=="1966", "red",
+                 ifelse(full$year=="1977", "green","blue")))
 
 ggplot(full) +
    aes(height.ln.m, resist.value) +
    geom_line(aes(color=year), size=1.2, alpha=0.4) +
    facet_wrap(~year) +
    scale_color_manual(name="Droughts",
-      labels=c("All", "1966", "1977", "1999"),
-      values = c("black", "red", "green", "blue"))
+                      labels=c("All", "1966", "1977", "1999"),
+                      values = c("black", "red", "green", "blue"))
 
 #
 library(png)
@@ -599,10 +609,10 @@ legend <- rasterGrob(legend)
 
 library(cowplot)
 png("manuscript/tables_figures/publication/regr_visuals.png",
-    width=600, height=960)
+    width=960, height=500)
 ggdraw() +
    draw_plot(fullplot, x = 0, y = 0, width = 1, height = 1) +
-   draw_plot(legend, x = .5, y = .15, width = .5, height = .15)
+   draw_plot(legend, x = .6, y = .18, width = .5, height = .25)
 dev.off()
 
 
@@ -618,31 +628,18 @@ dev.off()
 allhei <- as.data.table(heights_allplot)
 #height growth showing massive negative growth from 1999 to 2018
 test <- allhei[year %in% c("1999", "2018"), .(shrunk = height.m[1] - height.m[2]), 
-            by=.(tree, position_all_abb)
-            ][, .(perc= sum(shrunk >0, na.rm=TRUE)/sum(shrunk>0 | shrunk <=0, na.rm=TRUE)), 
-                  by=.(position_all_abb)]
+               by=.(tree, position_all_abb)
+               ][, .(perc= sum(shrunk >0, na.rm=TRUE)/sum(shrunk>0 | shrunk <=0, na.rm=TRUE)), 
+                 by=.(position_all_abb)]
 
 #avg growth between each of the scenario years
 allhei$group <- cut(allhei$year, breaks=3)
 test66 <- allhei[year %in% c("1966", "1977"), .(gro = height.m[2] - height.m[1]), by=tree
-            ][, .(avg_gro = mean(gro, na.rm=TRUE))]
+                 ][, .(avg_gro = mean(gro, na.rm=TRUE))]
 test77 <- allhei[year %in% c("1977", "1999"), .(gro = height.m[2] - height.m[1]), by=tree
-              ][, .(avg_gro = mean(gro, na.rm=TRUE))]
+                 ][, .(avg_gro = mean(gro, na.rm=TRUE))]
 test99 <- allhei[year %in% c("1999", "2018"), .(gro = height.m[2] - height.m[1]), by=tree
-              ][, .(avg_gro = mean(gro, na.rm=TRUE))]
+                 ][, .(avg_gro = mean(gro, na.rm=TRUE))]
 avg_growth <- data.frame(g66_77 = test66$avg_gro,
                          g77_99 = test77$avg_gro,
                          g99_18 = test99$avg_gro)
-
-
-
-
-
-
-
-
-
-
-
-
-
