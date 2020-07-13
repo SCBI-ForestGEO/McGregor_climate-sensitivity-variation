@@ -41,7 +41,7 @@ Statistical analysis: the analysis would be more precise if the authors used Gen
 
 I suggest to show some relationship, e.g. between Rt and traits in figures. The study only presents two figures and there is plenty of room to present results more clearly with extra figures.
 
-[*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
+**We created a new figure (*Fig. 4*) visualizing the top model results.**  ([*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)()
 
 **We have *also* added a new figure (*Fig. 2*) showing how $Rt$ varied across species in each of the three droughts.**
 
@@ -53,26 +53,14 @@ Only assessing models with AIC is not enough to prove sound relationships in mul
 
 Following the two previous comments, I suggest to leave in Table 5 just the best model (rather that a multimodel inference as is presented now) to discuss more clearly the covariates included. And I suggest discussing only the model with all years together. This would be more robust and avoid ramble differences between years that mostly look spurious and with a difficult physiological explanation. This would help to ensure a better use of the Resilience indices.
 
-*How about this: *
-
-*(1) keep a version of table 5 in the main text, showing just the top model for Rt, and maybe also that of $Rt_{ARIMA}$.  *
-
-*(2) put full versions of table 2 (for Rt and $Rt_{ARIMA}$), including all models within the top dAICc=2, in the appendix*
-
-
-related to [*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
-
-related to [*issue #99*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/99)
+**In the spirit of this comment (simplifying presentation), we have created a new figure (*Fig. 4*) visualizing the top model results. We moved Table 5 to the Appendix (now Table S6, plus a parallel Table S7 for $Rt_{ARIMA}$).**
 
 **We do want to show the three separate drought periods, as we feel that this makes the analysis richer and helps to separate real drivers from spurious correlations. However, in order to make models more consistent across years and reduce spurious correlations, we now include the criteria that for a trait to be included as a candidate variable in the full model, the sign of coefficients must be consistent across all droughts (in addition to meeting the AIC criteria, as before). This resulted in only two candidate variables for the main model ($PLA_{dry}$ and $\pi_{tlp}$). (Removed was ring porosity, which had opposite effects in different droughts.)**
 
 The authors might like to consider including Table 4 as a supplement, because as it stands it looks like an exploratory analysis. If the ‘single-variable approach’ is not just exploratory, state it clearly and why it is needed besides the full models with several parameters.
 
-*This table is definitely not just exploratory, and is the source for supporting/ rejecting predictions in Table 1. Thus, keeping it in the main text could be justified. That said, it presents mainly negative results, and I'd like to reduce the number of tables, so moving it to the appedix would be fine.*
+**We have moved this table to the SI. We modified the analysis approach such that separate models for individual variable tests (as previously show in this table) are now limited to the species traits. While this table is (and was) the only display item (besides Table 1) giving these results, the results are either mostly negative (wood density, SLA, xylem porosity) or preliminary tests qualifying variables for inclusion in full model ($PLA_{dry}$ and $\pi_{tlp}$).** 
 
-[*issue #95*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/95)
-
-related to [*issue #99*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/99)
 
 Importantly, the drought selection would be biased if years were selected as from line 202, which is a common mistake in similar studies (the original of Lloret et al. included). Droughts must be selected based only on some climatic/drought index (PDSI, SPEI,…) and independently of growth. Otherwise the analysis is biased towards years with low growth, and different questions would arise with a difficult answer. If the authors select only those droughts where there is a growth decrease: is that decrease evident in all species and similar across species? What happens with more intense droughts that those selected (if any), why they do not force a decrease in growth if drought is a main forcing agent? I see that 1966 and 1999 are the driest (as in PDSI) in Figure 1, but there is at least one year around 1955 that it is as dry or drier than 1977. In line 204 it is stated that they are the driest. If this is the case, the analysis should be sound but it should be deleted what is stated in lines 202-203 where authors say that they selected years also based on low growth. In fact, that should be a result after having selected the drought years only based on dryness (as in lines 208-209). Line 211 then they search for pointer years… a little bit messy. Please, explain better, and it should follow: 1) selection of dry years without regarding growth data; 2) characterise growth those dry years; 3) If the authors want to compare with other pointer years, fine, but that should be a third independent step properly justified and explained. Following this rationale, then in line 221 it should be difficult that Rt>1, had we selected those years with a negative growth anomaly. Please, explain clearly and consistently.
 
@@ -135,9 +123,9 @@ should be rather straightforward and the authors would increase accuracy across 
 
 - Line 275-280: those profiles were assumed a priori in the introduction and are common to any forest. They are indeed interesting to characterise the forest, but they do not add to individual tree variability. You could think to send Figure 2 to an appendix, in consequence, and use figures to show more specific results related to your individual tree analyses.
 
-*Regarding Fig. 2, my current inclination is to keep it While I think its true that such profiles are common, I'm not currently aware of a lot of studies showing such profiles. I just prepared a grant proposal related to this, and current intern Nidhi Vinod is working on a review on vertical profiles in temperature, so I'd hope I'd be relatively up to speed... I'll check into this more and come back to it.*
+[*issue #102*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/10)
 
-[*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
+**We did create two new figures showing the results of the tree-ring analysis (and moved two tables to the SI).**
 
 - Line 330-331: any evidence to support this? It looks rather speculative. As suggested above, does any species particularly show positive Rt or positive Rt are randomly distributed in your trees?
 
@@ -236,7 +224,7 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 112 wasn’t clear where the “ring porous more drought resistant” hypothesis came from. Global data show that ring porous species are almost entirely restricted to the north temperate zone, especially deciduous broadleaf forests (Wheeler et al., 2007). They are virtually absent in drylands, especially warm tropical drylands. Species in drylands are almost overwhelmingly diffuse porous; the high wood density species in chaparrals and in some desert plants can be semi ring porous (Olson et al., in press).
 
-*good point. hypothesis refers to temperate deciduous biome, and turns out to be wrong.*
+*good point. hypothesis refers to temperate deciduous biome, and is not supported here.*
 
 113 These correlations seem reasonable, e.g. see (Méndez-Alonzo et al., 2012)
 
