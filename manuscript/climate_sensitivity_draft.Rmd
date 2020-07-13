@@ -154,7 +154,8 @@ The 1999 drought was preceded by wetter than average conditions until the previo
 
 For each drought year, we calculated drought resistance ($Rt$) as the ratio of basal area increment ($BAI$) during drought to the mean $BAI$ over the five years preceding the drought [@lloret_components_2011]. Thus, $Rt$ values <1 and >1 indicate growth reductions and increases, respectively. Because the $Rt$ metric could be biased by directional pre-drought growth trends, we also tried an intervention time series analysis (ARIMA, [@R-forecast]) that predicted mean drought-year growth based on trends over the past **10** years and used this value in place of the five-year mean in calculations of resistance ($Rt_{ARIMA}$= observed $BAI$/ predicted $BAI$). Because $Rt$ tended to produce more reasonable estimates than $Rt_{ARIMA}$ when there was a large difference between these metrics, we selected $Rt$ as our focal metric, presenting parallel results for $Rt_{ARIMA}$ in the Supplementary Info. We focus exclusively on drought resistance ($Rt$ or $Rt_{ARIMA}$), and not on the resilience metrics described in @lloret_components_2011, because (1) we would expect resilience to be controlled by a different set of mechanisms, and (2) the findings of *[DeSoto et al. (2020)](https://www.nature.com/articles/s41467-020-14300-5)* suggest that $Rt$ is a more important drought response metric for angiosperms. 
 
-Analyses focused on testing the predictions presented in Table 1, with $Rt$ (or $Rt_{ARIMA}$) as the response variable. Models were run for all drought years combined and for each drought year individually. 
+Analyses focused on testing the predictions presented in Table 1, with $Rt$ (or $Rt_{ARIMA}$) as the response variable. 
+Models were run for all drought years combined and for each drought year individually. 
 The general statistical model for hypothesis testing was a generalized linear mixed model (GLMM), implemented  in the **XX** package in R [**REF**], with $Rt$ (or $Rt_{ARIMA}$) as the response variable, tree nested within species as a random effect, and independent variables including drought year (multi-drought model only), $ln[H]$*$TWI$, crown position, and 1-2 species traits (see below). 
 We used AICc to assess model selection, and conditional/marginal R-squared to assess model fit as implemented in the AICcmodavg package in R [@R-AICcmodavg]. 
 AICc refers to a corrected version of AICc, and is best suited for small data sizes [see @brewer_relative_2016].
@@ -165,9 +166,10 @@ Trait variables were considered appropriate for inclusion in the main model if t
 We note that the $\Delta$AICc $\ge$ 1.0 criterion is not a test of significance, but of whether the variable has enough influence to be considered as a *candidate* variable in full models.
 
 We then determined the best full models for predicting $Rt$ (or $Rt_{ARIMA}$). 
-To do so, we compared models with all possible combinations of candidate variables and identified the full set of models within $\Delta$AICc=1 of the very top model (that with lowest AICc). 
-When a variable appeared in all top models and the sign of the coefficient was consistent across models, we viewed this as support for the acceptance/rejection of the associated prediction by the full models. 
-If the variable appeared in only some of the models, we considered this partial support/rejection. 
+To do so, we compared models with all possible combinations of candidate variables and identified the full set of models within $\Delta$AICc=2 of the very top model (that with lowest AICc). 
+When a variable appeared in all of these models and the sign of the coefficient was consistent across models, we viewed this as support for the acceptance/rejection of the associated prediction (Table 1). 
+If the variable appeared in some but not all of these models, and its sign we was consistent across models, we considered this partial support/rejection. 
+In presentation of the results below, we note instances where the $Rt_{ARIMA}$ model disagreed with the $Rt$ model, but otherwise do not discuss the $Rt_{ARIMA}$ model.
 
 All analysis beyond basic data collection was performed using R version 3.5.3 [@R-base]. 
 Other R-packages aside from those already listed were very helpful in conducting analyses. These are listed in the Supplementary Information. 
@@ -179,30 +181,42 @@ All data, code, and results are available through the SCBI-ForestGEO organizatio
 
 At the community level, cored trees showed substantial growth reductions in all three droughts, with a mean $Rt$ of 0.86 in 1966 and 1999, and 0.84 in 1977  (Fig. **1b**). Across the entire study period (1950-2009), the focal drought years were the three years with the largest fraction of trees exhibiting $Rt \le 0.7$. Specifically, in each drought, roughly 30% of the cored trees had growth reductions of $\ge$ 30% ($Rt \le 0.7$): 29% in 1966, 32% in 1977, and 27% in 1999. However, some individuals exhibited increased growth, *i.e.*, $Rt > 1.0$: 26% of trees in 1966, 22% in 1977, and 26% in 1999. 
 
-Responses varied across species and by drought (Fig. **2**). 
+Responses varied across species and by drought (Fig. 2). 
 Averaged across all droughts, $Rt$ was lowest in *Liriodendron tulipifera* (mean $Rt$ = **0.66**) and highest in *Fagus grandifolia* (mean $Rt$ = **0.99**).
 
 *Tree size, microenvironment, and drought resistance*
 
-Taller trees showed stronger growth reductions during drought when evaluating the three drought years together and for 1966 individually, although $ln[H]$ was not significant during 1977 or 1999 individually (Tables 1, 4). When combined with other predictor variables in the full models, $ln[H]$ appeared, with negative coefficient, in all full models for the three droughts combined, in the 1966 model, and in one of the two models for 1999 (Tables 1, 5). 
+Taller trees showed stronger growth reductions during drought when evaluating the three drought years together and for 1966 individually (Table 1; Fig. 4;). 
+Specifically, $ln[H]$ appeared, with negative coefficient, in the top models and all models within $\Delta$AICc=2 of these (Tables S6-S7).
+For the 1977 and 1999 droughts, $ln[H]$ did not appear in the top models, but was included, with negative coefficient, in some of the models that were statistically indistinguishable ($\Delta$AICc<2) from the top model (Tables 1, S6-S7). 
 
-Crown position varied as expected with height (dominant > co-dominant > intermediate > suppressed), but with substantial variation (Fig. **3d**). When considered alone, crown position had a significant response only in the 1966 drought, during which trees with dominant crown position had the lowest $Rt$. Crown position was a much poorer predictor of $Rt$ than was height in the single-variable tests (Table 4), lending little overall support to the hypothesis that crown exposure reduces $Rt$ (Table 1).  When height was included in the model, crown position was a significant predictor in the 1999 drought, with lowest $Rt$ for suppressed and then intermediate trees. Crown position was included in some of the full models (Table 5). In 1977, where height was not included in the full model, dominant trees had the lowest $Rt$, and suppressed trees the highest. In contrast, in full models including both height and crown position (all droughts and 1999), the lowest $Rt$ was in suppressed, followed by intermediate, trees.
+Crown position varied as expected with height (dominant > co-dominant > intermediate > suppressed), but with substantial variation (Fig. **3d**). 
+Crown position was never statistically significant (Table 1). 
+It did, however, come out in the top models for 1977 and 1999 (Fig. 4), and was included in some of the models within $\Delta$AICc=2 of the top model for 1966 and all droughts combined (Table S6).
+When $Rt_{ARIMA}$ was used as the predictor variable, crown position was never in a top model, and was included among the models within $\Delta$AICc=2 of the top model only for 1977.
+Canopy position did not have a consistent influence, when included in models within $\Delta$AICc=2 of the top model, across years: dominant trees had the lowest $Rt$ (or $Rt_{ARIMA}$) in 1977, but in all other years suppressed trees had the lowest $Rt$ (Fig. 4; Tables S6-S7). 
 
 In the years for which we have vertical profiles in climate data (2016-2018), taller trees--or those in dominant crown positions-- were generally exposed to higher evaporative demand during the peak growing season months (May-August; Fig. **3**). Specifically, maximum daily wind speeds were significantly higher above the top of the canopy (40-50m) than within and below (10-30m) (Fig. **3a**). Relative humidity was also somewhat lower during June-August, ranging from ~50-80% above the canopy and ~60-90% in the understory (Fig. **3b**). Air temperature did not vary across the vertical profile (Fig. **3c**).
 
-$Rt$ was negatively correlated with $ln[TWI]$ (Tables 4-5), rejecting the idea that trees in moist microsites would be less affected by drought. Nevertheless, we tested for a negative $ln[H] *ln[TWI]$ interaction, which could indicate that smaller trees (with smaller rooting volume) are more susceptible to drought in drier microenvironments with a deeper water table. This hypothesis was rejected as the $ln[H] *ln[TWI]$ interaction was never significant (Table 4). 
+$Rt$ had a signficantly negative response to $ln[TWI]$ in all drought years combined and in 1977, and a negative effect of $ln[TWI]$ was included in models within $\Delta$AICc=2 of the top model in 1999 and the $Rt_{ARIMA}$ model for 1966 (Fig. 4, Tables 4-5).
+This negates the idea that trees in moist microsites would be less affected by drought. 
+Nevertheless, we tested for a negative $ln[H] *ln[TWI]$ interaction, which could indicate that smaller trees (with smaller rooting volume) are more susceptible to drought in drier microenvironments with a deeper water table. 
+This hypothesis was rejected, as the $ln[H] *ln[TWI]$ interaction was never the significant, and had a positive sign in any models within $\Delta$AICc=2 of the top model in which it appeared (Tables 1, S6-S7).
+This term did appear, with positive coefficient, in the top $Rt_{ARIMA}$ model for all years combined (Table S7).
 
 *Species' traits and drought resistance*
 
-Wood density, $LMA$, and xylem porosity were all poor predictors of $Rt$ (Tables 1,4,5). 
-Wood density and $LMA$ were never significantly associated with $Rt$ in the single-variable tests (Table 4) and were therefore excluded from the full models. 
-Xylem porosity was also excluded from the full models, as it had no significant influence for all droughts combined and had contrasting effects in the individual droughts: whereas ring-porous species had higher $Rt$ than diffuse- and semi-ring- porous species in the 1966 and 1999 droughts, they had lower $Rt$ in 1977 (Table **4**). 
-It is noteworthy that the two diffuse-porous species in our study, *Liriodendron tulipifera* and *Fagus grandifolia*, were at opposite ends of the $Rt$ spectrum (Fig. **2**), further refuting the idea that xylem porosity is a useful predictor of $Rt$. 
+Wood density, $LMA$, and xylem porosity were all poor predictors of $Rt$ (Tables 1,S4-S5). 
+Wood density and $LMA$ were never significantly associated with $Rt$ in the single-variable tests and were therefore excluded from the full models. 
+Xylem porosity was also excluded from the full models, as it had no significant influence for all droughts combined and had contrasting effects in the individual droughts: whereas ring-porous species had higher $Rt$ than diffuse- and semi-ring- porous species in the 1966 and 1999 droughts, they had lower $Rt$ in 1977 (Table S4). 
+It is noteworthy that the two diffuse-porous species in our study, *Liriodendron tulipifera* and *Fagus grandifolia*, were at opposite ends of the $Rt$ spectrum (Fig. 2), further refuting the idea that xylem porosity is a useful predictor of $Rt$. 
 
-In contrast, $PLA_{dry}$, and $\pi_{tlp}$ were linked to drought responses (Tables 1,4,5). 
-Both had consistent signs across all droughts and explained modest amounts of variation ($\Delta$AICc > 1.0) during at least one of the three droughts (Table 4), qualifying them as candidate variables for the full model. 
-$PLA_{dry}$ was consistently included, with negative coefficient, in full models for the three droughts combined and for the 1966 and 1977 droughts individually (Table 5). 
-$\pi_{tlp}$ was included in the top full model for all droughts combined and for the 1977 and 1999 droughts individually (Table 5).
+In contrast, $PLA_{dry}$, and $\pi_{tlp}$ were linked to drought responses (Fig. 4; Tables 1,S4-S7). 
+Both had consistent signs across all droughts and explained modest amounts of variation ($\Delta$AICc > 1.0) during at least one of the three droughts (Table S4), qualifying them as candidate variables for the full model. 
+$PLA_{dry}$ had a significant influence, with negative coefficient, in full models for the three droughts combined and for the 1966 drought individually (Fig. 4; Tables S6-S7). 
+For 1977 and 1999, it was included, with negative coefficient, in some of the models within $\Delta$AICc=2 of the top model (Tables S6-S7).
+$\pi_{tlp}$ was included, with negative coefficient, in the top full model for all droughts combined and for the 1977 drought individually (Fig. 4; Table 5). 
+It was included in some of the models within $\Delta$AICc=2 of the top model in 1999 (Tables S6-S7).
 
 ### Discussion
 
