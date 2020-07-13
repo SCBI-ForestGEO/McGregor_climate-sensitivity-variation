@@ -15,6 +15,24 @@ knitr::opts_chunk$set(echo = TRUE)
 
 **bold - response**
 
+~~~~
+
+Dear Editor:
+
+... Major changes included the following:
+
+* At the request of 3 reviewers (R1,R3,R4), we tried an alternate metric of drought resistance (using an ARIMA model to project what growth would have been in drought year based on the trend over the past 10 years). Results were similar, and we now present that as a secondary model (mostly in SI).
+
+* We slightly modified the method of determining which trait variables go into the full model. Specifically, we added the criteria of consistent direction across droughts, and as a result dropped xylem porosity. This also makes sense because the two diffuse porous species (Liriodendron tulipifera and Fagus grandifolia) are at opposite ends of the spectrum in terms of drought resistance. (Side note: this contradicts the current understanding that diffuse porous species in the temperate deciduous biome are more drought sensitive, but not the bigger global picture, as R2 points out.).
+
+* We moved former tables 4 and 5 to the SI.
+
+* We added two figures: one showing Rt differences across species, and one visualizing the model results  (the latter is not yet right, as gg-plot is being difficult, but will eventually match  the model results.)
+
+The result is an easier to read paper with more robust support.
+
+\newpage
+
 ## Referee: 1
 
 Comments to the Author
