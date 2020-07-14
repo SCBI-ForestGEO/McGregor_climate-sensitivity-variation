@@ -112,6 +112,18 @@ Second, we focus on the role of species' functional and hydraulic traits, testin
 
 Research was conducted at the 25.6-ha ForestGEO (Forest Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38\°53'36.6"N, 78\°08'43.4"W) [@bourg_initial_2013; @andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains near the northern boundary of Shenandoah National Park. Elevations range from 273 to 338 m above sea level with a topographic relief of 65m [@bourg_initial_2013]. Climate is humid temperate, with mean annual temperature of 12.7^$\circ$^C and precipitation of 1005 mm during our study period (1960-2009; source: CRU TS v.4.01; @harris_updated_2014). Dominant tree taxa within this secondary forest include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.). 
 
+*Identifying drought years*
+
+We identified the three largest droughts within the time period 1950-2009, defining drought [@slette_how_2019] as events with both anomalously dry peak growing season climatic conditions. 
+Specifically, we used the metric of Palmer Drought Severity Index (PDSI) during May-August (MJJA; Table S3), which were identified by @helcoski_growing_2019 as the months of the current year to which annual tree growth was most sensitive at this site. 
+PDSI divisional data for Northern Virginia were obtained from NOAA (https://www7.ncdc.noaa.gov/CDO/CDODivisionalSelect.jsp) in December 2017. 
+Based on this, we identified three drought years - 1966, 1977, and 1999 (Figs. **1**, **S2**, Table S3).
+
+The droughts differed in intensity and antecedent moisture conditions (Fig. **S2**, Table S3). 
+The 1966 drought was preceded by two years of moderate drought during the growing season and severe to extreme drought starting the previous fall and in August reached the lowest growing season $PDSI$ (-4.82) of the three droughts. 
+The 1977 drought was the least intense throughout the growing season, and it was preceded by 2.5 years of near-normal conditions, making it the mildest of the three droughts. 
+The 1999 drought was preceded by wetter than average conditions until the previous June, but reached the lowest PDSI during May-July (-4.53). 
+
 *Data collection and preparation*
 
 Within or just outside the ForestGEO plot, we collected data on a suite of variables including tree size, microenvironment characteristics, and species traits (Table 2). The SCBI ForestGEO plot was censused in 2008, 2013, and 2018 following standard ForestGEO protocols, whereby all free-standing woody stems $\ge$ 1cm diameter at breast height (DBH) were mapped, tagged, measured at DBH, and identified to species [@condit_tropical_1998]. From this census data, we used measurements of DBH from 2008 to calculate historical DBH and data for all stems $\ge$ 10cm to analyze functional trait composition relative to tree height (all analyses described below). Census data are available through the ForestGEO data portal (www.forestgeo.si.edu).
@@ -138,17 +150,6 @@ Hydraulic traits were collected in August 2018 (Tables 2-3). We sampled small su
 
 To characterize how environmental conditions vary with height, data were obtained from the NEON tower located <1km from the study area via the neonUtilities package [@R-neonUtilities]. We used wind speed, relative humidity, and air temperature data, all measured over a vertical profile spanning heights from 7.2 m to above the top of the tree canopy (31.0 or 51.8m, depending on censor), for the years 2016-2018 [@neon_national_2018]. After filtering for missing and outlier values, we determined the daily minima and maxima, which we then aggregated at the monthly scale.
 
-*Identifying drought years*
-
-We identified the three largest droughts within the time period 1950-2009, defining drought [@slette_how_2019] as events with both anomalously dry peak growing season climatic conditions. 
-Specifically, we used the metric of Palmer Drought Severity Index (PDSI) during May-August (MJJA; Table S3), which were identified by @helcoski_growing_2019 as the months of the current year to which annual tree growth was most sensitive at this site. 
-PDSI divisional data for Northern Virginia were obtained from NOAA (https://www7.ncdc.noaa.gov/CDO/CDODivisionalSelect.jsp) in December 2017. 
-Based on this, we identified three drought years - 1966, 1977, and 1999 (Figs. **1**, **S2**, Table S3).
-
-The droughts differed in intensity and antecedent moisture conditions (Fig. **S2**, Table S3). 
-The 1966 drought was preceded by two years of moderate drought during the growing season and severe to extreme drought starting the previous fall and in August reached the lowest growing season $PDSI$ (-4.82) of the three droughts. 
-The 1977 drought was the least intense throughout the growing season, and it was preceded by 2.5 years of near-normal conditions, making it the mildest of the three droughts. 
-The 1999 drought was preceded by wetter than average conditions until the previous June, but reached the lowest PDSI during May-July (-4.53). 
 
 *Statistical Analysis* 
 
