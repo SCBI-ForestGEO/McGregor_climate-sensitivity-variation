@@ -55,9 +55,9 @@ kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. S
  # kableExtra::landscape()
 ```
 
-Parentheses indicate that the prediction was supported by one but not all of the top full models (Table S6). Dash symbols indicate that the response was not significant (Table S4)/ not represented in any of the top full models (Table S6).
+Parentheses indicate that the prediction was supported by one but not all of the top  models (Table S6). Dash symbols indicate that the response was not significant (Table S4)/ not represented in any of the top models (Table S6).
 Asterisks indicate that the $Rt_{ARIMA}$ models (Table S5, S7) yielded a different result: 
-*$Rt_{ARIMA}$ had a difference in significance/ inclusion in top full models.
+*$Rt_{ARIMA}$ had a difference in significance/ inclusion in top  models.
 **$Rt_{ARIMA}$ model had a significant trend in the opposite direction of the $Rt$ model (if significant) or the prediction (if no significant trend in $Rt$ model).  
 
 \elandscape
@@ -118,4 +118,4 @@ kableExtra::footnote(symbol = c("Semi-ring porosity is intermediate between ring
 
 ![**Figure 3. Height profiles in growing season climatic conditions and tree heights by crown position** The top row shows averages ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Also shown is (d) 2018 tree heights by canopy position (see Table 2 for codes). In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.](tables_figures/publication/Figure3_NEON_vars_height_profile.png){width=500px}
 
-![**Figure 4. Visualization of top models for all droughts combined and for each drought separately.** Model coefficients are given in Table S6. **THIS IS NOT YET CORRECT (having trouble making gg-plot work. THE POSITIVE HEIGHT EFFECT FOR 1999 IS WRONG. FINAL FIG WILL MATCH MODELS IN TABLE S6.** ](tables_figures/publication/regr_visuals.png){width=500px}
+![**Figure 4. Visualization of best models for all droughts combined and for each drought separately.** Model coefficients are given in Table S6. **THIS IS NOT YET CORRECT (having trouble making gg-plot work. THE POSITIVE HEIGHT EFFECT FOR 1999 IS WRONG. FINAL FIG WILL MATCH MODELS IN TABLE S6.** ](tables_figures/publication/regr_visuals.png){width=500px}

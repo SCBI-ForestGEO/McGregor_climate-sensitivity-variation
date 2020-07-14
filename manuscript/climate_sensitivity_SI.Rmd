@@ -144,7 +144,7 @@ Models are ranked by AICc. Shown are all models whose AICc value falls within 2.
 library(knitr)
 library(kableExtra)
 multivar_table <- read.csv("tables_figures/publication/tableS7_multivariable_models_reform_arimaratio.csv", stringsAsFactors = FALSE, check.names = FALSE) 
-kable(multivar_table, booktabs = TRUE, caption = "Table S7. Summary of top full models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable. ", format = 'latex', escape = FALSE) %>%
+kable(multivar_table, booktabs = TRUE, caption = "Table S7. Summary of top  models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable. ", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," "," "," ", " ", " ", "crown position" = 4, 
                      " "," ")) %>%
