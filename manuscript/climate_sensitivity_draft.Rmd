@@ -161,17 +161,19 @@ For each drought year, we calculated drought resistance ($Rt$) as the ratio of b
 
 Analyses focused on testing the predictions presented in Table 1, with $Rt$ (or $Rt_{ARIMA}$) as the response variable. 
 Models were run for all drought years combined and for each drought year individually. 
-The general statistical model for hypothesis testing was a generalized linear mixed model (GLMM), implemented  in the **XX** package in R [**REF**], with $Rt$ (or $Rt_{ARIMA}$) as the response variable, tree nested within species as a random effect, and independent variables including drought year (multi-drought model only), $ln[H]$*$TWI$, crown position, and 1-2 species traits (see below). 
+The general statistical model for hypothesis testing was a generalized linear mixed model (GLMM), implemented  in the **XX** package in R [**REF**], with $Rt$ (or $Rt_{ARIMA}$) as the response variable, tree nested within species as a random effect, and independent variables as specified below. 
+In the multi-year model only, we also included a fixed effect of drought year. (**IAN, CONFIRM THIS**))
 We used AICc to assess model selection, and conditional/marginal R-squared to assess model fit as implemented in the AICcmodavg package in R [@R-AICcmodavg]. 
 AICc refers to a corrected version of AICc, and is best suited for small data sizes [see @brewer_relative_2016].
 
 To avoid over-fitting models with five species traits (Table 2) across only 12 species, we did not include all traits as fixed effects in a single GLMM, but rather conducted individual tests of each species trait to determine the relative importance and appropriateness for inclusion in the main model. 
-These tests followed the model structure specified above.
-Trait variables were considered appropriate for inclusion in the main model if they had a consistent direction of response across all droughts and if their addition to a corresponding null model lacking the trait improved fit (at $\Delta$AICc $\ge$ 1.0) in at least one drought year (Table 4). 
+These tests followed the model structure specified above, including $ln[H]$, $TWI$, and crown position in the null model.
+Trait variables were considered appropriate for inclusion in the main model if they had a consistent direction of response across all droughts and if their addition to this null model lacking the trait improved fit (at $\Delta$AICc $\ge$ 1.0) in at least one drought year (Table S4). 
 We note that the $\Delta$AICc $\ge$ 1.0 criterion is not a test of significance, but of whether the variable has enough influence to be considered as a *candidate* variable in full models.
 
 We then determined the top full models for predicting $Rt$ (or $Rt_{ARIMA}$). 
-To do so, we compared models with all possible combinations of candidate variables and identified the full set of models within $\Delta$AICc=2 of the best model (that with lowest AICc). 
+To do so, we compared models with all possible combinations of candidate variables, including $ln[H]$*$TWI$, crown position, and species traits as specified above.
+We identified the full set of models within $\Delta$AICc=2 of the best model (that with lowest AICc). 
 When a variable appeared in all of these models and the sign of the coefficient was consistent across models, we viewed this as support for the acceptance/rejection of the associated prediction (Table 1). 
 If the variable appeared in some but not all of these models, and its sign we was consistent across models, we considered this partial support/rejection. 
 In presentation of the results below, we note instances where the $Rt_{ARIMA}$ model disagreed with the $Rt$ model, but otherwise do not discuss the $Rt_{ARIMA}$ model.
