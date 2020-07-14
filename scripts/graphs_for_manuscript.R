@@ -158,29 +158,20 @@ summary(bleh[[4]]) #1999
 # looking at traits compared to sp ####
 library(data.table)
 rt <- fread("manuscript/tables_figures/trees_all_sub.csv")
-mo <- trees_all_sub[,.(sp, 
-                                  PLA_dry_percent, mean_TLP_Mpa, 
-                                  height.ln.m, TWI.ln, position_all)]
-mo <- reshape2::melt(mo, id.vars=c("sp"))
-mo <- mo[,value := ifelse(value == "dominant", 1,
-                  ifelse(value == "co-dominant", 2,
-                  ifelse(value == "intermediate", 3,
-                  ifelse(value == "suppressed", 4, value))))
-         ][, `:=` (value = as.numeric(value),
-                   variable = as.character(variable))]
+traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBELJEQJZPPXAC4GV4KS7CZAC2")
+traits_hydr <- traits[,.(sp,PLA_dry_percent, mean_TLP_Mpa)]
 
 rt <- rt[,year := as.character(year)]
-traits <- c("height.ln.m", "TWI.ln", "position_all", "PLA_dry_percent", "mean_TLP_Mpa")
-layout(matrix(1:6, nrow=2))
+traits <- c("height.ln.m", "TWI.ln")
 
 gglist <- list()
-for(i in 1:5){
+for(i in 1:2){
    gglist[[i]] <- local({
       i <- i
       q <- 
          ggplot(rt) +
          aes(x = sp, y = get(traits[i])) +
-         geom_boxplot(aes(fill = year), alpha=0.5) +
+         geom_boxplot(alpha=0.5) +
          scale_color_discrete() +
          ylab(traits[i]) +
          xlab("Species") +
@@ -194,12 +185,59 @@ for(i in 1:5){
       print(q)
    })
 }
+pos <- rt[,.(sp,position_all)
+          ][,.N,by=.(sp,position_all)
+            ][order(sp),]
+others <- data.table(sp=c("caco", "cato", "cato", "fagr", 
+                          "fram", "juni", "juni"),
+                     position_all=c("dominant", "dominant", 
+                                    "co-dominant","dominant", 
+                                    "dominant", "dominant", 
+                                    "suppressed"),
+                     N=c(0,0,1,0,0,0,1))
+pos <- rbind(pos, others)
+posplot <-  
+   ggplot(pos) +
+   aes(x = sp, y=N, color=position_all) +
+   geom_point(aes(fill=position_all), alpha=0.5) +
+   # geom_jitter() +
+   scale_color_discrete() +
+   ylab("Count") +
+   xlab("Species") +
+   theme(axis.text = element_text(size=12),
+         axis.text.x=element_text(angle=90),
+         axis.title=element_text(size=12),
+         legend.text=element_text(size=12),
+         legend.title=element_text(size=12))
+
+hydr <- c("PLA_dry_percent", "mean_TLP_Mpa")
+ggtraits <- list()
+for(i in 1:2){
+   ggtraits[[i]] <- local({
+      i <- i
+      
+      q <- 
+         ggplot(traits) +
+         aes(x = sp, y = get(hydr[i])) +
+         geom_boxplot(alpha=0.5) +
+         scale_color_discrete() +
+         ylab(hydr[i]) +
+         xlab("Species") +
+         theme_minimal() +
+         theme(axis.text = element_text(size=12),
+               axis.text.x=element_text(angle=90),
+               axis.title=element_text(size=12),
+               legend.text=element_text(size=12),
+               legend.title=element_text(size=12))
+      print(q)
+   })
+}
 
 library(ggpubr)
-ggarrange(gglist[[1]], gglist[[2]], gglist[[3]], 
-          gglist[[4]], gglist[[5]], 
-          ncol = 3, nrow = 2,
-          common.legend=TRUE)
+p <- ggarrange(gglist[[1]], gglist[[2]],
+          ggtraits[[1]], ggtraits[[2]],
+          ncol = 2, nrow = 2)
+ggarrange(p, posplot, ncol=2, nrow=1)
 
 #########################################################################
 #2. Figure 3: NEON vertical height profiles with 
@@ -456,9 +494,30 @@ glmm_all <- lapply(test, function(x){
                  control = lmerControl(optimizer ="Nelder_Mead"))
    y <- predict(fit1)
    model_df[[x]][,"fit"] <- y
-   return(model_df[[x]])
+   return(fit1)
 })
 names(glmm_all) <- c("trees_all_sub", "x1966", "x1977", "x1999")
+
+fit1 <- glmer(top_models[,"Modnames"][1], 
+              data = model_df[[1]], REML=FALSE, 
+              control = lmerControl(optimizer ="Nelder_Mead"))
+fit2 <- glmer(top_models[,"Modnames"][2], 
+              data = model_df[[2]], REML=FALSE, 
+              control = lmerControl(optimizer ="Nelder_Mead"))
+fit3 <- glmer(top_models[,"Modnames"][3], 
+              data = model_df[[3]], REML=FALSE, 
+              control = lmerControl(optimizer ="Nelder_Mead"))
+fit4 <- glmer(top_models[,"Modnames"][4], 
+              data = model_df[[4]], REML=FALSE, 
+              control = lmerControl(optimizer ="Nelder_Mead"))
+
+
+test <- model_df[[1]][,c("resist.value", "height.ln.m")]
+
+library(visreg)
+v <- visregList(visreg(fit2, 'height.ln.m', plot=FALSE),
+                visreg(fit4, 'height.ln.m', plot=FALSE))
+plot(v, overlay=TRUE)
 
 
 #individual test
