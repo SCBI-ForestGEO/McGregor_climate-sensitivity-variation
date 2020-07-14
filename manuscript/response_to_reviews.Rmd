@@ -243,7 +243,13 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 112 wasn’t clear where the “ring porous more drought resistant” hypothesis came from. Global data show that ring porous species are almost entirely restricted to the north temperate zone, especially deciduous broadleaf forests (Wheeler et al., 2007). They are virtually absent in drylands, especially warm tropical drylands. Species in drylands are almost overwhelmingly diffuse porous; the high wood density species in chaparrals and in some desert plants can be semi ring porous (Olson et al., in press).
 
-*good point. hypothesis refers to temperate deciduous biome, and is not supported here.*
+**This is a great point. The hypothesis refers to temperate deciduous biome, which we now clarify in the sentence in question:**
+
+**"Studies in temperate broadleaf forests have observed that ring-porous species showing higher drought tolerance than diffuse-porous species [@friedrichs_species-specific_2009; @elliott_forest_2015; @kannenberg_linking_2019], but this distinction would not hold in the global context (*Wheeler et al. 2007, Olson et al. 2020*) and does not resolve differences among the many species within each category."**
+
+**We dug into the ring/diffuse porous distinction more, and ended up making a few substantive changes that relate to this theme: (1) We added a new figure showing $Rt$ across species (Fig. 2). This illustrates that the two diffuse-porous species, *Liriodendron tulipifera* and *Fagus grandifolia*, were at opposite ends of the $Rt$ spectrum. (2) We modified the criteria of selecting candidate variables for the full models to include the criterion that directions of responses must be consistent across droughts for inclusion in the full model. This resulted in exclusion of xylem porosity (Table S4)--a change that is also warrented by the fact that we only have two diffuse-porous species. (3) We added the following content to the discussion: **
+
+*insert text*
 
 113 These correlations seem reasonable, e.g. see (Méndez-Alonzo et al., 2012)
 
