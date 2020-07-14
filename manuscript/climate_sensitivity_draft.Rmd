@@ -88,7 +88,7 @@ Acknowledgements | 125	||
 
 - We analyzed tree-ring records for twelve species that comprise 97% of the woody productivity of the 25.6-ha ForestGEO plot in a broadleaf deciduous forest of northern Virginia (USA) to test hypotheses on how tree height, microenvironment characteristics, and species' traits shaped drought responses across the three strongest regional droughts over a 60-year period (1950 - 2009). 
 
-- Individual-level drought resistance decreased with tree height and was not significantly linked to canopy position. The potentially greater rooting volume of larger trees did not confer an advantage in sites with low topgraphic wetness index. Resistance was greater among species whose leaves experienced less shrinkage upon desiccation and lost turgor (wilted) at more negative water potentials. 
+- Individual-level drought resistance decreased with tree height, which was highly correlated with canopy position. The potentially greater rooting volume of larger trees did not confer an advantage in sites with low topographic wetness index. Resistance was greater among species whose leaves experienced less shrinkage upon desiccation and lost turgor (wilted) at more negative water potentials. 
 
 - We conclude that tree height and hydraulic traits influence growth responses during drought, as recorded in the tree-ring record spanning historical droughts. Thus, these factors can be useful for predicting future drought responses under climate change. 
 
@@ -117,7 +117,7 @@ Research was conducted at the 25.6-ha ForestGEO (Forest Global Earth Observatory
 
 *Identifying drought years*
 
-We identified the three largest droughts within the time period 1950-2009, defining drought [@slette_how_2019] as events with both anomalously dry peak growing season climatic conditions. 
+We identified the three largest droughts within the time period 1950-2009, defining drought [@slette_how_2019] as events with anomalously dry peak growing season climatic conditions. 
 Specifically, we used the metric of Palmer Drought Severity Index (PDSI) during May-August (MJJA; Table S3), which were identified by @helcoski_growing_2019 as the months of the current year to which annual tree growth was most sensitive at this site. 
 PDSI divisional data for Northern Virginia were obtained from NOAA (https://www7.ncdc.noaa.gov/CDO/CDODivisionalSelect.jsp) in December 2017. 
 Based on this, we identified three drought years - 1966, 1977, and 1999 (Figs. **1**, **S2**, Table S3).
@@ -213,7 +213,7 @@ This term did appear, with positive coefficient, in the best $Rt_{ARIMA}$ model 
 
 *Species' traits and drought resistance*
 
-Species traits... (Table 3, Fig. S#)
+Species traits... (Table 3, Fig. **S4**)
 
 Wood density, $LMA$, and xylem porosity were all poor predictors of $Rt$ (Tables 1,S4-S5). 
 Wood density and $LMA$ were never significantly associated with $Rt$ in the single-variable tests and were therefore excluded from the full models. 
