@@ -96,7 +96,7 @@ write.csv(avg_rt ,"manuscript/tables_figures/publication/mean_rt_by_sp.csv",
 
 ##########################################################################
 ## Figure ??? anova results ####
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=TRUE
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
@@ -155,8 +155,51 @@ summary(bleh[[4]]) #1999
 
 
 
+# looking at traits compared to sp ####
+library(data.table)
+rt <- fread("manuscript/tables_figures/trees_all_sub.csv")
+mo <- trees_all_sub[,.(sp, 
+                                  PLA_dry_percent, mean_TLP_Mpa, 
+                                  height.ln.m, TWI.ln, position_all)]
+mo <- reshape2::melt(mo, id.vars=c("sp"))
+mo <- mo[,value := ifelse(value == "dominant", 1,
+                  ifelse(value == "co-dominant", 2,
+                  ifelse(value == "intermediate", 3,
+                  ifelse(value == "suppressed", 4, value))))
+         ][, `:=` (value = as.numeric(value),
+                   variable = as.character(variable))]
 
+rt <- rt[,year := as.character(year)]
+traits <- c("height.ln.m", "TWI.ln", "position_all", "PLA_dry_percent", "mean_TLP_Mpa")
+layout(matrix(1:6, nrow=2))
 
+gglist <- list()
+for(i in 1:5){
+   gglist[[i]] <- local({
+      i <- i
+      q <- 
+         ggplot(rt) +
+         aes(x = sp, y = get(traits[i])) +
+         geom_boxplot(aes(fill = year), alpha=0.5) +
+         scale_color_discrete() +
+         ylab(traits[i]) +
+         xlab("Species") +
+         theme_minimal() +
+         theme(axis.text = element_text(size=12),
+               axis.text.x=element_text(angle=90),
+               axis.title=element_text(size=12),
+               legend.text=element_text(size=12),
+               legend.title=element_text(size=12))
+      
+      print(q)
+   })
+}
+
+library(ggpubr)
+ggarrange(gglist[[1]], gglist[[2]], gglist[[3]], 
+          gglist[[4]], gglist[[5]], 
+          ncol = 3, nrow = 2,
+          common.legend=TRUE)
 
 #########################################################################
 #2. Figure 3: NEON vertical height profiles with 
@@ -419,15 +462,13 @@ names(glmm_all) <- c("trees_all_sub", "x1966", "x1977", "x1999")
 
 
 #individual test
-fit1 <- glmer(top_models[,"Modnames"][4], 
-              data = model_df[[4]], REML=FALSE, 
+fit1 <- glmer(top_models[,"Modnames"][1], 
+              data = model_df[[1]], REML=FALSE, 
               control = lmerControl(optimizer ="Nelder_Mead"))
-y <- predict(fit1)
-x1999$fit <- y
 
 library(visreg)
-visreg(fit1, "height.ln.m", 
-       ylab="Rt", points=list(col="#55555540", cex=0.25))
+visreg(fit1, "height.ln.m", by="year", overlay=TRUE,
+       ylab="Rt", points=list(col="#55555540", cex=0.25), gg=TRUE)
 
 
 
