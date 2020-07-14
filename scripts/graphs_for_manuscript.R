@@ -159,7 +159,7 @@ summary(bleh[[4]]) #1999
 library(data.table)
 rt <- fread("manuscript/tables_figures/trees_all_sub.csv")
 traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBELJEQJZPPXAC4GV4KS7CZAC2")
-traits_hydr <- traits[,.(sp,PLA_dry_percent, mean_TLP_Mpa)]
+traits_hydr <- traits_hydr[,.(sp,PLA_dry_percent, mean_TLP_Mpa)]
 
 rt <- rt[,year := as.character(year)]
 traits <- c("height.ln.m", "TWI.ln")
