@@ -585,8 +585,8 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #3. mixed effects model for output of #2.
 
 ##start here if just re-running model runs ####
-# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
@@ -629,7 +629,7 @@ sum_mod_traits <- data.frame(
       "resist.value ~ height.ln.m+TWI.ln+position_all+year+(1|sp/tree)"),
   "tested_model" = NA)
 
-sum_mod_traits[, c("null_model_year", "tested_model_year", "dAIC_all", "coef_all", "coef_var_all", "dAIC_1964.1966", "coef_1964.1966", "coef_var_1964.1966", "dAIC_1977", "coef_1977", "coef_var_1977", "dAIC_1999", "coef_1999", "coef_var_1999")] <- NA
+sum_mod_traits[, c("null_model_year", "tested_model_year", "dAIC_all", "coef_all", "coef_var_all", "dAIC_1966", "coef_1966", "coef_var_1966", "dAIC_1977", "coef_1977", "coef_var_1977", "dAIC_1999", "coef_1999", "coef_var_1999")] <- NA
 
 # change factor columns to character
 sum_mod_traits <- sum_mod_traits %>% mutate_if(is.factor, as.character) 
@@ -674,7 +674,7 @@ for (i in seq_along(1:5)){
           #ALL YEARS
           if(j == 1 & h == 1 & k == 1 & l == 1){
             lmm_all <- lapply(models, function(x){
-              fit1 <- glmer(x, data = model_df[[j]], #REML=FALSE, 
+              fit1 <- lmer(x, data = model_df[[j]], REML=FALSE, 
                            control = lmerControl(optimizer ="Nelder_Mead"))
               return(fit1)
             })
@@ -719,7 +719,7 @@ for (i in seq_along(1:5)){
             }
             
             lmm_all <- lapply(models_yr, function(x){
-              fit1 <- glmer(x, data = model_df[[j]], REML=FALSE, 
+              fit1 <- lmer(x, data = model_df[[j]], REML=FALSE, 
                            control = lmerControl(optimizer ="Nelder_Mead"))
               return(fit1)
             })
@@ -783,8 +783,8 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 cand_full <- cand_full[complete.cases(cand_full), ]
 
 #The info in this table is used to update table 4 (Rt) or S4 (arimaratio)
-write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_reform_arimaratio.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/candidate_traits_reform_arimaratio.csv", row.names=FALSE)
+write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_reform_lmer.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/candidate_traits_reform_lmer.csv", row.names=FALSE)
 
 ##3b reform. determine the best full model (expand for fuller explanation) ####
 # this code chunk uses the candidate variables (cand_full) from ##6a to determine
@@ -801,12 +801,10 @@ best_mod_traits <- data.frame("best_model" = NA,
 )
 
 ## ONLY KEEP PLA and TLP as top variables! See Issue #95 on github.
-## best_mod_full should have 4 versions then - 1 with no traits, 2 with one trait
-## each, and 1 with both traits.
 top_vars <- c(unique(cand_full$variable))
 top_vars <- c("PLA_dry_percent+mean_TLP_Mpa") #this should be PLA and TLP
-best_mod_full <- c(paste0("resist.value ~ height.ln.m*TWI.ln+position_all+",
-                          "height.ln.m+TWI.ln+", top_vars,
+best_mod_full <- c(paste0("resist.value ~ height.ln.m*TWI.ln+",
+                          "height.ln.m+TWI.ln+position_all+", top_vars,
                           "+year+(1|sp/tree)"))
 best_mod_full_year <- gsub("/tree", "", best_mod_full)
 best_mod_full_year <- gsub("year\\+", "", best_mod_full_year)
@@ -846,7 +844,7 @@ for (i in seq(along=c(1:4))){
       
       
       lmm_all <- lapply(formula_vec, function(x){
-        fit1 <- glmer(x, data = model_df[[j]], REML=FALSE, 
+        fit1 <- lmer(x, data = model_df[[j]], REML=FALSE,
                      control = lmerControl(optimizer ="Nelder_Mead"))
         return(fit1)
       })
@@ -856,7 +854,7 @@ for (i in seq(along=c(1:4))){
       var_aic$Modnames <- as.character(var_aic$Modnames)
       best_mod_traits$best_model[[i]] <- var_aic$Modnames[[1]]
       
-      #get all mods <1 dAIC
+      #get all mods < threshold dAIC
       var_aic <- var_aic[var_aic$Delta_AICc <= cutoff, ]
       var_aic$mod_no <- rownames(var_aic)
       top <- var_aic[,c(1,4)]
@@ -864,12 +862,14 @@ for (i in seq(along=c(1:4))){
       top$scenario <- mods[[i]]
       top$coef <- NA
       
+      #now we have the top models (<2dAIC) we're presenting, run them again
+      #with REML=TRUE
       for (z in seq(along = lmm_all)){
         for (w in seq(along=1:nrow(var_aic))){
           if (names(lmm_all[z]) == var_aic$Modnames[[w]]){
             
             #run the best model alone with REML=TRUE
-            fit1 <- glmer(formula_vec[[z]], data = model_df[[j]], REML=TRUE, 
+            fit1 <- lmer(formula_vec[[z]], data = model_df[[j]], REML=TRUE,
                          control = lmerControl(optimizer ="Nelder_Mead"))
             
             #get coefficients and put in table
@@ -920,7 +920,7 @@ for (i in seq(along=c(1:4))){
       formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
       
       lmm_all <- lapply(formula_vec, function(x){
-        fit1 <- glmer(x, data = model_df[[j]], REML=FALSE, 
+        fit1 <- lmer(x, data = model_df[[j]], REML=FALSE,
                      control = lmerControl(optimizer ="Nelder_Mead"))
         return(fit1)
       })
@@ -931,19 +931,21 @@ for (i in seq(along=c(1:4))){
       var_aic$Modnames <- as.character(var_aic$Modnames)
       best_mod_traits$best_model[[i]] <- var_aic$Modnames[[1]]
       
-      #get all mods <1 dAIC
+      #get all mods <threshold  dAIC
       var_aic <- var_aic[var_aic$Delta_AICc <= cutoff, ]
       top <- var_aic[,c(1,4)]
       top$Delta_AICc <- round(top$Delta_AICc, 2)
       top$scenario <- mods[[i]]
       top$coef <- NA
       
+      #now we have the top models (<2dAIC) we're presenting, run them again
+      #with REML=TRUE
       for (z in seq(along = lmm_all)){
         for (w in seq(along=1:nrow(var_aic))){
           if (names(lmm_all[z]) == var_aic$Modnames[[w]]){
             
-            #run the best model alone with REML=TRUE
-            fit1 <- glmer(formula_vec[[z]], data = model_df[[j]], #REML=TRUE,
+            #run the model
+            fit1 <- lmer(formula_vec[[z]], data = model_df[[j]], REML=TRUE,
                          control = lmerControl(optimizer ="Nelder_Mead"))
             
             #get coefficients and put in table
@@ -974,8 +976,8 @@ for (i in seq(along=c(1:4))){
   top_models <- rbind(top_models, top)
 }
 
-write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform_arimaratio.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_reform_arimaratio.csv", row.names=FALSE)
+write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform_lmer.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_reform_lmer.csv", row.names=FALSE)
 
 #
 #3bi. VIF; this is for when we fully decide what our best model is!!! ####
@@ -1089,7 +1091,7 @@ for(i in seq(along=patterns)){
 }
 
 #this table is used to fill in Table 5 (Rt) or S5 (arimaratio)
-write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_reform_arimaratio.csv", row.names=FALSE)
+write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_reform_lmer.csv", row.names=FALSE)
 
 ## END OF NORMAL ANALYSIS. 3d and 3e are extra
 
