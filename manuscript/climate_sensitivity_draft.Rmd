@@ -88,7 +88,7 @@ Acknowledgements | 125	||
 
 - We analyzed tree-ring records for twelve species that comprise 97% of the woody productivity of the 25.6-ha ForestGEO plot in a broadleaf deciduous forest of northern Virginia (USA) to test hypotheses on how tree height, microenvironment characteristics, and species' traits shaped drought responses across the three strongest regional droughts over a 60-year period (1950 - 2009). 
 
-- Individual-level drought resistance decreased with tree height, which was overall a stronger predictor than crown exposure. The potentially greater rooting volume of larger trees did not confer an advantage in sites with low topographic wetness index. Resistance was greater among species whose leaves experienced less shrinkage upon desiccation and lost turgor (wilted) at more negative water potentials. 
+- Individual-level drought resistance decreased with tree height, which was strongly correlated with crown exposure. The potentially greater rooting volume of larger trees did not confer an advantage in sites with low topographic wetness index. Resistance was greater among species whose leaves experienced less shrinkage upon desiccation and lost turgor (wilted) at more negative water potentials. 
 
 - We conclude that tree height and hydraulic traits influence growth responses during drought, as recorded in the tree-ring record spanning historical droughts. Thus, these factors can be useful for predicting future drought responses under climate change. 
 
@@ -105,15 +105,19 @@ Debates have also arisen regarding the traits influencing tree growth responses 
 
 Here, we examine how tree height, microenvironment characteristics, and species' traits collectively shape drought responses. 
 We test a series of hypotheses and associated specific predictions (Table 1) based on the combination of tree-ring records from three droughts (1966, 1977, 1999), species functional and hydraulic trait measurements, and census data from a large forest dynamics plot in Virginia, USA (Table 2). 
-First, we focus on the role of tree height and its interaction with microenvironment. 
-We test hypotheses designed to disentangle the relative importance of tree height; crown exposure; and soil water availability, which should be greater for larger trees in dry but not in perpetually wet microsites. 
-Second, we focus on the role of species' functional and hydraulic traits, testing the hypothesis that species’ traits-–particularly leaf hydraulic traits-–predict $Rt$. 
+First, we focus on the role of tree size and its interaction with microenvironment. 
+We examine the contemporary relationship between tree height and microenvironment, including growing season meteorological conditions and crown exposure. 
+We then test whether, consistent with most forests globally, larger-diameter, taller trees tend to have lower drought resistance ($Rt$) in this forest, which is in a region (eastern North America) represented by only two studies in the global review of Bennett et al. (2015).
+We also test for an influence of potential access to available soil water, which should be greater for larger trees in dry but not in perpetually wet microsites. 
+Finally, we focus on the role of species' functional and hydraulic traits, testing the hypothesis that species’ traits-–particularly leaf hydraulic traits-–predict $Rt$. 
 We test predictions that drought resistance is higher in ring-porous than semi-ring and diffuse-porous species, that it is correlated with wood density--either postively [@greenwood_tree_2017] or negatively [@hoffmann_hydraulic_2011]-- and positively correlated with $LMA$, and that hydraulic leaf traits including $PLA_{dry}$ and $\pi_{tlp}$ are better predictors.  
  
 ### Materials and Methods
-*Study site*
+*Study site and microclimate*
 
 Research was conducted at the 25.6-ha ForestGEO (Forest Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38\°53'36.6"N, 78\°08'43.4"W; Fig. **S1**) [@bourg_initial_2013; @andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains near the northern boundary of Shenandoah National Park. Elevations range from 273 to 338 m above sea level with a topographic relief of 65m [@bourg_initial_2013]. Climate is humid temperate, with mean annual temperature of 12.7^$\circ$^C and precipitation of 1005 mm during our study period (1960-2009; source: CRU TS v.4.01; @harris_updated_2014). Dominant tree taxa within this secondary forest include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.; Table 3). 
+
+*To characterize how environmental conditions vary with height, data were obtained from the NEON tower located <1km from the study area via the neonUtilities package [@R-neonUtilities]. We used wind speed, relative humidity, and air temperature data, all measured over a vertical profile spanning heights from 7.2 m to above the top of the tree canopy (31.0 or 51.8m, depending on censor), for the years 2016-2018 [@neon_national_2018]. After filtering for missing and outlier values, we determined the daily minima and maxima, which we then aggregated at the monthly scale.* **(work on organization of this.)**
 
 *Identifying drought years*
 
@@ -155,10 +159,11 @@ Topographic wetness index (TWI) was calculated using the dynatopmodel package in
 
 Hydraulic traits were collected in August 2018 (Tables 2-3; Fig. **S4**). We sampled small sun-exposed branches up to eight meters above ground from three individuals of each species in and around the ForestGEO plot. Sampled branches were re-cut under water at least two nodes above the original cut and re-hydrated overnight in covered buckets under opaque plastic bags before measurements were taken. Rehydrated leaves taken towards the apical end of the branch (n=3 per individual: small, medium, and large) were scanned, weighed, dried at 60$^\circ$ C for $\ge$ 48 hours, and then re-scanned and weighed. Leaf area was calculated from scanned images using the LeafArea R package [@R-LeafArea]. $LMA$ was calculated as the ratio of leaf dry mass to fresh area. $PLA_{dry}$ was calculated as the percent loss of area between fresh and dry leaves. Wood density was calculated for ~1cm diameter stem samples (bark and pith removed) as the ratio of dry weight to fresh volume, which was estimated using Archimedes’ displacement. We used the rapid determination method of @bartlett_rapid_2012 to estimate osmotic potential at turgor loss point ($\pi_{tlp}$). Briefly, two 4 mm diameter leaf discs were cut from each leaf, tightly wrapped in foil, submerged in liquid nitrogen, perforated 10-15 times with a dissection needle, and then measured using a vapour pressure osmometer (VAPRO 5520, Wescor, Logan, UT, USA). Osmotic potential ($\pi_{osm}$) given by the osmometer was used to estimate ($\pi_{tlp}$) using the equation $\pi_{tlp}=0.832 \pi_{osm} ^{-0.631}$ [@bartlett_rapid_2012]. 
 
-To characterize how environmental conditions vary with height, data were obtained from the NEON tower located <1km from the study area via the neonUtilities package [@R-neonUtilities]. We used wind speed, relative humidity, and air temperature data, all measured over a vertical profile spanning heights from 7.2 m to above the top of the tree canopy (31.0 or 51.8m, depending on censor), for the years 2016-2018 [@neon_national_2018]. After filtering for missing and outlier values, we determined the daily minima and maxima, which we then aggregated at the monthly scale.
 
 
 *Statistical Analysis* 
+
+
 
 For each drought year, we calculated drought resistance ($Rt$) as the ratio of basal area increment ($BAI$) during drought to the mean $BAI$ over the five years preceding the drought [@lloret_components_2011]. Thus, $Rt$ values <1 and >1 indicate growth reductions and increases, respectively. Because the $Rt$ metric could be biased by directional pre-drought growth trends, we also tried an intervention time series analysis (ARIMA, [@R-forecast]) that predicted mean drought-year growth based on trends over the past ten years and used this value in place of the five-year mean in calculations of resistance ($Rt_{ARIMA}$= observed $BAI$/ predicted $BAI$). The two metrics were strongly correlated (Fig. **S5**). Because $Rt$ tended to produce more reasonable estimates than $Rt_{ARIMA}$ when there was a large difference between these metrics, we selected $Rt$ as our focal metric, presenting parallel results for $Rt_{ARIMA}$ in the Supplementary Info. We focus exclusively on drought resistance ($Rt$ or $Rt_{ARIMA}$), and not on the resilience metrics described in @lloret_components_2011, because (1) we would expect resilience to be controlled by a different set of mechanisms, and (2) the findings of *[DeSoto et al. (2020)](https://www.nature.com/articles/s41467-020-14300-5)* suggest that $Rt$ is a more important drought response metric for angiosperms. 
 
@@ -188,6 +193,13 @@ All data, code, and results are available through the SCBI-ForestGEO organizatio
 
 ### Results
 
+*Tree height and microenvironment*
+
+In the years for which we have vertical profiles in climate data (2016-2018), taller trees--or those in dominant crown positions-- were generally exposed to higher evaporative demand during the peak growing season months (May-August; Fig. **3**). Specifically, maximum daily wind speeds were significantly higher above the top of the canopy (40-50m) than within and below (10-30m) (Fig. **3a**). Relative humidity was also somewhat lower during June-August, ranging from ~50-80% above the canopy and ~60-90% in the understory (Fig. **3b**). Air temperature did not vary across the vertical profile (Fig. **3c**).
+
+Crown position varied as expected with height (dominant > co-dominant > intermediate > suppressed), but with substantial variation (Fig. **3d**). 
+Correlation between height and canopy position was 0.73.
+
 *Community-level and species' drought responses* 
 
 At the community level, cored trees showed substantial growth reductions in all three droughts, with a mean $Rt$ of 0.86 in 1966 and 1999, and 0.84 in 1977  (Fig. **1b**). Across the entire study period (1950-2009), the focal drought years were the three years with the largest fraction of trees exhibiting $Rt \le 0.7$. Specifically, in each drought, roughly 30% of the cored trees had growth reductions of $\ge$ 30% ($Rt \le 0.7$): 29% in 1966, 32% in 1977, and 27% in 1999. However, some individuals exhibited increased growth, *i.e.*, $Rt > 1.0$: 26% of trees in 1966, 22% in 1977, and 26% in 1999. 
@@ -195,21 +207,12 @@ At the community level, cored trees showed substantial growth reductions in all 
 Responses varied across species and by drought (Fig. 2). 
 Averaged across all droughts, $Rt$ was lowest in *Liriodendron tulipifera* (mean $Rt$ = **0.66**) and highest in *Fagus grandifolia* (mean $Rt$ = **0.99**).
 
-*Tree size, microenvironment, and drought resistance*
+*Tree height, microenvironment, and drought resistance*
 
 Taller trees showed stronger growth reductions during drought when evaluating the three drought years together and for 1966 individually (Table 1; Fig. **4**). 
 Specifically, $ln[H]$ appeared, with negative coefficient, in the best models and all top models (Tables S6-S7).
 For the 1977 drought, $ln[H]$ did not appear in the best model, but was included, with negative coefficient, among the top models--*i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model (Tables 1, S6-S7). 
 For the 1999 drought, $ln[H]$ appeared in no top models for $Rt$ and some top models, with positive coefficient, for $Rt_{ARIMA}$. 
-
-
-Crown position varied as expected with height (dominant > co-dominant > intermediate > suppressed), but with substantial variation (Fig. **3d**). 
-Crown position was not included in any of the top models for all droughts or for 1966 individually (Table 1). 
-It did, however, come out in the best models for 1977 and 1999 (Fig. **4**; Table S6).
-When $Rt_{ARIMA}$ was used as the response variable, crown position was never in a best model, and was included among the top models only for 1977 (Table S7).
-Crown position did not have a consistent influence: dominant trees had the lowest $Rt$ (or $Rt_{ARIMA}$) in 1977, but in 1999 intermediate and suppressed trees had lower $Rt$ (Fig. 4; Tables S6-S7). 
-
-In the years for which we have vertical profiles in climate data (2016-2018), taller trees--or those in dominant crown positions-- were generally exposed to higher evaporative demand during the peak growing season months (May-August; Fig. **3**). Specifically, maximum daily wind speeds were significantly higher above the top of the canopy (40-50m) than within and below (10-30m) (Fig. **3a**). Relative humidity was also somewhat lower during June-August, ranging from ~50-80% above the canopy and ~60-90% in the understory (Fig. **3b**). Air temperature did not vary across the vertical profile (Fig. **3c**).
 
 $Rt$ had a significantly negative response to $ln[TWI]$ in all drought years combined and in 1977 and 1999 individually (Fig. 4, Table S6). 
 When $Rt_{ARIMA}$ was used as the response variable, the effect was significant in all drought years combined and in 1977, and a negative effect of $ln[TWI]$ was included in some of the models in 1966 and 1999 (Table S7).
