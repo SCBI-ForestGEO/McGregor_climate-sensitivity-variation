@@ -622,11 +622,11 @@ sum_mod_traits <- data.frame(
   "variable" = c("rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
   "variable_description" = c("ring.porosity", "percent.loss.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
   "null_model" = 
-    c("resist.value ~ height.ln.m+TWI.ln+position_all+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+TWI.ln+position_all+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+TWI.ln+position_all+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+TWI.ln+position_all+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+TWI.ln+position_all+year+(1|sp/tree)"),
+    c("resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
+      "resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)"),
   "tested_model" = NA)
 
 sum_mod_traits[, c("null_model_year", "tested_model_year", "dAIC_all", "coef_all", "coef_var_all", "dAIC_1966", "coef_1966", "coef_var_1966", "dAIC_1977", "coef_1977", "coef_var_1977", "dAIC_1999", "coef_1999", "coef_var_1999")] <- NA
@@ -804,7 +804,7 @@ best_mod_traits <- data.frame("best_model" = NA,
 top_vars <- c(unique(cand_full$variable))
 top_vars <- c("PLA_dry_percent+mean_TLP_Mpa") #this should be PLA and TLP
 best_mod_full <- c(paste0("resist.value ~ height.ln.m*TWI.ln+",
-                          "height.ln.m+TWI.ln+position_all+", top_vars,
+                          "height.ln.m+TWI.ln+", top_vars,
                           "+year+(1|sp/tree)"))
 best_mod_full_year <- gsub("/tree", "", best_mod_full)
 best_mod_full_year <- gsub("year\\+", "", best_mod_full_year)
@@ -1064,22 +1064,16 @@ if(any(grepl("1", colnames(coeff_new)))){
   
   coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
                              "TWI.ln", "height.ln.m:TWI.ln",
-                             "position_alldominant", "codominant",
-                             "position_allintermediate","position_allsuppressed",
                              "PLA_dry_percent", "mean_TLP_Mpa", "no_vars")]
   colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", 
                            "ln[H]*ln[TWI]",
-                           "D", "C", "I", "S",
                            "PLA", "TLP", "no_vars")
 } else {
   coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
                              "TWI.ln", "height.ln.m:TWI.ln",
-                             "position_alldominant", "codominant",
-                             "position_allintermediate","position_allsuppressed",
                              "PLA_dry_percent", "mean_TLP_Mpa")]
   colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", 
                            "ln[H]*ln[TWI]",
-                           "D", "C", "I", "S",
                            "PLA", "TLP")
 }
 
