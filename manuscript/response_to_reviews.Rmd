@@ -180,7 +180,9 @@ Table 3: please, add also the number of trees, it is more informative than the n
 
 Table 3: the authors could show some test to see if the traits presented are different among species.
 
-**maybe include these in fig with $Rt$ across species? [*issue #100*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)*
+**We now show differences in traits among species in Table S4.**
+
+*need to add ANOVA, prsent reults in paper*
 
 Table S1 and S2: correct R2. 
 
@@ -358,6 +360,10 @@ I enjoyed the paper very much. It’s clearly and succinctly written, and brings
 Main comments
 
 L139-140: makes sense to not core live trees in the plot (surprised you got permission to do this in 2011!). But doesn’t this introduce a bias in your analysis? Trees that died may have had very different responses to drought that those which survived. Do you get similar results if you analyse trees that lived and died separately?
+
+**We agree that this could be a concern, but do not believe it is applicable here, for two reasons. First, this would be more likely to introduce a bias if the trees cored dead were killed by drought. We are aware of studies showing differences in climate sensitivity of trees killed by drought versus those that survived. However,these trees were not killed by drought; there was no significant drought in the years in which dead trees were cored or in the 3 previous years. Second, quoting our previous publication using these cores (Helcoski et al. 2019): " Chronologies of trees cored live and dead were pooled following analyses showing similar climate sensitivity at least up to 2009 (that is excluding 7–8 yr before death) for all four species with ≥ 10 cores in each category (LITU, QURU, QUVE, FRAM; comparison plots available at https://github.c om/SCBI-ForestGEO/climate_sensitivity_cores/tree/master/ results/live_vs_dead).".** 
+
+**To clarify that this shouldn't be an issue, we have added the following sentence (methods section): "We note that drought was probably not a cause of mortality for these trees, as monthly May-Aug $PDSI$ did not drop below -1.75 in these years or the three years prior (2013-2017), and that trees cored dead displayed similar climate sensitivity to trees cored live [@helcoski_growing_2019]."** 
 
 L165-167: I think this needs to be explained more clearly. Why are type I errors unlikely and type II error possible? I also think there are real issue with the analysis of crown position. Presumably on average the crown illumination index of trees would have increased over the past 50 or so years (from suppressed to dominant) as trees grew and neighbouring trees died. So I’m not convinced you can include this in your models going back half a century. It’s just not sensible to assume that crown position would not have changed over such a long time period.
 
