@@ -783,8 +783,8 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 cand_full <- cand_full[complete.cases(cand_full), ]
 
 #The info in this table is used to update table 4 (Rt) or S4 (arimaratio)
-write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_reform_lmer.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/candidate_traits_reform_lmer.csv", row.names=FALSE)
+write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_lmer_CPout.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/candidate_traits_lmer_CPout.csv", row.names=FALSE)
 
 ##3b reform. determine the best full model (expand for fuller explanation) ####
 # this code chunk uses the candidate variables (cand_full) from ##6a to determine
@@ -822,12 +822,12 @@ for (i in seq(along=c(1:4))){
     if(j == 1 & i == 1){
       response <- gsub(" ~.*", "", best_mod_full)
       effects <- unlist(strsplit(best_mod_full, "\\+|~ "))[-1]
-      
+
       #create all combinations of random / fixed effects
-      effects_comb <- 
-        unlist(sapply(seq_len(length(effects)), 
+      effects_comb <-
+        unlist(sapply(seq_len(length(effects)),
                         function(i) {
-                          apply( combn(effects,i), 2, function(x) 
+                          apply( combn(effects,i), 2, function(x)
                             paste(x, collapse = "+"))
                         }))
       #make table
@@ -837,11 +837,11 @@ for (i in seq(along=c(1:4))){
       var_comb <- var_comb[!(str_count(var_comb$Var2, "height.ln.m") == 2) &
                              !(str_count(var_comb$Var2, "TWI.ln") == 2), ]
       #remove double instances of height or TWI (the interaction includes both)
-      
+
       # formulas for all combinations. $Var1 is the response, and $Var2 is the effect
       # for good stats, you should have no more total parameters than 1/10th the number of observations in your dataset
       formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
-      
+     
       
       lmm_all <- lapply(formula_vec, function(x){
         fit1 <- lmer(x, data = model_df[[j]], REML=FALSE,
@@ -901,23 +901,23 @@ for (i in seq(along=c(1:4))){
       #define response and effects
       response <- gsub(" ~.*", "", best_mod_full_year)
       effects <- unlist(strsplit(best_mod_full_year, "\\+|~ "))[-1]
-      
+
       #create all combinations of random / fixed effects
-      effects_comb <- 
-        unlist( sapply( seq_len(length(effects)), 
+      effects_comb <-
+        unlist( sapply( seq_len(length(effects)),
                         function(i) {
-                          apply( combn(effects,i), 2, function(x) 
+                          apply( combn(effects,i), 2, function(x)
                             paste(x, collapse = "+"))
                         }))
       #=make table
-      var_comb <- expand.grid(response, effects_comb) 
+      var_comb <- expand.grid(response, effects_comb)
       var_comb <- var_comb[grepl("1", var_comb$Var2), ] #only keep in fixed+random combos
       var_comb <- var_comb[!(str_count(var_comb$Var2, "height.ln.m") == 2) &
                              !(str_count(var_comb$Var2, "TWI.ln") == 2), ]
       #remove double instances of height or TWI (the interaction includes both)
-      
-      
+
       formula_vec <- sprintf("%s ~ %s", var_comb$Var1, var_comb$Var2)
+      
       
       lmm_all <- lapply(formula_vec, function(x){
         fit1 <- lmer(x, data = model_df[[j]], REML=FALSE,
@@ -976,8 +976,8 @@ for (i in seq(along=c(1:4))){
   top_models <- rbind(top_models, top)
 }
 
-write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_reform_lmer.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_reform_lmer.csv", row.names=FALSE)
+write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_lmer_CPout.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_lmer_CPout.csv", row.names=FALSE)
 
 #
 #3bi. VIF; this is for when we fully decide what our best model is!!! ####
@@ -1059,28 +1059,29 @@ coeff_new$year <- NULL #we ignore year because we assume it's significant
 coeff_new$codominant <- ifelse(!is.na(coeff_new$position_alldominant), 0, NA)
 # coeff_new$rpdiffuse <- ifelse(!is.na(coeff_new$rpring), 0, NA)
 
-#if include RP then do this instead of below
-# coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
-#                            "TWI.ln", "height.ln.m:TWI.ln",
-#                            "position_alldominant", "codominant",
-#                           "position_allintermediate","position_allsuppressed",
-#                           "rpdiffuse", "rpring",
-#                           "PLA_dry_percent", "mean_TLP_Mpa")]
-# colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", 
-#                         "ln[H]*ln[TWI]",
-#                          "D", "C", "I", "S",
-#                          "diffuse", "ring",
-#                          "PLA", "TLP")
-
-coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
-                           "TWI.ln", "height.ln.m:TWI.ln",
-                           "position_alldominant", "codominant",
-                           "position_allintermediate","position_allsuppressed",
-                           "PLA_dry_percent", "mean_TLP_Mpa")]
-colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", "ln[H]*ln[TWI]",
-                         "D", "C", "I", "S",
-                         "PLA", "TLP")
-
+if(any(grepl("1", colnames(coeff_new)))){
+  colnames(coeff_new) <- gsub("1", "no_vars", colnames(coeff_new))
+  
+  coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
+                             "TWI.ln", "height.ln.m:TWI.ln",
+                             "position_alldominant", "codominant",
+                             "position_allintermediate","position_allsuppressed",
+                             "PLA_dry_percent", "mean_TLP_Mpa", "no_vars")]
+  colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", 
+                           "ln[H]*ln[TWI]",
+                           "D", "C", "I", "S",
+                           "PLA", "TLP", "no_vars")
+} else {
+  coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
+                             "TWI.ln", "height.ln.m:TWI.ln",
+                             "position_alldominant", "codominant",
+                             "position_allintermediate","position_allsuppressed",
+                             "PLA_dry_percent", "mean_TLP_Mpa")]
+  colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", 
+                           "ln[H]*ln[TWI]",
+                           "D", "C", "I", "S",
+                           "PLA", "TLP")
+}
 
 coeff_new <- setDT(coeff_new, keep.rownames = TRUE)[]
 setnames(coeff_new, old="rn", new="rank")
@@ -1091,7 +1092,7 @@ for(i in seq(along=patterns)){
 }
 
 #this table is used to fill in Table 5 (Rt) or S5 (arimaratio)
-write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_reform_lmer.csv", row.names=FALSE)
+write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_lmer_CPout.csv", row.names=FALSE)
 
 ## END OF NORMAL ANALYSIS. 3d and 3e are extra
 
