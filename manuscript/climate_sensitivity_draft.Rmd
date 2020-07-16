@@ -207,8 +207,8 @@ In the years for which we have vertical profiles in climate data (2016-2018), ta
 
 $Rt$ had a significantly negative response to $ln[TWI]$ in all drought years combined and in 1977, and a negative effect of $ln[TWI]$ was included in some of the models in 1999 and the $Rt_{ARIMA}$ model for 1966 (Fig. 4, Tables 4-5).
 This negates the idea that trees in moist microsites would be less affected by drought. 
-Nevertheless, we tested for a negative $ln[H] *ln[TWI]$ interaction, which could indicate that smaller trees (with smaller rooting volume) are more susceptible to drought in drier microenvironments with a deeper water table. 
-This hypothesis was rejected, as the $ln[H] *ln[TWI]$ interaction was never the significant, and had a positive sign in any top models  in which it appeared (Tables 1, S6-S7).
+Nevertheless, we tested for a $ln[H] *ln[TWI]$ interaction, a negative sign of which could indicate that smaller trees (with smaller rooting volume) are more susceptible to drought in drier microenvironments with a deeper water table. 
+This hypothesis was rejected, as the $ln[H] *ln[TWI]$ interaction was never significant, and had a positive sign in any top models  in which it appeared (Tables 1, S6-S7).
 This term did appear, with positive coefficient, in the best $Rt_{ARIMA}$ model for all years combined (Table S7).
 
 *Species' traits and drought resistance*
