@@ -167,7 +167,7 @@ Models are ranked by AICc. Shown are all models whose AICc value falls within 2.
 ![Figure S2: Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought](tables_figures/publication/figureS2_drought_plot.jpg){width=600px}
 
 \newpage
-![Figure S3: Height (from reconstructed DBH) by canopy position across the three focal droughts and in the year of measurement (2018)](tables_figures/publication/figureS3_height_plot_analysis.png){width=600px}
+![Figure S3: Height (from reconstructed DBH) by crown position across the three focal droughts and in the year of measurement (2018)](tables_figures/publication/figureS3_height_plot_analysis.png){width=600px}
 
 \newpage
 ![Figure S4: **PLACEHOLDER** ](tables_figures/publication/independent_variables_by_species.png)
