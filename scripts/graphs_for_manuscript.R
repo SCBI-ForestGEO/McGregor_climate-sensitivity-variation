@@ -157,12 +157,14 @@ summary(bleh[[4]]) #1999
 
 # looking at traits compared to sp ####
 library(data.table)
+library(ggplot2)
 rt <- fread("manuscript/tables_figures/trees_all_sub.csv")
 traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBELJEQJZPPXAC4GV4KS7CZAC2")
 traits_hydr <- traits_hydr[,.(sp,PLA_dry_percent, mean_TLP_Mpa)]
 
 rt <- rt[,year := as.character(year)]
 traits <- c("height.ln.m", "TWI.ln")
+ylabs <- c("ln[H]", "ln[TWI]")
 
 gglist <- list()
 for(i in 1:2){
@@ -173,12 +175,12 @@ for(i in 1:2){
          aes(x = sp, y = get(traits[i])) +
          geom_boxplot(alpha=0.5) +
          scale_color_discrete() +
-         ylab(traits[i]) +
+         ylab(ylabs[i]) +
          xlab("Species") +
          theme_minimal() +
          theme(axis.text = element_text(size=12),
                axis.text.x=element_text(angle=90),
-               axis.title=element_text(size=12),
+               axis.title=element_text(size=12, face="bold"),
                legend.text=element_text(size=12),
                legend.title=element_text(size=12))
       
@@ -196,37 +198,45 @@ others <- data.table(sp=c("caco", "cato", "cato", "fagr",
                                     "suppressed"),
                      N=c(0,0,1,0,0,0,1))
 pos <- rbind(pos, others)
+
+library(viridis)
+cols <- viridis(4)
 posplot <-  
    ggplot(pos) +
-   aes(x = sp, y=N, color=position_all) +
-   geom_point(aes(fill=position_all), alpha=0.5) +
+   aes(x = sp, y=N) +
+   geom_point(aes(fill=position_all), color="black", pch=21, size=3) +
    # geom_jitter() +
-   scale_color_discrete() +
+   scale_fill_manual(values=cols) +
    ylab("Count") +
    xlab("Species") +
+   scale_y_continuous(limits = c(-4,150), expand = c(0, 0)) +
+   theme_minimal() +
    theme(axis.text = element_text(size=12),
          axis.text.x=element_text(angle=90),
-         axis.title=element_text(size=12),
+         axis.title=element_text(size=12, face="bold"),
          legend.text=element_text(size=12),
-         legend.title=element_text(size=12))
+         legend.title=element_blank(),
+         legend.position = "bottom")
+   
 
 hydr <- c("PLA_dry_percent", "mean_TLP_Mpa")
+ylabs <- c("PLA", "TLP")
 ggtraits <- list()
 for(i in 1:2){
    ggtraits[[i]] <- local({
       i <- i
       
       q <- 
-         ggplot(traits) +
+         ggplot(traits_hydr) +
          aes(x = sp, y = get(hydr[i])) +
          geom_boxplot(alpha=0.5) +
          scale_color_discrete() +
-         ylab(hydr[i]) +
+         ylab(ylabs[i]) +
          xlab("Species") +
          theme_minimal() +
          theme(axis.text = element_text(size=12),
                axis.text.x=element_text(angle=90),
-               axis.title=element_text(size=12),
+               axis.title=element_text(size=12, face="bold"),
                legend.text=element_text(size=12),
                legend.title=element_text(size=12))
       print(q)
@@ -236,8 +246,10 @@ for(i in 1:2){
 library(ggpubr)
 p <- ggarrange(gglist[[1]], gglist[[2]],
           ggtraits[[1]], ggtraits[[2]],
-          ncol = 2, nrow = 2)
-ggarrange(p, posplot, ncol=2, nrow=1)
+          ncol = 2, nrow = 2,
+          labels=c("(a)", "(b)", "(c)", "(d)"),
+          label.y=c(0.91,0.91,0.91,0.91))
+ggarrange(p, posplot, ncol=2, nrow=1, labels=c("", "(e)"), label.y=c(0.95))
 
 #########################################################################
 #2. Figure 3: NEON vertical height profiles with 
@@ -468,16 +480,18 @@ heights_allplot$tree <- as.character(heights_allplot$tree)
 heights_allplot$position_all_abb <- as.character(heights_allplot$position_all_abb)
 
 ########################################################################
-#5. Visualizing regression output
+#5. Visualizing regression output ####
 # library(visreg)
 library(lme4)
 library(ggpubr)
+# remotes::install_github("pbreheny/visreg")
+library(visreg)
 
 ## https://pbreheny.github.io/visreg/cross.html
 
 trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
 # trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
-top_models <- read.csv("manuscript/tables_figures/top_models_dAIC_reform.csv", stringsAsFactors = FALSE)
+top_models <- read.csv("manuscript/tables_figures/top_models_dAIC_lmer.csv", stringsAsFactors = FALSE)
 top_models <- top_models[top_models$Delta_AICc==0, ]
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
@@ -488,36 +502,117 @@ model_df <- list(trees_all_sub, x1966, x1977, x1999)
 names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
 
 test <- c(1:4)
-glmm_all <- lapply(test, function(x){
-   fit1 <- glmer(top_models[,"Modnames"][x], 
-                 data = model_df[[x]], REML=FALSE, 
+lmm_all <- lapply(test, function(x){
+   fit1 <- lmer(top_models[,"Modnames"][x], 
+                 data = model_df[[x]], REML=TRUE, 
                  control = lmerControl(optimizer ="Nelder_Mead"))
    y <- predict(fit1)
    model_df[[x]][,"fit"] <- y
    return(fit1)
 })
-names(glmm_all) <- c("trees_all_sub", "x1966", "x1977", "x1999")
+names(lmm_all) <- c("trees_all_sub", "x1966", "x1977", "x1999")
 
-fit1 <- glmer(top_models[,"Modnames"][1], 
-              data = model_df[[1]], REML=FALSE, 
+fitall <- lmer(top_models[,"Modnames"][1], 
+              data = model_df[[1]], REML=TRUE, 
               control = lmerControl(optimizer ="Nelder_Mead"))
-fit2 <- glmer(top_models[,"Modnames"][2], 
-              data = model_df[[2]], REML=FALSE, 
+fit66 <- lmer(top_models[,"Modnames"][2], 
+              data = model_df[[2]], REML=TRUE, 
               control = lmerControl(optimizer ="Nelder_Mead"))
-fit3 <- glmer(top_models[,"Modnames"][3], 
-              data = model_df[[3]], REML=FALSE, 
+fit77 <- lmer(top_models[,"Modnames"][3], 
+              data = model_df[[3]], REML=TRUE, 
               control = lmerControl(optimizer ="Nelder_Mead"))
-fit4 <- glmer(top_models[,"Modnames"][4], 
-              data = model_df[[4]], REML=FALSE, 
+fit99 <- lmer(top_models[,"Modnames"][4], 
+              data = model_df[[4]], REML=TRUE, 
               control = lmerControl(optimizer ="Nelder_Mead"))
 
 
 test <- model_df[[1]][,c("resist.value", "height.ln.m")]
 
 library(visreg)
-v <- visregList(visreg(fit2, 'height.ln.m', plot=FALSE),
-                visreg(fit4, 'height.ln.m', plot=FALSE))
-plot(v, overlay=TRUE)
+
+vars <- c("height.ln.m", "position_all", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")
+lab <- c("ln[H]", "CP", "ln[TWI]", "PLA", "TLP")
+
+
+## height
+v <- visregList(visreg(fitall, 'height.ln.m', plot=FALSE),
+                   visreg(fit66, 'height.ln.m', plot=FALSE),
+                   visreg(fit99, 'height.ln.m', plot=FALSE),
+                   labels=c("ALL", "1966", "1999"),
+                   collapse=TRUE)
+q_ht <- plot(v, overlay=TRUE, partial=FALSE, rug=FALSE, gg=TRUE) +
+   guides(fill=FALSE) +
+   scale_color_manual(
+      values = c("black", "red", "blue"),
+      labels=c("All", "1966", "1999"),
+      name="Droughts") +
+   guides(color=guide_legend(override.aes=list(fill=NA))) +
+   ylab("Rt") + xlab("ln[H]")
+
+## TWI
+v <- visregList(visreg(fitall, 'TWI.ln', plot=FALSE),
+                visreg(fit77, 'TWI.ln', plot=FALSE),
+                visreg(fit99, 'TWI.ln', plot=FALSE),
+                labels=c("ALL", "1977", "1999"),
+                collapse=TRUE)
+q_twi <- plot(v, overlay=TRUE, partial=FALSE, rug=FALSE, gg=TRUE) +
+   guides(fill=FALSE) +
+   scale_color_manual(
+      values = c("black", "green", "blue"),
+      labels=c("All",  "1977", "1999"),
+      name="Droughts") +
+   guides(color=guide_legend(override.aes=list(fill=NA))) +
+   ylab("Rt") + xlab("ln[TWI]")
+
+##PLA
+v <- visregList(visreg(fitall, 'PLA_dry_percent', plot=FALSE),
+                visreg(fit66, 'PLA_dry_percent', plot=FALSE),
+                labels=c("ALL", "1966"),
+                collapse=TRUE)
+q_pla <- plot(v, overlay=TRUE, partial=FALSE, rug=FALSE, gg=TRUE) +
+   guides(fill=FALSE) +
+   scale_color_manual(
+      values = c("black", "red"),
+      labels=c("All", "1966"),
+      name="Droughts") +
+   guides(color=guide_legend(override.aes=list(fill=NA))) +
+   ylab("Rt") + xlab("PLA")
+
+##TLP
+v <- visregList(visreg(fitall, 'mean_TLP_Mpa', plot=FALSE),
+                visreg(fit77, 'mean_TLP_Mpa', plot=FALSE),
+                labels=c("ALL", "1977"),
+                collapse=TRUE)
+q_tlp <- plot(v, overlay=TRUE, partial=FALSE, rug=FALSE, gg=TRUE) +
+   guides(fill=FALSE) +
+   scale_color_manual(
+      values = c("black", "green"),
+      labels=c("All", "1977"),
+      name="Droughts") +
+   guides(color=guide_legend(override.aes=list(fill=NA))) +
+   ylab("Rt") + xlab("PLA")
+
+#CP
+v <- visregList(visreg(fit77, 'position_all', plot=FALSE),
+                visreg(fit99, 'position_all', plot=FALSE),
+                labels=c("1977", "1999"),
+                collapse=TRUE)
+q_cp <- 
+   plot(v, overlay=TRUE, partial=FALSE, rug=FALSE, gg=TRUE) +
+   guides(fill=FALSE) +
+   scale_color_manual(
+      values = c("green", "blue"),
+      labels=c("1977", "1999"),
+      name="Droughts") +
+   guides(color=guide_legend(override.aes=list(fill=NA))) +
+   ylab("Rt") + xlab("CP") +
+   theme(axis.text.x = element_text(angle=45))
+
+ggarrange(q_ht, q_twi, q_cp, q_pla, q_tlp, 
+          labels = c("(a)", "(b)", "(c)", "(d)", "(e)"),
+          ncol = 3, nrow = 2,
+          common.legend=FALSE)
+dev.off()
 
 
 #individual test
