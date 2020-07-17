@@ -75,7 +75,7 @@ kable(table2, format = "latex", booktabs = TRUE, caption = "Table 2. Summary of 
   kable_styling()
 ```
 
-*Sample sizes are prior to removal of outliers. Prior to analysis, we discarded # records with $Rt$ >2 and # records with $Rt_{ARIMA}$ >2. 
+*Sample sizes are after removal of outliers, and refer to the $Rt$ model. Dashes indicate that the variable was available for all records.
 
 \clearpage
 
