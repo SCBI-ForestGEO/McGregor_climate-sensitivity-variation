@@ -464,7 +464,11 @@ L160: you mean a log-log regression, right?
 
 L181: N=3 individuals per species is really quite low. In addition, by sampling up to 8 m height you would probably be sampling less exposed branches from taller trees, which could confound your results.
 
+*from Lawren: "Re the trait values, I believe we would see species differences, even with n=3, looking at the means and SD presented. Suggest to run an ANOVA on each trait (and/or a MANOVA on all traits) and put the significance values in a new row in Table 3.  (BTW also suggest limiting values in Table 3 to 3 sig figs, and presenting SE in that Table with the means rather than SD)."*
+
 *from NObby: "Regarding the few individuals I would argue that intraspecific SD was low (less than 10% of the mean values). This justifies - in my opinion - only sampling three individuals. "*
+
+
 
 L188: ‘Wood’.
 
