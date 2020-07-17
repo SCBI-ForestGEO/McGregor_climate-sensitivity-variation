@@ -65,15 +65,13 @@ Parentheses indicate that the prediction was supported by one but not all of the
 library(knitr)
 library(kableExtra)
 table2 <- read.csv("tables_figures/publication/table2_variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-kable(table2, format = "latex", booktabs = TRUE, caption = "Table 2. Summary of dependent and independent variables examined here, along with units, definitions, and sample sizes.", 
+kable(table2, format = "latex", booktabs = TRUE, caption = "Table 2. Summary of dependent and independent variables in our statistical models fo drought resistance, along with units, definitions, and sample sizes.", 
         escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 10, protect_latex = TRUE) %>%
   column_spec(4, width = "7cm") %>%
   pack_rows("Dependent variables", 1, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("Independent variables", 3, 19, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("tree size", 6, 7, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
-  pack_rows("microhabitat", 8, 12, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
-  pack_rows("species' traits", 13, 19, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
+  pack_rows("Independent variables", 3, 14, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("species' traits", 8, 14, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   kable_styling()
 ```
 
