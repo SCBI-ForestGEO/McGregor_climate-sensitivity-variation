@@ -99,9 +99,10 @@ kable(table2, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of 
 
 **Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide responses (b).** Time series plot (**a**) shows peak growing season (May-August) climate conditions and residual chronologies for each species (see Table 3 for codes). PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre-drought period used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (**b**) show the distribution of resistance values for each drought.
 
-**Figure 2. Drought resistance, $Rt$, across species for the three focal droughts.** Drought are color coded as in Fig. 1. Species codes are given in Table 3.
+**Figure 2. Contemporary height profiles in sun exposure and growing season microclimate under non-drought conditions.** Shown are average ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Also shown is (d) tree heights by 2018 crown position. In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.
 
-**Figure 3. Height profiles in growing season climatic conditions and tree heights by crown position** Shown are averages ($\pm$ SD) of daily maxima and minima of (**a**) wind speed, (**b**) relative humidity ($RH$), and (**c**) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Also shown is (**d**) 2018 tree heights by crown position (see Table 2 for codes). In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.
+**Figure 3. Drought resistance, $Rt$, across species for the three focal droughts.** Species codes are given in Table 2.
+
 
 **Figure 4. ...**
 
@@ -112,12 +113,13 @@ kable(table2, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of 
 
 \newpage
 
+![**Figure 2. Contemporary height profiles in sun exposure and growing season microclimate under non-drought conditions.** Shown are average ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Also shown is (d) tree heights by 2018 crown position. In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.](tables_figures/publication/Figure3_NEON_vars_height_profile.png){width=500px}
 
-![**Figure 2. Drought resistance, $Rt$, across species for the three focal droughts.** Drought are color coded as in Fig. 1. Species codes are given in Table 3.](tables_figures/publication/Figure2_rt_across_sp.png){width=500px}
 
 \newpage
 
-![**Figure 3. Height profiles in growing season climatic conditions and tree heights by crown position.** The top row shows averages ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Also shown is (d) 2018 tree heights by crown position (see Table 2 for codes). In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.](tables_figures/publication/Figure3_NEON_vars_height_profile.png){width=500px}
+
+![**Figure 3. Drought resistance, $Rt$, across species for the three focal droughts.** Species codes are given in Table 2.](tables_figures/publication/Figure2_rt_across_sp.png){width=500px}
 
 \newpage
 
