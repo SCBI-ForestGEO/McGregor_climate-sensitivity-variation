@@ -123,4 +123,10 @@ kableExtra::footnote(symbol = c("Semi-ring porosity is intermediate between ring
 
 \newpage
 
-![**Figure 4. Visualization of best models for all droughts combined and for each drought separately.** Model coefficients are given in Table S6. **THIS IS NOT YET CORRECT (having trouble making gg-plot work. THE POSITIVE HEIGHT EFFECT FOR 1999 IS WRONG. FINAL FIG WILL MATCH MODELS IN TABLE S6.** ](tables_figures/publication/regr_visuals.png){width=500px}
+![**Figure 4_option1. Visualization of best model for all droughts combined.** Model coefficients are given in Table S6.** ](tables_figures/publication/best_model_with_data.png){width=500px}
+
+
+
+\newpage
+
+![**Figure 4_option 2. Visualization of best model for all droughts combined and for each drought separately.** Model coefficients are given in Table S6. **confidence intervals would be added.** ](tables_figures/publication/best_models_ind_years.png){width=500px}
