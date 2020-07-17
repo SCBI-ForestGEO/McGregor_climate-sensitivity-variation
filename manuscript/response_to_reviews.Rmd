@@ -23,11 +23,11 @@ Dear Editor:
 
 * At the request of 3 reviewers (R1,R3,R4), we tried an alternate metric of drought resistance (using an ARIMA model to project what growth would have been in drought year based on the trend over the past 10 years). Results were similar, and we now present that as a secondary model (mostly in SI).
 
-* We slightly modified the method of determining which trait variables go into the full model. Specifically, we added the criteria of consistent direction across droughts, and as a result dropped xylem porosity. This also makes sense because the two diffuse porous species (Liriodendron tulipifera and Fagus grandifolia) are at opposite ends of the spectrum in terms of drought resistance. (Side note: this contradicts the current understanding that diffuse porous species in the temperate deciduous biome are more drought sensitive, but not the bigger global picture, as R2 points out.).
-
-* We moved former tables 4 and 5 to the SI.
+* We dropped crown position as a factor in the statistical models of drought resistance, and instead include it as part of an enhanced focus on the differences in microenviroment experienced by trees of different height (now in Table 1; Fig. 2). This change was prompted by comments by two reviewers (**R1, R3**) that canopy position could not be reliably projected back to 1966 or disentagled from height.
 
 * We added two figures: one showing Rt differences across species, and one visualizing the model results  (the latter is not yet right, as gg-plot is being difficult, but will eventually match  the model results.)
+
+* We moved former tables 4 and 5 to the SI.
 
 The result is an easier to read paper with more robust support.
 
@@ -142,11 +142,7 @@ should be rather straightforward and the authors would increase accuracy across 
 
 - Line 266-267: why only in 1966? I think this shows that this variable is not properly assessed. The older the date, the more accurate the estimation of crown position and height were.
 
-**It is true that crown position estimates become more accurate in later dates, but height should be equally reliable across years, having been estimated based on reconstructed DBH. This was not previously clearly specified in the methods. To clarify, we have added the following statement: "We then used these allometries to estimate $H$ for each drought year, $Y$, based on reconstructed $DBH_Y$."**
-
-**We agree that the assessment of crown position is somewhat problematic, both because of its increasing inaccuracy going back through time, and because of collinearity with $H$. However, given that it is both biologically interesting and comes out in our top models, we have chosen to include it. We note that this makes the test of our hypothesis conservative. We are transparent about this issue, to which we devote a paragraph in the discussion (par. 3).**
-
-*see issue on CP!!!!*
+**We no longer attempt to use crown position to describe variation in drought resistance. Instead, we now use it to characterize *contemporary* differences in microenvironmental conditions faced by trees of different heights.**
 
 - Line 275-280: those profiles were assumed a priori in the introduction and are common to any forest. They are indeed interesting to characterise the forest, but they do not add to individual tree variability. You could think to send Figure 2 to an appendix, in consequence, and use figures to show more specific results related to your individual tree analyses.
 
@@ -416,7 +412,8 @@ L287: specify how they were related to drought. Positive? Negative?
 
 Tables and Figures: there are a large number of tables. I wonder if Table 2 and 3 would best fit in supporting information (with key information integrated directly into the text). I also feel that it would be nice to represent some of the key results (e.g., Rt and its relationship to height and leaf hydraulic traits) in a figure.
 
-[*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)
+**We have moved two tables (former tables 4 and 5 to the SI). The best models are now visualized in a figure (Fig. 4). We have also added a figure showing drought response by species.** 
+
 
 ## Referee: 4
 
@@ -460,6 +457,10 @@ L100-101: that is not true really. See for example Zhu et al. (2018) in Tree Phy
 
 L137-140: mixing cores from dying and surviving individuals could be problematic. Did you find any association between survival and previous drought resistance? Was mortality different across species?
 
+**We agree that this could be a concern, but do not believe it is applicable here, for two reasons. First, this would be more likely to introduce a bias if the trees cored dead were killed by drought. We are aware of studies showing differences in climate sensitivity of trees killed by drought versus those that survived. However,these trees were not killed by drought; there was no significant drought in the years in which dead trees were cored or in the 3 previous years. Second, quoting our previous publication using these cores (Helcoski et al. 2019): " Chronologies of trees cored live and dead were pooled following analyses showing similar climate sensitivity at least up to 2009 (that is excluding 7–8 yr before death) for all four species with ≥ 10 cores in each category (LITU, QURU, QUVE, FRAM; comparison plots available at https://github.c om/SCBI-ForestGEO/climate_sensitivity_cores/tree/master/ results/live_vs_dead).".** 
+
+**To clarify that this shouldn't be an issue, we have added the following sentence (methods section): "We note that drought was probably not a cause of mortality for these trees, as monthly May-Aug $PDSI$ did not drop below -1.75 in these years or the three years prior (2013-2017), and that trees cored dead displayed similar climate sensitivity to trees cored live [@helcoski_growing_2019]."** 
+
 L160: you mean a log-log regression, right?
 
 L181: N=3 individuals per species is really quite low. In addition, by sampling up to 8 m height you would probably be sampling less exposed branches from taller trees, which could confound your results.
@@ -467,7 +468,6 @@ L181: N=3 individuals per species is really quite low. In addition, by sampling 
 *from Lawren: "Re the trait values, I believe we would see species differences, even with n=3, looking at the means and SD presented. Suggest to run an ANOVA on each trait (and/or a MANOVA on all traits) and put the significance values in a new row in Table 3.  (BTW also suggest limiting values in Table 3 to 3 sig figs, and presenting SE in that Table with the means rather than SD)."*
 
 *from NObby: "Regarding the few individuals I would argue that intraspecific SD was low (less than 10% of the mean values). This justifies - in my opinion - only sampling three individuals. "*
-
 
 
 L188: ‘Wood’.
