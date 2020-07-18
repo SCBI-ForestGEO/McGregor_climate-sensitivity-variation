@@ -62,12 +62,12 @@ Parentheses indicate that the prediction was supported by one but not all of the
 
 \clearpage
 
-```{r, Table 3, eval=TRUE, echo=FALSE, message=FALSE}
+```{r, Table 2, eval=TRUE, echo=FALSE, message=FALSE}
 library(knitr)
 library(kableExtra)
-table3 <- read.csv("tables_figures/publication/table3_species_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-table3[8,8] <- paste0(table3[8,8], footnote_marker_symbol(1))
-kable(table3, format = "latex", booktabs=TRUE, caption = "Table 2. Overview of analyzed species, listed in order of their relative contributions to woody stem productivity ($ANPP_{stem}$) in the plot, along with numbers and sizes sampled, and species traits. Variable abbreviations are as in Table 3.", escape=FALSE) %>%
+table2 <- read.csv("tables_figures/publication/table2_species_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
+table2[8,8] <- paste0(table2[8,8], footnote_marker_symbol(1))
+kable(table2, format = "latex", booktabs=TRUE, caption = "Table 2. Overview of analyzed species, listed in order of their relative contributions to woody stem productivity ($ANPP_{stem}$) in the plot, along with numbers and sizes sampled, and species traits. Variable abbreviations are as in Table 3.", escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ", "DBH (cm)" = 2, "species traits (mean +/- sd)" = 5)) %>%
   #kable_styling(bootstrap_options = "striped", full_width = FALSE)
@@ -77,11 +77,11 @@ kableExtra::footnote(symbol = c("Semi-ring porosity is intermediate between ring
 
 \clearpage
 
-```{r Table 2, eval = TRUE, echo=FALSE, warning=FALSE}
+```{r Table 3, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-table2 <- read.csv("tables_figures/publication/table2_variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-kable(table2, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of dependent and independent variables in our statistical models fo drought resistance, along with units, definitions, and sample sizes.", 
+table3 <- read.csv("tables_figures/publication/table3_variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
+kable(table3, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of dependent and independent variables in our statistical models fo drought resistance, along with units, definitions, and sample sizes.", 
         escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 10, protect_latex = TRUE) %>%
   column_spec(4, width = "7cm") %>%
@@ -113,16 +113,16 @@ kable(table2, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of 
 
 \newpage
 
-![**Figure 2. Contemporary height profiles in sun exposure and growing season microclimate under non-drought conditions.** Shown are average ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Also shown is (d) tree heights by 2018 crown position. In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.](tables_figures/publication/Figure3_NEON_vars_height_profile.png){width=500px}
+![**Figure 2. Contemporary height profiles in sun exposure and growing season microclimate under non-drought conditions.** Shown are average ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Also shown is (d) tree heights by 2018 crown position. In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.](tables_figures/publication/Figure2_NEON_vars_height_profile.png){width=500px}
 
 
 \newpage
 
 
-![**Figure 3. Drought resistance, $Rt$, across species for the three focal droughts.** Species codes are given in Table 2.](tables_figures/publication/Figure2_rt_across_sp.png){width=500px}
+![**Figure 3. Drought resistance, $Rt$, across species for the three focal droughts.** Species codes are given in Table 2.](tables_figures/publication/Figure3_rt_across_sp.png){width=500px}
 
 \newpage
 
-![**Figure 4_option1. Visualization of best model for all droughts combined.** Model coefficients are given in Table S6.** ](tables_figures/publication/Figure4_model_vis.png){width=500px}
+![**Figure 4. Visualization of best models for all droughts combined and for each individual drought year.** Model coefficients are given in Table S6. ](tables_figures/publication/Figure4_model_vis.png){width=500px}
 
 
