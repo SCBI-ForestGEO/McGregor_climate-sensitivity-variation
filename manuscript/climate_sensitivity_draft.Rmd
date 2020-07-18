@@ -205,10 +205,11 @@ At the community level, cored trees showed substantial growth reductions in all 
 
 *Tree height, microenvironment, and drought resistance*
 
-Taller trees showed stronger growth reductions during drought when evaluating the three drought years together and for 1966 individually (Table 1; Fig. **4**). 
-Specifically, $ln[H]$ appeared, with negative coefficient, in the best models and all top models (Tables S6-S7).
+Taller trees showed stronger growth reductions during drought (Table 1; Fig. **4**). 
+Specifically, $ln[H]$ appeared, with negative coefficient, in the best model and all top models when evaluating the three drought years together (Tables S6-S7). 
+The same held true for 1966 individually.
 For the 1977 drought, $ln[H]$ did not appear in the best model, but was included, with negative coefficient, among the top models--*i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model (Tables 1, S6-S7). 
-For the 1999 drought, $ln[H]$ appeared in no top models for $Rt$ and some top models, with positive coefficient, for $Rt_{ARIMA}$. 
+For the 1999 drought, $ln[H]$ had no signficant effect. 
 
 $Rt$ had a significantly negative response to $ln[TWI]$ in all drought years combined and in 1977 and 1999 individually (Fig. 4, Table S6). 
 When $Rt_{ARIMA}$ was used as the response variable, the effect was significant in all drought years combined and in 1977, and a negative effect of $ln[TWI]$ was included in some of the models in 1966 and 1999 (Table S7).
