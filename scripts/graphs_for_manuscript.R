@@ -270,6 +270,28 @@ source('scripts/vertical_height_neon.R', echo=TRUE)
 NEON_list <- list(wind_plot, RH_plot, SAAT_plot) #,"biotemp_plot")
 names(NEON_list) <- c("wind_plot", "RH_plot", "SAAT_plot") #,"biotemp_plot
 
+##run anova
+library(data.table)
+set.seed(587)
+neonanov <- as.data.table(neon_data_all)
+neon10 <- 
+   neonanov[verticalPosition == min(verticalPosition, na.rm=TRUE), 
+            .(verticalPosition, variable= get(dp$value[1:3][i]))]
+neon40 <- 
+   neonanov[verticalPosition == max(verticalPosition, na.rm=TRUE), 
+            .(verticalPosition, variable= get(dp$value[1:3][i]))]
+
+neonav <- rbind(neon10, neon40)
+neonav <- neonav[,verticalPosition := factor(verticalPosition)]
+
+#are the data normal? if pvalue is significant, then no
+#if normal, then can do t-test. Good pval means yes means are sig diff
+#if not normal, then need to run wilcox. Good pval means the two
+# groups are sign diff
+shapiro.test(sample(neon10$variable, size=5000))
+shapiro.test(sample(neon40$variable, size=5000))
+wilcox.test(variable ~ verticalPosition, data=neonav)
+
 ##2b. Format the NEON plots ####
 NEON_order <- c("(a)", "(b)", "(c)")
 NEON_order_x <- c(0.5, 35, 7.5)
@@ -492,7 +514,6 @@ trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", strings
 # trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
 top_models <- read.csv("manuscript/tables_figures/top_models_dAIC_lmer_CPout.csv", stringsAsFactors = FALSE)
 top_models <- top_models[top_models$Delta_AICc==0, ]
-top_models <- top_models[c(1,5,6,12), ]
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
@@ -504,11 +525,112 @@ names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
 fitall <- lmer(top_models[,"Modnames"][1], 
               data = model_df[[1]], REML=TRUE, 
               control = lmerControl(optimizer ="Nelder_Mead"))
+fit66 <- lmer(top_models[,"Modnames"][2], 
+               data = model_df[[2]], REML=TRUE, 
+               control = lmerControl(optimizer ="Nelder_Mead"))
+fit77 <- lmer(top_models[,"Modnames"][3], 
+               data = model_df[[3]], REML=TRUE, 
+               control = lmerControl(optimizer ="Nelder_Mead"))
+fit99 <- lmer(top_models[,"Modnames"][4], 
+               data = model_df[[4]], REML=TRUE, 
+               control = lmerControl(optimizer ="Nelder_Mead"))
 
 library(bootpredictlme4)
-predict(fitall, re.form=NA, se.fit=TRUE, nsim=250)
+predict(fitall, re.form=NA, se.fit=TRUE, nsim=100)
 
-## height
+#plot fits for each drought scenario models separately (and overlay with visreg)
+v <- visregList(
+   visreg(fitall, 'height.ln.m', plot=FALSE),
+   visreg(fit66, 'height.ln.m', plot=FALSE),
+                   labels=c("All", "1966"),
+                   collapse=TRUE)
+q_ht <- plot(v, overlay=TRUE, gg=TRUE, 
+             partial=FALSE, rug=FALSE,
+             fill.par=list(alpha=0.2)) +
+   guides(fill=FALSE) +
+   scale_color_manual(
+      values = c("black", "#FF9999"),
+      labels=c("All", "1966"),
+      name="Droughts") +
+   scale_fill_manual(values=c("black", "#FF9999")) +
+   guides(color=guide_legend(override.aes=list(fill=NA))) +
+   ylab("Rt") + xlab("ln[H]") +
+   ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
+   theme(legend.position="none") +
+   theme_minimal()
+
+## TWI
+v <- visregList(visreg(fitall, 'TWI.ln', plot=FALSE),
+                visreg(fit77, 'TWI.ln', plot=FALSE),
+                visreg(fit99, 'TWI.ln', plot=FALSE),
+                labels=c("ALL", "1977", "1999"),
+                collapse=TRUE)
+q_twi <- plot(v, overlay=TRUE, gg=TRUE, 
+              partial=FALSE, rug=FALSE,
+              fill.par=list(alpha=0.2)) +
+   guides(fill=FALSE) +
+   scale_color_manual(
+      values = c("black", "#009900", "#6699CC"),
+      labels=c("All", "1977", "1999"),
+      name="Droughts") +
+   scale_fill_manual(values=c("black", "#009900", "#6699CC")) +
+   guides(color=guide_legend(override.aes=list(fill=NA))) +
+   ylab("Rt") + xlab("ln[TWI]") +
+   ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
+   theme(legend.position="none") +
+   theme_minimal()
+
+##PLA
+v <- visregList(
+   visreg(fitall, 'PLA_dry_percent', plot=FALSE),
+   visreg(fit66, 'PLA_dry_percent', plot=FALSE),
+   labels=c("All", "1966"), 
+                collapse=TRUE)
+q_pla <- plot(v, overlay=TRUE, gg=TRUE, 
+              partial=FALSE, rug=FALSE, 
+              fill.par=list(alpha=0.2),) +
+   guides(fill=FALSE) +
+   scale_color_manual(
+      values = c("black", "#FF9999"),
+      labels=c("All", "1966"),
+      name="Droughts") +
+   scale_fill_manual(values=c("black", "#FF9999")) +
+   guides(color=guide_legend(override.aes=list(fill=NA))) +
+   ylab("Rt") + xlab("PLA") +
+   ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
+   theme(legend.position="none") +
+   theme_minimal()
+
+##TLP
+v <- visregList(visreg(fitall, 'mean_TLP_Mpa', plot=FALSE),
+                visreg(fit77, 'mean_TLP_Mpa', plot=FALSE),
+                # visreg(fit99, 'mean_TLP_Mpa', plot=FALSE),
+                labels=c("ALL", "1977"),
+                collapse=TRUE)
+q_tlp <- plot(v, overlay=TRUE, gg=TRUE, 
+              partial=FALSE, rug=FALSE,
+              fill.par=list(alpha=0.2)) +
+   guides(fill=FALSE) +
+   scale_color_manual(
+      values = c("black", "#009900"),
+      labels=c("All", "1977"),
+      name="Droughts") +
+   scale_fill_manual(values=c("black", "#009900")) +
+   guides(color=guide_legend(override.aes=list(fill=NA))) +
+   ylab("Rt") + xlab("TLP") +
+   ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
+   theme(legend.position="none") +
+   theme_minimal()
+
+ggarrange(q_ht, q_twi, q_pla, q_tlp, 
+          labels = c("(a)", "(b)", "(c)", "(d)"),
+          label.y=0.94,
+          ncol = 2, nrow = 2,
+          common.legend=FALSE)
+dev.off()
+
+
+## only plot the all-years model with visreg ####
 xl <- c("ln[H]", "ln[TWI]", "PLA", "TLP")
 vars <- c("height.ln.m", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")
 
@@ -533,132 +655,10 @@ legend(x = "top",inset = 0,
        legend = c("1966", "1977", "1999"), 
        col=plot_colors, lwd=3, cex=1, horiz = TRUE)
 
-
-
-
 ggarrange(plot_list[[1]], plot_list[[2]], plot_list[[3]], plot_list[[4]], 
           labels = c("(a)", "(b)", "(c)", "(d)"),
           ncol = 2, nrow = 2,
           common.legend=FALSE)
-
-visreg(fitall, vars[i],
-       points=list(col=c("#FF9999", "#009900", "#6699CC")),
-       line=list(col="black"), xlab="", ylab="")
-title(x="ln[H]", y="Rt")
-abline(h=1, lty=2)
-   
-   
-   scale_color_manual(
-      values = c("red", "green", "blue"),
-      labels=c("1966", "1977", "1999"),
-      name="Droughts") +
-   ylab("Rt") + xlab(xl[i]) +
-   theme_minimal()
-
-
-
-
-
-
-
-
-visreg(fitall, 'height.ln.m', plot=TRUE,
-       points=list(col="#55555540", cex=0.25), gg=TRUE) +
-   ylab("Rt") + xlab("ln[H]") +
-   theme_minimal()
-
-visreg(fitall, 'height.ln.m', plot=TRUE,
-       points=list(col="#55555540", cex=0.25), gg=TRUE) +
-   ylab("Rt") + xlab("ln[H]") +
-   theme_minimal()
-
-visreg(fitall, 'height.ln.m', plot=TRUE,
-       points=list(col="#55555540", cex=0.25), gg=TRUE) +
-   ylab("Rt") + xlab("ln[H]") +
-   theme_minimal()
-
-
-v <- visregList(visreg(fitall, 'height.ln.m', plot=FALSE, points),
-                   # visreg(fit66, 'height.ln.m', plot=FALSE),
-                   labels=c("ALL"),
-                   collapse=TRUE)
-q_ht <- plot(v, overlay=TRUE, gg=TRUE) +
-   guides(fill=FALSE) +
-   scale_color_manual(
-      values = c("black"),
-      labels=c("All"),
-      name="Droughts") +
-   guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab("Rt") + xlab("ln[H]") +
-   theme(legend.position="none")
-
-## TWI
-v <- visregList(visreg(fitall, 'TWI.ln', plot=FALSE),
-                # visreg(fit77, 'TWI.ln', plot=FALSE),
-                # visreg(fit99, 'TWI.ln', plot=FALSE),
-                labels=c("ALL"),
-                collapse=TRUE)
-q_twi <- plot(v, overlay=TRUE, gg=TRUE) +
-   guides(fill=FALSE) +
-   scale_color_manual(
-      values = c("black"),
-      labels=c("All"),
-      name="Droughts") +
-   guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab("Rt") + xlab("ln[TWI]") +
-   theme(legend.position="none")
-
-##PLA
-v <- visregList(visreg(fitall, 'PLA_dry_percent', plot=FALSE),
-                # visreg(fit66, 'PLA_dry_percent', plot=FALSE),
-                labels=c("ALL"),
-                collapse=TRUE)
-q_pla <- plot(v, overlay=TRUE, gg=TRUE) +
-   guides(fill=FALSE) +
-   scale_color_manual(
-      values = c("black"),
-      labels=c("All"),
-      name="Droughts") +
-   guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab("Rt") + xlab("PLA") +
-   theme(legend.position="none")
-
-##TLP
-v <- visregList(visreg(fitall, 'mean_TLP_Mpa', plot=FALSE),
-                # visreg(fit77, 'mean_TLP_Mpa', plot=FALSE),
-                # visreg(fit99, 'mean_TLP_Mpa', plot=FALSE),
-                labels=c("ALL"),
-                collapse=TRUE)
-q_tlp <- plot(v, overlay=TRUE, gg=TRUE) +
-   guides(fill=FALSE) +
-   scale_color_manual(
-      values = c("black"),
-      labels=c("All"),
-      name="Droughts") +
-   guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab("Rt") + xlab("TLP") +
-   theme(legend.position="none")
-# 
-# #CP
-# v <- visregList(visreg(fit77, 'position_all', plot=FALSE),
-#                 visreg(fit99, 'position_all', plot=FALSE),
-#                 labels=c("1977", "1999"),
-#                 collapse=TRUE)
-# q_cp <- 
-#    plot(v, overlay=TRUE, partial=FALSE, rug=FALSE, gg=TRUE) +
-#    guides(fill=FALSE) +
-#    scale_color_manual(
-#       values = c("green", "blue"),
-#       labels=c("1977", "1999"),
-#       name="Droughts") +
-#    guides(color=guide_legend(override.aes=list(fill=NA))) +
-#    ylab("Rt") + xlab("CP") +
-#    theme(axis.text.x = element_text(angle=45))
-
-
-dev.off()
-
-
 
 ## using ggplot (not ideal bc can't handle lmer) ####
 library(ggplot2)

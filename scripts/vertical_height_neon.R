@@ -40,6 +40,7 @@ years <- c("2016", "2017", "2018")
 
 #this loop for some reason isn't producing plotly graphs that will work, but everything else runs smoothly
 
+alldt <- list()
 for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs sun threshold)
   neon_data_all <- NULL
   value <- dp$value[[i]]
@@ -116,11 +117,14 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
   
   #the 10m air temperature values are completely off, and stop at 19 May 2018. The sensor is broken and hasn't been fixed
   if (value == "tempSingleMean"){
-    neon_data_all$tempSingleMean <- ifelse(neon_data_all$verticalPosition == 10 & 
-                                          grepl("2018", neon_data_all$day), NA, 
-                                           neon_data_all$tempSingleMean)
+    neon_data_all$tempSingleMean <- 
+      ifelse(neon_data_all$verticalPosition == 10 & 
+               grepl("2018", neon_data_all$day), NA, 
+               neon_data_all$tempSingleMean)
   }
- 
+  
+  #put full df in list to run anova later
+  alldt[[i]] <- neon_data_all
   
   #get mean of values per month per verticalPosition
   data_analy <- neon_data_all %>% 
@@ -243,7 +247,7 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
     assign(paste0(dp$data[[i]], "_plot"), graph)
   }
 }
-
+names(alldt) <- dp$value[1:3]
 
 
 # #arrange all graphs together and save image ####
