@@ -536,97 +536,132 @@ fit99 <- lmer(top_models[,"Modnames"][4],
                control = lmerControl(optimizer ="Nelder_Mead"))
 
 library(bootpredictlme4)
-predict(fitall, re.form=NA, se.fit=TRUE, nsim=100)
+predict(fitall, re.form=NA, se.fit=TRUE, nsim=1000)
 
 #plot fits for each drought scenario models separately (and overlay with visreg)
-v <- visregList(
-   visreg(fitall, 'height.ln.m', plot=FALSE),
-   visreg(fit66, 'height.ln.m', plot=FALSE),
-                   labels=c("All", "1966"),
+v <- visregList(visreg(fit66, 'height.ln.m', plot=FALSE),
+                visreg(fitall, 'height.ln.m', plot=FALSE),
+                   labels=rev(c("All", "1966")),
                    collapse=TRUE)
 q_ht <- plot(v, overlay=TRUE, gg=TRUE, 
              partial=FALSE, rug=FALSE,
              fill.par=list(alpha=0.2)) +
-   guides(fill=FALSE) +
+   # guides(fill=FALSE) +
    scale_color_manual(
-      values = c("black", "#FF9999"),
-      labels=c("All", "1966"),
+      values = rev(c("black", "#FF9999")),
+      labels=rev(c("All", "1966")),
       name="Droughts") +
-   scale_fill_manual(values=c("black", "#FF9999")) +
-   guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab("Rt") + xlab("ln[H]") +
+   scale_fill_manual(values=rev(c("black", "#FF9999"))) +
+   # guides(color=guide_legend(override.aes=list(fill=NA))) +
+   ylab(expression(R[t])) + xlab(expression(ln[H])) +
    ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
-   theme(legend.position="none") +
-   theme_minimal()
+   theme_minimal() +
+   theme(legend.position="none",
+         axis.text = element_text(size=12),
+         axis.title = element_text(size=14))
 
 ## TWI
-v <- visregList(visreg(fitall, 'TWI.ln', plot=FALSE),
+v <- visregList(visreg(fit99, 'TWI.ln', plot=FALSE),
                 visreg(fit77, 'TWI.ln', plot=FALSE),
-                visreg(fit99, 'TWI.ln', plot=FALSE),
-                labels=c("ALL", "1977", "1999"),
+               visreg(fitall, 'TWI.ln', plot=FALSE),
+                labels=rev(c("ALL", "1977", "1999")),
                 collapse=TRUE)
 q_twi <- plot(v, overlay=TRUE, gg=TRUE, 
               partial=FALSE, rug=FALSE,
               fill.par=list(alpha=0.2)) +
    guides(fill=FALSE) +
    scale_color_manual(
-      values = c("black", "#009900", "#6699CC"),
-      labels=c("All", "1977", "1999"),
+      values = rev(c("black", "#009900", "#6699CC")),
+      labels=rev(c("All", "1977", "1999")),
       name="Droughts") +
-   scale_fill_manual(values=c("black", "#009900", "#6699CC")) +
+   scale_fill_manual(values=rev(c("black", "#009900", "#6699CC"))) +
    guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab("Rt") + xlab("ln[TWI]") +
+   ylab(expression(R[t])) + xlab(expression(ln[TWI])) +
    ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
-   theme(legend.position="none") +
-   theme_minimal()
+   theme_minimal() +
+   theme(legend.position="none",
+         axis.text = element_text(size=12),
+         axis.title = element_text(size=14))
 
 ##PLA
 v <- visregList(
-   visreg(fitall, 'PLA_dry_percent', plot=FALSE),
    visreg(fit66, 'PLA_dry_percent', plot=FALSE),
-   labels=c("All", "1966"), 
+   visreg(fitall, 'PLA_dry_percent', plot=FALSE),
+   labels=rev(c("All", "1966")), 
                 collapse=TRUE)
 q_pla <- plot(v, overlay=TRUE, gg=TRUE, 
               partial=FALSE, rug=FALSE, 
               fill.par=list(alpha=0.2),) +
    guides(fill=FALSE) +
    scale_color_manual(
-      values = c("black", "#FF9999"),
-      labels=c("All", "1966"),
+      values = rev(c("black", "#FF9999")),
+      labels=rev(c("All", "1966")),
       name="Droughts") +
-   scale_fill_manual(values=c("black", "#FF9999")) +
+   scale_fill_manual(values=rev(c("black", "#FF9999"))) +
    guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab("Rt") + xlab("PLA") +
+   ylab(expression(R[t])) + xlab(expression(PLA)) +
    ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
-   theme(legend.position="none") +
-   theme_minimal()
+   theme_minimal() +
+   theme(legend.position="none",
+         axis.text = element_text(size=12),
+         axis.title = element_text(size=14))
 
 ##TLP
-v <- visregList(visreg(fitall, 'mean_TLP_Mpa', plot=FALSE),
-                visreg(fit77, 'mean_TLP_Mpa', plot=FALSE),
+v <- visregList(visreg(fit77, 'mean_TLP_Mpa', plot=FALSE),
+               visreg(fitall, 'mean_TLP_Mpa', plot=FALSE),
                 # visreg(fit99, 'mean_TLP_Mpa', plot=FALSE),
-                labels=c("ALL", "1977"),
+                labels=c("1977", "All"),
                 collapse=TRUE)
 q_tlp <- plot(v, overlay=TRUE, gg=TRUE, 
               partial=FALSE, rug=FALSE,
               fill.par=list(alpha=0.2)) +
    guides(fill=FALSE) +
    scale_color_manual(
-      values = c("black", "#009900"),
-      labels=c("All", "1977"),
+      values = rev(c("black", "#009900")),
+      labels=rev(c("All", "1977")),
       name="Droughts") +
-   scale_fill_manual(values=c("black", "#009900")) +
+   scale_fill_manual(values=rev(c("black", "#009900"))) +
    guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab("Rt") + xlab("TLP") +
+   ylab(expression(R[t])) + xlab(expression(pi[TLP])) +
    ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
-   theme(legend.position="none") +
-   theme_minimal()
+   theme_minimal() +
+   theme(legend.position="none",
+         axis.text = element_text(size=12),
+         axis.title = element_text(size=14))
 
-ggarrange(q_ht, q_twi, q_pla, q_tlp, 
+## make legend
+library(grid)
+library(gridExtra)
+trees_all_sub$year <- "all"
+full <- rbind(trees_all_sub, x1966, x1977, x1999)
+full$color <- 
+   ifelse(full$year=="all", "black",
+          ifelse(full$year=="1966", "#FF9999",
+                 ifelse(full$year=="1977", "#009900","#6699CC")))
+cols <- unique(full$color)
+
+w <- ggplot(full) +
+   aes(height.ln.m, resist.value) +
+   geom_line(aes(color=year), size=1.2, alpha=0.8) +
+   facet_wrap(~year) +
+   scale_color_manual(name="Droughts",
+                      labels=c("All", "1966", "1977", "1999"),
+                      values = cols) +
+   theme(legend.text = element_text(size=12),
+         legend.title=element_text(size=14))
+legend <- cowplot::get_legend(w)
+
+## put all together
+png("manuscript/tables_figures/publication/Figure4_model_vis.png", height=480, width=600)
+arr <- ggarrange(q_ht, q_twi, q_pla, q_tlp, 
           labels = c("(a)", "(b)", "(c)", "(d)"),
-          label.y=0.94,
+          label.x=0.15,
+          label.y=1,
           ncol = 2, nrow = 2,
           common.legend=FALSE)
+
+grid.arrange(arr, legend, ncol=2, widths=c(4,1))
+
 dev.off()
 
 
