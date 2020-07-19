@@ -623,7 +623,7 @@ t <- t +
 
 png("manuscript/tables_figures/publication/figureS1_location_cored_trees.png", width=5, height=7, units="in", res=300)
 
-t <- t + #add north arrow
+t + #add north arrow
    layer({
       SpatialPolygonsRescale(layout.north.arrow(),
                              offset = c(747380,4309123),
