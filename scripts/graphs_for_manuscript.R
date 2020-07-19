@@ -137,7 +137,7 @@ ggplot(full) +
    theme(axis.text.x = element_text(angle = 90))
 
 
-# Figure 5 (?) anova of traits compared to sp ####
+# Figure S3 (?) anova of traits compared to sp ####
 library(data.table)
 library(ggplot2)
 library(agricolae)
@@ -633,7 +633,7 @@ t + #add north arrow
 dev.off()
 
 ########################################################################
-#4. Figure S3: height by crown position in 2018
+#4. Other Figure (not in pub): height by crown position in 2018
 ## necessary packages ####
 library(RCurl) #2
 library(tidyr) #2
@@ -663,7 +663,7 @@ heights_allplot$position_all_abb <- factor(heights_allplot$position_all_abb, lev
 heights_allplot$year <- as.character(heights_allplot$year)
 heights_allplot <- heights_allplot[order(heights_allplot$tree, heights_allplot$year), ]
 
-png("manuscript/tables_figures/publication/figureS3_height_plot_analysis.png")
+png("manuscript/tables_figures/figureS3_height_plot_analysis.png")
 ggplot(na.omit(heights_allplot), aes(position_all_abb, height.m)) +
    geom_boxplot(aes(fill=year)) +
    xlab("Crown position") +
