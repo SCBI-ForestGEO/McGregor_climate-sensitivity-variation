@@ -252,7 +252,7 @@ p <- ggarrange(gglist[[1]], gglist[[2]],
 ggarrange(p, posplot, ncol=2, nrow=1, labels=c("", "(e)"), label.y=c(0.95))
 
 #########################################################################
-#2. Figure 3: NEON vertical height profiles with 
+#2. Figure 2: NEON vertical height profiles with 
 ## necessary packages and define 95% quantile height ####
 library(ggpubr)
 library(extrafont)
@@ -262,40 +262,125 @@ library(stringi)
 
 loadfonts(device="win") #to get TNR
 
-quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 38.34479m
+# quantile(current_ht$height.m, c(.95), na.rm=TRUE) #95% quantile = 38.34479m
 quant <- data.frame(yintercept = 38.34479, Lines = "95th percentile")
 
-##2a. Get NEON plots ####
-source('scripts/vertical_height_neon.R', echo=TRUE)
-NEON_list <- list(wind_plot, RH_plot, SAAT_plot) #,"biotemp_plot")
-names(NEON_list) <- c("wind_plot", "RH_plot", "SAAT_plot") #,"biotemp_plot
+##2a. Load NEON plots ####
+# source('scripts/vertical_height_neon.R', echo=TRUE)
+load("data/physical/neondata.Rdata")
+load("data/physical/neonplots.Rdata")
+NEON_list <- plotlist; rm(plotlist)
 
-##run anova
-library(data.table)
-set.seed(587)
-neonanov <- as.data.table(neon_data_all)
-neon10 <- 
-   neonanov[verticalPosition == min(verticalPosition, na.rm=TRUE), 
-            .(verticalPosition, variable= get(dp$value[1:3][i]))]
-neon40 <- 
-   neonanov[verticalPosition == max(verticalPosition, na.rm=TRUE), 
-            .(verticalPosition, variable= get(dp$value[1:3][i]))]
-
-neonav <- rbind(neon10, neon40)
-neonav <- neonav[,verticalPosition := factor(verticalPosition)]
-
-#are the data normal? if pvalue is significant, then no
-#if normal, then can do t-test. Good pval means yes means are sig diff
-#if not normal, then need to run wilcox. Good pval means the two
-# groups are sign diff
-shapiro.test(sample(neon10$variable, size=5000))
-shapiro.test(sample(neon40$variable, size=5000))
-wilcox.test(variable ~ verticalPosition, data=neonav)
+##2ai. run anova (only necessary if need to recalculate what's sig) ####
+# library(data.table)
+# library(lubridate)
+# 
+# value <- c("windSpeedMean", "RHMean", "tempSingleMean")
+# month_var <- c("May", "Jun", "Jul", "Aug")
+# 
+# dtfull <- NULL
+# for(i in 1:3){
+#    dt <- as.data.table(alldt[[i]])
+#    dt <- dt[, month := as.character(lubridate::month(
+#       startDateTime, label=TRUE))]
+#    
+#    dt_full_sub <- NULL
+#    for(k in 1:4){
+#       dt_sub <- dt[month==month_var[k], ]
+#       month_sub <- month_var[k]
+#       
+#       dtout_sub <- NULL
+#       for(j in 1:2){
+#          if(j==1){
+#             
+#             #get min value per day per verticalPosition
+#             neon <- dt_sub[,.(val = min(get(value[i]), na.rm=TRUE)),
+#                        by=.(day, verticalPosition)
+#                        ][,val := ifelse(grepl("Inf", val), NA, val)]
+#             type <- "min"
+#             
+#             small <- neon[verticalPosition == min(verticalPosition, 
+#                                                   na.rm=TRUE), 
+#                           .(verticalPosition, val)]
+#             large <- neon[verticalPosition == max(verticalPosition, 
+#                                                   na.rm=TRUE), 
+#                           .(verticalPosition, val)]
+#             testdt <- rbind(small, large)
+#             
+#          } else {
+#             #get max value per day per verticalPosition
+#             neon <- dt_sub[,.(val = max(get(value[i]), na.rm=TRUE)),
+#                        by=.(day, verticalPosition)
+#                        ][,val := ifelse(grepl("Inf", val), NA, val)]
+#             type <- "max"
+#             
+#             small <- neon[verticalPosition == min(verticalPosition, 
+#                                                   na.rm=TRUE), 
+#                           .(verticalPosition, val)]
+#             large <- neon[verticalPosition == max(verticalPosition, 
+#                                                   na.rm=TRUE), 
+#                           .(verticalPosition, val)]
+#             testdt <- rbind(small, large)
+#          }
+#          
+#          #now check if the values at 10m are signif diff from values at 60m
+#          #are the data normal? if pvalue is sig, then no.
+#          #if normal, then can do t-test. Good pval means yes means are sig diff
+#          #if not normal, then need to run wilcox. Good pval means the two
+#          # groups are sign diff
+#          
+#          if(nrow(neon)>0){
+#             ss <- shapiro.test(small$val)
+#             sl <- shapiro.test(large$val)
+#          } else {
+#             ss <- NA
+#             sl <- NA
+#          }
+#          
+#          if(all(is.na(ss) & is.na(sl))){
+#             final <- NA
+#             outcome <- "NA"
+#             typetest <- "no data"
+#             ssp <- NA
+#             slp <- NA
+#             finalp <- NA
+#          } else if(all(ss$p.value < 0.05 & sl$p.value < 0.05)){
+#             final <- wilcox.test(val ~ verticalPosition, data=testdt)
+#             outcome <- ifelse(final$p.value < 0.05, "yes", "no")
+#             typetest <- "wilcox"
+#             ssp <- ss$p.value
+#             slp <- sl$p.value
+#             finalp <- final$p.value
+#          } else {
+#             final <- t.test(val ~ verticalPosition, data=testdt)
+#             outcome <- ifelse(final$p.value < 0.05, "yes", "no")
+#             typetest <- "t-test"
+#             ssp <- ss$p.value
+#             slp <- sl$p.value
+#             final <- final$p.value
+#          }
+#          
+#          dtout <- data.table(variable=value[i],
+#                              valtype = type,
+#                              month = month_sub, 
+#                              shapiro_smallht_p = ssp,
+#                              shapiro_largeht_p = slp,
+#                              test = typetest,
+#                              full_p = finalp,
+#                              signif_diff = outcome) 
+#          dtout_sub <- rbind(dtout_sub, dtout)
+#       }
+#       dt_full_sub <- rbind(dt_full_sub, dtout_sub)
+#    }
+#    dtfull <- rbind(dtfull, dt_full_sub)
+# }
+# 
 
 ##2b. Format the NEON plots ####
 NEON_order <- c("(a)", "(b)", "(c)")
-NEON_order_x <- c(0.5, 35, 7.5)
+NEON_order_x <- c(0.35, 30, 6)
 NEON_order_y <- c(57.5, 57.5, 57.5)
+
 for (i in seq(along=1:3)){
    NEON_list[[i]] <-
       NEON_list[[i]] +
@@ -307,6 +392,15 @@ for (i in seq(along=1:3)){
    if(i==1){
       NEON_list[[i]] <-
          NEON_list[[i]] +
+         geom_point(aes(x=c(0.4), y=c(44), shape=8), color="blue", size=3) +
+         geom_point(aes(x=c(0.3), y=c(42), shape=8), color="darkgreen", size=3) +
+         geom_point(aes(x=c(0.5), y=c(42), shape=8), color="darkorange", size=3) +
+         geom_point(aes(x=c(0.6), y=c(44), shape=8), color="red", size=3) +
+         geom_point(aes(x=c(4), y=c(42), shape=8), color="blue", size=3) +
+         geom_point(aes(x=c(4.6), y=c(42), shape=8), color="darkgreen", size=3) +
+         geom_point(aes(x=c(5.1), y=c(42), shape=8), color="red", size=3) +
+         geom_point(aes(x=c(5.5), y=c(42), shape=8), color="darkorange", size=3) +
+         scale_shape_identity() +
          theme(legend.title = element_blank(),
                legend.box = "vertical",
                legend.position = c(0.8, 0.25),
@@ -326,9 +420,24 @@ for (i in seq(along=1:3)){
    if(i==2){
       NEON_list[[i]] <- 
          NEON_list[[i]] +
+         geom_point(aes(x=c(40.5), y=c(55), shape=8), color="red", size=3) +
+         geom_point(aes(x=c(76), y=c(55), shape=8), color="red", size=3) +
+         geom_point(aes(x=c(44), y=c(55), shape=8), color="darkgreen", size=3) +
+         geom_point(aes(x=c(83), y=c(55), shape=8), color="darkgreen", size=3) +
+         geom_point(aes(x=c(53.5), y=c(55), shape=8), color="blue", size=3) +
+         scale_shape_identity() +
          theme(axis.title.y = element_blank(),
                axis.text.y=element_blank(),
                axis.ticks.y=element_blank())
+   }
+   #may = darkorange, june=red, july=darkgreen, aug=blue
+   if(i==3){
+      NEON_list[[i]] <- 
+         NEON_list[[i]] +
+         geom_point(aes(x=c(12.25), y=c(42), shape=8), color="darkorange", size=3) +
+         geom_point(aes(x=c(25), y=c(42), shape=8), color="red", size=3) +
+         geom_point(aes(x=c(26), y=c(42), shape=8), color="blue", size=3) +
+         scale_shape_identity()
    }
 }
 
@@ -368,6 +477,9 @@ current_ht$dbh.ln.cm <- log(current_ht$dbh_old.cm)
 
 #this csv is created from #4 of canopy_heights.R
 height_regr <- read.csv("manuscript/tables_figures/publication/tableS2_height_regression.csv", stringsAsFactors = FALSE)
+height_regr$sp <- as.character(c("caco", "cagl", "caovl", "cato",
+                                 "fagr", "litu", "qual", "qupr",
+                                 "quru", "all"))
 
 current_ht$height.ln.m <- NA
 for(w in seq(along=height_regr$sp)){
@@ -406,23 +518,40 @@ heights_box <-
    xlab("Crown position") +
    ylab("Height [m]") +
    scale_y_continuous(breaks = scales::pretty_breaks(n = 6), limits=c(0,60)) +
+   scale_x_discrete(labels=c("dominant", "co-dominant",
+                             "intermediate", "suppressed"),) +
    theme_minimal() +
    theme(axis.text = element_text(size=12)) +
    theme(axis.title = element_text(size=14))
+
+##2ci. anova for height vs crown position ####
+anovout <- aov(height.ln.m ~ position_all_abb, data=current_ht)
+
+output <- TukeyHSD(anovout)
+ne <- as.data.frame(output$position_all_abb)
 ##2d. Format the height boxplot and add to NEON, export ####
 heights_box <-
    heights_box + 
    theme_bw(base_size = 16) + 
    # theme_bw(base_family = "serif") + #for TNR font
    geom_hline(aes(yintercept = yintercept), linetype = "longdash", quant) +
-   annotate(geom="text", x=0.8, y=57.5, 
-            label = "d", fontface="bold", size=7) +
+   annotate(geom="text", x=0.65, y=57.5, 
+            label = "(d)", fontface="bold", size=7) +
+   annotate(geom="text", x=1, y=60, label = "A", size=4) +
+   annotate(geom="text", x=2, y=60, label = "B", size=4) +
+   annotate(geom="text", x=3, y=60, label = "C", size=4) +
+   annotate(geom="text", x=4, y=60, label = "D", size=4) +
+   # geom_point(aes(x=c(1), y=c(60), shape=8), size=3) +
+   # geom_point(aes(x=c(2), y=c(60), shape=8), size=3) +
+   # geom_point(aes(x=c(3), y=c(60), shape=8), size=3) +
+   # geom_point(aes(x=c(4), y=c(60), shape=8), size=3) +
+   # scale_shape_identity() +
    theme(axis.title.y = element_blank(),
          axis.text.y=element_blank(),
          axis.ticks.y=element_blank())
 
 ###put plots together
-png("manuscript/tables_figures/publication/Figure3_NEON_vars_height_profile.png", width=11, height=11, units="in", res=300)
+png("manuscript/tables_figures/publication/Figure2_NEON_vars_height_profile.png", width=11, height=11, units="in", res=300)
 ggarrange(NEON_list$wind_plot, NEON_list$RH_plot, NEON_list$SAAT_plot, heights_box,
           nrow=2, ncol=2, align="h")
 dev.off()
@@ -553,7 +682,7 @@ q_ht <- plot(v, overlay=TRUE, gg=TRUE,
       name="Droughts") +
    scale_fill_manual(values=rev(c("black", "#FF9999"))) +
    # guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab(expression(R[t])) + xlab(expression(ln[H])) +
+   ylab("Rt") + xlab("ln[H]") +
    ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
    theme_minimal() +
    theme(legend.position="none",
@@ -576,7 +705,7 @@ q_twi <- plot(v, overlay=TRUE, gg=TRUE,
       name="Droughts") +
    scale_fill_manual(values=rev(c("black", "#009900", "#6699CC"))) +
    guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab(expression(R[t])) + xlab(expression(ln[TWI])) +
+   ylab("Rt") + xlab("ln[TWI]") +
    ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
    theme_minimal() +
    theme(legend.position="none",
@@ -599,7 +728,7 @@ q_pla <- plot(v, overlay=TRUE, gg=TRUE,
       name="Droughts") +
    scale_fill_manual(values=rev(c("black", "#FF9999"))) +
    guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab(expression(R[t])) + xlab(expression(PLA)) +
+   ylab("Rt") + xlab(expression(PLA[dry])) +
    ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
    theme_minimal() +
    theme(legend.position="none",

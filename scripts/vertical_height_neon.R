@@ -41,12 +41,15 @@ years <- c("2016", "2017", "2018")
 #this loop for some reason isn't producing plotly graphs that will work, but everything else runs smoothly
 
 alldt <- list()
+plotlist <- list()
 for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs sun threshold)
+  plotlist[[i]] <- local({
+    i <- i
   neon_data_all <- NULL
   value <- dp$value[[i]]
   
   for (j in seq(along=years)){
-    if (value != "RHMean" | j != 1){
+    # if (value != "RHMean" | j != 1){
       
       #this first if...else statement is due to an error with API. I've been told by 
       #NEON (Claire Lunch) that it has been fixed and will be updated with the CRAN
@@ -100,20 +103,21 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
       
       neon_data_all <- rbind(neon_data_all, neon_data_sub)
       
-    } else if(value == "RHMean" & j == 1){ #no RH data for 2016, so have to recreate the df to make sure code runs
-      neon_data_sub[, 3] <- NULL
-      neon_data_sub[, value] <- NA
-      neon_data_sub <- neon_data_sub[, c(1:2,4,3)]
-      
-      neon_data_sub$verticalPosition <- ifelse(neon_data_sub$verticalPosition == 20, 
-                                               60, 
-                                               neon_data_sub$verticalPosition)
-      neon_data_sub <- neon_data_sub[neon_data_sub$verticalPosition %in% c(0, 60), ]
-      neon_data_sub$day <- str_replace(neon_data_sub$day, "2018", "2016")
-      
-      neon_data_all <- rbind(neon_data_all, neon_data_sub)
-    }
-  }
+    } 
+  # else if(value == "RHMean" & j == 1){ #no RH data for 2016, so have to recreate the df to make sure code runs
+  #     neon_data_sub[, 3] <- NULL
+  #     neon_data_sub[, value] <- NA
+  #     neon_data_sub <- neon_data_sub[, c(1:2,4,3)]
+  #     
+  #     neon_data_sub$verticalPosition <- ifelse(neon_data_sub$verticalPosition == 20, 
+  #                                              60, 
+  #                                              neon_data_sub$verticalPosition)
+  #     neon_data_sub <- neon_data_sub[neon_data_sub$verticalPosition %in% c(0, 60), ]
+  #     neon_data_sub$day <- str_replace(neon_data_sub$day, "2018", "2016")
+  #     
+  #     neon_data_all <- rbind(neon_data_all, neon_data_sub)
+  #   }
+  # }
   
   #the 10m air temperature values are completely off, and stop at 19 May 2018. The sensor is broken and hasn't been fixed
   if (value == "tempSingleMean"){
@@ -122,9 +126,6 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
                grepl("2018", neon_data_all$day), NA, 
                neon_data_all$tempSingleMean)
   }
-  
-  #put full df in list to run anova later
-  alldt[[i]] <- neon_data_all
   
   #get mean of values per month per verticalPosition
   data_analy <- neon_data_all %>% 
@@ -246,8 +247,18 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
   } else {
     assign(paste0(dp$data[[i]], "_plot"), graph)
   }
+  print(graph)
+  })
+  
+  #put full df in list to run anova later
+  alldt[[i]] <- neon_data_all
 }
+
 names(alldt) <- dp$value[1:3]
+names(plotlist) <- c("wind_plot", "RH_plot", "SAAT_plot")
+
+save(alldt, file="data/physical/neondata.Rdata")
+save(plotlist, file="data/physical/neonplots.Rdata")
 
 
 # #arrange all graphs together and save image ####
