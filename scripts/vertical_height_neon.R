@@ -43,8 +43,7 @@ years <- c("2016", "2017", "2018")
 alldt <- list()
 plotlist <- list()
 for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs sun threshold)
-  plotlist[[i]] <- local({
-    i <- i
+  
   neon_data_all <- NULL
   value <- dp$value[[i]]
   
@@ -127,6 +126,9 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
                neon_data_all$tempSingleMean)
   }
   
+  #put full df in list to run anova later
+  alldt[[i]] <- neon_data_all
+  
   #get mean of values per month per verticalPosition
   data_analy <- neon_data_all %>% 
     group_by(day, verticalPosition) %>% 
@@ -199,6 +201,9 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
                                   data_analy$verticalPosition - 0.05)))))))
   }
   
+  ##make plots and save to list
+  plotlist[[i]] <- local({
+    i <- i
   graph <-
     data_analy %>%
       arrange(verticalPosition) %>%
@@ -249,9 +254,6 @@ for (i in seq(along=dp$value[1:3])){ #4 is biotemp and 5 is radiation (cloud vs 
   }
   print(graph)
   })
-  
-  #put full df in list to run anova later
-  alldt[[i]] <- neon_data_all
 }
 
 names(alldt) <- dp$value[1:3]

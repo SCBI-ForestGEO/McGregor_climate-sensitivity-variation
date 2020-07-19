@@ -751,7 +751,7 @@ q_tlp <- plot(v, overlay=TRUE, gg=TRUE,
       name="Droughts") +
    scale_fill_manual(values=rev(c("black", "#009900"))) +
    guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab(expression(R[t])) + xlab(expression(pi[TLP])) +
+   ylab("Rt") + xlab(expression(pi[TLP])) +
    ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
    theme_minimal() +
    theme(legend.position="none",
