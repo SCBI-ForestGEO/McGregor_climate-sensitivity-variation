@@ -3,7 +3,7 @@
 # Developed by Ian McGregor, contact Anderson-Teixeira (teixeirak@si.edu)
 # First created November 2019
 ################################################################
-#Table 3 ####
+#Table 2 ####
 
 # necessary packages
 library(RCurl)
@@ -53,9 +53,9 @@ dbh_cored <- species[,c(1:9)]
 
 dbh_cored <- dbh_cored %>%
   group_by(sp) %>%
-  summarise(mean = mean(dbh2018),
-            min = min(dbh2018),
-            max = max(dbh2018))
+  summarise(mean = mean(dbh2018/10),
+            min = min(dbh2018/10),
+            max = max(dbh2018/10))
 dbh_cored$mean <- round(dbh_cored$mean, 2)
 dbh_cored$range <- paste0(dbh_cored$min, " - ", dbh_cored$max)
 dbh_cored[,c("min", "max")] <- NULL
@@ -81,7 +81,7 @@ table2$percent.ANPP <- c(2, 3.7, 1.1,
 
 
 #get standard deviation
-org_traits <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEKYJX6WD25ZOZTZOFK7CI7AK", stringsAsFactors = FALSE)
+org_traits <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEKXLSB4H62QPT3RZQC7DWCPE", stringsAsFactors = FALSE)
 
 table2$`$PLA$ (\\%)_sd` <- org_traits$PLA_dry_percent_sd[match(table2$sp, org_traits$sp)]
 table2$`$LMA$ ($\frac{g}{cm^2}$)_sd` <- org_traits$LMA_g_per_m2_sd[match(table2$sp, org_traits$sp)]
@@ -103,7 +103,7 @@ table2[8,6] <- "semi-ring*" #change juni ring porosity
 
 
 
-write.csv(table2, "manuscript/tables_figures/publication/table3_species_table.csv", row.names=FALSE)
+write.csv(table2, "manuscript/tables_figures/publication/table2_species_table.csv", row.names=FALSE)
 # write.csv(table2_SI, "manuscript/tables_figures/publication/TableS2.csv", row.names=FALSE)
 
 
