@@ -574,19 +574,45 @@ color_pallete_function <- colorRampPalette(
    space = "Lab" # Option used when colors do not represent a quantitative scale
 )
 species_colors <- color_pallete_function(nlevels(species$sp_fact))
+# coltab <- data.frame(sp = unique(cored$sp), cols = species_colors)
+# 
+# cored$cols <- as.character(coltab$cols[match(cored$sp, coltab$sp)])
 
 cored_points <- SpatialPointsDataFrame(data.frame(species$NAD83_X, species$NAD83_Y), data=species)
 
 plot.new()
+t <- levelplot(topo, margin=FALSE, scales=list(draw=FALSE),
+               key=list(space="right",
+                        text=list(lab=levels(cored_points@data$sp_fact)),
+                        points=list(pch=20, fill=species_colors, 
+                                    col=species_colors)),
+               colorkey=list(space="left", width=0.75, height=0.75)) +
+   layer(sp.points(cored_points, pch=20, 
+                   col = species_colors[species$sp_fact]))
+#add scale bar at bottom
+t <- t +
+   layer({
+      xs <- seq(747553, 747653, by=20)
+      grid.rect(x=xs, y=4308515,
+                width=20, height=5,
+                gp=gpar(fill=rep(c("white", "black"), 3)),
+                default.units='native')
+      grid.text(x= xs - 5, y=4308530, seq(0, 100, by=20),
+                gp=gpar(col="white", cex=0.5),
+                default.units='native')
+   })
 
 png("manuscript/tables_figures/publication/figureS1_location_cored_trees.png", width=5, height=7, units="in", res=300)
-levelplot(topo, margin=FALSE, scales=list(draw=FALSE), 
-          key=list(space="right",
-                   text=list(lab=levels(cored_points@data$sp_fact)),
-                   points=list(pch=20, fill=species_colors, col=species_colors)),
-          colorkey=list(space="left", width=0.75, height=0.75)) +
-   layer(sp.points(cored_points, pch=20, col = species_colors[species$sp_fact]))
+
+t <- t + #add north arrow
+   layer({
+      SpatialPolygonsRescale(layout.north.arrow(),
+                             offset = c(747380,4309123),
+                             scale = 40,
+                             col="white")
+   })
 dev.off()
+
 ########################################################################
 #4. Figure S3: height by crown position in 2018
 ## necessary packages ####
