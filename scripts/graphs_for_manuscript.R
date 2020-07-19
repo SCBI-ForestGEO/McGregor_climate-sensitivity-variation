@@ -95,7 +95,7 @@ write.csv(avg_rt ,"manuscript/tables_figures/publication/mean_rt_by_sp.csv",
           row.names = FALSE)
 
 ##########################################################################
-## Figure ??? anova results ####
+## SI figure anova results full model ####
 trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
@@ -137,30 +137,33 @@ ggplot(full) +
    theme(axis.text.x = element_text(angle = 90))
 
 
-
-
-anova_out <- NULL
-for(i in 1:4){
-   output <- TukeyHSD(bleh[[2]])
-   ne <- as.data.frame(output$sp)
-   out <- data.frame(drought = names(model_df[2]),
-                     occ = rownames(ne),
-                     pval = ne$`p adj`)
-}
-
-summary(bleh[[1]]) #all years
-summary(bleh[[2]]) #1966
-summary(bleh[[3]]) #1977
-summary(bleh[[4]]) #1999
-
-
-
-# looking at traits compared to sp ####
+# Figure 5 (?) anova of traits compared to sp ####
 library(data.table)
 library(ggplot2)
+library(agricolae)
 rt <- fread("manuscript/tables_figures/trees_all_sub.csv")
 traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBELJEQJZPPXAC4GV4KS7CZAC2")
 traits_hydr <- traits_hydr[,.(sp,PLA_dry_percent, mean_TLP_Mpa)]
+
+varlist <- list()
+var <- c("height.ln.m", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")
+for(i in 1:4){
+   
+   if(i %in% c(1,2)){
+      anovout <- aov(get(var[i]) ~ sp, data=rt)
+   } else {
+      anovout <- aov(get(var[i]) ~ sp, data=traits_hydr)
+   }
+   hsdout <- HSD.test(anovout, "sp")
+   grouptab <- hsdout$groups
+   grouptab$var <- var[i]
+   grouptab <- grouptab[order(rownames(grouptab)), ]
+   grouptab$groups <- as.character(grouptab$groups)
+   
+   varlist[[i]] <- grouptab
+}
+names(varlist) <- var
+# View(varlist[["height.ln.m"]])
 
 rt <- rt[,year := as.character(year)]
 traits <- c("height.ln.m", "TWI.ln")
@@ -168,6 +171,7 @@ ylabs <- c("ln[H]", "ln[TWI]")
 
 gglist <- list()
 for(i in 1:2){
+   varnm <- traits[[i]]
    gglist[[i]] <- local({
       i <- i
       q <- 
@@ -183,6 +187,13 @@ for(i in 1:2){
                axis.title=element_text(size=12, face="bold"),
                legend.text=element_text(size=12),
                legend.title=element_text(size=12))
+      
+      if(i==1){ypos <- 4.1} else {ypos <- 2.75}
+      
+      q <- q +
+         annotate("text", 
+                  x=1:12, y= ypos, size=3, angle=45,
+                  label=varlist[[varnm]]$groups)
       
       print(q)
    })
@@ -220,9 +231,10 @@ posplot <-
    
 
 hydr <- c("PLA_dry_percent", "mean_TLP_Mpa")
-ylabs <- c("PLA", "TLP")
+ylabs <- c(expression(PLA[dry]), expression(pi[TLP]))
 ggtraits <- list()
 for(i in 1:2){
+   varnm <- hydr[[i]]
    ggtraits[[i]] <- local({
       i <- i
       
@@ -239,6 +251,12 @@ for(i in 1:2){
                axis.title=element_text(size=12, face="bold"),
                legend.text=element_text(size=12),
                legend.title=element_text(size=12))
+      
+      if(i==1){ypos <- 32} else {ypos <- -1.68}
+      q <- q +
+         annotate("text", 
+                  x=1:12, y= ypos, size=3, angle=45,
+                  label=varlist[[varnm]]$groups)
       print(q)
    })
 }
@@ -249,8 +267,9 @@ p <- ggarrange(gglist[[1]], gglist[[2]],
           ncol = 2, nrow = 2,
           labels=c("(a)", "(b)", "(c)", "(d)"),
           label.y=c(0.91,0.91,0.91,0.91))
+png("manuscript/tables_figures/publication/Figure5_traits_signif.png", width=960, height=480)
 ggarrange(p, posplot, ncol=2, nrow=1, labels=c("", "(e)"), label.y=c(0.95))
-
+dev.off()
 #########################################################################
 #2. Figure 2: NEON vertical height profiles with 
 ## necessary packages and define 95% quantile height ####
@@ -270,7 +289,7 @@ quant <- data.frame(yintercept = 38.34479, Lines = "95th percentile")
 load("data/physical/neondata.Rdata")
 load("data/physical/neonplots.Rdata")
 NEON_list <- plotlist; rm(plotlist)
-
+#
 ##2ai. run anova (only necessary if need to recalculate what's sig) ####
 # library(data.table)
 # library(lubridate)
@@ -537,10 +556,10 @@ heights_box <-
    geom_hline(aes(yintercept = yintercept), linetype = "longdash", quant) +
    annotate(geom="text", x=0.65, y=57.5, 
             label = "(d)", fontface="bold", size=7) +
-   annotate(geom="text", x=1, y=60, label = "A", size=4) +
-   annotate(geom="text", x=2, y=60, label = "B", size=4) +
-   annotate(geom="text", x=3, y=60, label = "C", size=4) +
-   annotate(geom="text", x=4, y=60, label = "D", size=4) +
+   annotate(geom="text", x=1:4, y=60, label = c("A","B","C","D"), size=4) +
+   # annotate(geom="text", x=2, y=60, label = "B", size=4) +
+   # annotate(geom="text", x=3, y=60, label = "C", size=4) +
+   # annotate(geom="text", x=4, y=60, label = "D", size=4) +
    # geom_point(aes(x=c(1), y=c(60), shape=8), size=3) +
    # geom_point(aes(x=c(2), y=c(60), shape=8), size=3) +
    # geom_point(aes(x=c(3), y=c(60), shape=8), size=3) +
