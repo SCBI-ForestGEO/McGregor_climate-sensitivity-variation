@@ -239,13 +239,24 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 77 In the concluding sentence, “greater growth reductions” came as a surprise because I thought that the focus was greater vulnerability/ mortality. Also, there are convincing theoretical and empirical reasons to think that large trees don’t slow down e.g. (Sillett et al., 2010; Selaya & Anten, 2010; Michaletz et al., 2014).
 
+*We've ensured that language at the start of the paragraph refers to growth: "Many studies have shown that within and across species, large trees tend to be more affected by drought. Greater growth reductions for larger trees were first shown on a global scale by @bennett_larger_2015, and subsequent studies have reinforced this finding [*e.g.*, @hacket-pain_consistent_2016; **REF**]. "*
+
+**Regarding the issue of whether large trees slow down or not as they age, that's another (very interesting) issue. The cited references apply to non-drought situations, and I'd see drought response versus age-related growth patterns as largely independent. In this study, it shouldn't matter because our resistance metric takes the ratio of growth during drought relative to what would be expected based on recent years.**
+
+
 96 this all seems compelling. To make the point stronger, either justify that the leaf traits are causally more important, or that, while they make up part of a unified hydraulic system all of whose components are important, leaf traits are simply easier to measure and this justifies their study. The latter position seems most plausible to me.
+
+**We have revised this paragraph to make the latter point: "Both traits correlate with hydraulic vulnerability and drought tolerance as part of unified plant hydraulic systems [@scoffoni_leaf_2014; @bartlett_correlations_2016]."**
 
 102 great questions, though within-species comparisons are likely to be most informative here, and your mixed model design is in accord with this; just being cautious because sometimes it’s seductive to regard selection acting between rather than within species
 
 **Thank you.**
 
 105 this sounds great, but was a little unclear. When you say “first, we test…” I thought that you would examine a relationship between microsite and some tree characteristic, e.g. that the largest trees are in moist microsites. But the next sentence didn’t refer to a tree-microsite correlation but vulnerability-size. It would be good to clarify the prose here because these are very important passages.  The third sentence did seem to be about tree-microsite correlations.
+
+**We have considerably resivesd this paragraph. It now reads as follows: **
+
+*insert text*
 
 112 wasn’t clear where the “ring porous more drought resistant” hypothesis came from. Global data show that ring porous species are almost entirely restricted to the north temperate zone, especially deciduous broadleaf forests (Wheeler et al., 2007). They are virtually absent in drylands, especially warm tropical drylands. Species in drylands are almost overwhelmingly diffuse porous; the high wood density species in chaparrals and in some desert plants can be semi ring porous (Olson et al., in press).
 
@@ -259,19 +270,31 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 113 These correlations seem reasonable, e.g. see (Méndez-Alonzo et al., 2012)
 
+**Thank you.**
+
 124 and Table 3. This seems like a good palette of species because they are very different in their hydraulic construction. In addition to libriform fibers, oaks have very abundant vasicentric tracheids, especially in latewood. This means that the oaks will likely maintain some conductance even under highly negative tensions. This is not by virtue of their ring porosity (note that most oaks globally aren’t ring porous!), but because of the high proportion of vasicentric tracheids in their latewood. Liriodendron (diffuse porous, scalariform perforation plates) and Carya (likely ring porous at your locality; simple perforation plates) both have libriform fibers and lack vasicentric tracheids. See the data in (Olson et al., in press). There is relatively low family-level diversity represented here; our phylogenetic analyses (Olson et al., in press) suggest that there is very little phylogenetic signal in the conduit diameter-stem length relationship, so this could help justify if necessary not including phylogeny in the analyses.
 
-*this is new terminology to me. Look into Olson et al. in press. Would these wood traits be worth including as covariates?*
+**Thank you.**
 
 127 “tree size”= height?
 
+**Yes; clarified.**
+
 138 you might discuss the adequacy of the height range studied. If it is true that conduit diameter predicts vulnerability, then the greatest differences in vulnerability should be over the height range over which conduit diameter changes most rapidly. The relationship between conduit diameter and plant height turns out to follow a power-law like distribution, see for example the SI in (Olson et al., 2018). This means that differences in vulnerability should be very marked across smaller size classes (say below 7 m or so and very marked below 3 m) and be less and less visible across larger plants. So, studies of changes in conduit diameter/ vulnerability with height would ideally include plants smaller than those included here, so maybe comment on how the height range might affect the ability to detect the patterns of interest. It strikes me that it is appropriate because it is the height range over which the putative preferential susceptibility of large trees to drought is being observed.
+
+**Our trees were mostly above the 3 or 7m threshold. It's important to note that the DBH and height at the time of coring did not correspond to that at the time of drought. Still, the minimum height was about 5m, so we'd presumably be mostly missing that range of most dramatic changes in conduit diameter. It could be interesting to try to align the size range over which Rt changes most dramatically with those over which conduit diameter and microclimate change most rapidly, but unfortunately that's beyond the scope here.** 
+
+*need to put something in the text here. Line 138 was where we talked about the sizes of cored trees.*
+
+*https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/121*
 
 173 TWI seems like an appropriate index for characterizing microsite, with the expectation that individuals in moister areas should be more buffered from drought.
 
 **Thank you.**
 
 209 It couldn’t hurt to define basal area increment
+
+**Done.**
 
 227 the nesting seems appropriate and sufficient for taking species/ “phylogeny” into account
 
@@ -341,6 +364,7 @@ Rosell JA, Olson ME. 2014. Do lianas really have wide vessels? Vessel diameter�
 Sack L, Scoffoni C, McKown AD, Rawls M, Havran JC, Tran H, Tran T. 2012. Developmentally based scaling of leaf venation architecture explains global ecological patterns. Nature Communications 3: ncomms1835.
 
 Selaya NG, Anten NPR. 2010. Leaves of pioneer and later-successional trees have similar lifetime carbon gain in tropical secondary forest. Ecology 91: 1102–1113.
+
 Sillett SC, Van Pelt R, Koch GW, Ambrose AR, Carroll AL, Antoine ME, Mifsud BM. 2010. Increasing wood production through old age in tall trees. Forest Ecology and Management 259: 976–994.
 
 Soriano D, Echeverría A, Anfodillo T, Rosell JA, Olson ME. in press. Hydraulic traits vary as the result of tip-to-base conduit widening in vascular plants. Journal of Experimental Botany.
@@ -481,6 +505,9 @@ L189: fresh volume?
 **Yes, now specified.**
 
 L223: clarify that the -4.53 value corresponds to July.
+
+**This sentence has been re-written: "The 1999 drought was preceded by wetter than average conditions until the previous June, but $PDSI$ plummeted below -3.0 in October 1998 and remained below this threshold through August 1999."**
+
 
 L228-234: please clarify model structure. I understand you included tree as a random factor only when the three droughts were analyzed together, right? It would be nice to know what was the contribution of random factors to model fit (only one R2 is shown in Table 5, and it is unclear whether it corresponds to marginal or conditional values).
 
