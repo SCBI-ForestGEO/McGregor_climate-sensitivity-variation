@@ -58,9 +58,7 @@ Statistical analysis: the analysis would be more precise if the authors used Gen
 
 I suggest to show some relationship, e.g. between Rt and traits in figures. The study only presents two figures and there is plenty of room to present results more clearly with extra figures.
 
-**We created a new figure (*Fig. 4*) visualizing the top model results.**  ([*issue #71*](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/71)()
-
-**We have *also* added a new figure (*Fig. 2*) showing how $Rt$ varied across species in each of the three droughts.**
+**We created two new figures: one showing how $Rt$ varied across species in each of the three droughts (Fig. 3) and one visualizing the best models (Fig. 4).** 
 
 Only assessing models with AIC is not enough to prove sound relationships in multidimensional and complex data-models. LL ratio tests or deviance-anova tests can be used in the case of nested models with LMM or GLMM respectively. Along the text: dAIC is generally referred as $\Delta$AIC, please change accordingly.
 
