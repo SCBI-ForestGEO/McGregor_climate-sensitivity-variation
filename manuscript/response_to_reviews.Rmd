@@ -49,7 +49,7 @@ It is important to better discuss the proper use of Rt, particularly when compar
 
 **Regarding the resilience indices, we considered analyzing these and decided it would be best to stick with just resistance for three reasons: (1) Most importantly, we would expect resilience to be governed by fundamentally different mechanisms than resistance. While it would be interesting to examine resilience, this would be beyond the scope of the current paper. (2) [DeSoto et al. (2020, Nature)](https://www.nature.com/articles/s41467-020-14300-5) used an extensive dataset of trees sampled after severe droughts and compared the responses to previous, less-severe droughts between trees that survived and trees that were killed by the severe drought. In angiosperms, trees that died from a severe drought had lower resistance to previous droughts, compared to trees that survived the severe drought. In gymnosperms, trees that died during severe droughts had lower recovery following previous droughts, compared to trees that survived the severe drought. These findings would argue that resistance is a more important variable for angiosperms. (3) As the reviewer notes, resilience indices would probably tend to be more sensitive to a tree's neighborhood and prior conditions. We now state the logic for focusing on $Rt$ in the methods section:** 
 
-**"We focus exclusively on drought resistance ($Rt$ or $Rt_{ARIMA}$), and not on the resilience metrics described in @lloret_components_2011, because (1) we would expect resilience to be controlled by a different set of mechanisms, and (2) the findings of *[DeSoto et al. (2020)](https://www.nature.com/articles/s41467-020-14300-5)* suggest that $Rt$ is a more important drought response metric for angiosperms. "**
+**"We focus exclusively on drought resistance ($Rt$ or $Rt_{ARIMA}$), and not on the resilience metrics described in @lloret_components_2011, because (1) we would expect resilience to be controlled by a different set of mechanisms, and (2) the findings of *[DeSoto et al. (2020)](https://www.nature.com/articles/s41467-020-14300-5)* suggest that $Rt$ is a more important drought response metric for angiosperms in that low resistance to moderate droughts was a better predictor of mortality during subsequent severe droughts than the resilience metrics."**
 
 Statistical analysis: the analysis would be more precise if the authors used Generalized linear mixed models to avoid data transformation and take into account (with random effects, as they do for the linear mixed model, LMM, presented now) the influence of species in the analysis. Then I missed a further discussion on the role of individual species (e.g. see my comment below on Rt>1).
 
@@ -70,13 +70,13 @@ Following the two previous comments, I suggest to leave in Table 5 just the best
 
 **In the spirit of this comment (simplifying presentation), we have created a new figure (*Fig. 4*) visualizing the results of the best model. We moved Table 5 to the Appendix (now Table S6, plus a parallel Table S7 for $Rt_{ARIMA}$).**
 
-**We have also dramatically decreased the emphasis on differences across drought years, as follows:* **
+**We have also decreased the emphasis on differences across drought years, as follows:* **
 
 **(1) Table 1 now shows just the results from the model with all drought years combined.** 
 
-**(2) The results and discussion now focus on the results from the three drought years combined.** 
+**(2) To make models more consistent across years and reduce spurious correlations, we now include the criteria that for a trait to be included as a candidate variable in the full model, the sign of coefficients must be consistent across all droughts (in addition to meeting the AIC criteria, as before). This resulted in only two candidate variables for the main model ($PLA_{dry}$ and $\pi_{tlp}$). (Removed was ring porosity, which had opposite effects in different droughts.)**
 
-**(3) In order to make models more consistent across years and reduce spurious correlations, we now include the criteria that for a trait to be included as a candidate variable in the full model, the sign of coefficients must be consistent across all droughts (in addition to meeting the AIC criteria, as before). This resulted in only two candidate variables for the main model ($PLA_{dry}$ and $\pi_{tlp}$). (Removed was ring porosity, which had opposite effects in different droughts.)**
+**(3) The results and discussion now focus more on the results from the three drought years combined.** 
 
 *We do plot the three droughts separately in figures **#,#**, as we do fee that this makes the story richer.*
 
@@ -144,7 +144,7 @@ should be rather straightforward and the authors would increase accuracy across 
 
 - Line 275-280: those profiles were assumed a priori in the introduction and are common to any forest. They are indeed interesting to characterise the forest, but they do not add to individual tree variability. You could think to send Figure 2 to an appendix, in consequence, and use figures to show more specific results related to your individual tree analyses.
 
-**Our preference is to keep this figure in the main manuscript. We agree that similar patterns are common to any forest, and are not trying to claim this as any kind of novel result, but we're not aware of studies showing similar height profiles for a temperate forest. Such patterns are not shown some relevant textbooks: Gordan Bonan's 2016 *Ecological Climatology* and Norman & Campbell's *Environmental Biophysics*. If we're missing studies that show such vertical profiles, we'd appreciate the references.**
+**Unless the reviewers and editor strongly disagree, we would request to keep this figure to clarify the main manuscript. We have revised the manuscript such that this figure is better integrated with the hypothesis testing (Table 1) and interpretation of results. We agree that similar patterns are common to any forest, and are not trying to claim this as any kind of novel result, but we're not aware of studies showing this depiction of height profiles for a temperate forest. (Such patterns are not shown in some relevant textbooks: Gordan Bonan's 2016 *Ecological Climatology* and Norman & Campbell's *Environmental Biophysics*. If we're missing studies that show such vertical profiles, we'd appreciate the references.)**
 
 **We did create two new figures showing the results of the tree-ring analysis (and moved two tables to the SI).**
 
@@ -272,6 +272,8 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 209 It couldn’t hurt to define basal area increment
 
 227 the nesting seems appropriate and sufficient for taking species/ “phylogeny” into account
+
+**Thank you.**
 
 260 amazing
 
