@@ -231,7 +231,11 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 73 The “greater root reach” point is almost universally appealed to—cites for these counterarguments would be useful.
 
+**We now address this in the discussion: "Belowground, taller trees would tend to have larger root systems (Enquist and Niklas 2001), but this does not necessarily imply that they have greater access to or reliance on deep soil-water resources that may be critical during drought. Rather, larger trees may allocate more to abundant shallow roots that are beneficial for taking up water from rainstorms (Meinzer et al. 1999)."**
+
 73 Also, larger trees would necessarily seem to have greater stem storage capacity and thus, if capacitance really is important, more water volume available for buffering transient drought events, so this is another reason to expect larger individuals to be more rather than less resistant.
+
+*We now mention this: "Greater stem capacitance (*i.e.*, water storage capacity) of larger trees may also confer resistance to transient droughts (**REF**)."*
 
 77 In the concluding sentence, “greater growth reductions” came as a surprise because I thought that the focus was greater vulnerability/ mortality. Also, there are convincing theoretical and empirical reasons to think that large trees don’t slow down e.g. (Sillett et al., 2010; Selaya & Anten, 2010; Michaletz et al., 2014).
 
