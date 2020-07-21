@@ -264,7 +264,7 @@ Wood density and $LMA$ were never significantly associated with $Rt$ in the sing
 Xylem porosity was also excluded from the full models, as it had no significant influence for all droughts combined and had contrasting effects in the individual droughts: whereas ring-porous species had higher $Rt$ than diffuse- and semi-ring- porous species in the 1966 and 1999 droughts, they had lower $Rt$ in 1977 (Table S4). 
 It is noteworthy that the two diffuse-porous species in our study, *Liriodendron tulipifera* and *Fagus grandifolia*, were at opposite ends of the $Rt$ spectrum (Fig. **3**), further refuting the idea that xylem porosity is a useful predictor of $Rt$ in the context of this study. 
 
-In contrast, $PLA_{dry}$, and $\pi_{tlp}$ were linked to drought responses (Fig. **4**; Tables 1,S4-S7). 
+In contrast, $PLA_{dry}$, and $\pi_{tlp}$ were both negatively correlated to drought resistance (Fig. **4**; Tables 1,S4-S7). 
 Both had consistent signs across all droughts, and their inclusion at least marginally improved the model ($\Delta$AICc > 1.0) for at least one of the three droughts (Table S4), qualifying them as candidate variables for the full model. 
 $PLA_{dry}$ had a significant influence, with negative coefficient, in full models for the three droughts combined and for the 1966 drought individually (Fig. **4**; Tables S6-S7). 
 For 1977 and 1999, it was included with a negative coefficient in some of the top models (Tables S6-S7).

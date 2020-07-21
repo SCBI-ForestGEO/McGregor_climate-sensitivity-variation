@@ -487,6 +487,8 @@ L266-267: Don’t think you can test the effects of crown dominance going back t
 
 L287: specify how they were related to drought. Positive? Negative?
 
+**This has been revised to read, "In contrast, $PLA_{dry}$, and $\pi_{tlp}$ were both negatively correlated to drought resistance (Fig. **4**; Tables 1,S4-S7)."**
+
 Tables and Figures: there are a large number of tables. I wonder if Table 2 and 3 would best fit in supporting information (with key information integrated directly into the text). I also feel that it would be nice to represent some of the key results (e.g., Rt and its relationship to height and leaf hydraulic traits) in a figure.
 
 **We have moved two tables (former tables 4 and 5 to the SI). The best models are now visualized in a figure (Fig. 4). We have also added a figure showing drought response by species.** 
