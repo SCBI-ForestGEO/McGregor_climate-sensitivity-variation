@@ -162,12 +162,16 @@ Models are ranked by AICc. Shown are all models whose AICc value falls within 2.
 \newpage
 ![Figure S2: Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought](tables_figures/publication/figureS2_drought_plot.jpg){width=600px}
 
+
 \newpage
+
 ![Figure S3: **Distribution of independent variables by species.** Species that are assigned the same letter are not significantly different from each other with regard to the tested variable. ](tables_figures/publication/FigureS3_traits_signif.png)
 
 
 \newpage
+
 ![Figure S4: Comparison of $Rt$ and $Rt_{ARIMA}$ results, with residuals, for each drought scenario](tables_figures/publication/figureS4_Rt_arima_comparison.png)
 
 \newpage
+
 ![Figure S5: **PLACEHOLDER** ](tables_figures/publication/figureS5_species Rt differences.png)

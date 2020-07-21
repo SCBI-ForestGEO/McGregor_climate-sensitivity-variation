@@ -516,23 +516,48 @@ Firstly, the way drought resistance (Rt) is estimated, as the ratio of BAI durin
 
 Secondly, the choice of traits does not appear well justified, as it seems to be driven more by easiness of measurement than by relevance, and it mixes different types of hypotheses operating at different levels. On one hand there is tree height and crown position, which are measured at the level of individual trees and correspond to closely related hypotheses. On the other hand there are ring-porosity, wood density, LMA and water relations traits, which are measured at the species level and seem to be totally disconnected from the hypotheses regarding tree height. In addition, it is very hard to compare the explanatory power of these variables, as done in the paper, as they are based on very different sample sizes (571 trees vs 12 species) and respond to different sources of variability. In fact the way height effects are analyzed mixes the within- and between-species levels, which makes it difficult to interpret the results. Finally, I think it would be more correct to refer to PLA and TLP as water relations traits rather than hydraulic traits.
 
+**We respond to this one point at a time:**
+
+*the choice of traits does not appear well justified, as it seems to be driven more by easiness of measurement than by relevance*
+
+**Ease of measurement is part of what makes $PLA_{dry}$ and $\pi_{tlp}$ interesting. As we now clarify in the introduction:**
+
+**"However, [traits such as P50, P88, and hydraulic safety margin] are time-consuming to measure and therefore infeasible for predicting or modeling drought responses in highly diverse forests (*e.g.*, in the tropics). More easily-measurable leaf hydraulic traits that have direct linkage to plant hydraulic function can explain variation in plant distribution and function [@medeiros_extensive_2019]. These include leaf area shrinkage upon desiccation ($PLA_{dry}$) and the leaf water potential at turgor loss point ($\pi_{tlp}$), *i.e.,* the water potential at which leaf wilting occurs [@bartlett_correlations_2016]. Both traits correlate with hydraulic vulnerability and drought tolerance as part of unified plant hydraulic systems [@scoffoni_leaf_2014; @bartlett_correlations_2016].*The abilities of both $PLA_{dry}$ and $\pi_{tlp}$ to explain tree performance under drought remains untested.*"**
+
+*it mixes different types of hypotheses operating at different levels. On one hand there is tree height and crown position, which are measured at the level of individual trees and correspond to closely related hypotheses. On the other hand there are ring-porosity, wood density, LMA and water relations traits, which are measured at the species level and seem to be totally disconnected from the hypotheses regarding tree height. In addition, it is very hard to compare the explanatory power of these variables, as done in the paper, as they are based on very different sample sizes (571 trees vs 12 species) and respond to different sources of variability. In fact the way height effects are analyzed mixes the within- and between-species levels, which makes it difficult to interpret the results.*
+
+**There is nothing fundamentally wrong with a model comparing individual- and species- level effects, but we understand why it was confusing and believe that the revised presentation of the analysis should make all of this easier to follow. Improvements related to this comment include: (1) revision to how traits are selected for inclusion as candidate variables for the full model, which provides a more appropriate test of individual traits and guards against over-fitting; (2) moving of former tables 4 and 5 to the SI, and replacing fig. 5 with a figure visualizing the model results; (3) adding a couple new figures showing variation in $Rt$ (Fig. 3) and predictor variables (Fig. S3) across species; and (4) dropping canopy position from the model for predicting $Rt$. 
+
+*Finally, I think it would be more correct to refer to PLA and TLP as water relations traits rather than hydraulic traits.*
+
+*RESPONSE NEEDED HERE!*
+
 Thirdly, a more thorough analysis of the distribution of the study species in the sample plot would be required. The paper assumes that all species were subjected to the same drought levels. However, this is unlikely to be true, as different species are likely to occupy different microhabitats in the plot, and hence be subjected to different drought conditions. The authors account for this, to some extent, by including individual-level TWI in some models, but a more thorough analysis of the distribution of the study species as a function of TWI and other relevant micro-environmental variables would be needed to fully interpret the results.
 
-*It seems from these comments they think this shouldn't be published at all due to its limited scope and not enough explanatory power. The resulting study that they suggest, if completely thorough, would take a long time to create. I'm not sure how to address this comment, other than to make a note in the manuscript acknowledging that a more thorough study would be great but this is what we found with what we had.*
+**We have added a new figure to the SI showing variation in predictor variables across species (Fig. S3). While there was some variation across species in $H$ and $TWI$, there were few pronounced differences across species. We now discuss the case of the most anomalous species, *Fagus grandifolia*, in the discussion section. We also determined that there is little systematic variation in $PLA_{dry}$ and $\pi_{tlp}$ with respect to $H$ or $TWI$ (analysis not shown). This, together with the fact that our statistical models do account for $TWI$, should minimize bias related to distribution of the study species within the plot** 
 
-*I agree.... I wouldn't change analysis for this. We can come back to wording a response later.*
 
 Minor or more technical suggestions:
 
 L59-79: the arguments presented in this paragraph mix different scales, from within-individual to within- or among-communities. I think the arguments could be better structured to reflect the sources of variability involved and, ideally, focus on the scale that will be addressed in the paper.
 
+**We have revised this paragraph to provide some more specifics on the scale and setting of these tests.**
+
 L67: I suggest toning down the sentence to something like ‘Wider xylem conduits are associated to higher vulnerability to embolism during drought’, as the mechanism linking wider conduits with embolism vulnerability is far from clear and probably indirect.
+
+**We have revised this to read, "Wider xylem conduits plausibly make large trees more vulnerable to embolism during drought [@olson_plant_2018]..."**
 
 L81: you seem to use drought resistance and drought tolerance interchangeably, which may be confusing. I think it is important to clarify these definitions early on in the paper.
 
+*https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/124*
+
 L97: ‘greater variation’ that what?
 
+**This was removed. The text here now reads, "More easily-measurable leaf hydraulic traits that have direct linkage to plant hydraulic function can explain variation in plant distribution and function [@medeiros_extensive_2019]. These include leaf area shrinkage upon desiccation [$PLA_{dry}$; @scoffoni_leaf_2014] and the leaf water potential at turgor loss point ($\pi_{tlp}$), *i.e.,* the water potential at which leaf wilting occurs [@bartlett_correlations_2016; *Zhu et al. 2018*]. Both traits correlate with hydraulic vulnerability and drought tolerance as part of unified plant hydraulic systems [@scoffoni_leaf_2014; @bartlett_correlations_2016; *Zhu et al. 2018*; but see *Farrell et al. 2017*]. The abilities of both $PLA_{dry}$ and $\pi_{tlp}$ to explain tree drought resistance remains untested.  "**
+
 L100-101: that is not true really. See for example Zhu et al. (2018) in Tree Phys, Farrell et al. (2017) in PCE…
+
+**We have added citations to both these papers and revised the sentence so that it is true: "The abilities of both $PLA_{dry}$ and $\pi_{tlp}$ to explain tree drought resistance remains untested."**
 
 L137-140: mixing cores from dying and surviving individuals could be problematic. Did you find any association between survival and previous drought resistance? Was mortality different across species?
 
@@ -542,12 +567,13 @@ L137-140: mixing cores from dying and surviving individuals could be problematic
 
 L160: you mean a log-log regression, right?
 
+**Yes. fixed.**
+
 L181: N=3 individuals per species is really quite low. In addition, by sampling up to 8 m height you would probably be sampling less exposed branches from taller trees, which could confound your results.
 
-*from Lawren: "Re the trait values, I believe we would see species differences, even with n=3, looking at the means and SD presented. Suggest to run an ANOVA on each trait (and/or a MANOVA on all traits) and put the significance values in a new row in Table 3.  (BTW also suggest limiting values in Table 3 to 3 sig figs, and presenting SE in that Table with the means rather than SD)."*
+**More samples would be ideal, but was not feasible given the time and resources available, and have no way to sample more now (in part because of COVID-19). We note that intraspecific SD was generally low with respect to mean values and interspecific variation, and that a sample size of n=3 is not unprecendented for this type of analysis [@medeiros_extensive_2019]. We have added a figure to the SI (Fig. S3) showing variation in traits across species.**  
 
-*from NObby: "Regarding the few individuals I would argue that intraspecific SD was low (less than 10% of the mean values). This justifies - in my opinion - only sampling three individuals. "*
-
+*https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/125*
 
 L188: ‘Wood’.
 
