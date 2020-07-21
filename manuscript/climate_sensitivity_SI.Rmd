@@ -122,7 +122,7 @@ $\Delta$AICc is the AICc of a model excluding the trait minus that of the model 
 ```{r table S6, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-multivar_table <- read.csv("tables_figures/publication/table5_multivariable_models_lmer_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+multivar_table <- read.csv("tables_figures/publication/tableS6_multivariable_models_lmer_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
 kable(multivar_table, booktabs = TRUE, caption = "Table S6. Summary of top full models for each drought instance, where $Rt$ is used as the response variable. ", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
@@ -135,13 +135,13 @@ kable(multivar_table, booktabs = TRUE, caption = "Table S6. Summary of top full 
   row_spec(11, bold = T) %>%
   kable_styling()
 ```
-Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold).
+Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold). $R^2$ refers to conditional $R^2$.
 
 \newpage
 ```{r table S7, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-multivar_table <- read.csv("tables_figures/publication/tableS6_multivariable_models_lmer_arimaratio_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+multivar_table <- read.csv("tables_figures/publication/tableS7_multivariable_models_lmer_arimaratio_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
 kable(multivar_table, booktabs = TRUE, caption = "Table S7. Summary of top  models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable. ", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
@@ -154,7 +154,7 @@ kable(multivar_table, booktabs = TRUE, caption = "Table S7. Summary of top  mode
   row_spec(15, bold = T) %>%
   kable_styling()
 ```
-Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold).
+Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold). $R^2$ refers to conditional $R^2$.
 
 \newpage
 ![Figure S1: Map of ForestGEO plot showing TWI and location of cored trees](tables_figures/publication/figureS1_location_cored_trees.png){width=500px}
