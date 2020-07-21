@@ -306,6 +306,8 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 275—some people think that the increase in terminal twig vessels with height growth keeps pace with the changes in VPD from understory to canopy
 
+**Interesting, thanks.**
+
 281 nice
 
 **Thank you.**
@@ -316,17 +318,27 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 327 I agree that this is the point that most deserves discussion in paragraph 2
 
+**Thank you.**
+
 334 You might go into detail regarding what you think this says about the causal hypothesis behind the global decline of large individuals. To me it helps reject notions that somehow larger trees are more exposed to wind throw or other damaging agents. It is consistent with the hypothesis that larger individuals have wider conduits, and (assuming that wider conduits are more vulnerable to drought induced embolism) thus larger individuals are (all else being equal…) more vulnerable to embolism than smaller conspecifics.
 
-336 beautifully said “impossible for trees to e ciently transport water to great heights and simultaneously maintain strong resistance and resilience to drought-induced embolism”
+*KAT, come back to this*
+
+336 beautifully said “impossible for trees to efficiently transport water to great heights and simultaneously maintain strong resistance and resilience to drought-induced embolism”
 
 **Thank you.**
 
 349 fascinating; it seems plausible that current climate changed induced large-individual mortality involves trees growing to conduit diameters, and thus heights, permitted under previously more even and moister climates, and now finding themselves in more extreme climates that make their heights and conduits excessively wide given current conditions.
 
+*https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/122*
+
 350 if you wanted to expand your discussion of causal mechanisms or the implications of your findings, I think you could jettison this paragraph. I admire your thoroughness in offering caveats, but I agree that this does not seem like a serious problem for your study.
 
+**We have changed our treatment of canopy position and removed this paragraph.** 
+
 382 an effort that seems in harmony with these concerns is (Christoffersen et al., 2016)
+
+**Agreed. We have added this citation.**
 
 385 very nice paragraph
 
