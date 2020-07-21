@@ -1,13 +1,13 @@
 species,"$\%\,ANPP_{stem}$ ",n trees,mean,range,"$WD$ $(g\,cm^{-3})$","$LMA$ $(g\,cm^{-2})$",xylem porosity,$\pi_{tlp}$ (Mpa),$PLA$  $(\%)$
-Liriodendron tulipifera (LITU),47.1,98,36.85,10 - 100.4,0.4 $\pm$ 0.03,46.92 $\pm$ 12.38,diffuse,-1.92 $\pm$ 0.17,19.56 $\pm$ 2.06
-Quercus alba (QUAL),10.7,61,47.15,11.4 - 79.1,0.61 $\pm$ 0.02,75.8 $\pm$ 11.05,ring,-2.58 $\pm$ 0.08,8.52 $\pm$ 0.37
-Quercus rubra (QURU),10.1,69,54.88,11.07 - 148,0.62 $\pm$ 0.02,71.13 $\pm$ 6.70,ring,-2.64 $\pm$ 0.28,11.01 $\pm$  0.84
-Quercus velutina (QUVE),7.8,77,54.14,16.02 - 114.2,0.65 $\pm$ 0.04,48.69 $\pm$ 3.30,ring,-2.39 $\pm$ 0.15,13.42 $\pm$  0.84
-Quercus montana (QUPR),4.8,59,42.25,10.5 - 87.2,0.61 $\pm$ 0.01,71.77 $\pm$ 40.17,ring,-2.36 $\pm$ 0.09,11.75 $\pm$  1.37
-Fraxinus americana (FRAM)      ,3.8,62,35.36,6.4 - 94.73,0.56 $\pm$ 0.01,43.28 $\pm$ 4.78,ring,-2.1 $\pm$ 0.36,13.06 $\pm$ 1.06
-Carya glabra (CAGL),3.7,31,31.39,9.8 - 98.5,0.62 $\pm$ 0.04,42.76 $\pm$ 0.94,ring,-2.13 $\pm$ 0.50,21.09 $\pm$  5.48
-Juglans nigra (JUNI),2.1,31,48.14,24.2 - 87,1.09 $\pm$ 0.09,72.13 $\pm$ 7.10,semi-ring,-2.76 $\pm$ 0.21,24.64 $\pm$  8.72
-Carya cordiformis (CACO),2,13,27.19,10.7 - 61.5,0.83 $\pm$ 0.10,45.86 $\pm$ 15.60,ring,-2.13 $\pm$ 0.45,17.22 $\pm$ 2.25
-Carya tomentosa (CATO),2,13,20.97,12.1 - 32.21,0.83,45.36,ring,-2.2,16.56
-Fagus grandifolia (FAGR),1.5,80,23.51,11.2 - 107.2,0.62 $\pm$ 0.03,30.68 $\pm$ 4.94,diffuse,-2.57,9.45 $\pm$  1.25
+Liriodendron tulipifera (LITU),47.1,98,36.85,10 - 100.4,0.4 $\pm$ 0.03,46.9 $\pm$ 12.4,diffuse,-1.92 $\pm$ 0.17,19.6 $\pm$ 2.06
+Quercus alba (QUAL),10.7,61,47.15,11.4 - 79.1,0.61 $\pm$ 0.02,75.8 $\pm$ 11.1,ring,-2.58 $\pm$ 0.08,8.52 $\pm$ 0.37
+Quercus rubra (QURU),10.1,69,54.88,11.07 - 148,0.62 $\pm$ 0.02,71.1 $\pm$ 6.70,ring,-2.64 $\pm$ 0.28,11.0 $\pm$  0.84
+Quercus velutina (QUVE),7.8,77,54.14,16.02 - 114.2,0.65 $\pm$ 0.04,48.7 $\pm$ 3.30,ring,-2.39 $\pm$ 0.15,13.42 $\pm$  0.84
+Quercus montana (QUPR),4.8,59,42.25,10.5 - 87.2,0.61 $\pm$ 0.01,71.8 $\pm$ 40.2,ring,-2.36 $\pm$ 0.09,11.75 $\pm$  1.37
+Fraxinus americana (FRAM)      ,3.8,62,35.36,6.4 - 94.73,0.56 $\pm$ 0.01,43.3 $\pm$ 4.78,ring,-2.1 $\pm$ 0.36,13.06 $\pm$ 1.06
+Carya glabra (CAGL),3.7,31,31.39,9.8 - 98.5,0.62 $\pm$ 0.04,42.8 $\pm$ 0.94,ring,-2.13 $\pm$ 0.50,21.09 $\pm$  5.48
+Juglans nigra (JUNI),2.1,31,48.14,24.2 - 87,1.09 $\pm$ 0.09,72.1 $\pm$ 7.10,semi-ring,-2.76 $\pm$ 0.21,24.64 $\pm$  8.72
+Carya cordiformis (CACO),2,13,27.19,10.7 - 61.5,0.83 $\pm$ 0.10,45.9 $\pm$ 15.6,ring,-2.13 $\pm$ 0.45,17.22 $\pm$ 2.25
+Carya tomentosa (CATO),2,13,20.97,12.1 - 32.21,0.83,45.4,ring,-2.2,16.56
+Fagus grandifolia (FAGR),1.5,80,23.51,11.2 - 107.2,0.62 $\pm$ 0.03,30.7 $\pm$ 4.94,diffuse,-2.57,9.45 $\pm$  1.25
 Carya ovalis (CAOVL),1.1,23,35.29,14.9 - 66,0.96 $\pm$ 0.33,47.6 $\pm$ 3.95,ring,-2.48 $\pm$ 0.04,14.8 $\pm$  6.34
