@@ -408,7 +408,7 @@ Main comments
 
 L139-140: makes sense to not core live trees in the plot (surprised you got permission to do this in 2011!). But doesn’t this introduce a bias in your analysis? Trees that died may have had very different responses to drought that those which survived. Do you get similar results if you analyse trees that lived and died separately?
 
-**We agree that this could be a concern, but do not believe it is applicable here, for two reasons. First, this would be more likely to introduce a bias if the trees cored dead were killed by drought. We are aware of studies showing differences in climate sensitivity of trees killed by drought versus those that survived. However,these trees were not killed by drought; there was no significant drought in the years in which dead trees were cored or in the 3 previous years. Second, quoting our previous publication using these cores (Helcoski et al. 2019): " Chronologies of trees cored live and dead were pooled following analyses showing similar climate sensitivity at least up to 2009 (that is excluding 7–8 yr before death) for all four species with ≥ 10 cores in each category (LITU, QURU, QUVE, FRAM; comparison plots available at https://github.c om/SCBI-ForestGEO/climate_sensitivity_cores/tree/master/ results/live_vs_dead).".** 
+**We agree that this could be a concern, but do not believe it is applicable here, for two reasons. First, this would be more likely to introduce a bias if the trees cored dead were killed by drought. We are aware of studies showing differences in climate sensitivity of trees killed by drought versus those that survived. However,these trees were not killed by drought; there was no significant drought in the years in which dead trees were cored or in the 3 previous years. Second, quoting our previous publication using these cores (Helcoski et al. 2019): " Chronologies of trees cored live and dead were pooled following analyses showing similar climate sensitivity at least up to 2009 (that is excluding 7–8 yr before death) for all four species with $\ge$ 10 cores in each category (LITU, QURU, QUVE, FRAM; comparison plots available at https://github.c om/SCBI-ForestGEO/climate_sensitivity_cores/tree/master/ results/live_vs_dead).".** 
 
 **To clarify that this shouldn't be an issue, we have added the following sentence (methods section): "We note that drought was probably not a cause of mortality for these trees, as monthly May-Aug $PDSI$ did not drop below -1.75 in these years or the three years prior (2013-2017), and that trees cored dead displayed similar climate sensitivity to trees cored live [@helcoski_growing_2019]."** 
 
@@ -433,20 +433,35 @@ L260-261: This is rather strange. So for the same individual tree, size was impo
 
 *https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/121*
 
-**There are a number of factors-- including height distribution and also atmospheric CO2 -- that differ across the droughts. To account for this as best as possible, we included year as a fixed effect in all statistical models (even though it did not come out significant). This is now clearly specified in the methods: "In the multi-year model, we also included a fixed effect of drought year to represent the combined effects of differences in drought characteristics (Fig. **S2**)." There were no signficant differences across years, which we now specify in the results.**
+**There are a number of factors-- including height distribution and also atmospheric CO2 -- that differ across the droughts and may bias the mean response. To account for this as best as possible, we included year as a fixed effect in all statistical models (even though it did not come out significant). This is now clearly specified in the methods: "In the multi-year model, we also included a fixed effect of drought year to represent the combined effects of differences in drought characteristics (Fig. **S2**)." There were no significant differences across years, which we now specify in the results.**
 
 
 Other comments
 
 L42-54: I think it would be worth making the link between growth resilience and probability of mortality. Below are links to a couple of papers that have recently shown that trees that are less resilient to drought are also the ones most likely to die.
 https://nam02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.nature.com%2Farticles%2Fs41467-020-14300-5.epdf%3Fshared_access_token%3DD9UngngFedreJeMMIQaYctRgN0jAjWel9jnR3ZoTv0PoKBL3IktPXOnnO0jnQ18EsS6uIPgICnN1RqVtsCGbwDx3K-1u5B0F1T9z3onm3gq-9mknjXKtuc0p7xxY3JipBCqwvtnrdqVNpsLdyzkNRw%253D%253D&amp;data=02%7C01%7CTeixeiraK%40si.edu%7Cda67e36e2ccc4277d4aa08d7ed356305%7C989b5e2a14e44efe93b78cdd5fc5d11c%7C0%7C0%7C637238685875974418&amp;sdata=6%2B7kb11Bzq4LivdOhnR4frg1MEFGaX%2FiIMUqJBG9gsM%3D&amp;reserved=0
+
+ *[DeSoto et al. (2020)](https://www.nature.com/articles/s41467-020-14300-5)*
+ 
 https://nam02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.nature.com%2Farticles%2Fs41558-019-0583-9&amp;data=02%7C01%7CTeixeiraK%40si.edu%7Cda67e36e2ccc4277d4aa08d7ed356305%7C989b5e2a14e44efe93b78cdd5fc5d11c%7C0%7C0%7C637238685875974418&amp;sdata=DF9lSNfAFTjKmSWfb7FI8%2FW4GDN4ljKxZK5NNS8eCxc%3D&amp;reserved=0
 
+*Liu et al. 2019; DOI: 10.1038/s41558-019-0583-9*
+
+**Thank you. We have added the following statement:**
+
+*Because the resistance and resilience of growth to drought is linked to their probability of surviving drought (*[DeSoto et al. (2020)](https://www.nature.com/articles/s41467-020-14300-5)*; *Liu et al. 2019; DOI: 10.1038/s41558-019-0583-9*), understanding growth responses can also help elucidate which trees are most vulnerable to drought-induced mortality.*
+
 L80-101 & L112-115: This is a nice summary of how traits can help us understand species responses to drought. The only thing that is a little strange is that you start by discussing commonly measured traits that have been used to explore susceptibility to drought (e.g., WD and LMA). Then you say that the low predictive power of these traits is because they are poor surrogates of what we should be measuring – i.e. hydraulic traits. But then you end by saying that these are too hard/expensive to measure, so you’re going to look at other surrogates.
+
+**We have revised this section, and believe that it now makes our points more clearly: (1) the traditionally measured traits are poor surrogates, (2) hydraulic traits are useful but time-consuming, (3) $PLA_{dry}$ and $\pi_{tlp}$ are promising alternatives that are both relatively easy to measure and have direct physiological linkages to tree growth and mortality responses to drought. The text now reads as follows:**
+
+*insert 2 paragraphs on traits in intro*
 
 L102 & L106: the introduction gives a nice overview of size and trait influences on resistance to drought. But the third focus of your study – microenvironment characteristics – gets little or no attention. In fact it’s not very clear what you mean by ‘microenvironment’ for most of the paper.
 
 L150-152: Given that height is estimated and not measured, wouldn’t it be better to use DBH as a (measured) dimension of tree size?
+
+**We prefer to use height because it is more meaningful biologically. DBH would give the same result.**
 
 L173: this is the first mention of what I’m guessing is your ‘microenvironment’ descriptor. Worth briefly mentioning why you are measuring TWI.
 
@@ -507,7 +522,7 @@ L100-101: that is not true really. See for example Zhu et al. (2018) in Tree Phy
 
 L137-140: mixing cores from dying and surviving individuals could be problematic. Did you find any association between survival and previous drought resistance? Was mortality different across species?
 
-**We agree that this could be a concern, but do not believe it is applicable here, for two reasons. First, this would be more likely to introduce a bias if the trees cored dead were killed by drought. We are aware of studies showing differences in climate sensitivity of trees killed by drought versus those that survived. However,these trees were not killed by drought; there was no significant drought in the years in which dead trees were cored or in the 3 previous years. Second, quoting our previous publication using these cores (Helcoski et al. 2019): " Chronologies of trees cored live and dead were pooled following analyses showing similar climate sensitivity at least up to 2009 (that is excluding 7–8 yr before death) for all four species with ≥ 10 cores in each category (LITU, QURU, QUVE, FRAM; comparison plots available at https://github.c om/SCBI-ForestGEO/climate_sensitivity_cores/tree/master/ results/live_vs_dead).".** 
+**We agree that this could be a concern, but do not believe it is applicable here, for two reasons. First, this would be more likely to introduce a bias if the trees cored dead were killed by drought. We are aware of studies showing differences in climate sensitivity of trees killed by drought versus those that survived. However,these trees were not killed by drought; there was no significant drought in the years in which dead trees were cored or in the 3 previous years. Second, quoting our previous publication using these cores (Helcoski et al. 2019): " Chronologies of trees cored live and dead were pooled following analyses showing similar climate sensitivity at least up to 2009 (that is excluding 7–8 yr before death) for all four species with $\ge$ 10 cores in each category (LITU, QURU, QUVE, FRAM; comparison plots available at https://github.c om/SCBI-ForestGEO/climate_sensitivity_cores/tree/master/ results/live_vs_dead).".** 
 
 **To clarify that this shouldn't be an issue, we have added the following sentence (methods section): "We note that drought was probably not a cause of mortality for these trees, as monthly May-Aug $PDSI$ did not drop below -1.75 in these years or the three years prior (2013-2017), and that trees cored dead displayed similar climate sensitivity to trees cored live [@helcoski_growing_2019]."** 
 
@@ -559,7 +574,7 @@ L329-331: do you have any information on the demographic effects (e.g., mortalit
 
 Table 3: are DBH units correct? I suspect they should be mm instead of cm.
 
-*These are incorrect. Ian, please convert to cm.*
+**These were incorrect (in mm). Now converted to cm.**
 
 Figure 1: please explain all acronyms.
 
@@ -579,7 +594,7 @@ Table S3: what does ‘rank’ refer to?
 
 Figure S1: please add spatial scale to the figure.
 
-*IAN, please do this*
+**Done.**
 
 Figure S3: please specify that height values are estimated from reconstructed DBH.
 
