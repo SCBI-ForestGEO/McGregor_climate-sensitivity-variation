@@ -195,7 +195,7 @@ For each drought year, we calculated a metric drought resistance ($Rt$) as the r
 Analyses focused on testing the predictions presented in Table 1 with $Rt$ as the response variable, and then repeated using $Rt_{ARIMA}$ as the response variable. 
 Models were run for all drought years combined and for each drought year individually. 
 The general statistical model for hypothesis testing was a mixed effects model, implemented  in the lme4 package in R [@R-lme4], using tree nested within species as a random effect, and independent variables as specified below. 
-In the multi-year model, we also included a fixed effect of drought year to represent the combined effect of each constituent drought scenario.
+In the multi-year model, we also included a fixed effect of drought year to represent the combined effects of differences in drought characteristics (Fig. **S2**).
 We used AICc to assess model selection, and conditional/marginal R-squared to assess model fit as implemented in the AICcmodavg package in R [@R-AICcmodavg]. 
 AICc refers to a corrected version of AICc, and is best suited for small data sizes [see @brewer_relative_2016].
 
@@ -231,12 +231,12 @@ There were significant differences in height across all crown position classes (
 
 At the community level, cored trees showed substantial growth reductions in all three droughts, with a mean $Rt$ of 0.86 in 1966 and 1999, and 0.84 in 1977  (Fig. **2b**). Across the entire study period (1950-2009), the focal drought years were the three years with the largest fraction of trees exhibiting $Rt \le 0.7$. Specifically, in each drought, roughly 30% of the cored trees had growth reductions of $\ge$ 30% ($Rt \le 0.7$): 29% in 1966, 32% in 1977, and 27% in 1999. However, some individuals exhibited increased growth, *i.e.*, $Rt > 1.0$: 26% of trees in 1966, 22% in 1977, and 26% in 1999. 
 
-In the context of the multivariate model, $Rt$ did not vary across drought years. That is, "drought year" as a variable did not appear in any of the top models -- *i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model -- and therefore was excluded from the final model as a testing variable. 
+In the context of the multivariate model, $Rt$ did not vary across drought years. That is, "drought year" as a variable did not appear in any of the top models -- *i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model. 
 
 
 *Tree height, microenvironment, and drought resistance*
 
-Taller trees showed stronger growth reductions during drought (Table 1; Fig. **4**). 
+Taller trees (based on $H$ in the drought year) showed stronger growth reductions during drought (Table 1; Fig. **4**). 
 Specifically, $ln[H]$ appeared, with a negative coefficient, in the best model (($\Delta$AICc=0) and all top models when evaluating the three drought years together (Tables S6-S7). 
 The same held true for 1966 individually.
 For the 1977 drought, $ln[H]$ did not appear in the best model, but was included, with a negative coefficient, among the top models--*i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model (Tables 1, S6-S7). 

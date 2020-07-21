@@ -322,7 +322,7 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 334 You might go into detail regarding what you think this says about the causal hypothesis behind the global decline of large individuals. To me it helps reject notions that somehow larger trees are more exposed to wind throw or other damaging agents. It is consistent with the hypothesis that larger individuals have wider conduits, and (assuming that wider conduits are more vulnerable to drought induced embolism) thus larger individuals are (all else being equal…) more vulnerable to embolism than smaller conspecifics.
 
-*KAT, come back to this*
+**Unfortunately, we ended up concluding that we can't reliably parse the effects of height *per se* and canopy position in this forest, due to collinearity of height and canopy position, and also because of increasing uncertainty in canopy position as we go back in time. Thus, the paragraph is now modified to discuss both height and associated microenvironment.**
 
 336 beautifully said “impossible for trees to efficiently transport water to great heights and simultaneously maintain strong resistance and resilience to drought-induced embolism”
 
@@ -426,6 +426,15 @@ L217-226: this is problematic because drought resistance (Rt) as defined by Llor
 
 
 L260-261: This is rather strange. So for the same individual tree, size was important in determining response to drought in one year but not in the others? And that’s for the years further back in time when the tree would have been smallest? Couldn’t that be interpreted as trees becoming less susceptible to drought as they grow larger/older? It’s also a little concerning that results are very different across the three droughts. Of these, the 1999 drought is the one I would tend to trust most as stand structure and composition would have been most similar to today.
+
+**We don't find it surprising that height could be more important in some droughts than in others. We address this in the second paragraph of the discussion: "Of the droughts considered here, the 1966 drought, which was preceded by two years of dry conditions (Fig. **S2**), severely stressed a larger portion of trees (Fig. **1b**). The tendency for large trees to have lowest resistance was most pronounced in this drought, consistent with other findings that this physiological response increases with drought severity [@bennett_larger_2015; @stovall_tree_2019]."**
+
+**It's important to keep in mind that we're using height estimates specific to each drought year, and these estimates should be fairly reliable (we've dropped CP, which we decided was too unreliable). We now clarify that height is specific to the drought year: "Taller trees (based on $H$ in the drought year) showed stronger growth reductions during drought (Table 1; Fig. **4**)." While the distribution of heights did shift upwards with progressive droughts, this shift is modest relative to the total height range (a few meters relative to a height range of ~40 m).** 
+
+*https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/121*
+
+**There are a number of factors-- including height distribution and also atmospheric CO2 -- that differ across the droughts. To account for this as best as possible, we included year as a fixed effect in all statistical models (even though it did not come out significant). This is now clearly specified in the methods: "In the multi-year model, we also included a fixed effect of drought year to represent the combined effects of differences in drought characteristics (Fig. **S2**)." There were no signficant differences across years, which we now specify in the results.**
+
 
 Other comments
 
