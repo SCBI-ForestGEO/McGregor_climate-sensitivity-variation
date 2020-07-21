@@ -532,7 +532,7 @@ trees_all <- trees_all[!trees_all$tree == 140939, ]
 trees_all <- trees_all[trees_all$resist.value <=2]
 
 # write.csv(trees_all, "manuscript/tables_figures/trees_all.csv", row.names=FALSE)
-##2i. prepare dataset for running regression models ####
+##2j. prepare dataset for running regression models ####
 ##take out columns that are unnecessary for model runs
 trees_all_sub <- trees_all[, !colnames(trees_all) %in% c("p50.MPa", "p80.MPa", "dbh_old.mm",  "dbh_old.cm", "sap_ratio", "height.m")]
 
@@ -542,7 +542,7 @@ trees_all_sub <- trees_all_sub[complete.cases(trees_all_sub), ]
 # write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub_arima.csv", row.names=FALSE)
 # write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub_arimaratio.csv", row.names=FALSE)
 
-##2j. make subsets for individual years, combine all to list ####
+##2k. make subsets for individual years, combine all to list ####
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
 x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
@@ -551,7 +551,7 @@ model_df <- list(trees_all_sub, x1966, x1977, x1999)
 names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
 
 #
-##2k. correlation plot ####
+##2l. correlation plot ####
 library(corrplot)
 cr <- model_df[[1]]
 cr$rp <- ifelse(cr$rp == "ring", 1, 2)
@@ -563,7 +563,7 @@ cr[,c("year", "rp", "position_all")] <- sapply(cr[,c("year", "rp", "position_all
 correw <- cor(cr[,-c(2,4,14)])
 corrplot(correw, method="number", type="lower")
 
-##2l. get base stats for everything from trees_all_sub ####
+##2m. get base stats for everything from trees_all_sub ####
 trees_all_sub$dbh.cm <- exp(trees_all_sub$dbh.ln.cm)
 trees_all_sub$height.m <- exp(trees_all_sub$height.ln.m)
 
@@ -884,7 +884,7 @@ for (i in seq(along=c(1:4))){
             delta$model_var <- "dAICc"
             
             r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
-            r <- data.frame(r[,6])
+            r <- data.frame(r[,"Conditional"])
             colnames(r) <- paste0("[All years] ","Model #", w)
             r$model_var <- "r^2"
             r[,1] <- round(r[,1], 2)
@@ -1053,7 +1053,7 @@ coeff_table[,2:ncol(coeff_table)] <- round(coeff_table[,2:ncol(coeff_table)], 3)
 
 coeff_new <- as.data.frame(t(coeff_table[,-1]))
 colnames(coeff_new) <- coeff_table$model_var
-coeff_new$year <- NULL #we ignore year because we assume it's significant
+coeff_new$year <- NULL #we ignore year because we assume it's significant in this case, noting that as a standalone variable (3a) it is not significant on its own. Hence why we've kept it in manually.
 
 # add in 0 values for multi-option variables
 coeff_new$codominant <- ifelse(!is.na(coeff_new$position_alldominant), 0, NA)
