@@ -459,19 +459,31 @@ L80-101 & L112-115: This is a nice summary of how traits can help us understand 
 
 L102 & L106: the introduction gives a nice overview of size and trait influences on resistance to drought. But the third focus of your study – microenvironment characteristics – gets little or no attention. In fact it’s not very clear what you mean by ‘microenvironment’ for most of the paper.
 
+**We have placed the focus primarily on tree size and traits because that's where we see the most interesting story. We are interested in microenvironment primarily in how it interacts with tree size--i.e., in how microclimate varies across the vertical forest gradient, and in whether larger root systems are an advantage in drier microsites. We have made a number of changes that should make this clearer. For instance, we now have a paragraph in the introduction starting as follows "Larger trees may also have lower drought resistance because of microenvironmental and ecological factors." We then discuss how larger trees have more exposed crowns, and how larger root systems could be advantageous in drier microsites during drought.** 
+
 L150-152: Given that height is estimated and not measured, wouldn’t it be better to use DBH as a (measured) dimension of tree size?
 
 **We prefer to use height because it is more meaningful biologically. DBH would give the same result.**
 
 L173: this is the first mention of what I’m guessing is your ‘microenvironment’ descriptor. Worth briefly mentioning why you are measuring TWI.
 
+**We have revised this sentence to read, "Topographic wetness index (TWI), *used here as a metric of long-term mean moisture availability*,..**
+
 L230: Somewhere here it would be good to remind the reader what these explanatory variables are.
+
+**We have revised this sentence to read, "The general statistical model for hypothesis testing was a mixed effects model, implemented  in the lme4 package in R [@R-lme4], using tree nested within species as a random effect, and independent variables as specified below." We later specify the list of variables.**
 
 L234-237: Not very clear how these models were constructed. Why did you fit each predictor independently to test its importance as opposed to standardizing them and having them together in a multiple regression and then compare their coefficients? And why was height retained in all models? Testing one predictor at a time might be sensible if you have lots of collinearity between predictors. But it could also mean you miss important conditional effects (e.g., the effect of variable x only emerges when you first account for the effect of variable y).
 
+*(just need to write a response here-- no further changes needed to manuscript)*
+
 L255-258: good to have this summary, but it’s sort of expected that you have a decline in growth as this is how you defined drought (a little circular). So given that you’ve already mentioned how you defined drought in the methods maybe you don’t need to repeat this here?
 
+**We have dropped the criteria of decline in growth as part of how we defined drought. This does not change the drought years that qualify for inclusion.**
+
 L266-267: Don’t think you can test the effects of crown dominance going back this far. How can you be sure a tree was dominant/suppressed back in 1966?
+
+**We have dropped crown position from the model, and now use it only to give a picture of how microenvironmental conditions vary with tree height under contemporary conditions (Fig. 2).**
 
 L287: specify how they were related to drought. Positive? Negative?
 
