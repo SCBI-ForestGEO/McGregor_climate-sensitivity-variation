@@ -330,7 +330,10 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 349 fascinating; it seems plausible that current climate changed induced large-individual mortality involves trees growing to conduit diameters, and thus heights, permitted under previously more even and moister climates, and now finding themselves in more extreme climates that make their heights and conduits excessively wide given current conditions.
 
-*https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/122*
+**We have added the following text:**
+
+*This may be because moister habitats would tend to support species and individuals with more mesophytic traits (*Bartlett et al. 2016 Drought. DOI: 10.1890/15-0468.1*; *Mencuccini 2003, DOI: 10.1046/j.1365-3040.2003.00991.x*) [@medeiros_extensive_2019], potentially growing to greater heights (e.g., *Detto et al. DOI: 10.1371/journal.pone.0076296*), and these are then more vulnerable when drought hits.*
+
 
 350 if you wanted to expand your discussion of causal mechanisms or the implications of your findings, I think you could jettison this paragraph. I admire your thoroughness in offering caveats, but I agree that this does not seem like a serious problem for your study.
 
