@@ -3,7 +3,9 @@ title: ""
 author: ""
 output:
   pdf_document:
-    fig_caption: yes
+    fig_caption: yes       
+    includes:  
+      in_header: preamble-latex.tex
 bibliography: ["packages.bib"]
 biblio-style: apalike
 csl: new-phytologist.csl
@@ -25,7 +27,7 @@ options(knitr.table.format = "latex")
 options(knitr.kable.NA = '')
 ```
 
-### Supplementary Information
+# Supplementary Information
 ## Tree height and leaf drought tolerance traits shape growth responses across droughts in a temperate broadleaf forest 
 
 Ian R. McGregor,
@@ -44,14 +46,7 @@ Kristina J. Anderson-Teixeira
 
 \listoftables
 \listoffigures
-
 \newpage
-While there were several R-packages we used for a specific purpose in our methods, numerous packages were immensely helpful for this research behind the scenes. As in all of science, this study is a representation of the work done by both the authors of this paper as well as countless others. While acknowledging everyone is impossible, we want to at least give thanks to those who made this work possible.
-
-R-packages not already cited in the main manuscript include the following, listed alphabetically by corresponding package name:
-
-[@R-base; @R-broom; @R-car; @R-cowplot; @R-data.table; @R-devtools; @R-dplR; @R-dplyr; @R-extrafont; @R-ggplot2; @R-ggpubr; @R-ggthemes; @R-gridExtra; @R-knitr; @R-lubridate; @R-MuMIn; @R-piecewiseSEM; @R-png; @R-purrr; @R-raster; @R-rasterVis; @R-RCurl; @R-readxl; @R-reshape2; @R-rgdal; @R-rgeos; @R-rmarkdown; @R-sf; @R-stringi; @R-stringr; @R-tidyr]
-
 
 \newpage
 ```{r, Table S1, eval=TRUE, echo=FALSE, message=FALSE}
@@ -191,3 +186,10 @@ Year was included in the model for all drought years, but its effect was not inc
 ![**Figure S6. Visualization of best model, with data, for all droughts combined.** Model coefficients are given in Table S6.](tables_figures/publication/FigureS6_best_model_with_data.png)
 
 
+\newpage
+## Further Package Citations
+While there were several R-packages we used for a specific purpose in our methods, numerous packages were immensely helpful for this research behind the scenes. As in all of science, this study is a representation of the work done by both the authors of this paper as well as countless others. While acknowledging everyone is impossible, we want to at least give thanks to those who made this work possible.
+
+R-packages not already cited in the main manuscript include the following, listed alphabetically by corresponding package name:
+
+[@R-base; @R-broom; @R-car; @R-cowplot; @R-data.table; @R-devtools; @R-dplR; @R-dplyr; @R-extrafont; @R-ggplot2; @R-ggpubr; @R-ggthemes; @R-gridExtra; @R-knitr; @R-lubridate; @R-MuMIn; @R-piecewiseSEM; @R-png; @R-purrr; @R-raster; @R-rasterVis; @R-RCurl; @R-readxl; @R-reshape2; @R-rgdal; @R-rgeos; @R-rmarkdown; @R-sf; @R-stringi; @R-stringr; @R-tidyr]
