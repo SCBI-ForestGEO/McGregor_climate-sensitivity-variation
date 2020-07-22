@@ -73,9 +73,9 @@ Kristina J. Anderson-Teixeira^1,3^*
 
 Text | word count | other | n
 ---------------------------------------------|---------------------|-----------------------------|--------------------
-Total word count (excluding summary, references and legends) |  5,365	 |	No. of figures | 	2 (both colour)
-Summary|  	198 | 	No. of Tables | 	5  
-Introduction|	1,034 |	No of Supporting Information files | 	6
+Total word count (excluding summary, references and legends) |  5,365	 |	No. of figures | 	4 (all colour)
+Summary|  	198 | 	No. of Tables | 	3  
+Introduction|	1,034 |	No of Supporting Information files | 	#
 Materials and Methods |	1,945	||	 
 Results |	697	 ||
 Discussion |	1467	||
@@ -148,11 +148,11 @@ Research was conducted at the 25.6-ha ForestGEO (Forest Global Earth Observatory
 *Identifying drought years*
 
 We identified the three largest droughts within the time period 1950-2009, defining drought [@slette_how_2019] as events with anomalously dry peak growing season climatic conditions. 
-Specifically, we used the metric of Palmer Drought Severity Index (PDSI) during May-August (MJJA; Table S3), which were identified by @helcoski_growing_2019 as the months of the current year to which annual tree growth was most sensitive at this site. 
+Specifically, we used the metric of Palmer Drought Severity Index (PDSI) during May-August (MJJA; Table S1), which were identified by @helcoski_growing_2019 as the months of the current year to which annual tree growth was most sensitive at this site. 
 PDSI divisional data for Northern Virginia were obtained from NOAA (https://www7.ncdc.noaa.gov/CDO/CDODivisionalSelect.jsp) in December 2017. 
-Based on this, we identified the three strongest droughts during the study period (Figs. **1, S1**; Table S3).
+Based on this, we identified the three strongest droughts during the study period (Figs. **1, S1**; Table S1).
 
-The droughts differed in intensity and antecedent moisture conditions (Fig. **S1**, Table S3). 
+The droughts differed in intensity and antecedent moisture conditions (Fig. **S1**, Table S1). 
 The 1966 drought was preceded by two years of moderate drought during the growing season and severe to extreme drought starting the previous fall. 
 In August 1966, $PDSI$ reached its lowest monthly value (-4.82) of the three droughts. 
 The 1977 drought was the least intense throughout the growing season, and it was preceded by 2.5 years of near-normal conditions, making it the mildest of the three droughts. 
@@ -178,10 +178,10 @@ $$DBH_Y  = DBH_{2008} - 2*\left[r_{bark,2008} - r_{bark,Y} + \sum_{year=Y}^{2008
 
 Here, $Y$ denotes the year of interest, $r_{ring}$ denotes ring width derived from cores, and $r_{bark}$ denotes bark thickness. 
 Bark thickness was estimated from species-specific allometries based on the bark thickness data from the site [@andersonteixeira_size-related_2015].
-Specifically, we used linear regression on log-transformed data to relate $r_{bark}$ to diameter inside bark from 2008 data (Table S1), which were then used to determine $r_{bark}$ in the $DBH$ reconstruction. 
+Specifically, we used linear regression on log-transformed data to relate $r_{bark}$ to diameter inside bark from 2008 data (Table S2), which were then used to determine $r_{bark}$ in the $DBH$ reconstruction. 
 
 Tree heights ($H$) were measured by several researchers for a variety of purposes between 2012 and 2019 (n=1,518 trees). Methods included direct measurements using a collapsible measurement rod on small trees [@neon_national_2018] or a tape measure on recently fallen trees (this study); geometric calculations using clinometer and tape measure [@stovall_assessing_2018] or digital rangefinders [@andersonteixeira_size-related_2015; @neon_national_2018]; and ground-based LiDAR [@stovall_terrestrial_2018]. Rangefinders used either the tangent method (Impulse 200LR, TruPulse 360R) or the sine method (Nikon ForestryPro) for calculating heights. Both methods are associated with some error [@larjavaara_measuring_2013], but in this instance there was no clear advantage of one or the other. Measurements from the National Ecological Observatory Network (NEON) were collected near the ForestGEO plot following standard NEON protocol, whereby vegetation of short stature was measured with a collapsible measurement rod, and taller trees with a rangefinder [@neon_national_2018]. 
-Species-specific height allometries were developed (Table S2) using log-log regression ($ln[H] \sim ln[DBH]$). 
+Species-specific height allometries were developed (Table S3) using log-log regression ($ln[H] \sim ln[DBH]$). 
 For species with insufficient height data to create reliable species-specific allometries (n=2, JUNI and FRAM), heights were calculated from an equation developed by combining the height measurements across all species. 
 We then used these allometries to estimate $H$ for each drought year, $Y$, based on reconstructed $DBH_Y$.
 The distribution of $H$ across drought years is shown in Fig. **S3**. 
