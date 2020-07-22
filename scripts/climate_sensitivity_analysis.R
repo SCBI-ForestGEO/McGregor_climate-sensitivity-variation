@@ -588,6 +588,8 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 # trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
 trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
 
+trees_all_sub$year <- as.character(trees_all_sub$year)
+
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
 x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
@@ -783,8 +785,8 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 cand_full <- cand_full[complete.cases(cand_full), ]
 
 #The info in this table is used to update table 4 (Rt) or S4 (arimaratio)
-write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_lmer_CPout.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/candidate_traits_lmer_CPout.csv", row.names=FALSE)
+write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_lmer_arimaratio_CPout.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/candidate_traits_lmer_arimaratioCPout.csv", row.names=FALSE)
 
 ##3b reform. determine the best full model (expand for fuller explanation) ####
 # this code chunk uses the candidate variables (cand_full) from ##6a to determine
@@ -976,8 +978,8 @@ for (i in seq(along=c(1:4))){
   top_models <- rbind(top_models, top)
 }
 
-write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_lmer_CPout.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_lmer_CPout.csv", row.names=FALSE)
+write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_lmer_arimaratio_CPout.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_lmer_arimaratio_CPout.csv", row.names=FALSE)
 
 #
 #3bi. VIF; this is for when we fully decide what our best model is!!! ####
