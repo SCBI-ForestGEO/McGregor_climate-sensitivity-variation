@@ -29,11 +29,11 @@ header-includes:
 options(tinytex.verbose = TRUE)
 ```
 
-```{r include=FALSE}
+```{r include=FALSE, eval=FALSE}
 # automatically create a bib database for R packages
 library(LeafArea)
 knitr::write_bib(c(
-  .packages(), 'knitr', 'rmarkdown', 'ggplot2', 'devtools', 'rgdal', 'broom', 'sf', 'ggthemes', 'rgeos', 'RCurl', 'readxl', 'raster', 'elevatr', 'dynatopmodel', 'stringi', 'lme4', 'AICcmodavg', 'car', 'piecewiseSEM', 'MuMIn', 'stringr', 'purrr', 'pointRes', 'dplR', 'data.table', 'tools', 'dplyr', 'reshape2', 'png', 'grid', 'gridExtra', 'cowplot', 'ggpubr', 'extrafont', 'rasterVis', 'tidyr', 'neonUtilities', 'lubridate', 'LeafArea', 'forecast'
+  .packages(), 'knitr', 'rmarkdown', 'ggplot2', 'devtools', 'rgdal', 'broom', 'sf', 'ggthemes', 'rgeos', 'RCurl', 'readxl', 'raster', 'elevatr', 'dynatopmodel', 'stringi', 'lme4', 'AICcmodavg', 'car', 'piecewiseSEM', 'MuMIn', 'stringr', 'purrr', 'pointRes', 'dplR', 'data.table', 'tools', 'dplyr', 'reshape2', 'png', 'grid', 'gridExtra', 'cowplot', 'ggpubr', 'extrafont', 'rasterVis', 'tidyr', 'neonUtilities', 'lubridate', 'LeafArea', 'forecast', 'visreg', 'agricolae'
 ), file = 'packages.bib')
 ```
 \raggedright
@@ -206,7 +206,7 @@ The general statistical model for hypothesis testing was a mixed effects model, 
 In the multi-year model, we included a random effect of tree nested within species and a fixed effect of drought year to represent the combined effects of differences in drought characteristics.
 Individual year models included a random effect of species. 
 All models included fixed effects of independent variables of interest (Tables 1,3) as specified below.
-All variables had variance inflation factors <1.5 (1 +/- 0.2). 
+All variables across all best models had variance inflation factors <1.2 (1 +/- 0.019). 
 We used AICc to assess model selection, and conditional/marginal R-squared to assess model fit as implemented in the AICcmodavg package in R [@R-AICcmodavg]. 
 AICc refers to a corrected version of AICc, and is best suited for small data sizes [see @brewer_relative_2016].
 
@@ -264,7 +264,7 @@ This term did appear with a positive coefficient in the best $Rt_{ARIMA}$ model 
 *Species' traits and drought resistance*
 
 Species, as a factor in ANOVA, had significant influence (p<0.05) on all traits (wood density, $LMA$, $PLA_{dry}$, and $\pi_{tlp}$), with more significant pairwise differences for wood density and $PLA_{dry}$ than for $LMA$ and $\pi_{tlp}$ (Table 2, Fig. **S4**).
-Drought resistance also varied across species, overall and in each drought year (Fig. **3**). 
+Drought resistance also varied across species, overall and in each drought year (Fig. **3**). Significant differences in $Rt$ across species were most pronounced in 1966 with a total of seven distinct groupings, while 1977 had four and 1999 had two.
 Averaged across all droughts, $Rt$ was lowest in *Liriodendron tulipifera* (mean $Rt$ = **0.66**) and highest in *Fagus grandifolia* (mean $Rt$ = **0.99**).
 
 Wood density, $LMA$, and xylem porosity were all poor predictors of $Rt$ (Tables 1,S4-S5). 
