@@ -1063,6 +1063,29 @@ dev.off()
 
 
 ########################################################################
+#6. Make histogram of height per drought year ####
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
+
+x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
+x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
+x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
+
+model_df <- list(trees_all_sub, x1966, x1977, x1999)
+names(model_df) <- c("All years", "1966", "1977", "1999")
+
+layout(matrix(1:4, nrow=2, byrow=TRUE))
+for(i in 1:4){
+   hist(exp(model_df[[i]][,"height.ln.m"]),
+        xlab="Height [m]", ylab="N trees",
+        ylim=c(0,350),
+        main=names(model_df)[i])
+}
+hist(exp(x1966$height.ln.m))
+
+
+
+
+########################################################################
 # appendix ####
 allhei <- as.data.table(heights_allplot)
 #height growth showing massive negative growth from 1999 to 2018
