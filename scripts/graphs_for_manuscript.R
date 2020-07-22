@@ -142,19 +142,21 @@ library(data.table)
 library(ggplot2)
 library(agricolae)
 rt <- fread("manuscript/tables_figures/trees_all_sub.csv")
-traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBELJEQJZPPXAC4GV4KS7CZAC2")
-traits_hydr <- traits_hydr[,.(sp,PLA_dry_percent, mean_TLP_Mpa)]
+traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBEPQVCRRCIDQSBGNC2S7EC5A2")
+traits_hydr <- traits_hydr[,.(sp,PLA_dry_percent, mean_TLP_Mpa, 
+                              WD_g_per_cm3, LMA_g_per_m2)]
 
 varlist <- list()
-var <- c("height.ln.m", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")
-for(i in 1:4){
+var <- c("height.ln.m", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa",
+         "WD_g_per_cm3", "LMA_g_per_m2")
+for(i in 1:6){
    
    if(i %in% c(1,2)){
       anovout <- aov(get(var[i]) ~ sp, data=rt)
    } else {
       anovout <- aov(get(var[i]) ~ sp, data=traits_hydr)
    }
-   hsdout <- HSD.test(anovout, "sp")
+   hsdout <- HSD.test(anovout, "sp", group=TRUE)
    grouptab <- hsdout$groups
    grouptab$var <- var[i]
    grouptab <- grouptab[order(rownames(grouptab)), ]
@@ -1063,7 +1065,7 @@ dev.off()
 
 
 ########################################################################
-#6. Make histogram of height per drought year ####
+#6. Fig S3. Make histogram of height per drought year ####
 trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
