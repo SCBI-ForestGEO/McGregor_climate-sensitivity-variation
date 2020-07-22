@@ -69,7 +69,7 @@ table2 <- read.csv("tables_figures/publication/table2_species_table_hand_formatt
 table2[8,8] <- paste0(table2[8,8], footnote_marker_symbol(1))
 kable(table2, format = "latex", booktabs=TRUE, caption = "Table 2. Overview of analyzed species, listed in order of their relative contributions to woody stem productivity ($ANPP_{stem}$) in the plot, along with numbers and sizes sampled, and species traits. Variable abbreviations are as in Table 3. DBH measurements are from the most recent ForestGEO census in 2018 (live trees) or tree mortality censuses in 2016 and 2017 (trees cored dead).", escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
-  add_header_above(c(" "," "," ", "contemporary DBH (cm)" = 2, "species traits (mean +/- sd)" = 5)) %>%
+  add_header_above(c(" "," "," ", "contemporary DBH (cm)" = 2, "species traits (mean +/- se)" = 5)) %>%
   #kable_styling(bootstrap_options = "striped", full_width = FALSE)
 kableExtra::footnote(symbol = c("Semi-ring porosity is intermediate between ring and diffuse. We group it with diffuse-porous species for more even division of species between categories."), footnote_as_chunk = FALSE)
 ```
