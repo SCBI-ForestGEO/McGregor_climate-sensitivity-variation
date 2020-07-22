@@ -70,14 +70,14 @@ library(knitr)
 library(kableExtra)
 
 heights <- read.csv("tables_figures/publication/tableS2_height_regression.csv", stringsAsFactors = FALSE)
-kable(heights, booktabs=TRUE, format = 'latex', caption = "Table S2: Species-specific height regression equations", escape = FALSE) %>%
+kable(heights, booktabs=TRUE, format = 'latex', caption = "Table S2. Species-specific height regression equations", escape = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position", protect_latex = TRUE)
 ```
 
 \newpage
 ```{r, Table S3, eval=TRUE, echo=FALSE, message=FALSE}
 tableS3 <- read.csv("tables_figures/publication/tables3_drought_stats.csv", stringsAsFactors = FALSE)
-kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3: Monthly Palmer Drought Severity Index (PDSI), and its rank among all years between 1950 and 2009 (driest=1), for focal droughts. ") %>%
+kable(tableS3, booktabs=TRUE, format = "latex", caption = "Table S3. Monthly Palmer Drought Severity Index (PDSI), and its rank among all years between 1950 and 2009 (driest=1), for focal droughts. ") %>%
   pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 3, hline_before = FALSE) %>%
   pack_rows("", 5, 8, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 9, 12, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
@@ -156,22 +156,24 @@ kable(multivar_table, booktabs = TRUE, caption = "Table S7. Summary of top  mode
 ```
 Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold). $R^2$ refers to conditional $R^2$.
 
-\newpage
-![Figure S1: Map of ForestGEO plot showing TWI and location of cored trees](tables_figures/publication/figureS1_location_cored_trees.png){width=500px}
 
 \newpage
-![Figure S2: Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought](tables_figures/publication/figureS2_drought_plot.jpg){width=600px}
-
+![**Figure S1. Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought**](tables_figures/publication/figureS1_drought_plot.jpg)
 
 \newpage
-
-![Figure S3: **Distribution of independent variables by species.** Species that are assigned the same letter are not significantly different from each other with regard to the tested variable. ](tables_figures/publication/FigureS3_traits_signif.png)
+![**Figure S2. Map of ForestGEO plot showing topographic wetness index and location of cored trees**](tables_figures/publication/figureS2_location_cored_trees.png){width=500px}
 
 
 \newpage
 
-![Figure S4: Comparison of $Rt$ and $Rt_{ARIMA}$ results, with residuals, for each drought scenario](tables_figures/publication/figureS4_Rt_arima_comparison.png)
+![**Figure S3. Distribution of reconstructed tree heights across drought years.** ](tables_figures/publication/FigureS3_height_histogram.png)
+
 
 \newpage
 
-![Figure S5: **PLACEHOLDER** ](tables_figures/publication/figureS5_species Rt differences.png)
+![**Figure S4. Distribution of independent variables by species.** Species that are assigned the same letter are not significantly different from each other with regard to the tested variable. ](tables_figures/publication/FigureS4_traits_signif.png)
+
+
+\newpage
+
+![**Figure S5. Comparison of $Rt$ and $Rt_{ARIMA}$ results, with residuals, for each drought scenario**](tables_figures/publication/figureS5_Rt_arima_comparison.png)
