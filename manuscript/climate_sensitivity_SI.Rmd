@@ -135,7 +135,7 @@ kable(multivar_table, booktabs = TRUE, caption = "Table S6. Summary of top full 
   row_spec(11, bold = T) %>%
   kable_styling()
 ```
-Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold). $R^2$ refers to conditional $R^2$.
+Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold). $R^2$ refers to conditional $R^2$. 
 
 \newpage
 ```{r table S7, eval = TRUE, echo=FALSE, warning=FALSE}
@@ -177,3 +177,10 @@ Models are ranked by AICc. Shown are all models whose AICc value falls within 2.
 \newpage
 
 ![**Figure S5. Comparison of $Rt$ and $Rt_{ARIMA}$ results, with residuals, for each drought scenario**](tables_figures/publication/figureS5_Rt_arima_comparison.png)
+
+
+\newpage
+
+![**Figure S6. Visualization of best model, with data, for all droughts combined.** Model coefficients are given in Table S6.](tables_figures/publication/FigureS6_best_model_with_data.png)
+
+
