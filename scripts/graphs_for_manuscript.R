@@ -68,24 +68,61 @@ g + annotate(geom="text", x=0.13, y=0.99,
             label = "(b)", fontface="bold", size=3)
 dev.off()
 
-##1b Figure 2: Distribution by species ####
+##1b Figure 3: Distribution by species and anova of Rt by sp ####
 library(data.table)
+library(agricolae)
 rt <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
 rt$year <- as.character(rt$year)
+x1966 <- rt[rt$year == 1966, ]
+x1977 <- rt[rt$year == 1977, ]
+x1999 <- rt[rt$year == 1999, ]
+model_df <- list(x1966, x1977, x1999)
+names(model_df) <- c("x1966", "x1977", "x1999")
+
+varlist <- list()
+for(i in 1:3){
+   anovout <- aov(resist.value ~ sp, data=model_df[[i]])
+   
+   hsdout <- HSD.test(anovout, "sp", group=TRUE)
+   grouptab <- hsdout$groups
+   grouptab$var <- names(model_df[i])
+   grouptab <- grouptab[order(rownames(grouptab)), ]
+   grouptab$groups <- as.character(grouptab$groups)
+   
+   varlist[[i]] <- grouptab
+}
+names(varlist) <- names(model_df)
+varlist[["x1966"]]
 
 #all droughts per species
-png("manuscript/tables_figures/publication/Figure2_rt_across_sp.png", width=960)
-ggplot(rt) +
+q <- ggplot(rt) +
    aes(x = sp, y = resist.value) +
    geom_boxplot(aes(fill = year), alpha=0.5) +
    scale_color_discrete() +
    ylab("Rt") +
    xlab("Species") +
    theme_minimal() +
-   theme(axis.text = element_text(size=12),
-         axis.title=element_text(size=14,face="bold"),
-         legend.text=element_text(size=12),
-         legend.title=element_text(size=12))
+   theme(axis.text = element_text(size=14),
+         axis.title=element_text(size=16,face="bold"),
+         legend.text=element_text(size=14),
+         legend.title=element_text(size=14))
+
+q <- q +
+   annotate("text", 
+            x=1:12, y= 2.3, size=5,
+            label=varlist[["x1966"]]$groups,
+            color="#FF9999") +
+   annotate("text", 
+            x=1:12, y= 2.2, size=5,
+            label=varlist[["x1977"]]$groups,
+            color="#009900") +
+   annotate("text", 
+            x=1:12, y= 2.1, size=5,
+            label=varlist[["x1999"]]$groups,
+            color="#6699CC")
+
+png("manuscript/tables_figures/publication/Figure3_rt_across_sp.png", width=960)
+q
 dev.off()
 
 rt <- as.data.table(rt)
@@ -137,7 +174,7 @@ ggplot(full) +
    theme(axis.text.x = element_text(angle = 90))
 
 
-# Figure S3 (?) anova of traits compared to sp ####
+# Figure S4. anova of traits compared to sp ####
 library(data.table)
 library(ggplot2)
 library(agricolae)
