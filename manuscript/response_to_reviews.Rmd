@@ -78,7 +78,7 @@ Following the two previous comments, I suggest to leave in Table 5 just the best
 
 **(3) The results and discussion now focus more on the results from the three drought years combined.** 
 
-*We do plot the three droughts separately in figures **#,#**, as we do fee that this makes the story richer.*
+**We do still present results from the three droughts separately (e.g., Figs. 1,3,4; Tables S4-S7), as we do feel that this makes the story richer.**
 
 The authors might like to consider including Table 4 as a supplement, because as it stands it looks like an exploratory analysis. If the ‘single-variable approach’ is not just exploratory, state it clearly and why it is needed besides the full models with several parameters.
 
@@ -136,7 +136,7 @@ should be rather straightforward and the authors would increase accuracy across 
 
 **We address this question in the discussion, where we have added a statement about how this is not unprecedented: "Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion had increased growth (Fig. 1b), potentially due to decreased leaf area of competitors during the drought, and consistent with prior observations that smaller trees can exhibit increased growth rates during drought (Bennett et al. 2015). It is likely because of the moderate impact of these droughts, along with other factors influencing tree growth (e.g., stand dynamics), that our best models characterize only a modest amount of variation"**
 
-**We have also added a new figure (*Fig. 2*) showing how $Rt$ varied across species in each of the three droughts.**
+**We have also added a new figure (*Fig. 3*) showing how $Rt$ varied across species in each of the three droughts.**
 
 - Line 266-267: why only in 1966? I think this shows that this variable is not properly assessed. The older the date, the more accurate the estimation of crown position and height were.
 
@@ -152,7 +152,7 @@ should be rather straightforward and the authors would increase accuracy across 
 
 *Current text, with phrase of concern in bold: "Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion had increased growth (Fig. 1b), potentially due to decreased leaf area of competitors during the drought (**REF--if we can find one**), and consistent with prior observations that smaller trees can exhibit increased growth rates during drought [@bennett_larger_2015]." *
 
-**To address the question about species, we have added a new figure (*Fig. 2*) showing how $Rt$ varied across species in each of the three droughts.**
+**To address the question about species, we have added a new figure (*Fig. 3*) showing how $Rt$ varied across species in each of the three droughts.**
 
 - Line 331-333: not so sure about this. It can also mean that there is no causal relationship between Rt and covariates, mostly because radial growth Rt should not be used as an integral proxy of tree resistance to drought, such as it is often used now in the literature.
 
@@ -184,7 +184,7 @@ Table 3: please, add also the number of trees, it is more informative than the n
 
 Table 3: the authors could show some test to see if the traits presented are different among species.
 
-**We now show differences in traits among species (with signficance groupings) in Figure S4.**
+**We now show differences in traits among species (with significance groupings) in Figure S4.**
 
 Table S1 and S2: correct R2. 
 
@@ -264,7 +264,7 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 **"Studies in temperate broadleaf forests have observed that ring-porous species showing higher drought tolerance than diffuse-porous species [@friedrichs_species-specific_2009; @elliott_forest_2015; @kannenberg_linking_2019], but this distinction would not hold in the global context (*Wheeler et al. 2007, Olson et al. 2020*) and does not resolve differences among the many species within each category."**
 
-**We dug into the ring/diffuse porous distinction more, and ended up making a few substantive changes that relate to this theme: (1) We added a new figure showing $Rt$ across species (Fig. 2). This illustrates that the two diffuse-porous species, *Liriodendron tulipifera* and *Fagus grandifolia*, were at opposite ends of the $Rt$ spectrum. (2) We modified the criteria of selecting candidate variables for the full models to include the criterion that directions of responses must be consistent across droughts for inclusion in the full model. This resulted in exclusion of xylem porosity (Table S4)--a change that is also warrented by the fact that we only have two diffuse-porous species. (3) We added the following content to the discussion: **
+**We dug into the ring/diffuse porous distinction more, and ended up making a few substantive changes that relate to this theme: (1) We added a new figure showing $Rt$ across species (Fig. 3). This illustrates that the two diffuse-porous species, *Liriodendron tulipifera* and *Fagus grandifolia*, were at opposite ends of the $Rt$ spectrum. (2) We modified the criteria of selecting candidate variables for the full models to include the criterion that directions of responses must be consistent across droughts for inclusion in the full model. This resulted in exclusion of xylem porosity (Table S4)--a change that is also warrented by the fact that we only have two diffuse-porous species. (3) We added the following content to the discussion: **
 
 *insert text*
 
@@ -282,7 +282,7 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 138 you might discuss the adequacy of the height range studied. If it is true that conduit diameter predicts vulnerability, then the greatest differences in vulnerability should be over the height range over which conduit diameter changes most rapidly. The relationship between conduit diameter and plant height turns out to follow a power-law like distribution, see for example the SI in (Olson et al., 2018). This means that differences in vulnerability should be very marked across smaller size classes (say below 7 m or so and very marked below 3 m) and be less and less visible across larger plants. So, studies of changes in conduit diameter/ vulnerability with height would ideally include plants smaller than those included here, so maybe comment on how the height range might affect the ability to detect the patterns of interest. It strikes me that it is appropriate because it is the height range over which the putative preferential susceptibility of large trees to drought is being observed.
 
-**Our trees were mostly above the 3 or 7m threshold. It's important to note that the DBH and height at the time of coring did not correspond to that at the time of drought. Still, the minimum height was about 5m, so we'd presumably be mostly missing that range of most dramatic changes in conduit diameter. It could be interesting to try to align the size range over which Rt changes most dramatically with those over which conduit diameter and microclimate change most rapidly, but unfortunately that's beyond the scope here.** 
+**Our trees were mostly above the 3 or 7m threshold (see Fig. S3). It's important to note that the DBH and height at the time of coring did not correspond to that at the time of drought. Still, the minimum height was about 5m, so we'd presumably be mostly missing that range of most dramatic changes in conduit diameter. It could be interesting to try to align the size range over which Rt changes most dramatically with those over which conduit diameter and microclimate change most rapidly, but unfortunately that's beyond the scope here.** 
 
 *need to put something in the text here. Line 138 was where we talked about the sizes of cored trees.*
 
@@ -427,13 +427,11 @@ L217-226: this is problematic because drought resistance (Rt) as defined by Llor
 
 L260-261: This is rather strange. So for the same individual tree, size was important in determining response to drought in one year but not in the others? And that’s for the years further back in time when the tree would have been smallest? Couldn’t that be interpreted as trees becoming less susceptible to drought as they grow larger/older? It’s also a little concerning that results are very different across the three droughts. Of these, the 1999 drought is the one I would tend to trust most as stand structure and composition would have been most similar to today.
 
-**We don't find it surprising that height could be more important in some droughts than in others. We address this in the second paragraph of the discussion: "Of the droughts considered here, the 1966 drought, which was preceded by two years of dry conditions (Fig. **S2**), severely stressed a larger portion of trees (Fig. **1b**). The tendency for large trees to have lowest resistance was most pronounced in this drought, consistent with other findings that this physiological response increases with drought severity [@bennett_larger_2015; @stovall_tree_2019]."**
+**We don't find it surprising that height could be more important in some droughts than in others. We address this in the second paragraph of the discussion: "Of the droughts considered here, the 1966 drought, which was preceded by two years of dry conditions (Fig. **S1**), severely stressed a larger portion of trees (Fig. **1b**). The tendency for large trees to have lowest resistance was most pronounced in this drought, consistent with other findings that this physiological response increases with drought severity [@bennett_larger_2015; @stovall_tree_2019]."**
 
-**It's important to keep in mind that we're using height estimates specific to each drought year, and these estimates should be fairly reliable (we've dropped CP, which we decided was too unreliable). We now clarify that height is specific to the drought year: "Taller trees (based on $H$ in the drought year) showed stronger growth reductions during drought (Table 1; Fig. **4**)." While the distribution of heights did shift upwards with progressive droughts, this shift is modest relative to the total height range (a few meters relative to a height range of ~40 m).** 
+**It's important to keep in mind that we're using height estimates specific to each drought year, and these estimates should be fairly reliable (we've dropped crown position). We now clarify that height is specific to the drought year: "Taller trees (based on $H$ in the drought year) showed stronger growth reductions during drought (Table 1; Fig. **4**)." While the distribution of heights did shift upwards with progressive droughts, this shift is modest relative to the total height range (a few meters relative to a height range of ~40 m; Fig. S3).** 
 
-*https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/121*
-
-**There are a number of factors-- including height distribution and also atmospheric CO2 -- that differ across the droughts and may bias the mean response. To account for this as best as possible, we included year as a fixed effect in all statistical models (even though it did not come out significant). This is now clearly specified in the methods: "In the multi-year model, we also included a fixed effect of drought year to represent the combined effects of differences in drought characteristics (Fig. **S2**)." There were no significant differences across years, which we now specify in the results.**
+**There are a number of factors-- including height distribution and also atmospheric CO2 -- that differ across the droughts and may bias the mean response. To account for this as best as possible, we included year as a fixed effect in all statistical models (even though it did not come out significant). This is now clearly specified in the methods: "In the multi-year model, we also included a fixed effect of drought year to represent the combined effects of differences in drought characteristics." There were no significant differences across years, which we now specify in the results.**
 
 
 Other comments
@@ -508,7 +506,7 @@ Firstly, the way drought resistance (Rt) is estimated, as the ratio of BAI durin
 
 **In response to Reviewer 4's comments, we tried an intervention time series analysis using the 'auto.arima' function from the 'forecast' package [@R-forecast]. Specifically, we modeled BAI  based on the timeseries for the 10 years prior to the drought year (itself acting as the intervention). We then recorded the ratio between the mean predicted BAI and the observed BAI during the drought year, and compared these results to $Rt$. These yielded similar outcomes, which we now present in the Supplementary Info. The original $Rt$ and $Rt_{ARIMA}$ were fairly well correlated, but with some scatter (see figs below). To get a sense of which metric was performing better, we visually reviewed the records of the 18 trees with largest differences between $Rt$ and $Rt_{ARIMA}$. $Rt$ estimates were better for the majority of these, and generally were not hugely unrealistic, whereas $Rt_{ARIMA}$ could be way off (e.g., for several trees that were undergoing growth declines prior to drought and hit minima at or near the drought, $Rt_{ARIMA}$ was much greater than 1, suggesting a substantial growth increase during the drought.). Thus, we decided to stick with $Rt$ as the primary metric.**
 
-![Figure S4](tables_figures/publication/figureS4_Rt_arima_comparison.png)
+![Figure S5](tables_figures/publication/figureS5_Rt_arima_comparison.png)
 
 **Regarding the resilience indices, we considered analyzing these and decided it would be best to stick with just resistance for three reasons: (1) Most importantly, we would expect resilience to be governed by fundamentally different mechanisms than resistance. While it would be interesting to examine resilience, this would be beyond the scope of the current paper. (2) [DeSoto et al. (2020, Nature)](https://www.nature.com/articles/s41467-020-14300-5) used an extensive dataset of trees sampled after severe droughts and compared the responses to previous, less-severe droughts between trees that survived and trees that were killed by the severe drought. In angiosperms, trees that died from a severe drought had lower resistance to previous droughts, compared to trees that survived the severe drought. In gymnosperms, trees that died during severe droughts had lower recovery following previous droughts, compared to trees that survived the severe drought. These findings would argue that resistance is a more important variable for angiosperms. We now state the logic for focusing on $Rt$ in the methods section:** 
 
@@ -526,7 +524,7 @@ Secondly, the choice of traits does not appear well justified, as it seems to be
 
 *it mixes different types of hypotheses operating at different levels. On one hand there is tree height and crown position, which are measured at the level of individual trees and correspond to closely related hypotheses. On the other hand there are ring-porosity, wood density, LMA and water relations traits, which are measured at the species level and seem to be totally disconnected from the hypotheses regarding tree height. In addition, it is very hard to compare the explanatory power of these variables, as done in the paper, as they are based on very different sample sizes (571 trees vs 12 species) and respond to different sources of variability. In fact the way height effects are analyzed mixes the within- and between-species levels, which makes it difficult to interpret the results.*
 
-**There is nothing fundamentally wrong with a model comparing individual- and species- level effects, but we understand why it was confusing and believe that the revised presentation of the analysis should make all of this easier to follow. Improvements related to this comment include: (1) revision to how traits are selected for inclusion as candidate variables for the full model, which provides a more appropriate test of individual traits and guards against over-fitting; (2) moving of former tables 4 and 5 to the SI, and replacing fig. 5 with a figure visualizing the model results; (3) adding a couple new figures showing variation in $Rt$ (Fig. 3) and predictor variables (Fig. S3) across species; and (4) dropping canopy position from the model for predicting $Rt$. 
+**There is nothing fundamentally wrong with a model comparing individual- and species- level effects, but we understand why it was confusing and believe that the revised presentation of the analysis should make all of this easier to follow. Improvements related to this comment include: (1) revision to how traits are selected for inclusion as candidate variables for the full model, which provides a more appropriate test of individual traits and guards against over-fitting; (2) moving of former tables 4 and 5 to the SI, and replacing fig. 5 with a figure visualizing the model results; (3) adding a couple new figures showing variation in $Rt$ (Fig. 3) and predictor variables (Fig. S4) across species; and (4) dropping canopy position from the model for predicting $Rt$.** 
 
 *Finally, I think it would be more correct to refer to PLA and TLP as water relations traits rather than hydraulic traits.*
 
@@ -534,7 +532,7 @@ Secondly, the choice of traits does not appear well justified, as it seems to be
 
 Thirdly, a more thorough analysis of the distribution of the study species in the sample plot would be required. The paper assumes that all species were subjected to the same drought levels. However, this is unlikely to be true, as different species are likely to occupy different microhabitats in the plot, and hence be subjected to different drought conditions. The authors account for this, to some extent, by including individual-level TWI in some models, but a more thorough analysis of the distribution of the study species as a function of TWI and other relevant micro-environmental variables would be needed to fully interpret the results.
 
-**We have added a new figure to the SI showing variation in predictor variables across species (Fig. S3). While there was some variation across species in $H$ and $TWI$, there were few pronounced differences across species. We now discuss the case of the most anomalous species, *Fagus grandifolia*, in the discussion section. We also determined that there is little systematic variation in $PLA_{dry}$ and $\pi_{tlp}$ with respect to $H$ or $TWI$ (analysis not shown). This, together with the fact that our statistical models do account for $TWI$, should minimize bias related to distribution of the study species within the plot** 
+**We have added a new figure to the SI showing variation in predictor variables across species (Fig. S4). While there was some variation across species in $H$ and $TWI$, there were few pronounced differences across species. We now discuss the case of the most anomalous species, *Fagus grandifolia*, in the discussion section. We also determined that there is little systematic variation in $PLA_{dry}$ and $\pi_{tlp}$ with respect to $H$ or $TWI$ (analysis not shown). This, together with the fact that our statistical models do account for $TWI$, should minimize bias related to distribution of the study species within the plot** 
 
 
 Minor or more technical suggestions:
@@ -571,9 +569,11 @@ L160: you mean a log-log regression, right?
 
 L181: N=3 individuals per species is really quite low. In addition, by sampling up to 8 m height you would probably be sampling less exposed branches from taller trees, which could confound your results.
 
-**More samples would be ideal, but was not feasible given the time and resources available, and have no way to sample more now (in part because of COVID-19). We note that intraspecific SD was generally low with respect to mean values and interspecific variation, and that a sample size of n=3 is not unprecendented for this type of analysis [@medeiros_extensive_2019]. We have added a figure to the SI (Fig. S3) showing variation in traits across species.**  
+**More samples would be ideal, but was not feasible given the time and resources available, and have no way to sample more now (in part because of COVID-19). We note that intraspecific SD was generally low with respect to mean values and interspecific variation, and that a sample size of n=3 is not unprecendented for this type of analysis [@medeiros_extensive_2019]. We have added a figure to the SI (Fig. S4) showing variation in traits across species.**  
 
 *https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/125*
+
+**The sampling strategy was consistent across species, and also consistent with general methods for leaf trait sampling. Because we were not testing species-level trait response (as opposed to sampling traits on every cored tree), we don't expect any bias related to sampling height.** 
 
 L188: ‘Wood’.
 
@@ -618,7 +618,7 @@ Table 3: are DBH units correct? I suspect they should be mm instead of cm.
 
 Figure 1: please explain all acronyms.
 
-**We now specify that these codes are given in Table 3.**
+**We now specify that these codes are given in Table 2.**
 
 Figure 2: where are the leaf hydraulic traits shown (cf. caption)?
 
