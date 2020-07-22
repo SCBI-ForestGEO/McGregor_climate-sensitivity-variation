@@ -785,7 +785,7 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 cand_full <- cand_full[complete.cases(cand_full), ]
 
 #The info in this table is used to update table 4 (Rt) or S4 (arimaratio)
-write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_lmer_arimaratio_CPout.csv", row.names=FALSE)
+write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_lmer_CPout.csv", row.names=FALSE)
 write.csv(cand_full, "manuscript/tables_figures/candidate_traits_lmer_arimaratioCPout.csv", row.names=FALSE)
 
 ##3b reform. determine the best full model (expand for fuller explanation) ####
