@@ -585,8 +585,8 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #3. mixed effects model for output of #2.
 
 ##start here if just re-running model runs ####
-# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
+# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
 
 trees_all_sub$year <- as.character(trees_all_sub$year)
 
@@ -994,13 +994,20 @@ best_mod_traits$best_model <- gsub("\\*", "\\+", input)
 
 hazel_vif <- NULL
 for(i in 1:nrow(best_mod_traits)){
-  mod <- glmer(best_mod_traits$best_model[i], 
+  mod <- lmer(best_mod_traits$best_model[i], 
                        data = model_df[[i]],
+                        REML=TRUE,
                        control = 
                  lmerControl(optimizer ="Nelder_Mead"))
   
   hazel <- as.data.frame(car::vif(mod))
   hazel$scen <- best_mod_traits$scenario[i]
+  if(ncol(hazel)>2){
+    hazel <- hazel[,c(3,4)]
+  } else {
+    hazel <- hazel[,c(1,2)]
+  }
+  colnames(hazel) <- c("metric", "scen")
   hazel_vif <- rbind(hazel_vif, hazel)
 }
 
