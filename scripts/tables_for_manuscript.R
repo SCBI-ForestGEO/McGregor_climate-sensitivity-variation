@@ -53,9 +53,9 @@ dbh_cored <- species[,c(1:9)]
 
 dbh_cored <- dbh_cored %>%
   group_by(sp) %>%
-  summarise(mean = mean(dbh2018/10),
-            min = min(dbh2018/10),
-            max = max(dbh2018/10))
+  summarise(mean = signif(mean(dbh2018/10),3),
+            min = signif(min(dbh2018/10),3),
+            max = signif(max(dbh2018/10),3))
 dbh_cored$mean <- round(dbh_cored$mean, 2)
 dbh_cored$range <- paste0(dbh_cored$min, " - ", dbh_cored$max)
 dbh_cored[,c("min", "max")] <- NULL
@@ -68,25 +68,50 @@ table2 <- table2[,-c(5:9)]
 
 table2[,c(6:9)] <- round(table2[,c(6:9)], 2)
 
-setnames(table2, 
-         old=c("mean", "range", "n_cores", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
-         new=c("mean $DBH$ (cm)", "range $DBH$ (cm)", "n.cores", "$RP$", "$PLA$ (\\%)", "$LMA$ ($\\frac{g}{cm^2}$)", "$\\pi_{tlp}$ (Mpa)", "$WD$ ($\\frac{g}{cm^3}$)"))
+#bring in hydraulic traits to get std.error
+traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBEPQVCRRCIDQSBGNC2S7EC5A2")
 
+library(plotrix)
+traits_hydr <- traits_hydr[!(sp %in% c("frni", "pist")),]
+newtraits <- traits_hydr[,.(tlp_se = std.error(mean_TLP_Mpa, na.rm=TRUE),
+                            pla_se = std.error(PLA_dry_percent, na.rm=TRUE),
+                            lma_se=std.error(LMA_g_per_m2, na.rm=TRUE),
+                            wd_se=std.error(WD_g_per_cm3, na.rm=TRUE)),
+                         by=.(sp)
+                         ][order(sp), ]
+traits_nosp <- newtraits[,sp := NULL]
+traits_nosp <- traits_nosp[, names(traits_nosp) := 
+                         lapply(.SD, signif, digits=3)]
+
+table2 <- cbind(table2, traits_nosp)
 #i think this originally came from one of valentine's tables
 table2$percent.ANPP <- c(2, 3.7, 1.1,
                          2, 1.5, 3.8,
                          2.1, 47.1, 10.7,
                          4.8, 10.1, 7.8)
+table2 <- table2[,c("sp", "percent.ANPP", "n_cores", "mean", "range",
+                    "WD_g_per_cm3", "wd_se", "LMA_g_per_m2", "lma_se",
+                    "rp", "mean_TLP_Mpa", "tlp_se", 
+                    "PLA_dry_percent", "pla_se")]
+
+roundcols <- c("WD_g_per_cm3", "wd_se", "LMA_g_per_m2", "lma_se",
+               "mean_TLP_Mpa", "tlp_se", 
+               "PLA_dry_percent", "pla_se")
+table2[,roundcols] <- signif(table2[,roundcols], digits=3)
+
+table2 <- as.data.table(table2)
 
 
 
-#get standard deviation
-org_traits <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEKXLSB4H62QPT3RZQC7DWCPE", stringsAsFactors = FALSE)
 
-table2$`$PLA$ (\\%)_sd` <- org_traits$PLA_dry_percent_sd[match(table2$sp, org_traits$sp)]
-table2$`$LMA$ ($\frac{g}{cm^2}$)_sd` <- org_traits$LMA_g_per_m2_sd[match(table2$sp, org_traits$sp)]
-table2$`$\\pi_{tlp}$ (Mpa)_sd` <- org_traits$mean_TLP_Mpa_sd[match(table2$sp, org_traits$sp)]
-table2$`$WD$ ($\frac{g}{cm^3}$)_sd` <- org_traits$WD_g_per_cm3_sd[match(table2$sp, org_traits$sp)]
+
+# #get standard deviation
+# org_traits <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEKXLSB4H62QPT3RZQC7DWCPE", stringsAsFactors = FALSE)
+# 
+# table2$`$PLA$ (\\%)_sd` <- org_traits$PLA_dry_percent_sd[match(table2$sp, org_traits$sp)]
+# table2$`$LMA$ ($\frac{g}{cm^2}$)_sd` <- org_traits$LMA_g_per_m2_sd[match(table2$sp, org_traits$sp)]
+# table2$`$\\pi_{tlp}$ (Mpa)_sd` <- org_traits$mean_TLP_Mpa_sd[match(table2$sp, org_traits$sp)]
+# table2$`$WD$ ($\frac{g}{cm^3}$)_sd` <- org_traits$WD_g_per_cm3_sd[match(table2$sp, org_traits$sp)]
 
 
 table2$sp <- c("Carya cordiformis (CACO)", "Carya glabra (CAGL)", "Carya ovalis (CAOVL)",
@@ -95,9 +120,8 @@ table2$sp <- c("Carya cordiformis (CACO)", "Carya glabra (CAGL)", "Carya ovalis 
                "Quercus montana (QUPR)", "Quercus rubra (QURU)", "Quercus velutina (QUVE)")
 
 
-table2 <- table2[,c(1,10,4,2:3,5,6,11,7,12,8,13,9,14)]
 table2 <- table2[base::order(table2$percent.ANPP, decreasing=TRUE), ]
-table2[8,6] <- "semi-ring*" #change juni ring porosity
+table2[8,10] <- "semi-ring*" #change juni ring porosity
 
 
 
