@@ -47,7 +47,7 @@ kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. S
   pack_rows("At least within the forest setting, taller trees are less drought resistant.", 5, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   pack_rows("Small trees (lower root volume) in drier microhabitats have lower drought resistance.", 6, 6, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   pack_rows("Species traits", 7, 11, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("Species' traits--particularly leaf hydraulic traits--predict drought reistance.", 7, 11, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) 
+  pack_rows("Species' traits--particularly leaf drought tolerance traits--predict drought reistance.", 7, 11, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) 
   #add_header_above(c(" ", "Prediction supported?" = 4, " ")) %>%
   #column_spec(1, width = "12cm") %>%
   #column_spec(2:5, width = "1.2cm") %>%

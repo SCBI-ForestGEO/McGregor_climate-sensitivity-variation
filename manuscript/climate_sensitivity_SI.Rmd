@@ -26,7 +26,7 @@ options(knitr.kable.NA = '')
 ```
 
 ### Supplementary Information
-## Tree height and hydraulic traits shape growth responses across droughts in a temperate broadleaf forest 
+## Tree height and leaf drought tolerance traits shape growth responses across droughts in a temperate broadleaf forest 
 
 Ian R. McGregor,
 Ryan Helcoski,
