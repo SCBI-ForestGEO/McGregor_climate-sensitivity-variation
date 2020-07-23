@@ -615,7 +615,7 @@ ggarrange(NEON_list$wind_plot, NEON_list$RH_plot, NEON_list$SAAT_plot, heights_b
 dev.off()
 
 #########################################################################
-#3. Figure S1: Export map of plot using TWI and cored tree locations
+#3. Figure S2: Export map of plot using TWI and cored tree locations
 ## necessary packages ####
 library(raster)
 library(rasterVis)
@@ -660,7 +660,7 @@ t <- t +
                 default.units='native')
    })
 
-png("manuscript/tables_figures/publication/figureS1_location_cored_trees.png", width=5, height=7, units="in", res=300)
+png("manuscript/tables_figures/publication/figureS2_location_cored_trees.png", width=5, height=7, units="in", res=300)
 
 t + #add north arrow
    layer({
@@ -715,7 +715,7 @@ heights_allplot$tree <- as.character(heights_allplot$tree)
 heights_allplot$position_all_abb <- as.character(heights_allplot$position_all_abb)
 
 ########################################################################
-#5. Visualizing regression output ####
+#5. Figure 4. Visualizing regression output ####
 library(lme4)
 library(ggpubr)
 # remotes::install_github("pbreheny/visreg")
@@ -878,7 +878,7 @@ grid.arrange(arr, legend, ncol=2, widths=c(4,1))
 dev.off()
 
 
-## only plot the all-years model with visreg ####
+## Figure S6. only plot the all-years model with visreg ####
 xl <- c("ln[H]", "ln[TWI]", "PLA", "TLP")
 vars <- c("height.ln.m", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")
 
@@ -1125,6 +1125,63 @@ hist(exp(x1966$height.ln.m))
 
 
 ########################################################################
+#7. compare Rt values with arima_ratio ####
+library(data.table)
+arima_ratio <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
+
+rt <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
+
+years <- c(1966, 1977, 1999)
+
+layout(matrix(1:8, nrow=2, byrow=TRUE))
+res_full <- NULL
+for(i in 1:4){
+   cols <- c("tree", "resist.value")
+   
+   if(i==1){
+      cols <- c("year", cols)
+      compare <- rt[,cols]
+      arimadf <- arima_ratio
+      compare$arimart <- arimadf$resist.value[
+         match(paste0(compare$year, compare$tree),
+               paste0(arimadf$year, arimadf$tree))]
+   } else {
+      compare <- rt[rt$year == years[i-1], cols]
+      arimadf <- arima_ratio[arima_ratio$year == years[i-1], ]
+      compare$arimart <- arimadf$resist.value[
+         match(compare$tree, arimadf$tree)]
+   }
+   
+   compare <- compare[complete.cases(compare),]
+   
+   plot(compare$resist.value, compare$arimart, 
+        main=if(i==1){"All years"} else {as.character(years[i-1])},
+        xlab="Rt", ylab="ARIMA")
+   abline(coef=c(0,1), col="red")
+   
+   #put together all direct comparisons
+   if(i==1){
+      tabs4 <- compare
+      setnames(tabs6, old=c("year", "tree", "resist.value", "arimart"),
+               new=c("Year", "Tree", "$Rt$", "$Rt_{ARIMA}$"))
+   }
+   
+   #calculate top 3 +- deviations from 1:1 line
+   y <- compare$arimart
+   x <- compare$resist.value
+   compare$resid_val <- resid(lm(y-x ~ 0))
+   compare <- compare[order(compare$resid_val), ]
+   hist(compare$resid_val, xlab="Residual value from 1:1 line",
+        main=if(i==1){"All years"} else {as.character(years[i-1])})
+   
+   resids <- data.frame(rbind(head(compare, n=3), tail(compare, n=3)))
+   resids$year <- if(i==1){"all"} else {years[i-1]}
+   
+   res_full <- rbind(res_full, resids)
+}
+write.csv(tabs4, "manuscript/tables_figures/Rt_arimaratio_comparison.csv", row.names=FALSE)
+write.csv(res_full, "manuscript/tables_figures/top_residual_deviations.csv", row.names=FALSE)
+##################################################################
 # appendix ####
 allhei <- as.data.table(heights_allplot)
 #height growth showing massive negative growth from 1999 to 2018

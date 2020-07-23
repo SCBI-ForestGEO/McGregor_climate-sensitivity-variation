@@ -287,7 +287,7 @@ ggplot(data = bark, aes(x = log(diam_nobark_2008.mm), y = log(bark.depth.mm))) +
   theme_minimal()
 
 #no total regression equation at bottom because all species are accounted for in dataset.
-##these equations are also found in tableS1_bark_regression.csv
+##these equations are also found in tableS2_bark_regression.csv
 bark$predict_barkthick.ln.mm <- NA
 bark$predict_barkthick.ln.mm <- 
   ifelse(bark$species == "caco", -1.56+0.416*log(bark$diam_nobark_2008.mm),
@@ -432,7 +432,7 @@ trees_all$dbh.ln.cm <- log(trees_all$dbh_old.cm)
 ##2e. add in tree heights ####
 ## taken from the canopy_heights script
 #the full equation is using all points for which we have data to create the equation, despite that for several species we don't have enough data to get a sp-specific equation
-height_regr <- read.csv("manuscript/tables_figures/publication/tableS2_height_regression.csv", stringsAsFactors = FALSE)
+height_regr <- read.csv("manuscript/tables_figures/publication/tableS3_height_regression.csv", stringsAsFactors = FALSE)
 
 height_regr$Equations <- gsub("^.*= ", "", height_regr$Equations)
 height_regr$Equations <- gsub("[[:alpha:]].*$", "x", height_regr$Equations)
@@ -583,7 +583,6 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 
 #########################################################################################
 #3. mixed effects model for output of #2.
-
 ##start here if just re-running model runs ####
 trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
 # trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
@@ -784,7 +783,8 @@ for (i in seq(along=sum_mod_traits[,c(8,11,14,17)])){
 
 cand_full <- cand_full[complete.cases(cand_full), ]
 
-#The info in this table is used to update table 4 (Rt) or S4 (arimaratio)
+#The info in sum_mod_traits is used to update 
+#table S4 (Rt) or S5 (arimaratio)
 write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_lmer_CPout.csv", row.names=FALSE)
 write.csv(cand_full, "manuscript/tables_figures/candidate_traits_lmer_arimaratioCPout.csv", row.names=FALSE)
 
@@ -978,6 +978,7 @@ for (i in seq(along=c(1:4))){
   top_models <- rbind(top_models, top)
 }
 
+#the data in top_models is used to update tables S6 (Rt) and S7 (Rt_arima)
 write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_lmer_arimaratio_CPout.csv", row.names=FALSE)
 write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_lmer_arimaratio_CPout.csv", row.names=FALSE)
 
@@ -1098,64 +1099,6 @@ for(i in seq(along=patterns)){
 write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_lmer_CPout.csv", row.names=FALSE)
 
 ## END OF NORMAL ANALYSIS. 3d and 3e are extra
-
-##3d. compare Rt values with arima_ratio ####
-library(data.table)
-arima_ratio <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE)
-
-rt <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
-
-years <- c(1966, 1977, 1999)
-
-layout(matrix(1:8, nrow=2, byrow=TRUE))
-res_full <- NULL
-for(i in 1:4){
-  cols <- c("tree", "resist.value")
-  
-  if(i==1){
-    cols <- c("year", cols)
-    compare <- rt[,cols]
-    arimadf <- arima_ratio
-    compare$arimart <- arimadf$resist.value[
-      match(paste0(compare$year, compare$tree),
-            paste0(arimadf$year, arimadf$tree))]
-  } else {
-    compare <- rt[rt$year == years[i-1], cols]
-    arimadf <- arima_ratio[arima_ratio$year == years[i-1], ]
-    compare$arimart <- arimadf$resist.value[
-      match(compare$tree, arimadf$tree)]
-  }
-  
-  compare <- compare[complete.cases(compare),]
-  
-  plot(compare$resist.value, compare$arimart, 
-       main=if(i==1){"All years"} else {as.character(years[i-1])},
-       xlab="Rt", ylab="ARIMA")
-  abline(coef=c(0,1), col="red")
-  
-  #put together all direct comparisons
-  if(i==1){
-    tabs4 <- compare
-    setnames(tabs6, old=c("year", "tree", "resist.value", "arimart"),
-             new=c("Year", "Tree", "$Rt$", "$Rt_{ARIMA}$"))
-  }
-  
-  #calculate top 3 +- deviations from 1:1 line
-  y <- compare$arimart
-  x <- compare$resist.value
-  compare$resid_val <- resid(lm(y-x ~ 0))
-  compare <- compare[order(compare$resid_val), ]
-  hist(compare$resid_val, xlab="Residual value from 1:1 line",
-       main=if(i==1){"All years"} else {as.character(years[i-1])})
-  
-  resids <- data.frame(rbind(head(compare, n=3), tail(compare, n=3)))
-  resids$year <- if(i==1){"all"} else {years[i-1]}
-  
-  res_full <- rbind(res_full, resids)
-}
-write.csv(tabs4, "manuscript/tables_figures/Rt_arimaratio_comparison.csv", row.names=FALSE)
-write.csv(res_full, "manuscript/tables_figures/top_residual_deviations.csv", row.names=FALSE)
-
 
 #
 ##3a original. test each variable individually (expand for fuller explanation) ####
