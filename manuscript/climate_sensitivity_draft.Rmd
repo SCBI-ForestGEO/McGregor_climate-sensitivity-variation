@@ -103,7 +103,7 @@ Because the resistance and resilience of growth to drought is linked to trees' p
 However, it has proven difficult to resolve the many factors affecting tree growth during drought with available forest census data, which only rarely captures extreme drought, and with tree-ring records, which capture multiple droughts but usually only sample a subset of a forest community, typically focusing on a single species or the largest individuals.
 
 Many studies have shown that within and across species, large trees tend to be more affected by drought. 
-Greater growth reductions for larger trees were first shown on a global scale by @bennett_larger_2015, and subsequent studies have reinforced this finding [*e.g.*, @hacket-pain_consistent_2016]. 
+Greater growth reductions for larger trees were first shown on a global scale by @bennett_larger_2015, and subsequent studies have reinforced this finding [*e.g.*, @hacket-pain_consistent_2016; @gillerot_tree_2020]. 
 It has yet to be resolved which of several potential underlying mechanisms most strongly shape these trends in drought response. 
 First, tree height itself may be a primary driver. 
 Taller trees face the biophysical challenge of lifting water greater distances against the effects of gravity and friction [@mcdowell_relationships_2011; @mcdowell_darcys_2015; @ryan_hydraulic_2006; @couvreur_water_2018]. 
