@@ -341,19 +341,28 @@ KAT, IM, and AJT designed the research. Tree-ring chronologies were developed by
 
 ### Supplementary Information
 
-*redo this list!!* 
+Table S1: Monthly Palmer Drought Severity Index (PDSI), and its rank among all years between 1950 and 2009 (driest=1), for focal droughts.
 
-Table S1: Species-specific bark thickness regression equations
+Table S2: Species-specific bark thickness regression equations.
 
-Table S2: Species-specific height regression equations
+Table S3: Species-specific height regression equations.
 
-Table S3: Palmer drought severity index (PDSI) by month for focal droughts
+Table S4. Individual tests of species traits as drivers of drought resistance, where $Rt$ is used as the response variable.
 
-Figure S1: Map of ForestGEO plot showing TWI and location of cored trees
+Table S5. Individual tests of species traits as drivers of drought resistance, where $Rt_{ARIMA}$ is used as the response variable.
 
-Figure S2: Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to
-each focal drought 
+Table S6. Summary of top full models for each drought instance, where $Rt$ is used as the response variable.
 
-Figure S3: Height (from reconstructed DBH) by crown position across the three focal droughts and in the year of
-measurement (2018)
+Table S7. Summary of top  models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable.
 
+Figure S1. Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought
+
+Figure S2: Map of ForestGEO plot showing topographic wetness index and location of cored trees
+
+Figure S3: Distribution of reconstructed tree heights across drought years.
+
+Figure S4. Distribution of independent variables by species.
+
+Figure S5. Comparison of $Rt$ and $Rt_{ARIMA}$ results, with residuals, for each drought scenario
+
+Figure S6. Visualization of best model, with data, for all droughts combined.

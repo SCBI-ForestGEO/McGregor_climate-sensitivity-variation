@@ -105,7 +105,7 @@ $\Delta$AICc is the AICc of a model excluding the trait minus that of the model 
 library(knitr)
 library(kableExtra)
 singlevar_table <- read.csv("tables_figures/publication/tableS5_singlevariable_models_lmer_arimaratio_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
-kable(singlevar_table, booktabs = TRUE, caption = "Table S5. Individual tests of species traits as drivers of drought resistance, where $Rt_{ARIMA}$ is used as the response variable. ", format = 'latex', escape = FALSE) %>%
+kable(singlevar_table, booktabs = TRUE, caption = "Table S5. Individual tests of species traits as drivers of drought resistance, where $Rt_{ARIMA}$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
   kable_styling()
@@ -121,7 +121,7 @@ $\Delta$AICc is the AICc of a model excluding the trait minus that of the model 
 library(knitr)
 library(kableExtra)
 multivar_table <- read.csv("tables_figures/publication/tableS6_multivariable_models_lmer_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
-kable(multivar_table, booktabs = TRUE, caption = "Table S6. Summary of top full models for each drought instance, where $Rt$ is used as the response variable. ", format = 'latex', escape = FALSE) %>%
+kable(multivar_table, booktabs = TRUE, caption = "Table S6. Summary of top full models for each drought instance, where $Rt$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 5, 5, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
@@ -142,7 +142,7 @@ Year was included in the model for all drought years, but its effect was not inc
 library(knitr)
 library(kableExtra)
 multivar_table <- read.csv("tables_figures/publication/tableS7_multivariable_models_lmer_arimaratio_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
-kable(multivar_table, booktabs = TRUE, caption = "Table S7. Summary of top  models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable. ", format = 'latex', escape = FALSE) %>%
+kable(multivar_table, booktabs = TRUE, caption = "Table S7. Summary of top  models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 5, 7, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
