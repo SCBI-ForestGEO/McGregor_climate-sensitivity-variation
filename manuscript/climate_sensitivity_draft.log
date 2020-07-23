@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  23 JUL 2020 10:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  23 JUL 2020 11:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -600,7 +600,8 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibsep=\skip55
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count136
-) (./climate_sensitivity_draft.aux)
+)
+No file climate_sensitivity_draft.aux.
 \openout1 = `climate_sensitivity_draft.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 89.
@@ -764,17 +765,685 @@ LaTeX Font Info:    Try loading font information for TS1+lmr on input line 231.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [2] [3] [4] [5] [6] [7] [8] [9] [10] [11]
+) [2]
 
-Package natbib Warning: Citation `brum_2018_hydrological' on page 12 undefined 
+Package natbib Warning: Citation `bonan_forests_2008' on page 3 undefined on in
+put line 270.
+
+
+Package natbib Warning: Citation `friedlingstein_climatecarbon_2006' on page 3 
+undefined on input line 272.
+
+
+Package natbib Warning: Citation `kennedy_implementing_2019' on page 3 undefine
+d on input line 274.
+
+
+Package natbib Warning: Citation `trenberth_global_2014' on page 3 undefined on
+ input line 276.
+
+
+Package natbib Warning: Citation `dai_climate_2018' on page 3 undefined on inpu
+t line 276.
+
+
+Package natbib Warning: Citation `intergovernmental_panel_on_climate_change_cli
+mate_2015' on page 3 undefined on input line 278.
+
+
+Package natbib Warning: Citation `cook_unprecedented_2015' on page 3 undefined 
+on input line 278.
+
+
+Package natbib Warning: Citation `allen_global_2010' on page 3 undefined on inp
+ut line 282.
+
+
+Package natbib Warning: Citation `allen_underestimation_2015' on page 3 undefin
+ed on input line 282.
+
+
+Package natbib Warning: Citation `desoto_low_2020' on page 3 undefined on input
+ line 288.
+
+
+Package natbib Warning: Citation `liu_hydraulic_2019' on page 3 undefined on in
+put line 288.
+
+
+Package natbib Warning: Citation `bennett_larger_2015' on page 3 undefined on i
+nput line 299.
+
+
+Package natbib Warning: Citation `hacket-pain_consistent_2016' on page 3 undefi
+ned on input line 301.
+
+
+Package natbib Warning: Citation `gillerot_tree_2020' on page 3 undefined on in
+put line 301.
+
+
+Package natbib Warning: Citation `mcdowell_relationships_2011' on page 3 undefi
+ned on input line 307.
+
+
+Package natbib Warning: Citation `mcdowell_darcys_2015' on page 3 undefined on 
+input line 307.
+
+
+Package natbib Warning: Citation `ryan_hydraulic_2006' on page 3 undefined on i
+nput line 307.
+
+
+Package natbib Warning: Citation `couvreur_water_2018' on page 3 undefined on i
+nput line 307.
+
+
+Package natbib Warning: Citation `couvreur_water_2018' on page 3 undefined on i
+nput line 313.
+
+
+Package natbib Warning: Citation `koike_leaf_2001' on page 3 undefined on input
+ line 313.
+
+
+Package natbib Warning: Citation `mcdowell_relationships_2011' on page 3 undefi
+ned on input line 313.
+
+
+Package natbib Warning: Citation `couvreur_water_2018' on page 3 undefined on i
+nput line 314.
+
+
+Package natbib Warning: Citation `phillips_reliance_2003' on page 3 undefined o
+n input line 317.
+
+
+Package natbib Warning: Citation `scholz_hydraulic_2011' on page 3 undefined on
+ input line 317.
+
+
+Package natbib Warning: Citation `olson_plant_2018' on page 3 undefined on inpu
+t line 321.
+
+
+Package natbib Warning: Citation `liu_hydraulic_2019' on page 3 undefined on in
+put line 321.
+
+
+Package natbib Warning: Citation `zach_vessel_2010' on page 3 undefined on inpu
+t line 323.
+
+
+Package natbib Warning: Citation `olson_universal_2014' on page 3 undefined on 
+input line 323.
+
+
+Package natbib Warning: Citation `olson_plant_2018' on page 3 undefined on inpu
+t line 323.
+
+
+Package natbib Warning: Citation `olson_plant_2018' on page 3 undefined on inpu
+t line 325.
+
+
+Package natbib Warning: Citation `roskilly_conflicting_2019' on page 3 undefine
+d on input line 327.
+
+
+Package natbib Warning: Citation `kunert_revised_2017' on page 3 undefined on i
+nput line 332.
+
+
+Package natbib Warning: Citation `pretzsch_drought_2018' on page 3 undefined on
+ input line 334.
+
+
+Package natbib Warning: Citation `enquist_global_2002' on page 3 undefined on i
+nput line 336.
+
+
+Package natbib Warning: Citation `meakem_role_2018' on page 3 undefined on inpu
+t line 343.
+
+
+Package natbib Warning: Citation `liu_hydraulic_2019' on page 3 undefined on in
+put line 343.
+
+
+Package natbib Warning: Citation `friedrichs_species-specific_2009' on page 3 u
+ndefined on input line 352.
+
+
+Package natbib Warning: Citation `elliott_forest_2015' on page 3 undefined on i
+nput line 352.
+
+
+Package natbib Warning: Citation `kannenberg_linking_2019' on page 3 undefined 
+on input line 352.
+
+
+Package natbib Warning: Citation `wheeler_variations_2007' on page 3 undefined 
+on input line 354.
+
+
+Package natbib Warning: Citation `olson_xylem_2020' on page 3 undefined on inpu
+t line 354.
+
+
+Package natbib Warning: Citation `abrams_adaptations_1990' on page 3 undefined 
+on input line 359.
+
+
+Package natbib Warning: Citation `guerfel_impacts_2009' on page 3 undefined on 
+input line 359.
+
+
+Package natbib Warning: Citation `hoffmann_hydraulic_2011' on page 3 undefined 
+on input line 359.
+
+
+Package natbib Warning: Citation `martinbenito_convergence_2015' on page 3 unde
+fined on input line 359.
+
+
+Package natbib Warning: Citation `greenwood_tree_2017' on page 3 undefined on i
+nput line 360.
+
+
+Package natbib Warning: Citation `marechaux_leaf_2019' on page 3 undefined on i
+nput line 362.
+
+
+Package natbib Warning: Citation `greenwood_tree_2017' on page 3 undefined on i
+nput line 365.
+
+
+Package natbib Warning: Citation `hoffmann_hydraulic_2011' on page 3 undefined 
+on input line 367.
+
+
+Package natbib Warning: Citation `hoffmann_hydraulic_2011' on page 3 undefined 
+on input line 370.
+
+[3]
+
+Package natbib Warning: Citation `anderegg_meta-analysis_2016' on page 4 undefi
+ned on input line 379.
+
+
+Package natbib Warning: Citation `medeiros_extensive_2019' on page 4 undefined 
+on input line 384.
+
+
+Package natbib Warning: Citation `scoffoni_leaf_2014' on page 4 undefined on in
+put line 385.
+
+
+Package natbib Warning: Citation `bartlett_correlations_2016' on page 4 undefin
+ed on input line 388.
+
+
+Package natbib Warning: Citation `zhu_leaf_2018' on page 4 undefined on input l
+ine 388.
+
+
+Package natbib Warning: Citation `scoffoni_leaf_2014' on page 4 undefined on in
+put line 391.
+
+
+Package natbib Warning: Citation `bartlett_correlations_2016' on page 4 undefin
+ed on input line 391.
+
+
+Package natbib Warning: Citation `zhu_leaf_2018' on page 4 undefined on input l
+ine 391.
+
+
+Package natbib Warning: Citation `farrell_does_2017' on page 4 undefined on inp
+ut line 391.
+
+
+Package natbib Warning: Citation `greenwood_tree_2017' on page 4 undefined on i
+nput line 419.
+
+
+Package natbib Warning: Citation `hoffmann_hydraulic_2011' on page 4 undefined 
+on input line 420.
+
+[4]
+
+Package natbib Warning: Citation `bourg_initial_2013' on page 5 undefined on in
+put line 435.
+
+
+Package natbib Warning: Citation `andersonteixeira_ctfs-forestgeo:_2015' on pag
+e 5 undefined on input line 435.
+
+
+Package natbib Warning: Citation `bourg_initial_2013' on page 5 undefined on in
+put line 439.
+
+
+Package natbib Warning: Citation `harris_updated_2014' on page 5 undefined on i
+nput line 442.
+
+
+Package natbib Warning: Citation `slette_how_2019' on page 5 undefined on input
+ line 449.
+
+
+Package natbib Warning: Citation `helcoski_growing_2019' on page 5 undefined on
+ input line 453.
+
+
+Package natbib Warning: Citation `condit_tropical_1998' on page 5 undefined on 
+input line 479.
+
+
+Package natbib Warning: Citation `helcoski_growing_2019' on page 5 undefined on
+ input line 490.
+
+
+Package natbib Warning: Citation `bourg_initial_2013' on page 5 undefined on in
+put line 494.
+
+
+Package natbib Warning: Citation `gonzalezakre_patterns_2016' on page 5 undefin
+ed on input line 495.
+
+
+Package natbib Warning: Citation `helcoski_growing_2019' on page 5 undefined on
+ input line 501.
+
+
+Package natbib Warning: Citation `helcoski_growing_2019' on page 5 undefined on
+ input line 503.
+
+
+Package natbib Warning: Citation `helcoski_growing_2019' on page 5 undefined on
+ input line 505.
+
+[5]
+
+Package natbib Warning: Citation `andersonteixeira_size-related_2015' on page 6
+ undefined on input line 517.
+
+
+Package natbib Warning: Citation `neon_national_2018' on page 6 undefined on in
+put line 525.
+
+
+Package natbib Warning: Citation `stovall_assessing_2018' on page 6 undefined o
+n input line 527.
+
+
+Package natbib Warning: Citation `andersonteixeira_size-related_2015' on page 6
+ undefined on input line 528.
+
+
+Package natbib Warning: Citation `neon_national_2018' on page 6 undefined on in
+put line 528.
+
+
+Package natbib Warning: Citation `stovall_terrestrial_2018' on page 6 undefined
+ on input line 529.
+
+
+Package natbib Warning: Citation `larjavaara_measuring_2013' on page 6 undefine
+d on input line 532.
+
+
+Package natbib Warning: Citation `neon_national_2018' on page 6 undefined on in
+put line 538.
+
+
+Package natbib Warning: Citation `R-neonUtilities' on page 6 undefined on input
+ line 550.
+
+
+Package natbib Warning: Citation `neon_national_2018' on page 6 undefined on in
+put line 554.
+
+
+Package natbib Warning: Citation `jennings_assessing_1999' on page 6 undefined 
+on input line 561.
+
+
+Package natbib Warning: Citation `R-dynatopmodel' on page 6 undefined on input 
+line 571.
+
+
+Package natbib Warning: Citation `beven_physically_1979' on page 6 undefined on
+ input line 572.
+
+
+Package natbib Warning: Citation `sorensen_calculation_2006' on page 6 undefine
+d on input line 574.
+
+
+Package natbib Warning: Citation `R-elevatr' on page 6 undefined on input line 
+576.
+
+[6]
+
+Package natbib Warning: Citation `R-LeafArea' on page 7 undefined on input line
+ 592.
+
+
+Package natbib Warning: Citation `bartlett_rapid_2012' on page 7 undefined on i
+nput line 598.
+
+
+Package natbib Warning: Citation `bartlett_rapid_2012' on page 7 undefined on i
+nput line 605.
+
+
+Package natbib Warning: Citation `lloret_components_2011' on page 7 undefined o
+n input line 613.
+
+
+Package natbib Warning: Citation `R-forecast' on page 7 undefined on input line
+ 617.
+
+
+Package natbib Warning: Citation `lloret_components_2011' on page 7 undefined o
+n input line 628.
+
+
+Package natbib Warning: Citation `desoto_low_2020' on page 7 undefined on input
+ line 630.
+
+
+Package natbib Warning: Citation `R-lme4' on page 7 undefined on input line 640
+.
+
+
+Package natbib Warning: Citation `R-AICcmodavg' on page 7 undefined on input li
+ne 649.
+
+
+Package natbib Warning: Citation `brewer_relative_2016' on page 7 undefined on 
+input line 650.
+
+[7]
+
+Package natbib Warning: Citation `R-base' on page 8 undefined on input line 682
+.
+
+[8] [9]
+
+Package natbib Warning: Citation `bennett_larger_2015' on page 10 undefined on 
+input line 810.
+
+
+Package natbib Warning: Citation `stovall_tree_2019' on page 10 undefined on in
+put line 811.
+
+
+Package natbib Warning: Citation `zuleta_drought-induced_2017' on page 10 undef
+ined on input line 817.
+
+
+Package natbib Warning: Citation `stovall_tree_2019' on page 10 undefined on in
+put line 817.
+
+
+Package natbib Warning: Citation `stovall_reply_2020' on page 10 undefined on i
+nput line 822.
+
+
+Package natbib Warning: Citation `sapes_plant_2019' on page 10 undefined on inp
+ut line 836.
+
+
+Package natbib Warning: Citation `helcoski_growing_2019' on page 10 undefined o
+n input line 840.
+
+
+Package natbib Warning: Citation `druckenbrod_redefining_2019' on page 10 undef
+ined on input line 845.
+
+
+Package natbib Warning: Citation `allen_global_2010' on page 10 undefined on in
+put line 848.
+
+
+Package natbib Warning: Citation `stovall_tree_2019' on page 10 undefined on in
+put line 848.
+
+
+Package natbib Warning: Citation `clark_impacts_2016' on page 10 undefined on i
+nput line 850.
+
+
+Package natbib Warning: Citation `bennett_larger_2015' on page 10 undefined on 
+input line 856.
+
+
+Package natbib Warning: Citation `stovall_tree_2019' on page 10 undefined on in
+put line 856.
+
+
+Package natbib Warning: Citation `bennett_larger_2015' on page 10 undefined on 
+input line 862.
+
+[10]
+
+Package natbib Warning: Citation `bennett_larger_2015' on page 11 undefined on 
+input line 870.
+
+
+Package natbib Warning: Citation `olson_plant_2018' on page 11 undefined on inp
+ut line 876.
+
+
+Package natbib Warning: Citation `couvreur_water_2018' on page 11 undefined on 
+input line 876.
+
+
+Package natbib Warning: Citation `roskilly_conflicting_2019' on page 11 undefin
+ed on input line 876.
+
+
+Package natbib Warning: Citation `zellweger_seasonal_2019' on page 11 undefined
+ on input line 881.
+
+
+Package natbib Warning: Citation `davis_microclimatic_2019' on page 11 undefine
+d on input line 882.
+
+
+Package natbib Warning: Citation `campbell_introduction_1998' on page 11 undefi
+ned on input line 887.
+
+
+Package natbib Warning: Citation `rey-sanchez_spatial_2016' on page 11 undefine
+d on input line 887.
+
+
+Package natbib Warning: Citation `liu_effect_1993' on page 11 undefined on inpu
+t line 895.
+
+
+Package natbib Warning: Citation `suarez_factors_2004' on page 11 undefined on 
+input line 895.
+
+
+Package natbib Warning: Citation `scharnweber_confessions_2019' on page 11 unde
+fined on input line 895.
+
+
+Package natbib Warning: Citation `enquist_global_2002' on page 11 undefined on 
+input line 904.
+
+
+Package natbib Warning: Citation `brum_hydrological_2018' on page 11 undefined 
 on input line 907.
 
 
-Package natbib Warning: Citation `stahl_2013_depth' on page 12 undefined on inp
+Package natbib Warning: Citation `stahl_depth_2013' on page 11 undefined on inp
 ut line 909.
 
-[12] [13] (./climate_sensitivity_draft.bbl [14] [15] [16] [17] [18] [19] [20] [
-21])
+
+Package natbib Warning: Citation `meinzer_partitioning_1999' on page 11 undefin
+ed on input line 911.
+
+
+Package natbib Warning: Citation `chitra-tarak_roots_2018' on page 11 undefined
+ on input line 915.
+
+
+Package natbib Warning: Citation `zuleta_drought-induced_2017' on page 11 undef
+ined on input line 919.
+
+
+Package natbib Warning: Citation `stovall_tree_2019' on page 11 undefined on in
+put line 919.
+
+
+Package natbib Warning: Citation `bartlett_drought_2016' on page 11 undefined o
+n input line 922.
+
+
+Package natbib Warning: Citation `mencuccini_ecological_2003' on page 11 undefi
+ned on input line 922.
+
+
+Package natbib Warning: Citation `medeiros_extensive_2019' on page 11 undefined
+ on input line 922.
+
+
+Package natbib Warning: Citation `detto_hydrological_2013' on page 11 undefined
+ on input line 924.
+
+
+Package natbib Warning: Citation `bretfeld_plant_2018' on page 11 undefined on 
+input line 930.
+
+
+Package natbib Warning: Citation `helcoski_growing_2019' on page 11 undefined o
+n input line 938.
+
+
+Package natbib Warning: Citation `bourg_initial_2013' on page 11 undefined on i
+nput line 938.
+
+
+Package natbib Warning: Citation `elliott_forest_2015' on page 11 undefined on 
+input line 941.
+
+
+Package natbib Warning: Citation `elliott_forest_2015' on page 11 undefined on 
+input line 949.
+
+
+Package natbib Warning: Citation `elliott_forest_2015' on page 11 undefined on 
+input line 951.
+
+
+Package natbib Warning: Citation `kannenberg_linking_2019' on page 11 undefined
+ on input line 951.
+
+
+Package natbib Warning: Citation `friedrichs_species-specific_2009' on page 11 
+undefined on input line 952.
+
+
+Package natbib Warning: Citation `wheeler_variations_2007' on page 11 undefined
+ on input line 956.
+
+
+Package natbib Warning: Citation `andersonteixeira_size-related_2015' on page 1
+1 undefined on input line 966.
+
+[11]
+
+Package natbib Warning: Citation `scoffoni_leaf_2014' on page 12 undefined on i
+nput line 975.
+
+
+Package natbib Warning: Citation `bartlett_correlations_2016' on page 12 undefi
+ned on input line 975.
+
+
+Package natbib Warning: Citation `medeiros_extensive_2019' on page 12 undefined
+ on input line 975.
+
+
+Package natbib Warning: Citation `marechaux_drought_2015' on page 12 undefined 
+on input line 984.
+
+
+Package natbib Warning: Citation `fletcher_evolution_2018' on page 12 undefined
+ on input line 984.
+
+
+Package natbib Warning: Citation `medeiros_extensive_2019' on page 12 undefined
+ on input line 984.
+
+
+Package natbib Warning: Citation `simeone_coupled_2019' on page 12 undefined on
+ input line 984.
+
+
+Package natbib Warning: Citation `rosas_adjustments_2019' on page 12 undefined 
+on input line 984.
+
+
+Package natbib Warning: Citation `zhu_leaf_2018' on page 12 undefined on input 
+line 984.
+
+
+Package natbib Warning: Citation `powell_differences_2017' on page 12 undefined
+ on input line 991.
+
+
+Package natbib Warning: Citation `bartlett_rapid_2012' on page 12 undefined on 
+input line 993.
+
+
+Package natbib Warning: Citation `scoffoni_leaf_2014' on page 12 undefined on i
+nput line 993.
+
+
+Package natbib Warning: Citation `schongart_dendroecological_2017' on page 12 u
+ndefined on input line 1001.
+
+
+Package natbib Warning: Citation `christoffersen_linking_2016' on page 12 undef
+ined on input line 1005.
+
+
+Package natbib Warning: Citation `powell_differences_2017' on page 12 undefined
+ on input line 1005.
+
+
+Package natbib Warning: Citation `trenberth_global_2014' on page 12 undefined o
+n input line 1009.
+
+
+Package natbib Warning: Citation `intergovernmental_panel_on_climate_change_cli
+mate_2015' on page 12 undefined on input line 1009.
+
+
+Package natbib Warning: Citation `bennett_larger_2015' on page 12 undefined on 
+input line 1014.
+
+
+Package natbib Warning: Citation `stovall_tree_2019' on page 12 undefined on in
+put line 1014.
+
+
+Package natbib Warning: Citation `bretfeld_plant_2018' on page 12 undefined on 
+input line 1024.
+
+
+Package natbib Warning: Citation `rodriguez-caton_long-term_2015' on page 12 un
+defined on input line 1034.
+
+[12] [13]
+No file climate_sensitivity_draft.bbl.
 
 Package caption Warning: Unused \captionsetup[table] on input line 78.
 See the caption package documentation for explanation.
@@ -786,40 +1455,42 @@ See the caption package documentation for explanation.
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1107.
-[22]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1107.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1110.
+[14]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1110.
 (./climate_sensitivity_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1107.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1107.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1110.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1110.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 15465 strings out of 492616
- 234262 string characters out of 6129482
- 348132 words of memory out of 5000000
- 18922 multiletter control sequences out of 15000+600000
- 46073 words of font info for 81 fonts, out of 8000000 for 9000
+ 15035 strings out of 492616
+ 222593 string characters out of 6129482
+ 343216 words of memory out of 5000000
+ 18623 multiletter control sequences out of 15000+600000
+ 38906 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,6n,38p,824b,640s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
-texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/20
-19/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2019/texmf-dist/
-fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2019/texmf-dist/fonts/enc/
-dvips/lm/lm-mathit.enc}{/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/lm/l
+ 36i,6n,38p,824b,359s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/lo
+cal/texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/20
+19/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2019/texmf-d
+ist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2019/texmf-dist/fonts/
+enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/lm/l
 m-ts1.enc}</usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmbx10.pfb>
-</usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/loca
-l/texlive/2019/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/
-2019/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2019/texmf
--dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2019/texmf-dist/fonts
-/type1/public/lm/lmr10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/publ
-ic/lm/lmr7.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri10
-.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmss8.pfb></usr/
-local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texl
-ive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
-Output written on climate_sensitivity_draft.pdf (22 pages, 274762 bytes).
+</usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/loca
+l/texlive/2019/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/
+2019/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2019/texmf-
+dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2019/texmf-dist/fonts/
+type1/public/lm/lmr7.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public
+/lm/lmri10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmss8.
+pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/
+local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
+Output written on climate_sensitivity_draft.pdf (14 pages, 200886 bytes).
 PDF statistics:
- 685 PDF objects out of 1000 (max. 8388607)
- 643 compressed objects within 7 object streams
- 149 named destinations out of 1000 (max. 500000)
+ 185 PDF objects out of 1000 (max. 8388607)
+ 157 compressed objects within 2 object streams
+ 42 named destinations out of 1000 (max. 500000)
  6209 words of extra memory for PDF output out of 10000 (max. 10000000)
 
