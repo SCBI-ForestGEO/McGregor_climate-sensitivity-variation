@@ -150,7 +150,7 @@ should be rather straightforward and the authors would increase accuracy across 
 
 - Line 330-331: any evidence to support this? It looks rather speculative. As suggested above, does any species particularly show positive Rt or positive Rt are randomly distributed in your trees?
 
-*Current text, with phrase of concern in bold: "Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion had increased growth (Fig. 1b), consistent with prior observations that smaller trees can exhibit increased growth rates during drought [@bennett_larger_2015]." *
+**We have removed the claim that increased growth may be due to reduced leaf area.**
 
 **To address the question about species, we have added a new figure (*Fig. 3*) showing how $Rt$ varied across species in each of the three droughts.**
 
@@ -283,10 +283,6 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 138 you might discuss the adequacy of the height range studied. If it is true that conduit diameter predicts vulnerability, then the greatest differences in vulnerability should be over the height range over which conduit diameter changes most rapidly. The relationship between conduit diameter and plant height turns out to follow a power-law like distribution, see for example the SI in (Olson et al., 2018). This means that differences in vulnerability should be very marked across smaller size classes (say below 7 m or so and very marked below 3 m) and be less and less visible across larger plants. So, studies of changes in conduit diameter/ vulnerability with height would ideally include plants smaller than those included here, so maybe comment on how the height range might affect the ability to detect the patterns of interest. It strikes me that it is appropriate because it is the height range over which the putative preferential susceptibility of large trees to drought is being observed.
 
 **Our trees were mostly above the 3 or 7m threshold (see Fig. S3). It's important to note that the DBH and height at the time of coring did not correspond to that at the time of drought. Still, the minimum height was about 5m, so we'd presumably be mostly missing that range of most dramatic changes in conduit diameter. It could be interesting to try to align the size range over which Rt changes most dramatically with those over which conduit diameter and microclimate change most rapidly, but unfortunately that's beyond the scope here.** 
-
-*need to put something in the text here. Line 138 was where we talked about the sizes of cored trees.*
-
-*https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/121*
 
 173 TWI seems like an appropriate index for characterizing microsite, with the expectation that individuals in moister areas should be more buffered from drought.
 
@@ -546,6 +542,8 @@ L67: I suggest toning down the sentence to something like ‘Wider xylem conduit
 **We have revised this to read, "Wider xylem conduits plausibly make large trees more vulnerable to embolism during drought [@olson_plant_2018]..."**
 
 L81: you seem to use drought resistance and drought tolerance interchangeably, which may be confusing. I think it is important to clarify these definitions early on in the paper.
+
+**We now define drought resistance in the first paragraph: " Understanding forest responses to drought requires elucidation of how tree size, microenvironment, and species’ traits jointly influence individual-level drought resistance, defined here as a tree's ability to maintain growth during drought,...". We then use this term when we wish to speak specifically about resistance. We use "tolerance" as a more general term, consistent with what seems to be a fairly nebulous definition in the literature.**
 
 *https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/124*
 
