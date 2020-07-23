@@ -68,7 +68,7 @@ library(kableExtra)
 bark <- read.csv("tables_figures/publication/tableS2_bark_regression.csv", stringsAsFactors = FALSE)
 bark[,2] <- NULL
 colnames(bark) <- c("Species", "Equations", "$R^2$")
-kable(bark, booktabs=TRUE, format = "latex", caption = "Table S2. Species-specific bark thickness regression equations") %>%
+kable(bark, booktabs=TRUE, format = "latex", escape=FALSE, caption = "Table S2. Species-specific bark thickness regression equations") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
 
@@ -78,6 +78,7 @@ library(knitr)
 library(kableExtra)
 
 heights <- read.csv("tables_figures/publication/tableS3_height_regression.csv", stringsAsFactors = FALSE)
+colnames(heights)[3] <- "$R^2$"
 kable(heights, booktabs=TRUE, format = 'latex', caption = "Table S3. Species-specific height regression equations", escape = FALSE) %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position", protect_latex = TRUE)
 ```
@@ -87,6 +88,7 @@ kable(heights, booktabs=TRUE, format = 'latex', caption = "Table S3. Species-spe
 library(knitr)
 library(kableExtra)
 singlevar_table <- read.csv("tables_figures/publication/tableS4_singlevariable_models_lmer_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
+colnames(singlevar_table)[1] <- "variable"
 kable(singlevar_table, booktabs = TRUE, caption = "Table S4. Individual tests of species traits as drivers of drought resistance, where $Rt$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
@@ -105,6 +107,7 @@ $\Delta$AICc is the AICc of a model excluding the trait minus that of the model 
 library(knitr)
 library(kableExtra)
 singlevar_table <- read.csv("tables_figures/publication/tableS5_singlevariable_models_lmer_arimaratio_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+colnames(singlevar_table)[1] <- "variable"
 kable(singlevar_table, booktabs = TRUE, caption = "Table S5. Individual tests of species traits as drivers of drought resistance, where $Rt_{ARIMA}$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   add_header_above(c(" "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
@@ -112,6 +115,8 @@ kable(singlevar_table, booktabs = TRUE, caption = "Table S5. Individual tests of
 ```
 Variable abbreviations are as in Table 2. 
 $\Delta$AICc is the AICc of a model excluding the trait minus that of the model including it. 
+
+*$\Delta$AICc > 1: variable meets $\Delta$AICc criterion for inclusion in full model
 
 **$\Delta$AICc > 2: variable considered significant as an individual predictor
 
@@ -121,6 +126,7 @@ $\Delta$AICc is the AICc of a model excluding the trait minus that of the model 
 library(knitr)
 library(kableExtra)
 multivar_table <- read.csv("tables_figures/publication/tableS6_multivariable_models_lmer_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+colnames(multivar_table)[1] <- "drought"
 kable(multivar_table, booktabs = TRUE, caption = "Table S6. Summary of top full models for each drought instance, where $Rt$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
@@ -142,6 +148,7 @@ Year was included in the model for all drought years, but its effect was not inc
 library(knitr)
 library(kableExtra)
 multivar_table <- read.csv("tables_figures/publication/tableS7_multivariable_models_lmer_arimaratio_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+colnames(multivar_table)[1] <- "drought"
 kable(multivar_table, booktabs = TRUE, caption = "Table S7. Summary of top  models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
@@ -163,7 +170,7 @@ Year was included in the model for all drought years, but its effect was not inc
 ![**Figure S1. Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought**](tables_figures/publication/figureS1_drought_plot.jpg)
 
 \newpage
-![**Figure S2. Map of ForestGEO plot showing topographic wetness index and location of cored trees**](tables_figures/publication/figureS2_location_cored_trees.png){width=500px}
+![**Figure S2. Map of ForestGEO plot showing topographic wetness index and location of cored trees.** Scale units are in meters](tables_figures/publication/figureS2_location_cored_trees.png){width=500px}
 
 
 \newpage
@@ -183,7 +190,7 @@ Year was included in the model for all drought years, but its effect was not inc
 
 \newpage
 
-![**Figure S6. Visualization of best model, with data, for all droughts combined.** Model coefficients are given in Table S6.](tables_figures/publication/FigureS6_best_model_with_data.png)
+![**Figure S6. Visualization of the best model ($\Delta$AICc=0) with data for all droughts combined.** Model coefficients are given in Table S6.](tables_figures/publication/FigureS6_best_model_with_data.png)
 
 
 \newpage
