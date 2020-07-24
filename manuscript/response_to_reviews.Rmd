@@ -12,11 +12,6 @@ csl: new-phytologist.csl
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-*italics - temporary comments for points that remain to be addressed*
-
-**bold - response**
-
-~~~~
 
 Dear Editor:
 
@@ -215,7 +210,9 @@ The issue of the preferential death of large trees is not only important because
 
 I found this paper not only to address a very important point but also to be exceptionally well structured and written. My main suggestion is that it could use a bit more emphasis on its importance, and I would be interested in hearing a bit more about what the authors feel their results imply regarding the cause of the preferential vulnerability of large individuals. I give line-by-line suggestions (and sometimes just reactions):
 
-**Thank you for this wonderful review.**
+**Thank you for this wonderful review. We have revised the final paragraph to put more emphasis on the importance and discuss implications for forests under a changing climate. This paragraph now reads:**
+
+**"As climate change drives increasing drought in many of the world's forests [@trenberth_global_2014; @intergovernmental_panel_on_climate_change_climate_2015], the fate of forests and their climate feedbacks will be shaped by the biophysical and physiological drivers observed here. Our results show that taller, more exposed trees and species with less drought-tolerant leaf traits will be most affected, at least in terms of growth during the drought year. Resilience and survival are both linked to resistance [@desoto_low_2020; @gessler_way_2020], implying that the same factors may influence these. Indeed, while the influence of $PLA_{dry}$ and $\pi_{tlp}$ on drought resilience and survival remains to be tested, taller trees have lower resilience [@trugman_tree_2018; @gillerot_tree_2020] and survival [@bennett_larger_2015; @stovall_tree_2019]. As climate change-driven droughts affect forests worldwide, there is likely to be a shift from mature forests with tall, buffering trees to forests with a shorter overall stature [@mcdowell_pervasive_2020]. At this point, species whose drought resistance relies in part on existence within a buffered microenvironment (e.g., *F. grandifolia*) could in turn become more susceptible. Here, the relative importance of tree height *per se* versus crown exposure becomes crucial, shaping whether the dominant trees of shorter canopies are significantly more drought resistant because of their shorter stature, or whether high exposure makes them as vulnerable as the taller trees of the former canopy. Studies disentangling the influence of height and exposure on drought tolerance will be critical to answering this question. Ultimately, distributions of tree heights and drought tolerance traits across broad moisture gradients suggest that forests exposed to more drought will ultimately shift towards shorter stature and be dominated by species with more drought-tolerant traits [@liu_hydraulic_2019; @bartlett_correlations_2016; @zhu_leaf_2018]. Our study helps to elucidate the mechanisms behind these patterns, opening the door for more accurate forecasting of forest responses to future drought."** 
 
 first paragraph—this setup is very compelling, and the point is urgently true.
 
