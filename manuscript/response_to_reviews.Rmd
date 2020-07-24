@@ -3,6 +3,7 @@ title: "Response to reviews"
 output: pdf_document
 
 bibliography: ["book.bib",  "packages.bib"]
+link-citations: yes
 biblio-style: "apalike"
 csl: new-phytologist.csl
 ---
@@ -229,7 +230,7 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 73 The “greater root reach” point is almost universally appealed to—cites for these counterarguments would be useful.
 
-**We now address this in the discussion: "Belowground, taller trees would tend to have larger root systems [@enquist_global_2002], but this does not necessarily imply that they have greater access to or reliance on deep soil-water resources that may be critical during drought. While tree size can correlate with the depth of water extraction [@brum_2018_hydrological], the linkage is not consistent. Shorter trees can vary broadly in the depth of water uptake [@stahl_2013_depth], and larger trees may allocate more to abundant shallow roots that are beneficial for taking up water from rainstorms [@meinzer_partitioning_1999]. Moreover, reliance on deep soil-water resources can actually prove a liability during severe and prolonged drought, as these can experience more intense water scarcity relative to non-drought conditions [@chitra-tarak_roots_2018]."**
+**We now address this in the discussion: "Belowground, taller trees would tend to have larger root systems [@enquist_global_2002], but this does not necessarily imply that they have greater access to or reliance on deep soil-water resources that may be critical during drought. While tree size can correlate with the depth of water extraction [@brum_hydrological_2019], the linkage is not consistent. Shorter trees can vary broadly in the depth of water uptake [@stahl_depth_2013], and larger trees may allocate more to abundant shallow roots that are beneficial for taking up water from rainstorms [@meinzer_partitioning_1999]. Moreover, reliance on deep soil-water resources can actually prove a liability during severe and prolonged drought, as these can experience more intense water scarcity relative to non-drought conditions [@chitratarak_roots_2018]."**
 
 73 Also, larger trees would necessarily seem to have greater stem storage capacity and thus, if capacitance really is important, more water volume available for buffering transient drought events, so this is another reason to expect larger individuals to be more rather than less resistant.
 
