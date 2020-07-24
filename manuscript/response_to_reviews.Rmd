@@ -61,7 +61,7 @@ I suggest to show some relationship, e.g. between Rt and traits in figures. The 
 
 Only assessing models with AIC is not enough to prove sound relationships in multidimensional and complex data-models. LL ratio tests or deviance-anova tests can be used in the case of nested models with LMM or GLMM respectively. Along the text: dAIC is generally referred as $\Delta$AIC, please change accordingly.
 
-**We have run deviance-anova tests and can be seen in Figs. 3 and S4**
+**We implemented the suggestions by running both LL ratio tests and anova tests on the top models. They both gave similar ranking to $\Delta$AICc, thus we continued with our original route. However, to give a more comprehensive view of the covariates, we now show significant differences between species compared to $Rt$ (for each drought scenario; Fig. 3), as well as significant differences between species for each individual trait tested in the multivariate models (Fig. S4).**
 
 **We have gone through the manuscript / tables and figures and updated where it said "dAICc" to be $\Delta$AICc. **
 
