@@ -20,17 +20,24 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Dear Editor:
 
-... Major changes included the following:
+We have revised our manuscript, “Tree height and leaf drought tolerance traits shape growth responses across droughts in a temperate broadleaf forest” (previously “Tree height and hydraulic traits shape growth responses across droughts in a temperate broadleaf forest”), according to the recommendations of reviewers. This has resulted in an easier to read manuscript with more robust support.
 
-* At the request of 3 reviewers (R1,R3,R4), we tried an alternate metric of drought resistance (using an ARIMA model to project what growth would have been in drought year based on the trend over the past 10 years). Results were similar, and we now present that as a secondary model (mostly in SI).
+We addressed all of the reviewers’ points, as detailed below, resulting in several major changes:
 
-* We dropped crown position as a factor in the statistical models of drought resistance, and instead include it as part of an enhanced focus on the differences in microenviroment experienced by trees of different height (now in Table 1; Fig. 2). This change was prompted by comments by two reviewers (**R1, R3**) that canopy position could not be reliably projected back to 1966 or disentangled from height.
+* At the request of 3 reviewers (R1,R3,R4), we tried an alternate metric of drought resistance (using an ARIMA model to project what growth would have been in drought year based on the trend over the past 10 years). Results were similar, and conclusions the same. We now present those results as a secondary model (mostly in SI).
 
-* We added two figures: one showing Rt differences across species, and one visualizing the model results  (the latter is not yet right, as gg-plot is being difficult, but will eventually match  the model results.)
+* We dropped crown position as a factor in the statistical models of drought resistance, and instead include it as part of an enhanced focus on the differences in microenviroment experienced by trees of different height (now in Table 1; Fig. 2). This change was prompted by comments by two reviewers (R1, R3) that canopy position could not be reliably projected back to 1966 or disentangled from height.
 
-* We moved former tables 4 and 5 to the SI.
+* We shifted to more figures and fewer tables in the main article (as requested by R1, R3, and R4). We added two figures to the main text: one showing Rt differences across species (Fig. 3) and one visualizing the model results (Fig. 4). We moved former tables 4 and 5 to the SI. We also added several new figures and tables to the SI to provide information requested by the reviewers.
 
-The result is an easier to read paper with more robust support.
+We hope that this manuscript will now be found suitable for publication in New Phytologist, and we look forward to your response.
+
+Best regards,
+
+Kristina Anderson-Teixeira (on behalf of all authors)
+
+
+
 
 \newpage
 
