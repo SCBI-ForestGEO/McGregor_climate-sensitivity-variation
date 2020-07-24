@@ -76,7 +76,7 @@ Text | word count | other | n
 ---------------------------------------------|---------------------|-----------------------------|--------------------
 Total word count (excluding summary, references and legends) |  5,365	 |	No. of figures | 	4 (all colour)
 Summary|  	198 | 	No. of Tables | 	3  
-Introduction|	1,034 |	No of Supporting Information files | 	#
+Introduction|	1,034 |	No of Supporting Information files | 	14
 Materials and Methods |	1,945	||	 
 Results |	697	 ||
 Discussion |	1467	||
@@ -85,9 +85,9 @@ Acknowledgements | 125	||
 \newpage
 
 ### Summary
-- As climate change is driving increased drought frequency and severity in many forested regions around the world, mechanistic understanding of the factors conferring drought resistance in trees is increasingly important. The dendrochronological record provides a window through which we can understand how tree size and species’ traits shape tree growth responses during droughts.
+- As climate change drives increased drought in many forested regions around the world, mechanistic understanding of the factors conferring drought resistance in trees is increasingly important. The dendrochronological record provides a window through which we can understand how tree size and species’ traits shape growth responses during droughts.
 
-- We analyzed tree-ring records for twelve species that comprise 97% of the woody productivity of the 25.6-ha ForestGEO plot in a broadleaf deciduous forest of northern Virginia (USA) to test hypotheses on how tree height, microenvironment characteristics, and species' traits shaped drought responses across the three strongest regional droughts over a 60-year period (1950 - 2009). 
+- We analyzed tree-ring records for twelve species that comprise 97% of the woody productivity in a broadleaf deciduous forest of northern Virginia (USA) to test hypotheses on how tree height, microenvironment characteristics, and species' traits shaped drought responses across the three strongest regional droughts over a 60-year period (1950 - 2009). 
 
 - Individual-level drought resistance decreased with tree height, which was strongly correlated with exposure to higher evaporative demand and solar radiation. The potentially greater rooting volume of larger trees did not confer an advantage in sites with low topographic wetness index. Resistance was greater among species whose leaves experienced less shrinkage upon desiccation and lost turgor (wilted) at more negative water potentials. 
 
