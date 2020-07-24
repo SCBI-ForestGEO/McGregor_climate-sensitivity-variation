@@ -45,7 +45,7 @@ It is important to better discuss the proper use of Rt, particularly when compar
 
 **To account for potential trends in individual tree growth prior to the drought, which could be influenced by stand dynamics, we tried an intervention time series analysis (ARIMA). Details on the comparison between $Rt$ and $Rt_{ARIMA}$ are presented in the responses to reviewer 4. In short, the ARIMA method yielded broadly similar results, but tended to produce less reasonable estimates when the difference between the two metrics was large, so we decided to retain $Rt$ as the focal metric. While this unquestionably leads to biased estimates for some trees, we would not expect it to bias our analysis; rather, it is one of the reasons that the amount of variation that can be explained by analyses such as these is relatively low. We now include the following content on ARIMA in the manuscript:**
 
-(*insert text*)
+**"Because the $Rt$ metric could be biased by directional pre-drought growth trends, we also tried an intervention time series analysis (ARIMA, [@R-forecast]) that predicted mean drought-year growth based on trends over the preceding ten years and used this value in place of the five-year mean in calculations of resistance ($Rt_{ARIMA}$= observed $BAI$/ predicted $BAI$). The two metrics were strongly correlated (Fig. **S5**). Visual review of the individual tree-ring sequences with the largest discrepancies between these metrics revealed that $Rt$ was less prone to unreasonable estimates than $Rt_{ARIMA}$, so we selected $Rt$ as our focal metric, presenting parallel results for $Rt_{ARIMA}$ in the Supplementary Info."**
 
 **Regarding the resilience indices, we considered analyzing these and decided it would be best to stick with just resistance for three reasons: (1) Most importantly, we would expect resilience to be governed by fundamentally different mechanisms than resistance. While it would be interesting to examine resilience, this would be beyond the scope of the current paper. (2) [DeSoto et al. (2020, Nature)](https://www.nature.com/articles/s41467-020-14300-5) used an extensive dataset of trees sampled after severe droughts and compared the responses to previous, less-severe droughts between trees that survived and trees that were killed by the severe drought. In angiosperms, trees that died from a severe drought had lower resistance to previous droughts, compared to trees that survived the severe drought. In gymnosperms, trees that died during severe droughts had lower recovery following previous droughts, compared to trees that survived the severe drought. These findings would argue that resistance is a more important variable for angiosperms. (3) As the reviewer notes, resilience indices would probably tend to be more sensitive to a tree's neighborhood and prior conditions. We now state the logic for focusing on $Rt$ in the methods section:** 
 
@@ -211,8 +211,6 @@ I found this paper not only to address a very important point but also to be exc
 
 **Thank you for this wonderful review.**
 
-*What a nice review! We can easily add some language on the importance. We should also add citations to many of the studies mentioned.*
-
 first paragraph—this setup is very compelling, and the point is urgently true.
 
 **Thank you**
@@ -235,11 +233,11 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 73 Also, larger trees would necessarily seem to have greater stem storage capacity and thus, if capacitance really is important, more water volume available for buffering transient drought events, so this is another reason to expect larger individuals to be more rather than less resistant.
 
-*We now mention this: "Greater stem capacitance (*i.e.*, water storage capacity) of larger trees may also confer resistance to transient droughts (**REF**)."*
+**We have updated our text to read: "Greater stem capacitance (*i.e.*, water storage capacity) of larger trees may also confer resistance to transient droughts [@phillips_reliance_2003*; @scholz_hydraulic_2011].**
 
 77 In the concluding sentence, “greater growth reductions” came as a surprise because I thought that the focus was greater vulnerability/ mortality. Also, there are convincing theoretical and empirical reasons to think that large trees don’t slow down e.g. (Sillett et al., 2010; Selaya & Anten, 2010; Michaletz et al., 2014).
 
-*We've ensured that language at the start of the paragraph refers to growth: "Many studies have shown that within and across species, large trees tend to be more affected by drought. Greater growth reductions for larger trees were first shown on a global scale by @bennett_larger_2015, and subsequent studies have reinforced this finding [*e.g.*, @hacket-pain_consistent_2016; **REF**]. "*
+**We've ensured that language at the start of the paragraph refers to growth: "Many studies have shown that within and across species, large trees tend to be more affected by drought. Greater growth reductions for larger trees were first shown on a global scale by @bennett_larger_2015, and subsequent studies have reinforced this finding [*e.g.*, @hacket-pain_consistent_2016; @gillerot_tree_2020]."**
 
 **Regarding the issue of whether large trees slow down or not as they age, that's another (very interesting) issue. The cited references apply to non-drought situations, and I'd see drought response versus age-related growth patterns as largely independent. In this study, it shouldn't matter because our resistance metric takes the ratio of growth during drought relative to what would be expected based on recent years.**
 
@@ -254,15 +252,13 @@ first paragraph—this setup is very compelling, and the point is urgently true.
 
 105 this sounds great, but was a little unclear. When you say “first, we test…” I thought that you would examine a relationship between microsite and some tree characteristic, e.g. that the largest trees are in moist microsites. But the next sentence didn’t refer to a tree-microsite correlation but vulnerability-size. It would be good to clarify the prose here because these are very important passages.  The third sentence did seem to be about tree-microsite correlations.
 
-**We have considerably resivesd this paragraph. It now reads as follows: **
-
-*insert text*
+**We have considerably revised this paragraph. It now reads as follows: "...First, we focus on how tree size, alone and in its interaction with microenvironmental gradients, influences drought resistance. We examine the contemporary relationship between tree height and microenvironment, including growing season meteorological conditions and crown exposure. We then test whether, consistent with most forests globally, larger-diameter, taller trees tend to have lower drought resistance in this forest, which is in a region (eastern North America) represented by only two studies in the global review of Bennett et al. (2015). We also test for an influence of potential access to available soil water, which should be greater for larger trees in dry but not in perpetually wet microsites. Finally, we focus on the role of species' traits, testing the hypothesis that species’ traits-–particularly leaf drought tolerance traits-–predict drought resistance. We test predictions that drought resistance is higher in ring-porous than semi-ring and diffuse-porous species and that it is correlated with wood density--either positively [@greenwood_tree_2017] or negatively [@hoffmann_hydraulic_2011] and positively correlated with $LMA$. We further test predictions that species with low $PLA_{dry}$ have higher drought resistance, and that species whose leaves lose turgor lower water potentials (more negative $\pi_{tlp}$) have higher resistance."**
 
 112 wasn’t clear where the “ring porous more drought resistant” hypothesis came from. Global data show that ring porous species are almost entirely restricted to the north temperate zone, especially deciduous broadleaf forests (Wheeler et al., 2007). They are virtually absent in drylands, especially warm tropical drylands. Species in drylands are almost overwhelmingly diffuse porous; the high wood density species in chaparrals and in some desert plants can be semi ring porous (Olson et al., in press).
 
 **This is a great point. The hypothesis refers to temperate deciduous biome, which we now clarify in the sentence in question:**
 
-**"Studies in temperate broadleaf forests have observed that ring-porous species showing higher drought tolerance than diffuse-porous species [@friedrichs_species-specific_2009; @elliott_forest_2015; @kannenberg_linking_2019], but this distinction would not hold in the global context (*Wheeler et al. 2007, Olson et al. 2020*) and does not resolve differences among the many species within each category."**
+**"Studies in temperate broadleaf forests have observed that ring-porous species showing higher drought tolerance than diffuse-porous species [@friedrichs_species-specific_2009; @elliott_forest_2015; @kannenberg_linking_2019], but this distinction would not hold in the global context [@wheeler_variations_2007, @olson_xylem_2020] and does not resolve differences among the many species within each category."**
 
 **We dug into the ring/diffuse porous distinction more, and ended up making a few substantive changes that relate to this theme: (1) We added a new figure showing $Rt$ across species (Fig. 3). This illustrates that the two diffuse-porous species, *Liriodendron tulipifera* and *Fagus grandifolia*, were at opposite ends of the $Rt$ spectrum. (2) We modified the criteria of selecting candidate variables for the full models to include the criterion that directions of responses must be consistent across droughts for inclusion in the full model. This resulted in exclusion of xylem porosity (Table S4)--a change that is also warrented by the fact that we only have two diffuse-porous species. (3) We added the following content to the discussion: **
 
