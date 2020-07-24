@@ -224,7 +224,7 @@ If the variable appeared in some but not all of these models, and its sign was c
 In presentation of the results below, we note instances where the $Rt_{ARIMA}$ model disagreed with the $Rt$ model, but otherwise do not discuss the $Rt_{ARIMA}$ model. Visualization of the best mixed effects model per drought scenario (Fig. **4**) was created by the visreg package [@R-visreg].
 
 All analysis beyond basic data collection was performed using R version 3.6.2 [@R-base]. 
-Other R-packages used in analyses are listed in the Supplementary Information (*Appendix S1*).
+Other R-packages used in analyses are listed in the Supplementary Information (Appendix S1).
 All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and *[TBD]*, respectively.
 
 ### Results
@@ -344,11 +344,11 @@ KAT, IM, and AJT designed the research. Tree-ring chronologies were developed by
 
 ### Supplementary Information
 
-Table S1: Monthly Palmer Drought Severity Index (PDSI), and its rank among all years between 1950 and 2009 (driest=1), for focal droughts.
+Table S1. Monthly Palmer Drought Severity Index (PDSI), and its rank among all years between 1950 and 2009 (driest=1), for focal droughts.
 
-Table S2: Species-specific bark thickness regression equations.
+Table S2. Species-specific bark thickness regression equations.
 
-Table S3: Species-specific height regression equations.
+Table S3. Species-specific height regression equations.
 
 Table S4. Individual tests of species traits as drivers of drought resistance, where $Rt$ is used as the response variable.
 
@@ -360,12 +360,14 @@ Table S7. Summary of top  models for each drought instance, where $Rt_{ARIMA}$ i
 
 Figure S1. Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought
 
-Figure S2: Map of ForestGEO plot showing topographic wetness index and location of cored trees
+Figure S2. Map of ForestGEO plot showing topographic wetness index and location of cored trees
 
-Figure S3: Distribution of reconstructed tree heights across drought years.
+Figure S3. Distribution of reconstructed tree heights across drought years.
 
 Figure S4. Distribution of independent variables by species.
 
 Figure S5. Comparison of $Rt$ and $Rt_{ARIMA}$ results, with residuals, for each drought scenario
 
 Figure S6. Visualization of best model, with data, for all droughts combined.
+
+Appendix S1. Further Package Citations

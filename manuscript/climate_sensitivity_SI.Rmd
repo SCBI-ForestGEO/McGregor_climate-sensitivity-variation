@@ -46,6 +46,9 @@ Kristina J. Anderson-Teixeira
 
 \listoftables
 \listoffigures
+
+**Appendix S1. Further Package Citations**
+
 \newpage
 
 \newpage
@@ -115,8 +118,6 @@ kable(singlevar_table, booktabs = TRUE, caption = "Table S5. Individual tests of
 ```
 Variable abbreviations are as in Table 2. 
 $\Delta$AICc is the AICc of a model excluding the trait minus that of the model including it. 
-
-*$\Delta$AICc > 1: variable meets $\Delta$AICc criterion for inclusion in full model
 
 **$\Delta$AICc > 2: variable considered significant as an individual predictor
 
@@ -194,7 +195,7 @@ Year was included in the model for all drought years, but its effect was not inc
 
 
 \newpage
-## Further Package Citations
+## Appendix S1. Further Package Citations
 While there were several R-packages we used for a specific purpose in our methods, numerous packages were immensely helpful for this research behind the scenes. As in all of science, this study is a representation of the work done by both the authors of this paper as well as countless others. While acknowledging everyone is impossible, we want to at least give thanks to those who made this work possible.
 
 R-packages not already cited in the main manuscript include the following, listed alphabetically by corresponding package name:
