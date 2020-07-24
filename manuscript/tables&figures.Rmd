@@ -28,13 +28,6 @@ options(tinytex.verbose = TRUE)
 options(knitr.table.format = "latex")
 ```
 
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'lme4', 'AICcmodavg', 'car', 'piecewiseSEM', 'MuMIn', 'stringr', 'dplyr', 'ggplot2', 'devtools', 'rgdal', 'broom', 'sf', 'ggthemes', 'rgeos', 'RCurl', 'readxl', 'pointRes', 'dplR', 'data.table', 'tools', 'reshape2', 'kableExtra', 'raster', 'elevatr', 'dynatopmodel', 'grid', 'gridExtra', 'ggstance', 'Hmisc', 'magrittr', 'ggpubr'
-), 'packages.bib')
-```
-
 \blandscape
 ```{r Table 1, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
