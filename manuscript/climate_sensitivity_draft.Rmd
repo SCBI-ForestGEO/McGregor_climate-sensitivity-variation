@@ -307,7 +307,7 @@ Again, additional research comparing drought responses across forests with diffe
 
 The development of tree-ring chronologies for the twelve most dominant tree species at our site [@helcoski_growing_2019; @bourg_initial_2013] gave us the sample size to compare historical drought responses across species (Fig. **3**) and associated traits at a single site [see also @elliott_forest_2015]. 
 Our study reinforced current understanding (see Introduction) that wood density and $LMA$ are not reliably linked to drought resistance (Table 1).
-Contrary to previous studies in temperate deciduous forests, we did not find an association between xylem porosity and drought resistance, as the two diffuse-porous species, *Liriodendron tulipifera* and *Fagus grandifolia*, were at opposite ends of the $Rt$ spectrum (Fig. **3**). 
+Contrary to several previous studies in temperate deciduous forests [@friedrichs_species-specific_2009; @elliott_forest_2015; @kannenberg_linking_2019], we did not find an association between xylem porosity and drought resistance, as the two diffuse-porous species, *Liriodendron tulipifera* and *Fagus grandifolia*, were at opposite ends of the $Rt$ spectrum (Fig. **3**). 
 While the low $Rt$ of *L. tulipifera* is consistent with other studies [@elliott_forest_2015], the high $Rt$ of *F. grandifolia* contrasts with studies identifying diffuse porous species in general [@elliott_forest_2015; @kannenberg_linking_2019], and the genus *Fagus* in particular [@friedrichs_species-specific_2009], as drought sensitive.
 There are two potential explanations for this discrepancy.
 First, other traits can and do override the influence of xylem porosity on drought resistance. 
