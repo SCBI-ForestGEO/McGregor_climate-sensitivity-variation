@@ -6,6 +6,10 @@
 
 # for ease of reading, collapse the sections ahead of time
 
+## NOTE: Original analysis only looked at resistance. This was changed to 
+## accommodate recovery and resilience (see function in #1a). However, we did NOT 
+## change ARIMA for this, so the arima analysis only focuses on resistance.
+
 #1. finding pointer years and resistance metrics
 ## necessary packages ####
 rm(list=ls())
@@ -31,57 +35,86 @@ library(reshape2)
 ##1a. determine pointer years all cores grouped together ####
 #this is a combination of the two canopy and subcanopy groupings in the original code file
 
+
+
 rings <- read.rwl("data/core_files/all_species_except_FRNI_PIST.rwl") #read in rwl file
 widths <- rings #for consistency with original code
 area <- bai.in(rings) #convert to bai.in
 
 ## IF DO ARIMA SKIP DOWN NOW.
 
-resil_metrics <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 25) #get resilience metrics
+get_lloret <- function(metric = "resistance"){
+  resil_metrics <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 25) #get resilience metrics
+  
+  resil_pointers <- data.frame(resil_metrics$out)
+  resil_pointers <- resil_pointers[resil_pointers$nb.series >=4, ]
+  
+  pointers <- resil_pointers[resil_pointers$nature == -1, ]
+  pointers <- pointers[,c(1:3,5)]
+  pointers <- pointers[order(pointers$nb.series, decreasing=TRUE), ]
+  rownames(pointers) <- 1:nrow(pointers)
+  
+  #get specific resist values for all trees
+  neil_list <- read.csv("data/core_files/core_list.csv", stringsAsFactors = FALSE)
+  neil_sp <- unique(neil_list$sp)
+  
+  neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
+  
+  pointer_years_simple <- c(1966, 1977, 1999)
+  
+  if(metric == "resistance"){
+    metrics_tab <- data.frame(resil_metrics$resist)
+    threshold <- 2
+  } else if(metric=="recovery"){
+    metrics_tab <- data.frame(resil_metrics$recov)
+    threshold <- 3
+  } else if(metric=="resilience"){
+    metrics_tab <- data.frame(resil_metrics$resil)
+    threshold <- 3
+    }
+  
+  years <- rownames(metrics_tab)
+  colnames(metrics_tab) <- gsub("A", "", colnames(metrics_tab))
+  tree_series <- colnames(metrics_tab)
+  
+  ind <- metrics_tab
+  ind_neil <- neil_list[neil_list$tag %in% tree_series, ]
+  ind$year <- years
+  ind$year <- as.numeric(ind$year)
+  
+  ind$year <- as.character(ind$year) #to melt
+  change <- reshape2::melt(ind)
+  setnames(change, old=c("variable", "value"), new=c("tree", "metric.value"))
+  
+  
+  #bring in species from neil_list
+  change$sp <- ind_neil$sp[match(change$tree, ind_neil$tag)]
+  
+  change$tree <- gsub("X", "", change$tree)
+  change$tree <- gsub("^0", "", change$tree)
+  
+  change <- change[change$year %in% c("1966","1977","1999"), ] #for models
+  
+  
+  #this is trees_all
+  trees_all <- change[complete.cases(change), ]
+  trees_all <- trees_all[trees_all$metric.value <= threshold & 
+                           !(trees_all$metric.value %in% Inf), ] 
+  #constrain resistance values
+  
+  return(trees_all)
+}
 
-resil_pointers <- data.frame(resil_metrics$out)
-resil_pointers <- resil_pointers[resil_pointers$nb.series >=4, ]
+trees_all <- get_lloret(metric = "recovery")
 
-pointers <- resil_pointers[resil_pointers$nature == -1, ]
-pointers <- pointers[,c(1:3,5)]
-pointers <- pointers[order(pointers$nb.series, decreasing=TRUE), ]
-rownames(pointers) <- 1:nrow(pointers)
-
-#get specific resist values for all trees
-neil_list <- read.csv("data/core_files/core_list.csv", stringsAsFactors = FALSE)
-neil_sp <- unique(neil_list$sp)
-
-neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
-
-pointer_years_simple <- c(1966, 1977, 1999)
-
-resist <- data.frame(resil_metrics$resist)
-years <- rownames(resist)
-colnames(resist) <- gsub("A", "", colnames(resist))
-tree_series <- colnames(resist)
-
-ind <- resist
-ind_neil <- neil_list[neil_list$tag %in% tree_series, ]
-ind$year <- years
-ind$year <- as.numeric(ind$year)
-
-ind$year <- as.character(ind$year) #to melt
-change <- reshape2::melt(ind)
-setnames(change, old=c("variable", "value"), new=c("tree", "resist.value"))
-
-
-#bring in species from neil_list
-change$sp <- ind_neil$sp[match(change$tree, ind_neil$tag)]
-
-change$tree <- gsub("X", "", change$tree)
-change$tree <- gsub("^0", "", change$tree)
-
-change <- change[change$year %in% c("1966","1977","1999"), ] #for models
-
-
-#this is trees_all
-trees_all <- change[complete.cases(change), ]
-trees_all <- trees_all[trees_all$resist.value <=2,] #constrain resistance values
+## look at histograms if need be
+# layout(matrix(1:6, nrow=2))
+# 
+# hist(trees_all$metric.value, breaks=25, ylim=c(0,1100),
+#      xlim=c(0,20),
+#      main="resilience")
+# t <- boxplot(trees_all$metric.value, xlab="resilience",
+#         ylim=c(0,25))
 
 #
 
@@ -179,16 +212,16 @@ neil_sp <- unique(neil_list$sp)
 ind_neil <- neil_list[neil_list$tag %in% ind$tree, ]
 
 ind$year <- as.character(ind$year)
-setnames(ind, old=c("diff"), new=c("resist.value"))
+setnames(ind, old=c("diff"), new=c("metric.value"))
 
 #bring in species from neil_list
 ind$sp <- ind_neil$sp[match(ind$tree, ind_neil$tag)]
 
 #this is trees_all
 trees_all <- ind[complete.cases(ind), ]
-trees_all <- trees_all[trees_all$resist.value != Inf &
-                         trees_all$resist.value < 4 &
-                         trees_all$resist.value >=0, ]
+trees_all <- trees_all[trees_all$metric.value != Inf &
+                         trees_all$metric.value < 4 &
+                         trees_all$metric.value >=0, ]
 
 #
 ##1b. summary stat: determine proportion of resistance values per sp ####
@@ -202,8 +235,8 @@ trees_all.sp <- unique(trees_all$sp)
 for (i in seq(along=prop$sp)){
   for (j in seq(along=unique(trees_all.sp))){
     if (i==j){
-      temp <- trees_all[trees_all$sp == trees_all.sp[[j]] & trees_all$resist.value>=1, ]
-      temp <- temp[!is.na(temp$resist.value), ]
+      temp <- trees_all[trees_all$sp == trees_all.sp[[j]] & trees_all$metric.value>=1, ]
+      temp <- temp[!is.na(temp$metric.value), ]
       prop$value.over1[[i]] <- nrow(temp)
       prop$can.value.over1[[i]] <- nrow(temp[temp$position == "canopy", ])
       prop$sub.value.over1[[i]] <- nrow(temp[temp$position == "subcanopy", ])
@@ -247,7 +280,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBELC6ZFIUD2XTF4Z7W265Y6NK"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEI4I3HRSRO45N4I75S7LUEMK"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
@@ -436,10 +469,16 @@ height_regr <- read.csv("manuscript/tables_figures/publication/tableS3_height_re
 
 height_regr$Equations <- gsub("^.*= ", "", height_regr$Equations)
 height_regr$Equations <- gsub("[[:alpha:]].*$", "x", height_regr$Equations)
+height_regr$sp <- 
+  paste0(stringr::str_extract(height_regr$Species, ".{2}"),
+    stringr::str_extract(height_regr$Species, " .{2}"))
+height_regr$sp <- gsub(" ", "", height_regr$sp)
+height_regr$sp <- tolower(height_regr$sp)
+height_regr$sp[nrow(height_regr)] <- "all"
 
 trees_all$height.ln.m <- NA
-for(w in seq(along=height_regr$sp)){
-  sp_foc <- height_regr$sp[[w]]
+for(w in seq(along=height_regr$Species)){
+  sp_foc <- height_regr$Species[[w]]
   ht_eq <- height_regr[height_regr$sp == sp_foc, ]
   num <- gsub("\\*x", "", ht_eq$Equations)
   num1 <- as.numeric(stri_extract_first_regex(num, "[[:digit:]].[[:digit:]]+"))
@@ -528,30 +567,18 @@ trees_all$TWI.ln <- log(trees_all$TWI)
 ##fram 140939 has been mislabeled. It is recorded as having a small dbh when that is the second stem. In terms of canopy position, though, it fell between time of coring and when positions were recorded, thus we do not know its position.
 trees_all <- trees_all[!trees_all$tree == 140939, ]
 
-##2i. if using resistance value, constrain values to be <=2 ####
-trees_all <- trees_all[trees_all$resist.value <=2]
-
-# write.csv(trees_all, "manuscript/tables_figures/trees_all.csv", row.names=FALSE)
-##2j. prepare dataset for running regression models ####
+##2i. prepare dataset for running regression models ####
 ##take out columns that are unnecessary for model runs
 trees_all_sub <- trees_all[, !colnames(trees_all) %in% c("p50.MPa", "p80.MPa", "dbh_old.mm",  "dbh_old.cm", "sap_ratio", "height.m")]
 
 ##get rid of missing data and write to csv
 trees_all_sub <- trees_all_sub[complete.cases(trees_all_sub), ]
-# write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub.csv", row.names=FALSE)
+# write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub_recovery.csv", row.names=FALSE)
 # write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub_arima.csv", row.names=FALSE)
 # write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub_arimaratio.csv", row.names=FALSE)
 
-##2k. make subsets for individual years, combine all to list ####
-x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
-x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
-x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
-
-model_df <- list(trees_all_sub, x1966, x1977, x1999)
-names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
-
 #
-##2l. correlation plot ####
+##2j. correlation plot ####
 library(corrplot)
 cr <- model_df[[1]]
 cr$rp <- ifelse(cr$rp == "ring", 1, 2)
@@ -563,7 +590,7 @@ cr[,c("year", "rp", "position_all")] <- sapply(cr[,c("year", "rp", "position_all
 correw <- cor(cr[,-c(2,4,14)])
 corrplot(correw, method="number", type="lower")
 
-##2m. get base stats for everything from trees_all_sub ####
+##2k. get base stats for everything from trees_all_sub ####
 trees_all_sub$dbh.cm <- exp(trees_all_sub$dbh.ln.cm)
 trees_all_sub$height.m <- exp(trees_all_sub$height.ln.m)
 
@@ -584,7 +611,7 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #########################################################################################
 #3. mixed effects model for output of #2.
 ##start here if just re-running model runs ####
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
+trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_recovery.csv", stringsAsFactors = FALSE); arima_vals=FALSE
 # trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
 
 trees_all_sub$year <- as.character(trees_all_sub$year)
@@ -623,11 +650,11 @@ sum_mod_traits <- data.frame(
   "variable" = c("rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
   "variable_description" = c("ring.porosity", "percent.loss.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
   "null_model" = 
-    c("resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)"),
+    c("metric.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
+      "metric.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
+      "metric.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
+      "metric.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
+      "metric.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)"),
   "tested_model" = NA)
 
 sum_mod_traits[, c("null_model_year", "tested_model_year", "dAIC_all", "coef_all", "coef_var_all", "dAIC_1966", "coef_1966", "coef_var_1966", "dAIC_1977", "coef_1977", "coef_var_1977", "dAIC_1999", "coef_1999", "coef_var_1999")] <- NA
@@ -785,8 +812,8 @@ cand_full <- cand_full[complete.cases(cand_full), ]
 
 #The info in sum_mod_traits is used to update 
 #table S4 (Rt) or S5 (arimaratio)
-write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_lmer_CPout.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/candidate_traits_lmer_arimaratioCPout.csv", row.names=FALSE)
+write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_recovery_lmer_CPout.csv", row.names=FALSE)
+write.csv(cand_full, "manuscript/tables_figures/candidate_traits_recovery_lmer_CPout.csv", row.names=FALSE)
 
 ##3b reform. determine the best full model (expand for fuller explanation) ####
 # this code chunk uses the candidate variables (cand_full) from ##6a to determine
@@ -805,7 +832,7 @@ best_mod_traits <- data.frame("best_model" = NA,
 ## ONLY KEEP PLA and TLP as top variables! See Issue #95 on github.
 top_vars <- c(unique(cand_full$variable))
 top_vars <- c("PLA_dry_percent+mean_TLP_Mpa") #this should be PLA and TLP
-best_mod_full <- c(paste0("resist.value ~ height.ln.m*TWI.ln+",
+best_mod_full <- c(paste0("metric.value ~ height.ln.m*TWI.ln+",
                           "height.ln.m+TWI.ln+", top_vars,
                           "+year+(1|sp/tree)"))
 best_mod_full_year <- gsub("/tree", "", best_mod_full)
@@ -885,10 +912,14 @@ for (i in seq(along=c(1:4))){
             colnames(delta) <- paste0("[All years] ","Model #", w)
             delta$model_var <- "dAICc"
             
-            r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
-            r <- data.frame(r[,"Conditional"])
-            colnames(r) <- paste0("[All years] ","Model #", w)
-            r$model_var <- "r^2"
+            rf <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+            rf <- lapply(5:6, function(e){
+              q <- data.frame(rf[,e])
+              colnames(q) <- paste0("[All years] ","Model #", w)
+              return(q)
+            })
+            r <- do.call(rbind, rf)
+            r$model_var <- c("Marginal r^2", "Conditional r^2")
             r[,1] <- round(r[,1], 2)
             
             coeff <- rbind(delta, r, coeff)
@@ -961,10 +992,15 @@ for (i in seq(along=c(1:4))){
             colnames(delta) <- paste0("[", names(model_df[j]), "] ","Model #", w)
             delta$model_var <- "dAICc"
             
-            r <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
-            r <- data.frame(r[,6])
-            colnames(r) <- paste0("[", names(model_df[j]), "] ","Model #", w)
-            r$model_var <- "r^2"
+            rf <- rsquared(fit1) #gives R^2 values for models. "Marginal" is the R^2 for just the fixed effects, "Conditional" is the R^2 for everything.
+            rf <- lapply(5:6, function(e){
+              q <- data.frame(rf[,e])
+              colnames(q) <- paste0("[", names(model_df[j]), "] ",
+                                    "Model #", w)
+              return(q)
+            })
+            r <- do.call(rbind, rf)
+            r$model_var <- c("Marginal r^2", "Conditional r^2")
             r[,1] <- round(r[,1], 2)
             
             coeff <- rbind(delta, r, coeff)
@@ -979,8 +1015,8 @@ for (i in seq(along=c(1:4))){
 }
 
 #the data in top_models is used to update tables S6 (Rt) and S7 (Rt_arima)
-write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_lmer_arimaratio_CPout.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_lmer_arimaratio_CPout.csv", row.names=FALSE)
+write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_recovery_lmer_CPout.csv", row.names=FALSE)
+write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_recovery_lmer_CPout.csv", row.names=FALSE)
 
 #
 #3bi. VIF; this is for when we fully decide what our best model is!!! ####
@@ -1113,18 +1149,18 @@ sum_mod_traits <- data.frame(
   "variable" = c("year", "dbh.ln.cm", "height.ln.m", "position_all", "position_all", "height.ln.m*TWI.ln", "TWI.ln", "rp", "PLA_dry_percent", "LMA_g_per_m2", "mean_TLP_Mpa", "WD_g_per_cm3"), 
   "variable_description" = c("drought.year", "ln[DBH]", "ln[height]", "crown.position alone", "crown.position w/height", "ln[height]*ln[topographic.wetness.index]", "ln[topographic.wetness.index]", "ring.porosity", "percent.loss.area", "leaf.mass.area", "mean.turgor.loss.point", "wood.density"),
   "null_model" = 
-    c("resist.value ~ (1|sp/tree)",
-      "resist.value ~ year+(1|sp/tree)",
-      "resist.value ~ year+(1|sp/tree)",
-      "resist.value ~ year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)",
-      "resist.value ~ height.ln.m+year+(1|sp/tree)"),
+    c("metric.value ~ (1|sp/tree)",
+      "metric.value ~ year+(1|sp/tree)",
+      "metric.value ~ year+(1|sp/tree)",
+      "metric.value ~ year+(1|sp/tree)",
+      "metric.value ~ height.ln.m+year+(1|sp/tree)",
+      "metric.value ~ height.ln.m+TWI.ln+year+(1|sp/tree)",
+      "metric.value ~ height.ln.m+year+(1|sp/tree)",
+      "metric.value ~ height.ln.m+year+(1|sp/tree)",
+      "metric.value ~ height.ln.m+year+(1|sp/tree)",
+      "metric.value ~ height.ln.m+year+(1|sp/tree)",
+      "metric.value ~ height.ln.m+year+(1|sp/tree)",
+      "metric.value ~ height.ln.m+year+(1|sp/tree)"),
   "tested_model" = NA)
 
 sum_mod_traits[, c("null_model_year", "tested_model_year", "dAIC_all", "coef_all", "coef_var_all", "dAIC_1964.1966", "coef_1964.1966", "coef_var_1964.1966", "dAIC_1977", "coef_1977", "coef_var_1977", "dAIC_1999", "coef_1999", "coef_var_1999")] <- NA
@@ -1156,8 +1192,8 @@ for (i in seq_along(1:12)){
     sum_mod_traits$tested_model_year[[i]] <- sum_mod_traits$null_model_year[[i]]
   }
   if (i == 6){
-    sum_mod_traits$tested_model[[i]] <- "resist.value~height.ln.m*TWI.ln+year+(1|sp/tree)"
-    sum_mod_traits$tested_model_year[[i]] <- "resist.value~height.ln.m*TWI.ln+(1|sp)"
+    sum_mod_traits$tested_model[[i]] <- "metric.value~height.ln.m*TWI.ln+year+(1|sp/tree)"
+    sum_mod_traits$tested_model_year[[i]] <- "metric.value~height.ln.m*TWI.ln+(1|sp)"
   }
   
   test_mod <- sum_mod_traits$tested_model[[i]] #all years
@@ -1315,7 +1351,7 @@ for (i in seq(along=c(1:4))){
   for (j in seq(along=model_df)){
     #ALL YEARS
     if(j == 1 & i == 1){
-      response <- "resist.value"
+      response <- "metric.value"
       effects <- best_mod_full
       
       #create all combinations of random / fixed effects
@@ -1402,7 +1438,7 @@ for (i in seq(along=c(1:4))){
       
       #INDIVIDUAL YEARS
     } else if (j == i){ 
-      response <- "resist.value"
+      response <- "metric.value"
       effects <- best_mod_full_year
       
       #create all combinations of random / fixed effects
