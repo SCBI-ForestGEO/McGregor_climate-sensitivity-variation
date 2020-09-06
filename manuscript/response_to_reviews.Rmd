@@ -81,27 +81,56 @@ Yet, I still believe there are a couple of details that need revision:
 
 1) I still think that adding the same analysis on the two other resilience indices (resilience and recovery) from Lloret et al. (2011) would increase the interest of the manuscript (as the authors acknowledge in line 476). Using DeSoto et al. 2020 as a justification is not enough. There are potential caveats in that paper and even if we accepted the general trends in growth resilience proposed in that study, studies like that of McGregor et al. apply at a different and more detailed scale, where those global relationships might not hold. This adds interest to the present ms, but for that same reason most readers will like to see a similar discussion on the other complementary growth resilience indices together in the same paper.
 
+*([issue #131](https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/131))*
+
 2) In Line 263 it is stated that both marginal and conditional R2 are reported, but then I could only find conditional R2s in Table S6, S7. Please, report also marginal R2 in those Tables to show how much variability it is explained by the fixed effects (i.e. the traits and independent variables in Table 3). This is important so we can judge how robust the tested covariates are. I can accept what authors argue in their response (‘Tree-ring data are inherently noisy, particularly in more mesic forests. In large part, this is due to strong neighborhood effects, along with variable allocation to ring growth around the circumference of the tree. These factors contribute to the low R2, but do not negate the significance of our findings’). However, still I think that, even if (or particularly because) we see many papers today with very low variability explained (see for instance some of the analyses in the previously mentioned DeSoto et al. 2020), we should demand a minimum level of explanatory power in models in ecophysiological papers. Otherwise we cannot assure that inferences are robust enough and relationships worth to be discussed.
 
+*This is straightforward: need to report the marginal R2. Maybe also add some commentary on how a lot of noise doesn't negate significant signals.*
 
 Other comments:
 
 - As mentioned on a previous comment, in the manuscript the authors sampled dead and live trees, but then I did not see any further mentioning to this later in the manuscript (lines 175-178 and Table 2). This would merit some discussion and further analysis, how many trees were died and how many trees were alive of those in Table 2?
 
+*I think our argument is pretty strong, but we need to make some change to respond to this comment. Looking at resilience and recovery should help; presuming that they are high, we have a further argument that death was not caused by drought, and hence that status at coring doesn't matter.*
+
+*All trees included in the analysis lived at least 17-18 years past the most recent drought. * 
+
 - Figure S4 and line 333: are differences expressed by different letters correct in Figure S4? Particularly for $\pi_{tlp}$ (S4d) the boxplot suggests differences (more than, e.g. in b) among different species but then letters are similar (as discussed in line 333).
+
+*Ian, please check this and respond.*
 
 - LMA is not shown in Figure S4, and in Table 2 there are no tests so we cannot judge whether there are differences among species for that leaf trait. Please, add also LMA to Figure S4.
 
+*Ian, we should add both LMA and WD here.*
+
 - Line 135: leave turgor ‘at’ lower ….
+
+**Thanks for catching this; fixed. Sentence now reads, "We further test predictions that species with low $PLA_{dry}$ have higher drought resistance, and that species whose leaves lose turgor at lower water potentials (more negative $\pi_{tlp}$) have higher resistance."**
 
 - Line 272: please define dAIC. I think it should be better and more robust to stick in all cases to dAIC>2, there are only two covariates selected with <1 in Table S4.
 
+**We now define AICc at first mention, which is in the paragraph above. The sentence now reads "We used Akaike information criterion with correction for small sample sizes (AICc) to assess model selection,..." In the sentence referenced here, we define $\Delta$AIC: "Trait variables were considered appropriate for inclusion in the main model if they had a consistent direction of response across all droughts and if their addition to the base model improved fit (at $\Delta$AICc $\ge$ 1.0, where $\Delta$AICc is the difference in AICc between models with and without the trait) in at least one drought year (Table S4)."**
+
+**We have given careful thought to the trait variable selection criteria. It is important to note that selection of traits is not a test of their significance in the final model; it is simply a way of objectively reducing the number of candidate traits in these models. While we fully agree that $\Delta$AICc $\ge$ 2 is the appropriate criterion for assessing significance, it is not necessarily appropriate for candidate variable selection because variable significance changes when considered independently versus in the context of a full model. That is, the significance of variables--particularly those with marginal significance-- cannot be reliably assessed outside the context of a model that simultaneously accounts for other relevant variables. As a case in point, $\pi_{tlp}$ would be removed by a $\Delta$AICc $\ge$ 2 criterion for variable selection, but is included in the best model for all droughts combined, as well as the 1977 drought. While it's effects are marginal (i.e., included in some but not all top models), we feel that it is important to include it as a candidate variable both for the statistical considerations mentioned above, and because we expect that a lot of readers will be very interested to see a full assessment of this trait, which is currently of great interest to the research community.** 
+
 - Line 312: please, refer to the corresponding Table or Supplement where this statement is supported.
+
+**We have added this reference: "That is, drought year as a variable did not appear in any of the top models -- *i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model (see footnotes on Tables S6-S7)."** 
 
 - Line 371-372: actually it is radial growth that is affected; whether that can be extrapolated to the tree level is something that needs to be demonstrated.
 
-- Line 385 vs lines 308-309 and line 338: does that mean that there was a correlation between canopy position and positive Rt? Can it also be related to moisture sensitivity of different species, or to niche (microenvironment) partitioning among species? (as nicely discussed in lines 420-422). I see from lines 445-450 that sampled FAGR were small, which is coherent with the authors’ statement.
+**This is true. Of course, tree biomass growth is almost always inferred from radial or diameter growth, sometimes in conjunction with height, using allometries. The issue of whether radial stem growth (or BAI, as examined here) actually translates directly to biomass growth goes far beyond the present study. To make sure this is clearly defined here, we've specified that we're considering stem growth in a couple key places:**
+
+* **in the introduction, where we define resistance: "Here, we examine how tree height, microenvironment characteristics, and species' traits collectively shape drought resistance, defined as the ratio of annual stem growth in a drought year to that which would be expected in the absence of drought based on previous years' growth."**
+
+* **in the sentence identified above: "These findings advance our knowledge of the factors that make trees vulnerable to stem growth declines during drought and, by extension, likely make them more vulnerable to mortality [@sapes_plant_2019]."**
+
+Line 385 vs lines 308-309 and line 338: does that mean that there was a correlation between canopy position and positive Rt? Can it also be related to moisture sensitivity of different species, or to niche (microenvironment) partitioning among species? (as nicely discussed in lines 420-422). I see from lines 445-450 that sampled FAGR were small, which is coherent with the authors’ statement.
+
+*(need to return here.)*
 
 Table S5: no need to specify dAIC>1.
+
+**This is fixed.**
 
 ## Citations
