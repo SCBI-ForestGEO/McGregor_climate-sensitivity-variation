@@ -48,13 +48,23 @@ Thank you very much for sending me this revised version of the ms by McGregor et
 
 72 One suggestion is that it would be better not to say that larger individuals have xylem of “greater efficiency.” Instead, Red Queen like, conduits widen allowing whole-pathlength resistance to remain constant over much of the height range of trees. Presumably selection favors variants in which leaves maintain their productivity constant insofar as is possible as an individual grows taller, and resistance as constant as possible would contribute to this. So, taller trees don’t have more efficient conduits; they widen in a way that maintains the same whole-pathlength efficiency. Here you could say something like “taller trees have wider conduits, which help maintain constant the resistance that would otherwise increase as trees grow taller.”
 
+**We have reworded the sentence to read, "Taller trees have wider conduits in the basal portions of taller trees, both within and across species [@olson_plant_2018; @liu_hydraulic_2019] and throughout the conductive systems of angiosperms [@zach_vessel_2010; @olson_universal_2014; @olson_plant_2018], which help maintain constant the resistance that would otherwise increase as trees grow taller."**
+
 392 “Constraint” is always such a vague term in biology (meaning everything from factors opposing selection to selection itself), with every biologist understanding something different. Replacing the term always seems to me to lead to increased clarity. Here, it could be removed entirely “previous findings that it is impossible for trees…”, I think profitably.
+
+**We have made this change. It now reads, "Mechanistically, this is consistent with, and reinforces, previous findings that it impossible for trees to efficiently transport water to great heights and simultaneously maintain strong resistance and resilience to drought-induced embolism [@olson_plant_2018; @couvreur_water_2018; @roskilly_conflicting_2019]."**
 
 395 if taller individuals are exposed to greater evaporative demand, then for a given photosynthetic productivity they would require greater conductance than they would need for a given height if they were sheltered. This would favor even wider conduits, making taller individuals even more vulnerable! You rightly highlight the need to separate height per se and canopy position.
 
+**Yes, we agree. Thank you.**
+
 With regard to root mass, this might be useful: https://nam02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdoi.org%2F10.1371%2Fjournal.pone.0086550&amp;data=02%7C01%7CTeixeiraK%40si.edu%7C04ca4a8deb534237b5a508d84dd84e13%7C989b5e2a14e44efe93b78cdd5fc5d11c%7C0%7C0%7C637344938706540440&amp;sdata=tiYufg0%2F%2BuRBThcGeUHuRjVDhWPmbK0xP%2Fb2moH%2F210%3D&amp;reserved=0 seem to show above-below ground biomass isometry.
 
+**Thank you. We have added this reference in two places (intro and discussion).**
+
 Thanks again and congratulations to the authors.
+
+**Thank you.**
 
 Mark Olson
 
