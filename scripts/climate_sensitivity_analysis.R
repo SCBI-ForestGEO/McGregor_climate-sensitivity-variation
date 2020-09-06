@@ -20,6 +20,9 @@ library(tools)
 library(dplyr)
 library(reshape2)
 
+metric <- "recovery"
+arima_vals <- FALSE
+
 #NB ####
 ##I wrote this code before I realized that some of the work done in these loops had already been done in the outputs of res.comp (specifically out.select). However, since the code runs well, and I double-checked that it was giving the same outputs as analyzing out.select, I'm keeping it as is.
 
@@ -34,8 +37,6 @@ library(reshape2)
 
 ##1a. determine pointer years all cores grouped together ####
 #this is a combination of the two canopy and subcanopy groupings in the original code file
-
-
 
 rings <- read.rwl("data/core_files/all_species_except_FRNI_PIST.rwl") #read in rwl file
 widths <- rings #for consistency with original code
@@ -105,7 +106,7 @@ get_lloret <- function(metric = "resistance"){
   return(trees_all)
 }
 
-trees_all <- get_lloret(metric = "recovery")
+trees_all <- get_lloret(metric = metric)
 
 ## look at histograms if need be
 # layout(matrix(1:6, nrow=2))
@@ -124,6 +125,8 @@ trees_all <- get_lloret(metric = "recovery")
 ## https://datascienceplus.com/time-series-analysis-using-arima-model-in-r/
 
 #Step 0 is preparing the data. We are working with mean BAI across all species.
+arima_vals <- TRUE
+
 library(forecast)
 area$year <- rownames(area)
 area1 <- reshape2::melt(area)
@@ -567,15 +570,23 @@ trees_all$TWI.ln <- log(trees_all$TWI)
 ##fram 140939 has been mislabeled. It is recorded as having a small dbh when that is the second stem. In terms of canopy position, though, it fell between time of coring and when positions were recorded, thus we do not know its position.
 trees_all <- trees_all[!trees_all$tree == 140939, ]
 
-##2i. prepare dataset for running regression models ####
+##2i. prepare dataset for running regression models, write to csv ####
 ##take out columns that are unnecessary for model runs
 trees_all_sub <- trees_all[, !colnames(trees_all) %in% c("p50.MPa", "p80.MPa", "dbh_old.mm",  "dbh_old.cm", "sap_ratio", "height.m")]
 
 ##get rid of missing data and write to csv
 trees_all_sub <- trees_all_sub[complete.cases(trees_all_sub), ]
-# write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub_recovery.csv", row.names=FALSE)
-# write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub_arima.csv", row.names=FALSE)
-# write.csv(trees_all_sub, "manuscript/tables_figures/trees_all_sub_arimaratio.csv", row.names=FALSE)
+
+file_path <- paste0("manuscript/tables_figures/trees_all_sub_",
+                    metric)
+
+if(metric=="resistance" & arima_vals){ #see above in #1
+  file_path <- paste0(file_path, "_arimaratio.csv")
+} else {
+  file_path <- paste0(file_path, ".csv")
+}
+
+write.csv(trees_all_sub, file_path, row.names=FALSE)
 
 #
 ##2j. correlation plot ####
@@ -611,8 +622,19 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #########################################################################################
 #3. mixed effects model for output of #2.
 ##start here if just re-running model runs ####
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_recovery.csv", stringsAsFactors = FALSE); arima_vals=FALSE
-# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
+metric <- "recovery" #resistance, recovery, or resilience
+arima_vals <- FALSE #TRUE or FALSE
+
+trees_all_sub <- read.csv(
+  paste0("manuscript/tables_figures/trees_all_sub_",
+         metric, ".csv"), stringsAsFactors = FALSE)
+
+if(metric=="resistance" & arima_vals){
+  trees_all_sub <- read.csv(
+    paste0("manuscript/tables_figures/trees_all_sub_", metric, 
+           "arimaratio.csv"), 
+           stringsAsFactors = FALSE)
+}
 
 trees_all_sub$year <- as.character(trees_all_sub$year)
 
@@ -812,8 +834,20 @@ cand_full <- cand_full[complete.cases(cand_full), ]
 
 #The info in sum_mod_traits is used to update 
 #table S4 (Rt) or S5 (arimaratio)
-write.csv(sum_mod_traits, "manuscript/tables_figures/tested_traits_all_recovery_lmer_CPout.csv", row.names=FALSE)
-write.csv(cand_full, "manuscript/tables_figures/candidate_traits_recovery_lmer_CPout.csv", row.names=FALSE)
+file_summod <- paste0("manuscript/tables_figures/tested_traits_all_",
+                       metric, "_CPout")
+file_cand <- paste0("manuscript/tables_figures/candidate_traits_",
+                   metric, "_CPout")
+
+if(metric=="resistance" & arima_vals){
+  file_summod <- paste0(file_summod, "_arimaratio.csv")
+  file_cand <- paste0(file_cand, "_arimaratio.csv")
+} else {
+  file_summod <- paste0(file_summod, ".csv")
+  file_cand <- paste0(file_cand, ".csv")
+}
+write.csv(sum_mod_traits, file_summod, row.names=FALSE)
+write.csv(cand_full, file_cand, row.names=FALSE)
 
 ##3b reform. determine the best full model (expand for fuller explanation) ####
 # this code chunk uses the candidate variables (cand_full) from ##6a to determine
@@ -829,11 +863,25 @@ best_mod_traits <- data.frame("best_model" = NA,
                               "scenario" = c("all droughts", "1966", "1977", "1999")
 )
 
-## ONLY KEEP PLA and TLP as top variables! See Issue #95 on github.
-top_vars <- c(unique(cand_full$variable))
-top_vars <- c("PLA_dry_percent+mean_TLP_Mpa") #this should be PLA and TLP
+## ONLY KEEP variables that are candidate AND have consistent coefficient
+## signs across all drought years. See Issues #95 + #133 on github.
+top_vars_poss <- c(unique(cand_full$variable))
+
+sum_mod_traits <- data.table(sum_mod_traits)
+
+for(h in 1:length(top_vars)){
+  b <- sum_mod_traits[variable == top_vars_poss[h], 
+                      .(coef_all, coef_1966, coef_1977, coef_1999)]
+  issame <- as.logical(b[,1] == b[,2] & b[,2] == b[,3] & b[,3] == b[,4])
+  
+  if(issame == FALSE){
+    top_vars <- top_vars_poss[!top_vars_poss %in% c(top_vars_poss[h])]
+  }
+}
+
 best_mod_full <- c(paste0("metric.value ~ height.ln.m*TWI.ln+",
-                          "height.ln.m+TWI.ln+", top_vars,
+                          "height.ln.m+TWI.ln+", 
+                          paste0(top_vars,collapse="+"),
                           "+year+(1|sp/tree)"))
 best_mod_full_year <- gsub("/tree", "", best_mod_full)
 best_mod_full_year <- gsub("year\\+", "", best_mod_full_year)
@@ -1015,8 +1063,20 @@ for (i in seq(along=c(1:4))){
 }
 
 #the data in top_models is used to update tables S6 (Rt) and S7 (Rt_arima)
-write.csv(best_mod_traits, "manuscript/tables_figures/tested_traits_best_recovery_lmer_CPout.csv", row.names=FALSE)
-write.csv(top_models, "manuscript/tables_figures/top_models_dAIC_recovery_lmer_CPout.csv", row.names=FALSE)
+file_bestmod <- paste0("manuscript/tables_figures/tested_traits_best_",
+                       metric, "_CPout")
+file_top <- paste0("manuscript/tables_figures/top_models_dAIC_",
+                   metric, "_CPout")
+
+if(metric=="resistance" & arima_vals){
+  file_bestmod <- paste0(file_bestmod, "_arimaratio.csv")
+  file_top <- paste0(file_top, "_arimaratio.csv")
+} else {
+  file_bestmod <- paste0(file_bestmod, ".csv")
+  file_top <- paste0(file_top, ".csv")
+}
+write.csv(best_mod_traits, file_bestmod, row.names=FALSE)
+write.csv(top_models, file_top, row.names=FALSE)
 
 #
 #3bi. VIF; this is for when we fully decide what our best model is!!! ####
@@ -1095,32 +1155,54 @@ merge.all <- function(x, y) {
 
 coeff_table <- Reduce(merge.all, coeff_list1)
 
-coeff_table[,2:ncol(coeff_table)] <- round(coeff_table[,2:ncol(coeff_table)], 3)
+coeff_table[,1:ncol(coeff_table)] <- 
+  round(coeff_table[,1:ncol(coeff_table)], 3)
 
 coeff_new <- as.data.frame(t(coeff_table[,-1]))
 colnames(coeff_new) <- coeff_table$model_var
-coeff_new$year <- NULL #we ignore year in order to make a more parsimonious table, noting that as a standalone variable (3a) it is not significant on its own. Hence why we've kept it in manually.
+coeff_new[,c("year1977", "year1999")] <- NULL #we ignore year in order to make a more parsimonious table, noting that as a standalone variable (3a) it is not significant on its own. Hence why we've kept it in manually.
 
 # add in 0 values for multi-option variables
-coeff_new$codominant <- ifelse(!is.na(coeff_new$position_alldominant), 0, NA)
-# coeff_new$rpdiffuse <- ifelse(!is.na(coeff_new$rpring), 0, NA)
+# coeff_new$codominant <- ifelse(!is.na(coeff_new$position_alldominant), 0, NA)
 
-if(any(grepl("1", colnames(coeff_new)))){
-  colnames(coeff_new) <- gsub("1", "no_vars", colnames(coeff_new))
+rp <- any(grepl("rpring", colnames(coeff_new)))
+tlp <- any(grepl("mean_TLP_Mpa", colnames(coeff_new)))
+pla <- any(grepl("PLA_dry_percent", colnames(coeff_new)))
+
+if(rp){
+  coeff_new$rpdiffuse <- ifelse(!is.na(coeff_new$rpring), 0, NA)
+}
+
+#resistance
+if(tlp & pla){
   
-  coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
-                             "TWI.ln", "height.ln.m:TWI.ln",
-                             "PLA_dry_percent", "mean_TLP_Mpa", "no_vars")]
-  colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", 
-                           "ln[H]*ln[TWI]",
-                           "PLA", "TLP", "no_vars")
-} else {
-  coeff_new <- coeff_new[, c("dAICc","r^2", "(Intercept)", "height.ln.m",
-                             "TWI.ln", "height.ln.m:TWI.ln",
-                             "PLA_dry_percent", "mean_TLP_Mpa")]
-  colnames(coeff_new) <- c("dAICc", "r^2", "Intercept","ln[H]", "ln[TWI]", 
-                           "ln[H]*ln[TWI]",
-                           "PLA", "TLP")
+  col_order <- c("dAICc", "Marginal r^2", "Conditional r^2", 
+                 "(Intercept)", "height.ln.m",
+                 "TWI.ln", "height.ln.m:TWI.ln",
+                 "PLA_dry_percent", "mean_TLP_Mpa")
+  if(any(grepl("1", colnames(coeff_new)))){
+    col_order <- c(col_order, "no_vars")
+  }
+  
+  coeff_new <- coeff_new[, col_order]
+  setnames(coeff_new, old=c("(Intercept)", "height.ln.m", "TWI.ln", 
+                            "height.ln.m:TWI.ln",
+                            "PLA_dry_percent", "mean_TLP_Mpa"),
+           new=c("Intercept", "ln[H]", "ln[TWI]", "ln[H]*ln[TWI]", 
+                 "PLA", "TLP"))
+}
+#recovery
+if(rp & tlp){
+  col_order <- c("dAICc", "Marginal r^2", "Conditional r^2", 
+                 "(Intercept)", "height.ln.m",
+                 "TWI.ln", "height.ln.m:TWI.ln",
+                 "rpring", "rpdiffuse",  "mean_TLP_Mpa")
+  coeff_new <- coeff_new[, col_order]
+  setnames(coeff_new, old=c("(Intercept)", "height.ln.m", "TWI.ln", 
+                            "height.ln.m:TWI.ln",
+                            "rpring", "rpdiffuse", "mean_TLP_Mpa"),
+           new=c("Intercept", "ln[H]", "ln[TWI]", "ln[H]*ln[TWI]", 
+                 "RP{ring}", "RP{diffuse}", "TLP"))
 }
 
 coeff_new <- setDT(coeff_new, keep.rownames = TRUE)[]
@@ -1132,7 +1214,9 @@ for(i in seq(along=patterns)){
 }
 
 #this table is used to fill in Table 5 (Rt) or S5 (arimaratio)
-write.csv(coeff_new, "manuscript/tables_figures/tested_traits_best_coeff_lmer_CPout.csv", row.names=FALSE)
+write.csv(coeff_new, 
+          paste0("manuscript/tables_figures/tested_traits_best_coeff_",
+          metric, "_CPout.csv"), row.names=FALSE)
 
 ## END OF NORMAL ANALYSIS. 3d and 3e are extra
 
