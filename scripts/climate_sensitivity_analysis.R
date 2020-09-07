@@ -20,7 +20,7 @@ library(tools)
 library(dplyr)
 library(reshape2)
 
-metric <- "recovery"
+metric <- "resistance"
 arima_vals <- FALSE
 
 #NB ####
@@ -622,7 +622,7 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #########################################################################################
 #3. mixed effects model for output of #2.
 ##start here if just re-running model runs ####
-metric <- "recovery" #resistance, recovery, or resilience
+metric <- "resistance" #resistance, recovery, or resilience
 arima_vals <- FALSE #TRUE or FALSE
 
 trees_all_sub <- read.csv(
@@ -869,13 +869,14 @@ top_vars_poss <- c(unique(cand_full$variable))
 
 sum_mod_traits <- data.table(sum_mod_traits)
 
-for(h in 1:length(top_vars)){
+top_vars <- c()
+for(h in 1:length(top_vars_poss)){
   b <- sum_mod_traits[variable == top_vars_poss[h], 
                       .(coef_all, coef_1966, coef_1977, coef_1999)]
   issame <- as.logical(b[,1] == b[,2] & b[,2] == b[,3] & b[,3] == b[,4])
   
-  if(issame == FALSE){
-    top_vars <- top_vars_poss[!top_vars_poss %in% c(top_vars_poss[h])]
+  if(issame == TRUE){
+    top_vars <- c(top_vars, top_vars_poss[h])
   }
 }
 
@@ -1155,8 +1156,8 @@ merge.all <- function(x, y) {
 
 coeff_table <- Reduce(merge.all, coeff_list1)
 
-coeff_table[,1:ncol(coeff_table)] <- 
-  round(coeff_table[,1:ncol(coeff_table)], 3)
+coeff_table[,2:ncol(coeff_table)] <- 
+  round(coeff_table[,2:ncol(coeff_table)], 3)
 
 coeff_new <- as.data.frame(t(coeff_table[,-1]))
 colnames(coeff_new) <- coeff_table$model_var
@@ -1174,7 +1175,7 @@ if(rp){
 }
 
 #resistance
-if(tlp & pla){
+if(metric=="resistance" & pla & tlp){
   
   col_order <- c("dAICc", "Marginal r^2", "Conditional r^2", 
                  "(Intercept)", "height.ln.m",
@@ -1192,7 +1193,7 @@ if(tlp & pla){
                  "PLA", "TLP"))
 }
 #recovery
-if(rp & tlp){
+if(metric=="recovery" & rp & tlp){
   col_order <- c("dAICc", "Marginal r^2", "Conditional r^2", 
                  "(Intercept)", "height.ln.m",
                  "TWI.ln", "height.ln.m:TWI.ln",
@@ -1203,6 +1204,20 @@ if(rp & tlp){
                             "rpring", "rpdiffuse", "mean_TLP_Mpa"),
            new=c("Intercept", "ln[H]", "ln[TWI]", "ln[H]*ln[TWI]", 
                  "RP{ring}", "RP{diffuse}", "TLP"))
+}
+#resilience
+if(metric=="resilience" & rp & pla & tlp){
+  col_order <- c("dAICc", "Marginal r^2", "Conditional r^2", 
+                 "(Intercept)", "height.ln.m",
+                 "TWI.ln", "height.ln.m:TWI.ln",
+                 "rpring", "rpdiffuse", "PLA_dry_percent", "mean_TLP_Mpa")
+  coeff_new <- coeff_new[, col_order]
+  setnames(coeff_new, old=c("(Intercept)", "height.ln.m", "TWI.ln", 
+                            "height.ln.m:TWI.ln",
+                            "rpring", "rpdiffuse", 
+                            "PLA_dry_percent", "mean_TLP_Mpa"),
+           new=c("Intercept", "ln[H]", "ln[TWI]", "ln[H]*ln[TWI]", 
+                 "RP{ring}", "RP{diffuse}", "PLA", "TLP"))
 }
 
 coeff_new <- setDT(coeff_new, keep.rownames = TRUE)[]
