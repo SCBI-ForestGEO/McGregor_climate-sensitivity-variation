@@ -1,0 +1,21 @@
+"Modnames","Delta_AICc","scenario","coef"
+"metric.value ~ height.ln.m*TWI.ln+rp+PLA_dry_percent+mean_TLP_Mpa+year+(1|sp/tree)",0,"trees_all_sub",NA
+"metric.value ~ height.ln.m*TWI.ln+rp+PLA_dry_percent+year+(1|sp/tree)",1.45,"trees_all_sub",NA
+"metric.value ~ height.ln.m+rp+PLA_dry_percent+mean_TLP_Mpa+year+(1|sp/tree)",1.47,"trees_all_sub",NA
+"metric.value ~ height.ln.m+rp+PLA_dry_percent+(1|sp)",0,"x1966",NA
+"metric.value ~ rp+PLA_dry_percent+(1|sp)",0.15,"x1966",NA
+"metric.value ~ height.ln.m+PLA_dry_percent+(1|sp)",1.82,"x1966",NA
+"metric.value ~ height.ln.m+rp+PLA_dry_percent+mean_TLP_Mpa+(1|sp)",1.94,"x1966",NA
+"metric.value ~ height.ln.m*TWI.ln+rp+PLA_dry_percent+mean_TLP_Mpa+(1|sp)",0,"x1977",NA
+"metric.value ~ height.ln.m+rp+PLA_dry_percent+mean_TLP_Mpa+(1|sp)",0.23,"x1977",NA
+"metric.value ~ height.ln.m*TWI.ln+rp+PLA_dry_percent+(1|sp)",0.78,"x1977",NA
+"metric.value ~ height.ln.m+rp+PLA_dry_percent+(1|sp)",1.1,"x1977",NA
+"metric.value ~ height.ln.m+TWI.ln+rp+PLA_dry_percent+mean_TLP_Mpa+(1|sp)",1.61,"x1977",NA
+"metric.value ~ rp+PLA_dry_percent+mean_TLP_Mpa+(1|sp)",0,"x1999",NA
+"metric.value ~ TWI.ln+rp+PLA_dry_percent+mean_TLP_Mpa+(1|sp)",0.66,"x1999",NA
+"metric.value ~ height.ln.m+rp+PLA_dry_percent+mean_TLP_Mpa+(1|sp)",1.02,"x1999",NA
+"metric.value ~ mean_TLP_Mpa+(1|sp)",1.28,"x1999",NA
+"metric.value ~ PLA_dry_percent+mean_TLP_Mpa+(1|sp)",1.59,"x1999",NA
+"metric.value ~ height.ln.m+mean_TLP_Mpa+(1|sp)",1.78,"x1999",NA
+"metric.value ~ TWI.ln+mean_TLP_Mpa+(1|sp)",1.81,"x1999",NA
+"metric.value ~ height.ln.m+TWI.ln+rp+PLA_dry_percent+mean_TLP_Mpa+(1|sp)",1.85,"x1999",NA
