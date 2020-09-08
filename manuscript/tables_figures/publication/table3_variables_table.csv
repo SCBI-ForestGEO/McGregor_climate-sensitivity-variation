@@ -1,6 +1,8 @@
 variable,symbol,units,description,category,n*
 drought resistance,$Rt$,-,ratio of growth during drought year to mean growth of the 5 years prior. ,-,1623
 ,$Rt_{ARIMA}$,-,ratio of growth during drought year to growth predicted by ARIMA model. ,-,1654
+,$Rc$,-,ratio of mean growth for 5 years after drought to growth during year. ,-,
+,$Rs$,-,ratio of mean growth for 5 years after drought to mean growth for 5 years before drought. ,-,
 drought year ,$Y$,-,year of drought,1966,513
 ,,,,1977,543
 ,,,,1999,567

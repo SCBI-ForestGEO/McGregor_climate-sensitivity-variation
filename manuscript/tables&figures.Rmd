@@ -80,9 +80,9 @@ kable(table3, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of 
         escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 10, protect_latex = TRUE) %>%
   column_spec(4, width = "7cm") %>%
-  pack_rows("Dependent variables", 1, 2, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("Independent variables", 3, 14, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  pack_rows("species' traits", 8, 14, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
+  pack_rows("Dependent variables", 1, 4, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("Independent variables", 5, 16, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("species' traits", 10, 16, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   kable_styling()
 ```
 
