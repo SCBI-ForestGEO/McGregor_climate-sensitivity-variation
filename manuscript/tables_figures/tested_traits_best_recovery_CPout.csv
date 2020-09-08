@@ -1,5 +1,5 @@
 "best_model","scenario"
-"metric.value ~ height.ln.m*TWI.ln+rp+mean_TLP_Mpa+year+(1|sp/tree)","all droughts"
-"metric.value ~ rp+(1|sp)","1966"
+"metric.value ~ height.ln.m*TWI.ln+year+(1|sp/tree)","all droughts"
+"metric.value ~ height.ln.m*TWI.ln+(1|sp)","1966"
 "metric.value ~ height.ln.m+mean_TLP_Mpa+(1|sp)","1977"
-"metric.value ~ rp+mean_TLP_Mpa+(1|sp)","1999"
+"metric.value ~ (1|sp)","1999"
