@@ -5,6 +5,9 @@
 ######################################################
 library(ggplot2)
 
+## DEFINE THIS BEFORE PLOTTING!
+metric <- "resilience" #resistance, recovery, or resilience
+
 #1 Figure 1: Distribution of resistance values and time series
 ## necessary packages ####
 library(ggplot2)
@@ -14,15 +17,47 @@ library(gridExtra)
 library(cowplot)
 
 ##1a make density plot ####
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv")
+trees_all_sub <- read.csv(
+   paste0("manuscript/tables_figures/trees_all_sub_", metric, ".csv"))
 trees_all_sub$year <- as.character(trees_all_sub$year)
 
+#save as png so that way you're arranging only png
+png(paste0("manuscript/tables_figures/publication/Figure1b_density_plot_",
+           metric, ".png"), res = 300, width = 150, height = 50, 
+    units = "mm", pointsize = 10)
+ggplot(trees_all_sub) +
+   aes(x = metric.value, fill = year) +
+   geom_density(adjust = 1L, alpha=.5) +
+   geom_vline(xintercept=1) +
+   scale_fill_hue(labels=c("1966", "1977", "1999")) +
+   labs(x=paste0(metric, " value")) +
+   theme_minimal() 
+   # annotate(geom="text", x=0.1, y=1.5, 
+   #          label = "(b)", fontface="bold", size=7)
+dev.off()
+
+plot1 <- readPNG("manuscript/tables_figures/publication/Figure1a_Time_series_for_each_species.png")
+plot2 <- readPNG(
+   paste0("manuscript/tables_figures/publication/Figure1b_density_plot_",
+   metric, ".png"))
+
+png(paste0("manuscript/tables_figures/publication/Figure1_",metric, ".png"),
+    res=300, height=200, width=150, units="mm", pointsize=10)
+g <- plot_grid(rasterGrob(plot1), rasterGrob(plot2), align = "v", nrow = 2, rel_heights = c(3/4, 1/4), axis = "b")
+g + annotate(geom="text", x=0.13, y=0.99, 
+             label = "(a)", fontface="bold", size=3) +
+   annotate(geom="text", x=0.13, y=0.23, 
+            label = "(b)", fontface="bold", size=3)
+dev.off()
+
+### 1ai. Find n trees that have resistance <=0.7 for each year ####
 #In each drought, roughly 30% of the cored trees
 #Find n trees that have resistance <= 0.7 per year: #% in 1966, #2% in 1977, and #% in 1999. #Do same thing for those that have resistance >1 for each year
 library(data.table)
 test <- as.data.table(trees_all_sub)
 
-test_reduct <- test[resist.value<=0.7,.(reduct = length(resist.value)), by=.(year)]
+test_reduct <- test[resist.value<=0.7,
+                    .(reduct = length(resist.value)), by=.(year)]
 by_year <- test[, .(total=length(resist.value)), by=.(year)]
 test_reduct$total_re <- by_year$total
 test_reduct$perc_re <- test_reduct$reduct/test_reduct$total_re
@@ -44,34 +79,12 @@ Mode <- function(x) {
 # apply(d, 2, Mode)
 # test[,.(mode = Mode(resist.value)), by=.(year)]
 
-#save as png so that way you're arranging only png
-png("manuscript/tables_figures/publication/Figure1b_density_plot.png", res = 300, width = 150, height = 50, units = "mm", pointsize = 10)
-ggplot(trees_all_sub) +
-   aes(x = resist.value, fill = year) +
-   geom_density(adjust = 1L, alpha=.5) +
-   geom_vline(xintercept=1) +
-   scale_fill_hue(labels=c("1966", "1977", "1999")) +
-   labs(x="resistance value") +
-   theme_minimal() +
-   annotate(geom="text", x=0.1, y=1.5, 
-            label = "(b)", fontface="bold", size=7)
-dev.off()
-
-plot1 <- readPNG("manuscript/tables_figures/publication/Figure1a_Time_series_for_each_species.png")
-plot2 <- readPNG("manuscript/tables_figures/publication/Figure1b_density_plot.png")
-
-png("manuscript/tables_figures/publication/Figure1.png", res=300, height=200, width=150, units="mm", pointsize=10)
-g <- plot_grid(rasterGrob(plot1), rasterGrob(plot2), align = "v", nrow = 2, rel_heights = c(3/4, 1/4), axis = "b")
-g + annotate(geom="text", x=0.13, y=0.99, 
-             label = "(a)", fontface="bold", size=3) +
-   annotate(geom="text", x=0.13, y=0.23, 
-            label = "(b)", fontface="bold", size=3)
-dev.off()
-
 ##1b Figure 3: Distribution by species and anova of Rt by sp ####
 library(data.table)
 library(agricolae)
-rt <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE)
+rt <- read.csv(
+   paste0("manuscript/tables_figures/trees_all_sub_", metric, ".csv"),
+   stringsAsFactors = FALSE)
 rt$year <- as.character(rt$year)
 x1966 <- rt[rt$year == 1966, ]
 x1977 <- rt[rt$year == 1977, ]
@@ -81,7 +94,7 @@ names(model_df) <- c("x1966", "x1977", "x1999")
 
 varlist <- list()
 for(i in 1:3){
-   anovout <- aov(resist.value ~ sp, data=model_df[[i]])
+   anovout <- aov(metric.value ~ sp, data=model_df[[i]])
    
    hsdout <- HSD.test(anovout, "sp", group=TRUE)
    grouptab <- hsdout$groups
@@ -95,13 +108,25 @@ names(varlist) <- names(model_df)
 varlist[["x1966"]]
 
 #all droughts per species
+if(metric=="resistance"){
+   y66 <- 3.3; y77 <- 3.2; y99 <- 3.1 #2.3,2.2,2.1 if not doing ylim
+   ylab <- "Rt"
+} else if(metric=="recovery"){
+   y66 <- 3.3; y77 <- 3.2; y99 <- 3.1
+   ylab <- "Rc"
+} else if(metric=="resilience"){
+   y66 <- 3.3; y77 <- 3.2; y99 <- 3.1 
+   ylab <- "Rs"
+}
+
 q <- ggplot(rt) +
-   aes(x = sp, y = resist.value) +
+   aes(x = sp, y = metric.value) +
    geom_boxplot(aes(fill = year), alpha=0.5) +
    scale_color_discrete() +
-   ylab("Rt") +
+   ylab(ylab) +
    xlab("Species") +
    theme_minimal() +
+   ylim(0,3.5) +
    theme(axis.text = element_text(size=14),
          axis.title=element_text(size=16,face="bold"),
          legend.text=element_text(size=14),
@@ -109,26 +134,30 @@ q <- ggplot(rt) +
 
 q <- q +
    annotate("text", 
-            x=1:12, y= 2.3, size=5,
+            x=1:12, y= y66, size=5,
             label=varlist[["x1966"]]$groups,
             color="#FF9999") +
    annotate("text", 
-            x=1:12, y= 2.2, size=5,
+            x=1:12, y= y77, size=5,
             label=varlist[["x1977"]]$groups,
             color="#009900") +
    annotate("text", 
-            x=1:12, y= 2.1, size=5,
+            x=1:12, y= y99, size=5,
             label=varlist[["x1999"]]$groups,
             color="#6699CC")
 
-png("manuscript/tables_figures/publication/Figure3_rt_across_sp.png", width=960)
+png(paste0("manuscript/tables_figures/publication/Figure3_", metric, 
+           "_across_sp.png"), width=960)
 q
 dev.off()
 
 rt <- as.data.table(rt)
-avg_rt <- rt[, .(avg_rt = round(mean(resist.value),2)), by=.(sp,year)]
-setnames(avg_rt, old=c("sp", "avg_rt"), new=c("Species", "Mean Rt"))
-write.csv(avg_rt ,"manuscript/tables_figures/publication/mean_rt_by_sp.csv", 
+avg_rt <- rt[, .(avg_rt = round(mean(metric.value),2)), by=.(sp,year)]
+setnames(avg_rt, old=c("sp", "avg_rt"), new=c("Species", 
+                                              paste0("Mean ", ylab)))
+write.csv(avg_rt ,
+          paste0("manuscript/tables_figures/mean_", metric,
+                 "_by_sp.csv"), 
           row.names = FALSE)
 
 ##########################################################################
@@ -723,10 +752,21 @@ library(visreg)
 
 ## https://pbreheny.github.io/visreg/cross.html
 
-trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub.csv", stringsAsFactors = FALSE); arima_vals=FALSE
-# trees_all_sub <- read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv", stringsAsFactors = FALSE); arima_vals=TRUE
-top_models <- read.csv("manuscript/tables_figures/top_models_dAIC_lmer_CPout.csv", stringsAsFactors = FALSE)
+trees_all_sub <- read.csv(
+   paste0("manuscript/tables_figures/trees_all_sub_", metric, ".csv"),
+          stringsAsFactors = FALSE); arima_vals=FALSE
+top_models <- read.csv(
+   paste0("manuscript/tables_figures/top_models_dAIC_", metric, "_CPout.csv"),
+   stringsAsFactors = FALSE)
 top_models <- top_models[top_models$Delta_AICc==0, ]
+
+##height / TWI no have consistent coeff for either Rs or Rc. Take out for
+##this figure
+if(metric %in% c("recovery", "resilience")){
+   top_models$Modnames <- 
+      gsub("height.ln.m\\+|height.ln.m|\\*TWI.ln\\+", "", 
+           top_models$Modnames)
+} 
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
 x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
@@ -752,95 +792,192 @@ library(bootpredictlme4)
 predict(fitall, re.form=NA, se.fit=TRUE, nsim=1000)
 
 #plot fits for each drought scenario models separately (and overlay with visreg)
-v <- visregList(visreg(fit66, 'height.ln.m', plot=FALSE),
-                visreg(fitall, 'height.ln.m', plot=FALSE),
-                   labels=rev(c("All", "1966")),
-                   collapse=TRUE)
-q_ht <- plot(v, overlay=TRUE, gg=TRUE, 
-             partial=FALSE, rug=FALSE,
-             fill.par=list(alpha=0.2)) +
-   # guides(fill=FALSE) +
-   scale_color_manual(
-      values = rev(c("black", "#FF9999")),
-      labels=rev(c("All", "1966")),
-      name="Droughts") +
-   scale_fill_manual(values=rev(c("black", "#FF9999"))) +
-   # guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab("Rt") + xlab("ln[H]") +
-   ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
-   theme_minimal() +
-   theme(legend.position="none",
-         axis.text = element_text(size=12),
-         axis.title = element_text(size=14))
 
-## TWI
-v <- visregList(visreg(fit99, 'TWI.ln', plot=FALSE),
-                visreg(fit77, 'TWI.ln', plot=FALSE),
-               visreg(fitall, 'TWI.ln', plot=FALSE),
-                labels=rev(c("ALL", "1977", "1999")),
-                collapse=TRUE)
-q_twi <- plot(v, overlay=TRUE, gg=TRUE, 
-              partial=FALSE, rug=FALSE,
-              fill.par=list(alpha=0.2)) +
-   guides(fill=FALSE) +
-   scale_color_manual(
-      values = rev(c("black", "#009900", "#6699CC")),
-      labels=rev(c("All", "1977", "1999")),
-      name="Droughts") +
-   scale_fill_manual(values=rev(c("black", "#009900", "#6699CC"))) +
-   guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab("Rt") + xlab("ln[TWI]") +
-   ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
-   theme_minimal() +
-   theme(legend.position="none",
-         axis.text = element_text(size=12),
-         axis.title = element_text(size=14))
 
-##PLA
-v <- visregList(
-   visreg(fit66, 'PLA_dry_percent', plot=FALSE),
-   visreg(fitall, 'PLA_dry_percent', plot=FALSE),
-   labels=rev(c("All", "1966")), 
-                collapse=TRUE)
-q_pla <- plot(v, overlay=TRUE, gg=TRUE, 
-              partial=FALSE, rug=FALSE, 
-              fill.par=list(alpha=0.2),) +
-   guides(fill=FALSE) +
-   scale_color_manual(
-      values = rev(c("black", "#FF9999")),
-      labels=rev(c("All", "1966")),
-      name="Droughts") +
-   scale_fill_manual(values=rev(c("black", "#FF9999"))) +
-   guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab("Rt") + xlab(expression(PLA[dry])) +
-   ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
-   theme_minimal() +
-   theme(legend.position="none",
-         axis.text = element_text(size=12),
-         axis.title = element_text(size=14))
-
-##TLP
-v <- visregList(visreg(fit77, 'mean_TLP_Mpa', plot=FALSE),
-               visreg(fitall, 'mean_TLP_Mpa', plot=FALSE),
-                # visreg(fit99, 'mean_TLP_Mpa', plot=FALSE),
-                labels=c("1977", "All"),
-                collapse=TRUE)
-q_tlp <- plot(v, overlay=TRUE, gg=TRUE, 
-              partial=FALSE, rug=FALSE,
-              fill.par=list(alpha=0.2)) +
-   guides(fill=FALSE) +
-   scale_color_manual(
-      values = rev(c("black", "#009900")),
-      labels=rev(c("All", "1977")),
-      name="Droughts") +
-   scale_fill_manual(values=rev(c("black", "#009900"))) +
-   guides(color=guide_legend(override.aes=list(fill=NA))) +
-   ylab("Rt") + xlab(expression(pi[TLP])) +
-   ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
-   theme_minimal() +
-   theme(legend.position="none",
-         axis.text = element_text(size=12),
-         axis.title = element_text(size=14))
+if(metric=="resistance"){
+   ylab <- "Rt"
+   plotlist <- list()
+   for(u in 1:4){
+      if(u==1){ #height
+         var <- "height.ln.m"
+         labs <- rev(c("All", "1966"))
+         colvals <- rev(c("black", "#FF9999"))
+         xlab <- "ln[H]"
+         
+         v <- visregList(visreg(fit66, var, plot=FALSE),
+                         visreg(fitall, var, plot=FALSE),
+                         labels=labs,
+                         collapse=TRUE)
+      } else if(u==2){ #TWI
+         var <- "TWI.ln"
+         labs <- rev(c("ALL", "1977", "1999"))
+         colvals <- rev(c("black", "#009900", "#6699CC"))
+         xlab <- "ln[TWI]"
+         
+         v <- visregList(visreg(fit99, var, plot=FALSE),
+                         visreg(fit77, var, plot=FALSE),
+                         visreg(fitall, var, plot=FALSE),
+                         labels=labs,
+                         collapse=TRUE)
+      } else if(u==3){ #PLA
+         var <- "PLA_dry_percent"
+         labs <- rev(c("All", "1966"))
+         colvals <- rev(c("black", "#FF9999"))
+         xlab <- expression(PLA[dry])
+         
+         v <- visregList(
+            visreg(fit66, var, plot=FALSE),
+            visreg(fitall, var, plot=FALSE),
+            labels=labs, 
+            collapse=TRUE)
+      } else if(u==4){# TLP
+         var <- "mean_TLP_Mpa"
+         labs <- rev(c("All", "1977"))
+         colvals <- rev(c("black", "#009900"))
+         xlab <- expression(pi[TLP])
+         
+         v <- visregList(visreg(fit77, var, plot=FALSE),
+                         visreg(fitall, var, plot=FALSE),
+                         labels=labs,
+                         collapse=TRUE)
+      }
+      
+      q <- plot(v, overlay=TRUE, gg=TRUE, 
+                partial=FALSE, rug=FALSE,
+                fill.par=list(alpha=0.2)) +
+         # guides(fill=FALSE) +
+         scale_color_manual(
+            values = colvals,
+            labels= labs,
+            name="Droughts") +
+         scale_fill_manual(values=colvals) +
+         # guides(color=guide_legend(override.aes=list(fill=NA))) +
+         ylab(ylab) + xlab(xlab) +
+         ylim(0.5, 1.2) + geom_hline(yintercept=1, lty=2) +
+         theme_minimal() +
+         theme(legend.position="none",
+               axis.text = element_text(size=12),
+               axis.title = element_text(size=14))
+      
+      plotlist[[u]] <- q
+   }
+   names(plotlist) <- c("height", "TWI", "PLA", "TLP")
+}
+if(metric=="recovery"){
+   ylab <- "Rc"
+   plotlist <- list()
+   for(u in 1:2){
+      if(u==1){ #ring porosity
+         var <- "rp"
+         labs <- rev(c("All", "1966", "1999"))
+         colvals <- rev(c("black", "#FF9999", "#6699CC"))
+         xlab <- "RP"
+         
+         v <- visregList(visreg(fit99, var, plot=FALSE),
+                         visreg(fit66, var, plot=FALSE),
+                         visreg(fitall, var, plot=FALSE),
+                         labels=labs,
+                         collapse=TRUE)
+      } else if(u==2){ #TLP
+         var <- "mean_TLP_Mpa"
+         labs <- rev(c("ALL", "1977", "1999"))
+         colvals <- rev(c("black", "#009900", "#6699CC"))
+         xlab <- expression(pi(TLP))
+         
+         v <- visregList(visreg(fit99, var, plot=FALSE),
+                         visreg(fit77, var, plot=FALSE),
+                         visreg(fitall, var, plot=FALSE),
+                         labels=labs,
+                         collapse=TRUE)
+      }
+      
+      q <- plot(v, overlay=TRUE, gg=TRUE, 
+                partial=FALSE, rug=FALSE,
+                fill.par=list(alpha=0.2)) +
+         # guides(fill=FALSE) +
+         scale_color_manual(
+            values = colvals,
+            labels = labs,
+            name="Droughts") +
+         scale_fill_manual(values=colvals) +
+         # guides(color=guide_legend(override.aes=list(fill=NA))) +
+         labs(y=ylab) +
+         labs(x=xlab) +
+         ylim(0.5, 2) + 
+         geom_hline(yintercept=1, lty=2) +
+         theme_minimal() +
+         theme(legend.position="none",
+               axis.text = element_text(size=12),
+               axis.title = element_text(size=14))
+      
+      plotlist[[u]] <- q
+   }
+   names(plotlist) <- c("RP", "TLP")
+}
+if(metric=="resilience"){
+   ylab <- "Rs"
+   plotlist <- list()
+   for(u in 1:3){
+      if(u==1){ #ring porosity
+         var <- "rp"
+         labs <- rev(c("All", "1966", "1977", "1999"))
+         colvals <- rev(c("black", "#FF9999", "#009900", "#6699CC"))
+         xlab <- "RP"
+         
+         v <- visregList(visreg(fit99, var, plot=FALSE),
+                         visreg(fit77, var, plot=FALSE),
+                         visreg(fit66, var, plot=FALSE),
+                         visreg(fitall, var, plot=FALSE),
+                         labels=labs,
+                         collapse=TRUE)
+      } else if(u==2){ #TLP
+         var <- "mean_TLP_Mpa"
+         labs <- rev(c("ALL", "1977", "1999"))
+         colvals <- rev(c("black", "#009900", "#6699CC"))
+         xlab <- expression(pi(TLP))
+         
+         v <- visregList(visreg(fit99, var, plot=FALSE),
+                         visreg(fit77, var, plot=FALSE),
+                         visreg(fitall, var, plot=FALSE),
+                         labels=labs,
+                         collapse=TRUE)
+      } else if(u==3){ #PLA
+         var <- "PLA_dry_percent"
+         labs <- rev(c("All", "1966", "1977", "1999"))
+         colvals <- rev(c("black", "#FF9999", "#009900", "#6699CC"))
+         xlab <- "PLA"
+         
+         v <- visregList(visreg(fit99, var, plot=FALSE),
+                         visreg(fit77, var, plot=FALSE),
+                         visreg(fit66, var, plot=FALSE),
+                         visreg(fitall, var, plot=FALSE),
+                         labels=labs,
+                         collapse=TRUE)
+      }
+      
+      q <- plot(v, overlay=TRUE, gg=TRUE, 
+                partial=FALSE, rug=FALSE,
+                fill.par=list(alpha=0.2)) +
+         # guides(fill=FALSE) +
+         scale_color_manual(
+            values = colvals,
+            labels = labs,
+            name="Droughts") +
+         scale_fill_manual(values=colvals) +
+         # guides(color=guide_legend(override.aes=list(fill=NA))) +
+         labs(y=ylab) +
+         labs(x=xlab) +
+         ylim(0.5, 2) + 
+         geom_hline(yintercept=1, lty=2) +
+         theme_minimal() +
+         theme(legend.position="none",
+               axis.text = element_text(size=12),
+               axis.title = element_text(size=14))
+      
+      plotlist[[u]] <- q
+   }
+   names(plotlist) <- c("RP", "TLP", "PLA")
+}
 
 ## make legend
 library(grid)
@@ -854,7 +991,7 @@ full$color <-
 cols <- unique(full$color)
 
 w <- ggplot(full) +
-   aes(height.ln.m, resist.value) +
+   aes(height.ln.m, metric.value) +
    geom_line(aes(color=year), size=1.2, alpha=0.8) +
    facet_wrap(~year) +
    scale_color_manual(name="Droughts",
@@ -865,19 +1002,42 @@ w <- ggplot(full) +
 legend <- cowplot::get_legend(w)
 
 ## put all together
-png("manuscript/tables_figures/publication/Figure4_model_vis.png", height=480, width=600)
-arr <- ggarrange(q_ht, q_twi, q_pla, q_tlp, 
-          labels = c("(a)", "(b)", "(c)", "(d)"),
-          label.x=0.15,
-          label.y=1,
-          ncol = 2, nrow = 2,
-          common.legend=FALSE)
-
-grid.arrange(arr, legend, ncol=2, widths=c(4,1))
+png(paste0("manuscript/tables_figures/publication/Figure4_model_vis_",
+           metric, ".png"), height=480, width=600)
+if(metric=="resistance"){
+   arr <- ggarrange(plotlist[["height"]], plotlist[["TWI"]], 
+                    plotlist[["PLA"]], plotlist[["TLP"]],
+                    labels = c("(a)", "(b)", "(c)", "(d)"),
+                    label.x=0.15,
+                    label.y=1,
+                    ncol = 2, nrow = 2,
+                    common.legend=FALSE)
+   
+   grid.arrange(arr, legend, ncol=2, widths=c(4,1)) 
+} else if(metric=="recovery"){
+   arr <- ggarrange(plotlist[["RP"]], plotlist[["TLP"]],
+                    labels = c("(a)", "(b)"),
+                    label.x=0.15,
+                    label.y=1,
+                    # ncol = 2, 
+                    nrow = 1,
+                    common.legend=FALSE)
+   
+   grid.arrange(arr, legend, widths=c(6,1))
+} else if(metric=="resilience"){
+   arr <- ggarrange(plotlist[["RP"]], plotlist[["TLP"]], plotlist[["PLA"]],
+                    labels = c("(a)", "(b)", "(c)"),
+                    label.x=0.15,
+                    label.y=1,
+                    ncol = 3, nrow = 1,
+                    common.legend=FALSE)
+   
+   grid.arrange(arr, legend, widths=c(6,1))
+}
 
 dev.off()
 
-
+#
 ## Figure S6. only plot the all-years model with visreg ####
 xl <- c("ln[H]", "ln[TWI]", "PLA", "TLP")
 vars <- c("height.ln.m", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa")
