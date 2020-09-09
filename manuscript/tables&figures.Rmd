@@ -37,7 +37,7 @@ kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. S
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
   pack_rows("Tree size and microenvironment", 1, 6, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
  pack_rows("Across the forest vertical profile, taller trees are exposed to higher evaporative demand.", 1, 4, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
-  pack_rows("At least within the forest setting, taller trees are less drought tolerance.", 5, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
+  pack_rows("At least within the forest setting, taller trees are less drought tolerant.", 5, 5, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   pack_rows("Small trees (lower root volume) in drier microhabitats have lower drought tolerance.", 6, 6, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
   pack_rows("Species traits", 7, 11, latex_gap_space = "1em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("Species' traits--particularly leaf drought tolerance traits--predict drought tolerance.", 7, 11, latex_gap_space = "1em", colnum = 1, hline_before = FALSE, bold = FALSE, italic = TRUE) %>%
@@ -49,7 +49,7 @@ kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. S
  # kableExtra::landscape()
 ```
 
-Parentheses indicate that the prediction was supported by one but not all of the top  models (Table S6). Dash symbols indicate that the response was not significant (Table S4), or not represented in any of the top models (Table S6).
+Parentheses indicate that the prediction was supported by at least one but not all of the top  models (Table S6). Dash symbols indicate that the response was not significant (Table S4), or not represented in any of the top models (Table S6).
 
 \elandscape
 
