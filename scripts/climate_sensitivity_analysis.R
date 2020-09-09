@@ -622,7 +622,7 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #########################################################################################
 #3. mixed effects model for output of #2.
 ##start here if just re-running model runs ####
-metric <- "resistance" #resistance, recovery, or resilience
+metric <- "resilience" #resistance, recovery, or resilience
 arima_vals <- FALSE #TRUE or FALSE
 
 trees_all_sub <- read.csv(
@@ -645,6 +645,7 @@ x1999 <- trees_all_sub[trees_all_sub$year == 1999, ]
 model_df <- list(trees_all_sub, x1966, x1977, x1999)
 names(model_df) <- c("trees_all_sub", "x1966", "x1977", "x1999")
 
+#
 ## necessary packages ####
 library(lme4)
 library(AICcmodavg) #aictab function
@@ -879,6 +880,8 @@ for(h in 1:length(top_vars_poss)){
     top_vars <- c(top_vars, top_vars_poss[h])
   }
 }
+
+top_vars <- c("mean_TLP_Mpa", "PLA_dry_percent")
 
 best_mod_full <- c(paste0("metric.value ~ height.ln.m*TWI.ln+",
                           "height.ln.m+TWI.ln+", 
@@ -1175,14 +1178,14 @@ if(rp){
 }
 
 #resistance
-if(metric=="resistance" & pla & tlp){
+if(metric=="resistance" | (pla & tlp)){
   
   col_order <- c("dAICc", "Marginal r^2", "Conditional r^2", 
                  "(Intercept)", "height.ln.m",
                  "TWI.ln", "height.ln.m:TWI.ln",
                  "PLA_dry_percent", "mean_TLP_Mpa")
   if(any(grepl("1", colnames(coeff_new)))){
-    col_order <- c(col_order, "no_vars")
+    col_order <- c(col_order, "1")
   }
   
   coeff_new <- coeff_new[, col_order]
@@ -1191,9 +1194,12 @@ if(metric=="resistance" & pla & tlp){
                             "PLA_dry_percent", "mean_TLP_Mpa"),
            new=c("Intercept", "ln[H]", "ln[TWI]", "ln[H]*ln[TWI]", 
                  "PLA", "TLP"))
+  if(any(grepl("1", colnames(coeff_new)))){
+    setnames(coeff_new, old=c("1"), new=c("no_vars"))
+  }
 }
 #recovery
-if(metric=="recovery" & rp & tlp){
+# if(metric=="recovery" & rp & tlp){
   col_order <- c("dAICc", "Marginal r^2", "Conditional r^2", 
                  "(Intercept)", "height.ln.m",
                  "TWI.ln", "height.ln.m:TWI.ln",
@@ -1206,7 +1212,7 @@ if(metric=="recovery" & rp & tlp){
                  "RP{ring}", "RP{diffuse}", "TLP"))
 }
 #resilience
-if(metric=="resilience" & rp & pla & tlp){
+# if(metric=="resilience" & rp & pla & tlp){
   col_order <- c("dAICc", "Marginal r^2", "Conditional r^2", 
                  "(Intercept)", "height.ln.m",
                  "TWI.ln", "height.ln.m:TWI.ln",

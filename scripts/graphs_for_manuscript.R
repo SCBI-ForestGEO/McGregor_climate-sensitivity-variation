@@ -6,7 +6,7 @@
 library(ggplot2)
 
 ## DEFINE THIS BEFORE PLOTTING!
-metric <- "resilience" #resistance, recovery, or resilience
+metric <- "resistance" #resistance, recovery, or resilience
 
 #1 Figure 1: Distribution of resistance values and time series
 ## necessary packages ####
@@ -750,6 +750,7 @@ library(ggpubr)
 # remotes::install_github("pbreheny/visreg")
 library(visreg)
 library(bootpredictlme4)
+library(data.table)
 
 ## https://pbreheny.github.io/visreg/cross.html
 
@@ -760,18 +761,36 @@ for(w in 1:3){
    trees_all_sub <- read.csv(
       paste0("manuscript/tables_figures/trees_all_sub_", metric, ".csv"),
       stringsAsFactors = FALSE); arima_vals=FALSE
-   top_models <- read.csv(
+   tops <- read.csv(
       paste0("manuscript/tables_figures/top_models_dAIC_", metric, "_CPout.csv"),
       stringsAsFactors = FALSE)
-   top_models <- top_models[top_models$Delta_AICc==0, ]
+   # top_models <- top_models[top_models$Delta_AICc==0, ]
    
-   ##height / TWI no have consistent coeff for either Rs or Rc. Take out for
-   ##this figure
-   if(metric %in% c("recovery", "resilience")){
-      top_models$Modnames <- 
-         gsub("height.ln.m\\+|height.ln.m|\\*TWI.ln\\+", "", 
-              top_models$Modnames)
-   } 
+   tops <- as.data.table(tops)
+   ls <- lapply(unique(tops[,scenario]), function(a){
+      sub <- tops[scenario == a, ]
+      
+      #this function says check if Modname has the TWI*ht interaction
+      #if yes, then go to next row. If no, then stop and return that row
+      nomatch <- FALSE
+      i <- 0
+      while(!nomatch){
+         i <- i+1
+         nomatch <- !grepl("\\*", sub[,Modnames][i])
+      }
+      yes <- sub[Modnames == sub[,Modnames][i], ]
+      return(yes)
+   })
+   
+   top_models <- as.data.frame(do.call(rbind, ls))
+   
+   # ##height / TWI no have consistent coeff for either Rs or Rc. Take out for
+   # ##this figure
+   # if(metric %in% c("recovery", "resilience")){
+   #    top_models$Modnames <- 
+   #       gsub("height.ln.m\\+|height.ln.m|\\*TWI.ln\\+", "", 
+   #            top_models$Modnames)
+   # } 
    
    x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]
    x1977 <- trees_all_sub[trees_all_sub$year == 1977, ]
@@ -871,26 +890,23 @@ for(w in 1:3){
       ylab <- "Rc"
       plotlist <- list()
       for(u in 1:2){
-         if(u==1){ #ring porosity
-            var <- "rp"
-            labs <- rev(c("All", "1966", "1999"))
-            colvals <- rev(c("black", "#FF9999", "#6699CC"))
-            xlab <- "RP"
+         if(u==1){ #height
+            var <- "height.ln.m"
+            labs <- rev(c("All", "1997"))
+            colvals <- rev(c("black", "#009900"))
+            xlab <- "ln[H]"
             
-            v <- visregList(visreg(fit99, var, plot=FALSE),
-                            visreg(fit66, var, plot=FALSE),
+            v <- visregList(visreg(fit77, var, plot=FALSE),
                             visreg(fitall, var, plot=FALSE),
                             labels=labs,
                             collapse=TRUE)
          } else if(u==2){ #TLP
             var <- "mean_TLP_Mpa"
-            labs <- rev(c("ALL", "1977", "1999"))
-            colvals <- rev(c("black", "#009900", "#6699CC"))
+            labs <- rev(c("1977"))
+            colvals <- rev(c("#009900"))
             xlab <- expression(pi(TLP))
             
-            v <- visregList(visreg(fit99, var, plot=FALSE),
-                            visreg(fit77, var, plot=FALSE),
-                            visreg(fitall, var, plot=FALSE),
+            v <- visregList(visreg(fit77, var, plot=FALSE),
                             labels=labs,
                             collapse=TRUE)
          }
@@ -916,20 +932,19 @@ for(w in 1:3){
          
          plotlist[[u]] <- q
       }
-      names(plotlist) <- c("RP", "TLP")
+      names(plotlist) <- c("height", "TLP")
    }
    if(metric=="resilience"){
       ylab <- "Rs"
       plotlist <- list()
       for(u in 1:3){
-         if(u==1){ #ring porosity
-            var <- "rp"
-            labs <- rev(c("All", "1966", "1977", "1999"))
-            colvals <- rev(c("black", "#FF9999", "#009900", "#6699CC"))
-            xlab <- "RP"
+         if(u==1){ #height
+            var <- "height.ln.m"
+            labs <- rev(c("All", "1966", "1977"))
+            colvals <- rev(c("black", "#FF9999", "#009900"))
+            xlab <- "ln[H]"
             
-            v <- visregList(visreg(fit99, var, plot=FALSE),
-                            visreg(fit77, var, plot=FALSE),
+            v <- visregList(visreg(fit77, var, plot=FALSE),
                             visreg(fit66, var, plot=FALSE),
                             visreg(fitall, var, plot=FALSE),
                             labels=labs,
@@ -947,13 +962,11 @@ for(w in 1:3){
                             collapse=TRUE)
          } else if(u==3){ #PLA
             var <- "PLA_dry_percent"
-            labs <- rev(c("All", "1966", "1977", "1999"))
-            colvals <- rev(c("black", "#FF9999", "#009900", "#6699CC"))
+            labs <- rev(c("All", "1966"))
+            colvals <- rev(c("black", "#FF9999"))
             xlab <- "PLA"
             
-            v <- visregList(visreg(fit99, var, plot=FALSE),
-                            visreg(fit77, var, plot=FALSE),
-                            visreg(fit66, var, plot=FALSE),
+            v <- visregList(visreg(fit66, var, plot=FALSE),
                             visreg(fitall, var, plot=FALSE),
                             labels=labs,
                             collapse=TRUE)
@@ -980,40 +993,39 @@ for(w in 1:3){
          
          plotlist[[u]] <- q
       }
-      names(plotlist) <- c("RP", "TLP", "PLA")
+      names(plotlist) <- c("height", "TLP", "PLA")
    }
    
    void <- ggplot() + theme_void()
    
    ## put all together
    if(metric=="resistance"){
-      arr_rt <- ggarrange(plotlist[["height"]], plotlist[["TWI"]], void,
-                       plotlist[["TLP"]], plotlist[["PLA"]],
+      arr_rt <- ggarrange(plotlist[["height"]], plotlist[["TLP"]], 
+                          plotlist[["PLA"]], plotlist[["TWI"]],
                        # labels = c("(a)", "(b)","", "(c)", "(d)"),
                        # label.x=0.15,
                        # label.y=1,
-                       ncol = 5, nrow = 1,
+                       ncol = 4, nrow = 1,
                        common.legend=FALSE)
    } else if(metric=="recovery"){
-      arr_rc <- ggarrange(void, void, plotlist[["RP"]], 
-                          plotlist[["TLP"]], void,
+      arr_rc <- ggarrange(plotlist[["height"]], plotlist[["TLP"]],
+                          void, void,
                        # labels = c("", "", "(a)", "(b)", ""),
                        # label.x=0.15,
                        # label.y=1,
-                       ncol = 5,
-                       nrow = 1,
+                       ncol = 4, nrow = 1,
                        common.legend=FALSE)
    } else if(metric=="resilience"){
-      arr_rs <- ggarrange(void, void, plotlist[["RP"]], plotlist[["TLP"]], 
-                       plotlist[["PLA"]],
+      arr_rs <- ggarrange(plotlist[["height"]], plotlist[["TLP"]], 
+                          plotlist[["PLA"]], void,
                        # labels = c("(a)", "(b)", "(c)"),
                        # label.x=0.15,
                        # label.y=1,
-                       ncol = 5, nrow = 1,
+                       ncol = 4, nrow = 1,
                        common.legend=FALSE)
    }
 }
-arr_full <- ggarrange(arr_rt, arr_rc, arr_rs, nrow=3)
+arr_full <- ggarrange(arr_rc, arr_rs, arr_rt, nrow=3)
 
 ## make legend
 library(grid)
