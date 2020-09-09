@@ -85,16 +85,16 @@ Acknowledgments | 142	||
 \newpage
 
 ### Summary
-- As climate change drives increased drought in many forested regions, mechanistic understanding of the factors conferring drought tolerance in trees is increasingly important. The dendrochronological record provides a window through which we can understand how tree size and species’ traits shape growth responses to droughts.
+- As climate change drives increased drought in many forested regions, mechanistic understanding of the factors conferring drought tolerance in trees is increasingly important. The dendrochronological record provides a window through which we can understand how tree size and traits shape growth responses to droughts.
 
 - We analyzed tree-ring records for twelve species in a broadleaf deciduous forest in Virginia (USA) to test hypotheses on how tree height, microenvironment characteristics, and species' traits shaped drought responses across the three strongest regional droughts over a 60-year period. 
 
 - Drought tolerance (resistance, recovery, and resilience) decreased with tree height, which was strongly correlated with exposure to higher evaporative demand and solar radiation. The potentially greater rooting volume of larger trees did not confer a resistance advantage, but marginally increased recovery and resilience, in sites with low topographic wetness index. Drought tolerance was greater among species whose leaves experienced less shrinkage upon desiccation and lost turgor (wilted) at more negative water potentials.
 
-- Tree height and leaf drought tolerance traits influence growth responses during and after drought, as recorded in the tree-ring record spanning historical droughts. As climate change-induced droughts intensify, tall trees with drought-sensitive leaves will be most vulnerable to immediate and longer-term growth reductions.
+- The tree-ring record reveals that tree height and leaf drought tolerance traits influenced growth responses during and after significant droughts in the meteorological record. As climate change-induced droughts intensify, tall trees with drought-sensitive leaves will be most vulnerable to immediate and longer-term growth reductions.
 
 *Key words*: annual growth; crown exposure; drought; Forest Global Earth Observatory (ForestGEO); leaf drought tolerance traits; temperate broadleaf deciduous forest; tree height; tree-ring  
-
+   
 \newpage
 ### Introduction
 
