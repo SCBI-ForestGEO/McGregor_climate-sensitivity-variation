@@ -75,7 +75,7 @@ Kristina J. Anderson-Teixeira^1,3^*
 Text | word count | other | n
 ---------------------------------------------|---------------------|-----------------------------|--------------------
 Total word count (excluding summary, references and legends) | 6,490	 |	No. of figures | 	4 (all colour)
-Summary|  	198 | 	No. of Tables | 	3  
+Summary|  	200 | 	No. of Tables | 	3  
 Introduction|	1,264 |	No of Supporting Information files | 	14
 Materials and Methods |	2,228	||	 
 Results |	929	 ||
@@ -85,13 +85,13 @@ Acknowledgments | 142	||
 \newpage
 
 ### Summary
-- As climate change drives increased drought in many forested regions around the world, mechanistic understanding of the factors conferring drought tolerance in trees is increasingly important. The dendrochronological record provides a window through which we can understand how tree size and species’ traits shape growth responses during droughts.
+- As climate change drives increased drought in many forested regions, mechanistic understanding of the factors conferring drought tolerance in trees is increasingly important. The dendrochronological record provides a window through which we can understand how tree size and species’ traits shape growth responses to droughts.
 
-- We analyzed tree-ring records for twelve species that comprise 97% of the woody productivity in a broadleaf deciduous forest of northern Virginia (USA) to test hypotheses on how tree height, microenvironment characteristics, and species' traits shaped drought responses across the three strongest regional droughts over a 60-year period (1950 - 2009). 
+- We analyzed tree-ring records for twelve species in a broadleaf deciduous forest in Virginia (USA) to test hypotheses on how tree height, microenvironment characteristics, and species' traits shaped drought responses across the three strongest regional droughts over a 60-year period. 
 
-- Individual-level drought tolerance (resistance, recovery, and resilience) decreased with tree height, which was strongly correlated with exposure to higher evaporative demand and solar radiation. The potentially greater rooting volume of larger trees did not confer a resistance advantage in sites with low topographic wetness index, but marginally increased recovery and resilience. *Resistance and resilience were greater among species whose leaves experienced less shrinkage upon desiccation and, while recovery was greatest among those whose leaves lost turgor (wilted) at more negative water potentials.* 
+- Drought tolerance (resistance, recovery, and resilience) decreased with tree height, which was strongly correlated with exposure to higher evaporative demand and solar radiation. The potentially greater rooting volume of larger trees did not confer a resistance advantage, but marginally increased recovery and resilience, in sites with low topographic wetness index. Drought tolerance was greater among species whose leaves experienced less shrinkage upon desiccation and lost turgor (wilted) at more negative water potentials.
 
-- We conclude that tree height and leaf drought tolerance traits influence growth responses during drought, as recorded in the tree-ring record spanning historical droughts. Thus, these factors can be useful for predicting future drought responses under climate change. 
+- Tree height and leaf drought tolerance traits influence growth responses during and after drought, as recorded in the tree-ring record spanning historical droughts. As climate change-induced droughts intensify, tall trees with drought-sensitive leaves will be most vulnerable to immediate and longer-term growth reductions.
 
 *Key words*: annual growth; crown exposure; drought; Forest Global Earth Observatory (ForestGEO); leaf drought tolerance traits; temperate broadleaf deciduous forest; tree height; tree-ring  
 
