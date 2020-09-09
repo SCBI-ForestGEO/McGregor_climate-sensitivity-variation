@@ -98,13 +98,19 @@ Acknowledgments | 142	||
 \newpage
 ### Introduction
 
-Forests play a critical global role in climate regulation [@bonan_forests_2008], yet there remains enormous uncertainty as to how the forest-dominated terrestrial carbon sink will respond to climate change [@friedlingstein_climatecarbon_2006]. An important aspect of this uncertainty lies with physiological responses of trees to drought [@kennedy_implementing_2019]. In many forested regions around the world, the risk of severe drought is increasing [@trenberth_global_2014; @dai_climate_2018], often despite increasing precipitation [@intergovernmental_panel_on_climate_change_climate_2015;  @cook_unprecedented_2015]. Droughts, intensified by climate change, have been affecting forests worldwide and are expected to continue as one of the most important drivers of forest change in the future [@allen_global_2010; @allen_underestimation_2015; @mcdowell_pervasive_2020]. Understanding forest responses to drought requires elucidation of how tree size, microenvironment, and species’ traits jointly influence individual-level drought resistance, defined here as a tree's ability to maintain growth during drought, and the extent to which their influence is consistent across droughts. 
-Because the resistance and resilience (i.e., post-drought recovery) of growth to drought are linked to trees' probability of surviving drought [@desoto_low_2020; @liu_hydraulic_2019], understanding growth responses can also help elucidate which trees are most vulnerable to drought-induced mortality.
-However, it has proven difficult to resolve the many factors affecting tree growth during drought with available forest census data, which only rarely captures extreme drought, and with tree-ring records, which capture multiple droughts but usually only sample a subset of a forest community, typically focusing on a single species or the largest individuals.
+Forests play a critical global role in climate regulation [@bonan_forests_2008], yet there remains enormous uncertainty as to how the forest-dominated terrestrial carbon sink will respond to climate change [@friedlingstein_climatecarbon_2006]. An important aspect of this uncertainty lies with physiological responses of trees to drought [@kennedy_implementing_2019]. In many forested regions around the world, the risk of severe drought is increasing [@trenberth_global_2014; @dai_climate_2018], often despite increasing precipitation [@intergovernmental_panel_on_climate_change_climate_2015;  @cook_unprecedented_2015]. Droughts, intensified by climate change, have been affecting forests worldwide and are expected to continue as one of the most important drivers of forest change in the future [@allen_global_2010; @allen_underestimation_2015; @mcdowell_pervasive_2020]. 
+Understanding forest responses to drought requires elucidation of how tree size, microenvironment, and species’ traits jointly influence individual-level drought tolerance, defined here as a tree's ability to maintain growth during drought (resistance) and to recover to its pre-drought growth rate (resilience) [@lloret_components_2011].
+Because the resistance and resilience of growth to drought are linked to trees' probability of surviving drought [@desoto_low_2020; @liu_hydraulic_2019], understanding growth responses can also help elucidate which trees are most vulnerable to drought-induced mortality.
+However, it has proven difficult to resolve the many factors affecting tree growth during drought and the extent to which their influence is consistent across droughts.
+This is because available forest census data only rarely captures extreme drought, whereas tree-ring records capture multiple droughts but typically focus on only the largest individuals of  one or a few species.
 
 Many studies have shown that within and across species, large trees tend to be more affected by drought. 
-Greater growth reductions for larger trees were first shown on a global scale by @bennett_larger_2015, and subsequent studies have reinforced this finding [*e.g.*, @hacket-pain_consistent_2016; @gillerot_tree_2020]. 
-It has yet to be resolved which of several potential underlying mechanisms most strongly shape these trends in drought response. 
+Greater growth reductions (*i.e.*, lower drought resistance) in larger trees were first shown on a global scale by @bennett_larger_2015, and subsequent studies have reinforced this finding [*e.g.*, @gillerot_tree_2020]. 
+Although lower recovery and resilience of larger trees have also been observed [@hacket-pain_consistent_2016; @gillerot_tree_2020], in general we have much more limited understanding of how and why these scale with tree size. 
+
+*physiological model of @trugman_tree_2018 predicts that recovery and resilience would not necessarily be lower, even in trees that will ultimately die.* 
+
+Moreover, it has yet to be resolved which of several potential underlying mechanisms most strongly shape these trends in drought response. 
 First, tree height itself may be a primary driver. 
 Taller trees face the biophysical challenge of lifting water greater distances against the effects of gravity and friction [@mcdowell_relationships_2011; @mcdowell_darcys_2015; @ryan_hydraulic_2006; @couvreur_water_2018]. 
 Vertical gradients in stem and leaf traits--including smaller and thicker leaves (higher leaf mass per area, LMA), greater resistance to hydraulic dysfunction (*i.e.*, more negative water potential at 50% loss of hydraulic conductivity, more negative P50), and lower hydraulic conductivity at greater heights [@couvreur_water_2018; @koike_leaf_2001; @mcdowell_relationships_2011]--enable trees to become tall [@couvreur_water_2018].
@@ -113,7 +119,7 @@ Taller trees have wider conduits in the basal portions of taller trees, both wit
 Wider xylem conduits plausibly make large trees more vulnerable to embolism during drought [@olson_plant_2018], and traits conducive to efficient water transport may also lead to poor ability to recover from or re-route water around embolisms [@roskilly_conflicting_2019]. 
 **(here would be a good place to comment on resilience.)**
 
-Larger trees may also have lower drought resistance because of microenvironmental and ecological factors. 
+Larger trees may also have lower drought tolerance because of microenvironmental and ecological factors. 
 Their crowns tend to occupy more exposed canopy positions, which are associated with higher evaporative demand [@kunert_revised_2017]. 
 Subcanopy trees tend to fare better specifically due to the benefits of a buffered environment [@pretzsch_drought_2018]. 
 Counteracting the liabilities associated with tall height, large trees tend to have larger root systems [@enquist_global_2002; @hui_near_2014], potentially mitigating some of the biophysical challenges they face by allowing greater access to water.
@@ -129,17 +135,20 @@ However, these are time-consuming to measure and therefore infeasible for predic
 More easily-measurable leaf drought tolerance traits that have direct linkage to plant hydraulic function can explain variation in plant distribution and function [@medeiros_extensive_2019]. 
 These include leaf area shrinkage upon desiccation [$PLA_{dry}$; @scoffoni_leaf_2014] and the leaf water potential at turgor loss point ($\pi_{tlp}$), *i.e.,* the water potential at which leaf wilting occurs [@bartlett_correlations_2016; @zhu_leaf_2018]. 
 Both traits correlate with hydraulic vulnerability and drought tolerance as part of unified plant hydraulic systems [@scoffoni_leaf_2014; @bartlett_correlations_2016; @zhu_leaf_2018; @farrell_does_2017].
-The abilities of both $PLA_{dry}$ and $\pi_{tlp}$ to explain tree drought resistance remains untested. 
+The abilities of both $PLA_{dry}$ and $\pi_{tlp}$ to explain the drought tolerance of tree growth remains untested. 
 
-Here, we examine how tree height, microenvironment characteristics, and species' traits collectively shape drought resistance, defined as the ratio of annual stem growth in a drought year to that which would be expected in the absence of drought based on previous years' growth. 
+Here, we examine how tree height, microenvironment characteristics, and species' traits collectively shape three metrics of drought tolerance: 
+(1) resistance, defined as the ratio of annual stem growth in a drought year to that which would be expected in the absence of drought based on previous years' growth;
+(2) recovery, defined the ratio of post-drought growth to growth during the drought year;
+and (3) resilience, defined as the ratio of post-drought to pre-drought growth [@lloret_components_2011].
 We test a series of hypotheses and associated specific predictions (Table 1) based on the combination of tree-ring records from the three strongest droughts over a 60-year period (1950 - 2009), species trait measurements, and census and microenvironmental data from a large forest dynamics plot in Virginia, USA. 
-First, we focus on how tree size, alone and in its interaction with microenvironmental gradients, influences drought resistance. 
+First, we focus on how tree size, alone and in its interaction with microenvironmental gradients, influences drought tolerance. 
 We examine the contemporary relationship between tree height and microenvironment, including growing season meteorological conditions and crown exposure. 
-We then test whether, consistent with most forests globally, larger-diameter, taller trees tend to have lower drought resistance in this forest, which is in a region (eastern North America) represented by only two studies in the global review of [@bennett_larger_2015].
+We then test whether, consistent with most forests globally, larger-diameter, taller trees tend to have lower drought tolerance in this forest, which is in a region (eastern North America) represented by only two studies in the global review of [@bennett_larger_2015].
 We also test for an influence of potential access to available soil water, which should be greater for larger trees in dry but not in perpetually wet microsites. 
-Finally, we focus on the role of species' traits, testing the hypothesis that species’ traits-–particularly leaf drought tolerance traits-–predict drought resistance. 
-We test predictions that drought resistance is higher in ring-porous than semi-ring and diffuse-porous species and that it is correlated with wood density--either positively [@greenwood_tree_2017] or negatively [@hoffmann_hydraulic_2011] and positively correlated with $LMA$.
-We further test predictions that species with low $PLA_{dry}$ have higher drought resistance, and that species whose leaves lose turgor at lower water potentials (more negative $\pi_{tlp}$) have higher resistance. 
+Finally, we focus on the role of species' traits, testing the hypothesis that species’ traits-–particularly leaf drought tolerance traits-–predict drought tolerance. 
+We test predictions that drought tolerance is higher in ring-porous than semi-ring and diffuse-porous species and that it is correlated with wood density--either positively [@greenwood_tree_2017] or negatively [@hoffmann_hydraulic_2011] and positively correlated with $LMA$.
+We further test predictions that species with low $PLA_{dry}$ and those whose leaves lose turgor at lower water potentials (more negative $\pi_{tlp}$) have higher tolerance. 
  
 ### Materials and Methods
 *Study site and microclimate*
