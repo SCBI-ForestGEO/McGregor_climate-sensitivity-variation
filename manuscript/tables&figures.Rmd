@@ -86,7 +86,7 @@ kable(table3, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of 
   kable_styling()
 ```
 
-*Sample sizes are after removal of outliers, and refer to the $Rt$ model. Dashes indicate that the variable was available for all records.
+*Sample sizes are after removal of outliers. Dashes indicate that the variable was available for all records. For resistance, sample sizes of independent variables to the $Rt$ model.
 
 
 \newpage
