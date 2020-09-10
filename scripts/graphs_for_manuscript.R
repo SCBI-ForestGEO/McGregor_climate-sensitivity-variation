@@ -17,37 +17,67 @@ library(gridExtra)
 library(cowplot)
 
 ##1a make density plot ####
-trees_all_sub <- read.csv(
-   paste0("manuscript/tables_figures/trees_all_sub_", metric, ".csv"))
-trees_all_sub$year <- as.character(trees_all_sub$year)
-
-#save as png so that way you're arranging only png
-png(paste0("manuscript/tables_figures/publication/Figure1b_density_plot_",
-           metric, ".png"), res = 300, width = 150, height = 50, 
-    units = "mm", pointsize = 10)
-ggplot(trees_all_sub) +
-   aes(x = metric.value, fill = year) +
-   geom_density(adjust = 1L, alpha=.5) +
-   geom_vline(xintercept=1) +
-   scale_fill_hue(labels=c("1966", "1977", "1999")) +
-   labs(x=paste0(metric, " value")) +
-   theme_minimal() 
+mt <- c("resistance", "resilience")
+ggpl <- list()
+for(i in 1:length(mt)){
+   metric <- mt[i]
+   
+   trees_all_sub <- read.csv(
+      paste0("manuscript/tables_figures/trees_all_sub_", metric, ".csv"))
+   trees_all_sub$year <- as.character(trees_all_sub$year)
+   
+   plt <- ggplot(trees_all_sub) +
+      aes(x = metric.value, fill = year) +
+      geom_density(adjust = 1L, alpha=.5) +
+      geom_vline(xintercept=1) +
+      ylim(0,2) +
+      scale_fill_hue(labels=c("1966", "1977", "1999")) +
+      labs(x=paste0(metric, " value")) +
+      theme_minimal(base_size=10) +
+      theme(plot.margin = unit(c(0, 0, 0, 0), "cm"))
    # annotate(geom="text", x=0.1, y=1.5, 
    #          label = "(b)", fontface="bold", size=7)
-dev.off()
+   
+   if(i==1){
+      plt <- plt  +
+         theme(legend.position="none")
+   } else {
+      plt <- plt + 
+         theme(axis.title.y = element_blank(),
+               legend.text = element_text(size=10)) +
+         guides(shape = guide_legend(override.aes = list(size = 3)))
+   }
+   
+   ggpl[[i]] <- plt
+   
+   #save as png so that way you're arranging only png
+   png(
+      paste0("manuscript/tables_figures/publication/Figure1b_density_plot_",
+             metric, ".png"), res = 300, width = 460, height = 400, 
+      units = "px")
+   print(plt)
+   dev.off()
+}
+
 
 plot1 <- readPNG("manuscript/tables_figures/publication/Figure1a_Time_series_for_each_species.png")
-plot2 <- readPNG(
-   paste0("manuscript/tables_figures/publication/Figure1b_density_plot_",
-   metric, ".png"))
+plot_rt <- readPNG("manuscript/tables_figures/publication/Figure1b_density_plot_resistance.png")
+plot_rs <- readPNG("manuscript/tables_figures/publication/Figure1b_density_plot_resilience.png")
 
-png(paste0("manuscript/tables_figures/publication/Figure1_",metric, ".png"),
+h <- grid.arrange(ggpl[[1]], ggpl[[2]], nrow=1, widths=c(1,1))
+
+png("manuscript/tables_figures/publication/Figure1.png",
     res=300, height=200, width=150, units="mm", pointsize=10)
-g <- plot_grid(rasterGrob(plot1), rasterGrob(plot2), align = "v", nrow = 2, rel_heights = c(3/4, 1/4), axis = "b")
+
+g <- plot_grid(rasterGrob(plot1), h, align = "v", 
+               nrow = 2, ncol=1, 
+               rel_heights = c(3/4, 1/4), axis = "b")
 g + annotate(geom="text", x=0.13, y=0.99, 
              label = "(a)", fontface="bold", size=3) +
-   annotate(geom="text", x=0.13, y=0.23, 
-            label = "(b)", fontface="bold", size=3)
+   annotate(geom="text", x=0.1, y=0.23, 
+            label = "(b)", fontface="bold", size=3) +
+   annotate(geom="text", x=0.56, y=0.23,
+            label = "(c)", fontface="bold", size=3)
 dev.off()
 
 ### 1ai. Find n trees that have resistance <=0.7 for each year ####
@@ -825,7 +855,7 @@ for(w in 1:3){
             var <- "height.ln.m"
             labs <- rev(c("All", "1966"))
             colvals <- rev(c("black", "#FF9999"))
-            xlab <- "ln[H]"
+            xlab <- ""
             
             v <- visregList(visreg(fit66, var, plot=FALSE),
                             visreg(fitall, var, plot=FALSE),
@@ -846,7 +876,7 @@ for(w in 1:3){
             var <- "PLA_dry_percent"
             labs <- rev(c("All", "1966"))
             colvals <- rev(c("black", "#FF9999"))
-            xlab <- expression(PLA[dry])
+            xlab <- ""
             
             v <- visregList(
                visreg(fit66, var, plot=FALSE),
@@ -857,7 +887,7 @@ for(w in 1:3){
             var <- "mean_TLP_Mpa"
             labs <- rev(c("All", "1977"))
             colvals <- rev(c("black", "#009900"))
-            xlab <- expression(pi[TLP])
+            xlab <- ""
             
             v <- visregList(visreg(fit77, var, plot=FALSE),
                             visreg(fitall, var, plot=FALSE),
@@ -894,7 +924,7 @@ for(w in 1:3){
             var <- "height.ln.m"
             labs <- rev(c("All", "1997"))
             colvals <- rev(c("black", "#009900"))
-            xlab <- "ln[H]"
+            xlab <- ""
             
             v <- visregList(visreg(fit77, var, plot=FALSE),
                             visreg(fitall, var, plot=FALSE),
@@ -904,7 +934,7 @@ for(w in 1:3){
             var <- "mean_TLP_Mpa"
             labs <- rev(c("1977"))
             colvals <- rev(c("#009900"))
-            xlab <- expression(pi(TLP))
+            xlab <- ""
             
             v <- visregList(visreg(fit77, var, plot=FALSE),
                             labels=labs,
@@ -953,7 +983,7 @@ for(w in 1:3){
             var <- "mean_TLP_Mpa"
             labs <- rev(c("ALL", "1977", "1999"))
             colvals <- rev(c("black", "#009900", "#6699CC"))
-            xlab <- expression(pi(TLP))
+            xlab <- expression(pi[TLP])
             
             v <- visregList(visreg(fit99, var, plot=FALSE),
                             visreg(fit77, var, plot=FALSE),
@@ -964,7 +994,7 @@ for(w in 1:3){
             var <- "PLA_dry_percent"
             labs <- rev(c("All", "1966"))
             colvals <- rev(c("black", "#FF9999"))
-            xlab <- "PLA"
+            xlab <- expression(PLA[dry])
             
             v <- visregList(visreg(fit66, var, plot=FALSE),
                             visreg(fitall, var, plot=FALSE),
@@ -1008,13 +1038,35 @@ for(w in 1:3){
                        ncol = 4, nrow = 1,
                        common.legend=FALSE)
    } else if(metric=="recovery"){
+      ## make legend
+      library(grid)
+      library(gridExtra)
+      trees_all_sub$year <- "all"
+      full <- rbind(trees_all_sub, x1966, x1977, x1999)
+      full$color <- 
+         ifelse(full$year=="all", "black",
+                ifelse(full$year=="1966", "#FF9999",
+                       ifelse(full$year=="1977", "#009900","#6699CC")))
+      cols <- unique(full$color)
+      
+      w <- ggplot(full) +
+         aes(height.ln.m, metric.value) +
+         geom_line(aes(color=year), size=1.2, alpha=0.8) +
+         facet_wrap(~year) +
+         scale_color_manual(name="Droughts",
+                            labels=c("All", "1966", "1977", "1999"),
+                            values = cols) +
+         theme(legend.text = element_text(size=12),
+               legend.title=element_text(size=14))
+      legend <- cowplot::get_legend(w)
+      
       arr_rc <- ggarrange(plotlist[["height"]], plotlist[["TLP"]],
-                          void, void,
-                       # labels = c("", "", "(a)", "(b)", ""),
-                       # label.x=0.15,
-                       # label.y=1,
-                       ncol = 4, nrow = 1,
-                       common.legend=FALSE)
+                          void, legend,
+                          # labels = c("", "", "(a)", "(b)", ""),
+                          # label.x=0.15,
+                          # label.y=1,
+                          ncol = 4, nrow = 1,
+                          common.legend=FALSE)
    } else if(metric=="resilience"){
       arr_rs <- ggarrange(plotlist[["height"]], plotlist[["TLP"]], 
                           plotlist[["PLA"]], void,
@@ -1025,32 +1077,10 @@ for(w in 1:3){
                        common.legend=FALSE)
    }
 }
-arr_full <- ggarrange(arr_rc, arr_rs, arr_rt, nrow=3)
-
-## make legend
-library(grid)
-library(gridExtra)
-trees_all_sub$year <- "all"
-full <- rbind(trees_all_sub, x1966, x1977, x1999)
-full$color <- 
-   ifelse(full$year=="all", "black",
-          ifelse(full$year=="1966", "#FF9999",
-                 ifelse(full$year=="1977", "#009900","#6699CC")))
-cols <- unique(full$color)
-
-w <- ggplot(full) +
-   aes(height.ln.m, metric.value) +
-   geom_line(aes(color=year), size=1.2, alpha=0.8) +
-   facet_wrap(~year) +
-   scale_color_manual(name="Droughts",
-                      labels=c("All", "1966", "1977", "1999"),
-                      values = cols) +
-   theme(legend.text = element_text(size=12),
-         legend.title=element_text(size=14))
-legend <- cowplot::get_legend(w)
 
 png("manuscript/tables_figures/publication/Figure4_model_vis_all.png", height=600, width=900)
-grid.arrange(arr_full, legend, widths=c(10,1))
+arr_full <- ggarrange(arr_rt, arr_rc, arr_rs, nrow=3)
+print(arr_full)
 dev.off()
 #
 ## Figure S6. only plot the all-years model with visreg ####
