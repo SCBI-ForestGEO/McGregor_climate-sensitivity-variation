@@ -50,6 +50,7 @@ clim <- clim[clim$year >= 1950, ]
 
 drought_years <- c(1966, 1977, 1999)
 pre_drought_years <- drought_years - 5
+post_drought_years <- drought_years + 5
 
 
 # create plot ####
@@ -68,7 +69,13 @@ plot(NULL,
 
 
 rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
-     xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
+     xright = drought_years, ytop = par("usr")[4],  
+     col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), 
+                       alpha.f=0.5), border = "transparent")
+rect(xleft = drought_years, ybottom = par("usr")[3], 
+     xright = post_drought_years, ytop = par("usr")[4],  
+     col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), 
+                       alpha.f=0.2), border = "transparent")
 # abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1950, 2000, by = 20)
 abline(v = drought_years, col = "grey50", lty = 2) # seq(1950, 2000, by = 20)
 
@@ -86,7 +93,13 @@ plot(NULL,
 
 
 rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
-     xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
+     xright = drought_years, ytop = par("usr")[4],  
+     col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), 
+                       alpha.f=0.5), border = "transparent")
+rect(xleft = drought_years, ybottom = par("usr")[3], 
+     xright = post_drought_years, ytop = par("usr")[4],  
+     col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), 
+                       alpha.f=0.2), border = "transparent")
 # abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1950, 2000, by = 20)
 abline(v = drought_years, col = "grey50", lty = 2) # seq(1950, 2000, by = 20)
 
@@ -107,7 +120,13 @@ plot(NULL,
 
 
 rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
-     xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999","#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
+     xright = drought_years, ytop = par("usr")[4],  
+     col = adjustcolor(c("#FF9999","#009900", "#6699CC"), 
+                       alpha.f=0.5), border = "transparent")
+rect(xleft = drought_years, ybottom = par("usr")[3], 
+     xright = post_drought_years, ytop = par("usr")[4],  
+     col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), 
+                       alpha.f=0.2), border = "transparent")
 # abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1950, 2000, by = 20)
 abline(v = drought_years, col = "grey50", lty = 2) # seq(1950, 2000, by = 20)
 
@@ -143,7 +162,13 @@ for(f in SPECIES_IN_ORDER) {
        xlim = c(1950,2015), ylim = c(0.5, 1.5))
   
   rect(xleft = pre_drought_years, ybottom = par("usr")[3], 
-       xright = drought_years, ytop = par("usr")[4],  col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), alpha.f=0.5), border = "transparent")
+       xright = drought_years, ytop = par("usr")[4],  
+       col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), 
+                         alpha.f=0.5), border = "transparent")
+  rect(xleft = drought_years, ybottom = par("usr")[3], 
+       xright = post_drought_years, ytop = par("usr")[4],  
+       col = adjustcolor(c("#FF9999", "#009900", "#6699CC"), 
+                         alpha.f=0.2), border = "transparent")
   # abline(v = pre_drought_years, col = "grey", lty = 2) # seq(1959, 2000, by = 20)
   abline(v = drought_years, col = "grey50", lty = 2) # seq(1959, 2000, by = 20)
   
@@ -160,3 +185,4 @@ mtext(side = 2, "Ring Width Index", outer = T, line = 4)
 
 # save plot ####
 if(save.plots) dev.off()
+
