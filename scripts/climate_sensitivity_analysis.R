@@ -848,7 +848,7 @@ if(metric=="resistance" & arima_vals){
   file_cand <- paste0(file_cand, ".csv")
 }
 write.csv(sum_mod_traits, file_summod, row.names=FALSE)
-write.csv(cand_full, file_cand, row.names=FALSE)
+# write.csv(cand_full, file_cand, row.names=FALSE)
 
 ##3b reform. determine the best full model (expand for fuller explanation) ####
 # this code chunk uses the candidate variables (cand_full) from ##6a to determine
