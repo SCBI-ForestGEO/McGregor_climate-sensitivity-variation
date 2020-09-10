@@ -17,7 +17,7 @@ library(gridExtra)
 library(cowplot)
 
 ##1a make density plot ####
-mt <- c("resistance", "resilience")
+mt <- c("resistance", "resilience", "recovery")
 ggpl <- list()
 for(i in 1:length(mt)){
    metric <- mt[i]
@@ -38,10 +38,11 @@ for(i in 1:length(mt)){
    # annotate(geom="text", x=0.1, y=1.5, 
    #          label = "(b)", fontface="bold", size=7)
    
+   #we want recovery (i==3) to be a full plot on its own for appendix
    if(i==1){
       plt <- plt  +
          theme(legend.position="none")
-   } else {
+   } else if(i==2) {
       plt <- plt + 
          theme(axis.title.y = element_blank(),
                legend.text = element_text(size=10)) +
