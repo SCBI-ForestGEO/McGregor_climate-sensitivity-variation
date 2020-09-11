@@ -100,9 +100,7 @@ kable(singlevar_table, booktabs = TRUE, caption = "Table S4. Individual tests of
 Variable abbreviations are as in Table 2. 
 $\Delta$AICc is the AICc of a model excluding the trait minus that of the model including it. 
 
-*$\Delta$AICc > 1: variable meets $\Delta$AICc criterion for inclusion in full model
-
-**$\Delta$AICc > 2: variable is considered significant as an individual predictor (and meets $\Delta$AICc criterion for inclusion in full model)
+**$\Delta$AICc > 2: variable considered significant as an individual predictor 
 
 
 \newpage
