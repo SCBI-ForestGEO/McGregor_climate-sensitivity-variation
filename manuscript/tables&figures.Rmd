@@ -114,9 +114,8 @@ kable(table3, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of 
 \newpage
 
 
-![**Figure 3. Drought resistance, $Rt$ (a), and resilience, $Rs$ (b), across species for the three focal droughts.** Species codes are given in Table 2.](tables_figures/publication/Figure3_resistance_across_sp.png)
+![**Figure 3. Drought resistance, $Rt$ (a), and resilience, $Rs$ (b), across species for the three focal droughts.** Species codes are given in Table 2.](tables_figures/publication/Figure3_Rt-Rs_across_sp.png)
 
-![3b](tables_figures/publication/Figure3_resilience_across_sp.png)
 
 \newpage
 
