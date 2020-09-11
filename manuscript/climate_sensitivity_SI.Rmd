@@ -121,14 +121,46 @@ $\Delta$AICc is the AICc of a model excluding the trait minus that of the model 
 
 **$\Delta$AICc > 2: variable considered significant as an individual predictor
 
-
 \newpage
 ```{r table S6, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-multivar_table <- read.csv("tables_figures/publication/tableS6_RRt_multivariable_models_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+singlevar_table <- read.csv("tables_figures/publication/tableS6_Rc_singlevariable_models_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+colnames(singlevar_table)[1] <- "variable"
+kable(singlevar_table, booktabs = TRUE, caption = "Table S6. Individual tests of species traits as drivers of drought recovery ($Rc$).", format = 'latex', escape = FALSE) %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
+  add_header_above(c(" "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
+  kable_styling()
+```
+Variable abbreviations are as in Table 2. 
+$\Delta$AICc is the AICc of a model excluding the trait minus that of the model including it. 
+
+**$\Delta$AICc > 2: variable considered significant as an individual predictor
+
+\newpage
+```{r table S7, eval = TRUE, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+singlevar_table <- read.csv("tables_figures/publication/tableS7_Rs_singlevariable_models_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+colnames(singlevar_table)[1] <- "variable"
+kable(singlevar_table, booktabs = TRUE, caption = "Table S7. Individual tests of species traits as drivers of drought resilience ($Rs$).", format = 'latex', escape = FALSE) %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
+  add_header_above(c(" "," ","all droughts"=2,"1966"=2, "1977" = 2, "1999" = 2)) %>%
+  kable_styling()
+```
+Variable abbreviations are as in Table 2. 
+$\Delta$AICc is the AICc of a model excluding the trait minus that of the model including it. 
+
+**$\Delta$AICc > 2: variable considered significant as an individual predictor
+
+
+\newpage
+```{r table S8, eval = TRUE, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+multivar_table <- read.csv("tables_figures/publication/tableS8_Rt_multivariable_models_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
 colnames(multivar_table)[1] <- "drought"
-kable(multivar_table, booktabs = TRUE, caption = "Table S6. Summary of top full models for each drought instance, where $Rt$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
+kable(multivar_table, booktabs = TRUE, caption = "Table S8. Summary of top full models for each drought instance, where $Rt$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 5, 5, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
@@ -145,12 +177,12 @@ $R^2$ refers to conditional $R^2$.
 Year was included in the model for all drought years, but its effect was not included in any top models, and coefficients were small (1966: 0, 1977: -0.019, 1999: -0.005; same values in all top models).
 
 \newpage
-```{r table S7, eval = TRUE, echo=FALSE, warning=FALSE}
+```{r table S9, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-multivar_table <- read.csv("tables_figures/publication/tableS7_Rt_multivariable_models_arimaratio_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+multivar_table <- read.csv("tables_figures/publication/tableS9_Rt_multivariable_models_arimaratio_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
 colnames(multivar_table)[1] <- "drought"
-kable(multivar_table, booktabs = TRUE, caption = "Table S7. Summary of top  models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
+kable(multivar_table, booktabs = TRUE, caption = "Table S9. Summary of top  models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
   pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   pack_rows("", 5, 7, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
@@ -166,6 +198,49 @@ Models are ranked by AICc. Shown are all models whose AICc value falls within 2.
 $R^2$ refers to conditional $R^2$. 
 Year was included in the model for all drought years, but its effect was not included in any top models, and coefficients were small (1966: 0, 1977: -0.03, 1999: 0.008; same values in all top models).
 
+\newpage
+```{r table S10, eval = TRUE, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+multivar_table <- read.csv("tables_figures/publication/tableS10_Rc_multivariable_models_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+colnames(multivar_table)[1] <- "drought"
+kable(multivar_table, booktabs = TRUE, caption = "Table S10. Summary of top models for each drought instance, where $Rc$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
+  #pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  #pack_rows("", 5, 7, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  #pack_rows("", 8, 14, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  #pack_rows("", 15, 25, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  row_spec(1, bold = T) %>%
+  row_spec(5, bold = T) %>%
+  row_spec(8, bold = T) %>%
+  row_spec(15, bold = T) %>%
+  kable_styling()
+```
+Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold). 
+$R^2$ refers to conditional $R^2$. 
+Year was included in the model for all drought years, but its effect was not included in any top models, and coefficients were small **(1966: 0, 1977: -0.03, 1999: 0.008; same values in all top models)**.
+
+\newpage
+```{r table S11, eval = TRUE, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+multivar_table <- read.csv("tables_figures/publication/tableS11_Rs_multivariable_models_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+colnames(multivar_table)[1] <- "drought"
+kable(multivar_table, booktabs = TRUE, caption = "Table S11. Summary of top models for each drought instance, where $Rs$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
+  kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
+  #pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  #pack_rows("", 5, 7, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  #pack_rows("", 8, 14, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  #pack_rows("", 15, 25, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  row_spec(1, bold = T) %>%
+  row_spec(5, bold = T) %>%
+  row_spec(8, bold = T) %>%
+  row_spec(15, bold = T) %>%
+  kable_styling()
+```
+Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold). 
+$R^2$ refers to conditional $R^2$. 
+Year was included in the model for all drought years, but its effect was not included in any top models, and coefficients were small **(1966: 0, 1977: -0.03, 1999: 0.008; same values in all top models)**.
 
 \newpage
 ![**Figure S1. Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought**](tables_figures/publication/figureS1_drought_plot.jpg)
