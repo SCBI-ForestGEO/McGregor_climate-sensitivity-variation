@@ -76,7 +76,7 @@ kableExtra::footnote(symbol = c("Numbers cored live versus dead are given in Tab
 library(knitr)
 library(kableExtra)
 table3 <- read.csv("tables_figures/publication/table3_variables_table.csv", stringsAsFactors = FALSE, check.names = FALSE)
-kable(table3, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of dependent and independent variables in our statistical models fo drought resistance, along with units, definitions, and sample sizes.", 
+kable(table3, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of dependent and independent variables in our statistical models of drought tolerance, along with units, definitions, and sample sizes.", 
         escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 10, protect_latex = TRUE) %>%
   column_spec(4, width = "7cm") %>%
@@ -86,19 +86,20 @@ kable(table3, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of 
   kable_styling()
 ```
 
-*Sample sizes are after removal of outliers. Dashes indicate that the variable was available for all records. For resistance, sample sizes of independent variables to the $Rt$ model.
+Sample sizes are after removal of outliers. Dashes indicate that the variable was available for all records. 
+*Sample sizes of independent variables refer to the $Rt$ model.
 
 
 \newpage
 ### Figure Legends
 
-**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide responses (b).** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species (see Table 3 for codes). PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre-drought period used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (b) show the distribution of resistance values for each drought.
+**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide growth resistance,$Rt$ (b), and resilience, $Rs$ (c).** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species (see Table 3 for codes). PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre- and post- drought periods used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (b-c) show the distribution of $Rt$ and $Rs$ values for each drought.
 
-**Figure 2. Contemporary height profiles in sun exposure and growing season microclimate under non-drought conditions.** Shown are average ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Asterisks indicate signficant differences between the top and bottom of the height profile. Also shown is (d) tree heights by 2018 crown position, with letters indicating significance groupings. In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.
+**Figure 2. Contemporary height profiles in sun exposure and growing season microclimate under non-drought conditions.** Shown are average ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Asterisks indicate significant differences between the top and bottom of the height profile. Also shown is (d) tree heights by 2018 crown position, with letters indicating significance groupings. In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.
 
-**Figure 3. Drought resistance, $Rt$, across species for the three focal droughts.** Species codes are given in Table 2.
+**Figure 3. Figure 3. Drought resistance, $Rt$ (a), and resilience, $Rs$ (b), across species for the three focal droughts.** Species codes are given in Table 2.
 
-**Figure 4. Visualization of best models for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the  bootpredictlme4 package. Model coefficients are given in Tables S8 and S10-11.
+**Figure 4. Visualization of best statistical models for drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs)$ for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the  bootpredictlme4 package. Model coefficients are given in Tables S8 and S10-11.
 
 
 \newpage
@@ -108,7 +109,7 @@ kable(table3, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of 
 
 \newpage
 
-![**Figure 2. Contemporary height profiles in sun exposure and growing season microclimate under non-drought conditions.** Shown are average ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Asterisks indicate signficant differences between the top and bottom of the height profile. Also shown is (d) tree heights by 2018 crown position, with letters indicating significance groupings. In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.](tables_figures/publication/Figure2_NEON_vars_height_profile.png)
+![**Figure 2. Contemporary height profiles in sun exposure and growing season microclimate under non-drought conditions.** Shown are average ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Asterisks indicate significant differences between the top and bottom of the height profile. Also shown is (d) tree heights by 2018 crown position, with letters indicating significance groupings. In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.](tables_figures/publication/Figure2_NEON_vars_height_profile.png)
 
 
 \newpage
@@ -119,6 +120,6 @@ kable(table3, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of 
 
 \newpage
 
-![**Figure 4. Visualization of best statistical models for drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs)$ for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the  bootpredictlme4 package. Model coefficients are given in Table S8. ](tables_figures/publication/Figure4_model_vis_all.png)
+![**Figure 4. Visualization of best statistical models for drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs)$ for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the  bootpredictlme4 package. Model coefficients are given in Tables S8 and S10-11. ](tables_figures/publication/Figure4_model_vis_all.png)
 
 
