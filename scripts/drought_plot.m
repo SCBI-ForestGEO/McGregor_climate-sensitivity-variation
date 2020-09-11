@@ -13,31 +13,36 @@ PDSI=NOAA_table2(:,5);
 
 dr=[1966 1977 1999];
 colors= [ 1 .4 .7; .2 .7 .2 ; .4 .4 1];
+figure(1)
 for d=1:3
     fyr=dr(d);
-    index=find(year>(fyr-3) & year<(fyr+1));
+    index=find(year>(fyr-5) & year<(fyr+5));
     date_rel=date(index)-datenum([fyr 1 1]).* (1+0*(index));
     plot(date_rel,PDSI(index), 'LineWidth',2, 'Color', colors(d,:)); hold on;
 end
 
-xlim([-729 365]);
-set(gca, 'XTick', (-729 : 365/4 : 365 ));
+xlim([-365*2+1 365*3+1]);
+set(gca, 'XTick', (-365.25*2+2 : 365.25/3 : 365.25*3+2 ));
 datetick('x','mmm','keepticks')
 
 xline(121,'-r',{'peak growing season','of drought year'},'LineWidth',4);
 xline(243,'-r','LineWidth',4);
-xline(0,'--');
-xline(-365,'--');
-xline(-730,'--');
+xline(-365+1,'--');
+xline(0+1,'--');
+xline(365+1,'--');
+xline(365*2+1,'--');
+
+
 
 xlabel('month')
 ylabel('PDSI')
-legend({'1966' '1977' '1999'},'Location','Southwest')
+legend({'1966' '1977' '1999'},'Location','Southeast')
 legend('Boxoff')
 
+set(gcf, 'Position',[200 200 1000 400])
 
 shg
 
-cd '/Users/kteixeira/Dropbox (Smithsonian)/GitHub/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/manuscript/tables_figures'
-print('drought_plot', '-djpeg')
+cd '/Users/kteixeira/Dropbox (Smithsonian)/GitHub/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/manuscript/tables_figures/publication'
+print('figureS1_drought_plot', '-djpeg')
 
