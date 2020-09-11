@@ -17,6 +17,7 @@ Dear Editor:
 
 We have revised our manuscript, “Tree height and leaf drought tolerance traits shape growth responses across droughts in a temperate broadleaf forest” (previously “Tree height and hydraulic traits shape growth responses across droughts in a temperate broadleaf forest”), according to the recommendations of reviewers. 
 
+*Note that we dropped former Fig. S6, which was not essential and not added in direct response to any reviewer comments. Keeping this figure would have required adding parallel figures for recovery and resilience, which we felt would be adding too many marginally valuable appendix figures.*
 ...
 
 We hope that this manuscript will now be found suitable for publication in *New Phytologist*, and we look forward to your response.

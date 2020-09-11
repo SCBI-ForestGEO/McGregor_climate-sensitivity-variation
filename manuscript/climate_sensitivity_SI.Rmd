@@ -264,9 +264,6 @@ Year was included in the model for all drought years, but its effect was not inc
 ![**Figure S5. Comparison of $Rt$ and $Rt_{ARIMA}$ results, with residuals, for each drought scenario**](tables_figures/publication/figureS5_Rt_arima_comparison.png)
 
 
-\newpage
-
-![**Figure S6. Visualization of the best model ($\Delta$AICc=0) with data for all droughts combined.** Model coefficients are given in Table S8.](tables_figures/publication/FigureS6_best_model_with_data.png)
 
 
 \newpage
