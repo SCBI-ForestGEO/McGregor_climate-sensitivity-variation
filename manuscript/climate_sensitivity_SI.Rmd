@@ -206,14 +206,14 @@ multivar_table <- read.csv("tables_figures/publication/tableS10_Rc_multivariable
 colnames(multivar_table)[1] <- "drought"
 kable(multivar_table, booktabs = TRUE, caption = "Table S10. Summary of top models for each drought instance, where $Rc$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
-  #pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  #pack_rows("", 5, 7, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  #pack_rows("", 8, 14, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  #pack_rows("", 15, 25, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 5, 9, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 10, 20, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 21, 26, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   row_spec(1, bold = T) %>%
   row_spec(5, bold = T) %>%
-  row_spec(8, bold = T) %>%
-  row_spec(15, bold = T) %>%
+  row_spec(10, bold = T) %>%
+  row_spec(21, bold = T) %>%
   kable_styling()
 ```
 Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold). 
@@ -228,14 +228,14 @@ multivar_table <- read.csv("tables_figures/publication/tableS11_Rs_multivariable
 colnames(multivar_table)[1] <- "drought"
 kable(multivar_table, booktabs = TRUE, caption = "Table S11. Summary of top models for each drought instance, where $Rs$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
-  #pack_rows("", 1, 4, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  #pack_rows("", 5, 7, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  #pack_rows("", 8, 14, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
-  #pack_rows("", 15, 25, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 1, 5, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 6, 10, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 11, 16, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
+  pack_rows("", 17, 21, latex_gap_space = ".4em", colnum = 1, hline_before = FALSE) %>%
   row_spec(1, bold = T) %>%
-  row_spec(5, bold = T) %>%
-  row_spec(8, bold = T) %>%
-  row_spec(15, bold = T) %>%
+  row_spec(6, bold = T) %>%
+  row_spec(11, bold = T) %>%
+  row_spec(17, bold = T) %>%
   kable_styling()
 ```
 Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold). 
@@ -243,7 +243,7 @@ $R^2$ refers to conditional $R^2$.
 Year was included in the model for all drought years, but its effect was not included in any top models, and coefficients were small **(1966: 0, 1977: -0.03, 1999: 0.008; same values in all top models)**.
 
 \newpage
-![**Figure S1. Time series of Palmer Drought Severity Index (PDSI) for the 2.5 years prior to each focal drought**](tables_figures/publication/figureS1_drought_plot.jpg)
+![**Figure S1. Time series of Palmer Drought Severity Index (PDSI) foreach focal drought year $\pm$ 2 years**](tables_figures/publication/figureS1_drought_plot.jpg)
 
 \newpage
 ![**Figure S2. Map of ForestGEO plot showing topographic wetness index and location of cored trees.** Scale units are in meters](tables_figures/publication/figureS2_location_cored_trees.png){width=500px}

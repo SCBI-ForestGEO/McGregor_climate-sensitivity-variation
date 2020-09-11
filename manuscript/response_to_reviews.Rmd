@@ -86,7 +86,9 @@ Yet, I still believe there are a couple of details that need revision:
 
 2) In Line 263 it is stated that both marginal and conditional R2 are reported, but then I could only find conditional R2s in Table S6, S7. Please, report also marginal R2 in those Tables to show how much variability it is explained by the fixed effects (i.e. the traits and independent variables in Table 3). This is important so we can judge how robust the tested covariates are. I can accept what authors argue in their response (‘Tree-ring data are inherently noisy, particularly in more mesic forests. In large part, this is due to strong neighborhood effects, along with variable allocation to ring growth around the circumference of the tree. These factors contribute to the low R2, but do not negate the significance of our findings’). However, still I think that, even if (or particularly because) we see many papers today with very low variability explained (see for instance some of the analyses in the previously mentioned DeSoto et al. 2020), we should demand a minimum level of explanatory power in models in ecophysiological papers. Otherwise we cannot assure that inferences are robust enough and relationships worth to be discussed.
 
-*This is straightforward: need to report the marginal R2. Maybe also add some commentary on how a lot of noise doesn't negate significant signals.*
+**We now report both marginal and conditional R2 in tables S8-S12**. 
+
+*Maybe also add some commentary on how a lot of noise doesn't negate significant signals.*
 
 Other comments:
 
