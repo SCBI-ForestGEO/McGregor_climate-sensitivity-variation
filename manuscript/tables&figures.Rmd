@@ -93,18 +93,18 @@ Sample sizes are after removal of outliers. Dashes indicate that the variable wa
 \newpage
 ### Figure Legends
 
-**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide growth resistance,$Rt$ (b), and resilience, $Rs$ (c).** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species (see Table 3 for codes). PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre- and post- drought periods used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (b-c) show the distribution of $Rt$ and $Rs$ values for each drought.
+**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide growth resistance,$Rt$ (b), and resilience, $Rs$ (c).** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species (see Table 3 for codes). PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre- and post- drought periods used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (b-c) show the distribution of $Rt$ and $Rs$ values for each drought. See Fig. S6 for parallel plot for recovery ($Rc$). 
 
 **Figure 2. Contemporary height profiles in sun exposure and growing season microclimate under non-drought conditions.** Shown are average ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Asterisks indicate significant differences between the top and bottom of the height profile. Also shown is (d) tree heights by 2018 crown position, with letters indicating significance groupings. In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.
 
-**Figure 3. Figure 3. Drought resistance, $Rt$ (a), and resilience, $Rs$ (b), across species for the three focal droughts.** Species codes are given in Table 2.
+**Figure 3. Drought resistance, $Rt$ (a), and resilience, $Rs$ (b), across species for the three focal droughts.** Species codes are given in Table 2. See Fig. S7 for parallel plot for recovery ($Rc$). 
 
 **Figure 4. Visualization of best statistical models for drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs)$ for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the  bootpredictlme4 package. Model coefficients are given in Tables S8 and S10-11.
 
 
 \newpage
 
-![**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide growth resistance,$Rt$ (b), and resilience, $Rs$ (c).** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species (see Table 3 for codes). PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre- and post- drought periods used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (b-c) show the distribution of $Rt$ and $Rs$ values for each drought.](tables_figures/publication/Figure1.png)
+![**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide growth resistance,$Rt$ (b), and resilience, $Rs$ (c).** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species (see Table 3 for codes). PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre- and post- drought periods used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (b-c) show the distribution of $Rt$ and $Rs$ values for each drought. See Fig. S6 for parallel plot for recovery ($Rc$). ](tables_figures/publication/Figure1.png)
 
 
 \newpage
@@ -115,7 +115,7 @@ Sample sizes are after removal of outliers. Dashes indicate that the variable wa
 \newpage
 
 
-![**Figure 3. Drought resistance, $Rt$ (a), and resilience, $Rs$ (b), across species for the three focal droughts.** Species codes are given in Table 2.](tables_figures/publication/Figure3_Rt-Rs_across_sp.png)
+![**Figure 3. Drought resistance, $Rt$ (a), and resilience, $Rs$ (b), across species for the three focal droughts.** Species codes are given in Table 2.  See Fig. S7 for parallel plot for recovery ($Rc$).](tables_figures/publication/Figure3_Rt-Rs_across_sp.png)
 
 
 

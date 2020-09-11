@@ -261,7 +261,13 @@ Year was included in the model for all drought years, but its effect was not inc
 
 ![**Figure S5. Comparison of $Rt$ and $Rt_{ARIMA}$ results, with residuals, for each drought scenario**](tables_figures/publication/figureS5_Rt_arima_comparison.png)
 
+\newpage
 
+![**Figure S6. Drought recovery, $Rc$, across species for the three focal droughts.**](tables_figures/publication/FigureS6_density_plot_recovery.png)
+
+\newpage
+
+![**Figure S7. Drought recovery, $Rc$, across species for the three focal droughts.**](tables_figures/publication/FigureS7_Rc_across_sp.png)
 
 
 \newpage

@@ -232,7 +232,7 @@ To do so, we compared models with all possible combinations of candidate variabl
 We identified the full set of models within $\Delta$AICc=2 of the best model (that with lowest AICc). 
 When a variable appeared in all of these models and the sign of the coefficient was consistent across models, we viewed this as support for the acceptance/rejection of the associated prediction (Table 1). 
 If the variable appeared in some but not all of these models, and its sign was consistent across models, we considered this partial support/rejection. 
-In presentation of the results below, we note instances where the $Rt_{ARIMA}$ model disagreed with the $Rt$ model, but otherwise do not discuss the $Rt_{ARIMA}$ model. Visualization of the best mixed effects model per drought scenario (Fig. **4**) was created by the visreg package [@R-visreg].
+In presentation of the results below, we note instances where the $Rt_{ARIMA}$ model disagreed with the $Rt$ model, but otherwise do not discuss the $Rt_{ARIMA}$ model. Visualization of the best mixed effects model per drought scenario was created by the visreg package [@R-visreg].
 
 All analysis beyond basic data collection was performed using R version 3.6.2 [@R-base]. 
 Other R-packages used in analyses are listed in the Supplementary Information (Appendix S1).
@@ -252,7 +252,9 @@ There were significant differences in height across all crown position classes (
 
 *Community-level drought responses* 
 
-At the community level, cored trees showed substantial growth reductions in all three droughts, with a mean $Rt$ of 0.86 in 1966 and 1999, and 0.84 in 1977  (Fig. **2b**). Across the entire study period (1950-2009), the focal drought years were the three years with the largest fraction of trees exhibiting $Rt \le 0.7$. Specifically, in each drought, roughly 30% of the cored trees had growth reductions of $\ge$ 30% ($Rt \le 0.7$): 29% in 1966, 32% in 1977, and 27% in 1999. However, some individuals exhibited increased growth, *i.e.*, $Rt > 1.0$: 26% of trees in 1966, 22% in 1977, and 26% in 1999. 
+At the community level, cored trees showed substantial growth reductions in all three droughts, with a mean $Rt$ of 0.86 in 1966 and 1999, and 0.84 in 1977  (Fig. **1b**). Across the entire study period (1950-2009), the focal drought years were the three years with the largest fraction of trees exhibiting $Rt \le 0.7$. Specifically, in each drought, roughly 30% of the cored trees had growth reductions of $\ge$ 30% ($Rt \le 0.7$): 29% in 1966, 32% in 1977, and 27% in 1999. However, some individuals exhibited increased growth, *i.e.*, $Rt > 1.0$: 26% of trees in 1966, 22% in 1977, and 26% in 1999. 
+
+*here, cite Figs. 1c, S6*
 
 In the context of the multivariate model, $Rt$ did not vary across drought years. That is, drought year as a variable did not appear in any of the top models -- *i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model (see footnotes on Tables S8-S9). 
 
@@ -273,10 +275,10 @@ Nevertheless, we tested for a $ln[H] *ln[TWI]$ interaction, a negative sign of w
 This hypothesis was rejected, as the $ln[H] *ln[TWI]$ interaction was never significant, and had a positive sign in any top models in which it appeared (Tables 1, S8-S9).
 This term did appear with a positive coefficient in the best $Rt_{ARIMA}$ model for all years combined (Table S9), indicating that the negative effect of height on  $Rt$ was significantly stronger in wetter microhabitats.
 
-*Species' traits and drought resistance*
+*Species' traits and drought tolerance*
 
 Species, as a factor in ANOVA, had significant influence (p<0.05) on all traits (wood density, $LMA$, $PLA_{dry}$, and $\pi_{tlp}$), with more significant pairwise differences for wood density and $PLA_{dry}$ than for $LMA$ and $\pi_{tlp}$ (Table 2, Fig. **S4** as characterized by the agricolae package @R-agricolae).
-Drought resistance also varied across species, overall and in each drought year (Fig. **3**). Significant differences in $Rt$ across species were most pronounced in 1966 with a total of seven distinct groupings, while 1977 had four and 1999 had two.
+Drought tolerance also varied across species, overall and in each drought year (Figs. **3, S7**). Significant differences in $Rt$ across species were most pronounced in 1966 with a total of seven distinct groupings, while 1977 had four and 1999 had two.
 Averaged across all droughts, $Rt$ was lowest in *Liriodendron tulipifera* (mean $Rt$ = **0.66**) and highest in *Fagus grandifolia* (mean $Rt$ = **0.99**).
 
 Wood density, $LMA$, and xylem porosity were all poor predictors of $Rt$ (Tables 1,S4-S5). 
