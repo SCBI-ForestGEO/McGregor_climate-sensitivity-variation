@@ -1066,7 +1066,7 @@ for (i in seq(along=c(1:4))){
   top_models <- rbind(top_models, top)
 }
 
-#the data in top_models is used to update tables S6 (Rt) and S7 (Rt_arima)
+#the data in top_models is used for creating Fig. 4
 file_bestmod <- paste0("manuscript/tables_figures/tested_traits_best_",
                        metric, "_CPout")
 file_top <- paste0("manuscript/tables_figures/top_models_dAIC_",
@@ -1234,7 +1234,7 @@ for(i in seq(along=patterns)){
   coeff_new$rank <- gsub(patterns[[i]], "", coeff_new$rank)
 }
 
-#this table is used to fill in Table 5 (Rt) or S5 (arimaratio)
+#this table is used to fill in Table S6 
 write.csv(coeff_new, 
           paste0("manuscript/tables_figures/tested_traits_best_coeff_",
           metric, "_CPout.csv"), row.names=FALSE)

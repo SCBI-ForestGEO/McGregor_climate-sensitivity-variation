@@ -90,7 +90,7 @@ kable(heights, booktabs=TRUE, format = 'latex', caption = "Table S3. Species-spe
 ```{r table S4, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-singlevar_table <- read.csv("tables_figures/publication/tableS4_singlevariable_models_lmer_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
+singlevar_table <- read.csv("tables_figures/publication/tableS4_Rt_singlevariable_models_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) #note: this table is a rearranged version of `tested_traits_all.csv`.
 colnames(singlevar_table)[1] <- "variable"
 kable(singlevar_table, booktabs = TRUE, caption = "Table S4. Individual tests of species traits as drivers of drought resistance, where $Rt$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
@@ -109,7 +109,7 @@ $\Delta$AICc is the AICc of a model excluding the trait minus that of the model 
 ```{r table S5, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-singlevar_table <- read.csv("tables_figures/publication/tableS5_singlevariable_models_lmer_arimaratio_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+singlevar_table <- read.csv("tables_figures/publication/tableS5_Rt_singlevariable_models_arimaratio_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
 colnames(singlevar_table)[1] <- "variable"
 kable(singlevar_table, booktabs = TRUE, caption = "Table S5. Individual tests of species traits as drivers of drought resistance, where $Rt_{ARIMA}$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
@@ -126,7 +126,7 @@ $\Delta$AICc is the AICc of a model excluding the trait minus that of the model 
 ```{r table S6, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-multivar_table <- read.csv("tables_figures/publication/tableS6_multivariable_models_lmer_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+multivar_table <- read.csv("tables_figures/publication/tableS6_RRt_multivariable_models_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
 colnames(multivar_table)[1] <- "drought"
 kable(multivar_table, booktabs = TRUE, caption = "Table S6. Summary of top full models for each drought instance, where $Rt$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
@@ -148,7 +148,7 @@ Year was included in the model for all drought years, but its effect was not inc
 ```{r table S7, eval = TRUE, echo=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
-multivar_table <- read.csv("tables_figures/publication/tableS7_multivariable_models_lmer_arimaratio_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
+multivar_table <- read.csv("tables_figures/publication/tableS7_Rt_multivariable_models_arimaratio_CPout.csv", stringsAsFactors = FALSE, check.names = FALSE) 
 colnames(multivar_table)[1] <- "drought"
 kable(multivar_table, booktabs = TRUE, caption = "Table S7. Summary of top  models for each drought instance, where $Rt_{ARIMA}$ is used as the response variable.", format = 'latex', escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 12, protect_latex = TRUE) %>%
