@@ -118,8 +118,9 @@ Sample sizes are after removal of outliers. Dashes indicate that the variable wa
 ![**Figure 3. Drought resistance, $Rt$ (a), and resilience, $Rs$ (b), across species for the three focal droughts.** Species codes are given in Table 2.](tables_figures/publication/Figure3_Rt-Rs_across_sp.png)
 
 
+
 \newpage
 
-![**Figure 4. Visualization of best statistical models for drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs)$ for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the  bootpredictlme4 package. Model coefficients are given in Tables S8 and S10-11. ](tables_figures/publication/Figure4_model_vis_all.png)
+![**Figure 4. Visualization of best statistical models for drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs)$ for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the bootpredictlme4 package. Model coefficients are given in Tables S8 and S10-11. ](tables_figures/publication/Figure4_model_vis_all.png)
 
 
