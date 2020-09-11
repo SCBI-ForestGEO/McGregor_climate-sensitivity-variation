@@ -26,27 +26,42 @@ for(i in 1:length(mt)){
       paste0("manuscript/tables_figures/trees_all_sub_", metric, ".csv"))
    trees_all_sub$year <- as.character(trees_all_sub$year)
    
-   plt <- ggplot(trees_all_sub) +
-      aes(x = metric.value, fill = year) +
-      geom_density(adjust = 1L, alpha=.5) +
-      geom_vline(xintercept=1) +
-      ylim(0,2) +
-      scale_fill_hue(labels=c("1966", "1977", "1999")) +
-      labs(x=paste0(metric, " value")) +
-      theme_minimal(base_size=10) +
-      theme(plot.margin = unit(c(0, 0, 0, 0), "cm"))
-   # annotate(geom="text", x=0.1, y=1.5, 
-   #          label = "(b)", fontface="bold", size=7)
-   
-   #we want recovery (i==3) to be a full plot on its own for appendix
-   if(i==1){
-      plt <- plt  +
-         theme(legend.position="none")
-   } else if(i==2) {
-      plt <- plt + 
-         theme(axis.title.y = element_blank(),
-               legend.text = element_text(size=10)) +
-         guides(shape = guide_legend(override.aes = list(size = 3)))
+   # library(data.table)
+   # trees_all_sub <- fread(
+   #    paste0("manuscript/tables_figures/trees_all_sub_", metric, ".csv"))
+   if(i %in% c(1,2)){
+      plt <- ggplot(trees_all_sub) +
+         aes(x = metric.value, fill = year) +
+         geom_density(adjust = 1L, alpha=.5) +
+         geom_vline(xintercept=1) +
+         ylim(0,2) +
+         scale_fill_hue(labels=c("1966", "1977", "1999")) +
+         labs(x=paste0(metric, " value")) +
+         theme_minimal(base_size=10) +
+         theme(plot.margin = unit(c(0, 0, 0, 0), "cm"))
+      # annotate(geom="text", x=0.1, y=1.5, 
+      #          label = "(b)", fontface="bold", size=7)
+      
+      #we want recovery (i==3) to be a full plot on its own for appendix
+      if(i==1){
+         plt <- plt  +
+            theme(legend.position="none")
+      } else if(i==2) {
+         plt <- plt + 
+            theme(axis.title.y = element_blank(),
+                  legend.text = element_text(size=10),
+                  legend.title = element_blank(),
+                  legend.position = c(0.88, 0.8)) 
+      } 
+   } else if(i==3){
+      plt <- ggplot(trees_all_sub) +
+         aes(x = metric.value, fill = year) +
+         geom_density(adjust = 1L, alpha=.5) +
+         geom_vline(xintercept=1) +
+         ylim(0,2) +
+         scale_fill_hue(labels=c("1966", "1977", "1999")) +
+         labs(x=paste0(metric, " value")) +
+         theme_minimal(base_size=12)
    }
    
    ggpl[[i]] <- plt
@@ -54,7 +69,7 @@ for(i in 1:length(mt)){
    #save as png so that way you're arranging only png
    png(
       paste0("manuscript/tables_figures/publication/Figure1b_density_plot_",
-             metric, ".png"), res = 300, width = 460, height = 400, 
+             metric, ".png"), width = 460, height = 400, 
       units = "px")
    print(plt)
    dev.off()
@@ -62,8 +77,6 @@ for(i in 1:length(mt)){
 
 
 plot1 <- readPNG("manuscript/tables_figures/publication/Figure1a_Time_series_for_each_species.png")
-plot_rt <- readPNG("manuscript/tables_figures/publication/Figure1b_density_plot_resistance.png")
-plot_rs <- readPNG("manuscript/tables_figures/publication/Figure1b_density_plot_resilience.png")
 
 h <- grid.arrange(ggpl[[1]], ggpl[[2]], nrow=1, widths=c(1,1))
 
@@ -81,6 +94,7 @@ g + annotate(geom="text", x=0.13, y=0.99,
             label = "(c)", fontface="bold", size=3)
 dev.off()
 
+#
 ### 1ai. Find n trees that have resistance <=0.7 for each year ####
 #In each drought, roughly 30% of the cored trees
 #Find n trees that have resistance <= 0.7 per year: #% in 1966, #2% in 1977, and #% in 1999. #Do same thing for those that have resistance >1 for each year
@@ -113,73 +127,107 @@ Mode <- function(x) {
 ##1b Figure 3: Distribution by species and anova of Rt by sp ####
 library(data.table)
 library(agricolae)
-rt <- read.csv(
-   paste0("manuscript/tables_figures/trees_all_sub_", metric, ".csv"),
-   stringsAsFactors = FALSE)
-rt$year <- as.character(rt$year)
-x1966 <- rt[rt$year == 1966, ]
-x1977 <- rt[rt$year == 1977, ]
-x1999 <- rt[rt$year == 1999, ]
-model_df <- list(x1966, x1977, x1999)
-names(model_df) <- c("x1966", "x1977", "x1999")
+library(ggpubr)
 
-varlist <- list()
-for(i in 1:3){
-   anovout <- aov(metric.value ~ sp, data=model_df[[i]])
+mt <- c("resistance", "resilience", "recovery")
+plotls <- list()
+for(j in 1:length(mt)){
+   metric <- mt[j]
+   rt <- read.csv(
+      paste0("manuscript/tables_figures/trees_all_sub_", metric, ".csv"),
+      stringsAsFactors = FALSE)
+   rt$year <- as.character(rt$year)
+   x1966 <- rt[rt$year == 1966, ]
+   x1977 <- rt[rt$year == 1977, ]
+   x1999 <- rt[rt$year == 1999, ]
+   model_df <- list(x1966, x1977, x1999)
+   names(model_df) <- c("x1966", "x1977", "x1999")
    
-   hsdout <- HSD.test(anovout, "sp", group=TRUE)
-   grouptab <- hsdout$groups
-   grouptab$var <- names(model_df[i])
-   grouptab <- grouptab[order(rownames(grouptab)), ]
-   grouptab$groups <- as.character(grouptab$groups)
+   varlist <- list()
+   for(i in 1:3){
+      anovout <- aov(metric.value ~ sp, data=model_df[[i]])
+      
+      hsdout <- HSD.test(anovout, "sp", group=TRUE)
+      grouptab <- hsdout$groups
+      grouptab$var <- names(model_df[i])
+      grouptab <- grouptab[order(rownames(grouptab)), ]
+      grouptab$groups <- as.character(grouptab$groups)
+      
+      varlist[[i]] <- grouptab
+   }
+   names(varlist) <- names(model_df)
    
-   varlist[[i]] <- grouptab
+   #all droughts per species
+   if(metric=="resistance"){
+      y66 <- 2.6; y77 <- 2.4; y99 <- 2.2
+      ylab <- "Rt"
+      ymin <- 0
+      ymax <- 2.8
+   } else if(metric=="resilience"){
+      y66 <- 3.6; y77 <- 3.4; y99 <- 3.2 
+      ylab <- "Rs"
+      ymin <- 0
+      ymax <- 3.8
+   } else if(metric=="recovery"){
+      y66 <- 3.5; y77 <- 3.3; y99 <- 3.1
+      ylab <- "Rc"
+      ymin <- 0
+      ymax <- 3.5
+   }
+   
+   q <- ggplot(rt) +
+      aes(x = sp, y = metric.value) +
+      geom_boxplot(aes(fill = year), alpha=0.5) +
+      scale_color_discrete() +
+      geom_hline(yintercept = 1, linetype="dashed") +
+      ylab(ylab) +
+      xlab("Species") +
+      theme_minimal() +
+      ylim(ymin, ymax) +
+      theme(axis.text = element_text(size=14),
+            axis.title=element_text(size=16,face="bold"),
+            legend.text=element_text(size=14),
+            legend.title=element_text(size=14))
+   
+   q <- q +
+      annotate("text", 
+               x=1:12, y= y66, size=5,
+               label=varlist[["x1966"]]$groups,
+               color="#FF9999") +
+      annotate("text", 
+               x=1:12, y= y77, size=5,
+               label=varlist[["x1977"]]$groups,
+               color="#009900") +
+      annotate("text", 
+               x=1:12, y= y99, size=5,
+               label=varlist[["x1999"]]$groups,
+               color="#6699CC")
+   
+   if(j==1){#resistance
+      q <- q +
+         theme(legend.position="top",
+               axis.title.x = element_blank())
+         
+   } else if(j==2){#resilience
+      q <- q +
+         theme(legend.position="none")
+   }
+   
+   plotls[[j]] <- q
 }
-names(varlist) <- names(model_df)
-varlist[["x1966"]]
+names(plotls) <- mt
 
-#all droughts per species
-if(metric=="resistance"){
-   y66 <- 3.3; y77 <- 3.2; y99 <- 3.1 #2.3,2.2,2.1 if not doing ylim
-   ylab <- "Rt"
-} else if(metric=="recovery"){
-   y66 <- 3.3; y77 <- 3.2; y99 <- 3.1
-   ylab <- "Rc"
-} else if(metric=="resilience"){
-   y66 <- 3.3; y77 <- 3.2; y99 <- 3.1 
-   ylab <- "Rs"
-}
+k <- ggarrange(plotls[["resistance"]], plotls[["resilience"]], 
+          nrow=2)
 
-q <- ggplot(rt) +
-   aes(x = sp, y = metric.value) +
-   geom_boxplot(aes(fill = year), alpha=0.5) +
-   scale_color_discrete() +
-   ylab(ylab) +
-   xlab("Species") +
-   theme_minimal() +
-   ylim(0,3.5) +
-   theme(axis.text = element_text(size=14),
-         axis.title=element_text(size=16,face="bold"),
-         legend.text=element_text(size=14),
-         legend.title=element_text(size=14))
+png("manuscript/tables_figures/publication/Figure3_Rt-Rs_across_sp.png", 
+    width=960)
+k
+dev.off()
 
-q <- q +
-   annotate("text", 
-            x=1:12, y= y66, size=5,
-            label=varlist[["x1966"]]$groups,
-            color="#FF9999") +
-   annotate("text", 
-            x=1:12, y= y77, size=5,
-            label=varlist[["x1977"]]$groups,
-            color="#009900") +
-   annotate("text", 
-            x=1:12, y= y99, size=5,
-            label=varlist[["x1999"]]$groups,
-            color="#6699CC")
-
-png(paste0("manuscript/tables_figures/publication/Figure3_", metric, 
-           "_across_sp.png"), width=960)
-q
+png("manuscript/tables_figures/publication/Figure3_Rc_across_sp.png", 
+    width=960)
+plotls[["recovery"]]
 dev.off()
 
 rt <- as.data.table(rt)
