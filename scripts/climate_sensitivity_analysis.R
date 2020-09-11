@@ -622,18 +622,19 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #########################################################################################
 #3. mixed effects model for output of #2.
 ##start here if just re-running model runs ####
-metric <- "resilience" #resistance, recovery, or resilience
-arima_vals <- FALSE #TRUE or FALSE
+metric <- "resistance" #resistance, recovery, or resilience
+arima_vals <- TRUE #TRUE or FALSE
 
 trees_all_sub <- read.csv(
   paste0("manuscript/tables_figures/trees_all_sub_",
          metric, ".csv"), stringsAsFactors = FALSE)
 
 if(metric=="resistance" & arima_vals){
-  trees_all_sub <- read.csv(
-    paste0("manuscript/tables_figures/trees_all_sub_", metric, 
-           "arimaratio.csv"), 
-           stringsAsFactors = FALSE)
+  trees_all_sub <- 
+    read.csv("manuscript/tables_figures/trees_all_sub_arimaratio.csv",
+             stringsAsFactors = FALSE)
+  library(data.table)
+  setnames(trees_all_sub, old=c("resist.value"), new=c("metric.value"))
 }
 
 trees_all_sub$year <- as.character(trees_all_sub$year)
@@ -1235,9 +1236,16 @@ for(i in seq(along=patterns)){
 }
 
 #this table is used to fill in Table S6 
-write.csv(coeff_new, 
-          paste0("manuscript/tables_figures/tested_traits_best_coeff_",
-          metric, "_CPout.csv"), row.names=FALSE)
+if(metric == "resistance" & arima_vals){
+  write.csv(coeff_new, 
+            paste0("manuscript/tables_figures/tested_traits_best_coeff_",
+                   metric, "_CPout_arimaratio.csv"), row.names=FALSE)
+} else {
+  write.csv(coeff_new, 
+            paste0("manuscript/tables_figures/tested_traits_best_coeff_",
+                   metric, "_CPout.csv"), row.names=FALSE)
+}
+
 
 ## END OF NORMAL ANALYSIS. 3d and 3e are extra
 
