@@ -266,7 +266,7 @@ Year was included in the model for all drought years, but its effect was not inc
 
 \newpage
 
-![**Figure S6. Visualization of the best model ($\Delta$AICc=0) with data for all droughts combined.** Model coefficients are given in Table S6.](tables_figures/publication/FigureS6_best_model_with_data.png)
+![**Figure S6. Visualization of the best model ($\Delta$AICc=0) with data for all droughts combined.** Model coefficients are given in Table S8.](tables_figures/publication/FigureS6_best_model_with_data.png)
 
 
 \newpage

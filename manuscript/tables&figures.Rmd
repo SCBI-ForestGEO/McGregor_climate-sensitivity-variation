@@ -49,7 +49,7 @@ kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. S
  # kableExtra::landscape()
 ```
 
-Parentheses indicate that the prediction was supported by at least one but not all of the top  models (Table S6). Dash symbols indicate that the response was not significant (Table S4), or not represented in any of the top models (Table S6).
+Parentheses indicate that the prediction was supported by at least one but not all of the top  models (Table S8). Dash symbols indicate that the response was not significant (Table S4), or not represented in any of the top models (Table S8).
 
 \elandscape
 
@@ -98,7 +98,7 @@ kable(table3, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of 
 
 **Figure 3. Drought resistance, $Rt$, across species for the three focal droughts.** Species codes are given in Table 2.
 
-**Figure 4. Visualization of best models for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the  bootpredictlme4 package. Model coefficients are given in Table S6.
+**Figure 4. Visualization of best models for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the  bootpredictlme4 package. Model coefficients are given in Tables S8 and S10-11.
 
 
 \newpage
@@ -119,6 +119,6 @@ kable(table3, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of 
 
 \newpage
 
-![**Figure 4. Visualization of best statistical models for drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs)$ for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the  bootpredictlme4 package. Model coefficients are given in Table S6. ](tables_figures/publication/Figure4_model_vis_all.png)
+![**Figure 4. Visualization of best statistical models for drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs)$ for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the  bootpredictlme4 package. Model coefficients are given in Table S8. ](tables_figures/publication/Figure4_model_vis_all.png)
 
 
