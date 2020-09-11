@@ -622,8 +622,8 @@ for(i in seq(along=trees_all_sub[,c(5:9,16)])){
 #########################################################################################
 #3. mixed effects model for output of #2.
 ##start here if just re-running model runs ####
-metric <- "resistance" #resistance, recovery, or resilience
-arima_vals <- TRUE #TRUE or FALSE
+metric <- "resilience" #resistance, recovery, or resilience
+arima_vals <- FALSE #TRUE or FALSE
 
 trees_all_sub <- read.csv(
   paste0("manuscript/tables_figures/trees_all_sub_",
@@ -869,18 +869,22 @@ best_mod_traits <- data.frame("best_model" = NA,
 ## signs across all drought years. See Issues #95 + #133 on github.
 top_vars_poss <- c(unique(cand_full$variable))
 
-sum_mod_traits <- data.table(sum_mod_traits)
+#originally we were taking directly from the candidate traits, but
+#we then decided to only use TLP and PLA across all metrics in order to
+#be consistent.
+# sum_mod_traits <- data.table(sum_mod_traits)
+# 
+# top_vars <- c()
+# for(h in 1:length(top_vars_poss)){
+#   b <- sum_mod_traits[variable == top_vars_poss[h], 
+#                       .(coef_all, coef_1966, coef_1977, coef_1999)]
+#   issame <- as.logical(b[,1] == b[,2] & b[,2] == b[,3] & b[,3] == b[,4])
+#   
+#   if(issame == TRUE){
+#     top_vars <- c(top_vars, top_vars_poss[h])
+#   }
+# }
 
-top_vars <- c()
-for(h in 1:length(top_vars_poss)){
-  b <- sum_mod_traits[variable == top_vars_poss[h], 
-                      .(coef_all, coef_1966, coef_1977, coef_1999)]
-  issame <- as.logical(b[,1] == b[,2] & b[,2] == b[,3] & b[,3] == b[,4])
-  
-  if(issame == TRUE){
-    top_vars <- c(top_vars, top_vars_poss[h])
-  }
-}
 
 top_vars <- c("mean_TLP_Mpa", "PLA_dry_percent")
 
