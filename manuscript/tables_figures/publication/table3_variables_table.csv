@@ -1,4 +1,4 @@
-variable,symbol,units,description,category,n_Rt*,n_Rc*,n_Rs*
+variable,symbol,units,description,category,$n_{Rt}$*,$n_{Rc}$,$n_{Rs}$
 drought resistance,$Rt$,-,ratio of growth during drought year to mean growth of the 5 years prior. ,-,1623,-,-
 ,$Rt_{ARIMA}$,-,ratio of growth during drought year to growth predicted by ARIMA model. ,-,1654,-,-
 drought recovery,$Rc$,-,ratio of mean growth for 5 years after drought to growth during year. ,-,-,1557,-
@@ -14,4 +14,4 @@ xylem porosity,,-,vessel arrangement in xylem,ring (R) ,408,-,-
 ,,,,semi-ring (SR),31,-,-
 ,,,,diffuse (D),178,-,-
 turgor loss point,$\pi_{tlp}$,MPa,water potential at which leaves wilt,-,-,-,-
-percent loss area,$PLA_{dry}$,\%,percent loss of leaf area upon dessication,-,-,-,-
+percent loss area,$PLA_{dry}$,$\%$,percent loss of leaf area upon dessication,-,-,-,-
