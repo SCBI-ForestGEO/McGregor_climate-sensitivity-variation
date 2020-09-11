@@ -105,9 +105,13 @@ Other comments:
 
 *Ian, please check this and respond.*
 
+https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/142
+
 - LMA is not shown in Figure S4, and in Table 2 there are no tests so we cannot judge whether there are differences among species for that leaf trait. Please, add also LMA to Figure S4.
 
 *Ian, we should add both LMA and WD here.*
+
+https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/142
 
 - Line 135: leave turgor ‘at’ lower ….
 
