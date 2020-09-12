@@ -637,6 +637,13 @@ if(metric=="resistance" & arima_vals){
   setnames(trees_all_sub, old=c("resist.value"), new=c("metric.value"))
 }
 
+#determine N trees for all years with semi-ring.
+# library(data.table)
+# g <- as.data.table(trees_all_sub)
+# g <- g[,rp := ifelse(sp=="juni", "semi-ring", rp)]
+# g[,.N,by=.(rp)]
+# trees_all_sub <- as.data.frame(g)
+
 trees_all_sub$year <- as.character(trees_all_sub$year)
 
 x1966 <- trees_all_sub[trees_all_sub$year == 1966, ]

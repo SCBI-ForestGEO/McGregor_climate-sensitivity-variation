@@ -1,17 +1,17 @@
-variable,symbol,units,description,category,$n_{Rt}$*,$n_{Rc}$,$n_{Rs}$
-drought resistance,$Rt$,-,ratio of growth during drought year to mean growth of the 5 years prior. ,-,1623,-,-
-,$Rt_{ARIMA}$,-,ratio of growth during drought year to growth predicted by ARIMA model. ,-,1654,-,-
-drought recovery,$Rc$,-,ratio of mean growth for 5 years after drought to growth during year. ,-,-,1557,-
-drought resilience,$Rs$,-,ratio of mean growth for 5 years after drought to mean growth for 5 years before drought. ,-,-,-,1570
-drought year ,$Y$,-,year of drought,1966,513,491,495
-,,,,1977,543,524,523
-,,,,1999,567,542,552
-height,$H$,m,estimated H in drought year,-,-,-,-
-topographic wetness index,$TWI$,-,steady-state wetness index based on slope and upstream contributing area,-,-,-,-
-wood density,$WD$,g cm$^{-3}$,dry mass of a unit volume of fresh wood,-,-,-,-
-leaf mass per area,$LMA$,kg m$^{-2}$,ratio of leaf dry mass to fresh leaf area,-,-,-,-
-xylem porosity,,-,vessel arrangement in xylem,ring (R) ,408,-,-
-,,,,semi-ring (SR),31,-,-
-,,,,diffuse (D),178,-,-
-turgor loss point,$\pi_{tlp}$,MPa,water potential at which leaves wilt,-,-,-,-
-percent loss area,$PLA_{dry}$,$\%$,percent loss of leaf area upon dessication,-,-,-,-
+variable,symbol,units,description,category,$n_{Rt}$,$n_{Rt_arima}$,$n_{Rc}$,$n_{Rs}$
+drought resistance,$Rt$,-,ratio of growth during drought year to mean growth of the 5 years prior. ,-,1623,-,-,-
+,$Rt_{ARIMA}$,-,ratio of growth during drought year to growth predicted by ARIMA model. ,-,-,1654,-,-
+drought recovery,$Rc$,-,ratio of mean growth for 5 years after drought to growth during year. ,-,-,-,1557,-
+drought resilience,$Rs$,-,ratio of mean growth for 5 years after drought to mean growth for 5 years before drought. ,-,-,-,-,1570
+drought year ,$Y$,-,year of drought,1966,513,527,491,495
+,,,,1977,543,560,524,523
+,,,,1999,567,567,542,552
+height,$H$,m,estimated H in drought year,-,-,-,-,-
+topographic wetness index,$TWI$,-,steady-state wetness index based on slope and upstream contributing area,-,-,-,-,-
+wood density,$WD$,g cm$^{-3}$,dry mass of a unit volume of fresh wood,-,-,-,-,-
+leaf mass per area,$LMA$,kg m$^{-2}$,ratio of leaf dry mass to fresh leaf area,-,-,-,-,-
+xylem porosity,,-,vessel arrangement in xylem,ring (R) ,1106,1111,1079,1088
+,,,,semi-ring (SR),436,461,405,404
+,,,,diffuse (D),81,82,73,78
+turgor loss point,$\pi_{tlp}$,MPa,water potential at which leaves wilt,-,-,-,-,-
+percent loss area,$PLA_{dry}$,$\%$,percent loss of leaf area upon dessication,-,-,-,-,-

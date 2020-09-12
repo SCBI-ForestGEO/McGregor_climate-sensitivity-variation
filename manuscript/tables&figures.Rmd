@@ -86,8 +86,7 @@ kable(table3, format = "latex", booktabs = TRUE, caption = "Table 3. Summary of 
   kable_styling()
 ```
 
-Sample sizes are after removal of outliers. Dashes indicate that the variable was available for all records. 
-*Sample sizes of independent variables refer to the $Rt$ model.
+Sample sizes are after removal of outliers. Dashes under **Independent variables** indicate that the variable was available for all records. Xylem porosity sample sizes by vessel arrangement are for all drought scenarios combined.
 
 
 \newpage
