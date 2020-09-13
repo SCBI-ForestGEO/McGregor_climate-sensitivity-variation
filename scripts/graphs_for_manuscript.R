@@ -286,8 +286,10 @@ ggplot(full) +
 library(data.table)
 library(ggplot2)
 library(agricolae)
-rt <- fread("manuscript/tables_figures/trees_all_sub.csv")
-traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBEPQVCRRCIDQSBGNC2S7EC5A2")
+rt <- fread("manuscript/tables_figures/trees_all_sub_resistance.csv")
+
+##this is the INDIVIDUAL LEVEL DATA, not species
+traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBEIWYZQPW2RYIPESJDS7M5SLQ")
 traits_hydr <- traits_hydr[,.(sp,PLA_dry_percent, mean_TLP_Mpa, 
                               WD_g_per_cm3, LMA_g_per_m2)]
 
@@ -297,9 +299,9 @@ var <- c("height.ln.m", "TWI.ln", "PLA_dry_percent", "mean_TLP_Mpa",
 for(i in 1:6){
    
    if(i %in% c(1,2)){
-      anovout <- aov(get(var[i]) ~ sp, data=rt)
+      anovout <- aov(rt[,get(var[i])] ~ sp, data=rt)
    } else {
-      anovout <- aov(get(var[i]) ~ sp, data=traits_hydr)
+      anovout <- aov(traits_hydr[,get(var[i])] ~ sp, data=traits_hydr)
    }
    hsdout <- HSD.test(anovout, "sp", group=TRUE)
    grouptab <- hsdout$groups
@@ -329,11 +331,14 @@ for(i in 1:2){
          ylab(ylabs[i]) +
          xlab("Species") +
          theme_minimal() +
-         theme(axis.text = element_text(size=12),
-               axis.text.x=element_text(angle=90),
-               axis.title=element_text(size=12, face="bold"),
-               legend.text=element_text(size=12),
-               legend.title=element_text(size=12))
+         theme(legend.text=element_text(size=12),
+               legend.title=element_text(size=12),
+               axis.text.x=element_blank(),
+               axis.title.x=element_blank()
+               # axis.text = element_text(size=12),
+               # axis.text.x=element_text(angle=90),
+               # axis.title=element_text(size=12, face="bold"),
+               )
       
       if(i==1){ypos <- 4.1} else {ypos <- 2.75}
       
@@ -345,6 +350,8 @@ for(i in 1:2){
       print(q)
    })
 }
+
+##plot for crown position
 pos <- rt[,.(sp,position_all)
           ][,.N,by=.(sp,position_all)
             ][order(sp),]
@@ -377,10 +384,10 @@ posplot <-
          legend.position = "bottom")
    
 
-hydr <- c("PLA_dry_percent", "mean_TLP_Mpa")
-ylabs <- c(expression(PLA[dry]), expression(pi[TLP]))
+hydr <- c("PLA_dry_percent", "mean_TLP_Mpa", "LMA_g_per_m2", "WD_g_per_cm3")
+ylabs <- c(expression(PLA[dry]), expression(pi[TLP]), "LMA [g/m^2]", "WD [g/cm^3]")
 ggtraits <- list()
-for(i in 1:2){
+for(i in 1:4){
    varnm <- hydr[[i]]
    ggtraits[[i]] <- local({
       i <- i
@@ -394,12 +401,19 @@ for(i in 1:2){
          xlab("Species") +
          theme_minimal() +
          theme(axis.text = element_text(size=12),
-               axis.text.x=element_text(angle=90),
+               axis.text.x=element_text(angle=90, vjust=0.8),
                axis.title=element_text(size=12, face="bold"),
                legend.text=element_text(size=12),
                legend.title=element_text(size=12))
       
-      if(i==1){ypos <- 32} else {ypos <- -1.68}
+      if(i==3){
+         q <- q +
+            theme(axis.text.x=element_blank(),
+                  axis.title.x=element_blank())
+      }
+      
+      if(i==1){ypos <- 32} else if(i==2){ypos <- -1.68}
+      if(i==3){ypos <- 122} else if(i==4){ypos <- 1.3}
       q <- q +
          annotate("text", 
                   x=1:12, y= ypos, size=3, angle=45,
@@ -409,13 +423,14 @@ for(i in 1:2){
 }
 
 library(ggpubr)
-p <- ggarrange(gglist[[1]], gglist[[2]],
-          ggtraits[[1]], ggtraits[[2]],
-          ncol = 2, nrow = 2,
-          labels=c("(a)", "(b)", "(c)", "(d)"),
-          label.y=c(0.91,0.91,0.91,0.91))
-png("manuscript/tables_figures/publication/Figure5_traits_signif.png", width=960, height=480)
-ggarrange(p, posplot, ncol=2, nrow=1, labels=c("", "(e)"), label.y=c(0.95))
+p <- ggarrange(gglist[[1]], gglist[[2]], ggtraits[[3]],
+          ggtraits[[1]], ggtraits[[2]], ggtraits[[4]],
+          ncol = 3, nrow = 2,
+          labels=c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
+          label.y=c(0.9,0.91,0.91,0.89, 0.89, 0.89))
+png("manuscript/tables_figures/publication/FigureS4_traits_signif123.png", width=960, height=480)
+ggarrange(p, posplot, ncol=2, nrow=1, widths=c(2,1),
+          labels=c("", "(g)"), label.y=c(0.95))
 dev.off()
 #########################################################################
 #2. Figure 2: NEON vertical height profiles with 
