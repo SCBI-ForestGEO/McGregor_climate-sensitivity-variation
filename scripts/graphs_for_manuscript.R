@@ -382,6 +382,8 @@ posplot <-
          legend.text=element_text(size=12),
          legend.title=element_blank(),
          legend.position = "bottom")
+posplot <- posplot + 
+   guides(fill=guide_legend(nrow=2,byrow=TRUE))
    
 
 hydr <- c("PLA_dry_percent", "mean_TLP_Mpa", "LMA_g_per_m2", "WD_g_per_cm3")
@@ -428,7 +430,7 @@ p <- ggarrange(gglist[[1]], gglist[[2]], ggtraits[[3]],
           ncol = 3, nrow = 2,
           labels=c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
           label.y=c(0.9,0.91,0.91,0.89, 0.89, 0.89))
-png("manuscript/tables_figures/publication/FigureS4_traits_signif123.png", width=960, height=480)
+png("manuscript/tables_figures/publication/FigureS4_traits_signif.png", width=960, height=480)
 ggarrange(p, posplot, ncol=2, nrow=1, widths=c(2,1),
           labels=c("", "(g)"), label.y=c(0.95))
 dev.off()
