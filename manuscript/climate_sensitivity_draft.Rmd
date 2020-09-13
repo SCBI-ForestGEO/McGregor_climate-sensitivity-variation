@@ -117,7 +117,7 @@ Vertical gradients in stem and leaf traits--including smaller and thicker leaves
 Greater stem capacitance (*i.e.*, water storage capacity) of larger trees may also confer resistance to transient droughts [@phillips_reliance_2003; @scholz_hydraulic_2011].
 Taller trees have wider conduits in the basal portions of taller trees, both within and across species [@olson_plant_2018; @liu_hydraulic_2019] and throughout the conductive systems of angiosperms [@zach_vessel_2010; @olson_universal_2014; @olson_plant_2018], which help maintain constant the resistance that would otherwise increase as trees grow taller.
 Wider xylem conduits plausibly make large trees more vulnerable to embolism during drought [@olson_plant_2018], and traits conducive to efficient water transport may also lead to poor ability to recover from or re-route water around embolisms [@roskilly_conflicting_2019]. 
-**(here would be a good place to comment on resilience.)**
+**(here would be a good place to comment on resilience. "What may help the tree in competition, therefore, can also be a deteriment to drought resilience.")**
 
 Larger trees may also have lower drought tolerance because of microenvironmental and ecological factors. 
 Their crowns tend to occupy more exposed canopy positions, which are associated with higher evaporative demand [@kunert_revised_2017]. 
