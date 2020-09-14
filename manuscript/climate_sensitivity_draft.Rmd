@@ -258,11 +258,10 @@ There were significant differences in height across all crown position classes (
 *Community-level drought responses* 
 
 At the community level, cored trees showed substantial growth reductions in all three droughts, with a mean $Rt$ of 0.86 in 1966 and 1999, and 0.84 in 1977  (Fig. **1b**). Across the entire study period (1950-2009), the focal drought years were the three years with the largest fraction of trees exhibiting $Rt \le 0.7$. Specifically, in each drought, roughly 30% of the cored trees had growth reductions of $\ge$ 30% ($Rt \le 0.7$): 29% in 1966, 32% in 1977, and 27% in 1999. However, some individuals exhibited increased growth, *i.e.*, $Rt > 1.0$: 26% of trees in 1966, 22% in 1977, and 26% in 1999. 
-*here, discuss $Rc$ and $Rs$, cite Figs. 1c, S6*
+Recovery was generally strong, with $Rc$ averaging **##** in 1966, **##**in 1977, and **##** in 1999 (Fig. **S6**), and $Rs$ averaging **##** in 1966, **##**in 1977, and **##** in 1999 (Fig. **1c**).
 
 In the context of the multivariate model, $Rt$ did not vary across drought years. That is, drought year as a variable did not appear in any of the top models -- *i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model (see footnotes on Tables S8-S9). 
-*results for Rc, Rs*
-
+In contrast, both $Rc$ and $Rs$ varied across years, being highest in all of the top models (Tables S10-S11), in which both were highest in 1966, intermediate in 1977, and lowest in 1999.
 
 *Tree height, microenvironment, and drought tolerance*
 
