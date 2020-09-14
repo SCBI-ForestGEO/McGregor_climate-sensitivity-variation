@@ -155,7 +155,6 @@ We further test predictions that species with low $PLA_{dry}$ and those whose le
 
 Research was conducted at the 25.6-ha ForestGEO (Forest Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38\°53'36.6"N, 78\°08'43.4"W; Fig. **S1**) [@bourg_initial_2013; @andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains near the northern boundary of Shenandoah National Park. Elevations range from 273 to 338 m above sea level with a topographic relief of 65m [@bourg_initial_2013]. Climate is humid temperate, with mean annual temperature of 12.7^$\circ$^C and precipitation of 1005 mm yr^-1^ during our study period [1960-2009; source: CRU TS v.4.01; @harris_updated_2014]. Dominant tree taxa within this secondary forest include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.; Table 2). 
 
-
 *Identifying drought years*
 
 We identified the three largest droughts within the time period 1950-2009, defining drought [@slette_how_2019] as events with anomalously dry peak growing season climatic conditions. 
@@ -168,6 +167,7 @@ The 1966 drought was preceded by two years of moderate drought during the growin
 In August 1966, $PDSI$ reached its lowest monthly value (-4.82) of the three droughts. 
 The 1977 drought was the least intense throughout the growing season, and it was preceded by 2.5 years of near-normal conditions, making it the mildest of the three droughts. 
 The 1999 drought was preceded by wetter than average conditions until the previous June, but $PDSI$ plummeted below -3.0 in October 1998 and remained below this threshold through August 1999. 
+Following all three droughts, $PDSI$ rebounded to near-normal conditions in September or October (Fig. **S1**).
 
 *Data collection and preparation*
 
@@ -181,22 +181,19 @@ Annual tree mortality censuses were initiated in 2014 [@gonzalezakre_patterns_20
 We note that drought was probably not a cause of mortality for these trees, as monthly May-Aug $PDSI$ did not drop below -1.75 in these years or the three years prior (2013-2017), and that trees cored dead displayed similar climate sensitivity to trees cored live [@helcoski_growing_2019]. 
 Lagged drought-induced mortality would be unlikely, given that the trees analyzed here lived at least 17-18 years past the most recent major drought (1999), whereas the meta-analysis of @trugman_tree_2018 indicates that >10-year lags in drought-attributed mortality are rare.
 Cores were sanded, measured, and crossdated using standard procedures, as detailed in [@helcoski_growing_2019]. 
-The resulting chronologies (Fig. **1a**) were published in Zenodo (DOI: 10.5281/zenodo.2649302) in association with @helcoski_growing_2019.  
+The resulting chronologies (Fig. **1a**) were published in Zenodo [@gonzalez-akre_scbi-forestgeoscbi-forestgeo-data_2019].  
 
 For each cored tree, we combined tree-ring records and allometric equations of bark thickness to reconstruct DBH for the years 1950-2009. 
 Prior $DBH$ was estimated using the following equation:
 
 $$DBH_Y  = DBH_{2008} - 2*\left[r_{bark,2008} - r_{bark,Y} + \sum_{year=Y}^{2008} r_{ring, Y} \right]$$
 
-Here, $Y$ denotes the year of interest, $r_{ring}$ denotes ring width derived from cores, and $r_{bark}$ denotes bark thickness. 
-Bark thickness was estimated from species-specific allometries based on the bark thickness data from the site [@andersonteixeira_size-related_2015].
-Specifically, we used linear regression on log-transformed data to relate $r_{bark}$ to diameter inside bark from 2008 data (Table S2), which were then used to determine $r_{bark}$ in the $DBH$ reconstruction. 
+Here, $Y$ denotes the year of interest, $r_{ring}$ denotes ring width derived from cores, and $r_{bark}$ denotes bark thickness, which was estimated from species-specific allometries based on the bark thickness data from the site [Table S2; @andersonteixeira_size-related_2015].
 
 Tree heights ($H$) were measured by several researchers for a variety of purposes between 2012 and 2019 (n=1,518 trees). Methods included direct measurements using a collapsible measurement rod on small trees [@neon_national_2018] or a tape measure on recently fallen trees (this study); geometric calculations using clinometer and tape measure [@stovall_assessing_2018] or digital rangefinders [@andersonteixeira_size-related_2015; @neon_national_2018]; and ground-based LiDAR [@stovall_terrestrial_2018]. Rangefinders used either the tangent method (Impulse 200LR, TruPulse 360R) or the sine method (Nikon ForestryPro) for calculating heights. Both methods are associated with some error [@larjavaara_measuring_2013], but in this instance there was no clear advantage of one or the other. Measurements from the National Ecological Observatory Network (NEON) were collected near the ForestGEO plot following standard NEON protocol, whereby vegetation of short stature was measured with a collapsible measurement rod, and taller trees with a rangefinder [@neon_national_2018]. 
-Species-specific height allometries were developed (Table S3) using log-log regression ($ln[H] \sim ln[DBH]$). 
+Species-specific height allometries were developed using log-log regression ($ln[H] \sim ln[DBH]$; Table S3). 
 For species with insufficient height data to create reliable species-specific allometries (n=2, JUNI and FRAM), heights were calculated from an equation developed by combining the height measurements across all species. 
-We then used these allometries to estimate $H$ for each drought year, $Y$, based on reconstructed $DBH_Y$.
-The distribution of $H$ across drought years is shown in Fig. **S3**. 
+We then used these allometries to estimate $H$ for each drought year, $Y$, based on reconstructed $DBH_Y$ (Fig. **S3**). 
 
 To characterize how environmental conditions vary with height, data were obtained from the NEON tower located <1km from the study area via the neonUtilities package [@R-neonUtilities]. We used wind speed, relative humidity, and air temperature data, all measured over a vertical profile spanning heights from 7.2 m to above the top of the tree canopy (31.0 or 51.8m, depending on censor), for the years 2016-2018 [@neon_national_2018]. After filtering for missing and outlier values, we determined the daily minima and maxima, which we then aggregated at the monthly scale.
 
@@ -207,14 +204,20 @@ Topographic wetness index (TWI), used here as a metric of long-term mean moistur
 Species' trait data were collected in August 2018 (Tables 2-3; Fig. **S4**). We sampled small, sun-exposed branches up to eight meters above the ground from three individuals of each species in and around the ForestGEO plot. Sampled branches were re-cut under water at least two nodes above the original cut and re-hydrated overnight in covered buckets under opaque plastic bags before measurements were taken. Rehydrated leaves taken towards the apical end of the branch (n=3 per individual: small, medium, and large) were scanned, weighed, dried at 60$^\circ$ C for $\ge$ 48 hours, and then re-scanned and weighed. Leaf area was calculated from scanned images using the LeafArea R package [@R-LeafArea]. $LMA$ was calculated as the ratio of leaf dry mass to fresh area. $PLA_{dry}$ was calculated as the percent loss of area between fresh and dry leaves. Wood density was calculated for ~1cm diameter stem samples (bark and pith removed) as the ratio of dry weight to fresh volume, which was estimated using Archimedes’ displacement. We used the rapid determination method of @bartlett_rapid_2012 to estimate osmotic potential at turgor loss point ($\pi_{tlp}$). Briefly, two 4 mm diameter leaf discs were cut from each leaf, tightly wrapped in foil, submerged in liquid nitrogen, perforated 10-15 times with a dissection needle, and then measured using a vapor pressure osmometer (VAPRO 5520, Wescor, Logan, UT, USA). Osmotic potential ($\pi_{osm}$) given by the osmometer was used to estimate ($\pi_{tlp}$) using the equation $\pi_{tlp}=0.832 \pi_{osm} ^{-0.631}$ [@bartlett_rapid_2012]. 
 
 
-
 *Statistical Analysis* 
 
-For each drought year, we calculated metrics of drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs$), following @lloret_components_2011.
-We defined $Rt$ as the ratio of basal area increment ($BAI$; *i.e.*, change in cross-sectional area) during the drought year to the mean $BAI$ over the five years preceding the drought. Thus, $Rt$ values <1 and >1 indicate growth reductions and increases, respectively. Because the $Rt$ metric could be biased by directional pre-drought growth trends, we also tried an intervention time series analysis [ARIMA, @R-forecast] that predicted mean drought-year growth based on trends over the preceding ten years and used this value in place of the five-year mean in calculations of resistance ($Rt_{ARIMA}$= observed $BAI$/ predicted $BAI$). The two metrics were strongly correlated (Fig. **S5**). Visual review of the individual tree-ring sequences with the largest discrepancies between these metrics revealed that $Rt$ was less prone to unreasonable estimates than $Rt_{ARIMA}$, so we selected $Rt$ as our focal metric, presenting parallel results for $Rt_{ARIMA}$ in the Supplementary Info. 
-*describe Rc, Rs*
+For each drought year, we calculated metrics of drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs$), following @lloret_components_2011 (Table 3).
+We defined $Rt$ as the ratio of basal area increment ($BAI$; *i.e.*, change in cross-sectional area) during the drought year to the mean $BAI$ over the five years preceding the drought. 
+$Rc$ was defined as the ratio of mean $BAI$ over the five years following the drought to $BAI$ of the drought year.
+$Rs$ was defined as the ratio of mean $BAI$ over the five years following the drought to that of the five years preceding the drought. 
+Thus, for all metrics, values <1 and >1 indicate growth reductions and increases, respectively. 
 
-Analyses focused on testing the predictions presented in Table 1 with $Rt$ as the response variable, and then repeated using $Rt_{ARIMA}$ as the response variable. 
+Because these metric could potentially be biased by directional pre-drought growth trends, we also tried an intervention time series analysis [ARIMA, @R-forecast] that predicted mean drought-year growth based on trends over the preceding ten years and used this value in place of the five-year mean in calculations of resistance ($Rt_{ARIMA}$= observed $BAI$/ predicted $BAI$). 
+$Rt$ and $Rt_{ARIMA}$ were strongly correlated (Fig. **S5**), and showed similar responses to the independent variables of interest (cf. Tables S4-55, S8-S9).
+Visual review of the individual tree-ring sequences with the largest discrepancies between these metrics revealed that $Rt$ was less prone to unreasonable estimates than $Rt_{ARIMA}$.
+We therefore determined that use of 5-year means, as described above, were more appropriate metrics than those based on ARIMA projections.
+
+Analyses focused on testing the predictions presented in Table 1 with $Rt$ (or $Rt_{ARIMA}$), $Rc$, or $Rs$ as the response variable. 
 Models were run for all drought years combined and for each drought year individually. 
 The general statistical model for hypothesis testing was a mixed effects model, implemented in the lme4 package in R [@R-lme4].
 In the multi-year model, we included a random effect of tree nested within species and a fixed effect of drought year to represent the combined effects of differences in drought characteristics.
@@ -227,14 +230,14 @@ Individual model terms were considered significant when their addition to a mode
 To avoid over-fitting models with five species traits (Table 3) across only 12 species, we did not include all traits as fixed effects in a single linear mixed model, but rather conducted individual tests of each species trait to determine the relative importance and appropriateness for inclusion in the main model. 
 These tests followed the model structure specified above, then added $ln[H]$ and $ln[TWI]$ to create a base model against which we tested traits.
 Trait variables were considered appropriate for inclusion in the main model if their addition to the base model significantly improved fit for at least one metric of drought tolerance ($Rt$, $Rc$, or $Rs$; Tables S4,S6-S7). 
-While we tested the signficance of xylem porosity as a predictor (Table 1), we did not consider it appropriate for inclusion in the main model because of highly uneven distribution of species across categories (Table 2) and opposite drought responses of the only two diffuse-porous species (detailed below).
+While we tested xylem porosity as a predictor (Table 1), we did not consider it appropriate for inclusion in the main model because of highly uneven distribution of species across categories (Table 2) and opposite drought responses of the only two diffuse-porous species (detailed below).
 
-We then determined the top full models for predicting $Rt$ (or $Rt_{ARIMA}$). 
+We then determined the top full models for predicting each dependent variable. 
 To do so, we compared models with all possible combinations of candidate variables, including $ln[H]$*$ln[TWI]$ and species traits as specified above.
 We identified the full set of models within $\Delta$AICc=2 of the best model (that with lowest AICc). 
 When a variable appeared in all of these models and the sign of the coefficient was consistent across models, we viewed this as support for the acceptance/rejection of the associated prediction (Table 1). 
 If the variable appeared in some but not all of these models, and its sign was consistent across models, we considered this partial support/rejection. 
-In presentation of the results below, we note instances where the $Rt_{ARIMA}$ model disagreed with the $Rt$ model, but otherwise do not discuss the $Rt_{ARIMA}$ model. Visualization of the best mixed effects model per drought scenario was created by the visreg package [@R-visreg].
+Visualization of the best mixed effects model per drought scenario was created by the visreg package [@R-visreg].
 
 All analysis beyond basic data collection was performed using R version 3.6.2 [@R-base]. 
 Other R-packages used in analyses are listed in the Supplementary Information (Appendix S1).

@@ -83,6 +83,7 @@ This is a resubmission of a previously revised manuscript. I have enjoyed readin
 
 The authors have satisfactorily answered most previous comments. For instance, I appreciated the discussion on the two indices Rt and Rtarima. I agree that results comparing them are pretty similar (Table S6 vs Table S7) and that authors can use Rt.
 
+**Thank you. Because we had to cut content in order to present the recovery and resilience metrics (see below) while keeping within word limits, we have cut back on the reporting of $Rt_{ARIMA} results in the main text, but still show the full comparisons in the Appendix. Specifically, we now state in the following in the methods: "$Rt$ and $Rt_{ARIMA}$ were strongly correlated (Fig. **S5**), and showed similar responses to the independent variables of interest (cf. Tables S4-55, S8-S9). Visual review of the individual tree-ring sequences with the largest discrepancies between these metrics revealed that $Rt$ was less prone to unreasonable estimates than $Rt_{ARIMA}$. We therefore determined that use of 5-year means, as described above, were more appropriate metrics than those based on ARIMA projections." We then drop presentation of $Rt_{ARIMA}$ results in the results section.**
 
 Yet, I still believe there are a couple of details that need revision:
 
