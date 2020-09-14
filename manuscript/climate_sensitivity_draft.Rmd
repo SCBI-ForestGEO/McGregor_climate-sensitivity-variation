@@ -269,14 +269,11 @@ Specifically, for $Rt$, $ln[H]$ appeared, with negative coefficient, in the best
 For $Rc$, $ln[H]$ appeared, with negative coefficient, in the best model without a $ln[H] *ln[TWI]$ interaction, for the three drought years together and for 1977, but not for 1966 or 1999.
 For $Rs$, again considering the best models without a $ln[H] *ln[TWI]$ interaction, there was a negative effect of $ln[H]$ for the three drought years together and for 1966 and 1977, and a non-significant negative trend in 1999.
 
-**RESUME HERE**
-$Rt$ had a significantly negative response to $ln[TWI]$ across all drought years combined (Fig. **4**, Table S8-S9). 
-The effect was also significant for 1977 and 1999 individually (Fig. **4**, Table S8).
-When $Rt_{ARIMA}$ was used as the response variable, the effect was significant in 1977, and included in some of the top models in 1966 and 1999 (Table S9).
-This negates the idea that trees in moist microsites would be less affected by drought. 
-Nevertheless, we tested for a $ln[H] *ln[TWI]$ interaction, a negative sign of which could indicate that smaller trees (presumably with smaller rooting volume) are more susceptible to drought in drier microenvironments with a deeper water table. 
-This hypothesis was rejected, as the $ln[H] *ln[TWI]$ interaction was never significant, and had a positive sign in any top models in which it appeared (Tables 1, S8-S9).
-This term did appear with a positive coefficient in the best $Rt_{ARIMA}$ model for all years combined (Table S9), indicating that the negative effect of height on  $Rt$ was significantly stronger in wetter microhabitats.
+Trees in drier microsites showed greater growth declines during drought; i.e., $Rt$ had a significantly negative response to $ln[TWI]$ across all drought years combined, and in 1977 and 1999 individually (Fig. **4**, Table S8-S9). 
+The $ln[H] *ln[TWI]$ interaction was never significant, and had a positive sign in any top $Rt$ models in which it appeared (Tables 1, S8-S9), rejecting the hypothesis that smaller trees (presumably with smaller rooting volume) are more susceptible to drought in microenvironments with a deeper water table. 
+In contrast, $ln[TWI]$ did not appear in any of the best models for $Rc$ or $Rs$ (combined of for individual years), except in interaction with $ln[H]$ (Fig. 4, Tables S10-S11).
+Negative $ln[H] *ln[TWI]$ interactions appeared in the best models for both $Rc$ and $Rs$ for all years combined, as well as in one individual year for each (1966 for $Rc$, 1977 for $Rs$). 
+This implies that small trees had greater recovery and resilience in wetter microhabitats, whereas large trees had greater recovery and resilience in dry microhabitats. 
 
 *Species' traits and drought tolerance*
 
