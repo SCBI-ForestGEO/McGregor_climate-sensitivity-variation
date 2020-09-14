@@ -238,7 +238,7 @@ kable(multivar_table, booktabs = TRUE, caption = "Table S11. Summary of top mode
 ```
 Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold). 
 $R^2$ refers to conditional $R^2$. 
-Year was included in the model for all drought years and apperaed in all its top models
+Year was included in the model for all drought years and appeared in all its top models
 **(1966: 0, 1977: -0.099, -0.099, -0.099, -0.097, -0.097; 1999: -0.174, -0.174, -0.174, -0.173, -0.172)**.
 
 \newpage
