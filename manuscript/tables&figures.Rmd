@@ -122,6 +122,6 @@ Sample sizes are after removal of outliers. Dashes for sample sizes of independe
 
 \newpage
 
-![**Figure 4. Visualization of best statistical models for drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs)$ for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the bootpredictlme4 package. Model coefficients are given in Tables S8 and S10-11. ](tables_figures/publication/Figure4_model_vis_all.png)
+![**Figure 4. Visualization of top statistical models for drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs)$ for all droughts combined and for each individual drought year.** For cases where the best model includes a DBH x TWI interaction ($Rc$ in all droughts and 1966, $Rs$ in all droughts and 1977), we plot the best model without the interaction. Visualization of the best mixed effects model per drought scenario was created by the visreg package [@R-visreg], and confidence intervals were defined via bootsrapping in the bootpredictlme4 package. Model coefficients are given in Tables S8 and S10-11. ](tables_figures/publication/Figure4_model_vis_all.png)
 
 

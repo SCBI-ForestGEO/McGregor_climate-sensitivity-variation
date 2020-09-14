@@ -237,7 +237,6 @@ To do so, we compared models with all possible combinations of candidate variabl
 We identified the full set of models within $\Delta$AICc=2 of the best model (that with lowest AICc). 
 When a variable appeared in all of these models and the sign of the coefficient was consistent across models, we viewed this as support for the acceptance/rejection of the associated prediction (Table 1). 
 If the variable appeared in some but not all of these models, and its sign was consistent across models, we considered this partial support/rejection. 
-Visualization of the best mixed effects model per drought scenario was created by the visreg package [@R-visreg].
 
 All analysis beyond basic data collection was performed using R version 3.6.2 [@R-base]. 
 Other R-packages used in analyses are listed in the Supplementary Information (Appendix S1).
@@ -265,12 +264,12 @@ In contrast, both $Rc$ and $Rs$ varied across years, being highest in all of the
 
 *Tree height, microenvironment, and drought tolerance*
 
-Taller trees (based on $H$ in the drought year) showed stronger growth reductions during drought (Table 1; Fig. **4**). 
-Specifically, $ln[H]$ appeared, with a negative coefficient, in the best model ($\Delta$AICc=0) and all top models when evaluating the three drought years together (Tables S8-S9). 
-The same held true for 1966 individually.
-For the 1977 drought, $ln[H]$ did not appear in the best model, but was included, with a negative coefficient, among the top models--*i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model (Tables 1, S6-S9). 
-For the 1999 drought, $ln[H]$ had no significant effect. 
+Taller trees (based on $H$ in the drought year) showed stronger growth reductions during drought (i.e., lower $Rt$) and less resilience following drought (i.e., lower $Rc$ and $Rs$; Table 1; Fig. **4**). 
+Specifically, for $Rt$, $ln[H]$ appeared, with negative coefficient, in the best model ($\Delta$AICc=0) and all top models when evaluating the three drought years together (Tables S8-S9). The same held true for 1966 individually, but there was no significant effect of $ln[H]$ for 1977 or 1999 individually. 
+For $Rc$, $ln[H]$ appeared, with negative coefficient, in the best model without a $ln[H] *ln[TWI]$ interaction, for the three drought years together and for 1977, but not for 1966 or 1999.
+For $Rs$, again considering the best models without a $ln[H] *ln[TWI]$ interaction, there was a negative effect of $ln[H]$ for the three drought years together and for 1966 and 1977, and a non-significant negative trend in 1999.
 
+**RESUME HERE**
 $Rt$ had a significantly negative response to $ln[TWI]$ across all drought years combined (Fig. **4**, Table S8-S9). 
 The effect was also significant for 1977 and 1999 individually (Fig. **4**, Table S8).
 When $Rt_{ARIMA}$ was used as the response variable, the effect was significant in 1977, and included in some of the top models in 1966 and 1999 (Table S9).
