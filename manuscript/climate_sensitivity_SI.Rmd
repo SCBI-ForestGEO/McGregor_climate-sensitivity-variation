@@ -71,9 +71,10 @@ library(kableExtra)
 bark <- read.csv("tables_figures/publication/tableS2_bark_regression.csv", stringsAsFactors = FALSE)
 bark[,2] <- NULL
 colnames(bark) <- c("Species", "Equations", "$R^2$")
-kable(bark, booktabs=TRUE, format = "latex", escape=FALSE, caption = "Table S2. Species-specific bark thickness regression equations") %>%
+kable(bark, booktabs=TRUE, format = "latex", escape=FALSE, caption = "Table S2. Species-specific bark thickness regression equations. Units for r_bark and DBH are in mm.") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
+We used linear regression on log-transformed data to relate $r_{bark}$ to the diameter inside bark from 2008 data. These were then used to determine $r_{bark}$ in the $DBH$ reconstruction. The equation for *Fagus grandifolia* because it functionally has negligble bark. 
 
 \newpage
 ```{r Table S3, eval=TRUE, echo=FALSE,  warning=FALSE}

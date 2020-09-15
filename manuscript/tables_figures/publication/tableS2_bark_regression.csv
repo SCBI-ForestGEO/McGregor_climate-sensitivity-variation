@@ -9,4 +9,5 @@ Juglans nigra,juni,$ln[r_{bark}]=0.346+0.279*ln[DBH]$,0.246
 Liriodendron tulipifera,litu,$ln[r_{bark}]=-1.14+0.463*ln[DBH]$,0.545
 Quercus alba,qual,$ln[r_{bark}]=-2.09+0.637*ln[DBH]$,0.603
 Quercus prinus,qupr,$ln[r_{bark}]=-1.31+0.528*ln[DBH]$,0.577
-Quercus rubra,quru,$ln[r_{bark}]=-0.593+0.292*ln[DBH]$,0.087
+Quercus rubra,quru,$ln[r_{bark}]=-0.593+0.292*ln[DBH]$,0.101
+Quercus velutina,quve,$ln[r_{bark}]=0.245+0.219*ln[DBH]$,0.087
