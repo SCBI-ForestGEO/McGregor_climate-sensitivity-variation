@@ -309,7 +309,7 @@ bark$diam_nobark_2008.mm <- bark$DBH.mm.2008 - 2*bark$bark.depth.mm
 #3. Fit a linear model, and use model to predict log(bark.depth.mm)
 source_gist("524eade46135f6348140")
 ggplot(data = bark, aes(x = log(diam_nobark_2008.mm), y = log(bark.depth.mm))) +
-  stat_smooth_func(geom="text",method="lm",hjust=0.16, vjust=-0.5,parse=TRUE) +
+  stat_smooth_func(geom="text",method="lm",hjust=0.8, vjust=-0.5,parse=TRUE) +
   geom_smooth(method="lm", se=FALSE, color="black") +
   geom_point(color = "#0c4c8a") +
   theme_minimal() +
