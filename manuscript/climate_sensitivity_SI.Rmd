@@ -74,7 +74,7 @@ colnames(bark) <- c("Species", "Equations", "$R^2$")
 kable(bark, booktabs=TRUE, format = "latex", escape=FALSE, caption = "Table S2. Species-specific regression equations for bark thickness (mm) as a function of diameter at breast height without bark (mm).") %>%
   kable_styling(bootstrap_options = "striped", full_width = FALSE, latex_options = "hold_position")
 ```
-We used linear regression on log-transformed data to relate $r_{bark}$ to the diameter inside bark from 2008 data. These were then used to determine $r_{bark}$ in the $DBH$ reconstruction. No bark correction was applied for *Fagus grandifolia*, which has thin bark. 
+We used linear regression on log-transformed data to relate $r_{bark}$ to the diameter inside bark from 2008 data. These were then used to determine $r_{bark}$ in the $DBH_{Y}$ reconstruction (DBH in year Y). No bark correction was applied for *Fagus grandifolia*, which has thin bark. 
 
 \newpage
 ```{r Table S3, eval=TRUE, echo=FALSE,  warning=FALSE}
