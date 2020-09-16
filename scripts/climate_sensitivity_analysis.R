@@ -1108,8 +1108,10 @@ if(metric=="resistance" & arima_vals==TRUE){
   best_mod_traits <- read.csv(paste0("manuscript/tables_figures/tested_traits_best_", metric, "_CPout.csv"), stringsAsFactors = FALSE)
 }
 
-#we have to remove the interaction as per Github issue #
-##leaving it in gives us VIFs of >10 and 40
+#we have to remove the interaction as per Github issue #97
+##leaving it in gives us VIFs of >10 and 40. This is because a model with
+##an interaction includes its consitutent covariates, so by default those 
+##two will be correlated (e.g. correlate "height*TWI" with "height")
 input <- best_mod_traits$best_model
 best_mod_traits$best_model <- gsub("\\*", "\\+", input)
 
