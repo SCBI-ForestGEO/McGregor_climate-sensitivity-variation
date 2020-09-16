@@ -1102,48 +1102,70 @@ write.csv(top_models, file_top, row.names=FALSE)
 # In a way, this is a companion to a correlation plot.
 # https://www.statisticshowto.com/variance-inflation-factor/
 
+if(metric=="resistance" & arima_vals==TRUE){
+  best_mod_traits <- read.csv(paste0("manuscript/tables_figures/tested_traits_best_", metric, "_CPout_arimaratio.csv"), stringsAsFactors = FALSE)
+} else {
+  best_mod_traits <- read.csv(paste0("manuscript/tables_figures/tested_traits_best_", metric, "_CPout.csv"), stringsAsFactors = FALSE)
+}
+
+#we have to remove the interaction as per Github issue #
+##leaving it in gives us VIFs of >10 and 40
 input <- best_mod_traits$best_model
 best_mod_traits$best_model <- gsub("\\*", "\\+", input)
 
 hazel_vif <- NULL
 for(i in 1:nrow(best_mod_traits)){
-  mod <- lmer(best_mod_traits$best_model[i], 
-                       data = model_df[[i]],
-                        REML=TRUE,
-                       control = 
-                 lmerControl(optimizer ="Nelder_Mead"))
-  
-  hazel <- as.data.frame(car::vif(mod))
-  hazel$scen <- best_mod_traits$scenario[i]
-  if(ncol(hazel)>2){
-    hazel <- hazel[,c(3,4)]
+  if(str_count(best_mod_traits$best_model[i], "\\+") > 1){
+    mod <- lmer(best_mod_traits$best_model[i], 
+                data = model_df[[i]],
+                REML=TRUE,
+                control = 
+                  lmerControl(optimizer ="Nelder_Mead"))
+    
+    hazel <- as.data.frame(car::vif(mod))
+    hazel$scen <- best_mod_traits$scenario[i]
+    if(ncol(hazel)>2){
+      hazel <- hazel[,c(3,4)]
+    } else {
+      hazel <- hazel[,c(1,2)]
+    }
+    colnames(hazel) <- c("metric", "scen")
+    
   } else {
-    hazel <- hazel[,c(1,2)]
+    hazel <- data.frame(metric=NA, scen=best_mod_traits$scenario[i])
   }
-  colnames(hazel) <- c("metric", "scen")
+  
   hazel_vif <- rbind(hazel_vif, hazel)
 }
+hazel_vif$var <- rownames(hazel_vif)
+hazel_vif$var <- ifelse(hazel_vif$var=="1", "<2 model terms, can't do VIF",
+                        hazel_vif$var)
 
-output_list <- list()
-for(i in 1:nrow(top_models)){
-  mod <- glmer(top_models$Modnames[i], 
-               data = model_df[[top_models$scenario[i]]],
-               control = 
-                 lmerControl(optimizer ="Nelder_Mead"))
-  
-  output_list[[i]] <- mod
+filename <-  paste0("manuscript/tables_figures/top_models_VIF_", metric)
+if(metric=="resistance" & arima_vals==TRUE){
+  filename <- paste0(filename, "_arimaratio")
 }
-names(output_list) <- paste0(top_models$scenario, "_", top_models$Delta_AICc)
+write.csv(hazel_vif, paste0(filename, ".csv"), row.names=FALSE)
 
-#we take anova of top models for each scenario. Since only one of those has >1 top model,
-#that's all we do
-rpo <- anova(output_list[[4]], output_list[[5]])
-
-top_models$order_original <- 1:5
-top_models$order_anova <- 
-  c(1:3, as.numeric(str_extract(rownames(rpo), "[[:digit:]]")))
-
-write.csv(hazel_vif, "manuscript/tables_figures/top_models_dAIC_VIF_reform_arimaratio.csv", row.names=FALSE)
+#run anova on all top models
+# output_list <- list()
+# for(i in 1:nrow(top_models)){
+#   mod <- lmer(top_models$Modnames[i], 
+#                data = model_df[[top_models$scenario[i]]],
+#                control = 
+#                  lmerControl(optimizer ="Nelder_Mead"))
+#   
+#   output_list[[i]] <- mod
+# }
+# names(output_list) <- paste0(top_models$scenario, "_", top_models$Delta_AICc)
+# 
+# #we take anova of top models for each scenario. Since only one of those has >1 top model,
+# #that's all we do
+# rpo <- anova(output_list[[4]], output_list[[5]])
+# 
+# top_models$order_original <- 1:5
+# top_models$order_anova <- 
+#   c(1:3, as.numeric(str_extract(rownames(rpo), "[[:digit:]]")))
 
 ##3c. Make table of coefficients plus r^2 from top models from ##3b. ####
 
