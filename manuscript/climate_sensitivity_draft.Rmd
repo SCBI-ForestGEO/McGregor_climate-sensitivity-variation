@@ -260,7 +260,7 @@ At the community level, cored trees showed substantial growth reductions in all 
 Recovery was generally strong and complete, with $Rc$ averaging 1.55 in 1966, 1.42 in 1977, and 1.34 in 1999 (Fig. **S6**) and $Rs$ averaging 1.28 in 1966, 1.19 in 1977, and 1.12 in 1999 (Fig. **1c**).
 
 In the context of the multivariate model, $Rt$ did not vary across drought years. That is, drought year as a variable did not appear in any of the top models -- *i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model (see footnotes on Tables S8-S9). 
-In contrast, both $Rc$ and $Rs$ varied across years, being highest in all of the top models (Tables S10-S11), in which both were highest in 1966, intermediate in 1977, and lowest in 1999.
+In contrast, "drought year" varied for both $Rc$ and $Rs$, and were present in all of the top models for the combined scenario (Tables S10-S11). Between both metrics, coefficients for "drought year" were highest in 1966, intermediate in 1977, and lowest in 1999.
 
 *Tree height, microenvironment, and drought tolerance*
 
@@ -289,14 +289,14 @@ In contrast, $Rc$ was significantly higher in diffuse- and semi-ring porous spec
 
 Drought resistance and resilience, but not recovery, were negatively correlated with $PLA_{dry}$ and $\pi_{tlp}$ (Fig. **4**; Tables 1, S4-S11). 
 For $Rt$, $PLA_{dry}$ had a significant influence, with negative coefficient, in top models for the three droughts combined and for the 1966 drought individually (Fig. **4**; Tables S8-S9). It was also included in some of the top models for 1999 (Tables S8-S9). 
-$\pi_{tlp}$ was included with a negative coefficient in the best model for both all droughts combined and for the 1977 drought individually (Fig. **4**; Table S8), although its influence was not significant at $\Delta$AICc<2. 
+$\pi_{tlp}$ was included with a negative coefficient in the best model for the combined droughts scenario and for the 1977 drought individually (Fig. **4**; Table S8), although its influence was not significant at $\Delta$AICc<2. 
 It was also included in some of the top models for 1999 (Tables S8-S9).
 
 Recovery was not significantly correlated with either $PLA_{dry}$ or $\pi_{tlp}$. 
 There was only one best $Rc$ model containing one of these terms ($\pi_{tlp}$ in 1977 drought), but in no instance was one of these terms included in all top models (i.e., at $\Delta$AICc<2).
 
-For $Rs$, $PLA_{dry}$ was in the best models for the three droughts combined and for the 1966 drought individually, and some of the top models for 1977 and 1999 (Fig. **4**; Table S11); however, its effects were not significant atat $\Delta$AICc<2. 
-$\pi_{tlp}$ was in the best models for the three droughts combined and for 1966 and 1999 individually, and in one of the top models for 1977 (Fig. **4**; Table S11). It's effects were significant at $\Delta$AICc<2 for 1999 only.
+For $Rs$, $PLA_{dry}$ was in the best models for the three droughts combined and for the 1966 drought individually, and some of the top models for 1977 and 1999 (Fig. **4**; Table S11); however, its effects were not significant at $\Delta$AICc<2. 
+$\pi_{tlp}$ was in the best models for the three droughts combined and for 1966 and 1999 individually, and in one of the top models for 1977 (Fig. **4**; Table S11). However, its effects were significant at $\Delta$AICc<2 for 1999 only.
 
 
 ### Discussion
@@ -306,7 +306,7 @@ Tree height, microenvironment, and leaf drought tolerance traits shaped tree gro
 The droughts considered here were of a magnitude that has occurred with an average frequency of approximately once every 10-15 years [Fig. **1a**, @helcoski_growing_2019] and had substantial but not devastating impacts on tree growth (Figs. **1b**). These droughts were classified as severe ($PDSI$ < -3.0; 1977) or extreme ($PDSI$ < -4.0; 1966, 1999) at our site and have been linked to tree mortality in the eastern United States [@druckenbrod_redefining_2019]. However, extreme, multiannual droughts such as the so-called “megadroughts” of this type that have triggered massive tree die-off in other regions [e.g., @allen_global_2010; @stovall_tree_2019] have not occurred in the Eastern United States within the past several decades [@clark_impacts_2016]. Of the droughts considered here, the 1966 drought, which was preceded by two years of dry conditions (Fig. **S1**), severely stressed a larger portion of trees (Fig. **1b**). The tendency for large trees to have lowest resistance was most pronounced in this drought, consistent with other findings that this physiological response increases with drought severity [@bennett_larger_2015; @stovall_tree_2019]. Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion (e.g., short understory trees, species with drought resistant traits; Fig. **4**) had increased growth (Fig. **1b**), consistent with prior observations that smaller trees can exhibit increased growth rates during drought [@bennett_larger_2015]. It is likely because of the moderate impact of these droughts, along with other factors influencing tree growth (e.g., stand dynamics), that our best models characterize only a modest amount of variation in $Rt$: 11-12% for all droughts combined, and 18-25% for each individual drought (Table S8). 
 
 Consistent with studies in other forests worldwide [@bennett_larger_2015], taller trees in this forest exhibited lower drought resistance--*and also recovery and resilience*. 
-Mechanistically, this is consistent with, and reinforces, previous findings that it impossible for trees to efficiently transport water to great heights and simultaneously maintain strong resistance and resilience to drought-induced embolism [@olson_plant_2018; @couvreur_water_2018; @roskilly_conflicting_2019]. 
+Mechanistically, this is consistent with, and reinforces, previous findings that it is impossible for trees to efficiently transport water to great heights and simultaneously maintain strong resistance and resilience to drought-induced embolism [@olson_plant_2018; @couvreur_water_2018; @roskilly_conflicting_2019]. 
 Taller trees also face dramatically different microenvironments (Fig. **2**). 
 They are exposed to higher wind speeds and lower humidity (Fig. **2a-b**), resulting in higher evaporative demand. 
 Unlike other temperate forests where modestly cooler understory conditions have been documented [@zellweger_seasonal_2019], particularly under drier conditions [@davis_microclimatic_2019], we observed no significant variation in air temperatures across the vertical profile (Fig. **2c**). 
