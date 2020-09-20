@@ -255,7 +255,7 @@ Year was included in the model for all drought years and appeared in all its top
 
 \newpage
 
-![**Figure S4. Distribution of independent variables by species.** Species that are assigned the same letter are not significantly different from each other with regard to the tested variable. ](tables_figures/publication/FigureS4_traits_signif.png)
+![**Figure S4. Distribution of independent variables by species.** Species that are assigned the same letter are not significantly different from each other with regard to the tested variable. Letter groupings do not transfer between variables.](tables_figures/publication/FigureS4_traits_signif.png)
 
 
 \newpage

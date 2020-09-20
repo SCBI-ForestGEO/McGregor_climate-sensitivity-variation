@@ -111,15 +111,11 @@ Other comments:
 
 - Figure S4 and line 333: are differences expressed by different letters correct in Figure S4? Particularly for $\pi_{tlp}$ (S4d) the boxplot suggests differences (more than, e.g. in b) among different species but then letters are similar (as discussed in line 333).
 
-*Ian, please check this and respond.*
-
-https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/142
+**In Figure S4, letters express signficiantly different groupings per variable. For example, the PLA values for a species in group "b" are significantly different from the PLA values for a species in group "c". We have added the following context to the caption: "Letter groupings do not transfer across variables (boxplots)."**
 
 - LMA is not shown in Figure S4, and in Table 2 there are no tests so we cannot judge whether there are differences among species for that leaf trait. Please, add also LMA to Figure S4.
 
-*Ian, we should add both LMA and WD here.*
-
-https://github.com/SCBI-ForestGEO/McGregor_climate-sensitivity-variation/issues/142
+**Thank you for addressing this. We have now added LMA and WD to the figure, similar to the other variables.**
 
 - Line 135: leave turgor ‘at’ lower ….
 
