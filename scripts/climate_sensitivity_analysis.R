@@ -20,20 +20,14 @@ library(tools)
 library(dplyr)
 library(reshape2)
 
-metric <- "resistance"
+metric <- "resilience"
 arima_vals <- FALSE
 
 #NB ####
-##I wrote this code before I realized that some of the work done in these loops had already been done in the outputs of res.comp (specifically out.select). However, since the code runs well, and I double-checked that it was giving the same outputs as analyzing out.select, I'm keeping it as is.
-
-#Note about FRNI and CACO
-#originally, getting the pointer years was done without caco because of too few cores. Now that we have the pointer years, we're adding them back in for the full analysis.
-#we thought about including frni (combining the canopy and subcanopy cores because only 1 canopy), but we excluded for two reasons
-##1. including frni doesn't impact the model much, and
-##2. frni is the 19th most productive species, whereas every other species we have is the top 12.
-
-#Note about PIST
-##we originally included pist but ultimately we have no leaf trait data for this species, so we excluded it
+#Note about FRNI
+##FRNI and PIST were excluded species for the following reasons, respectively:
+##1. We focused on the top 12 most productive species
+##2. We have no leaf trait data for this species.
 
 ##1a. determine pointer years all cores grouped together ####
 #this is a combination of the two canopy and subcanopy groupings in the original code file
@@ -47,66 +41,76 @@ area <- bai.in(rings) #convert to bai.in
 get_lloret <- function(metric = "resistance"){
   resil_metrics <- res.comp(area, nb.yrs=5, res.thresh.neg = 30, series.thresh = 25) #get resilience metrics
   
-  resil_pointers <- data.frame(resil_metrics$out)
-  resil_pointers <- resil_pointers[resil_pointers$nb.series >=4, ]
+  resil_pointers <- data.table(resil_metrics$out)
+  resil_pointers <- resil_pointers[nb.series >=4, ]
   
-  pointers <- resil_pointers[resil_pointers$nature == -1, ]
-  pointers <- pointers[,c(1:3,5)]
-  pointers <- pointers[order(pointers$nb.series, decreasing=TRUE), ]
-  rownames(pointers) <- 1:nrow(pointers)
+  pointers <- resil_pointers[nature == -1, ]
+  
+  if(metric=="resistance") colnm <- "resist_mean"
+  if(metric=="recovery") colnm <- "recov_mean"
+  if(metric=="resilience") colnm <- "resil_mean"
+  
+  pointers <- pointers[,.(year, nb.series, perc.neg,
+                          metric_mean = get(colnm))]
+  pointers <- pointers[order(nb.series, decreasing=TRUE), ]
   
   #get specific resist values for all trees
-  neil_list <- read.csv("data/core_files/core_list.csv", stringsAsFactors = FALSE)
+  neil_list <- fread("data/core_files/core_list.csv")
   neil_sp <- unique(neil_list$sp)
   
-  neil_list$tag <- paste0("X", neil_list$tag) #to match the colnames of can_resist below
+  #to match the colnames of can_resist below
+  neil_list <- neil_list[,tag := paste0("X", tag)]
   
   pointer_years_simple <- c(1966, 1977, 1999)
   
+  #need to first get these as data.frames
+  
+  
   if(metric == "resistance"){
-    metrics_tab <- data.frame(resil_metrics$resist)
+    ind <- resil_metrics$resist
     threshold <- 2
   } else if(metric=="recovery"){
-    metrics_tab <- data.frame(resil_metrics$recov)
+    ind <- resil_metrics$recov
     threshold <- 3
   } else if(metric=="resilience"){
-    metrics_tab <- data.frame(resil_metrics$resil)
+    ind <- resil_metrics$resil
     threshold <- 3
     }
   
-  years <- rownames(metrics_tab)
-  colnames(metrics_tab) <- gsub("A", "", colnames(metrics_tab))
-  tree_series <- colnames(metrics_tab)
+  #get years, reformat colnames (these are the individual trees)
+  years <- rownames(ind)
+  ind <- data.table(ind)
+  colnames(ind) <- gsub("A", "", colnames(ind))
+  colnames(ind) <- paste0("X", colnames(ind))
+  tree_series <- colnames(ind)
   
-  ind <- metrics_tab
-  ind_neil <- neil_list[neil_list$tag %in% tree_series, ]
-  ind$year <- years
-  ind$year <- as.numeric(ind$year)
-  
-  ind$year <- as.character(ind$year) #to melt
-  change <- reshape2::melt(ind)
+  #melt the datatable to reformat
+  ind <- ind[, year := years]
+  ind_neil <- neil_list[tag %in% tree_series, ]
+  change <- melt(ind, id.vars=c("year"))
   setnames(change, old=c("variable", "value"), new=c("tree", "metric.value"))
+  change <- change[,tree := as.character(tree)]
   
+  #bring in species from neil_list and subset to focal years
   
-  #bring in species from neil_list
-  change$sp <- ind_neil$sp[match(change$tree, ind_neil$tag)]
+  ind_neil <- ind_neil[, .(tag, sp)]
   
-  change$tree <- gsub("X", "", change$tree)
-  change$tree <- gsub("^0", "", change$tree)
+  setkeyv(change, "tree")
+  setkeyv(ind_neil, "tag")
+  change <- change[ind_neil]
+  setkey(change, NULL)
   
-  change <- change[change$year %in% c("1966","1977","1999"), ] #for models
-  
-  
-  #this is trees_all
-  trees_all <- change[complete.cases(change), ]
-  trees_all <- trees_all[trees_all$metric.value <= threshold & 
-                           !(trees_all$metric.value %in% Inf), ] 
-  #constrain resistance values
-  
-  return(trees_all)
+  change <- change[, tree := gsub("X", "", tree)
+              ][, tree := gsub("^0", "", tree)
+                ][year %in% c("1966","1977","1999"), 
+                  ]
+  change <- change[complete.cases(change), 
+                   ][metric.value <= threshold & !(metric.value %in% Inf), ]
+  return(change)
 }
 
-trees_all <- get_lloret(metric = metric)
+#needs to be df for code in Section #2
+trees_all <- as.data.frame(get_lloret(metric = metric))
 
 ## look at histograms if need be
 # layout(matrix(1:6, nrow=2))
@@ -283,7 +287,7 @@ ggplot(data = rp_test) +
 #this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEI4I3HRSRO45N4I75S7LUEMK"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEKO5BGUZ5DZXL3LGIC7OCT6Y"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 
@@ -575,7 +579,10 @@ trees_all <- trees_all[!trees_all$tree == 140939, ]
 trees_all_sub <- trees_all[, !colnames(trees_all) %in% c("p50.MPa", "p80.MPa", "dbh_old.mm",  "dbh_old.cm", "sap_ratio", "height.m")]
 
 ##get rid of missing data and write to csv
-trees_all_sub <- trees_all_sub[complete.cases(trees_all_sub), ]
+trees_all_sub <- 
+  trees_all_sub[complete.cases(trees_all_sub) &
+                  !duplicated(paste0(trees_all_sub$tree, 
+                                     trees_all_sub$year)), ]
 
 file_path <- paste0("manuscript/tables_figures/trees_all_sub_",
                     metric)
