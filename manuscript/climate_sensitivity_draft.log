@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  21 SEP 2020 16:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  21 SEP 2020 17:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -789,11 +789,11 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1159.
 Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1159.
  ) 
 Here is how much of TeX's memory you used:
- 15514 strings out of 492616
- 235511 string characters out of 6129482
+ 15510 strings out of 492616
+ 235465 string characters out of 6129482
  348480 words of memory out of 5000000
  18952 multiletter control sequences out of 15000+600000
- 46405 words of font info for 85 fonts, out of 8000000 for 9000
+ 46145 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  36i,6n,38p,824b,642s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2019/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
@@ -811,10 +811,10 @@ ic/lm/lmr7.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmri10
 .pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmss8.pfb></usr/
 local/texlive/2019/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texl
 ive/2019/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
-Output written on climate_sensitivity_draft.pdf (23 pages, 285922 bytes).
+Output written on climate_sensitivity_draft.pdf (23 pages, 285236 bytes).
 PDF statistics:
- 756 PDF objects out of 1000 (max. 8388607)
- 712 compressed objects within 8 object streams
+ 754 PDF objects out of 1000 (max. 8388607)
+ 710 compressed objects within 8 object streams
  160 named destinations out of 1000 (max. 500000)
  6209 words of extra memory for PDF output out of 10000 (max. 10000000)
 
