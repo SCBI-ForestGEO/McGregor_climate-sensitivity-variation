@@ -268,7 +268,7 @@ In contrast, differences among years were larger for $Rc$ and $Rs$, with coeffic
 
 *Tree height, microenvironment, and drought tolerance*
 
-Taller trees (based on $H$ in the drought year) showed stronger growth reductions during drought (i.e., lower $Rt$) and less resilience following drought (i.e., lower $Rc$ and $Rs$; Table 1; Fig. **4**). 
+Taller trees (based on $H$ in the drought year) showed stronger growth reductions during drought (i.e., lower $Rt$) and less rebound following drought (i.e., lower $Rc$ and $Rs$; Table 1; Fig. **4**). 
 Specifically, for $Rt$, $ln[H]$ appeared, with negative coefficient, in the best model ($\Delta$AICc=0) and all top models when evaluating the three drought years together (Tables S8-S9). The same held true for 1966 individually, but there was no significant effect of $ln[H]$ for 1977 or 1999 individually. 
 For $Rc$, $ln[H]$ appeared, with negative coefficient, in the best model without a $ln[H] *ln[TWI]$ interaction, for the three drought years together and for 1977, but not for 1966 or 1999.
 For $Rs$, again considering the best models without a $ln[H] *ln[TWI]$ interaction, there was a negative effect of $ln[H]$ for the three drought years together and for 1966 and 1977, and a non-significant negative trend in 1999.
@@ -281,12 +281,12 @@ This implies that small trees had greater recovery and resilience in wetter micr
 
 *Species' traits and drought tolerance*
 
-Species, as a factor in ANOVA, had significant influence (p<0.05) on all traits (wood density, $LMA$, $PLA_{dry}$, and $\pi_{tlp}$), with more significant pairwise differences for wood density and $PLA_{dry}$ than for $LMA$ and $\pi_{tlp}$ (Table 2, Fig. **S4** as characterized by the agricolae package @R-agricolae).
+Species, as a factor in ANOVA, had significant (p<0.05) influence on all traits (wood density, $LMA$, $PLA_{dry}$, and $\pi_{tlp}$), with more significant pairwise differences for wood density and $PLA_{dry}$ than for $LMA$ and $\pi_{tlp}$ (Table 2, Fig. **S4** as characterized by the agricolae package @R-agricolae).
 Drought tolerance also varied across species, overall and in each drought year (Figs. **3, S7**). 
 Species with overall lowest and highest $Rt$ and $Rs$ were, respectively, *Liriodendron tulipifera* (mean $Rt$ = 0.66, mean $Rs$ = 1.04) and *Fagus grandifolia* (mean $Rt$ = 0.99; mean $Rs$ = 1.65).
 These two species--notably the only two diffuse-porous species in our study--differed significantly from one another in $Rt$ and $Rs$ in each drought year (Fig. **3**).
 
-Wood density, $LMA$, and xylem porosity were all poor predictors of drought tolerance (Tables 1,S4-S5). 
+Wood density, $LMA$, and xylem porosity were all poor predictors of drought tolerance (Tables 1, S4-S5). 
 Wood density and $LMA$ were never significantly associated with $Rt$, $Rc$, or $Rs$ in the single-variable tests and were therefore excluded from the full models. 
 Xylem porosity had no significant influence on $Rt$ or $Rs$ in models for all droughts combined (Tables S4, S7). 
 In contrast, $Rc$ was significantly higher in diffuse- and semi-ring porous species than in ring-porous species (Table S6, Fig. 3).
