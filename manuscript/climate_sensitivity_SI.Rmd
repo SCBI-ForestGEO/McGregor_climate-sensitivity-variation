@@ -173,7 +173,7 @@ kable(multivar_table, booktabs = TRUE, caption = "Table S8. Summary of top full 
 ```
 Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold). 
 $R^2$ refers to conditional $R^2$. 
-Year was included in the model for all drought years, but its effect was not included in any top models, and coefficients were small (1966: 0, 1977: -0.019, 1999: -0.005; same values in all top models).
+Year was included in the model for all drought years and appeared in all its top models, but coefficients were small (1966: 0, 1977: -0.019, 1999: -0.005; same values in all top models).
 
 \newpage
 ```{r table S9, eval = TRUE, echo=FALSE, warning=FALSE}
@@ -195,7 +195,7 @@ kable(multivar_table, booktabs = TRUE, caption = "Table S9. Summary of top  mode
 ```
 Models are ranked by AICc. Shown are all models whose AICc value falls within 2.0 ($\Delta$AICc<1) of the best model (bold). 
 $R^2$ refers to conditional $R^2$. 
-Year was included in the model for all drought years and apperaed in all its top models, but coefficients were small (1966: 0, 1977: -0.03, 1999: 0.008; same values in all top models).
+Year was included in the model for all drought years and appeared in all its top models, but coefficients were small (1966: 0, 1977: -0.03, 1999: 0.008; same values in all top models).
 
 \newpage
 ```{r table S10, eval = TRUE, echo=FALSE, warning=FALSE}

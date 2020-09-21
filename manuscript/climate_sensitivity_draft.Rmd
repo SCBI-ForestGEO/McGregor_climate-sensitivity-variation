@@ -212,7 +212,7 @@ $Rc$ was defined as the ratio of mean $BAI$ over the five years following the dr
 $Rs$ was defined as the ratio of mean $BAI$ over the five years following the drought to that of the five years preceding the drought. 
 Thus, for all metrics, values <1 and >1 indicate growth reductions and increases, respectively. 
 
-Because these metric could potentially be biased by directional pre-drought growth trends, we also tried an intervention time series analysis [ARIMA, @R-forecast] that predicted mean drought-year growth based on trends over the preceding ten years and used this value in place of the five-year mean in calculations of resistance ($Rt_{ARIMA}$= observed $BAI$/ predicted $BAI$). 
+Because these metrics could potentially be biased by directional pre-drought growth trends, we also tried an intervention time series analysis [ARIMA, @R-forecast] that predicted mean drought-year growth based on trends over the preceding ten years and used this value in place of the five-year mean in calculations of resistance ($Rt_{ARIMA}$= observed $BAI$/ predicted $BAI$). 
 $Rt$ and $Rt_{ARIMA}$ were strongly correlated (Fig. **S5**), and showed similar responses to the independent variables of interest (cf. Tables S4-55, S8-S9).
 Visual review of the individual tree-ring sequences with the largest discrepancies between these metrics revealed that $Rt$ was less prone to unreasonable estimates than $Rt_{ARIMA}$.
 We therefore determined that use of 5-year means, as described above, were more appropriate metrics than those based on ARIMA projections.
@@ -256,11 +256,15 @@ There were significant differences in height across all crown position classes (
 
 *Community-level drought responses* 
 
-At the community level, cored trees showed substantial growth reductions in all three droughts, with a mean $Rt$ of 0.86 in 1966 and 1999, and 0.84 in 1977  (Fig. **1b**). Across the entire study period (1950-2009), the focal drought years were the three years with the largest fraction of trees exhibiting $Rt \le 0.7$. Specifically, in each drought, roughly 30% of the cored trees had growth reductions of $\ge$ 30% ($Rt \le 0.7$): 29% in 1966, 32% in 1977, and 27% in 1999. However, some individuals exhibited increased growth, *i.e.*, $Rt > 1.0$: 26% of trees in 1966, 22% in 1977, and 26% in 1999. 
+At the community level, cored trees showed substantial growth reductions in all three droughts, with a mean $Rt$ of 0.86 in 1966 and 1999, and 0.84 in 1977  (Fig. **1b**). 
+Across the entire study period (1950-2009), the focal drought years were the three years with the largest fraction of trees exhibiting $Rt \le 0.7$. 
+Specifically, in each drought, roughly 30% of the cored trees had growth reductions of $\ge$ 30% ($Rt \le 0.7$): 29% in 1966, 32% in 1977, and 27% in 1999. 
+However, some individuals exhibited increased growth, *i.e.*, $Rt > 1.0$: 26% of trees in 1966, 22% in 1977, and 26% in 1999. 
 Recovery was generally strong and complete, with $Rc$ averaging 1.55 in 1966, 1.42 in 1977, and 1.34 in 1999 (Fig. **S6**) and $Rs$ averaging 1.28 in 1966, 1.19 in 1977, and 1.12 in 1999 (Fig. **1c**).
 
-In the context of the multivariate model, $Rt$ did not vary across drought years. That is, drought year as a variable did not appear in any of the top models -- *i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model (see footnotes on Tables S8-S9). 
-In contrast, "drought year" varied for both $Rc$ and $Rs$, and were present in all of the top models for the combined scenario (Tables S10-S11). Between both metrics, coefficients for "drought year" were highest in 1966, intermediate in 1977, and lowest in 1999.
+In the context of the multivariate models, all response variables varied across drought years. That is, in models with all drought years combined, year was present in all of the top models -- *i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model (see footnotes on Tables S8-S11). 
+For $Rt$, differences among drought years were small (<0.02; Table S8). 
+In contrast, differences among years were larger for $Rc$ and $Rs$, with coefficients for "drought year" highest in 1966, intermediate in 1977, and lowest in 1999.
 
 *Tree height, microenvironment, and drought tolerance*
 
