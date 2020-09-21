@@ -135,7 +135,7 @@ However, these are time-consuming to measure and therefore infeasible for predic
 More easily-measurable leaf drought tolerance traits that have direct linkage to plant hydraulic function can explain variation in plant distribution and function [@medeiros_extensive_2019]. 
 These include leaf area shrinkage upon desiccation [$PLA_{dry}$; @scoffoni_leaf_2014] and the leaf water potential at turgor loss point ($\pi_{tlp}$), *i.e.,* the water potential at which leaf wilting occurs [@bartlett_correlations_2016; @zhu_leaf_2018]. 
 Both traits correlate with hydraulic vulnerability and drought tolerance as part of unified plant hydraulic systems [@scoffoni_leaf_2014; @bartlett_correlations_2016; @zhu_leaf_2018; @farrell_does_2017].
-The abilities of both $PLA_{dry}$ and $\pi_{tlp}$ to explain the drought tolerance of tree growth remains untested. 
+The abilities of both $PLA_{dry}$ and $\pi_{tlp}$ to explain the drought tolerance of tree growth remains untested [but see @powers_catastrophic_2020 for $\pi_{tlp}$ link to mortality]. 
 
 Here, we examine how tree height, microenvironment characteristics, and species' traits collectively shape three metrics of drought tolerance: 
 (1) resistance, defined as the ratio of annual stem growth in a drought year to that which would be expected in the absence of drought based on previous years' growth;
@@ -345,7 +345,7 @@ Concerted measurement of tree-rings and leaf drought tolerance traits of emergin
 As climate change drives increasing drought in many of the world's forests [@trenberth_global_2014; @intergovernmental_panel_on_climate_change_climate_2015], the fate of forests and their climate feedbacks will be shaped by the biophysical and physiological drivers observed here. 
 Our results show that taller, more exposed trees and species with less drought-tolerant leaf traits will be most affected in terms of growth during the drought year. 
 Survival is linked to resistance and resilience [**CHECK REFS**] [@desoto_low_2020; @gessler_way_2020], implying it may be influenced by the same factors. 
-Indeed, while the influence of $PLA_{dry}$ and $\pi_{tlp}$ on drought survival remains to be tested, taller trees have lower survival [@bennett_larger_2015; @stovall_tree_2019]. 
+Indeed, while no link between $PLA_{dry}$ or $\pi_{tlp}$ on drought survival has been established [but see @powers_catastrphic_2020], taller trees have lower survival [@bennett_larger_2015; @stovall_tree_2019]. 
 As climate change-driven droughts affect forests worldwide, there is likely to be a shift from mature forests with tall, buffering trees to forests with a shorter overall stature [@mcdowell_pervasive_2020]. 
 At this point, species whose drought tolerance relies in part on existence within a buffered microenvironment (e.g., *F. grandifolia*) could in turn become more susceptible. 
 Here, the relative importance of tree height *per se* versus crown exposure becomes crucial, shaping whether the dominant trees of shorter canopies are significantly more drought tolerant because of their shorter stature, or whether high exposure makes them as vulnerable as the taller trees of the former canopy.
