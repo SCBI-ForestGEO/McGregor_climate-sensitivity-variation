@@ -27,8 +27,6 @@ A complete list of substantive changes is as follows:
 
 * To present the new results on recovery and resilience while keeping within the journal's word limits, we condensed text / eliminated unnecessary content throughout.
 
-...
-
 We hope that this manuscript will now be found suitable for publication in *New Phytologist*, and we look forward to your response.
 
 Best regards,
@@ -86,7 +84,7 @@ This is a resubmission of a previously revised manuscript. I have enjoyed readin
 
 The authors have satisfactorily answered most previous comments. For instance, I appreciated the discussion on the two indices Rt and Rtarima. I agree that results comparing them are pretty similar (Table S6 vs Table S7) and that authors can use Rt.
 
-**Thank you. Because we had to cut content in order to present the recovery and resilience metrics (see below) while keeping within word limits, we have cut back on the reporting of $Rt_{ARIMA} results in the main text, but still show the full comparisons in the Appendix. Specifically, we now state in the following in the methods: "$Rt$ and $Rt_{ARIMA}$ were strongly correlated (Fig. **S5**), and showed similar responses to the independent variables of interest (cf. Tables S4-55, S8-S9). Visual review of the individual tree-ring sequences with the largest discrepancies between these metrics revealed that $Rt$ was less prone to unreasonable estimates than $Rt_{ARIMA}$. We therefore determined that use of 5-year means, as described above, were more appropriate metrics than those based on ARIMA projections." We then drop presentation of $Rt_{ARIMA}$ results in the results section.**
+**Thank you. Because we had to cut content in order to present the recovery and resilience metrics (see below) while keeping within word limits, we have cut back on the reporting of $Rt_{ARIMA}$ results in the main text, but still show the full comparisons in the Appendix. Specifically, we now state in the following in the methods: "$Rt$ and $Rt_{ARIMA}$ were strongly correlated (Fig. **S5**), and showed similar responses to the independent variables of interest (cf. Tables S4-55, S8-S9). Visual review of the individual tree-ring sequences with the largest discrepancies between these metrics revealed that $Rt$ was less prone to unreasonable estimates than $Rt_{ARIMA}$. We therefore determined that use of 5-year means, as described above, were more appropriate metrics than those based on ARIMA projections." We then drop presentation of $Rt_{ARIMA}$ results in the results section.**
 
 Yet, I still believe there are a couple of details that need revision:
 
@@ -99,7 +97,6 @@ Yet, I still believe there are a couple of details that need revision:
 
 **We now report both marginal and conditional R2 in tables S8-S12**. 
 
-*Maybe also add some commentary on how a lot of noise doesn't negate significant signals.*
 
 Other comments:
 
@@ -141,15 +138,8 @@ Other comments:
 
 Line 385 vs lines 308-309 and line 338: does that mean that there was a correlation between canopy position and positive Rt? Can it also be related to moisture sensitivity of different species, or to niche (microenvironment) partitioning among species? (as nicely discussed in lines 420-422). I see from lines 445-450 that sampled FAGR were small, which is coherent with the authors’ statement.
 
-**Yes, although we do not include canopy position in our statistical models. To make the link between high $Rt$ and increased growth, we have modified the sentence previously on line 385 to read, "Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion (e.g., short understory trees, species with drought resistant traits; Fig. **4**) had increased growth (Fig. **1b**), consistent with prior observations that smaller trees can exhibit increased growth rates during drought [@bennett_larger_2015]."**
+**Yes, although we do not include canopy position in our statistical models. To make the link between high $Rt$ and increased growth, we have modified the sentence previously on line 385 to read, "Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion (e.g., short understory trees, species with drought resistant traits*) had increased growth (Figs. **1b, 4**), consistent with prior observations that smaller trees can exhibit increased growth rates during drought [@bennett_larger_2015]."**
 
-*(for reference, to be deleted:)*
-
-*385: Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion had increased growth (Fig. 1b),*
-
-*208-309: However, some individuals exhibited increased growth, i.e., Rt > 1.0: 26% of trees in 1966, 22% in 1977, and 26% in 1999.*
-
-*338: Averaged across all droughts, Rt was lowest in Liriodendron tulipifera (mean Rt = 0.66) and highest in Fagus grandifolia (mean Rt = 0.99).*
 
 Table S5: no need to specify dAIC>1.
 
