@@ -74,12 +74,12 @@ Kristina J. Anderson-Teixeira^1,3^*
 
 Text | word count | other | n
 ---------------------------------------------|---------------------|-----------------------------|--------------------
-Total word count (excluding summary, references and legends) | 6,654 **(Limit 6500)**	 |	No. of figures | 	4 (all colour)
+Total word count (excluding summary, references and legends) | 6,603 **(Limit 6500)**	 |	No. of figures | 	4 (all colour)
 Summary|  	200 | 	No. of Tables | 	3  
 Introduction|	1,264 |	No of Supporting Information files | 	19
 Materials and Methods |	2,178	||	 
 Results |	1126	 ||
-Discussion |	1952	||
+Discussion |	1953	||
 Acknowledgments | 142	||	
 
 \newpage
@@ -101,8 +101,8 @@ Acknowledgments | 142	||
 Forests play a critical global role in climate regulation [@bonan_forests_2008], yet there remains enormous uncertainty as to how the forest-dominated terrestrial carbon sink will respond to climate change [@friedlingstein_climatecarbon_2006]. 
 An important aspect of this uncertainty lies with physiological responses of trees to drought [@kennedy_implementing_2019]. In many forested regions around the world, the risk of severe drought is increasing [@trenberth_global_2014; @dai_climate_2018], often despite increasing precipitation [@intergovernmental_panel_on_climate_change_climate_2015;  @cook_unprecedented_2015]. 
 Droughts, intensified by climate change, have been affecting forests worldwide and are expected to continue as an important driver of forest change  [@allen_global_2010; @allen_underestimation_2015; @mcdowell_pervasive_2020]. 
-Understanding forest responses to drought requires elucidation of how tree size, microenvironment, and species’ traits jointly influence individual-level drought tolerance, defined here as a tree's ability to maintain growth during drought (resistance) and recover to its pre-drought growth rate (resilience) [@lloret_components_2011].
-Because resistance and resilience are linked to trees' probability of surviving drought [@desoto_low_2020; @liu_hydraulic_2019], understanding growth responses can also help elucidate which trees are most vulnerable to drought-induced mortality.
+Understanding forest responses to drought requires elucidation of how tree size, microenvironment, and species’ traits jointly influence individual-level drought tolerance, defined here as a tree's ability to maintain growth during drought (*resistance*) and recover to its pre-drought growth rate [*resilience*; @lloret_components_2011].
+Survival has been shown to be linked to resistance, recovery, and resilience [@desoto_low_2020; @gessler_way_2020], implying they may be influenced by the same factors.
 However, it has proven difficult to resolve the many factors affecting tree growth during drought and the extent to which their influence is consistent across droughts.
 This is because available forest census data only rarely captures extreme drought, whereas tree-ring records capture multiple droughts but typically focus on only the largest individuals of one or a few species.
 
@@ -131,10 +131,10 @@ Studies within temperate broadleaf forests have observed ring-porous species sho
 Commonly-measured traits including wood density and leaf mass per area ($LMA$) have been linked to drought responses within some temperate deciduous forests [@abrams_adaptations_1990; @guerfel_impacts_2009; @hoffmann_hydraulic_2011; @martinbenito_convergence_2015] and across forests worldwide [@greenwood_tree_2017]. However, in other cases these traits could not explain drought tolerance [e.g., in a tropical rainforest; @marechaux_leaf_2019], or the direction of response was not always consistent. 
 For instance, higher wood density has been associated with greater drought resistance at a global scale [@greenwood_tree_2017], but correlated negatively with tree performance during drought in a broadleaf deciduous forest in the southeastern United States [@hoffmann_hydraulic_2011]. Thus, the perceived influence of these traits on drought resistance may actually reflect indirect correlations with other traits that more directly drive drought responses [@hoffmann_hydraulic_2011].
 
-In contrast, hydraulic traits have direct physiological linkages to tree growth and mortality responses to drought. 
+In contrast, *hydraulic traits have direct physiological linkages to tree growth and mortality responses to drought. 
 For instance, water potentials at which percent the loss of conductivity surpasses a certain threshold (e.g., P50 and P88, representing 50 and 88% loss of conductivity, respectively) and hydraulic safety margin (*i.e.*, difference between typical minimum water potentials and P50 or P88) correlate with drought performance across global forests [@anderegg_meta-analysis_2016]. 
 However, these are time-consuming to measure and therefore infeasible for predicting or modeling drought responses in highly diverse forests (*e.g.*, in the tropics).
-More easily-measurable leaf drought tolerance traits that have direct linkage to plant hydraulic function can explain variation in plant distribution and function [@medeiros_extensive_2019]. 
+More easily-measurable* leaf drought tolerance traits that have direct linkage to plant hydraulic function can explain variation in plant distribution and function [@medeiros_extensive_2019]. 
 These include leaf area shrinkage upon desiccation [$PLA_{dry}$; @scoffoni_leaf_2014] and the leaf water potential at turgor loss point ($\pi_{tlp}$), *i.e.,* the water potential at which leaf wilting occurs [@bartlett_correlations_2016; @zhu_leaf_2018]. 
 Both traits correlate with hydraulic vulnerability and drought tolerance as part of unified plant hydraulic systems [@scoffoni_leaf_2014; @bartlett_correlations_2016; @zhu_leaf_2018; @farrell_does_2017].
 The abilities of both $PLA_{dry}$ and $\pi_{tlp}$ to explain the drought tolerance of tree growth remains untested [but see @powers_catastrophic_2020 for $\pi_{tlp}$ link to mortality]. 
@@ -155,14 +155,13 @@ We further test predictions that species with low $PLA_{dry}$ and those whose le
 ### Materials and Methods
 *Study site and microclimate*
 
-Research was conducted at the 25.6-ha ForestGEO (Forest Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38\°53'36.6"N, 78\°08'43.4"W; Fig. **S1**) [@bourg_initial_2013; @andersonteixeira_ctfs-forestgeo:_2015]. SCBI is located in the central Appalachian Mountains near the northern boundary of Shenandoah National Park. Elevations range from 273 to 338 m above sea level with a topographic relief of 65m [@bourg_initial_2013]. Climate is humid temperate, with mean annual temperature of 12.7^$\circ$^C and precipitation of 1005 mm yr^-1^ during our study period [1960-2009; source: CRU TS v.4.01; @harris_updated_2014]. Dominant tree taxa within this secondary forest include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.; Table 2). 
+Research was conducted at the 25.6-ha ForestGEO (Forest Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38\°53'36.6"N, 78\°08'43.4"W, elevation 273-338 m.a.s.l.; Fig. **S1**) [@bourg_initial_2013; @andersonteixeira_ctfs-forestgeo:_2015]. Climate is humid temperate, with mean annual temperature of 12.7^$\circ$^C and precipitation of 1005 mm yr^-1^ during our study period [1960-2009; source: CRU TS v.4.01; @harris_updated_2014]. Dominant tree taxa within this secondary forest include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.; Table 2). 
 
 *Identifying drought years*
 
-We identified the three largest droughts within the time period 1950-2009, defining drought [@slette_how_2019] as events with anomalously dry peak growing season climatic conditions. 
-Specifically, we used the metric of Palmer Drought Severity Index (PDSI) during May-August (MJJA; Table S1), which were identified by @helcoski_growing_2019 as the months of the current year to which annual tree growth was most sensitive at this site. 
+We identified the three largest droughts within the time period 1960-2009, defining drought [@slette_how_2019] based on Palmer Drought Severity Index (PDSI) during May-August (MJJA; Table S1), which were identified by @helcoski_growing_2019 as the months to which annual tree growth was most sensitive at this site. 
 PDSI divisional data for Northern Virginia were obtained from NOAA (https://www7.ncdc.noaa.gov/CDO/CDODivisionalSelect.jsp) in December 2017. 
-Based on this, we identified the three strongest droughts during the study period (Figs. **1, S1**; Table S1).
+Based on this, the three strongest droughts during the study period occurred in 1966, 1977, and 1999 (Figs. **1, S1**; Table S1).
 
 The droughts differed in intensity and antecedent moisture conditions (Fig. **S1**, Table S1). 
 The 1966 drought was preceded by two years of moderate drought during the growing season and severe to extreme drought starting the previous fall. 
@@ -173,15 +172,16 @@ Following all three droughts, $PDSI$ rebounded to near-normal conditions in Sept
 
 *Data collection and preparation*
 
-Within or just outside the ForestGEO plot, we collected data on a suite of variables including tree heights, microenvironment characteristics, and species traits (Table 3). The SCBI ForestGEO plot was censused in 2008, 2013, and 2018 following standard ForestGEO protocols, whereby all free-standing woody stems $\ge$ 1cm diameter at breast height (DBH) were mapped, tagged, measured at DBH, and identified to species [@condit_tropical_1998]. From these census data, we used measurements of DBH from 2008 to calculate historical DBH and data for all stems $\ge$ 10cm to analyze functional trait composition relative to tree height (all analyses described below). Census data are available through the ForestGEO data portal (www.forestgeo.si.edu).
+Within or just outside the ForestGEO plot, we collected data on a suite of variables including tree heights, microenvironment characteristics, and species traits (Table 3). The SCBI ForestGEO plot was censused in 2008, 2013, and 2018 following standard ForestGEO protocols, whereby all free-standing woody stems $\ge$ 1cm diameter at breast height (DBH) were mapped, tagged, measured at DBH, and identified to species [@condit_tropical_1998]. From these census data, we used measurements of DBH from 2008 to calculate historical DBH and data for all stems $\ge$ 10cm to analyze functional trait composition relative to tree height (all analyses described below). 
 
 We analyzed tree-ring data (xylem growth increment) from 571 trees representing the twelve dominant species (Table 2; Fig. **S2**). 
 Selected species were those with the greatest contributions to woody aboveground net primary productivity ($ANPP_{stem}$) and together comprised 97% of study plot $ANPP_{stem}$ between 2008 and 2013 [@helcoski_growing_2019]. 
 Cores (one per tree) were collected within the ForestGEO plot at breast height (1.3m) in 2010-2011 or 2016-2017. 
 In 2010-2011, cores were collected from randomly selected live trees of each species that had at least 30 individuals $\ge$ 10 cm DBH [@bourg_initial_2013]. 
-Annual tree mortality censuses were initiated in 2014 [@gonzalezakre_patterns_2016], and in 2016-2017, cores were collected from all trees found to have died since the previous year’s census. 
-We note that drought was probably not a cause of mortality for these trees, as monthly May-Aug $PDSI$ did not drop below -1.75 in these years or the three years prior (2013-2017), and that trees cored dead displayed similar climate sensitivity to trees cored live [@helcoski_growing_2019]. 
-Lagged drought-induced mortality would be unlikely, given that the trees analyzed here lived at least 17-18 years past the most recent major drought (1999), whereas the meta-analysis of @trugman_tree_2018 indicates that >10-year lags in drought-attributed mortality are rare.
+In summers of 2016 and 2017, cores were collected from all trees found to have died within the preceding year based on annual tree mortality censuses [@gonzalezakre_patterns_2016]. 
+It is unlikely that drought was a factor in the death of any of these trees, as monthly May-Aug $PDSI$ did not drop below -1.75 (near-normal) in these years or the three years prior (2013-2017). 
+Moreover, the trees analyzed here lived at least 17-18 years past the most recent major drought (1999), whereas the meta-analysis of @trugman_tree_2018 indicates that >10-year lags in drought-attributed mortality are rare.
+Having found that trees cored dead displayed similar climate sensitivity to trees cored live [@helcoski_growing_2019], we pooled the samples for this analysis. 
 Cores were sanded, measured, and crossdated using standard procedures, as detailed in [@helcoski_growing_2019]. 
 The resulting chronologies (Fig. **1a**) were published in Zenodo [@gonzalez-akre_scbi-forestgeoscbi-forestgeo-data_2019].  
 
@@ -380,7 +380,7 @@ This study was funded by ForestGEO, a Virginia Native Plant Society grant to KAT
 KAT, IM, and AJT designed the research. Tree-ring chronologies were developed by RH under guidance of AJT and NP. Trait data were collected by IM, JZ under guidance of NK and LS. Other plot data were collected by IM, AS, EGA, and NB under guidance of EGA and WM. Data analyses were performed by IM under guidance of KAT and VH. KAT and IM interpreted the results. IM and KAT wrote the first draft of manuscript, and all authors contributed to revisions. 
 
 ### Data and code availability
-All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and *[TBD]*, respectively.
+All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and *[TBD]*, respectively. Full ForestGEO census data for SCBI are available through the ForestGEO data portal (www.forestgeo.si.edu).
 
 ### ORCID
 Kristina J. Anderson-Teixeira: https://orcid.org/0000-0001-8461-9713
