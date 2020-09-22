@@ -108,7 +108,7 @@ This is because available forest census data only rarely captures extreme drough
 
 Many studies have shown that within and across species, large trees tend to be more affected by drought. 
 Greater growth reductions (*i.e.*, lower drought resistance) in larger trees were first shown on a global scale by @bennett_larger_2015, and subsequent studies have reinforced this finding [*e.g.*, @pretzsch_drought_2018; @gillerot_tree_2020]. 
-Although lower recovery and resilience of larger trees have also been observed [@gillerot_tree_2020], a recent physiological model suggests that large trees  destined to die following drought may still exhibit high recovery and resilience [@trugman_tree_2018]. 
+Although lower recovery and resilience of larger trees have also been observed [@gillerot_tree_2020], results are mixed [@merlin_effects_2015], and a recent physiological model suggests that large trees destined to die following drought may still exhibit high recovery and resilience [@trugman_tree_2018]. 
 Thus, in general we have much more limited understanding of how and why drought resilience scales with tree size.
 
 Moreover, it has yet to be resolved which of several potential underlying mechanisms most strongly shape these trends in drought response. 
@@ -348,7 +348,7 @@ While the low $Rt$ of *L. tulipifera* is consistent with other studies [@elliott
 There are two potential explanations for this discrepancy.
 First, other traits can and do override the influence of xylem porosity on drought resistance. 
 Ring-porous species are restricted mainly to temperate deciduous forests, while highly drought-tolerant diffuse-porous species exist in other biomes [@wheeler_variations_2007]. 
-*Fagus grandifolia* had intermediate $\pi_{tlp}$ and low $PLA_{dry}$ (Fig. **S4**), which would have contributed to its drought tolerance (Fig. **4**; see discussion below). 
+*Fagus grandifolia* had intermediate $\pi_{tlp}$ and low $PLA_{dry}$ (Fig. **S4**), which would have contributed to its drought tolerance (Fig. **4**; see discussion below), in concordance with studies identifying *Fagus* species as intermediate in drought tolerance [@vitasse_contrasting_2019; @pretzsch_drought_2018]. 
 A second explanation of why *F. grandifolia* trees at this particular site had higher $Rt$ and $Rs$ is that the sampled individuals, reflective of the population within the plot, are generally shorter and in less-dominant canopy positions compared to most other species (Fig. **S4**).
 The species, which is highly shade-tolerant, also has deep crowns [@andersonteixeira_size-related_2015], implying that a lower proportion of leaves would be affected by harsher microclimatic conditions at the top of the canopy under drought (Fig. **2**).
 Thus, the high $Rt$ and $Rs$ of the sampled *F. grandifolia* population can be explained by a combination of fairly drought-resistant leaf traits, shorter stature, and a buffered microenvironment. 
