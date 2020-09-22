@@ -192,7 +192,7 @@ $$DBH_Y  = DBH_{2008} - 2*\left[r_{bark,2008} - r_{bark,Y} + \sum_{year=Y}^{2008
 
 Here, $Y$ denotes the year of interest, $r_{ring}$ denotes ring width derived from cores, and $r_{bark}$ denotes bark thickness, which was estimated from species-specific allometries based on the bark thickness data from the site [Table S2; @andersonteixeira_size-related_2015].
 
-Tree heights ($H$) were measured by several researchers for a variety of purposes between 2012 and 2019 (n=1,518 trees). Methods included direct measurements using a collapsible measurement rod on small trees [@neon_national_2018] or a tape measure on recently fallen trees (this study); geometric calculations using clinometer and tape measure [@stovall_assessing_2018] or digital rangefinders [@andersonteixeira_size-related_2015; @neon_national_2018]; and ground-based LiDAR [@stovall_terrestrial_2018]. Rangefinders used either the tangent method (Impulse 200LR, TruPulse 360R) or the sine method (Nikon ForestryPro) for calculating heights. Both methods are associated with some error [@larjavaara_measuring_2013], but in this instance there was no clear advantage of one or the other. Measurements from the National Ecological Observatory Network (NEON) were collected near the ForestGEO plot following standard NEON protocol, whereby vegetation of short stature was measured with a collapsible measurement rod, and taller trees with a rangefinder [@neon_national_2018]. 
+Tree heights ($H$) were measured by several researchers for a variety of purposes between 2012 and 2019 (n=1,518 trees). Methods included direct measurements using a collapsible measurement rod on small trees [@neon_national_2018] or a tape measure on recently fallen trees (this study); geometric calculations using clinometer and tape measure [@stovall_assessing_2018] or digital rangefinders [@andersonteixeira_size-related_2015; @neon_national_2018]; and ground-based LiDAR [@stovall_terrestrial_2018]. Rangefinders used either the tangent method (Impulse 200LR, TruPulse 360R) or the sine method (Nikon ForestryPro) for calculating heights. Both methods are associated with some error [@larjavaara_measuring_2013], but in this instance there was no clear advantage of one or the other. 
 Species-specific height allometries were developed using log-log regression ($ln[H] \sim ln[DBH]$; Table S3). 
 For species with insufficient height data to create reliable species-specific allometries (n=2, JUNI and FRAM), heights were calculated from an equation developed by combining the height measurements across all species. 
 We then used these allometries to estimate $H$ for each drought year, $Y$, based on reconstructed $DBH_Y$ (Fig. **S3**). 
@@ -208,11 +208,9 @@ Species' trait data were collected in August 2018 (Tables 2-3; Fig. **S4**). We 
 
 *Statistical Analysis* 
 
-For each drought year, we calculated metrics of drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs$), following @lloret_components_2011 (Table 3).
-We defined $Rt$ as the ratio of basal area increment ($BAI$; *i.e.*, change in cross-sectional area) during the drought year to the mean $BAI$ over the five years preceding the drought. 
-$Rc$ was defined as the ratio of mean $BAI$ over the five years following the drought to $BAI$ of the drought year.
-$Rs$ was defined as the ratio of mean $BAI$ over the five years following the drought to that of the five years preceding the drought. 
-Thus, for all metrics, values <1 and >1 indicate growth reductions and increases, respectively. 
+For each drought year, we calculated metrics of drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs$), following @lloret_components_2011. 
+These metrics compare ratios of basal area increment ($BAI$; *i.e.*, change in cross-sectional area) before, during, and after the drought year, as specified in Table 3.  
+For all metrics, values <1 and >1 indicate growth reductions and increases, respectively. 
 
 Because these metrics could potentially be biased by directional pre-drought growth trends, we also tried an intervention time series analysis [ARIMA, @R-forecast] that predicted mean drought-year growth based on trends over the preceding ten years and used this value in place of the five-year mean in calculations of resistance ($Rt_{ARIMA}$= observed $BAI$/ predicted $BAI$). 
 $Rt$ and $Rt_{ARIMA}$ were strongly correlated (Fig. **S5**), and showed similar responses to the independent variables of interest (cf. Tables S4-55, S8-S9).
@@ -232,7 +230,7 @@ Individual model terms were considered significant when their addition to a mode
 To avoid over-fitting models with five species traits (Table 3) across only 12 species, we did not include all traits as fixed effects in a single linear mixed model, but rather conducted individual tests of each species trait to determine the relative importance and appropriateness for inclusion in the main model. 
 These tests followed the model structure specified above, then added $ln[H]$ and $ln[TWI]$ to create a base model against which we tested traits.
 Trait variables were considered appropriate for inclusion in the main model if their addition to the base model significantly improved fit for at least one metric of drought tolerance ($Rt$, $Rc$, or $Rs$; Tables S4,S6-S7). 
-While we tested xylem porosity as a predictor (Table 1), we did not consider it appropriate for inclusion in the main model because of highly uneven distribution of species across categories (Table 2) and opposite drought responses of the only two diffuse-porous species (detailed below).
+While we tested xylem porosity as a predictor (Table 1), we did not consider it appropriate for inclusion in the main model because of highly uneven distribution of species across categories (Table 2) and opposite drought responses of the only two diffuse-porous species (see Results).
 
 We then determined the top full models for predicting each dependent variable. 
 To do so, we compared models with all possible combinations of candidate variables, including $ln[H]$*$ln[TWI]$ and species traits as specified above.
@@ -266,24 +264,24 @@ Recovery was generally strong and complete, with $Rc$ averaging 1.55 in 1966, 1.
 
 In the context of the multivariate models, all response variables varied across drought years. That is, in models with all drought years combined, year was present in all of the top models -- *i.e.*, models that were statistically indistinguishable ($\Delta$AICc<2) from the best model (see footnotes on Tables S8-S11). 
 For $Rt$, differences among drought years were small (<0.02; Table S8). 
-In contrast, differences among years were larger for $Rc$ and $Rs$, with coefficients for "drought year" highest in 1966, intermediate in 1977, and lowest in 1999.
+In contrast, differences among years were larger for $Rc$ and $Rs$, with coefficients for year highest in 1966, intermediate in 1977, and lowest in 1999.
 
 *Tree height, microenvironment, and drought tolerance*
 
-Taller trees (based on $H$ in the drought year) showed stronger growth reductions during drought (i.e., lower $Rt$) and less rebound following drought (i.e., lower $Rc$ and $Rs$; Table 1; Fig. **4**). 
+Taller trees (based on $H$ in the drought year) showed stronger growth reductions during drought (*i.e.*, lower $Rt$) and less rebound following drought (*i.e.*, lower $Rc$ and $Rs$; Table 1; Fig. **4**). 
 Specifically, for $Rt$, $ln[H]$ appeared, with negative coefficient, in the best model ($\Delta$AICc=0) and all top models when evaluating the three drought years together (Tables S8-S9). The same held true for 1966 individually, but there was no significant effect of $ln[H]$ for 1977 or 1999 individually. 
 For $Rc$, $ln[H]$ appeared, with negative coefficient, in the best model without a $ln[H] *ln[TWI]$ interaction, for the three drought years together and for 1977, but not for 1966 or 1999.
 For $Rs$, again considering the best models without a $ln[H] *ln[TWI]$ interaction, there was a negative effect of $ln[H]$ for the three drought years together and for 1966 and 1977, and a non-significant negative trend in 1999.
 
-Trees in drier microsites showed greater growth declines during drought; i.e., $Rt$ had a significantly negative response to $ln[TWI]$ across all drought years combined, and in 1977 and 1999 individually (Fig. **4**, Table S8-S9). 
+Trees in drier microsites showed greater growth declines during drought; *i.e.*, $Rt$ had a significantly negative response to $ln[TWI]$ across all drought years combined, and in 1977 and 1999 individually (Fig. **4**, Table S8-S9). 
 The $ln[H] *ln[TWI]$ interaction was never significant, and had a positive sign in any top $Rt$ models in which it appeared (Tables 1, S8-S9), rejecting the hypothesis that smaller trees (presumably with smaller rooting volume) are more susceptible to drought in microenvironments with a deeper water table. 
 In contrast, $ln[TWI]$ did not appear in any of the best models for $Rc$ or $Rs$ (combined of for individual years), except in interaction with $ln[H]$ (Fig. 4, Tables S10-S11).
 Negative $ln[H] *ln[TWI]$ interactions appeared in the best models for both $Rc$ and $Rs$ for all years combined, as well as in one individual year for each (1966 for $Rc$, 1977 for $Rs$). 
-This implies that small trees had greater recovery and resilience in wetter microhabitats, whereas large trees had greater recovery and resilience in dry microhabitats. 
+This implies a non-significant tendency for small trees to have greater recovery and resilience in wetter microhabitats, but for large trees to have greater recovery and resilience in dry microhabitats. 
 
 *Species' traits and drought tolerance*
 
-Species, as a factor in ANOVA, had significant (p<0.05) influence on all traits (wood density, $LMA$, $PLA_{dry}$, and $\pi_{tlp}$), with more significant pairwise differences for wood density and $PLA_{dry}$ than for $LMA$ and $\pi_{tlp}$ (Table 2, Fig. **S4** as characterized by the agricolae package @R-agricolae).
+Species, as a factor in ANOVA, had significant (p<0.05) influence on all traits (wood density, $LMA$, $PLA_{dry}$, and $\pi_{tlp}$), with more significant pairwise differences for wood density and $PLA_{dry}$ than for $LMA$ and $\pi_{tlp}$ (Table 2, Fig. **S4**).
 Drought tolerance also varied across species, overall and in each drought year (Figs. **3, S7**). 
 Species with overall lowest and highest $Rt$ and $Rs$ were, respectively, *Liriodendron tulipifera* (mean $Rt$ = 0.66, mean $Rs$ = 1.04) and *Fagus grandifolia* (mean $Rt$ = 0.99; mean $Rs$ = 1.65).
 These two species--notably the only two diffuse-porous species in our study--differed significantly from one another in $Rt$ and $Rs$ in each drought year (Fig. **3**).

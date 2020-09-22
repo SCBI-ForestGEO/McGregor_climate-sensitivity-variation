@@ -98,7 +98,7 @@ Sample sizes are after removal of outliers. Dashes for sample sizes of independe
 
 **Figure 2. Contemporary height profiles in sun exposure and growing season microclimate under non-drought conditions.** Shown are average ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Asterisks indicate significant differences between the top and bottom of the height profile. Also shown is (d) tree heights by 2018 crown position, with letters indicating significance groupings. In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.
 
-**Figure 3. Drought resistance, $Rt$ (a), and resilience, $Rs$ (b), across species for the three focal droughts.** Species codes are given in Table 2. See Fig. S7 for parallel plot for recovery ($Rc$). 
+**Figure 3. Drought resistance, $Rt$ (a), and resilience, $Rs$ (b), across species for the three focal droughts.** Species codes are given in Table 2. See Fig. S7 for parallel plot for recovery ($Rc$). Analysis conducted using *agricolae* package [@R-agricolae].
 
 **Figure 4. Visualization of best statistical models for drought resistance ($Rt$), recovery ($Rc$), and resilience ($Rs)$ for all droughts combined and for each individual drought year.** Confidence intervals were defined via bootsrapping in the  bootpredictlme4 package. Model coefficients are given in Tables S8 and S10-11.
 
