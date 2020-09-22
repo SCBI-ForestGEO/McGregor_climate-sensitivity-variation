@@ -1,8 +1,8 @@
 variable,symbol,units,description,category,$n_{Rt}$*,$n_{Rc}$,$n_{Rs}$
-drought resistance,$Rt$,-,ratio of growth during drought year to mean growth of the 5 years prior. ,-,1623,-,-
-,$Rt_{ARIMA}$,-,ratio of growth during drought year to growth predicted by ARIMA model. ,-,1654,-,-
-drought recovery,$Rc$,-,ratio of mean growth for 5 years after drought to growth during year. ,-,-,1557,-
-drought resilience,$Rs$,-,ratio of mean growth for 5 years after drought to mean growth for 5 years before drought. ,-,-,-,1570
+drought resistance,$Rt$,-,ratio of basal area increment (BAI) during drought year to mean BAI of the 5 years prior. ,-,1623,-,-
+,$Rt_{ARIMA}$,-,ratio of BAI during drought year to BAI predicted by ARIMA model. ,-,1654,-,-
+drought recovery,$Rc$,-,ratio of mean BAI for 5 years after drought to BAI during drought year. ,-,-,1557,-
+drought resilience,$Rs$,-,ratio of mean BAI for 5 years after drought to mean BAI for 5 years before drought. ,-,-,-,1570
 drought year ,$Y$,-,year of drought,1966,513,491,495
 ,,,,1977,543,524,523
 ,,,,1999,567,542,552
