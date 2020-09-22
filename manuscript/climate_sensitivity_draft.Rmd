@@ -3,7 +3,6 @@ title: ""
 author: ""
 output:
   pdf_document:
-    citation_package: natbib
     fig_caption: yes
 bibliography: ["book.bib",  "packages.bib"]
 link-citations: yes
@@ -155,7 +154,7 @@ We further test predictions that species with low $PLA_{dry}$ and those whose le
 ### Materials and Methods
 *Study site and microclimate*
 
-Research was conducted at the 25.6-ha ForestGEO (Forest Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38\°53'36.6"N, 78\°08'43.4"W, elevation 273-338 m.a.s.l.; Fig. **S1**) [@bourg_initial_2013; @andersonteixeira_ctfs-forestgeo:_2015]. Climate is humid temperate, with mean annual temperature of 12.7^$\circ$^C and precipitation of 1005 mm yr^-1^ during our study period [1960-2009; source: CRU TS v.4.01; @harris_updated_2014]. Dominant tree taxa within this secondary forest include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.; Table 2). 
+Research was conducted at the 25.6-ha ForestGEO (Forest Global Earth Observatory) study plot at the Smithsonian Conservation Biology Institute (SCBI) in Virginia, USA (38\°53'36.6"N, 78\°08'43.4"W, elevation 273-338 m.a.s.l.; Fig. **S1**) [@bourg_initial_2013; @andersonteixeira_ctfs-forestgeo_2015]. Climate is humid temperate, with mean annual temperature of 12.7^$\circ$^C and precipitation of 1005 mm yr^-1^ during our study period [1960-2009; source: CRU TS v.4.01; @harris_updated_2014]. Dominant tree taxa within this secondary forest include *Liriodendron tulipifera*,  oaks (*Quercus* spp.), and hickories (*Carya* spp.; Table 2). 
 
 *Identifying drought years*
 
@@ -358,7 +357,7 @@ Concerted measurement of tree-rings and leaf drought tolerance traits of emergin
 As climate change drives increasing drought in many of the world's forests [@trenberth_global_2014; @intergovernmental_panel_on_climate_change_climate_2015], the fate of forests and their climate feedbacks will be shaped by the biophysical and physiological drivers observed here. 
 Our results show that taller, more exposed trees and species with less drought-tolerant leaf traits will be most affected in terms of both growth during the drought year and subsequent growth.
 Survival is linked to resistance and resilience [@desoto_low_2020; @gessler_way_2020], implying it may be influenced by the same factors. 
-Indeed, while no link between $PLA_{dry}$ or $\pi_{tlp}$ on drought survival has been established [but see @powers_catastrphic_2020], taller trees have lower survival [@bennett_larger_2015; @stovall_tree_2019]. 
+Indeed, while no link between $PLA_{dry}$ or $\pi_{tlp}$ on drought survival has been established [but see @powers_catastrophic_2020], taller trees have lower survival [@bennett_larger_2015; @stovall_tree_2019]. 
 As climate change-driven droughts affect forests worldwide, there is likely to be a shift from mature forests with tall, buffering trees to forests with a shorter overall stature [@mcdowell_pervasive_2020]. 
 At this point, species whose drought tolerance relies in part on existence within a buffered microenvironment (e.g., *F. grandifolia*) could in turn become more susceptible. 
 Here, the relative importance of tree height *per se* versus crown exposure becomes crucial, shaping whether the dominant trees of shorter canopies are significantly more drought tolerant because of their shorter stature, or whether high exposure makes them as vulnerable as the taller trees of the former canopy.
