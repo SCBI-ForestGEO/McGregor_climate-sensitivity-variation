@@ -49,7 +49,7 @@ kable(hypothesis_table, format = "latex", booktabs = TRUE, caption = "Table 1. S
  # kableExtra::landscape()
 ```
 
-Parentheses indicate that the prediction was supported by at least one but not all of the top  models (Table S8). Dash symbols indicate that the response was not significant (Table S4), or not represented in any of the top models (Table S8).
+Parentheses indicate that the prediction was supported by at least one but not all of the top  models (Tables S8, S10, S11). Dash symbols indicate that the response was not significant (Tables S4, S6, S7).
 
 \elandscape
 
