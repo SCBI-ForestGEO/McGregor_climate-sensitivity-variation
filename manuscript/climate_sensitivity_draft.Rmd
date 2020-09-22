@@ -1,9 +1,9 @@
 ---
 title: ""
 author: ""
-output:
-  pdf_document:
-    fig_caption: yes
+output: word_document
+  # pdf_document:
+    # fig_caption: yes
 bibliography: ["book.bib",  "packages.bib"]
 link-citations: yes
 biblio-style: "apalike"
