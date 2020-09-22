@@ -74,12 +74,12 @@ Kristina J. Anderson-Teixeira^1,3^*
 
 Text | word count | other | n
 ---------------------------------------------|---------------------|-----------------------------|--------------------
-Total word count (excluding summary, references and legends) | 6,490 **(Limit 6500)**	 |	No. of figures | 	4 (all colour)
+Total word count (excluding summary, references and legends) | 6,654 **(Limit 6500)**	 |	No. of figures | 	4 (all colour)
 Summary|  	200 | 	No. of Tables | 	3  
 Introduction|	1,264 |	No of Supporting Information files | 	19
-Materials and Methods |	2,228	||	 
-Results |	929	 ||
-Discussion |	1927	||
+Materials and Methods |	2,178	||	 
+Results |	1126	 ||
+Discussion |	1952	||
 Acknowledgments | 142	||	
 
 \newpage
@@ -98,15 +98,17 @@ Acknowledgments | 142	||
 \newpage
 ### Introduction
 
-Forests play a critical global role in climate regulation [@bonan_forests_2008], yet there remains enormous uncertainty as to how the forest-dominated terrestrial carbon sink will respond to climate change [@friedlingstein_climatecarbon_2006]. An important aspect of this uncertainty lies with physiological responses of trees to drought [@kennedy_implementing_2019]. In many forested regions around the world, the risk of severe drought is increasing [@trenberth_global_2014; @dai_climate_2018], often despite increasing precipitation [@intergovernmental_panel_on_climate_change_climate_2015;  @cook_unprecedented_2015]. Droughts, intensified by climate change, have been affecting forests worldwide and are expected to continue as one of the most important drivers of forest change in the future [@allen_global_2010; @allen_underestimation_2015; @mcdowell_pervasive_2020]. 
-Understanding forest responses to drought requires elucidation of how tree size, microenvironment, and species’ traits jointly influence individual-level drought tolerance, defined here as a tree's ability to maintain growth during drought (resistance) and to recover to its pre-drought growth rate (resilience) [@lloret_components_2011].
-Because the resistance and resilience of growth to drought are linked to trees' probability of surviving drought [@desoto_low_2020; @liu_hydraulic_2019], understanding growth responses can also help elucidate which trees are most vulnerable to drought-induced mortality.
+Forests play a critical global role in climate regulation [@bonan_forests_2008], yet there remains enormous uncertainty as to how the forest-dominated terrestrial carbon sink will respond to climate change [@friedlingstein_climatecarbon_2006]. 
+An important aspect of this uncertainty lies with physiological responses of trees to drought [@kennedy_implementing_2019]. In many forested regions around the world, the risk of severe drought is increasing [@trenberth_global_2014; @dai_climate_2018], often despite increasing precipitation [@intergovernmental_panel_on_climate_change_climate_2015;  @cook_unprecedented_2015]. 
+Droughts, intensified by climate change, have been affecting forests worldwide and are expected to continue as an important driver of forest change  [@allen_global_2010; @allen_underestimation_2015; @mcdowell_pervasive_2020]. 
+Understanding forest responses to drought requires elucidation of how tree size, microenvironment, and species’ traits jointly influence individual-level drought tolerance, defined here as a tree's ability to maintain growth during drought (resistance) and recover to its pre-drought growth rate (resilience) [@lloret_components_2011].
+Because resistance and resilience are linked to trees' probability of surviving drought [@desoto_low_2020; @liu_hydraulic_2019], understanding growth responses can also help elucidate which trees are most vulnerable to drought-induced mortality.
 However, it has proven difficult to resolve the many factors affecting tree growth during drought and the extent to which their influence is consistent across droughts.
-This is because available forest census data only rarely captures extreme drought, whereas tree-ring records capture multiple droughts but typically focus on only the largest individuals of  one or a few species.
+This is because available forest census data only rarely captures extreme drought, whereas tree-ring records capture multiple droughts but typically focus on only the largest individuals of one or a few species.
 
 Many studies have shown that within and across species, large trees tend to be more affected by drought. 
 Greater growth reductions (*i.e.*, lower drought resistance) in larger trees were first shown on a global scale by @bennett_larger_2015, and subsequent studies have reinforced this finding [*e.g.*, @gillerot_tree_2020]. 
-Although lower recovery and resilience of larger trees have also been observed [@hacket-pain_consistent_2016; @gillerot_tree_2020], in general we have much more limited understanding of how and why these scale with tree size. 
+Although lower recovery and resilience of larger trees have also been observed [@gillerot_tree_2020], in general we have much more limited understanding of how and why these scale with tree size. 
 
 *physiological model of @trugman_tree_2018 predicts that recovery and resilience would not necessarily be lower, even in trees that will ultimately die.* 
 
@@ -240,7 +242,7 @@ If the variable appeared in some but not all of these models, and its sign was c
 
 All analysis beyond basic data collection was performed using R version 3.6.2 [@R-base]. 
 Other R-packages used in analyses are listed in the Supplementary Information (Appendix S1).
-All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and *[TBD]*, respectively.
+
 
 ### Results
 
@@ -315,7 +317,13 @@ This is the first study to our knowledge linking $PLA_{dry}$ and $\pi_{tlp}$ to 
 The directions of these responses were consistent across droughts (Table S8), supporting the premise that they were driven by fundamental physiological mechanisms. However, the strengths of each predictor varied across droughts (Fig. **4**; Tables S8-S9), indicating that drought characteristics interact with tree size, microenvironment, and traits to shape which individuals are most affected. 
 These findings advance our knowledge of the factors that make trees vulnerable to stem growth declines during drought and, by extension, likely make them more vulnerable to mortality [@sapes_plant_2019].
 
-The droughts considered here were of a magnitude that has occurred with an average frequency of approximately once every 10-15 years [Fig. **1a**, @helcoski_growing_2019] and had substantial but not devastating impacts on tree growth (Figs. **1b**). These droughts were classified as severe ($PDSI$ < -3.0; 1977) or extreme ($PDSI$ < -4.0; 1966, 1999) at our site and have been linked to tree mortality in the eastern United States [@druckenbrod_redefining_2019]. However, extreme, multiannual droughts such as the so-called “megadroughts” of this type that have triggered massive tree die-off in other regions [e.g., @allen_global_2010; @stovall_tree_2019] have not occurred in the Eastern United States within the past several decades [@clark_impacts_2016]. Of the droughts considered here, the 1966 drought, which was preceded by two years of dry conditions (Fig. **S1**), severely stressed a larger portion of trees (Fig. **1b**). The tendency for large trees to have lowest resistance was most pronounced in this drought, consistent with other findings that this physiological response increases with drought severity [@bennett_larger_2015; @stovall_tree_2019]. Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion (e.g., short understory trees, species with drought resistant traits; Fig. **4**) had increased growth (Fig. **1b**), consistent with prior observations that smaller trees can exhibit increased growth rates during drought [@bennett_larger_2015]. It is likely because of the moderate impact of these droughts, along with other factors influencing tree growth (e.g., stand dynamics), that our best models characterize only a modest amount of variation in $Rt$, $Rc$, and $Rs$: 11-18% for all droughts combined, and 13-30% for individual droughts (Tables S8-S11). 
+The droughts considered here were of a magnitude that has occurred with an average frequency of approximately once every 10-15 years [Fig. **1a**, @helcoski_growing_2019] and had substantial but short-lived impacts on tree growth (Fig. **1**). 
+These droughts were classified as severe ($PDSI$ < -3.0; 1977) or extreme ($PDSI$ < -4.0; 1966, 1999) at our site and have been linked to tree mortality in the eastern United States [@druckenbrod_redefining_2019], but were modest compared to the so-called “megadroughts” that have triggered massive tree die-off in other regions [e.g., @allen_global_2010; @stovall_tree_2019; @clark_impacts_2016]. 
+Of the droughts considered here, the 1966 drought, which was preceded by two years of dry conditions (Fig. **S1**), severely stressed a larger portion of trees (Fig. **1b**). 
+The tendency for large trees to have lowest resistance was most pronounced in this drought, consistent with other findings that this physiological response increases with drought severity [@bennett_larger_2015; @stovall_tree_2019]. 
+Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion (e.g., short understory trees, species with drought resistant traits; Fig. **4**) had increased growth (Fig. **1b**), consistent with prior observations that smaller trees can exhibit increased growth rates during drought [@bennett_larger_2015]. 
+Growth rebounded strongly following the droughts, on average exceeding pre-drought growth rates (Fig. 1), particularly for shorter trees and species with drought-tolerant traits (Figs. **3-4**).
+It is likely because of the moderate impact of these droughts, along with other factors influencing tree growth (e.g., stand dynamics), that our best models characterize only a modest amount of variation in $Rt$, $Rc$, and $Rs$: 11-18% for all droughts combined, and 13-30% for individual droughts (Tables S8-S11). 
 
 Consistent with studies in other forests worldwide [@bennett_larger_2015], taller trees in this forest exhibited lower drought resistance--and also recovery and resilience--when compared to smaller trees.
 Mechanistically, this is consistent with, and reinforces, previous findings that it is impossible for trees to efficiently transport water to great heights and simultaneously maintain strong resistance and resilience to drought-induced embolism [@olson_plant_2018; @couvreur_water_2018; @roskilly_conflicting_2019]. 
@@ -370,6 +378,12 @@ This study was funded by ForestGEO, a Virginia Native Plant Society grant to KAT
 
 ### Author Contribution 
 KAT, IM, and AJT designed the research. Tree-ring chronologies were developed by RH under guidance of AJT and NP. Trait data were collected by IM, JZ under guidance of NK and LS. Other plot data were collected by IM, AS, EGA, and NB under guidance of EGA and WM. Data analyses were performed by IM under guidance of KAT and VH. KAT and IM interpreted the results. IM and KAT wrote the first draft of manuscript, and all authors contributed to revisions. 
+
+### Data and code availability
+All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and *[TBD]*, respectively.
+
+### ORCID
+Kristina J. Anderson-Teixeira: https://orcid.org/0000-0001-8461-9713
 
 ### Supplementary Information
 
