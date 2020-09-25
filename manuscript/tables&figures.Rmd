@@ -62,13 +62,13 @@ library(kableExtra)
 table2 <- read.csv("tables_figures/publication/table2_species_table_hand_formatted.csv", stringsAsFactors = FALSE, check.names = FALSE)
 table2[0,3] <- paste0(table2[0,3], footnote_marker_symbol(1))
 table2[8,8] <- paste0(table2[8,8], footnote_marker_symbol(2))
-kable(table2, format = "latex", booktabs=TRUE, caption = "Table 2. Overview of analyzed species, listed in order of their relative contributions to woody stem productivity ($ANPP_{stem}$) in the plot, along with numbers and sizes sampled, and species traits. Variable abbreviations are as in Table 3. DBH measurements are from the most recent ForestGEO census in 2018 (live trees) or tree mortality censuses in 2016 and 2017 (trees cored dead).", escape=FALSE) %>%
+kable(table2, format = "latex", booktabs=TRUE, caption = "Table 2. Overview of analyzed species, listed in order of their relative contributions to woody stem productivity ($ANPP_{stem}$) in the plot, along with numbers and sizes sampled, and species traits.", escape=FALSE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ", "contemporary DBH (cm)" = 2, "species traits (mean +/- se)" = 5)) %>%
   #kable_styling(bootstrap_options = "striped", full_width = FALSE)
 kableExtra::footnote(symbol = c("Numbers cored live versus dead are given in Table S1 of Helcoski et al. (2019).", "Semi-ring porosity is intermediate between ring and diffuse. We group it with diffuse-porous species for more even division of species between categories."), footnote_as_chunk = FALSE)
 ```
-
+Variable abbreviations are as in Table 3. DBH measurements are from the most recent ForestGEO census in 2018 (live trees) or tree mortality censuses in 2016 and 2017 (trees cored dead).
 
 \clearpage
 
@@ -94,7 +94,7 @@ Sample sizes are after removal of outliers. Dashes for sample sizes of independe
 \newpage
 ### Figure Legends
 
-**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide growth resistance,$Rt$ (b), and resilience, $Rs$ (c).** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species (see Table 3 for codes). PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre- and post- drought periods used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (b-c) show the distribution of $Rt$ and $Rs$ values for each drought. See Fig. S6 for parallel plot for recovery ($Rc$). 
+**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide growth resistance, $Rt$ (b), and resilience, $Rs$ (c).** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species (see Table 3 for codes). PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre- and post- drought periods used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (b-c) show the distribution of $Rt$ and $Rs$ values for each drought. See Fig. S6 for parallel plot for recovery ($Rc$). 
 
 **Figure 2. Contemporary height profiles in sun exposure and growing season microclimate under non-drought conditions.** Shown are average ($\pm$ SD) of daily maxima and minima of (a) wind speed, (b) relative humidity ($RH$), and (c) air temperature ($T_{air}$) averaged over each month of the peak growing season (May-August) from 2016-2018. In these plots, heights are slightly offset for visualization purposes. Asterisks indicate significant differences between the top and bottom of the height profile. Also shown is (d) tree heights by 2018 crown position, with letters indicating significance groupings. In all plots, the dashed horizontal line indicates the 95th percentile of tree heigts in the ForestGEO plot.
 
@@ -105,7 +105,7 @@ Sample sizes are after removal of outliers. Dashes for sample sizes of independe
 
 \newpage
 
-![**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide growth resistance,$Rt$ (b), and resilience, $Rs$ (c).** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species (see Table 3 for codes). PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre- and post- drought periods used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (b-c) show the distribution of $Rt$ and $Rs$ values for each drought. See Fig. S6 for parallel plot for recovery ($Rc$). ](tables_figures/publication/Figure1.png)
+![**Figure 1. Climate and species-level growth responses over our study period, highlighting the three focal drougths (a) and community-wide growth resistance, $Rt$ (b), and resilience, $Rs$ (c).** Time series plot (a) shows peak growing season (May-August) climate conditions and residual chronologies for each species (see Table 3 for codes). PET and PRE data were obtained from the Climatic Research Unit high-resolution gridded dataset (CRU TS v.4.01; Harris et al. 2014). Focal droughts are indicated by dashed lines, and shading indicates the pre- and post- drought periods used in calculations of the resistance metric. Figure modified from Helcoski *et al.* (2019). Density plots (b-c) show the distribution of $Rt$ and $Rs$ values for each drought. See Fig. S6 for parallel plot for recovery ($Rc$). ](tables_figures/publication/Figure1.png)
 
 
 \newpage

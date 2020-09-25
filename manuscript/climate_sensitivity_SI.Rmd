@@ -245,7 +245,7 @@ Year was included in the model for all drought years and appeared in all its top
 ![**Figure S1. Time series of Palmer Drought Severity Index (PDSI) for each focal drought year $\pm$ 2 years**](tables_figures/publication/figureS1_drought_plot.jpg)
 
 \newpage
-![**Figure S2. Map of ForestGEO plot showing topographic wetness index and location of cored trees.** Scale units are in meters](tables_figures/publication/figureS2_location_cored_trees.png){width=500px}
+![**Figure S2. Map of ForestGEO plot showing topographic wetness index (color scale) and location of cored trees.** Scale units are in meters](tables_figures/publication/figureS2_location_cored_trees.png){width=500px}
 
 
 \newpage
