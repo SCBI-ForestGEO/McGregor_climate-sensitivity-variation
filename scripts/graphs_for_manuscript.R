@@ -289,7 +289,7 @@ library(agricolae)
 rt <- fread("manuscript/tables_figures/trees_all_sub_resistance.csv")
 
 ##this is the INDIVIDUAL LEVEL DATA, not species
-traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBEIWYZQPW2RYIPESJDS7M5SLQ")
+traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBEIC4363KJGA6P7S2727OZ2CS")
 traits_hydr <- traits_hydr[,.(sp,PLA_dry_percent, mean_TLP_Mpa, 
                               WD_g_per_cm3, LMA_g_per_m2)]
 
@@ -387,7 +387,9 @@ posplot <- posplot +
    
 
 hydr <- c("PLA_dry_percent", "mean_TLP_Mpa", "LMA_g_per_m2", "WD_g_per_cm3")
-ylabs <- c(expression(PLA[dry]), expression(pi[TLP]), "LMA [g/m^2]", "WD [g/cm^3]")
+ylabs <- c(expression(PLA[dry]~"[%]"), 
+           expression(pi[TLP]~"[Mpa]"), 
+           "LMA [g/m^2]", "WD [g/cm^3]")
 ggtraits <- list()
 for(i in 1:4){
    varnm <- hydr[[i]]
