@@ -373,7 +373,7 @@ Funding for the establishment of the SCBI ForestGEO Large Forest Dynamics Plot w
 This study was funded by ForestGEO, a Virginia Native Plant Society grant to KAT and AJT, and support from the Harvard Forest and National Science Foundation which supports the PalEON project (NSF EF-1241930) for NP.
 
 ### Author Contribution 
-KAT, IM, and AJT designed the research. Tree-ring chronologies were developed by RH under guidance of AJT and NP. Trait data were collected by IM, JZ under guidance of NK and LS. Other plot data were collected by IM, AS, EGA, and NB under guidance of EGA and WM. Data analyses were performed by IM under guidance of KAT and VH. KAT and IM interpreted the results. IM and KAT wrote the first draft of manuscript, and all authors contributed to revisions. 
+KAT, IM, and AJT designed the research. Tree-ring chronologies were developed by RH under guidance of AJT and NP. Trait data were collected by IM, JZ under guidance of NK and LS. Other plot data were collected by NB in coordination with WM and by IM, AS, and EGA under guidance of EGA and WM. Data analyses were performed by IM under guidance of KAT and VH. KAT and IM interpreted the results. IM and KAT wrote the first draft of manuscript, and all authors contributed to revisions. 
 
 ### Data and code availability
 All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and *[TBD]*, respectively. Full ForestGEO census data for SCBI are available through the ForestGEO data portal (www.forestgeo.si.edu).
