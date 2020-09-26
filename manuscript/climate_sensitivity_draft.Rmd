@@ -138,7 +138,7 @@ These include leaf area shrinkage upon desiccation [$PLA_{dry}$; @scoffoni_leaf_
 Both traits correlate with hydraulic vulnerability and drought tolerance as part of unified plant hydraulic systems [@scoffoni_leaf_2014; @bartlett_correlations_2016; @zhu_leaf_2018; @farrell_does_2017].
 The abilities of both $PLA_{dry}$ and $\pi_{tlp}$ to explain the drought tolerance of tree growth remains untested [but see @powers_catastrophic_2020 for $\pi_{tlp}$ link to mortality]. 
 
-Here, we examine how tree height, microenvironment characteristics, and species' traits collectively shape three metrics of drought tolerance as compared with five years' pre-drought growth: 
+Here, we examine how tree height, microenvironment characteristics, and species' traits collectively shape three metrics of drought tolerance: 
 (1) resistance, defined as the ratio of annual stem growth in a drought year to that which would be expected in the absence of drought from previous growth;
 (2) recovery, defined as the ratio of post-drought growth to growth during the drought year;
 and (3) resilience, defined as the ratio of post-drought to pre-drought growth [@lloret_components_2011].
@@ -378,9 +378,9 @@ KAT, IM, and AJT designed the research. Tree-ring chronologies were developed by
 All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and *[TBD]*, respectively. Full ForestGEO census data for SCBI are available through the ForestGEO data portal (www.forestgeo.si.edu).
 
 ### ORCID
-Kristina J. Anderson-Teixeira: https://orcid.org/0000-0001-8461-9713
-
 Ian R. McGregor: https://orcid.org/0000-0002-5763-021X
+
+Kristina J. Anderson-Teixeira: https://orcid.org/0000-0001-8461-9713
 
 ### Supplementary Information
 Table S1. Monthly Palmer Drought Severity Index (PDSI), and its rank among all years between 1950 and 2009 for focal droughts.
