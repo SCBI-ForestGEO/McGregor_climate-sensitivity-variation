@@ -47,7 +47,7 @@ Kristina J. Anderson-Teixeira
 \listoftables
 \listoffigures
 
-**Appendix S1. Further Package Citations**
+**Methods S1. Further Package Citations**
 
 \newpage
 
@@ -272,9 +272,9 @@ Year was included in the model for all drought years and appeared in all its top
 
 
 \newpage
-## Appendix S1. Further Package Citations
-While there were several R-packages we used for a specific purpose in our methods, numerous packages were immensely helpful for this research behind the scenes. As in all of science, this study is a representation of the work done by both the authors of this paper as well as countless others. While acknowledging everyone is impossible, we want to at least give thanks to those who made this work possible.
-
-R-packages not already cited in the main manuscript include the following, listed alphabetically by corresponding package name:
+## Methods S1. Further Package Citations
+While there were several R-packages we used for a specific purpose in our methods, numerous packages were immensely helpful for this research behind the scenes. R-packages not already cited in the main manuscript include the following, listed alphabetically by corresponding package name:
 
 R base [@R-base]; broom [@R-broom]; car [@R-car]; cowplot [@R-cowplot]; data.table [@R-data.table]; devtools [@R-devtools]; dplR [@R-dplR]; dplyr [@R-dplyr]; extrafont [@R-extrafont]; ggplot2 [@R-ggplot2]; ggpubr [@R-ggpubr]; ggthemes [@R-ggthemes]; gridExtra [@R-gridExtra]; knitr [@R-knitr]; lubridate [@R-lubridate]; MuMIn [@R-MuMIn]; piecewiseSEM [@R-piecewiseSEM]; png [@R-png]; purrr [@R-purrr]; raster [@R-raster]; rasterVis [@R-rasterVis]; RCurl [@R-RCurl]; readxl [@R-readxl]; reshape2 [@R-reshape2]; rgdal [@R-rgdal]; rgeos [@R-rgeos]; rmarkdown [@R-rmarkdown]; sf [@R-sf]; stringi [@R-stringi]; stringr [@R-stringr]; tidyr [@R-tidyr]
+
+### References

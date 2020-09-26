@@ -238,7 +238,7 @@ When a variable appeared in all of these models and the sign of the coefficient 
 If the variable appeared in some but not all of these models, and its sign was consistent across models, we considered this partial support/rejection. 
 
 All analysis beyond basic data collection was performed using R version 3.6.2 [@R-base]. 
-Other R-packages used in analyses are listed in the Supplementary Information (Appendix S1).
+Other R-packages used in analyses are listed in the Supplementary Information (Methods S1).
 
 
 ### Results
@@ -420,7 +420,7 @@ Figure S6. Density plot of Recovery ($Rc$) values for each focal year.
 
 Figure S7. Drought recovery, $Rc$, across species for the three focal droughts.
 
-Appendix S1. Further Package Citations
+Methods S1. Further Package Citations
 
 \newpage
 ### References
