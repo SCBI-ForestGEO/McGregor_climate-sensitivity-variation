@@ -1,8 +1,9 @@
 ---
 title: ""
 author: ""
-output: word_document
-  # pdf_document:
+output: 
+  #  word_document
+   pdf_document:
     # fig_caption: yes
 bibliography: ["book.bib",  "packages.bib"]
 link-citations: yes
@@ -73,12 +74,12 @@ Kristina J. Anderson-Teixeira^1,3^*
 
 Text | word count | other | n
 ---------------------------------------------|---------------------|-----------------------------|--------------------
-Total word count (excluding summary, references and legends) | 6,458 **(Limit 6500)**	 |	No. of figures | 	4 (all colour)
+Total word count (excluding summary, references and legends) | 6,494	 |	No. of figures | 	4 (all colour)
 Summary|  	200 | 	No. of Tables | 	3  
-Introduction|	1,340 |	No of Supporting Information files | 	19
-Materials and Methods |	2,036	||	 
-Results |	1124	 ||
-Discussion |	1952	||
+Introduction|	1,347 |	No of Supporting Information files | 	19
+Materials and Methods |	2,057	||	 
+Results |	1129	 ||
+Discussion |	1955	||
 Acknowledgments | 142	||	
 
 \newpage
