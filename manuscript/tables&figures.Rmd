@@ -63,6 +63,7 @@ table2 <- read.csv("tables_figures/publication/table2_species_table_hand_formatt
 table2[0,3] <- paste0(table2[0,3], footnote_marker_symbol(1))
 table2[8,8] <- paste0(table2[8,8], footnote_marker_symbol(2))
 kable(table2, format = "latex", booktabs=TRUE, caption = "Table 2. Overview of analyzed species, listed in order of their relative contributions to woody stem productivity ($ANPP_{stem}$) in the plot, along with numbers and sizes sampled, and species traits.", escape=FALSE) %>%
+  column_spec(1, italic=TRUE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
   add_header_above(c(" "," "," ", "contemporary DBH (cm)" = 2, "species traits (mean +/- se)" = 5)) %>%
   #kable_styling(bootstrap_options = "striped", full_width = FALSE)
