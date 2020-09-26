@@ -62,6 +62,8 @@ library(kableExtra)
 table2 <- read.csv("tables_figures/publication/table2_species_table_hand_formatted.csv", stringsAsFactors = FALSE, check.names = FALSE)
 table2[0,3] <- paste0(table2[0,3], footnote_marker_symbol(1))
 table2[8,8] <- paste0(table2[8,8], footnote_marker_symbol(2))
+table2$species <- paste0(table2$species, " ", table2$authority)
+table2$authority <- NULL
 kable(table2, format = "latex", booktabs=TRUE, caption = "Table 2. Overview of analyzed species, listed in order of their relative contributions to woody stem productivity ($ANPP_{stem}$) in the plot, along with numbers and sizes sampled, and species traits.", escape=FALSE) %>%
   column_spec(1, italic=TRUE) %>%
   kable_styling(latex_options = c("scale_down", "hold_position"), font_size = 8.5, protect_latex = TRUE) %>%
