@@ -264,7 +264,7 @@ Year was included in the model for all drought years and appeared in all its top
 
 \newpage
 
-![**Figure S6. Drought recovery, $Rc$, across species for the three focal droughts.**](tables_figures/publication/FigureS6_density_plot_recovery.png)
+![**Figure S6. Density plot of Recovery ($Rc$) values for each focal year.**](tables_figures/publication/FigureS6_density_plot_recovery.png)
 
 \newpage
 
