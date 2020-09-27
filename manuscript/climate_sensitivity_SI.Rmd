@@ -264,11 +264,11 @@ Year was included in the model for all drought years and appeared in all its top
 
 \newpage
 
-![**Figure S6. Density plot of Recovery ($Rc$) values for each focal year.**](tables_figures/publication/FigureS6_density_plot_recovery.png)
+![**Figure S6. Density plot of drought recovery ($Rc$) values for each focal drought year.**](tables_figures/publication/FigureS6_density_plot_recovery.png)
 
 \newpage
 
-![**Figure S7. Drought recovery, $Rc$, across species for the three focal droughts.**](tables_figures/publication/FigureS7_Rc_across_sp.png)
+![**Figure S7. Drought recovery ($Rc$) across species for the three focal droughts. Species that are assigned the same letter are not significantly different from each other with regard to the tested variable. Letter groupings do not transfer between variables.**](tables_figures/publication/FigureS7_Rc_across_sp.png)
 
 
 \newpage
