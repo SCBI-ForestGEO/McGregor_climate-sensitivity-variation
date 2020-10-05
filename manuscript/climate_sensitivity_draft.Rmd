@@ -2,8 +2,8 @@
 title: ""
 author: ""
 output: 
-   # word_document
-    pdf_document:
+    word_document
+    #pdf_document:
     # fig_caption: yes
 bibliography: ["book.bib",  "packages.bib"]
 link-citations: yes
@@ -381,6 +381,8 @@ All data, code, and results are available through the SCBI-ForestGEO organizatio
 
 ### ORCID
 Ian R. McGregor: https://orcid.org/0000-0002-5763-021X
+
+Norbert Kunert: https://orcid.org/0000-0002-5602-6221
 
 Kristina J. Anderson-Teixeira: https://orcid.org/0000-0001-8461-9713
 
