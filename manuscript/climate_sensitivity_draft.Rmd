@@ -7,8 +7,6 @@ output:
     # fig_caption: yes
 bibliography: ["book.bib",  "packages.bib"]
 link-citations: yes
-biblio-style: "apalike"
-csl: new-phytologist.csl
 header-includes:
 - \usepackage{setspace}\onehalfspacing
 - \usepackage{lineno}
@@ -36,6 +34,8 @@ library(LeafArea)
 knitr::write_bib(c(
   .packages(), 'knitr', 'rmarkdown', 'ggplot2', 'devtools', 'rgdal', 'broom', 'sf', 'ggthemes', 'rgeos', 'RCurl', 'readxl', 'raster', 'elevatr', 'dynatopmodel', 'stringi', 'lme4', 'AICcmodavg', 'car', 'piecewiseSEM', 'MuMIn', 'stringr', 'purrr', 'pointRes', 'dplR', 'data.table', 'tools', 'dplyr', 'reshape2', 'png', 'grid', 'gridExtra', 'cowplot', 'ggpubr', 'extrafont', 'rasterVis', 'tidyr', 'neonUtilities', 'lubridate', 'LeafArea', 'forecast', 'visreg', 'agricolae'
 ), file = 'packages.bib')
+
+knitr::write_bib(x = c("knitr", "rmarkdown") , file = ".bib")
 ```
 \raggedright
 
@@ -83,6 +83,9 @@ https://www.instagram.com/1yellowbuckeye/
 
 Kristina Anderson-Teixiera:
 https://twitter.com/K_A_Teixeira
+
+Ian R. McGregor:
+https://twitter.com/realclimatian
 
 
 Text | word count | other | n
@@ -142,7 +145,7 @@ Understanding the mechanisms driving the greater relative growth reductions of l
 Debates have also arisen regarding the traits influencing tree growth responses to drought. 
 Studies within temperate broadleaf forests have observed ring-porous species showing higher drought tolerance than diffuse-porous species [@friedrichs_species-specific_2009; @elliott_forest_2015; @kannenberg_linking_2019]. 
 However, this differentiation is not universal within the biome [@martin-benito_convergence_2015], does not hold in the global context [@wheeler_variations_2007; @olson_xylem_2020], and does not resolve differences among the many species within each category. 
-Commonly-measured traits including wood density ($WD$) and leaf mass per area ($LMA$) have been linked to drought responses within some temperate deciduous forests [@abrams_adaptations_1990; @guerfel_impacts_2009; @hoffmann_hydraulic_2011; @martinbenito_convergence_2015] and across forests worldwide [@greenwood_tree_2017]. However, in other cases these traits could not explain drought tolerance [e.g., in a tropical rainforest; @marechaux_leaf_2019], or the direction of response was not always consistent. 
+Commonly-measured traits including wood density ($WD$) and leaf mass per area ($LMA$) have been linked to drought responses within some temperate deciduous forests [@abrams_adaptations_1990; @guerfel_impacts_2009; @hoffmann_hydraulic_2011; @martinbenito_convergence_2015] and across forests worldwide [@greenwood_tree_2017]. However, in other cases these traits could not explain drought tolerance [e.g., in a tropical rainforest; @marechaux_leaf_2020], or the direction of response was not always consistent. 
 For instance, higher wood density has been associated with greater drought resistance at a global scale [@greenwood_tree_2017], but correlated negatively with tree performance during drought in a broadleaf deciduous forest in the southeastern United States [@hoffmann_hydraulic_2011]. Thus, the perceived influence of these traits on drought resistance may actually reflect indirect correlations with other traits that more directly drive drought responses [@hoffmann_hydraulic_2011].
 
 In contrast, hydraulic traits have direct physiological linkages to tree growth and mortality responses to drought. 
@@ -281,57 +284,57 @@ In contrast, differences among years were larger for $Rc$ and $Rs$, with coeffic
 
 *Tree height, microenvironment, and drought tolerance*
 
-Taller trees (based on $H$ in the drought year) showed stronger growth reductions during drought (*i.e.*, lower $Rt$) and less rebound following drought (*i.e.*, lower $Rc$ and $Rs$; Table 1; Fig. **4**). 
+Taller trees (based on $H$ in the drought year) showed stronger growth reductions during drought (*i.e.*, lower $Rt$) and less rebound following drought (*i.e.*, lower $Rc$ and $Rs$; Table 1; Fig. **3**). 
 Specifically, for $Rt$, $ln[H]$ appeared, with negative coefficient, in the best model ($\Delta$AICc=0) and all top models when evaluating the three drought years together (Tables S8-S9). The same held true for 1966 individually, but there was no significant effect of $ln[H]$ for 1977 or 1999 individually. 
 For $Rc$, $ln[H]$ appeared, with negative coefficient, in the best model without a $ln[H] *ln[TWI]$ interaction, for the three drought years together and for 1977, but not for 1966 or 1999.
 For $Rs$, again considering the best models without a $ln[H] *ln[TWI]$ interaction, there was a negative effect of $ln[H]$ for the three drought years together and for 1966 and 1977, and a non-significant negative trend in 1999.
 
-Trees in drier microsites showed greater growth declines during drought; *i.e.*, $Rt$ had a significantly negative response to $ln[TWI]$ across all drought years combined, and in 1977 and 1999 individually (Fig. **4**, Table S8-S9). 
+Trees in drier microsites showed greater growth declines during drought; *i.e.*, $Rt$ had a significantly negative response to $ln[TWI]$ across all drought years combined, and in 1977 and 1999 individually (Fig. **3**, Table S8-S9). 
 The $ln[H] *ln[TWI]$ interaction was never significant, and had a positive sign in any top $Rt$ models in which it appeared (Tables 1, S8-S9), rejecting the hypothesis that smaller trees (presumably with smaller rooting volume) are more susceptible to drought in microenvironments with a deeper water table. 
-In contrast, $ln[TWI]$ did not appear in any of the best models for $Rc$ or $Rs$ (combined of for individual years), except in interaction with $ln[H]$ (Fig. **4**, Tables S10-S11).
+In contrast, $ln[TWI]$ did not appear in any of the best models for $Rc$ or $Rs$ (combined of for individual years), except in interaction with $ln[H]$ (Fig. **3**, Tables S10-S11).
 Negative $ln[H] *ln[TWI]$ interactions appeared in the best models for both $Rc$ and $Rs$ for all years combined, as well as in one individual year for each (1966 for $Rc$, 1977 for $Rs$). 
 This implies a non-significant tendency for small trees to have greater recovery and resilience in wetter microhabitats, but for large trees to have greater recovery and resilience in dry microhabitats. 
 
 *Species' traits and drought tolerance*
 
 Species, as a factor in ANOVA, had significant (p<0.05) influence on all traits ($WD$, $LMA$, $PLA_{dry}$, and $\pi_{tlp}$), with more significant pairwise differences for $WD$ and $PLA_{dry}$ than for $LMA$ and $\pi_{tlp}$ (Table 2, Fig. **S4**).
-Drought tolerance also varied across species, overall and in each drought year (Figs. **3, S7**). 
+Drought tolerance also varied across species, overall and in each drought year (Figs. **4, S7**). 
 Species with overall lowest and highest $Rt$ and $Rs$ were, respectively, *L. tulipifera* (mean $Rt$ = 0.66, mean $Rs$ = 1.04) and *Fagus grandifolia* (mean $Rt$ = 0.99; mean $Rs$ = 1.65).
-These two species--notably the only two diffuse-porous species in our study--differed significantly from one another in $Rt$ and $Rs$ in each drought year (Fig. **3**).
+These two species--notably the only two diffuse-porous species in our study--differed significantly from one another in $Rt$ and $Rs$ in each drought year (Fig. **4**).
 
 $WD$, $LMA$, and xylem porosity were all poor predictors of drought tolerance (Tables 1, S4-S5). 
 $WD$ and $LMA$ were never significantly associated with $Rt$, $Rc$, or $Rs$ in the single-variable tests and were therefore excluded from the full models. 
 Xylem porosity had no significant influence on $Rt$ or $Rs$ in models for all droughts combined (Tables S4, S7). 
-In contrast, $Rc$ was significantly higher in diffuse- and semi-ring porous species than in ring-porous species (Table S6, Fig. **3**).
+In contrast, $Rc$ was significantly higher in diffuse- and semi-ring porous species than in ring-porous species (Table S6, Fig. **4**).
 
-Drought resistance and resilience, but not recovery, were negatively correlated with $PLA_{dry}$ and $\pi_{tlp}$ (Fig. **4**; Tables 1, S4-S11). 
-For $Rt$, $PLA_{dry}$ had a significant influence, with negative coefficient, in top models for the three droughts combined and for the 1966 drought individually (Fig. **4**; Tables S8-S9). It was also included in some of the top models for 1999 (Tables S8-S9). 
-$\pi_{tlp}$ was included with a negative coefficient in the best model for the combined droughts scenario and for the 1977 drought individually (Fig. **4**; Table S8), although its influence was not significant at $\Delta$AICc<2. 
+Drought resistance and resilience, but not recovery, were negatively correlated with $PLA_{dry}$ and $\pi_{tlp}$ (Fig. **3**; Tables 1, S4-S11). 
+For $Rt$, $PLA_{dry}$ had a significant influence, with negative coefficient, in top models for the three droughts combined and for the 1966 drought individually (Fig. **3**; Tables S8-S9). It was also included in some of the top models for 1999 (Tables S8-S9). 
+$\pi_{tlp}$ was included with a negative coefficient in the best model for the combined droughts scenario and for the 1977 drought individually (Fig. **3**; Table S8), although its influence was not significant at $\Delta$AICc<2. 
 It was also included in some of the top models for 1999 (Tables S8-S9).
 
 Recovery was not significantly correlated with either $PLA_{dry}$ or $\pi_{tlp}$. 
 There was only one best $Rc$ model containing one of these terms ($\pi_{tlp}$ in 1977 drought), but in no instance was one of these terms included in all top models (i.e., at $\Delta$AICc<2).
 
-For $Rs$, $PLA_{dry}$ was in the best models for the three droughts combined and for the 1966 drought individually, and some of the top models for 1977 and 1999 (Fig. **4**; Table S11); however, its effects were not significant at $\Delta$AICc<2. 
-$\pi_{tlp}$ was in the best models for the three droughts combined and for 1966 and 1999 individually, and in one of the top models for 1977 (Fig. **4**; Table S11). However, its effects were significant at $\Delta$AICc<2 for 1999 only.
+For $Rs$, $PLA_{dry}$ was in the best models for the three droughts combined and for the 1966 drought individually, and some of the top models for 1977 and 1999 (Fig. **3**; Table S11); however, its effects were not significant at $\Delta$AICc<2. 
+$\pi_{tlp}$ was in the best models for the three droughts combined and for 1966 and 1999 individually, and in one of the top models for 1977 (Fig. **3**; Table S11). However, its effects were significant at $\Delta$AICc<2 for 1999 only.
 
 
 ### Discussion
 
-Tree height, microenvironment, and leaf drought tolerance traits shaped tree growth responses across three droughts at our study site (Table 1, Fig. **4**).
-Taller trees had greater exposure to conditions that would promote water loss and heat damage during drought (Fig. **2**), which is one plausible mechanism for their lower drought resistance, recovery, and resilience (Fig. **4**). 
+Tree height, microenvironment, and leaf drought tolerance traits shaped tree growth responses across three droughts at our study site (Table 1, Fig. **3**).
+Taller trees had greater exposure to conditions that would promote water loss and heat damage during drought (Fig. **2**), which is one plausible mechanism for their lower drought resistance, recovery, and resilience (Fig. **3**). 
 There was no evidence that greater availability of, or access to, soil water availability increased drought resistance; in contrast, trees in wetter topographic positions had lower $Rt$ [@zuleta_drought-induced_2017; @stovall_tree_2019], and the larger potential rooting volume of large trees provided no advantage in the drier microenvironments.
 The negative effect of height on $Rt$ held after accounting for species' traits, which is consistent with recent work finding height had a stronger influence on mortality risk than forest type during drought [@stovall_reply_2020]. 
 Drought tolerance was not consistently linked to species' $LMA$, $WD$, or xylem type (ring- vs. diffuse porous), but was negatively correlated with leaf drought tolerance traits ($PLA_{dry}$, $\pi_{tlp}$).
 This is the first study to our knowledge linking $PLA_{dry}$ and $\pi_{tlp}$ to growth reduction during drought.
-The directions of these responses were consistent across droughts (Table S8), supporting the premise that they were driven by fundamental physiological mechanisms. However, the strengths of each predictor varied across droughts (Fig. **4**; Tables S8-S9), indicating that drought characteristics interact with tree size, microenvironment, and traits to shape which individuals are most affected. 
+The directions of these responses were consistent across droughts (Table S8), supporting the premise that they were driven by fundamental physiological mechanisms. However, the strengths of each predictor varied across droughts (Fig. **3**; Tables S8-S9), indicating that drought characteristics interact with tree size, microenvironment, and traits to shape which individuals are most affected. 
 These findings advance our knowledge of the factors that make trees vulnerable to stem growth declines during drought and, by extension, likely make them more vulnerable to mortality [@sapes_plant_2019].
 
 The droughts considered here were of a magnitude that has occurred with an average frequency of approximately once every 10-15 years [Fig. **1a**, @helcoski_growing_2019] and had substantial but short-lived impacts on tree growth (Fig. **1**). 
 These droughts were classified as severe ($PDSI$ < -3.0; 1977) or extreme ($PDSI$ < -4.0; 1966, 1999) at our site and have been linked to tree mortality in the eastern United States [@druckenbrod_redefining_2019], but were modest compared to the so-called “megadroughts” that have triggered massive tree die-off in other regions [e.g., @allen_global_2010; @stovall_tree_2019; @clark_impacts_2016]. 
 Of the droughts considered here, the 1966 drought, which was preceded by two years of dry conditions (Fig. **S1**), severely stressed a larger portion of trees (Fig. **1b**). 
 The tendency for large trees to have lowest resistance was most pronounced in this drought, consistent with other findings that this physiological response increases with drought severity [@bennett_larger_2015; @stovall_tree_2019]. 
-Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion (e.g., short understory trees, species with drought resistant traits) had increased growth (Figs. **1b, 4**), consistent with prior observations that smaller trees can exhibit increased growth rates during drought [@bennett_larger_2015]. 
+Across all three droughts, the majority of trees experienced reduced growth, but a substantial portion (e.g., short understory trees, species with drought resistant traits) had increased growth (Figs. **1b, 3**), consistent with prior observations that smaller trees can exhibit increased growth rates during drought [@bennett_larger_2015]. 
 Growth rebounded strongly following the droughts, on average exceeding pre-drought growth rates (Fig. **1**), particularly for shorter trees and species with drought-tolerant traits (Figs. **3-4**).
 It is likely because of the moderate impact of these droughts, along with other factors influencing tree growth (e.g., stand dynamics), that our best models characterize only a modest amount of variation in $Rt$, $Rc$, and $Rs$: 11-18% for all droughts combined, and 13-30% for individual droughts (Tables S8-S11). 
 
@@ -354,19 +357,19 @@ This may be because moister habitats would tend to support species and individua
 The observed height-sensitivity of $Rt$, together with the lack of conferred advantage to large stature in drier topographic positions, agrees with the concept that physiological limitations to transpiration under drought shift from soil water availability to the plant-atmosphere interface as forests age [@bretfeld_plant_2018], such that tall, dominant trees are the most sensitive in mature forests. 
 Again, additional research comparing drought responses across forests with different tree heights and water availability would be valuable for disentangling the relative importance of above- and belowground mechanisms across trees of different size.
 
-The development of tree-ring chronologies for the twelve most dominant tree species at our site [@helcoski_growing_2019; @bourg_initial_2013] provided a sufficient sample size to compare historical drought responses across species (Fig. **3**) and associated traits at a single site [see also @elliott_forest_2015]. 
+The development of tree-ring chronologies for the twelve most dominant tree species at our site [@helcoski_growing_2019; @bourg_initial_2013] provided a sufficient sample size to compare historical drought responses across species (Fig. **4**) and associated traits at a single site [see also @elliott_forest_2015]. 
 Our study reinforced current understanding (see Introduction) that $WD$ and $LMA$ are not reliably linked to drought tolerance (Table 1).
-Contrary to several previous studies in temperate deciduous forests [@friedrichs_species-specific_2009; @elliott_forest_2015; @kannenberg_linking_2019], we did not find an association between xylem porosity and drought resistance or resilience, as the two diffuse-porous species, *L.* and *F. grandifolia*, were at opposite ends of the $Rt$ spectrum (Fig. **3**). 
+Contrary to several previous studies in temperate deciduous forests [@friedrichs_species-specific_2009; @elliott_forest_2015; @kannenberg_linking_2019], we did not find an association between xylem porosity and drought resistance or resilience, as the two diffuse-porous species, *L.* and *F. grandifolia*, were at opposite ends of the $Rt$ spectrum (Fig. **4**). 
 While the low $Rt$ of *L. tulipifera* is consistent with other studies [@elliott_forest_2015], the high $Rt$ of *F. grandifolia* contrasts with studies identifying diffuse porous species in general [@elliott_forest_2015; @kannenberg_linking_2019], and the genus *Fagus* in particular [@friedrichs_species-specific_2009], as drought sensitive.
 There are two potential explanations for this discrepancy.
 First, other traits can and do override the influence of xylem porosity on drought resistance. 
 Ring-porous species are restricted mainly to temperate deciduous forests, while highly drought-tolerant diffuse-porous species exist in other biomes [@wheeler_variations_2007]. 
-*F. grandifolia* had intermediate $\pi_{tlp}$ and low $PLA_{dry}$ (Fig. **S4**), which would have contributed to its drought tolerance (Fig. **4**; see discussion below), in concordance with studies identifying *Fagus* species as intermediate in drought tolerance [@vitasse_contrasting_2019; @pretzsch_drought_2018]. 
+*F. grandifolia* had intermediate $\pi_{tlp}$ and low $PLA_{dry}$ (Fig. **S4**), which would have contributed to its drought tolerance (Fig. **3**; see discussion below), in concordance with studies identifying *Fagus* species as intermediate in drought tolerance [@vitasse_contrasting_2019; @pretzsch_drought_2018]. 
 A second explanation of why *F. grandifolia* trees at this particular site had higher $Rt$ and $Rs$ is that the sampled individuals, reflective of the population within the plot, are generally shorter and in less-dominant canopy positions compared to most other species (Fig. **S4**).
 The species, which is highly shade-tolerant, also has deep crowns [@andersonteixeira_size-related_2015], implying that a lower proportion of leaves would be affected by harsher microclimatic conditions at the top of the canopy under drought (Fig. **2**).
 Thus, the high $Rt$ and $Rs$ of the sampled *F. grandifolia* population can be explained by a combination of fairly drought-resistant leaf traits, shorter stature, and a buffered microenvironment. 
 
-Concerted measurement of tree-rings and leaf drought tolerance traits of emerging importance in published literature [@scoffoni_leaf_2014; @bartlett_correlations_2016; @medeiros_extensive_2019] allowed novel insights into the role of drought tolerance traits in shaping drought response. The finding that $PLA_{dry}$ and $\pi_{tlp}$ can be useful for predicting drought responses of tree growth (Fig. **4**; Table 1) is both novel and consistent with previous studies linking these traits to habitat and drought tolerance. Previous studies have demonstrated that $\pi_{tlp}$ and $PLA_{dry}$ are physiologically meaningful traits linked to species distribution along moisture gradients [@marechaux_drought_2015; @fletcher_evolution_2018; @medeiros_extensive_2019; @simeone_coupled_2019;  @rosas_adjustments_2019; @zhu_leaf_2018], and our findings indicate that these traits also influence drought responses. Furthermore, the observed linkage of $\pi_{tlp}$ to $Rt$ in this forest aligns with observations in the Amazon that $\pi_{tlp}$ is higher in drought-intolerant than drought-tolerant plant functional type. Further, it adds support to the idea that this trait is useful for categorizing and representing species' drought responses in models [@powell_differences_2017]. Because both $PLA_{dry}$ and $\pi_{tlp}$ can be measured relatively easily [@bartlett_rapid_2012; @scoffoni_leaf_2014], they hold promise for predicting drought growth responses across diverse forests. The importance of predicting drought responses from species traits increases with tree species diversity; whereas it is feasible to study drought responses for all dominant species in most boreal and temperate forests (e.g., this study), this becomes difficult to impossible for diverse tropical forests where most species do not form annual rings [but see @schongart_dendroecological_2017 for a review of progress in tropical dendroecology]. A full linkage of drought tolerance traits to drought responses would be invaluable for forecasting how little-known species and whole forests will respond to future droughts [@christoffersen_linking_2016; @powell_differences_2017]. 
+Concerted measurement of tree-rings and leaf drought tolerance traits of emerging importance in published literature [@scoffoni_leaf_2014; @bartlett_correlations_2016; @medeiros_extensive_2019] allowed novel insights into the role of drought tolerance traits in shaping drought response. The finding that $PLA_{dry}$ and $\pi_{tlp}$ can be useful for predicting drought responses of tree growth (Fig. **3**; Table 1) is both novel and consistent with previous studies linking these traits to habitat and drought tolerance. Previous studies have demonstrated that $\pi_{tlp}$ and $PLA_{dry}$ are physiologically meaningful traits linked to species distribution along moisture gradients [@marechaux_drought_2015; @fletcher_evolution_2018; @medeiros_extensive_2019; @simeone_coupled_2019;  @rosas_adjustments_2019; @zhu_leaf_2018], and our findings indicate that these traits also influence drought responses. Furthermore, the observed linkage of $\pi_{tlp}$ to $Rt$ in this forest aligns with observations in the Amazon that $\pi_{tlp}$ is higher in drought-intolerant than drought-tolerant plant functional type. Further, it adds support to the idea that this trait is useful for categorizing and representing species' drought responses in models [@powell_differences_2017]. Because both $PLA_{dry}$ and $\pi_{tlp}$ can be measured relatively easily [@bartlett_rapid_2012; @scoffoni_leaf_2014], they hold promise for predicting drought growth responses across diverse forests. The importance of predicting drought responses from species traits increases with tree species diversity; whereas it is feasible to study drought responses for all dominant species in most boreal and temperate forests (e.g., this study), this becomes difficult to impossible for diverse tropical forests where most species do not form annual rings [but see @schongart_dendroecological_2017 for a review of progress in tropical dendroecology]. A full linkage of drought tolerance traits to drought responses would be invaluable for forecasting how little-known species and whole forests will respond to future droughts [@christoffersen_linking_2016; @powell_differences_2017]. 
 
 As climate change drives increasing drought in many of the world's forests [@trenberth_global_2014; @intergovernmental_panel_on_climate_change_climate_2015], the fate of forests and their climate feedbacks will be shaped by the biophysical and physiological drivers observed here. 
 Our results show that taller, more exposed trees and species with less drought-tolerant leaf traits will be most affected in terms of both growth during the drought year and subsequent growth.
@@ -387,7 +390,7 @@ Funding for the establishment of the SCBI ForestGEO Large Forest Dynamics Plot w
 This study was funded by ForestGEO, a Virginia Native Plant Society grant to KAT and AJT, and support from the Harvard Forest and National Science Foundation which supports the PalEON project (NSF EF-1241930) for NP.
 
 ### Author Contribution 
-KAT, IM, and AJT designed the research. Tree-ring chronologies were developed by RH under guidance of AJT, KAT, and NP. Trait data were collected by IM and JZ under guidance of NK, KAT, and LS. Other plot data were collected by NB in coordination with WM and by IM and AS under guidance of EGA and KAT. Data analyses were performed by IM under guidance of KAT and VH. KAT and IM interpreted the results. IM and KAT wrote the first draft of manuscript, and all authors contributed to revisions. 
+KJA-T, IRM, and AJT designed the research. Tree-ring chronologies were developed by RH under guidance of AJT, KAT, and NP. Trait data were collected by IRM and JZ under guidance of NK, KAT, and LS. Other plot data were collected by NAB in coordination with WJM and by IRM and AELS under guidance of EBG-A and KJA-T. Data analyses were performed by IRM under guidance of KJA-T and VH. KJA-T and IRM interpreted the results. IRM and KJA-T wrote the first draft of manuscript, and all authors contributed to revisions. 
 
 ### Data and code availability
 All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and *[TBD]*, respectively. Full ForestGEO census data for SCBI are available through the ForestGEO data portal (www.forestgeo.si.edu).

@@ -2,13 +2,13 @@
 title: ""
 author: ""
 output:
-  pdf_document:
-    fig_caption: yes       
-    includes:  
-      in_header: preamble-latex.tex
+  word_document:
+  #pdf_document:
+   # fig_caption: yes       
+  #  includes:  
+   #   in_header: preamble-latex.tex
 bibliography: ["packages.bib"]
 biblio-style: apalike
-csl: new-phytologist.csl
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{caption}
