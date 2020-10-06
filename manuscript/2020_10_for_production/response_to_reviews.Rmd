@@ -1,0 +1,117 @@
+---
+title: "Pre-production Edits"
+output: word_document
+
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Dear Nichola,
+
+We have addressed all the points required for publication, as detailed below.
+
+Thank you,
+
+Kristina Anderson-Teixeira
+
+
+\newpage
+
+Professor Andrea Polle has passed your article 'Tree height and leaf drought tolerance traits shape growth responses across droughts in a temperate broadleaf forest' NPH-MS-2020-34010.R1 through to me as accepted. Although your article has been accepted for publication it is now being returned to your Author Centre on ScholarOne Manuscripts for you to review and make final adjustments and corrections to the files before production.
+
+Please respond to the specific points listed below, then follow the instructions at the end of this email message for uploading your final files. Please upload your final files within 2 working days of receipt of this email - any delay in uploading files may hold up the publication of your article. If you cannot upload your files within 2 working days, or if you foresee any problems, do let us know. (Of course, at the current time, any delays are not a problem.)
+
+1) Please make the following changes to the main text file and then upload your final file in Word format (unfortunately, it is not possible to typeset articles from pdf format):
+
+**We have generated the file in Word Format.**  
+
+*This still needs to be done, including the tables and figure captions at the end.*
+
+a) Title page:
+
+- insert postal code information for affiliation 3.
+
+**There is none.**
+
+- insert a brief heading (< 93 characters) and any individual or lab-associated social media accounts (e.g. Twitter, Facebook, Instagram, WeChat etc.) if available, which can be used for social media promotion of your article. (Note, this information will not appear in your published paper.)
+
+**Done.**
+
+b) It is journal style that figures should be cited in the main text in numerical order. At present, Fig. 4 is mentioned before Fig. 3. Please reorder/renumber these two figures throughout so that the figures are cited in order 1 to 4.
+
+**We reordered the figures.**
+
+c) Acknowledgements: please check your Acknowledgements section to ensure that details of funding bodies and grant numbers are complete and correct.
+
+**These have been checked.**
+
+d) Author contributions: please ensure that the initials in this section match the presentation of the names on the title page (some middle initials and hyphenation), eg KAT should be amended to read KJA-T, IM should read IRM, NB should read NAB etc.
+
+**Done.**
+
+e) ORCID: if possible, insert ORCID information for all authors (if available).
+
+**Done.**
+
+f) References:
+Christoffersen et al. (2016), Gonzalez-Akre et al. (2019), Hollister (2018), Hyndman et al. (2020), Katabuchi (2019), Lunch et al. (2020), Mazerolle & Linden (2019), Metcalfe et al. (2018), insert additional information to assist readers in sourcing these references (eg URL and date accessed, or publisher and place of publication, doi).
+Gessler et al. (2020), insert the doi: 10.1111/nph.16703.
+Gillerto et al. (2020), Olson et al. (2020), insert the doi (or if available, the volume and page numbers).
+Helcoski et al. (2019), insert the volume and page number details - 223: 1204-1216.
+Kannenberg et al. (2019), Marechaux et al. (2019), insert the volume and page numbers/article ID.
+McDowell et al. (2020), insert the page numbers/article ID.
+Roskilly et al. (2019), if possible, update the doi with the volume and page numbers.
+Slette et al. (2019), insert the volume number.
+
+**Done.**
+
+g) Fig. 1 text reads ‘Figure modified from Helcoski et al. (2019)’. Please provide a copy of the permission granted to modify the figure, or confirm that permission is not required.
+
+**Permission is not required. Figure is from the same author group as the current paper and reference is made to the original article (published in New Phytologist).**
+
+h) Fig. 3, insert text into the legend to explain the horizontal lines, ranges and circles in the box plots (as it is journal style that figures should stand alone from the main text).
+
+**Done.**
+
+i) Fig. 4, if appropriate, refer readers to Table 3 for explanation on ln[H], PLAdry etc.
+
+**Done.**
+
+2) Figs 1-4. Upload separate, high resolution files for the four figures in formats for production (Wiley recommend using 600 dpi TIFF or Encapsulated PostScript (EPS) for line art, and 300 dpi TIFF for continuous tone, but figures can also be set from Word (.doc), pdf and other formats including ppt).
+
+**Done.**
+
+I confirm that all four figures will appear in colour in your published article.
+
+**Correct.**
+
+3) Supporting Information Figs S1-S7, Methods S1, Tables S1-S11 (uploaded .docx file). Address the following points:
+
+- Title page, insert the article acceptance date: 2 October 2020.
+
+**Done.**
+- Fig. S4, insert text into the legend to explain the horizontal lines, ranges and circles in the box plots. Also for Fig. S7 legend.
+
+**Done.**
+
+- Methods S1, if appropriate, insert the URLs for each package (to assist readers in sourcing these).
+
+**Done.**
+
+- Convert the Word file to pdf. We recommend that you scan through the pdf to ensure that all is correct before uploading this file (this is the final file that will be published on Wiley Online Library).
+
+**Done.**
+
+4) Licence/copyright form: please note that you will be contacted by the publisher in due course regarding the licence/copyright form for your article. Once your article has been received by Wiley for production you will receive an email from Wiley’s Author Services system which will ask you to log in and will present you with the appropriate license for completion. At this point you can elect to publish your article in the regular way, in which case your Abstract will be available free from the point of publication and the full article available through a subscription; or choose an Open Access option. If you have any questions regarding Open Access, please do not hesitate to get in touch with us directly. Note, your article cannot be published until the publisher has received the appropriate signed license agreement.
+
+5) Finally, we remind authors that new sequence data should be deposited in the EMBL/GenBank/DDBJ Nucleotide Sequence Databases, and accession numbers should be included in the final publication. In addition, please note that New Phytologist requires authors to ensure that data integral to the paper is available to readers in a form which allows for verification and replication of the results in the paper. For full details please refer to the author guidelines: https://nam02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fnph.onlinelibrary.wiley.com%2Fhub%2Fjournal%2F14698137%2Fabout%2Fauthor-guidelines&amp;data=02%7C01%7CTeixeiraK%40si.edu%7C72bd5362ccce42dab22608d8692216c8%7C989b5e2a14e44efe93b78cdd5fc5d11c%7C0%7C1%7C637374942418072799&amp;sdata=3FMdYgPRS7Q4wkZORH9pqJkRwbq762hNeInqtPxbMJo%3D&amp;reserved=0.
+
+*Need to make repo public, fill in info here!*
+
+Thank you for your contribution to New Phytologist. I look forward to hearing from you shortly regarding the files for production, and do get in contact if you have any queries relating to the above points.
+
+Best wishes
+Nichola Hetherington
