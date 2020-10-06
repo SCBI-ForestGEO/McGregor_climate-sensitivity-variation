@@ -5,6 +5,8 @@
 ######################################################
 library(ggplot2)
 
+#118.11 ppi = 300dpi. Argument in `png()` is res = <integer>
+
 ## DEFINE THIS BEFORE PLOTTING!
 metric <- "resistance" #resistance, recovery, or resilience
 
@@ -124,7 +126,7 @@ Mode <- function(x) {
 # apply(d, 2, Mode)
 # test[,.(mode = Mode(resist.value)), by=.(year)]
 
-##1b Figure 3: Distribution by species and anova of Rt by sp ####
+##1b Figure 4: Distribution by species and anova of Rt by sp ####
 library(data.table)
 library(agricolae)
 library(ggpubr)
@@ -842,7 +844,7 @@ heights_allplot$tree <- as.character(heights_allplot$tree)
 heights_allplot$position_all_abb <- as.character(heights_allplot$position_all_abb)
 
 ########################################################################
-#5. Figure 4. Visualizing regression output ####
+#5. Figure 3. Visualizing regression output ####
 library(lme4)
 library(ggpubr)
 # remotes::install_github("pbreheny/visreg")
@@ -1146,7 +1148,8 @@ for(w in 1:3){
    }
 }
 
-png("manuscript/tables_figures/publication/Figure4_model_vis_all.png", height=600, width=900)
+png("manuscript/tables_figures/publication/Figure3_model_vis_all.png", 
+    height=600, width=900, res=118) #118.11 ppi = 300dpi
 arr_full <- ggarrange(arr_rt, arr_rc, arr_rs, nrow=3)
 print(arr_full)
 dev.off()
