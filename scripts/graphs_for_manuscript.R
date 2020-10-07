@@ -6,6 +6,7 @@
 library(ggplot2)
 
 #118.11 ppi = 300dpi. Argument in `png()` is res = <integer>
+## or do res=300 but units should be in "in"
 
 ## DEFINE THIS BEFORE PLOTTING!
 metric <- "resistance" #resistance, recovery, or resilience
@@ -222,13 +223,13 @@ names(plotls) <- mt
 k <- ggarrange(plotls[["resistance"]], plotls[["resilience"]], 
           nrow=2)
 
-png("manuscript/tables_figures/publication/Figure3_Rt-Rs_across_sp.png", 
-    width=960)
+png("manuscript/tables_figures/publication/Figure4_Rt-Rs_across_sp.png", 
+    width=10, height=7, units="in", res=300)
 k
 dev.off()
 
-png("manuscript/tables_figures/publication/Figure3_Rc_across_sp.png", 
-    width=960)
+png("manuscript/tables_figures/publication/FigureS7_Rc_across_sp.png", 
+    width=10, height=7, units="in", pointsize=10, res=300)
 plotls[["recovery"]]
 dev.off()
 
@@ -1149,7 +1150,7 @@ for(w in 1:3){
 }
 
 png("manuscript/tables_figures/publication/Figure3_model_vis_all.png", 
-    height=600, width=900, res=118) #118.11 ppi = 300dpi
+    height=6.25, width=9.375, units="in", pointsize=10, res=300)
 arr_full <- ggarrange(arr_rt, arr_rc, arr_rs, nrow=3)
 print(arr_full)
 dev.off()
@@ -1457,23 +1458,3 @@ for(i in 1:4){
 }
 write.csv(tabs4, "manuscript/tables_figures/Rt_arimaratio_comparison.csv", row.names=FALSE)
 write.csv(res_full, "manuscript/tables_figures/top_residual_deviations.csv", row.names=FALSE)
-##################################################################
-# appendix ####
-allhei <- as.data.table(heights_allplot)
-#height growth showing massive negative growth from 1999 to 2018
-test <- allhei[year %in% c("1999", "2018"), .(shrunk = height.m[1] - height.m[2]), 
-               by=.(tree, position_all_abb)
-               ][, .(perc= sum(shrunk >0, na.rm=TRUE)/sum(shrunk>0 | shrunk <=0, na.rm=TRUE)), 
-                 by=.(position_all_abb)]
-
-#avg growth between each of the scenario years
-allhei$group <- cut(allhei$year, breaks=3)
-test66 <- allhei[year %in% c("1966", "1977"), .(gro = height.m[2] - height.m[1]), by=tree
-                 ][, .(avg_gro = mean(gro, na.rm=TRUE))]
-test77 <- allhei[year %in% c("1977", "1999"), .(gro = height.m[2] - height.m[1]), by=tree
-                 ][, .(avg_gro = mean(gro, na.rm=TRUE))]
-test99 <- allhei[year %in% c("1999", "2018"), .(gro = height.m[2] - height.m[1]), by=tree
-                 ][, .(avg_gro = mean(gro, na.rm=TRUE))]
-avg_growth <- data.frame(g66_77 = test66$avg_gro,
-                         g77_99 = test77$avg_gro,
-                         g99_18 = test99$avg_gro)
