@@ -255,7 +255,7 @@ Year was included in the model for all drought years and appeared in all its top
 
 \newpage
 
-![**Figure S4. Distribution of independent variables by species.** Species that are assigned the same letter are not significantly different from each other with regard to the tested variable. Letter groupings do not transfer between variables.](tables_figures/publication/FigureS4_traits_signif.png)
+![**Figure S4. Distribution of independent variable values by species. Species codes are given in Table 2. Boxes in plots (a) – (f) represent the interquartile range, with the horizontal line at the median, whiskers representing the range within 2.7 SD, and dots representing outliers. For plots (a) – (f), species that are assigned the same letter are not significantly different from each other with regard to the tested variable. Similarly, letter groupings do not transfer between variables. Meanwhile, plot (g) shows the number of trees in each crown position per species. Descriptions of variables (e.g. $ln[H]$) can be found in Table 3.](tables_figures/publication/FigureS4_traits_signif.png)
 
 
 \newpage
@@ -268,7 +268,9 @@ Year was included in the model for all drought years and appeared in all its top
 
 \newpage
 
-![**Figure S7. Drought recovery ($Rc$) across species for the three focal droughts. Species that are assigned the same letter are not significantly different from each other with regard to the tested variable. Letter groupings do not transfer between variables.**](tables_figures/publication/FigureS7_Rc_across_sp.png)
+![**Figure S7. Drought recovery ($Rc$) across species for the three focal droughts. Species codes are given in Table 2. Shaded boxes represent the interquartile range, with horizontal line at median, whiskers represent the range within 2.7 SD, and dots represent outliers. The dotted line at y=1 represents no change in Rc from the five years prior to drought. Letters illustrate significance groupings per year (colored and ordered, top to bottom, 1966, 1977, 1999). That is, a group of species with the same letter above their boxplot (e.g. "b") are statistically different from species in another group (e.g. "a"). See Fig. 4 for parallel plot for resistance ($Rt$) and resilience ($Rs$). Analysis conducted using agricolae package in R. **](tables_figures/publication/FigureS7_Rc_across_sp.png)
+
+
 
 
 \newpage
