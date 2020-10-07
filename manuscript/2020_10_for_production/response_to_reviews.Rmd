@@ -109,7 +109,7 @@ I confirm that all four figures will appear in colour in your published article.
 
 5) Finally, we remind authors that new sequence data should be deposited in the EMBL/GenBank/DDBJ Nucleotide Sequence Databases, and accession numbers should be included in the final publication. In addition, please note that New Phytologist requires authors to ensure that data integral to the paper is available to readers in a form which allows for verification and replication of the results in the paper. For full details please refer to the author guidelines: https://nam02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fnph.onlinelibrary.wiley.com%2Fhub%2Fjournal%2F14698137%2Fabout%2Fauthor-guidelines&amp;data=02%7C01%7CTeixeiraK%40si.edu%7C72bd5362ccce42dab22608d8692216c8%7C989b5e2a14e44efe93b78cdd5fc5d11c%7C0%7C1%7C637374942418072799&amp;sdata=3FMdYgPRS7Q4wkZORH9pqJkRwbq762hNeInqtPxbMJo%3D&amp;reserved=0.
 
-*Need to make repo public, fill in info here!*
+**All data and scripts are now publicly available through GitHub and archived in Zenodo, as specified in the manuscript.**
 
 Thank you for your contribution to New Phytologist. I look forward to hearing from you shortly regarding the files for production, and do get in contact if you have any queries relating to the above points.
 
