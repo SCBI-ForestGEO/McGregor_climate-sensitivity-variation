@@ -1,2 +1,0 @@
-bookdown::pdf_book:
-  keep_tex: yes

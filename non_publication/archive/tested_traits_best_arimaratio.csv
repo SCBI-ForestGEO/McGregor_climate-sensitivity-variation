@@ -1,5 +1,0 @@
-"best_model","scenario"
-"resist.value ~ height.ln.m*TWI.ln+PLA_dry_percent+(1|sp/tree)","all droughts"
-"resist.value ~ height.ln.m+rp+PLA_dry_percent+(1|sp)","1966"
-"resist.value ~ TWI.ln+rp+PLA_dry_percent+(1|sp)","1977"
-"resist.value ~ TWI.ln+rp+WD_g_per_cm3+(1|sp)","1999"
