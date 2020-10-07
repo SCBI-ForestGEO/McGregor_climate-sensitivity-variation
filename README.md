@@ -1,7 +1,7 @@
-# tree-growth-and-traits
-repository for linking the climate sensitity of tree growth (derived from cores) to functional traits
+# McGregor_climate-sensitivity-variation
 
-# core_list_....
+This repository houses the scripts, results, and manuscript files for the following publication:
 
-- The csv is a list of cores that have been separated by canopy positions (canopy = D/C, sub-canopy=I/S).
-- The script is to automatically subset the rwl files by these canopy positions, using the csv file, and write new rwl files.
+
+McGregor I, Helcoski R, Kunert N, Tepley AJ, Gonzalez-Akre EB, Herrmann V, Zailaa J, Stovall AEL, Bourg NA, McShea WJ, Anderson-Teixeira KJ. (2020) Tree height and drought tolerance traits shape growth responses across droughts in a temperate broadleaf forest. *New Phytologist* (in press).
+
