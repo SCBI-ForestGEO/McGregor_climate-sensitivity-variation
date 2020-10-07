@@ -411,7 +411,7 @@ This study was funded by ForestGEO, a Virginia Native Plant Society grant to KAT
 KJA-T, IRM, and AJT designed the research. Tree-ring chronologies were developed by RH under guidance of AJT, KAT, and NP. Trait data were collected by IRM and JZ under guidance of NK, KAT, and LS. Other plot data were collected by NAB in coordination with WJM and by IRM and AELS under guidance of EBG-A and KJA-T. Data analyses were performed by IRM under guidance of KJA-T and VH. KJA-T and IRM interpreted the results. IRM and KJA-T wrote the first draft of manuscript, and all authors contributed to revisions. 
 
 ### Data and code availability
-All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.3604993 and *[TBD]*, respectively. Full ForestGEO census data for SCBI are available through the ForestGEO data portal (www.forestgeo.si.edu).
+All data, code, and results are available through the SCBI-ForestGEO organization on GitHub (https://github.com/SCBI-ForestGEO: SCBI-ForestGEO-Data and McGregor_climate-sensitivity-variation repositories), with static versions corresponding to data and analyses presented here archived in Zenodo (DOIs: 10.5281/zenodo.4070038 and *[TBD]*, respectively. Full ForestGEO census data for SCBI are available through the ForestGEO data portal (www.forestgeo.si.edu).
 
 ### ORCID
 
