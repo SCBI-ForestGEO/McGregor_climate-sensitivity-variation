@@ -1,5 +1,5 @@
 ######################################################
-# Purpose: Create conglomerate graphs for McGregor et al 2019
+# Purpose: Create conglomerate graphs for McGregor et al 2020
 # Developed by: Ian McGregor, contact Anderson-Teixeira (teixeirak@si.edu)
 # R version 3.5.3 - First created July 2019
 ######################################################
