@@ -284,10 +284,9 @@ ggplot(data = rp_test) +
 
 
 ##2b. add in leaf traits ####
-#this comes from the hydraulic traits repo, "SCBI_all_traits_table_species_level.csv"
 ##leaf traits gained from this include PLA_dry_percent, LMA_g_per_m2, Chl_m2_per_g, and WD [wood density]
 
-leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEKO5BGUZ5DZXL3LGIC7OCT6Y"), stringsAsFactors = FALSE)
+leaf_traits <- read.csv(text=getURL("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/species%20traits/Leaf%20hydraulic%20traits_2018/data/processed_trait_data/SCBI_all_traits_table_species_level.csv"), stringsAsFactors = FALSE)
 
 leaf_traits <- leaf_traits[, c(1,8,12,26,28)]
 

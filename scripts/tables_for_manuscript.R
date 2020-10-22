@@ -69,7 +69,7 @@ table2 <- table2[,-c(5:9)]
 table2[,c(6:9)] <- round(table2[,c(6:9)], 2)
 
 #bring in hydraulic traits to get std.error
-traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBEPQVCRRCIDQSBGNC2S7EC5A2")
+traits_hydr <- fread("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/species%20traits/Leaf%20hydraulic%20traits_2018/data/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv")
 
 library(plotrix)
 traits_hydr <- traits_hydr[!(sp %in% c("frni", "pist")),]
@@ -106,7 +106,7 @@ table2 <- as.data.table(table2)
 
 
 # #get standard deviation
-# org_traits <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_species_level.csv?token=AJNRBEKXLSB4H62QPT3RZQC7DWCPE", stringsAsFactors = FALSE)
+# org_traits <- fread("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/species%20traits/Leaf%20hydraulic%20traits_2018/data/processed_trait_data/SCBI_all_traits_table_species_level.csv", stringsAsFactors = FALSE)
 # 
 # table2$`$PLA$ (\\%)_sd` <- org_traits$PLA_dry_percent_sd[match(table2$sp, org_traits$sp)]
 # table2$`$LMA$ ($\frac{g}{cm^2}$)_sd` <- org_traits$LMA_g_per_m2_sd[match(table2$sp, org_traits$sp)]

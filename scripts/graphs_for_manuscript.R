@@ -292,7 +292,7 @@ library(agricolae)
 rt <- fread("manuscript/tables_figures/trees_all_sub_resistance.csv")
 
 ##this is the INDIVIDUAL LEVEL DATA, not species
-traits_hydr <- fread("https://raw.githubusercontent.com/EcoClimLab/HydraulicTraits/master/data/SCBI/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv?token=AJNRBEIC4363KJGA6P7S2727OZ2CS")
+traits_hydr <- fread("https://raw.githubusercontent.com/SCBI-ForestGEO/SCBI-ForestGEO-Data/master/species%20traits/Leaf%20hydraulic%20traits_2018/data/processed_trait_data/SCBI_all_traits_table_indvidual_level.csv")
 traits_hydr <- traits_hydr[,.(sp,PLA_dry_percent, mean_TLP_Mpa, 
                               WD_g_per_cm3, LMA_g_per_m2)]
 
