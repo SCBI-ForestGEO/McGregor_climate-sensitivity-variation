@@ -1,6 +1,6 @@
 # McGregor_climate-sensitivity-variation
 
-DOI: 10.5281/zenodo.4070059
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4070059.svg)](https://doi.org/10.5281/zenodo.4070059)
 
 This repository houses the scripts, results, and manuscript files for the following publication:
 
